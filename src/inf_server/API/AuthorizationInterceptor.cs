@@ -84,56 +84,73 @@ namespace API
 
         private ServerCallContext Authorize(ServerCallContext context)
         {
-            var method = context.Method;
-
-            Log("Authorizing for method '{0}'.", method);
-
-            if (!userTypesForMethod.TryGetValue(method, out var allowedUserTypes))
+            try
             {
-                Log("Denied - no permitted user types defined.");
-                throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' has no permitted user types defined."));
-            }
+                var method = context.Method;
 
-            if (allowedUserTypes.HasFlag(UserTypes.Anonymous))
-            {
-                Log("Allowed - anonymous access permitted.");
+                Log("Authorizing for method '{0}'.", method);
+
+                if (!userTypesForMethod.TryGetValue(method, out var allowedUserTypes))
+                {
+                    Log("Denied - no permitted user types defined.");
+                    throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' has no permitted user types defined."));
+                }
+
+                if (allowedUserTypes.HasFlag(UserTypes.Anonymous))
+                {
+                    Log("Allowed - anonymous access permitted.");
+                    return context;
+                }
+
+                var headers = context.RequestHeaders;
+                var authorizationHeaderEntry = headers
+                    .SingleOrDefault(entry => entry.Key == authorizationHeader);
+
+                if (authorizationHeaderEntry == null)
+                {
+                    Log("Denied - no Authorization header set.");
+                    throw new RpcException(new Status(StatusCode.Unauthenticated, "No Authorization header set."));
+                }
+
+                var prefix = schema + " ";
+
+                if (!authorizationHeaderEntry.Value.StartsWith(prefix))
+                {
+                    Log("Denied - Authorization header is not in expected format.");
+                    throw new RpcException(new Status(StatusCode.Unauthenticated, $"Authorization header does not start with expected schema, '{schema}'."));
+                }
+
+                Log("Authorization header has value '{0}'.", authorizationHeaderEntry.Value);
+                var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
+                Log("Access token is '{0}'.", token);
+                var accessTokenValidationResult = TokenManager.ValidateAccessToken(token);
+
+                if (!accessTokenValidationResult.IsValid)
+                {
+                    Log("Denied - invalid access token.");
+                    throw new RpcException(new Status(StatusCode.PermissionDenied, "Access token is invalid."));
+                }
+
+                var userType = Enum.Parse<UserType>(accessTokenValidationResult.UserType);
+
+                if (!allowedUserTypes.Contains(userType))
+                {
+                    Log("Denied - method cannot be called by user type '{0}'.", userType);
+                    throw new RpcException(new Status(StatusCode.PermissionDenied, $"Method '{method}' cannot be called by user type '{userType}'."));
+                }
+
+                context.RequestHeaders.Add(new Metadata.Entry(userIdKeyName, accessTokenValidationResult.UserId));
+                context.RequestHeaders.Add(new Metadata.Entry(userTypeKeyName, accessTokenValidationResult.UserType));
+
+                Log("Allowed - all checks passed.");
+
                 return context;
             }
-
-            var headers = context.RequestHeaders;
-            var authorizationHeaderEntry = headers
-                .SingleOrDefault(entry => entry.Key == authorizationHeader);
-
-            if (authorizationHeaderEntry == null)
+            catch (Exception ex)
             {
-                Log("Denied - no Authorization header set.");
-                throw new RpcException(new Status(StatusCode.Unauthenticated, "No Authorization header set."));
+                Log("FATAL: authorization interception failed: " + ex.ToString());
+                throw;
             }
-
-            var prefix = schema + " ";
-
-            if (!authorizationHeaderEntry.Value.StartsWith(prefix))
-            {
-                Log("Denied - Authorization header is not in expected format.");
-                throw new RpcException(new Status(StatusCode.Unauthenticated, $"Authorization header does not start with expected schema, '{schema}'."));
-            }
-
-            var token = authorizationHeaderEntry.Value.Substring(prefix.Length);
-            var accessTokenValidationResult = TokenManager.ValidateAccessToken(token);
-            var userType = Enum.Parse<UserType>(accessTokenValidationResult.UserType);
-
-            if (!allowedUserTypes.Contains(userType))
-            {
-                Log("Denied - method cannot be called by user type '{0}'.", userType);
-                throw new RpcException(new Status(StatusCode.PermissionDenied, $"Method '{method}' cannot be called by user type '{userType}'."));
-            }
-
-            context.RequestHeaders.Add(new Metadata.Entry(userIdKeyName, accessTokenValidationResult.UserId));
-            context.RequestHeaders.Add(new Metadata.Entry(userTypeKeyName, accessTokenValidationResult.UserType));
-
-            Log("Allowed - all checks passed.");
-
-            return context;
         }
 
         private void Log(string message, params object[] args) =>

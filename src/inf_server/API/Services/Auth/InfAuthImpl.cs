@@ -112,6 +112,11 @@ namespace API.Services.Auth
                     ServiceEventSource.Current.Message("Validating login token.");
                     var loginTokenValidationResults = TokenManager.ValidateLoginToken(request.LoginToken);
 
+                    if (!loginTokenValidationResults.IsValid)
+                    {
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Invalid login token."));
+                    }
+
                     ServiceEventSource.Current.Message("Validating user status.");
                     var userId = loginTokenValidationResults.UserId;
                     var usersService = GetUsersService();
@@ -166,6 +171,11 @@ namespace API.Services.Auth
                     var loginToken = request.LoginToken;
                     var validationResult = TokenManager.ValidateLoginToken(loginToken);
 
+                    if (!validationResult.IsValid)
+                    {
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Invalid login token."));
+                    }
+
                     ServiceEventSource.Current.Message("Getting user data.");
                     var userId = validationResult.UserId;
                     var userType = validationResult.UserType;
@@ -217,17 +227,22 @@ namespace API.Services.Auth
                     var refreshToken = request.RefreshToken;
                     var validationResult = TokenManager.ValidateRefreshToken(refreshToken);
 
+                    if (!validationResult.IsValid)
+                    {
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Invalid refresh token."));
+                    }
+
                     ServiceEventSource.Current.Message("Retrieving user data.");
                     var userId = validationResult.UserId;
                     var usersService = GetUsersService();
                     var userData = await usersService.GetUserData(userId);
 
-                    ServiceEventSource.Current.Message("Validating refresh token.");
+                    ServiceEventSource.Current.Message("Validating user session.");
                     var userSession = usersService.GetUserSession(refreshToken);
 
                     if (userSession == null)
                     {
-                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Provided refresh token is invalid."));
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Refresh token is not associated with a valid session for user '{userId}'."));
                     }
 
                     ServiceEventSource.Current.Message("Generating access token.");
@@ -249,6 +264,12 @@ namespace API.Services.Auth
                     ServiceEventSource.Current.Message("GetAccessToken.");
 
                     var refreshTokenValidationResult = TokenManager.ValidateRefreshToken(request.RefreshToken);
+
+                    if (!refreshTokenValidationResult.IsValid)
+                    {
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Invalid refresh token."));
+                    }
+
                     var userId = refreshTokenValidationResult.UserId;
                     var userType = refreshTokenValidationResult.UserType;
 

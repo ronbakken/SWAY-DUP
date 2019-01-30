@@ -27,6 +27,7 @@ namespace Utility
 
             var validationResult = TokenManager.ValidateLoginToken(loginToken);
 
+            Assert.True(validationResult.IsValid);
             Assert.Equal(userId, validationResult.UserId);
             Assert.Equal(userStatus, validationResult.UserStatus);
             Assert.Equal(userType, validationResult.UserType);
@@ -95,7 +96,8 @@ namespace Utility
             var token = handler.CreateJwtSecurityToken(descriptor);
             var loginToken = handler.WriteToken(token);
 
-            Assert.Throws<ArgumentException>(() => TokenManager.ValidateLoginToken(loginToken));
+            var result = TokenManager.ValidateLoginToken(loginToken);
+            Assert.False(result.IsValid);
         }
 
         [Theory]
@@ -111,6 +113,7 @@ namespace Utility
 
             var validationResult = TokenManager.ValidateRefreshToken(refreshToken);
 
+            Assert.True(validationResult.IsValid);
             Assert.Equal(userId, validationResult.UserId);
             Assert.Equal(userType, validationResult.UserType);
         }
@@ -155,6 +158,7 @@ namespace Utility
 
             var validationResult = TokenManager.ValidateAccessToken(accessToken);
 
+            Assert.True(validationResult.IsValid);
             Assert.Equal(userId, validationResult.UserId);
             Assert.Equal(userType, validationResult.UserType);
         }

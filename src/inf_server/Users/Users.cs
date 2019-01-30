@@ -88,14 +88,20 @@ namespace Users
         }
 
         public Task<UserSession> GetUserSession(string refreshToken) =>
-            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetSessionImpl(refreshToken));
+            this.ReportExceptionsWithin(ServiceEventSource.Current, () => GetUserSessionImpl(refreshToken));
 
-        internal async Task<UserSession> GetSessionImpl(string refreshToken)
+        internal async Task<UserSession> GetUserSessionImpl(string refreshToken)
         {
             ServiceEventSource.Current.Message("GetSession: '{0}'", refreshToken);
 
             ServiceEventSource.Current.Message("Validating refresh token.");
             var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
+
+            if (!validationResults.IsValid)
+            {
+                throw new InvalidOperationException("Invalid refresh token.");
+            }
+
             var userId = validationResults.UserId;
 
             ServiceEventSource.Current.Message("Getting user session.");
@@ -120,6 +126,12 @@ namespace Users
 
             ServiceEventSource.Current.Message("Validating refresh token.");
             var validationResults = TokenManager.ValidateRefreshToken(userSession.RefreshToken);
+
+            if (!validationResults.IsValid)
+            {
+                throw new InvalidOperationException("Invalid refresh token.");
+            }
+
             var userId = validationResults.UserId;
 
             ServiceEventSource.Current.Message("Saving user session.");
@@ -139,6 +151,12 @@ namespace Users
 
             ServiceEventSource.Current.Message("Validating refresh token.");
             var validationResults = TokenManager.ValidateRefreshToken(refreshToken);
+
+            if (!validationResults.IsValid)
+            {
+                throw new InvalidOperationException("Invalid refresh token.");
+            }
+
             var userId = validationResults.UserId;
 
             ServiceEventSource.Current.Message("Deleting user session.");

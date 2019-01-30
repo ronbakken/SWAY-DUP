@@ -50,6 +50,8 @@ namespace API
             var endpoint = FabricRuntime
                 .GetActivationContext()
                 .GetEndpoint("ServiceEndpoint");
+            var address = $"{endpoint.IpAddressOrFqdn}:{endpoint.Port}";
+            Log("Address is '{0}'.", address);
 
             var authorizationInterceptor = new AuthorizationInterceptor(this.log);
 
@@ -69,9 +71,6 @@ namespace API
                     new ServerPort(endpoint.IpAddressOrFqdn, endpoint.Port, ServerCredentials.Insecure),
                 },
             };
-
-            var address = $"{endpoint.IpAddressOrFqdn}:{endpoint.Port}";
-            Log("Address is '{0}'.", address);
 
             server.Start();
             Log("Server started.");

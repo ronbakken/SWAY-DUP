@@ -1,25 +1,90 @@
-﻿namespace Utility
+﻿using System;
+
+namespace Utility
 {
     public struct LoginTokenValidationResult
     {
-        public LoginTokenValidationResult(
+        public static readonly LoginTokenValidationResult Invalid = new LoginTokenValidationResult(false, default, default, default, default);
+
+        private LoginTokenValidationResult(
+            bool isValid,
             string userId,
             string userStatus,
             string userType,
             string invitationCode)
         {
-            this.UserId = userId;
-            this.UserStatus = userStatus;
-            this.UserType = userType;
-            this.InvitationCode = invitationCode;
+            this.IsValid = isValid;
+            this.userId = userId;
+            this.userStatus = userStatus;
+            this.userType = userType;
+            this.invitationCode = invitationCode;
         }
 
-        public string UserId { get; }
+        private readonly string userId;
+        private readonly string userStatus;
+        private readonly string userType;
+        private readonly string invitationCode;
 
-        public string UserStatus { get; }
+        public bool IsValid { get; }
 
-        public string UserType { get; }
+        public string UserId
+        {
+            get
+            {
+                if (!IsValid)
+                {
+                    throw new InvalidOperationException("Invalid token.");
+                }
 
-        public string InvitationCode { get; }
+                return this.userId;
+            }
+        }
+
+        public string UserStatus
+        {
+            get
+            {
+                if (!IsValid)
+                {
+                    throw new InvalidOperationException("Invalid token.");
+                }
+
+                return this.userStatus;
+            }
+        }
+
+        public string UserType
+        {
+            get
+            {
+                if (!IsValid)
+                {
+                    throw new InvalidOperationException("Invalid token.");
+                }
+
+                return this.userType;
+            }
+        }
+
+        public string InvitationCode
+        {
+            get
+            {
+                if (!IsValid)
+                {
+                    throw new InvalidOperationException("Invalid token.");
+                }
+
+                return this.invitationCode;
+            }
+        }
+
+        internal static LoginTokenValidationResult From(string userId, string userStatus, string userType, string invitationCode) =>
+            new LoginTokenValidationResult(
+                true,
+                userId,
+                userStatus,
+                userType,
+                invitationCode);
     }
 }

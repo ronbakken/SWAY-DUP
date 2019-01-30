@@ -84,13 +84,13 @@ namespace Utility
         }
 
         /// <summary>
-        /// Validates a login token, throwing an exception if validation fails.
+        /// Validates a login token.
         /// </summary>
         /// <param name="token">
         /// The token to validate.
         /// </param>
         /// <returns>
-        /// The results of a successful validation.
+        /// The results of the validation.
         /// </returns>
         public static LoginTokenValidationResult ValidateLoginToken(string token)
         {
@@ -98,7 +98,7 @@ namespace Utility
 
             if (principal == null)
             {
-                throw new ArgumentException("Not a valid token.", nameof(token));
+                return LoginTokenValidationResult.Invalid;
             }
 
             var identity = (ClaimsIdentity)principal.Identity;
@@ -115,10 +115,10 @@ namespace Utility
 
             if (subject == null || subject != loginTokenType || email == null || userStatus == null || invitationCode == null || audience == null)
             {
-                throw new ArgumentException("Not a valid token.", nameof(token));
+                return LoginTokenValidationResult.Invalid;
             }
 
-            return new LoginTokenValidationResult(email, userStatus, audience, invitationCode);
+            return LoginTokenValidationResult.From(email, userStatus, audience, invitationCode);
         }
 
         /// <summary>
@@ -161,13 +161,13 @@ namespace Utility
         }
 
         /// <summary>
-        /// Validates a refresh token, throwing an exception if validation fails.
+        /// Validates a refresh token.
         /// </summary>
         /// <param name="token">
         /// The token to validate.
         /// </param>
         /// <returns>
-        /// The results of a successful validation.
+        /// The results of the validation.
         /// </returns>
         public static RefreshTokenValidationResult ValidateRefreshToken(string token)
         {
@@ -178,7 +178,7 @@ namespace Utility
 
             if (principal == null)
             {
-                throw new ArgumentException("Not a valid token.", nameof(token));
+                return RefreshTokenValidationResult.Invalid;
             }
 
             var identity = (ClaimsIdentity)principal.Identity;
@@ -191,10 +191,10 @@ namespace Utility
 
             if (subject == null || subject != refreshTokenType || email == null || audience == null)
             {
-                throw new ArgumentException("Not a valid token.", nameof(token));
+                return RefreshTokenValidationResult.Invalid;
             }
 
-            return new RefreshTokenValidationResult(email, audience);
+            return RefreshTokenValidationResult.From(email, audience);
         }
 
         /// <summary>
@@ -243,13 +243,13 @@ namespace Utility
         }
 
         /// <summary>
-        /// Validates a login token, throwing an exception if validation fails.
+        /// Validates a login token.
         /// </summary>
         /// <param name="token">
         /// The token to validate.
         /// </param>
         /// <returns>
-        /// The results of a successful validation.
+        /// The results of the validation.
         /// </returns>
         public static AccessTokenValidationResult ValidateAccessToken(string token)
         {
@@ -260,7 +260,7 @@ namespace Utility
 
             if (principal == null)
             {
-                throw new ArgumentException("Not a valid token.", nameof(token));
+                return AccessTokenValidationResult.Invalid;
             }
 
             var identity = (ClaimsIdentity)principal.Identity;
@@ -273,10 +273,10 @@ namespace Utility
 
             if (subject == null || subject != accessTokenType || email == null || audience == null)
             {
-                throw new ArgumentException("Not a valid token.", nameof(token));
+                return AccessTokenValidationResult.Invalid;
             }
 
-            return new AccessTokenValidationResult(email, audience);
+            return AccessTokenValidationResult.From(email, audience);
         }
 
         private static ClaimsPrincipal GetPrincipal(string token, bool requireExpirationTime, bool decrypt = false)
