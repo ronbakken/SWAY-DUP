@@ -22,7 +22,7 @@ enum _steps { queryEmail, confirmEmail, emailSent }
 
 class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
   _steps currentStep = _steps.queryEmail;
-  String _emailAdress = '';
+  String _emailAddress = '';
   String _invitationCode;
   List<Widget> columnItems;
 
@@ -70,6 +70,9 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
     super.dispose();
   }
 
+  bool _testSubmitEnabled() => (widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty &&
+                  _emailAddress.isNotEmpty) || (!widget.newUser && _emailAddress.isNotEmpty);
+
   @override
   Widget build(BuildContext context) {
     switch (currentStep) {
@@ -90,8 +93,10 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           ),
           SizedBox(height: 8),
           TextField(
+            textInputAction: TextInputAction.go,
             keyboardType: TextInputType.emailAddress,
-            onChanged: (s) => setState(()=> _emailAdress = s),
+            onChanged: (s) => setState(()=> _emailAddress = s),
+            onSubmitted: (s) => _testSubmitEnabled() ? onButtonPressed() : null,
           ),
           widget.newUser
               ? Column(
@@ -114,11 +119,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           SizedBox(height: 32),
           InfStadiumButton(
             text: 'SUBMIT',
-            onPressed:
-                (widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty && _emailAdress.isNotEmpty) || (!widget.newUser && 
-                        _emailAdress.isNotEmpty)
-                    ? onButtonPressed
-                    : null,
+            onPressed: _testSubmitEnabled() ? onButtonPressed : null,
           )
         ];
         break;
@@ -129,7 +130,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         } else {
           _text.children.add(TextSpan(text: 'login email to \n'));
         }
-        _text.children.add(TextSpan(text: _emailAdress, style: const TextStyle(fontWeight: FontWeight.bold)));
+        _text.children.add(TextSpan(text: _emailAddress, style: const TextStyle(fontWeight: FontWeight.bold)));
         columnItems = <Widget>[
           Text.rich(
             _text,
@@ -201,7 +202,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
       case _steps.confirmEmail:
         backend.get<UserManager>().sendLoginEmailCommand(
               LoginEmailInfo(
-                email: _emailAdress,
+                email: _emailAddress,
                 invitationCode: _invitationCode,
                 userType: widget.userType,
               ),
