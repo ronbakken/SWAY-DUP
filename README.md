@@ -8,7 +8,7 @@ This contains the services that make up the INF server.
 
 ## Service Layout
 
-![Dependency Layout](images/dependency layout.png)
+![Dependency Layout](images/dependency_layout.png)
 
 ## How to run
 
