@@ -14,7 +14,6 @@ using NodaTime;
 using Optional;
 using Serilog;
 using Utility;
-using Utility.Diagnostics;
 
 namespace InvitationCodes
 {

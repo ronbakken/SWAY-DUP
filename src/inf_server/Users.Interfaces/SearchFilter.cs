@@ -10,8 +10,7 @@ namespace Users.Interfaces
             UserTypes userTypes,
             List<int> categoryIds,
             List<int> socialMediaNetworkIds,
-            Location location,
-            double? locationDistanceKms,
+            SearchLocation location,
             int? minimumValue,
             string phrase)
         {
@@ -19,7 +18,6 @@ namespace Users.Interfaces
             this.CategoryIds = categoryIds;
             this.SocialMediaNetworkIds = socialMediaNetworkIds;
             this.Location = location;
-            this.LocationDistanceKms = locationDistanceKms;
             this.MinimumValue = minimumValue;
             this.Phrase = phrase;
         }
@@ -34,10 +32,7 @@ namespace Users.Interfaces
         public List<int> SocialMediaNetworkIds { get; private set; }
 
         [DataMember]
-        public Location Location { get; private set; }
-
-        [DataMember]
-        public double? LocationDistanceKms { get; private set; }
+        public SearchLocation Location { get; private set; }
 
         [DataMember]
         public int? MinimumValue { get; private set; }

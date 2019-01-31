@@ -1,12 +1,12 @@
 ﻿using System;
 
-namespace Utility
+namespace Utility.Tokens
 {
-    public struct AccessTokenValidationResult
+    public struct RefreshTokenValidationResult
     {
-        public static readonly AccessTokenValidationResult Invalid = new AccessTokenValidationResult(false, default, default);
+        public static readonly RefreshTokenValidationResult Invalid = new RefreshTokenValidationResult(false, default, default);
 
-        private AccessTokenValidationResult(
+        private RefreshTokenValidationResult(
             bool isValid,
             string userId,
             string userType)
@@ -47,8 +47,8 @@ namespace Utility
             }
         }
 
-        internal static AccessTokenValidationResult From(string userId, string userType) =>
-            new AccessTokenValidationResult(
+        internal static RefreshTokenValidationResult From(string userId, string userType) =>
+            new RefreshTokenValidationResult(
                 true,
                 userId,
                 userType);

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.ServiceFabric.Services.Remoting;
 
 namespace Users.Interfaces
@@ -15,6 +16,6 @@ namespace Users.Interfaces
 
         Task InvalidateUserSession(string refreshToken);
 
-        Task<SearchResults> Search(SearchFilter searchFilter);
+        Task<List<UserData>> Search(SearchFilter filter);
     }
 }

@@ -22,5 +22,22 @@ namespace Users.Interfaces
                     throw new NotSupportedException();
             }
         }
+
+        public static UserTypes ValueFor(this UserType @this)
+        {
+            switch (@this)
+            {
+                case UserType.Admin:
+                    return UserTypes.Admin;
+                case UserType.Business:
+                    return UserTypes.Business;
+                case UserType.Influencer:
+                    return UserTypes.Influencer;
+                case UserType.Support:
+                    return UserTypes.Support;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

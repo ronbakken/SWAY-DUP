@@ -24,9 +24,11 @@ namespace Users.Interfaces
             default,
             default,
             default,
+            default,
             default);
 
         public UserData(
+            string id,
             UserType type,
             UserStatus status,
             string name,
@@ -44,6 +46,7 @@ namespace Users.Interfaces
             List<SocialMediaAccount> socialMediaAccounts,
             string loginToken)
         {
+            this.Id = id;
             this.Type = type;
             this.Status = status;
             this.Name = name;
@@ -61,6 +64,9 @@ namespace Users.Interfaces
             this.SocialMediaAccounts = socialMediaAccounts;
             this.LoginToken = loginToken;
         }
+
+        [DataMember]
+        public string Id { get; private set; }
 
         [DataMember]
         public UserType Type { get; private set; }
@@ -111,6 +117,7 @@ namespace Users.Interfaces
         public string LoginToken { get; private set; }
 
         public UserData With(
+            Option<string> id = default,
             Option<UserType> type = default,
             Option<UserStatus> status = default,
             Option<string> name = default,
@@ -128,6 +135,7 @@ namespace Users.Interfaces
             Option<List<SocialMediaAccount>> socialMediaAccounts = default,
             Option<string> loginToken = default) =>
             new UserData(
+                id.ValueOr(Id),
                 type.ValueOr(Type),
                 status.ValueOr(Status),
                 name.ValueOr(Name),

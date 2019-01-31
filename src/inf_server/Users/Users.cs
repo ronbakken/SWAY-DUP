@@ -1,18 +1,21 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Fabric;
+using System.Linq;
 using System.Net;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Nest;
 using Serilog;
 using Users.Interfaces;
 using Utility;
-using Utility.Diagnostics;
+using Utility.Search;
+using Utility.Tokens;
 
 namespace Users
 {
@@ -72,18 +75,19 @@ namespace Users
 
         internal async Task<UserData> SaveUserDataImpl(ILogger logger, string userId, UserData userData)
         {
-            logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
-            var userDataEntity = userData.ToEntity(userId);
+            logger.Debug("Determining keywords for user {UserId} with data {@UserData}", userId, userData);
+            var keywords = Keywords
+                .Extract(
+                    userData.Name,
+                    userData.Description,
+                    userData.Location?.Name,
+                    userData.WebsiteUri)
+                .ToImmutableList();
+
+            var userDataEntity = userData.ToEntity(userId, keywords);
+            logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userDataEntity);
             await this.usersContainer.Items.UpsertItemAsync(userId, userDataEntity);
             logger.Debug("Data saved for user {UserId}: {@UserData}", userId, userData);
-
-            var elasticClient = GetElasticClient();
-            var indexResult = await elasticClient.IndexDocumentAsync(userDataEntity);
-
-            if (!indexResult.IsValid)
-            {
-                throw new InvalidOperationException("Failed to index user.", indexResult.OriginalException);
-            }
 
             return userData;
         }
@@ -165,12 +169,176 @@ namespace Users
             logger.Information("Session for user {UserId} with refresh token {RefreshToken} has been invalidated", userId, refreshToken);
         }
 
-        public Task<SearchResults> Search(SearchFilter searchFilter) =>
-            this.ReportExceptionsWithin(this.logger, (logger) => SearchImpl(logger, searchFilter));
+        public Task<List<UserData>> Search(SearchFilter filter) =>
+            this.ReportExceptionsWithin(this.logger, (logger) => SearchImpl(logger, filter));
 
-        internal async Task<SearchResults> SearchImpl(ILogger logger, SearchFilter searchFilter)
+        internal async Task<List<UserData>> SearchImpl(ILogger logger, SearchFilter filter)
         {
-            return null;
+            var parameters = new Dictionary<string, object>();
+            var clauses = new StringBuilder();
+
+            if (filter.UserTypes != UserTypes.All)
+            {
+                logger.Debug("Filtering on user types {UserTypes}", filter.UserTypes);
+
+                var userTypes = Enum
+                    .GetValues(typeof(UserType))
+                    .Cast<UserType>()
+                    .ToList();
+                var count = 0;
+
+                clauses.Append("(");
+
+                foreach (var userType in userTypes)
+                {
+                    if (filter.UserTypes.Contains(userType))
+                    {
+                        if (count > 0)
+                        {
+                            clauses.Append(" OR ");
+                        }
+
+                        clauses
+                            .Append("c.type = @UserType")
+                            .Append(count);
+                        parameters[$"@UserType{count}"] = (int)userType;
+                        ++count;
+                    }
+                }
+
+                clauses.Append(")");
+            }
+
+            if (filter.CategoryIds != null && filter.CategoryIds.Count > 0)
+            {
+                logger.Debug("Filtering on category IDs {CategoryIds}", filter.CategoryIds);
+
+                for (var i = 0; i < filter.CategoryIds.Count; ++i)
+                {
+                    var categoryId = filter.CategoryIds[i];
+
+                    if (clauses.Length > 0)
+                    {
+                        clauses.Append(" AND ");
+                    }
+
+                    clauses
+                        .Append("ARRAY_CONTAINS(u.categoryIds, @CategoryId")
+                        .Append(i)
+                        .Append(")");
+                    parameters[$"@CategoryId{i}"] = categoryId;
+                }
+            }
+
+            if (filter.Location != null)
+            {
+                logger.Debug("Filtering on location {@Location}", filter.Location);
+
+                if (clauses.Length > 0)
+                {
+                    clauses.Append(" AND ");
+                }
+
+                clauses.Append("ST_DISTANCE({ 'type': 'Point', 'coordinates': [ u.location.latitude, u.location.longitude ] }, { 'type': 'Point', 'coordinates': [ @Latitude, @Longitude ] }) < @Distance");
+                parameters["@Latitude"] = filter.Location.Latitude;
+                parameters["@Longitude"] = filter.Location.Longitude;
+                parameters["@Distance"] = filter.Location.RadiusKms * 1000;
+            }
+
+            if (filter.MinimumValue != null)
+            {
+                logger.Debug("Filtering on minimum value {MinimumValue}", filter.MinimumValue);
+
+                if (clauses.Length > 0)
+                {
+                    clauses.Append(" AND ");
+                }
+
+                clauses.Append("u.minimalFee >= @MinimumValue");
+                parameters["@MinimumValue"] = filter.MinimumValue;
+            }
+
+            if (!string.IsNullOrWhiteSpace(filter.Phrase))
+            {
+                logger.Debug("Filtering on phrase {Phrase}", filter.Phrase);
+
+                var keywordsToFind = Keywords
+                    .Extract(filter.Phrase)
+                    .Take(10)
+                    .ToList();
+
+                for (var i = 0; i < keywordsToFind.Count; ++i)
+                {
+                    var keywordToFind = keywordsToFind[i];
+
+                    if (clauses.Length > 0)
+                    {
+                        clauses.Append(" AND ");
+                    }
+
+                    clauses
+                        .Append("ARRAY_CONTAINS(u.keywords, @Keyword")
+                        .Append(i)
+                        .Append(")");
+                    parameters[$"@Keyword{i}"] = keywordToFind;
+                }
+            }
+
+            if (filter.SocialMediaNetworkIds != null && filter.SocialMediaNetworkIds.Count > 0)
+            {
+                logger.Debug("Filtering on social media network IDs {SocialMediaNetworkIds}", filter.SocialMediaNetworkIds);
+
+                for (var i = 0; i < filter.SocialMediaNetworkIds.Count; ++i)
+                {
+                    var socialMediaNetworkId = filter.SocialMediaNetworkIds[i];
+
+                    if (clauses.Length > 0)
+                    {
+                        clauses.Append(" AND ");
+                    }
+
+                    clauses
+                        .Append(@"ARRAY_CONTAINS(u.socialMediaAccounts, {""socialNetworkProviderId"": @SocialMediaAccountId")
+                        .Append(i)
+                        .Append("}, true)");
+                    parameters[$"@SocialMediaAccountId{i}"] = socialMediaNetworkId;
+                }
+            }
+
+            var sql = new StringBuilder("SELECT TOP 10 * FROM u");
+
+            if (clauses.Length > 0)
+            {
+                sql
+                    .Append(" WHERE ")
+                    .Append(clauses);
+            }
+
+            logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, parameters);
+            var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
+
+            foreach (var parameter in parameters)
+            {
+                queryDefinition.UseParameter(parameter.Key, parameter.Value);
+            }
+
+            var itemQuery = usersContainer
+                .Items
+                .CreateItemQuery<UserDataEntity>(queryDefinition, 2);
+            var results = new List<UserData>();
+
+            while (itemQuery.HasMoreResults)
+            {
+                var currentResultSet = await itemQuery.FetchNextSetAsync();
+
+                foreach (var user in currentResultSet)
+                {
+                    results.Add(user.ToServiceObject());
+                }
+            }
+
+            logger.Debug("Retrieved {Count} search results", results.Count);
+            return results;
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
@@ -184,22 +352,6 @@ namespace Users
             var cosmosClient = new CosmosClient(cosmosConfiguration);
 
             return cosmosClient;
-        }
-
-        private ElasticClient GetElasticClient()
-        {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var configuration = configurationPackage.Settings.Sections["Search"];
-            var uri = new Uri(configuration.Parameters["Uri"].Value);
-            var userName = configuration.Parameters["UserName"].Value;
-            var password = configuration.Parameters["Password"].Value;
-
-            var connectionSettings = new ConnectionSettings(uri)
-                .DefaultMappingFor<UserDataEntity>(m => m.IndexName("users").TypeName("_doc").IdProperty(p => p.UserId).Ignore(p => p.LoginToken))
-                .BasicAuthentication(userName, password);
-            var elasticClient = new ElasticClient(connectionSettings);
-
-            return elasticClient;
         }
     }
 }

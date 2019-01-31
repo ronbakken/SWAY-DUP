@@ -33,7 +33,7 @@ namespace Users
             this.RefreshToken = refreshToken;
         }
 
-        [JsonProperty("socialNetworkProviderId")]
+        [JsonProperty("socialNetworkProviderId", DefaultValueHandling = DefaultValueHandling.Include)]
         public int SocialNetworkProviderId { get; }
 
         [JsonProperty("displayName")]

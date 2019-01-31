@@ -6,7 +6,7 @@ using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Serilog;
 using Users.Interfaces;
-using Utility;
+using Utility.Tokens;
 
 namespace API
 {
@@ -51,6 +51,9 @@ namespace API
 
             // InfSystem
             { "/api.InfSystem/PingServer", UserTypes.Anonymous },
+
+            // InfUsers
+            { "/api.InfUsers/Search", UserTypes.Influencer | UserTypes.Business | UserTypes.Admin },
         };
 
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)

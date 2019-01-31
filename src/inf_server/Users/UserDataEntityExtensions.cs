@@ -14,6 +14,7 @@ namespace Users
             }
 
             return new UserData(
+                @this.Id,
                 @this.Type.ToServiceObject(),
                 @this.Status.ToServiceObject(),
                 @this.Name,
@@ -32,7 +33,7 @@ namespace Users
                 @this.LoginToken);
         }
 
-        public static UserDataEntity ToEntity(this UserData @this, string userId)
+        public static UserDataEntity ToEntity(this UserData @this, string userId, ImmutableList<string> keywords)
         {
             if (@this == null)
             {
@@ -56,6 +57,7 @@ namespace Users
                 @this.MinimalFee,
                 @this.CategoryIds?.ToImmutableList(),
                 @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToEntity())?.ToImmutableList(),
+                keywords,
                 @this.LoginToken);
         }
     }

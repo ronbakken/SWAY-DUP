@@ -5,6 +5,7 @@ using API.Interfaces;
 using API.Services.Auth;
 using API.Services.BlobStorage;
 using API.Services.InvitationCodes;
+using API.Services.Users;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
@@ -63,8 +64,9 @@ namespace API
                     InfAuth.BindService(new InfAuthImpl(this.logger)).Intercept(authorizationInterceptor),
                     InfBlobStorage.BindService(new InfBlobStorageImpl(this.logger)).Intercept(authorizationInterceptor),
                     InfConfig.BindService(new Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
-                    InfSystem.BindService(new Mocks.InfSystemImpl()).Intercept(authorizationInterceptor),
                     InfInvitationCodes.BindService(new InfInvitationCodesImpl(this.logger)).Intercept(authorizationInterceptor),
+                    InfSystem.BindService(new Mocks.InfSystemImpl()).Intercept(authorizationInterceptor),
+                    InfUsers.BindService(new InfUsersImpl(this.logger)).Intercept(authorizationInterceptor),
                 },
                 Ports =
                 {

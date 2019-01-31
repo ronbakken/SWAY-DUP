@@ -6,7 +6,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using Xunit;
 
-namespace Utility
+namespace Utility.Tokens
 {
     public sealed class TokenManagerUnitTests
     {

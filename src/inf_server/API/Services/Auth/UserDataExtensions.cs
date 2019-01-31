@@ -7,7 +7,7 @@ namespace API.Services.Auth
 {
     public static class UserDataExtensions
     {
-        public static UserDto ToDto(this UserData @this, string userId)
+        public static UserDto ToDto(this UserData @this)
         {
             if (@this == null)
             {
@@ -33,9 +33,9 @@ namespace API.Services.Auth
                 result.Description = @this.Description;
             }
 
-            if (userId != null)
+            if (@this.Id != null)
             {
-                result.Email = userId;
+                result.Email = @this.Id;
             }
 
             if (@this.Name != null)
@@ -69,6 +69,7 @@ namespace API.Services.Auth
             }
 
             return new UserData(
+                @this.Email,
                 @this.UserType.ToServiceObject(),
                 @this.AccountState.ToServiceObject(),
                 @this.Name,

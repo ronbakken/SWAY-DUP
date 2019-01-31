@@ -4,10 +4,9 @@ using System.Fabric.Health;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Genesis.Ensure;
-using Microsoft.ServiceFabric.Services.Runtime;
 using Serilog;
 
-namespace Utility.Diagnostics
+namespace Microsoft.ServiceFabric.Services.Runtime
 {
     public static class ServiceExtensions
     {

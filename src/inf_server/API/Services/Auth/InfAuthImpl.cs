@@ -9,7 +9,7 @@ using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Optional;
 using Serilog;
 using Users.Interfaces;
-using Utility;
+using Utility.Tokens;
 using static API.Interfaces.InfAuth;
 
 namespace API.Services.Auth
@@ -168,7 +168,7 @@ namespace API.Services.Auth
                     var result = new CreateNewUserResponse
                     {
                         RefreshToken = refreshToken,
-                        UserData = userData.ToDto(userId),
+                        UserData = userData.ToDto(),
                     };
 
                     return result;
@@ -233,7 +233,7 @@ namespace API.Services.Auth
                     var result = new LoginWithLoginTokenResponse
                     {
                         RefreshToken = refreshToken,
-                        UserData = userData.ToDto(userId),
+                        UserData = userData.ToDto(),
                     };
 
                     return result;
@@ -275,7 +275,7 @@ namespace API.Services.Auth
                     var result = new LoginWithRefreshTokenResponse
                     {
                         AccessToken = accessToken,
-                        UserData = userData.ToDto(userId),
+                        UserData = userData.ToDto(),
                     };
 
                     return result;
@@ -333,7 +333,7 @@ namespace API.Services.Auth
 
                     return new GetUserResponse
                     {
-                        UserData = userData.ToDto(request.UserId),
+                        UserData = userData.ToDto(),
                     };
                 });
 
@@ -363,7 +363,7 @@ namespace API.Services.Auth
 
                     var response = new UpdateUserResponse
                     {
-                        User = result.ToDto(authenticatedUserId),
+                        User = result.ToDto(),
                     };
 
                     return response;

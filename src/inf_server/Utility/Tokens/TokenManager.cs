@@ -5,7 +5,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using Microsoft.IdentityModel.Tokens;
 
-namespace Utility
+namespace Utility.Tokens
 {
     /// <summary>
     /// Manages token generation and validation.

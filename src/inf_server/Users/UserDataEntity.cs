@@ -22,7 +22,8 @@ namespace Users
             int minimalFee,
             ImmutableList<int> categoryIds,
             ImmutableList<SocialMediaAccountEntity> socialMediaAccounts,
-            string loginToken) : this(1, userId, type, status, name, description, avatar, avatarThumbnail, location, showLocation, isVerified, websiteUri, acceptsDirectOffers, accountCompletionInPercent, minimalFee, categoryIds, socialMediaAccounts, loginToken)
+            ImmutableList<string> keywords,
+            string loginToken) : this(1, userId, type, status, name, description, avatar, avatarThumbnail, location, showLocation, isVerified, websiteUri, acceptsDirectOffers, accountCompletionInPercent, minimalFee, categoryIds, socialMediaAccounts, keywords, loginToken)
         {
         }
 
@@ -45,6 +46,7 @@ namespace Users
             int minimalFee,
             ImmutableList<int> categoryIds,
             ImmutableList<SocialMediaAccountEntity> socialMediaAccounts,
+            ImmutableList<string> keywords,
             string loginToken)
         {
             this.Version = version;
@@ -64,6 +66,7 @@ namespace Users
             this.MinimalFee = minimalFee;
             this.CategoryIds = categoryIds;
             this.SocialMediaAccounts = socialMediaAccounts;
+            this.Keywords = keywords;
             this.LoginToken = loginToken;
         }
 
@@ -76,10 +79,10 @@ namespace Users
         [JsonProperty("userId")]
         public string UserId { get; }
 
-        [JsonProperty("type")]
+        [JsonProperty("type", DefaultValueHandling = DefaultValueHandling.Include)]
         public UserTypeEntity Type { get; }
 
-        [JsonProperty("status")]
+        [JsonProperty("status", DefaultValueHandling = DefaultValueHandling.Include)]
         public UserStatusEntity Status { get; }
 
         [JsonProperty("name")]
@@ -120,6 +123,9 @@ namespace Users
 
         [JsonProperty("socialMediaAccounts")]
         public ImmutableList<SocialMediaAccountEntity> SocialMediaAccounts { get; }
+
+        [JsonProperty("keywords")]
+        public ImmutableList<string> Keywords { get; }
 
         [JsonProperty("loginToken")]
         public string LoginToken { get; }
