@@ -6,10 +6,35 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/profile_private_page.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
+import 'package:rx_command/rx_command.dart';
 
-class MainNavigationDrawer extends StatelessWidget {
+class MainNavigationDrawer extends StatefulWidget {
+  @override
+  MainNavigationDrawerState createState() {
+    return new MainNavigationDrawerState();
+  }
+}
+
+class MainNavigationDrawerState extends State<MainNavigationDrawer> {
+  RxCommandListener<UserUpdateData,void> updateUserListsner;
+
+  @override
+  void initState() {
+    updateUserListsner = RxCommandListener(  backend.get<UserManager>().updateUserCommand,
+        onIsBusy: () => InfLoader.show(context),
+        onNotBusy: () => InfLoader.hide(),
+        onError: (error) async {
+          print(error);
+          await showMessageDialog(
+              context, 'Update Problem', 'Sorry we had a problem update your user\'s settings. Please try again later');
+        });
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);

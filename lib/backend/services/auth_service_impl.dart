@@ -44,8 +44,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         currentUserUpdatesSubject.add(_currentUser);
         return true;
       }
-      return false;
     }
+    return false;
   }
 
   @override
