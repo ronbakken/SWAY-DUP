@@ -82,8 +82,8 @@ namespace API.Services.Auth
                 @this.AcceptsDirectOffers,
                 @this.AccountCompletionInPercent,
                 @this.MinimalFee,
-                @this.CategoryIds?.ToImmutableList(),
-                @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToServiceObject())?.ToImmutableList(),
+                @this.CategoryIds?.ToList(),
+                @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToServiceObject())?.ToList(),
                 loginToken);
         }
     }

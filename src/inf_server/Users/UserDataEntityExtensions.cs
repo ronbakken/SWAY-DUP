@@ -27,8 +27,8 @@ namespace Users
                 @this.AcceptsDirectOffers,
                 @this.AccountCompletionInPercent,
                 @this.MinimalFee,
-                @this.CategoryIds,
-                @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToServiceObject())?.ToImmutableList(),
+                @this.CategoryIds?.ToList(),
+                @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToServiceObject())?.ToList(),
                 @this.LoginToken);
         }
 
@@ -54,7 +54,7 @@ namespace Users
                 @this.AcceptsDirectOffers,
                 @this.AccountCompletionInPercent,
                 @this.MinimalFee,
-                @this.CategoryIds,
+                @this.CategoryIds?.ToImmutableList(),
                 @this.SocialMediaAccounts?.Select(socialMediaAccount => socialMediaAccount.ToEntity())?.ToImmutableList(),
                 @this.LoginToken);
         }

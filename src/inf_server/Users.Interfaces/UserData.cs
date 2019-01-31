@@ -1,4 +1,5 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Runtime.Serialization;
 using Optional;
 
@@ -39,8 +40,8 @@ namespace Users.Interfaces
             bool acceptsDirectOffers,
             int accountCompletionInPercent,
             int minimalFee,
-            ImmutableList<int> categoryIds,
-            ImmutableList<SocialMediaAccount> socialMediaAccounts,
+            List<int> categoryIds,
+            List<SocialMediaAccount> socialMediaAccounts,
             string loginToken)
         {
             this.Type = type;
@@ -101,10 +102,10 @@ namespace Users.Interfaces
         public int MinimalFee { get; private set; }
 
         [DataMember]
-        public ImmutableList<int> CategoryIds { get; private set; }
+        public List<int> CategoryIds { get; private set; }
 
         [DataMember]
-        public ImmutableList<SocialMediaAccount> SocialMediaAccounts { get; private set; }
+        public List<SocialMediaAccount> SocialMediaAccounts { get; private set; }
 
         [DataMember]
         public string LoginToken { get; private set; }
@@ -123,8 +124,8 @@ namespace Users.Interfaces
             Option<bool> acceptsDirectOffers = default,
             Option<int> accountCompletionInPercent = default,
             Option<int> minimalFee = default,
-            Option<ImmutableList<int>> categoryIds = default,
-            Option<ImmutableList<SocialMediaAccount>> socialMediaAccounts = default,
+            Option<List<int>> categoryIds = default,
+            Option<List<SocialMediaAccount>> socialMediaAccounts = default,
             Option<string> loginToken = default) =>
             new UserData(
                 type.ValueOr(Type),

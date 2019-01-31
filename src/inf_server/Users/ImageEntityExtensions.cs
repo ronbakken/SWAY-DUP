@@ -1,4 +1,6 @@
-﻿using Users.Interfaces;
+﻿using System.Collections.Immutable;
+using System.Linq;
+using Users.Interfaces;
 
 namespace Users
 {
@@ -13,7 +15,7 @@ namespace Users
 
             return new Image(
                 @this.Uri,
-                @this.LowResData);
+                @this.LowResData?.ToList());
         }
 
         public static ImageEntity ToEntity(this Image @this)
@@ -25,7 +27,7 @@ namespace Users
 
             return new ImageEntity(
                 @this.Uri,
-                @this.LowResData);
+                @this.LowResData?.ToImmutableList());
         }
     }
 }

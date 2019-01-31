@@ -39,7 +39,7 @@ namespace API.Services
 
             return new Image(
                 @this.Url,
-                @this.LowResData?.ToImmutableList());
+                @this.LowResData?.ToList());
         }
     }
 }

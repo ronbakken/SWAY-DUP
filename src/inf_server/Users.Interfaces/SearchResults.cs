@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Users.Interfaces
@@ -8,7 +8,7 @@ namespace Users.Interfaces
     {
         public SearchResults(
             int count,
-            ImmutableList<UserData> results)
+            List<UserData> results)
         {
             this.Count = count;
             this.Results = results;
@@ -18,6 +18,6 @@ namespace Users.Interfaces
         public int Count { get; private set; }
 
         [DataMember]
-        public ImmutableList<UserData> Results { get; private set; }
+        public List<UserData> Results { get; private set; }
     }
 }

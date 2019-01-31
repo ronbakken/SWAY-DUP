@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Users.Interfaces
@@ -8,7 +8,7 @@ namespace Users.Interfaces
     {
         public Image(
             string uri,
-            ImmutableList<byte> lowResData)
+            List<byte> lowResData)
         {
             this.Uri = uri;
             this.LowResData = lowResData;
@@ -18,6 +18,6 @@ namespace Users.Interfaces
         public string Uri { get; private set; }
 
         [DataMember]
-        public ImmutableList<byte> LowResData { get; private set; }
+        public List<byte> LowResData { get; private set; }
     }
 }

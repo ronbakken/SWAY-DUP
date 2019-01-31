@@ -1,4 +1,4 @@
-﻿using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
 namespace Users.Interfaces
@@ -8,8 +8,8 @@ namespace Users.Interfaces
     {
         public SearchFilter(
             UserTypes userTypes,
-            ImmutableList<int> categoryIds,
-            ImmutableList<int> socialMediaNetworkIds,
+            List<int> categoryIds,
+            List<int> socialMediaNetworkIds,
             Location location,
             double? locationDistanceKms,
             int? minimumValue,
@@ -28,10 +28,10 @@ namespace Users.Interfaces
         public UserTypes UserTypes { get; private set; }
 
         [DataMember]
-        public ImmutableList<int> CategoryIds { get; private set; }
+        public List<int> CategoryIds { get; private set; }
 
         [DataMember]
-        public ImmutableList<int> SocialMediaNetworkIds { get; private set; }
+        public List<int> SocialMediaNetworkIds { get; private set; }
 
         [DataMember]
         public Location Location { get; private set; }

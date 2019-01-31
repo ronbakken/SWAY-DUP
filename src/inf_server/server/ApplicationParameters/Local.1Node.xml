@@ -5,7 +5,7 @@
     <Parameter Name="InvitationCodes_InstanceCount" Value="-1" />
     <Parameter Name="API_InstanceCount" Value="-1" />
     <Parameter Name="UserStorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=inflinqpadusa;AccountKey=5GKFllNikQRY/DmBUo2SXGnlHV5Mx28pINNJz6DfieC/Af5Seog2U5nMJ/VbcNm0rRpoO8/LrF/RyFfJKnT7qg==;EndpointSuffix=core.windows.net" />
-    <Parameter Name="LoggingStorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=tempkenttest;AccountKey=2MNEaPhl2mjytWIPLKvfJQ2IMHjVbuMBI+694FrorHn6Qu64ApW60HPsekJEWRqRoEQymPIENS9wKy6a4i2yzQ==;EndpointSuffix=core.windows.net" />
+    <Parameter Name="LoggingStorageAccountConnectionString" Value="" />
     <Parameter Name="DatabaseAccountConnectionString" Value="AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" />
     <Parameter Name="ElasticSearchUri" Value="http://localhost:9200" />
   </Parameters>
