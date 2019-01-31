@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -26,20 +27,23 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<bool> loginUserWithRefreshToken() async {
+     final secureStorage = new FlutterSecureStorage();
+     var refreshToken = await secureStorage.read(key: 'refresh_token');
+
+    /// just when using the mock implmentation
     if (userTestToken != null) {
-      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = userTestToken;
+      refreshToken = userTestToken;
+    }
+    
+    if (refreshToken != null) {
+      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = refreshToken;
       var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       if (authResult.accessToken.isNotEmpty) {
         updateAccessToken(authResult.accessToken);
         _currentUser = User.fromDto(authResult.userData);
         currentUserUpdatesSubject.add(_currentUser);
         return true;
-      } else {
-        return false;
       }
-    } else {
-      // TODO read last stored token from secure storage
-      // till then we return false
       return false;
     }
   }
@@ -51,6 +55,11 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         );
 
     if (authResult.refreshToken.isNotEmpty) {
+     /// store reecived token in secure storage 
+     final secureStorage = new FlutterSecureStorage();
+     await secureStorage.write(key: 'refresh_token', value: authResult.refreshToken);
+
+
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
       var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       updateAccessToken(accessTokenResult.accessToken);
