@@ -15,6 +15,9 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:uni_links/uni_links.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
+final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
 class StartupPage extends PageWidget {
   static Route<dynamic> route() {
@@ -55,6 +58,13 @@ class _StartupPageState extends PageState<StartupPage> {
         } else {
           nextPage = WelcomeRoute();
         }
+        _firebaseMessaging.requestNotificationPermissions();
+        _firebaseMessaging.getToken().then((token){
+          print('Push Token: $token');
+        });
+        _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
+          print('Push Received: $message');
+        });
         Navigator.of(context).pushReplacement(nextPage);
       },
       onError: (error) async {
