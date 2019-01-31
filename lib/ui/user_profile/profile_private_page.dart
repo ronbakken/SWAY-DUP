@@ -26,12 +26,6 @@ class ProfilePrivatePage extends StatefulWidget {
 }
 
 class ProfilePrivatePageState extends State<ProfilePrivatePage> {
-  @override
-  void initState() {
-    //todo
-    //backend.get<UserManager>().updateUser();
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {

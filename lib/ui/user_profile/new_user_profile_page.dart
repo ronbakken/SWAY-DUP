@@ -63,7 +63,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
         backgroundColor: AppTheme.editPageBackground,
         body: UserDataView(
           user: User(
-            userType: UserType.influencer,
+            userType: widget.userType,
 //            userType: widget.userType,
             accountState: AccountState.waitingForActivation,
             name: '',

@@ -301,12 +301,18 @@ class _UserDataViewState extends State<UserDataView> {
     FormState formState = formKey.currentState;
     if (formState.validate()) {
       EditSocialMediaViewState socialMediaEditState = socialMediaKey.currentState;
-      var socialAccounts = socialMediaEditState.getConnectedAccounts();
-      assert(socialAccounts != null);
+      List<SocialMediaAccount> socialAccounts;
 
-      if (socialAccounts.isEmpty) {
-        await showMessageDialog(context, 'We need a bit more...', 'You need minimal one connected social media account');
-        return;
+      if (user.userType == UserType.influencer)
+      {
+        socialAccounts = socialMediaEditState.getConnectedAccounts();
+        assert(socialAccounts != null);
+
+        if (socialAccounts.isEmpty) {
+          await showMessageDialog(context, 'We need a bit more...', 'You need minimal one connected social media account');
+          return;
+        }
+
       }
 
       if (newUser && selectedImageFile == null)
@@ -329,7 +335,7 @@ class _UserDataViewState extends State<UserDataView> {
             description: aboutYou,
             location: location,
             minimalFee: minFee ?? 0,
-            socialMediaAccounts: socialAccounts,
+            socialMediaAccounts: socialAccounts ?? [],
           ),
           profilePicture: selectedImageFile);
       backend.get<UserManager>().updateUserCommand(userData);

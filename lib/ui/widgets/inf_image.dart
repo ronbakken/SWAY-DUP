@@ -51,9 +51,7 @@ class _InfImageState extends State<InfImage> {
   @override
   void didUpdateWidget(InfImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (widget.image != oldWidget.image) {
       _resolveImage();
-    }
   }
 
   @override
