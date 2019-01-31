@@ -40,7 +40,7 @@ class UserManagerImplementation implements UserManager {
 
   Future<void> sendLoginEmail(LoginEmailInfo loginInfo) async {
     // Check if a new user tries to signup with an invitationcode
-    if (loginInfo.invitationCode != null) {
+    if (loginInfo.invitationCode != null && loginInfo.invitationCode.isNotEmpty) {
       var status = await backend.get<AuthenticationService>().checkInvitationCode(loginInfo.invitationCode);
       if (status != GetInvitationCodeStatusResponse_InvitationCodeStatus.PENDING_USE) {
         throw InvalidInvitationCodeException(status);
