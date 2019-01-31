@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
+import 'package:flutter/services.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
@@ -46,12 +47,12 @@ class _WelcomePageState extends PageState<WelcomePage> {
 
   @override
   void initState() {
+    super.initState();
     imageUrlStream = backend.get<ConfigService>().getWelcomePageProfileImages();
 
     // Listen for deep link calls with a login-token
     deepLinkSubscription = getUriLinksStream().listen(onDeepLinkCall);
-
-    super.initState();
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   }
 
   void onDeepLinkCall(Uri uri) async {

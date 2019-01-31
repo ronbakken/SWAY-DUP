@@ -233,7 +233,7 @@ packages:
   inf_api_client:
     dependency: "direct main"
     description:
-      path: "..\\inf_server\\src\\inf_api_client"
+      path: "../inf_server/src/inf_api_client"
       relative: true
     source: path
     version: "0.0.0"

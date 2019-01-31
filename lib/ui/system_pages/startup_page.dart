@@ -71,7 +71,7 @@ class _StartupPageState extends PageState<StartupPage> {
         if (error is GrpcError || error is SocketException) {
           // Wait till we have a connection again
           await Navigator.of(context).push(NoConnectionPage.route());
-          loginCommand.execute();
+          loginCommand.execute(_loginToken);
         } else {
           await backend.get<ErrorReporter>().logException(error);
         }
