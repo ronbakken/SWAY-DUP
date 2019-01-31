@@ -49,19 +49,19 @@ namespace API.Services.Auth
             var userData = await usersService.GetUserData(userId);
             var userType = request.UserType;
             var userStatus = UserStatus.WaitingForActivation;
-            var userShouldAlreadyExist = userType == Interfaces.UserType.UnknownUserType;
+            var userShouldAlreadyBeActive = userType == Interfaces.UserType.UnknownUserType;
 
-            if (!userShouldAlreadyExist && string.IsNullOrEmpty(request.InvitationCode))
+            if (!userShouldAlreadyBeActive && string.IsNullOrEmpty(request.InvitationCode))
             {
-                logger.Warning("No invitation code was provided and user does not yet exist - unable to send email");
+                logger.Warning("No invitation code was provided and user is not yet active - unable to send email");
                 throw new RpcException(new Status(StatusCode.FailedPrecondition, "No invitation code was provided."));
             }
 
-            if (userShouldAlreadyExist)
+            if (userShouldAlreadyBeActive)
             {
-                if (userData == null)
+                if (userData == null || userData.Status != UserStatus.Active)
                 {
-                    logger.Warning("User {UserId} should already exist, but no data was found for them", userId);
+                    logger.Warning("User {UserId} should already be active, but their status is {UserStatus}", userId, userData?.Status);
 
                     // Help mitigate "timing" attacks.
                     await Task.Delay(random.Next(100, 1000));
@@ -75,9 +75,9 @@ namespace API.Services.Auth
             }
             else
             {
-                if (userData != null)
+                if (userData != null && userData.Status != UserStatus.WaitingForActivation)
                 {
-                    logger.Warning("User {UserId} should not exist, but data was found for them", userId);
+                    logger.Warning("User {UserId} should either not exist, or be awaiting activation, but they do exist with a status of {UserStatus}", userId, userData.Status);
 
                     // Help mitigate "timing" attacks.
                     await Task.Delay(random.Next(100, 1000));
