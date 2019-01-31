@@ -103,7 +103,7 @@ namespace API.Services.Auth
             logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
             await usersService.SaveUserData(userId, userData);
 
-            var link = $"https://infmarketplace.com/app/verify?token={loginToken}";
+            var link = $"https://www.swaymarketplace.com/app/verify?token={loginToken}";
             logger.Debug("Sending verification email for user {UserId} with link {Link}", userId, link);
             await emailService.SendVerificationEmail(
                 userId,
