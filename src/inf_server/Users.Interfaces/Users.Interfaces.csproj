@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -9,6 +9,7 @@
         <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" />
         <PackageReference Include="NodaTime" />
         <PackageReference Include="Optional" />
+        <PackageReference Include="System.Collections.Immutable" />
     </ItemGroup>
 
 </Project>
