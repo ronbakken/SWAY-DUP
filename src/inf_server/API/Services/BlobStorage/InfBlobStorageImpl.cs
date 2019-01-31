@@ -62,7 +62,8 @@ namespace API.Services.BlobStorage
                     var sasToken = blob.GetSharedAccessSignature(sas);
 
                     var uploadUrl = blob.Uri.ToString() + sasToken;
-                    var publicUrl = blob.Uri.ToString();
+                    // Append a GUID to thwart caching.
+                    var publicUrl = $"{blob.Uri}?v={Guid.NewGuid()}";
                     var result = new GetUploadUrlResponse
                     {
                         UploadUrl = uploadUrl,

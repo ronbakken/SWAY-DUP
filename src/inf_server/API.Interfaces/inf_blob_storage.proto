@@ -5,9 +5,10 @@ option csharp_namespace = "API.Interfaces";
 
 service InfBlobStorage {
     // Gets a URL to which a file can be uploaded. The request specifies the name of the file.
-    // Files are automatically segregated by the user, so the same name can be used for all
-    // users. However, if the file already exists for the calling user, uploading another file
-    // will replace the existing file.
+    // Files are automatically segregated by the user, so the same file name can be used for all
+    // users, and each will have their own individual independent copy of that file. However, if
+    // the file already exists for the calling user, uploading another file will replace the
+    // existing file.
     rpc GetUploadUrl (GetUploadUrlRequest) returns (GetUploadUrlResponse) {}
 }
 
@@ -21,6 +22,8 @@ message GetUploadUrlResponse {
     // URL that can be used to upload the file (has a short expiry, so must be used immediately).
     string uploadUrl = 1;
 
-    // URL that points to the uploaded file, and will remain valid indefinitely.
+    // URL that points to the uploaded file, and will remain valid indefinitely. Note that the server
+    // appends a random nonce in the query string to thwart any caching of previous versions of the
+    // image.
     string publicUrl = 2;
 }
