@@ -20,11 +20,12 @@ class MainNavigationDrawer extends StatefulWidget {
 }
 
 class MainNavigationDrawerState extends State<MainNavigationDrawer> {
-  RxCommandListener<UserUpdateData,void> updateUserListsner;
+  RxCommandListener<UserUpdateData,void> updateUserListener;
 
   @override
   void initState() {
-    updateUserListsner = RxCommandListener(  backend.get<UserManager>().updateUserCommand,
+    super.initState();
+    updateUserListener = RxCommandListener(  backend.get<UserManager>().updateUserCommand,
         onIsBusy: () => InfLoader.show(context),
         onNotBusy: () => InfLoader.hide(),
         onError: (error) async {
@@ -32,7 +33,12 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
           await showMessageDialog(
               context, 'Update Problem', 'Sorry we had a problem update your user\'s settings. Please try again later');
         });
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    updateUserListener?.dispose();
+    super.dispose();
   }
 
   @override

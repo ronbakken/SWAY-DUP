@@ -6,6 +6,11 @@ class InfLoader extends StatefulWidget {
   const InfLoader({Key key, this.percentageCompletion}) : super(key: key);
 
   static void show(BuildContext context) {
+    // Don't push a second loader if there is already one
+    if (currentLoader != null)
+    {
+      return;
+    }
     currentLoader = new OverlayEntry(
         builder: (context) => Stack(
               children: <Widget>[
