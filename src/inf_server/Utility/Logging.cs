@@ -23,9 +23,12 @@ namespace Utility
                 var storage = CloudStorageAccount.Parse(azureTableStorageConnectionString);
 
                 // TODO: we may want to enable batch writes in the future (e.g. every minute)
-                loggerConfiguration = loggerConfiguration.WriteTo.AzureTableStorage(
-                    storage,
-                    storageTableName: "Logs");
+                loggerConfiguration = loggerConfiguration
+                    .WriteTo.AzureTableStorage(
+                        storage,
+                        storageTableName: "Logs")
+                    // TODO: we may want to turn this down (or have it dynamically switchable) once we're steady in production
+                    .MinimumLevel.Debug();
             }
 
             loggerConfiguration = loggerConfiguration
