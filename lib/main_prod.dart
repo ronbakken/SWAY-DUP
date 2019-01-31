@@ -6,5 +6,5 @@ void main() {
   setupBackend(AppMode.prod);
 
   /// runCapturedApp ensures that exceptions will be reported to Sentry in release mode
-  runCapturedApp(InfApp(), backend.get<ErrorReporter>());
+  runCapturedApp(SwayApp(), backend.get<ErrorReporter>());
 }

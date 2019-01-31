@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">INF</string>
+    <string name="app_name">Sway Marketplace</string>
+
+    <string name="deep_link_description">Open link in app.</string>
 
 </resources>

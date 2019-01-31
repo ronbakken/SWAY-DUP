@@ -1,4 +1,4 @@
-package app.inf.mobile;
+package com.swaymarketplace.app;
 
 import android.os.Build;
 import android.os.Bundle;

@@ -5,5 +5,5 @@ import 'package:inf/utils/error_capture.dart';
 Future<void> main() async {
   await setupBackend(AppMode.mock);
 
-  runCapturedApp(InfApp(), backend.get<ErrorReporter>());
+  runCapturedApp(SwayApp(), backend.get<ErrorReporter>());
 }

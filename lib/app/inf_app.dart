@@ -6,12 +6,12 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/system_pages/startup_page.dart';
 
-class InfApp extends StatefulWidget {
+class SwayApp extends StatefulWidget {
   @override
-  InfAppState createState() => InfAppState();
+  SwayAppState createState() => SwayAppState();
 }
 
-class InfAppState extends State<InfApp> with WidgetsBindingObserver {
+class SwayAppState extends State<SwayApp> with WidgetsBindingObserver {
 
   SystemService _systemService;
 
@@ -46,7 +46,7 @@ class InfAppState extends State<InfApp> with WidgetsBindingObserver {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       //debugShowMaterialGrid: true,
-      title: 'INF',
+      title: 'Sway Marketplace',
       theme: AppTheme.themeTopLevel(),
       home: StartupPage(),
       builder: _supportTransparentNavOnAndroid,

@@ -11,6 +11,7 @@ environment:
 dependencies:
   connectivity: any
   decimal: any
+  firebase_messaging: any
   flutter_map: any
   flutter_page_indicator: any
   flutter_secure_storage: any 
@@ -26,35 +27,20 @@ dependencies:
   oauth1: any  
   rxdart: any
   rx_command: any
+  pedantic: any
   path_provider: any
   uni_links: any
   url_launcher: any
   quiver: any
+  shared_preferences: any
 
   sentry: any
+  device_info: any
   package_info: any
   system_info: any
 
   flutter:
     sdk: flutter
-
-  switchboard: ^2.0.5
-  firebase_messaging: ^2.0.0
-  flutter_local_notifications: ^0.4.2
-  device_info: ^0.3.0
-  shared_preferences: ^0.4.2
-  synchronized: ^1.5.1
-  logging: ^0.11.3+2
-  mime: ^0.9.6+2
-  crypto: ^2.0.6
-  
-  cupertino_icons: any
-  font_awesome_flutter: any
-  transparent_image: any
-
-  # cloud_firestore: any
-  pedantic: any
-
 
   inf_api_client:
     # git: 

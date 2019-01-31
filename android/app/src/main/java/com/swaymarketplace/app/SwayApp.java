@@ -1,14 +1,14 @@
-package app.inf.mobile;
+package com.swaymarketplace.app;
 
 import io.flutter.app.FlutterApplication;
 
 
 /**
- * INF Application
+ * Sway Marketplace Application
  * <p>
  * Created by Simon Lightfoot <simon@devangels.london> on 29/10/2018.
  */
-public class InfApp extends FlutterApplication
+public class SwayApp extends FlutterApplication
 {
 	@Override
 	public void onCreate()
