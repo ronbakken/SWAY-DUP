@@ -416,7 +416,7 @@ namespace MockServer
                         Url = "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78",
                         LowResData = MockHelpers.ReadIconData("./icons/inf_profile_thumbnail_lowres.png"),
                     },
-                    AccountState = AccountState.WaitingForActivation,
+                    AccountState = AccountState.Active,
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
