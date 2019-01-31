@@ -16,7 +16,8 @@ import 'user.pbenum.dart' as $4;
 class SendLoginEmailRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SendLoginEmailRequest', package: const $pb.PackageName('api'))
     ..aOS(1, 'email')
-    ..e<$4.UserType>(2, 'userType', $pb.PbFieldType.OE, $4.UserType.influencer, $4.UserType.valueOf, $4.UserType.values)
+    ..e<$4.UserType>(2, 'userType', $pb.PbFieldType.OE, $4.UserType.unknown_user_type, $4.UserType.valueOf, $4.UserType.values)
+    ..aOS(3, 'invitationCode')
     ..hasRequiredFields = false
   ;
 
@@ -44,6 +45,11 @@ class SendLoginEmailRequest extends $pb.GeneratedMessage {
   set userType($4.UserType v) { setField(2, v); }
   bool hasUserType() => $_has(1);
   void clearUserType() => clearField(2);
+
+  String get invitationCode => $_getS(2, '');
+  set invitationCode(String v) { $_setString(2, v); }
+  bool hasInvitationCode() => $_has(2);
+  void clearInvitationCode() => clearField(3);
 }
 
 class CreateNewUserRequest extends $pb.GeneratedMessage {
@@ -51,7 +57,6 @@ class CreateNewUserRequest extends $pb.GeneratedMessage {
     ..aOS(1, 'loginToken')
     ..a<$4.UserDto>(2, 'userData', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..aOS(3, 'deviceId')
-    ..aOS(4, 'invitationCode')
     ..hasRequiredFields = false
   ;
 
@@ -84,16 +89,12 @@ class CreateNewUserRequest extends $pb.GeneratedMessage {
   set deviceId(String v) { $_setString(2, v); }
   bool hasDeviceId() => $_has(2);
   void clearDeviceId() => clearField(3);
-
-  String get invitationCode => $_getS(3, '');
-  set invitationCode(String v) { $_setString(3, v); }
-  bool hasInvitationCode() => $_has(3);
-  void clearInvitationCode() => clearField(4);
 }
 
 class CreateNewUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CreateNewUserResponse', package: const $pb.PackageName('api'))
     ..aOS(1, 'refreshToken')
+    ..a<$4.UserDto>(2, 'userData', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -116,6 +117,11 @@ class CreateNewUserResponse extends $pb.GeneratedMessage {
   set refreshToken(String v) { $_setString(0, v); }
   bool hasRefreshToken() => $_has(0);
   void clearRefreshToken() => clearField(1);
+
+  $4.UserDto get userData => $_getN(1);
+  set userData($4.UserDto v) { setField(2, v); }
+  bool hasUserData() => $_has(1);
+  void clearUserData() => clearField(2);
 }
 
 class LoginWithLoginTokenRequest extends $pb.GeneratedMessage {

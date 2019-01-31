@@ -9,12 +9,14 @@ import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class UserType extends $pb.ProtobufEnum {
-  static const UserType influencer = const UserType._(0, 'influencer');
-  static const UserType business = const UserType._(1, 'business');
-  static const UserType support = const UserType._(2, 'support');
-  static const UserType admin = const UserType._(3, 'admin');
+  static const UserType unknown_user_type = const UserType._(0, 'unknown_user_type');
+  static const UserType influencer = const UserType._(1, 'influencer');
+  static const UserType business = const UserType._(2, 'business');
+  static const UserType support = const UserType._(3, 'support');
+  static const UserType admin = const UserType._(4, 'admin');
 
   static const List<UserType> values = const <UserType> [
+    unknown_user_type,
     influencer,
     business,
     support,

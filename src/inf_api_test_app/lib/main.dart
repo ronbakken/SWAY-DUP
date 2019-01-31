@@ -88,6 +88,18 @@ class MyAppState extends State<MyApp> {
                   child: Text('Ping Server'),
                 ),
               ),
+              RaisedButton(
+                onPressed: () => apiTester.loginWithToken(),
+                child: Center(
+                  child: Text('Login With Token'),
+                ),
+              ),
+              RaisedButton(
+                onPressed: () => apiTester.requestUploadLink(),
+                child: Center(
+                  child: Text('Request upload URL'),
+                ),
+              ),
             ],
           ),
         ),

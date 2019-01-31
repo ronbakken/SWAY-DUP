@@ -9,6 +9,7 @@ const SendLoginEmailRequest$json = const {
   '2': const [
     const {'1': 'email', '3': 1, '4': 1, '5': 9, '10': 'email'},
     const {'1': 'userType', '3': 2, '4': 1, '5': 14, '6': '.api.UserType', '10': 'userType'},
+    const {'1': 'invitationCode', '3': 3, '4': 1, '5': 9, '10': 'invitationCode'},
   ],
 };
 
@@ -18,7 +19,6 @@ const CreateNewUserRequest$json = const {
     const {'1': 'loginToken', '3': 1, '4': 1, '5': 9, '10': 'loginToken'},
     const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
     const {'1': 'deviceId', '3': 3, '4': 1, '5': 9, '10': 'deviceId'},
-    const {'1': 'invitationCode', '3': 4, '4': 1, '5': 9, '10': 'invitationCode'},
   ],
 };
 
@@ -26,6 +26,7 @@ const CreateNewUserResponse$json = const {
   '1': 'CreateNewUserResponse',
   '2': const [
     const {'1': 'refreshToken', '3': 1, '4': 1, '5': 9, '10': 'refreshToken'},
+    const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
   ],
 };
 

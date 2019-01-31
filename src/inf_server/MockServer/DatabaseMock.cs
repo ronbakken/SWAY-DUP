@@ -416,7 +416,7 @@ namespace MockServer
                         Url = "https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78",
                         LowResData = MockHelpers.ReadIconData("./icons/inf_profile_thumbnail_lowres.png"),
                     },
-                    AccountState = AccountState.Active,
+                    AccountState = AccountState.WaitingForActivation,
                     CategoryIds = {0, 1, 2},
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
@@ -471,7 +471,15 @@ namespace MockServer
                         }
                     },
 
-                }
+                },
+                new UserDto
+                {
+                    Name = "Thomas",
+                    UserType = UserType.Influencer,
+                    AccountState = AccountState.WaitingForActivation,
+                    Email = "thomas@burkharts.net",
+                },
+
 
             };
 
@@ -515,7 +523,7 @@ namespace MockServer
             }
             else
             {
-                return null;
+                return users[2];
             }
         }
 
