@@ -7,16 +7,17 @@ protoc.exe ^
     category.proto ^
     deliverable.proto ^
     empty.proto ^
+    enums.proto ^
+    image.proto ^
     inf_api.proto ^
     inf_auth.proto ^
-    inf_config.proto ^
-    inf_system.proto ^
-    inf_invitation_codes.proto ^
     inf_blob_storage.proto ^
+    inf_config.proto ^
+    inf_invitation_codes.proto ^
+    inf_system.proto ^
     inf_users.proto ^
+    location.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^
-    user.proto ^
-    location.proto ^
-    image.proto
+    user.proto
 echo ...done
