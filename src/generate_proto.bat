@@ -13,6 +13,7 @@ protoc.exe ^
     inf_system.proto ^
     inf_invitation_codes.proto ^
     inf_blob_storage.proto ^
+    inf_users.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^
     user.proto ^

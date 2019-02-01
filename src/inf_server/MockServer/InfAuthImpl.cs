@@ -29,17 +29,6 @@ namespace MockServer
             return Task.FromResult(response);
         }
 
-        // Not sure if we will need this
-        public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context)
-        {
-            Console.WriteLine("InfConfigImpl.GetUser called");
-            var user = DatabaseMock.Instance().GetUser("INF");
-            var response = new GetUserResponse
-            {
-                UserData = user,
-            };
-            return Task.FromResult(response);
-        }
 
 
         public override Task<LoginWithLoginTokenResponse> LoginWithLoginToken(LoginWithLoginTokenRequest request, ServerCallContext context)
@@ -77,13 +66,7 @@ namespace MockServer
             return Task.FromResult(new Empty());
         }
 
-        public override Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
-        {
-            Console.WriteLine("InfConfigImpl.UpdateUser called");
 
-            DatabaseMock.Instance().UpdateUser(request.User);
-            return Task.FromResult(new UpdateUserResponse{User = request.User});
-        }
 
         public override Task<Empty> Logout(LogoutRequest request, ServerCallContext context)
         {

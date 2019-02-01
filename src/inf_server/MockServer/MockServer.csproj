@@ -7,11 +7,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
+        <EmbeddedResource Include="icons\*.*" />
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="icons\*.*" />
+      <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
     </ItemGroup>
 
 </Project>

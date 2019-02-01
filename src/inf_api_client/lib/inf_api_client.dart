@@ -28,6 +28,10 @@ export 'package:inf_api_client/src/inf_blob_storage.pb.dart';
 export 'package:inf_api_client/src/inf_blob_storage.pbenum.dart';
 export 'package:inf_api_client/src/inf_blob_storage.pbgrpc.dart';
 
+export 'package:inf_api_client/src/inf_users.pb.dart';
+export 'package:inf_api_client/src/inf_users.pbenum.dart';
+export 'package:inf_api_client/src/inf_users.pbgrpc.dart';
+
 export 'package:inf_api_client/src/user.pb.dart';
 export 'package:inf_api_client/src/user.pbenum.dart';
 

@@ -20,7 +20,8 @@ namespace MockServer
                     InfAuth.BindService(new InfAuthImpl()),
                     InfConfig.BindService(new InfConfigImpl()),
                     InfSystem.BindService(new InfSystemImpl()),
-                    InfBlobStorage.BindService(new InfBlobStorageImpl())
+                    InfBlobStorage.BindService(new InfBlobStorageImpl()),
+                    InfUsers.BindService(new InfUsersImpl())
                 },
                 Ports =
                 {

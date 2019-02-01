@@ -45,34 +45,6 @@ const LoginWithLoginTokenResponse$json = const {
   ],
 };
 
-const GetUserRequest$json = const {
-  '1': 'GetUserRequest',
-  '2': const [
-    const {'1': 'userId', '3': 1, '4': 1, '5': 9, '10': 'userId'},
-  ],
-};
-
-const GetUserResponse$json = const {
-  '1': 'GetUserResponse',
-  '2': const [
-    const {'1': 'userData', '3': 1, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
-  ],
-};
-
-const UpdateUserRequest$json = const {
-  '1': 'UpdateUserRequest',
-  '2': const [
-    const {'1': 'user', '3': 1, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
-  ],
-};
-
-const UpdateUserResponse$json = const {
-  '1': 'UpdateUserResponse',
-  '2': const [
-    const {'1': 'user', '3': 1, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
-  ],
-};
-
 const GetAccessTokenRequest$json = const {
   '1': 'GetAccessTokenRequest',
   '2': const [
