@@ -27,14 +27,16 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<bool> loginUserWithRefreshToken() async {
-     final secureStorage = new FlutterSecureStorage();
-     var refreshToken = await secureStorage.read(key: 'refresh_token');
+    try
+    {
+    final secureStorage = new FlutterSecureStorage();
+    var refreshToken = await secureStorage.read(key: 'refresh_token');
 
     /// just when using the mock implmentation
     if (userTestToken != null) {
       refreshToken = userTestToken;
     }
-    
+
     if (refreshToken != null) {
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = refreshToken;
       var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
@@ -46,33 +48,37 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       }
     }
     return false;
+    }
+    catch (ex)
+    {
+      return false;
+    }
   }
 
   @override
   Future<bool> loginUserWithLoginToken(String loginToken) async {
-    var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
-          LoginWithLoginTokenRequest()..loginToken = loginToken,
-        );
+      var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
+            LoginWithLoginTokenRequest()..loginToken = loginToken,
+          );
 
-    if (authResult.refreshToken.isNotEmpty) {
-     /// store reecived token in secure storage 
-     final secureStorage = new FlutterSecureStorage();
-     await secureStorage.write(key: 'refresh_token', value: authResult.refreshToken);
+      if (authResult.refreshToken.isNotEmpty) {
+        /// store reecived token in secure storage
+        final secureStorage = new FlutterSecureStorage();
+        await secureStorage.write(key: 'refresh_token', value: authResult.refreshToken);
 
+        var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
+        var accessTokenResult =
+            await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+        updateAccessToken(accessTokenResult.accessToken);
 
-      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
-      var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
-      updateAccessToken(accessTokenResult.accessToken);
-
-      if (authResult.userData.accountState == AccountState.active)
-      {
-        _currentUser = User.fromDto(authResult.userData);
-        currentUserUpdatesSubject.add(_currentUser);
+        if (authResult.userData.accountState == AccountState.active) {
+          _currentUser = User.fromDto(authResult.userData);
+          currentUserUpdatesSubject.add(_currentUser);
+        }
+        return true;
+      } else {
+        return false;
       }
-      return true;
-    } else {
-      return false;
-    }
   }
 
   @override
@@ -83,10 +89,10 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> updateUser(User user) async {
     var dto = user.toDto();
-    var response = await backend.get<InfApiClientsService>().authClient.updateUser(
-          UpdateUserRequest()..user = dto,
-          options: 
-        callOptions);
+    var response = await backend
+        .get<InfApiClientsService>()
+        .usersClient
+        .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
     if (response != null) {
       _currentUser = User.fromDto(response.user);
       currentUserUpdatesSubject.add(_currentUser);
@@ -122,17 +128,13 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       updateAccessToken(accessTokenResult.accessToken);
 
-
       _currentUser = User.fromDto(response.userData);
       currentUserUpdatesSubject.add(_currentUser);
     }
   }
 
-  void updateAccessToken(String token)
-  {
+  void updateAccessToken(String token) {
     _accessToken = token;
-    callOptions = CallOptions(metadata: {'Authorization' : 'Bearer $token'});
+    callOptions = CallOptions(metadata: {'Authorization': 'Bearer $token'});
   }
-
-
 }
