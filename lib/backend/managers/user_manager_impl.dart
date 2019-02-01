@@ -27,12 +27,19 @@ class UserManagerImplementation implements UserManager {
   @override
   RxCommand<UserUpdateData, void> updateUserCommand;
 
+  @override
+  RxCommand<void, void> logOutUserCommand;
+
+
   UserManagerImplementation() {
     logInUserCommand = RxCommand.createAsync(loginUser);
 
     sendLoginEmailCommand = RxCommand.createAsyncNoResult(sendLoginEmail);
 
     updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
+
+    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend.get<AuthenticationService>().logOut, emitsLastValueToNewSubscriptions: true);
+
   }
 
   @override

@@ -54,6 +54,8 @@ abstract class UserManager {
   // If a token is passed as parameter it will be treated as a login-token to aquire a longtime token
   RxCommand<LoginToken, bool> logInUserCommand;
 
+  RxCommand<void, void> logOutUserCommand;
+
   RxCommand<LoginEmailInfo, void> sendLoginEmailCommand;
 
   // Updates the user's data on the server

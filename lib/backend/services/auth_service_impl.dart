@@ -83,7 +83,10 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<void> logOut() async {
-    await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest());
+    //await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
+    final secureStorage = new FlutterSecureStorage();
+    await secureStorage.delete(key: 'refresh_token');
+
   }
 
   @override

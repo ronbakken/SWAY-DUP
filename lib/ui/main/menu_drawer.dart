@@ -5,6 +5,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/profile_private_page.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
+import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
@@ -20,12 +21,13 @@ class MainNavigationDrawer extends StatefulWidget {
 }
 
 class MainNavigationDrawerState extends State<MainNavigationDrawer> {
-  RxCommandListener<UserUpdateData,void> updateUserListener;
+  RxCommandListener<UserUpdateData, void> updateUserListener;
+  RxCommandListener<void, void> logOutUserListener;
 
   @override
   void initState() {
     super.initState();
-    updateUserListener = RxCommandListener(  backend.get<UserManager>().updateUserCommand,
+    updateUserListener = RxCommandListener(backend.get<UserManager>().updateUserCommand,
         onIsBusy: () => InfLoader.show(context),
         onNotBusy: () => InfLoader.hide(),
         onError: (error) async {
@@ -33,11 +35,21 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
           await showMessageDialog(
               context, 'Update Problem', 'Sorry we had a problem update your user\'s settings. Please try again later');
         });
+
+    logOutUserListener = RxCommandListener(backend.get<UserManager>().logOutUserCommand,
+        onValue: (_) {
+          return Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (_) => false);},
+         onError: (error) async {
+          print(error);
+          await showMessageDialog(
+              context, 'Logout Problem', 'Sorry we had a problem logging you out. Please try again later');
+        });
   }
 
   @override
   void dispose() {
     updateUserListener?.dispose();
+    logOutUserListener?.dispose();
     super.dispose();
   }
 
@@ -64,7 +76,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               value: currentUser.acceptsDirectOffers,
               onChanged: (val) {
                 userManager.updateUserCommand(
-                  UserUpdateData(user:currentUser.copyWith(acceptsDirectOffers: val)),
+                  UserUpdateData(user: currentUser.copyWith(acceptsDirectOffers: val)),
                 );
               },
               activeColor: AppTheme.blue,
@@ -121,8 +133,8 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               AppIcons.switchUser,
               color: Colors.white,
             ),
-            text: 'Accounts',
-            onTap: () {},
+            text: 'Log out',
+            onTap: userManager.logOutUserCommand,
           ),
         ]);
       return entries;
@@ -139,39 +151,37 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
             child: CustomAnimatedCurves(),
           ),
           StreamBuilder<User>(
-            initialData: userManager.currentUser,
-            stream: userManager.currentUserUpdates,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData)
-              {
-                return SizedBox();
-              }
-              var user = snapshot.data;
-              return ListView(
-                primary: false,
-                padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
-                children: [
-                  ProfileSummary(
-                    user: user,
-                    heightTotalPercentage: 0.48,
-                    gradientStop: 0.3,
-                    showDescription: true,
-                    showSocialMedia: true,
-                  ),
-                  SizedBox(
-                    height: 16.0,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: buildColumnEntries(user),
+              initialData: userManager.currentUser,
+              stream: userManager.currentUserUpdates,
+              builder: (context, snapshot) {
+                if (!snapshot.hasData) {
+                  return SizedBox();
+                }
+                var user = snapshot.data;
+                return ListView(
+                  primary: false,
+                  padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 12.0),
+                  children: [
+                    ProfileSummary(
+                      user: user,
+                      heightTotalPercentage: 0.48,
+                      gradientStop: 0.3,
+                      showDescription: true,
+                      showSocialMedia: true,
                     ),
-                  ),
-                ],
-              );
-            }
-          ),
+                    SizedBox(
+                      height: 16.0,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: buildColumnEntries(user),
+                      ),
+                    ),
+                  ],
+                );
+              }),
 
           // View profile button
           Positioned(
