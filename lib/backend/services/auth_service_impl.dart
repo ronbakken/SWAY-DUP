@@ -10,9 +10,9 @@ import 'package:rxdart/rxdart.dart';
 class AuthenticationServiceImplementation implements AuthenticationService {
   AuthenticationServiceImplementation({this.userTestToken});
 
-  String _accessToken = '';
   @override
   CallOptions callOptions;
+
   @override
   User get currentUser => _currentUser;
   User _currentUser;
@@ -27,58 +27,54 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<bool> loginUserWithRefreshToken() async {
-    try
-    {
-    final secureStorage = new FlutterSecureStorage();
-    var refreshToken = await secureStorage.read(key: 'refresh_token');
+    try {
+      final secureStorage = new FlutterSecureStorage();
+      var refreshToken = await secureStorage.read(key: 'refresh_token');
 
-    /// just when using the mock implmentation
-    if (userTestToken != null) {
-      refreshToken = userTestToken;
-    }
-
-    if (refreshToken != null) {
-      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = refreshToken;
-      var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
-      if (authResult.accessToken.isNotEmpty) {
-        updateAccessToken(authResult.accessToken);
-        _currentUser = User.fromDto(authResult.userData);
-        currentUserUpdatesSubject.add(_currentUser);
-        return true;
+      /// just when using the mock implmentation
+      if (userTestToken != null) {
+        refreshToken = userTestToken;
       }
-    }
-    return false;
-    }
-    catch (ex)
-    {
+
+      if (refreshToken != null) {
+        var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = refreshToken;
+        var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+        if (authResult.accessToken.isNotEmpty) {
+          updateAccessToken(authResult.accessToken);
+          _currentUser = User.fromDto(authResult.userData);
+          currentUserUpdatesSubject.add(_currentUser);
+          return true;
+        }
+      }
+      return false;
+    } catch (ex) {
       return false;
     }
   }
 
   @override
   Future<bool> loginUserWithLoginToken(String loginToken) async {
-      var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
-            LoginWithLoginTokenRequest()..loginToken = loginToken,
-          );
+    var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
+          LoginWithLoginTokenRequest()..loginToken = loginToken,
+        );
 
-      if (authResult.refreshToken.isNotEmpty) {
-        /// store reecived token in secure storage
-        final secureStorage = new FlutterSecureStorage();
-        await secureStorage.write(key: 'refresh_token', value: authResult.refreshToken);
+    if (authResult.refreshToken.isNotEmpty) {
+      /// store reecived token in secure storage
+      final secureStorage = new FlutterSecureStorage();
+      await secureStorage.write(key: 'refresh_token', value: authResult.refreshToken);
 
-        var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
-        var accessTokenResult =
-            await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
-        updateAccessToken(accessTokenResult.accessToken);
+      var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
+      var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+      updateAccessToken(accessTokenResult.accessToken);
 
-        if (authResult.userData.accountState == AccountState.active) {
-          _currentUser = User.fromDto(authResult.userData);
-          currentUserUpdatesSubject.add(_currentUser);
-        }
-        return true;
-      } else {
-        return false;
+      if (authResult.userData.accountState == AccountState.active) {
+        _currentUser = User.fromDto(authResult.userData);
+        currentUserUpdatesSubject.add(_currentUser);
       }
+      return true;
+    } else {
+      return false;
+    }
   }
 
   @override
@@ -86,7 +82,6 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     //await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
     final secureStorage = new FlutterSecureStorage();
     await secureStorage.delete(key: 'refresh_token');
-
   }
 
   @override
@@ -137,7 +132,6 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   void updateAccessToken(String token) {
-    _accessToken = token;
     callOptions = CallOptions(metadata: {'Authorization': 'Bearer $token'});
   }
 }
