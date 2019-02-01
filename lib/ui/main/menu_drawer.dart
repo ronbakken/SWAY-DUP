@@ -134,7 +134,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               color: Colors.white,
             ),
             text: 'Log out',
-            onTap: userManager.logOutUserCommand,
+            onTap: logOut,
           ),
         ]);
       return entries;
@@ -213,6 +213,16 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
       ),
     );
   }
+
+  void logOut() async
+  {
+     var shouldLogout = await showQueryDialog(context, 'Do you really want to log out?', 'If you log out you will have to request a new login link when you start the app the next time.');
+     if (shouldLogout)
+     {
+       backend.get<UserManager>().logOutUserCommand();
+     }
+  }
+
 }
 
 class _MainNavigationItem extends StatelessWidget {
