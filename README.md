@@ -24,9 +24,12 @@ Create a file called `inf_server.env` at `C:\Users\$NAME\inf_server.env`. Put th
 
 ```
 ENVIRONMENT=<<YOUR_NAME>>
+REGION=<<YOUR REGION>>
 ```
 
 Replace `<<YOUR_NAME>>` with your first name. This will be incorporated into the resource group name and all resources within, ensuring your resources are kept separate to those of other developers and environments.
+
+Replace `<<YOUR REGION>>` with your desired [Azure region](https://azure.microsoft.com/en-au/global-infrastructure/regions/). Usually you will want to choose the region closest to you so that you get a slight performance improvement during the development cycle.
 
 **NOTE:** keep your environment name short. It is used in naming resources and some resources have very restrictive length requirements for their names. If your environment name is too long, the deployment will fail with an error along the lines of:
 
