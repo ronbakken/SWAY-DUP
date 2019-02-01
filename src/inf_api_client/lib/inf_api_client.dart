@@ -4,8 +4,8 @@ export 'package:inf_api_client/src/category.pbenum.dart';
 export 'package:inf_api_client/src/deliverable.pb.dart';
 export 'package:inf_api_client/src/deliverable.pbenum.dart';
 
-export 'package:inf_api_client/src/Empty.pb.dart';
-export 'package:inf_api_client/src/Empty.pbenum.dart';
+export 'package:inf_api_client/src/empty.pb.dart';
+export 'package:inf_api_client/src/empty.pbenum.dart';
 
 export 'package:inf_api_client/src/enums.pb.dart';
 export 'package:inf_api_client/src/enums.pbenum.dart';
