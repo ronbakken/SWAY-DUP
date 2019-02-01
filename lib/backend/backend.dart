@@ -56,16 +56,16 @@ class AppEnvironment {
 GetIt backend = GetIt();
 AppEnvironment appEnvironment;
 
-Future<void> setupBackend(AppMode mode) async {
+Future<void> setupBackend({AppMode mode, String testRefreshToken}) async {
   switch (mode) {
     case AppMode.dev:
       appEnvironment = AppEnvironment(
         mode: AppMode.dev,
-        host: 'inf-dev-cluster.australiaeast.cloudapp.azure.com',
+        host: 'api.dev.swaymarketplace.com',
         port: 9026,
       );
       configureDevLogger();
-      registerImplementations();
+      registerImplementations(testRefreshToken);
       break;
     case AppMode.prod:
       appEnvironment = AppEnvironment(
@@ -82,7 +82,7 @@ Future<void> setupBackend(AppMode mode) async {
         port: 8080,
       );
       configureDevLogger();
-      registerImplementations();
+      registerImplementations(testRefreshToken);
       break;
     default:
       throw new Exception('Unknown backend selected.');
@@ -111,7 +111,7 @@ Future<void> initBackend() async {
   await backend.get<ConfigService>().init();
 }
 
-void registerImplementations() {
+void registerImplementations([String testRefreshToken]) {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
   // Services
@@ -126,7 +126,7 @@ void registerImplementations() {
       /// token: 'INF' and influencer
       /// token: 'BUSINESS' a business user
       () => AuthenticationServiceImplementation(
-          //  userTestToken: 'INF',
+            userTestToken: testRefreshToken,
           ));
 
   backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
