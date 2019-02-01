@@ -19,13 +19,13 @@ namespace API.Services.Auth
             // TODO: parameterize these
             var apiKey = "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";
             var templateId = "d-410b5cc2a77e4357a82afede83e92621";
-            var emailFromAddress = "donotreply@inf-marketplace-llc.com";
-            var emailFromName = "INF Marketplace LLC";
+            var emailFromAddress = "donotreply@swaymarketplace.com";
+            var emailFromName = "Sway Marketplace";
 
             var emailMessage = new SendGridMessage
             {
                 From = new EmailAddress(emailFromAddress, emailFromName),
-                Subject = "Sign in to your INF Marketplace Account",
+                Subject = "Sign in to your Sway Marketplace Account",
                 TemplateId = templateId,
             };
             var templateData = new VerifyEmailTemplateData

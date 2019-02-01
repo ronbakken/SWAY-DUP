@@ -59,7 +59,7 @@ namespace Utility.Tokens
 
             Assert.NotNull(jwtToken);
 
-            Assert.Equal("https://api.inf-marketplace.com", jwtToken.Issuer);
+            Assert.Equal("https://api.sway-marketplace.com", jwtToken.Issuer);
             Assert.Equal("login", jwtToken.Subject);
             Assert.Equal(userType, jwtToken.Audiences.First());
             var claims = jwtToken.Claims;
@@ -78,7 +78,7 @@ namespace Utility.Tokens
             var signingCredentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256Signature);
             var descriptor = new SecurityTokenDescriptor
             {
-                Issuer = "https://api.inf-marketplace.com",
+                Issuer = "https://api.sway-marketplace.com",
                 IssuedAt = DateTime.Now,
                 Audience = "Influencer",
                 Subject = new ClaimsIdentity(

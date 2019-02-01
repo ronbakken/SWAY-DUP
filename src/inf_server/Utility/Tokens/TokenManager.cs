@@ -14,7 +14,7 @@ namespace Utility.Tokens
     {
         private const string signingSecret = "utNULhCvR6FTH7HaSjVid4VGmMk8yL4Xep8GnhM6ZvLmFVdfumnpzobtuuLXxyx9XksWyAhlV9AeIaJSGZEGhg==";
         private const string encryptingSecret = "YQ1Dry8XqxydjPVNo9hA582xFuwCc3ULd+I+s/rUQIo=";
-        private const string issuer = "https://api.inf-marketplace.com";
+        private const string issuer = "https://api.sway-marketplace.com";
         private const string userStatusClaimType = "userStatus";
         private const string invitationCodeClaimType = "invitationCode";
         private const string loginTokenType = "login";
