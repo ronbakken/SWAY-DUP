@@ -85,7 +85,6 @@ class UserManagerImplementation implements UserManager {
         avatarThumbnailLowRes: encodeJpg(thumbNailLores),
       );
 
-      imageCache.clear();
     } else {
       userToSend = userData.user;
     }
