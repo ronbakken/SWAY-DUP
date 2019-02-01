@@ -21,18 +21,67 @@ namespace API.Services.Users
             this.logger = logger.ForContext<InfUsersImpl>();
         }
 
-        public override Task<SearchResponse> Search(SearchRequest request, ServerCallContext context) =>
+        public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
                 {
-                    var results = await SearchImpl(
+                    var userId = request.UserId;
+                    logger.Debug("Getting data for user {UserId}", userId);
+                    var usersService = GetUsersService();
+                    var userData = await usersService.GetUserData(userId);
+                    logger.Debug("Retrieved data for user {UserId}: {@UserData}", userId, userData);
+
+                    return new GetUserResponse
+                    {
+                        UserData = userData.ToDto(),
+                    };
+                });
+
+        public override Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context) =>
+            APISanitizer.Sanitize(
+                this.logger,
+                async (logger) =>
+                {
+                    var authenticatedUserId = context.GetAuthenticatedUserId();
+                    logger.Debug("Validating authenticated user {UserId} matches user ID in request", authenticatedUserId);
+
+                    if (authenticatedUserId != request.User.Email)
+                    {
+                        logger.Warning("Authenticated user {UserId} does not match user ID in request {RequestUserId} - unable to update user", authenticatedUserId, request.User.Email);
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update data for another user."));
+                    }
+
+                    logger.Debug("Getting data for user {UserId}", authenticatedUserId);
+                    var usersService = GetUsersService();
+                    var userData = await usersService.GetUserData(authenticatedUserId);
+
+                    var updatedUserData = request
+                        .User
+                        .ToServiceObject(userData.LoginToken);
+                    logger.Debug("Saving data for user {UserId}: {@UserData}", authenticatedUserId, updatedUserData);
+                    var result = await usersService.SaveUserData(authenticatedUserId, updatedUserData);
+
+                    var response = new UpdateUserResponse
+                    {
+                        User = result.ToDto(),
+                    };
+
+                    return response;
+                });
+
+        public override Task<SearchUsersResponse> SearchUsers(SearchUsersRequest request, ServerCallContext context) =>
+            APISanitizer.Sanitize(
+                this.logger,
+                async (logger) =>
+                {
+                    var results = await SearchUsersImpl(
                         logger,
                         request);
                     return results;
                 });
 
-        internal async Task<SearchResponse> SearchImpl(ILogger logger, SearchRequest request)
+        internal async Task<SearchUsersResponse> SearchUsersImpl(ILogger logger, SearchUsersRequest request)
         {
             var searchFilter = request.ToServiceObject();
             var usersService = GetUsersService();
@@ -40,7 +89,7 @@ namespace API.Services.Users
             logger.Debug("Searching for users using filter {@SearchFilter}", searchFilter);
             var results = await usersService.Search(searchFilter);
 
-            var response = new SearchResponse();
+            var response = new SearchUsersResponse();
             response.Results.AddRange(results.Select(result => result.ToDto()));
 
             return response;

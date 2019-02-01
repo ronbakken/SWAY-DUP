@@ -320,55 +320,6 @@ namespace API.Services.Auth
                     return result;
                 });
 
-        public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context) =>
-            APISanitizer.Sanitize(
-                this.logger,
-                async (logger) =>
-                {
-                    var userId = request.UserId;
-                    logger.Debug("Getting data for user {UserId}", userId);
-                    var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(userId);
-                    logger.Debug("Retrieved data for user {UserId}: {@UserData}", userId, userData);
-
-                    return new GetUserResponse
-                    {
-                        UserData = userData.ToDto(),
-                    };
-                });
-
-        public override Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context) =>
-            APISanitizer.Sanitize(
-                this.logger,
-                async (logger) =>
-                {
-                    var authenticatedUserId = context.GetAuthenticatedUserId();
-                    logger.Debug("Validating authenticated user {UserId} matches user ID in request", authenticatedUserId);
-
-                    if (authenticatedUserId != request.User.Email)
-                    {
-                        logger.Warning("Authenticated user {UserId} does not match user ID in request {RequestUserId} - unable to update user", authenticatedUserId, request.User.Email);
-                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update data for another user."));
-                    }
-
-                    logger.Debug("Getting data for user {UserId}", authenticatedUserId);
-                    var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(authenticatedUserId);
-
-                    var updatedUserData = request
-                        .User
-                        .ToServiceObject(userData.LoginToken);
-                    logger.Debug("Saving data for user {UserId}: {@UserData}", authenticatedUserId, updatedUserData);
-                    var result = await usersService.SaveUserData(authenticatedUserId, updatedUserData);
-
-                    var response = new UpdateUserResponse
-                    {
-                        User = result.ToDto(),
-                    };
-
-                    return response;
-                });
-
         public override Task<Empty> Logout(LogoutRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,

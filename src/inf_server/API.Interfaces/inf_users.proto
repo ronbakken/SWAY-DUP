@@ -7,12 +7,34 @@ import "location.proto";
 import "user.proto";
 
 service InfUsers {
-    // TODO: also move GetUser/UpdateUser into this service?
+    // Retrieves user data based on an userId
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
 
-    rpc Search(SearchRequest) returns (SearchResponse) {}
+    // Updates an existing user object
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+
+    // Finds users that match search criteria. Note that the server imposes a limit to the
+    // number of results it will return.
+    rpc SearchUsers(SearchUsersRequest) returns (SearchUsersResponse) {}
 }
 
-message SearchRequest {
+message GetUserRequest {
+    string userId = 1;
+}
+
+message GetUserResponse {
+    UserDto userData = 1;
+}
+
+message UpdateUserRequest {
+    UserDto user = 1;
+}
+
+message UpdateUserResponse {
+    UserDto user = 1;
+}
+
+message SearchUsersRequest {
     repeated UserType userTypes = 1;
     repeated int32 categories = 2;
     repeated int32 socialMediaNetworkIds = 3;
@@ -23,6 +45,6 @@ message SearchRequest {
     string phrase = 7;
 }
 
-message SearchResponse {
+message SearchUsersResponse {
     repeated UserDto results = 1;
 }

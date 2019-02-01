@@ -7,7 +7,7 @@ namespace API.Services.Users
 {
     public static class SearchFilterExtensions
     {
-        public static SearchFilter ToServiceObject(this SearchRequest @this)
+        public static SearchFilter ToServiceObject(this SearchUsersRequest @this)
         {
             if (@this == null)
             {

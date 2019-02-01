@@ -25,12 +25,6 @@ service InfAuth {
     // This is used for refreshing an expiring access-token
     rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {}
 
-    // Retrieves user data based on an userId
-    rpc GetUser(GetUserRequest) returns (GetUserResponse);
-
-    // Updates an existing user object
-    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
-
     // Permanently invalidates the given refresh token.
     rpc Logout(LogoutRequest) returns (Empty) {}
 }
@@ -63,22 +57,6 @@ message LoginWithLoginTokenRequest {
 message LoginWithLoginTokenResponse {
     string refreshToken = 1;
     UserDto userData = 2;
-}
-
-message GetUserRequest {
-    string userId = 1;
-}
-
-message GetUserResponse {
-    UserDto userData = 1;
-}
-
-message UpdateUserRequest {
-    UserDto user = 1;
-}
-
-message UpdateUserResponse {
-    UserDto user = 1;
 }
 
 message GetAccessTokenRequest {
