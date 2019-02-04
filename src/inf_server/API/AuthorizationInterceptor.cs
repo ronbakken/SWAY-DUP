@@ -33,8 +33,6 @@ namespace API
             { "/api.InfAuth/LoginWithLoginToken", UserTypes.Anonymous },
             { "/api.InfAuth/LoginWithRefreshToken", UserTypes.Anonymous },
             { "/api.InfAuth/GetAccessToken", UserTypes.Anonymous },
-            { "/api.InfAuth/GetUser", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfAuth/UpdateUser", UserTypes.Influencer | UserTypes.Business },
             { "/api.InfAuth/Logout", UserTypes.Anonymous },
 
             // InfBlobStorage
@@ -53,6 +51,8 @@ namespace API
             { "/api.InfSystem/PingServer", UserTypes.Anonymous },
 
             // InfUsers
+            { "/api.InfUsers/GetUser", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfUsers/UpdateUser", UserTypes.Influencer | UserTypes.Business },
             { "/api.InfUsers/Search", UserTypes.Influencer | UserTypes.Business | UserTypes.Admin },
         };
 
