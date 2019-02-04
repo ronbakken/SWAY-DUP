@@ -30,17 +30,19 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
 
   @override
   void initState() {
-    userUpdateListener = RxCommandListener(backend.get<UserManager>().updateUserCommand,
-        onValue: (_) {
-          Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (_) => false);
-        },
-        onIsBusy: () => InfLoader.show(context),
-        onNotBusy: () => InfLoader.hide(),
-        onError: (error) async {
-          print(error);
-          await showMessageDialog(
-              context, 'Setup Problem', 'Sorry we had a problem creating your user. Please try again later');
-        });
+    userUpdateListener = RxCommandListener(
+      backend.get<UserManager>().updateUserCommand,
+      onValue: (_) {
+        Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (_) => false);
+      },
+      onIsBusy: () => InfLoader.show(context),
+      onNotBusy: () => InfLoader.hide(),
+      onError: (error) async {
+        print(error);
+        await showMessageDialog(
+            context, 'Setup Problem', 'Sorry we had a problem creating your user. Please try again later');
+      },
+    );
     super.initState();
   }
 
@@ -53,25 +55,24 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        resizeToAvoidBottomPadding: true,
-        appBar: AppBar(
-          automaticallyImplyLeading: false,
-          title: Text('ACCOUNT SETUP'),
-          centerTitle: true,
-          backgroundColor: AppTheme.blackTwo,
-        ),
-        backgroundColor: AppTheme.editPageBackground,
-        body: UserDataView(
-          user: User(
+      resizeToAvoidBottomPadding: true,
+      appBar: AppBar(
+        automaticallyImplyLeading: false,
+        title: Text('ACCOUNT SETUP'),
+        centerTitle: true,
+        backgroundColor: AppTheme.blackTwo,
+      ),
+      backgroundColor: AppTheme.listViewAndMenuBackground,
+      body: UserDataView(
+        user: User(
             userType: widget.userType,
 //            userType: widget.userType,
             accountState: AccountState.waitingForActivation,
             name: '',
             description: '',
             socialMediaAccounts: [],
-            categories: []
-
-          ),
-        ));
+            categories: []),
+      ),
+    );
   }
 }

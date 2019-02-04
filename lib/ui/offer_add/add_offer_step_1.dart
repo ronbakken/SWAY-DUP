@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
+import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 
@@ -29,89 +29,60 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Stack(
-        fit: StackFit.passthrough,
-        alignment: Alignment.bottomCenter,
+    return InfPageScrollView(
+      child: Column(
         children: [
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: CustomAnimatedCurves(),
+          AspectRatio(
+            aspectRatio: 4 / 3,
+            child: buildMainImage(),
           ),
-          LayoutBuilder(
-            builder: (BuildContext context, BoxConstraints constraints) {
-              return SingleChildScrollView(
-                child: ConstrainedBox(
-                  constraints: constraints.copyWith(
-                    minWidth: constraints.maxWidth,
-                    minHeight: constraints.maxHeight,
-                    maxHeight: double.infinity,
-                  ),
-                  child: IntrinsicHeight(
-                    child: Column(
-                      children: [
-                        SizedBox(
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight * 0.38,
-                          child: buildMainImage(),
-                        ),
-                        SizedBox(
-                          height: widget.offerBuilder.imagesToUpLoad.isNotEmpty ? constraints.maxHeight * 0.12 : 0,
-                          child: buildSelectedImageRow(),
-                        ),
-                        Expanded(
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-                            child: Form(
-                              key: form,
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.start,
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.stretch,
-                                children: [
-                                  Text(
-                                    'TITLE',
-                                    textAlign: TextAlign.left,
-                                    style: AppTheme.formFieldLabelStyle,
-                                  ),
-                                  SizedBox(height: 8.0),
-                                  TextFormField(
-                                    onSaved: (s) => widget.offerBuilder.title = s,
-                                    validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
-                                  ),
-                                  SizedBox(height: 32.0),
-                                  Text(
-                                    'DESCRIPTION',
-                                    textAlign: TextAlign.left,
-                                    style: AppTheme.formFieldLabelStyle,
-                                  ),
-                                  TextFormField(
-                                    onSaved: (s) => widget.offerBuilder.description = s,
-                                    validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
-                                    maxLines: null,
-                                    keyboardType: TextInputType.multiline,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                          child: InfStadiumButton(
-                            height: 56,
-                            color: Colors.white,
-                            text: 'NEXT',
-                            onPressed: () => onNext(context),
-                          ),
-                        )
-                      ],
+          buildSelectedImageRow(),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+              child: Form(
+                key: form,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Text(
+                      'TITLE',
+                      textAlign: TextAlign.left,
+                      style: AppTheme.formFieldLabelStyle,
                     ),
-                  ),
+                    SizedBox(height: 8.0),
+                    TextFormField(
+                      onSaved: (s) => widget.offerBuilder.title = s,
+                      validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
+                    ),
+                    SizedBox(height: 32.0),
+                    Text(
+                      'DESCRIPTION',
+                      textAlign: TextAlign.left,
+                      style: AppTheme.formFieldLabelStyle,
+                    ),
+                    TextFormField(
+                      onSaved: (s) => widget.offerBuilder.description = s,
+                      validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                      maxLines: null,
+                      keyboardType: TextInputType.multiline,
+                    ),
+                  ],
                 ),
-              );
-            },
+              ),
+            ),
           ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+            child: InfStadiumButton(
+              height: 56,
+              color: Colors.white,
+              text: 'NEXT',
+              onPressed: () => onNext(context),
+            ),
+          )
         ],
       ),
     );
@@ -144,29 +115,26 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
       InkWell(
         onTap: () => _onAddPicture(),
         child: AspectRatio(
-            aspectRatio: 1.0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
-              child: Container(
-                color: AppTheme.grey,
-                child: Center(
-                    child: Icon(
-                  Icons.add,
-                  color: AppTheme.white30,
-                )),
-              ),
-            )),
+          aspectRatio: 1.0,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
+            child: Container(
+              color: AppTheme.grey,
+              child: Center(
+                  child: Icon(
+                Icons.add,
+                color: AppTheme.white30,
+              )),
+            ),
+          ),
+        ),
       ),
     );
-    return Align(
-      alignment: Alignment.topLeft,
-      child: SingleChildScrollView(
+    return Container(
+      height: 72.0,
+      child: ListView(
         scrollDirection: Axis.horizontal,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: images,
-        ),
+        children: images,
       ),
     );
   }

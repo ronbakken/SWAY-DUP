@@ -31,66 +31,61 @@ class InfBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    return LayoutBuilder(builder: (BuildContext context, BoxConstraints constraints) {
-      return Padding(
-        padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
-        child: SingleChildScrollView(
-          child: ConstrainedBox(
-            constraints: constraints.copyWith(
-              minWidth: constraints.maxWidth,
-              minHeight: constraints.maxHeight,
-              maxHeight: double.infinity,
-            ),
-            child: IntrinsicHeight(
-              child: Column(mainAxisSize: MainAxisSize.min,
-                children: [
-                  Spacer(),
-                  Material(
-                    child: Padding(
-                      padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom + 32),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          CurvedBox(
-                            bottom: true,
-                            top: false,
-                            color: AppTheme.menuUserNameBackground,
-                            child: Padding(
-                              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 48),
-                              child: Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  Spacer(),
-                                  Text(
-                                    title,
-                                    style: const TextStyle(fontSize: 20),
-                                  ),
-                                  Expanded(
-                                    child: Align(
-                                      alignment: Alignment.centerRight,
-                                      child: InkResponse(
-                                        onTap: () => Navigator.of(context).pop(null),
-                                        child: Icon(Icons.close, size: 32),
-                                      ),
-                                    ),
-                                  )
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(height: 16.0),
-                          child,
-                        ],
-                      ),
-                    ),
-                  )
-                ],
-              ),
+    return Padding(
+      padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
+      child: SingleChildScrollView(
+        reverse: true,
+        child: Material(
+          child: Padding(
+            padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                CurvedBox(
+                  bottom: true,
+                  color: AppTheme.menuUserNameBackground,
+                  child: _InfBottomSheetHeader(
+                    title: title,
+                  ),
+                ),
+                child,
+              ],
             ),
           ),
         ),
-      );
-    });
+      ),
+    );
+  }
+}
+
+class _InfBottomSheetHeader extends StatelessWidget {
+  const _InfBottomSheetHeader({
+    Key key,
+    @required this.title,
+  }) : super(key: key);
+
+  final String title;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 44.0),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Spacer(),
+          Text(title, style: const TextStyle(fontSize: 20)),
+          Expanded(
+            child: Align(
+              alignment: Alignment.centerRight,
+              child: InkResponse(
+                onTap: () => Navigator.of(context).pop(null),
+                child: Icon(Icons.close, size: 32),
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }

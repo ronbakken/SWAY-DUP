@@ -4,7 +4,6 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:flutter/services.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
@@ -52,7 +51,6 @@ class _WelcomePageState extends PageState<WelcomePage> {
 
     // Listen for deep link calls with a login-token
     deepLinkSubscription = getUriLinksStream().listen(onDeepLinkCall);
-    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle.light);
   }
 
   void onDeepLinkCall(Uri uri) async {
@@ -65,7 +63,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
           if (success) {
             loginCommandListener?.dispose();
             await deepLinkSubscription?.cancel();
-  
+
             // did we get a link from a new user subscription?
             if (loginToken.accountState == AccountState.waitingForActivation) {
               Navigator.of(context).popUntil((route) => route is WelcomeRoute);
@@ -85,10 +83,10 @@ class _WelcomePageState extends PageState<WelcomePage> {
         },
       );
       print(uri.queryParameters['token']);
-  
+
       try {
         loginToken = LoginToken.fromJwt(uri.queryParameters['token']);
-  
+
         backend.get<UserManager>().logInUserCommand(loginToken);
       } catch (ex) {
         await showMessageDialog(

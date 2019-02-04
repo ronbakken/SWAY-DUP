@@ -9,20 +9,24 @@ import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 
 class _SocialMediaRow {
+  _SocialMediaRow({this.provider, this.account});
+
   final SocialNetworkProvider provider;
   SocialMediaAccount account;
+
   bool get connected => account != null;
-  _SocialMediaRow({
-    this.provider,
-    this.account,
-  });
 }
 
 class EditSocialMediaView extends StatefulWidget {
+  const EditSocialMediaView({
+    Key key,
+    this.socialMediaAccounts,
+    this.onChanged,
+  }) : super(key: key);
+
   final List<SocialMediaAccount> socialMediaAccounts;
   final VoidCallback onChanged;
 
-  const EditSocialMediaView({Key key, this.socialMediaAccounts, this.onChanged}) : super(key: key);
   @override
   EditSocialMediaViewState createState() => EditSocialMediaViewState();
 }
@@ -42,7 +46,7 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
     for (var provider in configService.socialNetworkProviders) {
       if (provider.logoMonochromeData.isNotEmpty) {
         var connectedAccount = widget.socialMediaAccounts
-            .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
+          .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
         _socialMediaRows.add(_SocialMediaRow(account: connectedAccount, provider: provider));
       }
     }
@@ -71,9 +75,12 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
 
       entries.add(Padding(
         padding: const EdgeInsets.symmetric(vertical: 4),
-        child: Row(
-          children: [
-            Container(
+        child: InkWell(
+          onTap: () => _onSwitchToggle(row),
+          customBorder: const StadiumBorder(),
+          child: Row(
+            children: [
+              Container(
                 width: 32,
                 height: 32,
                 decoration: logoDecoration,
@@ -83,34 +90,17 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
                     Uint8List.fromList(row.provider.logoMonochromeData),
                     height: 20,
                   ),
-                )),
-            SizedBox(
-              width: 16.0,
-            ),
-            Text(row.provider.name),
-            Spacer(),
-            InfSwitch(
-              onChanged: (enabled) async {
-                if (enabled) {
-                  var newAccount = await connectToSocialMediaAccount(row.provider, context);
-                  if (newAccount != null) {
-                    if (widget.onChanged != null) {
-                      widget.onChanged();
-                    }
-                    row.account = newAccount;
-                  }
-                } else {
-                  row.account = null;
-                  if (widget.onChanged != null) {
-                    widget.onChanged();
-                  }
-                }
-                setState(() {});
-              },
-              value: row.connected,
-              activeColor: AppTheme.blue,
-            )
-          ],
+                ),
+              ),
+              SizedBox(width: 16.0),
+              Text(row.provider.name),
+              Spacer(),
+              InfSwitch(
+                value: row.connected,
+                activeColor: AppTheme.blue,
+              )
+            ],
+          ),
         ),
       ));
     }
@@ -119,6 +109,24 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
       mainAxisSize: MainAxisSize.min,
       children: entries,
     );
+  }
+
+  void _onSwitchToggle(_SocialMediaRow row) async {
+    if (row.connected) {
+      var newAccount = await connectToSocialMediaAccount(row.provider, context);
+      if (newAccount != null) {
+        if (widget.onChanged != null) {
+          widget.onChanged();
+        }
+        row.account = newAccount;
+      }
+    } else {
+      row.account = null;
+      if (widget.onChanged != null) {
+        widget.onChanged();
+      }
+    }
+    setState(() {});
   }
 
   List<SocialMediaAccount> getConnectedAccounts() {

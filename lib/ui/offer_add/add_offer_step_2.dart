@@ -8,6 +8,7 @@ import 'package:inf/ui/widgets/category_selector.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 
@@ -36,130 +37,106 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: LayoutBuilder(
-        builder: (BuildContext context, BoxConstraints constraints) {
-          return SingleChildScrollView(
-            child: ConstrainedBox(
-              constraints: constraints.copyWith(
-                minWidth: constraints.maxWidth,
-                maxWidth: constraints.maxWidth,
-                minHeight: constraints.maxHeight,
-                maxHeight: double.infinity,
-              ),
-              child: IntrinsicHeight(
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.bottomCenter,
-                      child: CustomAnimatedCurves(),
-                    ),
-                    Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, top: 32.0, bottom: 24.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'PLEASE SELECT CATEGORIES',
-                                textAlign: TextAlign.left,
-                                style: AppTheme.formFieldLabelStyle,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 24.0),
-                                child: HelpButton(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        buildCategoryRow(),
-                        AnimatedSwitcher(
-                          transitionBuilder: (child, animation) {
-                            return FadeTransition(
-                              opacity: animation,
-                              child: SizeTransition(
-                                axis: Axis.vertical,
-                                axisAlignment: -1.0,
-                                sizeFactor: animation,
-                                child: child,
-                              ),
-                            );
-                          },
-                          duration: const Duration(milliseconds: 500),
-                          child: activeTopLevelCategory.value == null ? _spacer() : buildCategorySelector(),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, bottom: 16.0),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                'SOCIAL PLATFORM',
-                                textAlign: TextAlign.left,
-                                style: AppTheme.formFieldLabelStyle,
-                              ),
-                              Padding(
-                                padding: const EdgeInsets.only(right: 24.0),
-                                child: HelpButton(),
-                              ),
-                            ],
-                          ),
-                        ),
-                        buildSocialPlatformRow(),
-                        _spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
-                          child: Text(
-                            'CONTENT TYPE',
-                            textAlign: TextAlign.left,
-                            style: AppTheme.formFieldLabelStyle,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, right: 24),
-                          child: buildDeliverableTypeRow(),
-                        ),
-                        _spacer(),
-                        Padding(
-                          padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
-                          child: Text(
-                            'DELIVERABLE DESCRIPTION',
-                            textAlign: TextAlign.left,
-                            style: AppTheme.formFieldLabelStyle,
-                          ),
-                        ),
-                        Form(
-                          key: form,
-                          child: Padding(
-                            padding: const EdgeInsets.only(left: 24.0, right: 24),
-                            child: TextFormField(
-                              onSaved: (s) => widget.offerBuilder.deliverableDescription = s,
-                              validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
-                              maxLines: null,
-                              keyboardType: TextInputType.multiline,
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                          child: InfStadiumButton(
-                            height: 56,
-                            color: Colors.white,
-                            text: 'NEXT',
-                            onPressed: () => onNext(context),
-                          ),
-                        )
-                      ],
-                    ),
-                  ],
+    return InfPageScrollView(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, top: 32.0, bottom: 24.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'PLEASE SELECT CATEGORIES',
+                  textAlign: TextAlign.left,
+                  style: AppTheme.formFieldLabelStyle,
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 24.0),
+                  child: HelpButton(),
+                ),
+              ],
+            ),
+          ),
+          buildCategoryRow(),
+          AnimatedSwitcher(
+            transitionBuilder: (child, animation) {
+              return FadeTransition(
+                opacity: animation,
+                child: SizeTransition(
+                  axis: Axis.vertical,
+                  axisAlignment: -1.0,
+                  sizeFactor: animation,
+                  child: child,
+                ),
+              );
+            },
+            duration: const Duration(milliseconds: 500),
+            child: activeTopLevelCategory.value == null ? _spacer() : buildCategorySelector(),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, bottom: 16.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'SOCIAL PLATFORM',
+                  textAlign: TextAlign.left,
+                  style: AppTheme.formFieldLabelStyle,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(right: 24.0),
+                  child: HelpButton(),
+                ),
+              ],
+            ),
+          ),
+          buildSocialPlatformRow(),
+          _spacer(),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
+            child: Text(
+              'CONTENT TYPE',
+              textAlign: TextAlign.left,
+              style: AppTheme.formFieldLabelStyle,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, right: 24),
+            child: buildDeliverableTypeRow(),
+          ),
+          _spacer(),
+          Padding(
+            padding: const EdgeInsets.only(left: 24.0, bottom: 24.0),
+            child: Text(
+              'DELIVERABLE DESCRIPTION',
+              textAlign: TextAlign.left,
+              style: AppTheme.formFieldLabelStyle,
+            ),
+          ),
+          Form(
+            key: form,
+            child: Padding(
+              padding: const EdgeInsets.only(left: 24.0, right: 24),
+              child: TextFormField(
+                onSaved: (s) => widget.offerBuilder.deliverableDescription = s,
+                validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                maxLines: null,
+                keyboardType: TextInputType.multiline,
               ),
             ),
-          );
-        },
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+            child: InfStadiumButton(
+              height: 56,
+              color: Colors.white,
+              text: 'NEXT',
+              onPressed: () => onNext(context),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -55,7 +55,7 @@ class InfSwitch extends StatefulWidget {
   const InfSwitch({
     Key key,
     @required this.value,
-    @required this.onChanged,
+    this.onChanged,
     this.activeColor,
   }) : super(key: key);
 

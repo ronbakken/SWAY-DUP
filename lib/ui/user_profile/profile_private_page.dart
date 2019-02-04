@@ -8,6 +8,7 @@ import 'package:inf/ui/user_profile/edit_profile_page.dart';
 import 'package:inf/ui/user_profile/profile_business_view.dart';
 import 'package:inf/ui/user_profile/profile_influencer_view.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -26,56 +27,48 @@ class ProfilePrivatePage extends StatefulWidget {
 }
 
 class ProfilePrivatePageState extends State<ProfilePrivatePage> {
-
   @override
   Widget build(BuildContext context) {
     final userManager = backend.get<UserManager>();
 
     return Material(
       color: AppTheme.blackTwo,
-      child: Stack(
-        children: [
-          SingleChildScrollView(
-            child: StreamBuilder<User>(
-                initialData: userManager.currentUser,
-                stream: userManager.currentUserUpdates,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (!snapshot.hasData) {
-                    return SizedBox();
-                  }
-                  User user = snapshot.data;
-                  if (user.userType == UserType.influencer) {
-                    return ProfileInfluencerView(user: user);
-                  } else {
-                    return ProfileBusinessView(user: user);
-                  }
-                }),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Row(
-                children: [
-                  InkResponse(
-                    onTap: () => Navigator.of(context).pop(),
-                    child: Icon(
-                      Icons.arrow_back,
-                      size: 32,
-                    ),
-                  ),
-                  Spacer(),
-                  InkResponse(
-                    onTap: () => Navigator.of(context).push(EditProfilePage.route()),
-                    child: InfAssetImage(
-                      AppIcons.edit,
-                      width: 32,
-                    ),
-                  ),
-                ],
+      child: InfPageScrollView(
+        top: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              IconButton(
+                padding: EdgeInsets.all(16.0),
+                iconSize: 32.0,
+                icon: Icon(Icons.arrow_back),
+                onPressed: () => Navigator.of(context).pop(),
               ),
-            ),
-          )
-        ],
+              IconButton(
+                padding: EdgeInsets.all(16.0),
+                iconSize: 32.0,
+                icon: InfAssetImage(AppIcons.edit),
+                onPressed: () => Navigator.of(context).push(EditProfilePage.route()),
+              ),
+            ],
+          ),
+        ),
+        child: StreamBuilder<User>(
+          initialData: userManager.currentUser,
+          stream: userManager.currentUserUpdates,
+          builder: (BuildContext context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
+              return SizedBox();
+            }
+            User user = snapshot.data;
+            if (user.userType == UserType.influencer) {
+              return ProfileInfluencerView(user: user);
+            } else {
+              return ProfileBusinessView(user: user);
+            }
+          },
+        ),
       ),
     );
   }

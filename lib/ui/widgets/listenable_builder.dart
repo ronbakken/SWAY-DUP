@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class ListenableBuilder extends StatelessWidget {
   const ListenableBuilder({
     Key key,
-    @required this.listenable,
+    this.listenable,
     @required this.builder,
     this.child,
   }) : super(key: key);
@@ -14,10 +14,12 @@ class ListenableBuilder extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedBuilder(
-      animation: listenable,
-      builder: builder,
-      child: child,
-    );
+    return (listenable != null)
+        ? AnimatedBuilder(
+            animation: listenable,
+            builder: builder,
+            child: child,
+          )
+        : builder(context, child);
   }
 }

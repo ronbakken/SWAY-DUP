@@ -59,7 +59,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomPadding: false,
-      backgroundColor: AppTheme.editPageBackground,
+      backgroundColor: AppTheme.listViewAndMenuBackground,
       appBar: AppBar(
         title: Text('SELECT YOUR LOCATION'),
         backgroundColor: AppTheme.lightBlue,

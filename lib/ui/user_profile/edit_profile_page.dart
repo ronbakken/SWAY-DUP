@@ -14,7 +14,9 @@ import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
+import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/routes.dart';
@@ -37,14 +39,16 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   void initState() {
-    userUpdateListener = RxCommandListener(backend.get<UserManager>().updateUserCommand,
-        onIsBusy: () => InfLoader.show(context),
-        onNotBusy: () => InfLoader.hide(),
-        onError: (error) async {
-          print(error);
-          await showMessageDialog(
-              context, 'Update Problem', 'Sorry we had a problem update your user. Please try again later');
-        });
+    userUpdateListener = RxCommandListener(
+      backend.get<UserManager>().updateUserCommand,
+      onIsBusy: () => InfLoader.show(context),
+      onNotBusy: () => InfLoader.hide(),
+      onError: (error) async {
+        print(error);
+        await showMessageDialog(
+            context, 'Update Problem', 'Sorry we had a problem update your user. Please try again later');
+      },
+    );
     super.initState();
   }
 
@@ -57,22 +61,24 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
-        initialData: backend.get<UserManager>().currentUser,
-        stream: backend.get<UserManager>().currentUserUpdates,
-        builder: (context, snapshot) {
-          var user = snapshot.data;
-          return Scaffold(
-              resizeToAvoidBottomPadding: true,
-              appBar: AppBar(
-                title: Text(user.name.toUpperCase()),
-                centerTitle: true,
-                backgroundColor: AppTheme.blackTwo,
-              ),
-              backgroundColor: AppTheme.editPageBackground,
-              body: UserDataView(
-                user: user,
-              ));
-        });
+      initialData: backend.get<UserManager>().currentUser,
+      stream: backend.get<UserManager>().currentUserUpdates,
+      builder: (context, snapshot) {
+        var user = snapshot.data;
+        return Scaffold(
+          resizeToAvoidBottomPadding: false,
+          appBar: AppBar(
+            title: Text(user.name.toUpperCase()),
+            centerTitle: true,
+            backgroundColor: AppTheme.blackTwo,
+          ),
+          backgroundColor: AppTheme.listViewAndMenuBackground,
+          body: UserDataView(
+            user: user,
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -81,6 +87,7 @@ class UserDataView extends StatefulWidget {
   final User user;
 
   const UserDataView({Key key, this.user}) : super(key: key);
+
   @override
   _UserDataViewState createState() => _UserDataViewState();
 }
@@ -140,6 +147,7 @@ class _UserDataViewState extends State<UserDataView> {
       ),
       SizedBox(height: 16),
     ];
+
     if (user.userType == UserType.influencer) {
       columnItems.addAll([
         Text("${newUser ? 'CONNECT' : 'MANAGE'} YOUR SOCIAL ACCOUNTS",
@@ -162,6 +170,7 @@ class _UserDataViewState extends State<UserDataView> {
         SizedBox(height: 16),
       ]);
     }
+
     columnItems.addAll([
       Text("Location", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
       SizedBox(height: 8),
@@ -191,8 +200,6 @@ class _UserDataViewState extends State<UserDataView> {
       SizedBox(height: 16)
     ]);
 
-    var mediaQuery = MediaQuery.of(context);
-
     return WillPopScope(
       onWillPop: () async {
         // if we are filling out a new users profile there is no back
@@ -201,81 +208,69 @@ class _UserDataViewState extends State<UserDataView> {
         }
         if (hasChanged) {
           var shouldPop = await showQueryDialog(
-              context,
-              'Be careful',
-              'Your changes will be lost if you don\'t tap on update.'
-              '\nDo you really want to leave this page?');
+            context,
+            'Be careful',
+            'Your changes will be lost if you don\'t tap on update.\n'
+                'Do you really want to leave this page?',
+          );
           return shouldPop;
         }
         return true;
       },
-      child: Column(
-        children: <Widget>[
-          Expanded(
-            child: SingleChildScrollView(
+      // FIXME: currently we can scroll when keyboard appears with a large content gap at bottom
+      child: InfPageScrollView(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Stack(
+              children: [
+                newUser && selectedImageFile == null
+                    ? _ProfilePicturePlaceHolder(
+                        onCameraTap: () => onSelectImage(true),
+                        onLibraryTap: () => onSelectImage(false),
+                      )
+                    : ProfileSummary(
+                        user: user,
+                        showOnlyImage: true,
+                        heightImagePercentage: 1.0,
+                        gradientStop: 0.9,
+                        imageFile: selectedImageFile,
+                      ),
+                // Only show edit button if there is already an image
+                !newUser || selectedImageFile != null
+                    ? Positioned(
+                        right: 16,
+                        top: 32,
+                        child: InkResponse(
+                          onTap: onEditImage,
+                          child: InfAssetImage(
+                            AppIcons.edit,
+                            width: 32,
+                          ),
+                        ),
+                      )
+                    : SizedBox(),
+              ],
+            ),
+            Form(
+              onChanged: () => setState(() => hasChanged = true),
+              key: formKey,
               child: Padding(
-                padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Stack(
-                      children: [
-                        newUser && selectedImageFile == null
-                            ? _ProfilePicturePlaceHolder(
-                                onCameraTap: () => onSelectImage(true),
-                                onLibraryTap: () => onSelectImage(false),
-                              )
-                            : ProfileSummary(
-                                user: user,
-                                showOnlyImage: true,
-                                heightImagePercentage: 1.0,
-                                gradientStop: 0.9,
-                                imageFile: selectedImageFile,
-                              ),
-                        // Only show editbutton if there is already an image
-                        !newUser || selectedImageFile != null
-                            ? Positioned(
-                                right: 16,
-                                top: 32,
-                                child: InkResponse(
-                                  onTap: onEditImage,
-                                  child: InfAssetImage(
-                                    AppIcons.edit,
-                                    width: 32,
-                                  ),
-                                ),
-                              )
-                            : SizedBox()
-                      ],
-                    ),
-                    Form(
-                      onChanged: () => setState(() => hasChanged = true),
-                      key: formKey,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.stretch,
-                            children: columnItems),
-                      ),
-                    )
-                  ],
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: columnItems,
                 ),
               ),
-            ),
-          ),
-          SafeArea(
-            child: Padding(
-              padding: const EdgeInsets.only(left: 32, right: 32, top: 8),
-              child: InfStadiumButton(
-                height: 56,
-                color: Colors.white,
-                text: newUser ? 'CREATE ACCOUNT' : 'UPDATE',
-                onPressed: hasChanged ? onButtonPressed : null,
-              ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
+        bottom: InfBottomButton(
+          text: newUser ? 'CREATE ACCOUNT' : 'UPDATE',
+          onPressed: hasChanged ? onButtonPressed : null,
+          panelColor: AppTheme.listViewAndMenuBackground,
+        ),
       ),
     );
   }
@@ -293,7 +288,9 @@ class _UserDataViewState extends State<UserDataView> {
     selectedImageFile =
         camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
     if (selectedImageFile != null) {
-      setState(() { hasChanged = true;});
+      setState(() {
+        hasChanged = true;
+      });
     }
   }
 
@@ -303,50 +300,43 @@ class _UserDataViewState extends State<UserDataView> {
       EditSocialMediaViewState socialMediaEditState = socialMediaKey.currentState;
       List<SocialMediaAccount> socialAccounts;
 
-      if (user.userType == UserType.influencer)
-      {
+      if (user.userType == UserType.influencer) {
         socialAccounts = socialMediaEditState.getConnectedAccounts();
         assert(socialAccounts != null);
 
         if (socialAccounts.isEmpty) {
-          await showMessageDialog(context, 'We need a bit more...', 'You need minimal one connected social media account');
+          await showMessageDialog(
+              context, 'We need a bit more...', 'You need minimal one connected social media account');
           return;
         }
-
       }
 
-      if (newUser && selectedImageFile == null)
-      {
+      if (newUser && selectedImageFile == null) {
         await showMessageDialog(context, 'We need a bit more...', 'You have to select a profile picture so sign-up');
         return;
       }
 
-      if (newUser && location == null)
-      {
+      if (newUser && location == null) {
         await showMessageDialog(context, 'We need a bit more...', 'You have to select a location to sign-up');
         return;
       }
 
-
       formState.save();
       var userData = UserUpdateData(
-          user: user.copyWith(
-            name: name,
-            description: aboutYou,
-            location: location,
-            minimalFee: minFee ?? 0,
-            socialMediaAccounts: socialAccounts ?? [],
-          ),
-          profilePicture: selectedImageFile);
+        user: user.copyWith(
+          name: name,
+          description: aboutYou,
+          location: location,
+          minimalFee: minFee ?? 0,
+          socialMediaAccounts: socialAccounts ?? [],
+        ),
+        profilePicture: selectedImageFile,
+      );
       backend.get<UserManager>().updateUserCommand(userData);
- 
-    }
-    else
-    {
-       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+    } else {
+      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
     }
   }
-
 }
 
 class _ProfilePicturePlaceHolder extends StatelessWidget {

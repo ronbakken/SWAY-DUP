@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/utils/utils.dart';
 
@@ -11,6 +12,7 @@ class InfInputDecorator extends StatefulWidget {
     this.focusNode,
     this.isEmpty = false,
     this.onTap,
+    this.onHelpPressed,
     this.child,
   })  : assert(isEmpty != null),
         super(key: key);
@@ -21,6 +23,7 @@ class InfInputDecorator extends StatefulWidget {
   final FocusNode focusNode;
   final bool isEmpty;
   final VoidCallback onTap;
+  final VoidCallback onHelpPressed;
   final Widget child;
 
   @override
@@ -33,16 +36,29 @@ class _InfInputDecoratorState extends State<InfInputDecorator> {
     final effectiveDecoration = widget.decoration.applyDefaults(
       Theme.of(context).inputDecorationTheme,
     );
+
+    final headerChildren = <Widget>[];
+    if (effectiveDecoration.labelText != null) {
+      headerChildren.add(Text(
+        effectiveDecoration.labelText,
+        style: effectiveDecoration.labelStyle,
+      ));
+    }
+    if (widget.onHelpPressed != null) {
+      headerChildren.add(
+        HelpButton(
+          onTap: widget.onHelpPressed,
+        ),
+      );
+    }
     return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
-        effectiveDecoration.labelText != null
-            ? Text(
-                effectiveDecoration.labelText,
-                style: effectiveDecoration.labelStyle,
-              )
-            : SizedBox(),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: headerChildren,
+        ),
         InkWell(
           onTap: widget.onTap,
           child: ListenableBuilder(
@@ -55,7 +71,7 @@ class _InfInputDecoratorState extends State<InfInputDecorator> {
                 ),
                 baseStyle: widget.baseStyle,
                 textAlign: widget.textAlign,
-                isFocused: widget.focusNode.hasFocus,
+                isFocused: widget.focusNode?.hasFocus ?? false,
                 isEmpty: widget.isEmpty,
                 child: child,
               );

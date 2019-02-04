@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/system_pages/startup_page.dart';
@@ -19,6 +20,16 @@ class SwayAppState extends State<SwayApp> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     _systemService = backend.get<SystemService>();
+
+    SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+      systemNavigationBarColor: null,
+      systemNavigationBarDividerColor: null,
+      statusBarColor: null,
+      systemNavigationBarIconBrightness: Brightness.light,
+      statusBarIconBrightness: Brightness.light,
+      statusBarBrightness: Brightness.dark,
+    ));
+
     WidgetsBinding.instance.addObserver(this);
   }
 
