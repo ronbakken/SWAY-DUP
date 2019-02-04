@@ -97,10 +97,20 @@ workflows:
     - _primary
 
   # These workflows are for builds that occur in Bitrise proper.
+  ephemeral:
+    envs:
+    - ENVIRONMENT: "ephemeral"
+    - REGION: "West US 2"
+    before_run:
+    - _cloudPreSteps
+    after_run:
+    - _primary
+    - _cloudPostSteps
   dev:
     envs:
     - ENVIRONMENT: "dev"
     - REGION: "West US 2"
+    - VM_INSTANCE_COUNT: "3"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -110,6 +120,7 @@ workflows:
     envs:
     - ENVIRONMENT: "test"
     - REGION: "West US 2"
+    - VM_INSTANCE_COUNT: "3"
     before_run:
     - _cloudPreSteps
     after_run:
