@@ -66,7 +66,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                               Text(
                                 'PLEASE SELECT CATEGORIES',
                                 textAlign: TextAlign.left,
-                                style: AppTheme.textStyleformfieldLabel,
+                                style: AppTheme.formFieldLabelStyle,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 24.0),
@@ -99,7 +99,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                               Text(
                                 'SOCIAL PLATFORM',
                                 textAlign: TextAlign.left,
-                                style: AppTheme.textStyleformfieldLabel,
+                                style: AppTheme.formFieldLabelStyle,
                               ),
                               Padding(
                                 padding: const EdgeInsets.only(right: 24.0),
@@ -115,7 +115,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           child: Text(
                             'CONTENT TYPE',
                             textAlign: TextAlign.left,
-                            style: AppTheme.textStyleformfieldLabel,
+                            style: AppTheme.formFieldLabelStyle,
                           ),
                         ),
                         Padding(
@@ -128,7 +128,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
                           child: Text(
                             'DELIVERABLE DESCRIPTION',
                             textAlign: TextAlign.left,
-                            style: AppTheme.textStyleformfieldLabel,
+                            style: AppTheme.formFieldLabelStyle,
                           ),
                         ),
                         Form(

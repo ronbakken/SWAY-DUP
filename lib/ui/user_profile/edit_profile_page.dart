@@ -123,7 +123,7 @@ class _UserDataViewState extends State<UserDataView> {
   @override
   Widget build(BuildContext context) {
     List<Widget> columnItems = <Widget>[
-      Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+      Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
       SizedBox(height: 8),
       TextFormField(
         initialValue: user.name,
@@ -131,7 +131,7 @@ class _UserDataViewState extends State<UserDataView> {
         onSaved: (s) => name = s,
       ),
       SizedBox(height: 16),
-      Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+      Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
       SizedBox(height: 8),
       TextFormField(
         initialValue: user.description,
@@ -143,7 +143,7 @@ class _UserDataViewState extends State<UserDataView> {
     if (user.userType == UserType.influencer) {
       columnItems.addAll([
         Text("${newUser ? 'CONNECT' : 'MANAGE'} YOUR SOCIAL ACCOUNTS",
-            textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+            textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
         SizedBox(height: 8),
         EditSocialMediaView(
           key: socialMediaKey,
@@ -151,7 +151,7 @@ class _UserDataViewState extends State<UserDataView> {
           onChanged: () => setState(() => hasChanged = true),
         ),
         ColumnSeparator(),
-        Text("MIN FEE (optional)", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+        Text("MIN FEE (optional)", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
         SizedBox(height: 8),
         TextFormField(
           inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -163,7 +163,7 @@ class _UserDataViewState extends State<UserDataView> {
       ]);
     }
     columnItems.addAll([
-      Text("Location", textAlign: TextAlign.left, style: AppTheme.textStyleformfieldLabel),
+      Text("Location", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
       SizedBox(height: 8),
       InkWell(
         child: Row(

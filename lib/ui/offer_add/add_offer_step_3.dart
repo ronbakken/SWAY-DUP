@@ -66,7 +66,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                               Text(
                                 'CASH REWARD VALUE',
                                 textAlign: TextAlign.left,
-                                style: AppTheme.textStyleformfieldLabel,
+                                style: AppTheme.formFieldLabelStyle,
                               ),
                               HelpButton(),
                             ],
@@ -82,7 +82,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                           Text(
                             'REWARD ITEM OR SERVICE DESCRIPTION',
                             textAlign: TextAlign.left,
-                            style: AppTheme.textStyleformfieldLabel,
+                            style: AppTheme.formFieldLabelStyle,
                           ),
                           TextFormField(
                             decoration: InputDecoration(prefixText: '\$ '),
@@ -95,7 +95,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                           Text(
                             'ITEM OR SERVICE VALUE',
                             textAlign: TextAlign.left,
-                            style: AppTheme.textStyleformfieldLabel,
+                            style: AppTheme.formFieldLabelStyle,
                           ),
                           TextFormField(
                             decoration: InputDecoration(icon: Text('\$')),
@@ -111,7 +111,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                               Text(
                                 'MINIMUM FOLLOWERS',
                                 textAlign: TextAlign.left,
-                                style: AppTheme.textStyleformfieldLabel,
+                                style: AppTheme.formFieldLabelStyle,
                               ),
                               HelpButton(),
                             ],
@@ -128,7 +128,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                               Text(
                                 'CHOOSE LOCATION',
                                 textAlign: TextAlign.left,
-                                style: AppTheme.textStyleformfieldLabel,
+                                style: AppTheme.formFieldLabelStyle,
                               ),
                               HelpButton(),
                             ],

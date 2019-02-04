@@ -25,22 +25,30 @@ class AppTheme {
   static const tabIndicator = blue;
   static const notificationDot = const Color(0xFFDC7173);
   static const editPageBackground = const Color(0xFF202022);
-  
+
   static const radioButtonBgUnselected = const Color(0xFF4C4C4D);
   static const radioButtonBgSelected = blue;
 
-
-  static const textStyleformfieldLabel = const TextStyle(color: white50, fontSize: 16.0);
+  static const formFieldLabelStyle = const TextStyle(
+    color: white50,
+    fontSize: 16.0,
+  );
 
   static ThemeData themeTopLevel() {
-    return ThemeData(
-        brightness: Brightness.dark,
-        backgroundColor: AppTheme.darkGrey,
-        scaffoldBackgroundColor: AppTheme.darkGrey,
-        primaryColor: AppTheme.blue,
-        fontFamily: AppFonts.mavenPro,
-        // TODO define all colors
-        buttonTheme: ButtonThemeData(
-            buttonColor: Colors.white, textTheme: ButtonTextTheme.primary));
+    final theme = ThemeData(
+      brightness: Brightness.dark,
+      backgroundColor: AppTheme.darkGrey,
+      scaffoldBackgroundColor: AppTheme.darkGrey,
+      primaryColor: AppTheme.blue,
+      fontFamily: AppFonts.mavenPro,
+      buttonTheme: ButtonThemeData(
+        buttonColor: Colors.white,
+        textTheme: ButtonTextTheme.primary,
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        labelStyle: formFieldLabelStyle,
+      ),
+    );
+    return theme;
   }
 }

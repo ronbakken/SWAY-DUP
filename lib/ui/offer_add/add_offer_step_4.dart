@@ -4,8 +4,10 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
+import 'package:inf/ui/widgets/inf_date_picker.dart';
 import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/inf_time_picker.dart';
 
 import 'package:intl/intl.dart';
 
@@ -54,26 +56,33 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                       child: Form(
                         key: form,
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Table(
                               children: [
                                 TableRow(
                                   children: [
                                     TableCell(
-                                        child: Padding(
-                                      padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                      child: _DateFormField(
-                                        label: 'OFFER START DATE',
-                                        initialValue: DateTime.now(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                                        child: InfDatePicker(
+                                          decoration: InputDecoration(
+                                            labelText: 'OFFER START DATE',
+                                          ),
+                                          // initialValue: DateTime.now(),
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now().add(Duration(days: 90)),
+                                        ),
                                       ),
-                                    )),
+                                    ),
                                     TableCell(
                                       child: Padding(
                                         padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                        child: _TimeFormField(
-                                          label: 'OFFER START TIME',
+                                        child: InfTimePicker(
+                                          decoration: InputDecoration(
+                                            labelText: 'OFFER START TIME',
+                                          ),
                                           initialValue: TimeOfDay.now(),
                                         ),
                                       ),
@@ -83,18 +92,25 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                                 TableRow(
                                   children: [
                                     TableCell(
-                                        child: Padding(
-                                      padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                      child: _DateFormField(
-                                        label: 'OFFER START DATE',
-                                        initialValue: DateTime.now(),
+                                      child: Padding(
+                                        padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                                        child: InfDatePicker(
+                                          decoration: InputDecoration(
+                                            labelText: 'OFFER END DATE',
+                                          ),
+                                          //initialValue: DateTime.now(),
+                                          firstDate: DateTime.now(),
+                                          lastDate: DateTime.now().add(Duration(days: 90)),
+                                        ),
                                       ),
-                                    )),
+                                    ),
                                     TableCell(
                                       child: Padding(
                                         padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                                        child: _TimeFormField(
-                                          label: 'OFFER START TIME',
+                                        child: InfTimePicker(
+                                          decoration: InputDecoration(
+                                            labelText: 'OFFER END TIME',
+                                          ),
                                           initialValue: TimeOfDay.now(),
                                         ),
                                       ),
@@ -107,7 +123,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                             Text(
                               'AMOUNT AVAILABLE',
                               textAlign: TextAlign.left,
-                              style: AppTheme.textStyleformfieldLabel,
+                              style: AppTheme.formFieldLabelStyle,
                             ),
                             TextFormField(
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
@@ -187,65 +203,6 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
   }
 }
 
-class _DateFormField extends StatefulWidget {
-  final String label;
-  final DateTime initialValue;
-
-  const _DateFormField({Key key, this.label, this.initialValue}) : super(key: key);
-
-  @override
-  _DateFormFieldState createState() {
-    return new _DateFormFieldState();
-  }
-}
-
-class _DateFormFieldState extends State<_DateFormField> {
-  DateTime _selectedDate;
-
-  @override
-  void initState() {
-    _selectedDate = widget.initialValue;
-    _dateAsString = _formatter.format(_selectedDate);
-    super.initState();
-  }
-
-  @override
-  void didUpdateWidget(_DateFormField oldWidget) {
-    _selectedDate = widget.initialValue;
-    _dateAsString = _formatter.format(_selectedDate);
-    super.didUpdateWidget(oldWidget);
-  }
-
-  final DateFormat _formatter = DateFormat("MM / dd / yyyy");
-
-  String _dateAsString;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisSize: MainAxisSize.min,
-      children: [
-        Text(
-          widget.label,
-          style: AppTheme.textStyleformfieldLabel,
-        ),
-        SizedBox(
-          height: 8.0,
-        ),
-        Text(_dateAsString),
-        SizedBox(
-          height: 8.0,
-        ),
-        Container(
-          height: 1,
-          color: AppTheme.white30,
-        )
-      ],
-    );
-  }
-}
-
 class _TimeFormField extends StatefulWidget {
   final String label;
   final TimeOfDay initialValue;
@@ -282,7 +239,7 @@ class _TimeFormFieldState extends State<_TimeFormField> {
       children: [
         Text(
           widget.label,
-          style: AppTheme.textStyleformfieldLabel,
+          style: AppTheme.formFieldLabelStyle,
         ),
         SizedBox(
           height: 8.0,

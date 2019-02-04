@@ -79,7 +79,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
       case _steps.queryEmail:
         String _text;
         if (widget.newUser) {
-          _text = 'Please enter your email adress and your invitation code so that we can get you on board';
+          _text = 'Please enter your email address and your invitation code so that we can get you on board';
         } else {
           _text = 'Welcome back!\nPlease enter your email adress so that we can send you a login link';
         }
@@ -89,7 +89,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           Text(
             'YOUR EMAIL ADDRESS',
             textAlign: TextAlign.left,
-            style: AppTheme.textStyleformfieldLabel,
+            style: AppTheme.formFieldLabelStyle,
           ),
           SizedBox(height: 8),
           TextField(
@@ -106,7 +106,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
                     SizedBox(height: 16),
                     Text(
                       'YOUR INVITATION CODE',
-                      style: AppTheme.textStyleformfieldLabel,
+                      style: AppTheme.formFieldLabelStyle,
                       textAlign: TextAlign.left,
                     ),
                     SizedBox(height: 8),

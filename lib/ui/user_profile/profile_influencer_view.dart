@@ -60,7 +60,7 @@ class ProfileInfluencerView extends StatelessWidget {
               Text(
                 'ABOUT ${user.name.toUpperCase()}',
                 textAlign: TextAlign.start,
-                style: AppTheme.textStyleformfieldLabel,
+                style: AppTheme.formFieldLabelStyle,
               ),
               SizedBox(
                 height: 8.0,
@@ -79,7 +79,7 @@ class ProfileInfluencerView extends StatelessWidget {
               Text(
                 'MIN FEE',
                 textAlign: TextAlign.start,
-                style: AppTheme.textStyleformfieldLabel,
+                style: AppTheme.formFieldLabelStyle,
               ),
               SizedBox(
                 height: 8.0,

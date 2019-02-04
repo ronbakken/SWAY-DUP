@@ -72,7 +72,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                                   Text(
                                     'TITLE',
                                     textAlign: TextAlign.left,
-                                    style: AppTheme.textStyleformfieldLabel,
+                                    style: AppTheme.formFieldLabelStyle,
                                   ),
                                   SizedBox(height: 8.0),
                                   TextFormField(
@@ -83,7 +83,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                                   Text(
                                     'DESCRIPTION',
                                     textAlign: TextAlign.left,
-                                    style: AppTheme.textStyleformfieldLabel,
+                                    style: AppTheme.formFieldLabelStyle,
                                   ),
                                   TextFormField(
                                     onSaved: (s) => widget.offerBuilder.description = s,

@@ -27,7 +27,7 @@ class ProfileBusinessView extends StatelessWidget {
               Text(
                 'ABOUT ${user.name.toUpperCase()}',
                 textAlign: TextAlign.start,
-                style: AppTheme.textStyleformfieldLabel,
+                style: AppTheme.formFieldLabelStyle,
               ),
               SizedBox(
                 height: 8.0,
