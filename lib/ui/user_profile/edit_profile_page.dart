@@ -15,9 +15,11 @@ import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
+import 'package:inf/ui/widgets/inf_input_decorator.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -130,17 +132,19 @@ class _UserDataViewState extends State<UserDataView> {
   @override
   Widget build(BuildContext context) {
     List<Widget> columnItems = <Widget>[
-      Text("YOUR NAME", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
-      SizedBox(height: 8),
-      TextFormField(
+      InfTextFormField(
+        decoration: InputDecoration(
+          labelText: 'YOUR NAME',
+        ),
         initialValue: user.name,
         validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
         onSaved: (s) => name = s,
       ),
       SizedBox(height: 16),
-      Text("ABOUT YOU", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
-      SizedBox(height: 8),
-      TextFormField(
+      InfTextFormField(
+        decoration: InputDecoration(
+          labelText: 'ABOUT YOU',
+        ),
         initialValue: user.description,
         validator: (s) => s.isEmpty ? 'You have some information about you' : null,
         onSaved: (s) => aboutYou = s,
@@ -159,12 +163,14 @@ class _UserDataViewState extends State<UserDataView> {
           onChanged: () => setState(() => hasChanged = true),
         ),
         ColumnSeparator(),
-        Text("MIN FEE (optional)", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
-        SizedBox(height: 8),
-        TextFormField(
+      InfTextFormField(
+        decoration: InputDecoration(
+          labelText: 'MIN FEE (optional)',
+           icon: Text('\$')
+        ),
           inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-          initialValue: user.minimalFee != null ? '\$${user.minimalFee.toString()}' : null,
+          initialValue: user.minimalFee != null ? user.minimalFee.toString() : null,
           onSaved: (s) => minFee = int.tryParse(s),
         ),
         SizedBox(height: 16),
@@ -172,9 +178,9 @@ class _UserDataViewState extends State<UserDataView> {
     }
 
     columnItems.addAll([
-      Text("Location", textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
-      SizedBox(height: 8),
-      InkWell(
+      InkWell(child:
+      InfInputDecorator(
+        decoration: InputDecoration(labelText: 'LOCATION'),
         child: Row(
           children: [
             Expanded(child: Text(location?.name ?? '')),
@@ -196,7 +202,7 @@ class _UserDataViewState extends State<UserDataView> {
             });
           }
         },
-      ),
+      )),
       SizedBox(height: 16)
     ]);
 
