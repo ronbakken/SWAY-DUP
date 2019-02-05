@@ -14,7 +14,7 @@ enum BusinessOfferState {
 
 enum BusinessOfferStateReason {
   newOffer,
-  userClosed, // You have closed this offer.
+  userClosed, // Business has closed this offer.
   tosViolation, // This offer violates the Terms of Service
   completed // This offer has been completed by all applicants
 }

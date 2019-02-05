@@ -1,13 +1,18 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:rx_command/rx_command.dart';
 
 abstract class OfferManager {
+  RxCommand<OfferBuilder, double> updateOfferCommand;
+
   Observable<int> get newAppliedOfferMessages;
   Observable<int> get newDealsOfferMessages;
   Observable<int> get newDoneOfferMessages;
@@ -26,7 +31,7 @@ abstract class OfferManager {
 }
 
 class OfferBuilder {
-  List<File> imagesToUpLoad = <File>[];
+  List<ImageReference> images = [];
   String title;
   String description;
   bool isDirectOffer;
@@ -42,4 +47,9 @@ class OfferBuilder {
   int amountAvailable;
   bool unlimitedAvailable = false;
   AcceptancePolicy acceptancePolicy;
+
+  DateTime startDate;
+  DateTime endDate;
+  TimeOfDay startTime;
+  TimeOfDay endTime;
 }

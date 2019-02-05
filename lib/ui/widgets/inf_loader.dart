@@ -5,10 +5,9 @@ class InfLoader extends StatefulWidget {
 
   const InfLoader({Key key, this.percentageCompletion}) : super(key: key);
 
-  static void show(BuildContext context) {
+  static void show(BuildContext context, [Stream<double> completionPercent]) {
     // Don't push a second loader if there is already one
-    if (currentLoader != null)
-    {
+    if (currentLoader != null) {
       return;
     }
     currentLoader = new OverlayEntry(
@@ -18,7 +17,9 @@ class InfLoader extends StatefulWidget {
                   color: Colors.transparent,
                 ),
                 Center(
-                  child: InfLoader(),
+                  child: InfLoader(
+                    percentageCompletion: completionPercent,
+                  ),
                 ),
               ],
             ));
