@@ -10,7 +10,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_input_decorator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
-import 'package:inf/ui/widgets/inf_text_field.dart';
+import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 
 import 'package:inf/ui/widgets/multipage_wizard.dart';
@@ -73,7 +73,6 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
-                    onHelpPressed: () {},
                   ),
                   SizedBox(height: 32.0),
                   InfTextFormField(
@@ -85,7 +84,6 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                     onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                    onHelpPressed: () {},
                   ),
                   Spacer(),
                   InfTextFormField(
@@ -109,9 +107,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                       HelpButton(),
                     ],
                   ),
-                  SizedBox(
-                    height: 8,
-                  ),
+                  SizedBox(height: 16),
                   InkWell(
                     child: Row(
                       children: [

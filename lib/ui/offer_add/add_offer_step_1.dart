@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 
 class AddOfferStep1 extends StatefulWidget {
@@ -29,62 +31,64 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
 
   @override
   Widget build(BuildContext context) {
-    return InfPageScrollView(
-      child: Column(
-        children: [
-          AspectRatio(
-            aspectRatio: 4 / 3,
-            child: buildMainImage(),
-          ),
-          buildSelectedImageRow(),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-              child: Form(
-                key: form,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Text(
-                      'TITLE',
-                      textAlign: TextAlign.left,
-                      style: AppTheme.formFieldLabelStyle,
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: CustomAnimatedCurves(),
+        ),
+        InfPageScrollView(
+          child: Column(
+            children: [
+              AspectRatio(
+                aspectRatio: 4 / 3,
+                child: buildMainImage(),
+              ),
+              buildSelectedImageRow(),
+              Expanded(
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+                  child: Form(
+                    key: form,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        InfTextFormField(
+                          decoration: const InputDecoration(labelText: 'TITLE'),
+                          onSaved: (s) => widget.offerBuilder.title = s,
+                          validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
+                        ),
+                        SizedBox(height: 32.0),
+                        InfTextFormField(
+                          decoration: const InputDecoration(
+                            labelText: 'DESCRIPTION',
+                          ),
+                          onSaved: (s) => widget.offerBuilder.description = s,
+                          validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                          maxLines: null,
+                          keyboardType: TextInputType.multiline,
+                        ),
+                      ],
                     ),
-                    SizedBox(height: 8.0),
-                    TextFormField(
-                      onSaved: (s) => widget.offerBuilder.title = s,
-                      validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
-                    ),
-                    SizedBox(height: 32.0),
-                    Text(
-                      'DESCRIPTION',
-                      textAlign: TextAlign.left,
-                      style: AppTheme.formFieldLabelStyle,
-                    ),
-                    TextFormField(
-                      onSaved: (s) => widget.offerBuilder.description = s,
-                      validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
-                      maxLines: null,
-                      keyboardType: TextInputType.multiline,
-                    ),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+                child: InfStadiumButton(
+                  height: 56,
+                  color: Colors.white,
+                  text: 'NEXT',
+                  onPressed: () => onNext(context),
+                ),
+              )
+            ],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-            child: InfStadiumButton(
-              height: 56,
-              color: Colors.white,
-              text: 'NEXT',
-              onPressed: () => onNext(context),
-            ),
-          )
-        ],
-      ),
+        ),
+      ],
     );
   }
 
