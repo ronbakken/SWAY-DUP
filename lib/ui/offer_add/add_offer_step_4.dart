@@ -5,12 +5,14 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_date_picker.dart';
+import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/inf_time_picker.dart';
 
-import 'package:intl/intl.dart';
+import 'package:rx_command/rx_command.dart';
 
 class AddOfferStep4 extends StatefulWidget {
   const AddOfferStep4({
@@ -28,153 +30,201 @@ class AddOfferStep4 extends StatefulWidget {
 
 class _AddOfferStep4State extends State<AddOfferStep4> {
   ValueNotifier<Category> activeTopLevelCategory = ValueNotifier<Category>(null);
-
   GlobalKey form = GlobalKey();
+  RxCommandListener<OfferBuilder, double> updateOfferListener;
 
   @override
-  Widget build(BuildContext context) {
-    return InfPageScrollView(
-      child: Padding(
-        padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
-        child: Form(
-          key: form,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Table(
-                children: [
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                          child: InfDatePicker(
-                            decoration: InputDecoration(
-                              labelText: 'OFFER START DATE',
-                            ),
-                            // initialValue: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(Duration(days: 90)),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                          child: InfTimePicker(
-                            decoration: InputDecoration(
-                              labelText: 'OFFER START TIME',
-                            ),
-                            initialValue: TimeOfDay.now(),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                  TableRow(
-                    children: [
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                          child: InfDatePicker(
-                            decoration: InputDecoration(
-                              labelText: 'OFFER END DATE',
-                            ),
-                            //initialValue: DateTime.now(),
-                            firstDate: DateTime.now(),
-                            lastDate: DateTime.now().add(Duration(days: 90)),
-                          ),
-                        ),
-                      ),
-                      TableCell(
-                        child: Padding(
-                          padding: const EdgeInsets.only(right: 24, bottom: 16.0),
-                          child: InfTimePicker(
-                            decoration: InputDecoration(
-                              labelText: 'OFFER END TIME',
-                            ),
-                            initialValue: TimeOfDay.now(),
-                          ),
-                        ),
-                      )
-                    ],
-                  ),
-                ],
-              ),
-              SizedBox(height: 32.0),
-              Text(
-                'AMOUNT AVAILABLE',
-                textAlign: TextAlign.left,
-                style: AppTheme.formFieldLabelStyle,
-              ),
-              TextFormField(
-                inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
-                validator: (s) => s.isEmpty ? 'You have so provide value' : null,
-                keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-              ),
-              Row(
-                children: [
-                  Align(
-                    widthFactor: 0.4,
-                    child: Checkbox(
-                      value: widget.offerBuilder.unlimitedAvailable,
-                      onChanged: (val) => setState(() => widget.offerBuilder.unlimitedAvailable = val),
-                      activeColor: AppTheme.lightBlue,
-                    ),
-                  ),
-                  SizedBox(width: 8.0),
-                  Expanded(child: Text('There is no limit')),
-                ],
-              ),
-              SizedBox(height: 16.0),
-              Text(
-                'How do you like to deal with proposals?',
-                style: TextStyle(fontSize: 18.0, color: Colors.white),
-              ),
-              SizedBox(height: 16.0),
-              InfRadioButton<AcceptancePolicy>(
-                value: AcceptancePolicy.manualReview,
-                groupValue: widget.offerBuilder.acceptancePolicy,
-                label: 'MANUALLY REVIEW PROPOSALS',
-                onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
-              ),
-              SizedBox(height: 8.0),
-              InfRadioButton<AcceptancePolicy>(
-                value: AcceptancePolicy.automaticAcceptMatching,
-                groupValue: widget.offerBuilder.acceptancePolicy,
-                label: 'ACCEPT MATCHING PROPOSALS',
-                onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
-              ),
-              SizedBox(height: 8.0),
-              InfRadioButton<AcceptancePolicy>(
-                value: AcceptancePolicy.allowNegotiation,
-                groupValue: widget.offerBuilder.acceptancePolicy,
-                label: 'ALLOW NEGOTIATION',
-                onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
-              ),
-              Spacer(),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                child: InfStadiumButton(
-                  height: 56,
-                  color: Colors.white,
-                  text: 'SAVE OFFER',
-                  onPressed: () => onNext(context),
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+  void initState() {
+    super.initState();
+
+    var updateOfferCommand = backend.get<OfferManager>().updateOfferCommand;
+
+    updateOfferListener = RxCommandListener(
+      updateOfferCommand,
+      onIsBusy: () => InfLoader.show(context, updateOfferCommand),
+      onNotBusy: () => InfLoader.hide(),
     );
   }
 
-  void onNext(BuildContext context) {
+  @override
+  void dispose() {
+    updateOfferListener?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: CustomAnimatedCurves(),
+        ),
+        InfPageScrollView(
+          child: Padding(
+            padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
+            child: Form(
+              key: form,
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Table(
+                    children: [
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                              child: InfDatePicker(
+                                decoration: InputDecoration(
+                                  labelText: 'OFFER START DATE',
+                                ),
+                                initialValue: widget.offerBuilder.startDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime.now().add(Duration(days: 90)),
+                                validator: (date) => date == null ? 'You have to provide a date' : null,
+                                onSaved: (date) => widget.offerBuilder.startDate,
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                              child: InfTimePicker(
+                                decoration: InputDecoration(
+                                  labelText: 'OFFER START TIME',
+                                ),
+                                initialValue: widget.offerBuilder.startTime,
+                                validator: (time) => time == null ? 'You have to provide a time' : null,
+                                onSaved: (time) => widget.offerBuilder.startTime,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                              child: InfDatePicker(
+                                decoration: InputDecoration(
+                                  labelText: 'OFFER END DATE',
+                                ),
+                                initialValue: widget.offerBuilder.endDate,
+                                firstDate: DateTime.now(),
+                                lastDate: DateTime.now().add(Duration(days: 90)),
+                                validator: (date) => date == null ? 'You have to provide a date' : null,
+                                onSaved: (date) => widget.offerBuilder.endDate,
+                              ),
+                            ),
+                          ),
+                          TableCell(
+                            child: Padding(
+                              padding: const EdgeInsets.only(right: 24, bottom: 16.0),
+                              child: InfTimePicker(
+                                decoration: InputDecoration(
+                                  labelText: 'OFFER END TIME',
+                                ),
+                                initialValue: widget.offerBuilder.endTime,
+                                validator: (time) => time == null ? 'You have to provide a time' : null,
+                                onSaved: (time) => widget.offerBuilder.endTime,
+                              ),
+                            ),
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 32.0),
+                  InfTextFormField(
+                    decoration: const InputDecoration(labelText: 'AMOUNT AVAILABLE'),
+                    inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+                    onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
+                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+                    keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                    initialValue: widget.offerBuilder.amountAvailable != null
+                        ? widget.offerBuilder.amountAvailable.toString()
+                        : '',
+                  ),
+                  Row(
+                    children: [
+                      Align(
+                        widthFactor: 0.4,
+                        child: Checkbox(
+                          value: widget.offerBuilder.unlimitedAvailable,
+                          onChanged: (val) => setState(() => widget.offerBuilder.unlimitedAvailable = val),
+                          activeColor: AppTheme.lightBlue,
+                        ),
+                      ),
+                      SizedBox(width: 8.0),
+                      Expanded(child: Text('There is no limit')),
+                    ],
+                  ),
+                  SizedBox(height: 16.0),
+                  Text(
+                    'How do you like to deal with proposals?',
+                    style: TextStyle(fontSize: 18.0, color: Colors.white),
+                  ),
+                  SizedBox(height: 16.0),
+                  InfRadioButton<AcceptancePolicy>(
+                    value: AcceptancePolicy.manualReview,
+                    groupValue: widget.offerBuilder.acceptancePolicy,
+                    label: 'MANUALLY REVIEW PROPOSALS',
+                    onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
+                  ),
+                  SizedBox(height: 8.0),
+                  InfRadioButton<AcceptancePolicy>(
+                    value: AcceptancePolicy.automaticAcceptMatching,
+                    groupValue: widget.offerBuilder.acceptancePolicy,
+                    label: 'ACCEPT MATCHING PROPOSALS',
+                    onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
+                  ),
+                  SizedBox(height: 8.0),
+                  InfRadioButton<AcceptancePolicy>(
+                    value: AcceptancePolicy.allowNegotiation,
+                    groupValue: widget.offerBuilder.acceptancePolicy,
+                    label: 'ALLOW NEGOTIATION',
+                    onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
+                  ),
+                  Spacer(),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
+                    child: InfStadiumButton(
+                      height: 56,
+                      color: Colors.white,
+                      text: 'SAVE OFFER',
+                      onPressed: () => onSave(context),
+                    ),
+                  )
+                ],
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  void onSave(BuildContext context) async {
     FormState state = form.currentState;
-    if (true /*state.validate()*/) {
-      state.save();
-    }
+
+    backend.get<OfferManager>().updateOfferCommand(widget.offerBuilder);
+    // if (!state.validate()) {
+    //   await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+    //   return;
+    // }
+
+    // if (widget.offerBuilder.acceptancePolicy == null)
+    // {
+    //   await showMessageDialog(context, 'We need a bit more...', 'Please tell us how you want to deal with proposals');
+    //   return;
+    // }
+
+    // // FIXME make sure end date and times cannot be before startdate
+    // // if (widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) ==
+    // state.save();
   }
 }

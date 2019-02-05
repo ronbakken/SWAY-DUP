@@ -9,11 +9,13 @@ class CategorySelector extends StatefulWidget {
   final Category topLevelCategory;
 
   final SelectionSet<Category> selectedCategories;
+  final bool readOnly;
 
   const CategorySelector({
     Key key,
     @required this.topLevelCategory,
     @required this.selectedCategories,
+    this.readOnly = false,
   }) : super(key: key);
 
   @override
@@ -60,30 +62,37 @@ class _CategorySelectorState extends State<CategorySelector> {
     var chips = <Widget>[];
 
     for (var category in subCategories) {
+      // if the widget is readonly we only show the selected subcategories
+      if (!widget.readOnly || widget.selectedCategories.contains(category))
+        chips.add(
+          ToggleChip(
+            onTap: !widget.readOnly
+                ? () {
+                    setState(() => widget.selectedCategories.toggle(category));
+                  }
+                : () {},
+            text: category.name,
+            isSelected: widget.selectedCategories.contains(category),
+          ),
+        );
+    }
+
+    // Add the 'Select all' button
+    if (!widget.readOnly) {
       chips.add(
         ToggleChip(
           onTap: () {
-            setState(() => widget.selectedCategories.toggle(category));
+            setState(() {
+              widget.selectedCategories.addAll(subCategories.toSet());
+            });
           },
-          text: category.name,
-          isSelected: widget.selectedCategories.contains(category),
+          text: 'Select all',
+          isSelected:
+              widget.selectedCategories.values.where((cat) => cat.parentId == widget.topLevelCategory.id).length ==
+                  subCategories.length,
         ),
       );
     }
-
-    chips.add(
-      ToggleChip(
-        onTap: () {
-          setState(() {
-            widget.selectedCategories.addAll(subCategories.toSet());
-          });
-        },
-        text: 'Select all',
-        isSelected:
-            widget.selectedCategories.values.where((cat) => cat.parentId == widget.topLevelCategory.id).length ==
-                subCategories.length,
-      ),
-    );
 
     return Container(
       child: Wrap(
