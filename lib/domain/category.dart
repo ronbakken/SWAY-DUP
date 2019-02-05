@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class Category {
@@ -17,4 +18,14 @@ class Category {
   Category(this.dto) {
     _iconData = Uint8List.fromList(dto.iconData);
   }
+}
+
+class CategorySet extends SelectionSet<Category> {
+
+  CategorySet() : super();
+
+  CategorySet.fromIterable(Iterable<Category> iterable) : super.fromIterable(iterable);
+
+  List<Category> onlyWithParent(Category parent) =>
+    values.where((category) => category.parentId == parent.id);
 }

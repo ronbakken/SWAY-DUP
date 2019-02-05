@@ -103,7 +103,7 @@ class OfferShortSummaryTile extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         InfAssetImage(
-                          AppIcons.payments,
+                          AppIcons.value,
                           height: 16,
                         ),
                         SizedBox(

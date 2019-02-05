@@ -137,7 +137,7 @@ class _OfferDetailsRow extends StatelessWidget {
                 child: Row(
                   children: [
                     InfAssetImage(
-                      AppIcons.payments,
+                      AppIcons.value,
                       width: 20.0,
                     ),
                     SizedBox(

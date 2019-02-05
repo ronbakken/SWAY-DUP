@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 
 class HelpButton extends StatelessWidget {
   final VoidCallback onTap;
@@ -17,10 +19,7 @@ class HelpButton extends StatelessWidget {
           shape: BoxShape.circle,
           color: Colors.black,
         ),
-        child: Icon(
-          Icons.help,
-          size: 24,
-        ),
+        child: InfIcon(AppIcons.help, size: 24),
       ),
     );
   }

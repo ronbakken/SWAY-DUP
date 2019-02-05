@@ -46,7 +46,7 @@ class _AddOfferStep2State extends State<AddOfferStep2> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               CategorySelectorView(
-                categories: widget.offerBuilder.categories,
+                selectedCategories: widget.offerBuilder.categories,
                 label: 'PLEASE SELECT CATEGORIES',
                 padding: const EdgeInsets.only(left: 24.0, top: 32.0, bottom: 24.0),
               ),

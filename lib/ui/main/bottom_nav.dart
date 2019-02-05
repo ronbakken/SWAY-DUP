@@ -1,33 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/main/page_mode.dart';
+import 'package:inf/ui/filter/bottom_nav_bg.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
-class MainBottomNav extends StatefulWidget {
-  const MainBottomNav({
+class MainNavPanel extends StatefulWidget {
+  const MainNavPanel({
     Key key,
     @required this.userType,
     @required this.initialValue,
-    @required this.height,
     @required this.onBottomNavChanged,
-    this.onFABPressed,
-  })  : assert(height != null),
-        super(key: key);
+    this.onFabPressed,
+  })  : super(key: key);
 
-  final MainPageMode initialValue;
-  final double height;
-  final ValueChanged<MainPageMode> onBottomNavChanged;
-  final VoidCallback onFABPressed;
   final UserType userType;
+  final MainPageMode initialValue;
+  final ValueChanged<MainPageMode> onBottomNavChanged;
+  final VoidCallback onFabPressed;
 
   @override
-  _MainBottomNavState createState() => _MainBottomNavState();
+  _MainNavPanelState createState() => _MainNavPanelState();
 }
 
-class _MainBottomNavState extends State<MainBottomNav> {
+class _MainNavPanelState extends State<MainNavPanel> {
   MainPageMode _selected;
 
   @override
@@ -44,8 +44,6 @@ class _MainBottomNavState extends State<MainBottomNav> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final buttonSize = widget.height * 0.85;
-    final topInset = widget.height * 0.25;
 
     final browseButton = Expanded(
       child: _BottomNavButton(
@@ -71,135 +69,79 @@ class _MainBottomNavState extends State<MainBottomNav> {
       ),
     );
 
-    final buttons = <Widget>[];
     Widget fabIcon;
+    Widget firstButton;
+    Widget secondButton;
 
     if (widget.userType == UserType.influencer) {
-      buttons.addAll([browseButton, activitiesButton]);
-      fabIcon = Icon(Icons.search);
+      firstButton = browseButton;
+      secondButton = activitiesButton;
+      fabIcon = InfIcon(AppIcons.search, key: ObjectKey(AppIcons.search));
     } else {
-      buttons.addAll([activitiesButton, browseButton]);
+      firstButton = activitiesButton;
+      secondButton = browseButton;
       if (_selected == MainPageMode.activities) {
-        fabIcon = Icon(Icons.add);
+        fabIcon = InfIcon(AppIcons.add, key: ObjectKey(AppIcons.add));
       } else {
-        fabIcon = Icon(Icons.search);
+        fabIcon = InfIcon(AppIcons.search, key: ObjectKey(AppIcons.search));
       }
     }
 
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: Stack(
-        alignment: Alignment.topCenter,
-        children: <Widget>[
-          ClipPath(
-            clipper: _BottomNavBackgroundClipper(
+    return Stack(
+      children: <Widget>[
+        ClipPath(
+          clipper: BottomNavBackgroundClipper(
+            inset: Offset(0.0, 4.0),
+          ),
+          child: CustomPaint(
+            painter: BottomNavBackgroundPainter(
+              fillColor: AppTheme.darkGrey,
+              strokeColor: AppTheme.white12,
               inset: Offset(0.0, 4.0),
             ),
-            child: CustomPaint(
-              painter: _BottomNavBackgroundPainter(
-                fillColor: AppTheme.darkGrey,
-                strokeColor: AppTheme.white12,
-                inset: Offset(0.0, 4.0),
+            child: Container(
+              //margin: const EdgeInsets.only(top: 12.0),
+              padding: EdgeInsets.only(
+                top: 16.0,
+                bottom: mediaQuery.padding.bottom,
               ),
-              child: Padding(
-                padding: EdgeInsets.only(top: topInset),
-                child: Container(
-                  margin: EdgeInsets.only(bottom: mediaQuery.padding.bottom),
-                  height: widget.height,
-                  child: Row(
-                    children: buttons,
-                  ),
-                ),
+              child: Row(
+                children: <Widget>[
+                  firstButton,
+                  secondButton,
+                ],
               ),
             ),
           ),
-          RawMaterialButton(
-            fillColor: AppTheme.lightBlue,
+        ),
+        Align(
+          alignment: Alignment.topCenter,
+          child: RaisedButton(
+            onPressed: widget.onFabPressed,
+            color: AppTheme.lightBlue,
             shape: const CircleBorder(
               side: BorderSide(color: AppTheme.buttonHalo, width: 2.0),
             ),
-            constraints: BoxConstraints.tightFor(
-              width: buttonSize,
-              height: buttonSize,
+            child: Container(
+              width: 64.0,
+              height: 64.0,
+              alignment: Alignment.center,
+              child: AnimatedSwitcher(
+                duration: const Duration(milliseconds: 300),
+                transitionBuilder: (Widget child, Animation<double> animation) {
+                  return ScaleTransition(
+                    scale: animation,
+                    child: child,
+                  );
+                },
+                child: fabIcon,
+              ),
             ),
-            onPressed: widget.onFABPressed,
-            child: fabIcon,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
-}
-
-class _BottomNavBackgroundClipper extends CustomClipper<Path> {
-  _BottomNavBackgroundClipper({
-    this.inset = Offset.zero,
-    this.radius = 16.0,
-  });
-
-  final Offset inset;
-  final double radius;
-
-  @override
-  Path getClip(Size size) {
-    return _createBottomNavPath(true, inset, size, radius);
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => true; // TODO: optimize
-}
-
-class _BottomNavBackgroundPainter extends CustomPainter {
-  _BottomNavBackgroundPainter({
-    @required Color fillColor,
-    @required Color strokeColor,
-    this.inset = Offset.zero,
-    double strokeWidth = 1.0,
-    this.radius = 16.0,
-  })  : fillPaint = Paint()
-          ..color = fillColor
-          ..style = PaintingStyle.fill,
-        strokePaint = Paint()
-          ..color = strokeColor
-          ..strokeWidth = strokeWidth
-          ..style = PaintingStyle.stroke;
-
-  final Paint fillPaint;
-  final Paint strokePaint;
-  final Offset inset;
-  final double radius;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawPath(_createBottomNavPath(true, inset, size, radius), fillPaint);
-    canvas.drawPath(_createBottomNavPath(false, inset, size, radius), strokePaint);
-  }
-
-  @override
-  bool shouldRepaint(CustomPainter oldDelegate) => true; // TODO: optimize
-}
-
-Path _createBottomNavPath(bool fill, Offset inset, Size size, double radius) {
-  Path path = Path();
-  path.moveTo(inset.dx, inset.dy);
-  path.relativeArcToPoint(
-    Offset(radius, radius),
-    radius: Radius.circular(radius),
-    clockwise: false,
-  );
-  path.relativeLineTo(size.width - (radius * 2.0) - inset.dx, 0.0);
-  path.relativeArcToPoint(
-    Offset(radius, -radius),
-    radius: Radius.circular(radius),
-    clockwise: false,
-  );
-  if (!fill) {
-    return path;
-  }
-  path.relativeLineTo(0.0, size.height - inset.dy);
-  path.relativeLineTo(-size.width - inset.dx, 0.0);
-  path.close();
-  return path;
 }
 
 class _BottomNavButton extends StatefulWidget {

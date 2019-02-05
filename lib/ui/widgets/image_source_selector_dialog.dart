@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 
 class ImageSourceSelectorDialog extends StatelessWidget {
   @override
@@ -24,10 +25,7 @@ class ImageSourceSelectorDialog extends StatelessWidget {
                 onTap: () => Navigator.of(context).pop(null),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
-                  child: Icon(
-                    Icons.close,
-                    color: AppTheme.white30,
-                  ),
+                  child: InfIcon(AppIcons.close, color: AppTheme.white30),
                 ),
               ),
             ),

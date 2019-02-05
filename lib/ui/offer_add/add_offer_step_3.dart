@@ -9,6 +9,7 @@ import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
@@ -125,7 +126,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                             alignment: Alignment.centerRight,
                             child: Padding(
                               padding: const EdgeInsets.only(right: 24, top: 8.0),
-                              child: Icon(Icons.search),
+                              child: InfIcon(AppIcons.search),
                             ),
                           ),
                         ),

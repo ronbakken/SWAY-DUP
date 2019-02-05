@@ -107,7 +107,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
           SizedBox(height: 8),
           _MainNavigationItem(
             icon: InfAssetImage(
-              AppIcons.payments,
+              AppIcons.value,
               color: Colors.white,
             ),
             text: 'Payment settings',

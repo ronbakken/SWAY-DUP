@@ -8,6 +8,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:latlong/latlong.dart';
 import 'package:rx_command/rx_command.dart';
@@ -482,7 +483,9 @@ class _LocationListState extends State<_LocationList> {
                     children: textLines,
                   ),
                 ),
-                SizedBox(width: 8,),
+                SizedBox(
+                  width: 8,
+                ),
                 widget.locations[index] == selectedResult
                     ? Container(
                         width: 35.0,
@@ -491,7 +494,7 @@ class _LocationListState extends State<_LocationList> {
                           shape: BoxShape.circle,
                           color: AppTheme.lightBlue,
                         ),
-                        child: Icon(Icons.check),
+                        child: InfIcon(AppIcons.check),
                       )
                     : SizedBox(),
               ],

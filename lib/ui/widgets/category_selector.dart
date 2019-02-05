@@ -2,19 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
-
 import 'package:inf/utils/selection_set.dart';
 
 class CategorySelector extends StatefulWidget {
-  final Category topLevelCategory;
+  final Category parentCategory;
 
-  final SelectionSet<Category> selectedCategories;
+  final CategorySet selectedSubCategories;
   final bool readOnly;
 
   const CategorySelector({
     Key key,
-    @required this.topLevelCategory,
-    @required this.selectedCategories,
+    @required this.parentCategory,
+    @required this.selectedSubCategories,
     this.readOnly = false,
   }) : super(key: key);
 
@@ -27,25 +26,25 @@ class _CategorySelectorState extends State<CategorySelector> {
 
   @override
   void initState() {
-    if (widget.topLevelCategory != null) {
+    super.initState();
+    if (widget.parentCategory != null) {
       subCategories = backend
           .get<ConfigService>()
           .categories
-          .where((category) => category.parentId == widget.topLevelCategory.id)
+          .where((category) => category.parentId == widget.parentCategory.id)
           .toList();
     } else {
       subCategories = <Category>[];
     }
-    super.initState();
   }
 
   @override
   void didUpdateWidget(CategorySelector oldWidget) {
-    if (widget.topLevelCategory != null) {
+    if (widget.parentCategory != null) {
       subCategories = backend
           .get<ConfigService>()
           .categories
-          .where((category) => category.parentId == widget.topLevelCategory.id)
+          .where((category) => category.parentId == widget.parentCategory.id)
           .toList();
     } else {
       subCategories = <Category>[];
@@ -55,7 +54,7 @@ class _CategorySelectorState extends State<CategorySelector> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.topLevelCategory == null) {
+    if (widget.parentCategory == null) {
       return SizedBox();
     }
 
@@ -63,16 +62,16 @@ class _CategorySelectorState extends State<CategorySelector> {
 
     for (var category in subCategories) {
       // if the widget is readonly we only show the selected subcategories
-      if (!widget.readOnly || widget.selectedCategories.contains(category))
+      if (!widget.readOnly || widget.selectedSubCategories.contains(category))
         chips.add(
           ToggleChip(
             onTap: !widget.readOnly
                 ? () {
-                    setState(() => widget.selectedCategories.toggle(category));
+                    setState(() => widget.selectedSubCategories.toggle(category));
                   }
                 : () {},
             text: category.name,
-            isSelected: widget.selectedCategories.contains(category),
+            isSelected: widget.selectedSubCategories.contains(category),
           ),
         );
     }
@@ -83,12 +82,12 @@ class _CategorySelectorState extends State<CategorySelector> {
         ToggleChip(
           onTap: () {
             setState(() {
-              widget.selectedCategories.addAll(subCategories.toSet());
+              widget.selectedSubCategories.addAll(subCategories.toSet());
             });
           },
           text: 'Select all',
           isSelected:
-              widget.selectedCategories.values.where((cat) => cat.parentId == widget.topLevelCategory.id).length ==
+              widget.selectedSubCategories.values.where((cat) => cat.parentId == widget.parentCategory.id).length ==
                   subCategories.length,
         ),
       );

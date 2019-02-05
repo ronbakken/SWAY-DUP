@@ -34,12 +34,18 @@ class AppTheme {
   );
 
   static ThemeData themeTopLevel() {
-    final theme = ThemeData(
+    var theme = ThemeData(
       brightness: Brightness.dark,
       backgroundColor: AppTheme.darkGrey,
       scaffoldBackgroundColor: AppTheme.darkGrey,
       primaryColor: AppTheme.blue,
+      accentColor: Colors.lightBlue,
       fontFamily: AppFonts.mavenPro,
+      iconTheme: IconThemeData(
+        color: Colors.white,
+      ),
+      cursorColor: AppTheme.lightBlue,
+      textSelectionHandleColor: AppTheme.lightBlue,
       buttonTheme: ButtonThemeData(
         buttonColor: Colors.white,
         textTheme: ButtonTextTheme.primary,

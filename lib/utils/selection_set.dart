@@ -1,23 +1,14 @@
-import 'package:flutter/foundation.dart';
+import 'package:flutter/foundation.dart' show ChangeNotifier;
 
 class SelectionSet<T> extends ChangeNotifier {
 
-  SelectionSet();
+  final Set<T> values;
 
-  SelectionSet.fromIterable(Iterable<T> iterable)
-  {
-    for(var element in iterable)
-    {
-      values.add(element);
-    }
-  }
+  SelectionSet() : values = Set<T>();
 
-  List<T> toList()
-  {
-    return values.toList();
-  }
+  SelectionSet.fromIterable(Iterable<T> iterable) : values = Set.from(iterable);
 
-  Set<T> values = Set<T>();
+  List<T> toList() => values.toList();
 
   bool contains(T value) => values.contains(value);
 
@@ -31,8 +22,7 @@ class SelectionSet<T> extends ChangeNotifier {
     notifyListeners();
   }
 
-  void addAll(Iterable<T> toAdd)
-  {
+  void addAll(Iterable<T> toAdd) {
     values.addAll(toAdd);
     notifyListeners();
   }

@@ -114,7 +114,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                         ),
                       ),
                       CategorySelectorView(
-                        categories: offerBuilder.categories,
+                        selectedCategories: offerBuilder.categories,
                         label: 'PLEASE SELECT CATEGORIES',
                         padding: const EdgeInsets.only(
                           top: 32.0,

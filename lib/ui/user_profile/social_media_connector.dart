@@ -3,19 +3,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:http/http.dart' as http;
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
-import 'package:inf/domain/domain.dart';
-import 'package:http/http.dart' as http;
 
 Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider provider, BuildContext context) async {
   if (provider.type == SocialNetworkProviderType.INSTAGRAM ||
@@ -70,6 +71,7 @@ class SocialMediaConnectorPage extends StatefulWidget {
     Key key,
     this.connectTo,
   }) : super(key: key);
+
   @override
   _SocialMediaConnectorPageState createState() => _SocialMediaConnectorPageState();
 }
@@ -276,8 +278,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
                     ));
 
             /// Get pages details
-            url =
-                'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=$accessToken';
+            url = 'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=$accessToken';
             response = await http.get(url);
 
             if (response.statusCode == 200) {
@@ -389,6 +390,7 @@ class _FacebookPageSelectorDialog extends StatelessWidget {
   final List<FaceBookPageInfo> pages;
 
   const _FacebookPageSelectorDialog({Key key, this.pages}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -443,12 +445,11 @@ class _FacebookPageSelectorDialog extends StatelessWidget {
   }
 }
 
-
-
 class _SocialNetWorkConnectionStatusView extends StatefulWidget {
   final SocialNetworkProvider connectTo;
 
   const _SocialNetWorkConnectionStatusView({Key key, this.connectTo}) : super(key: key);
+
   @override
   _SocialNetWorkConnectionStatusViewState createState() => _SocialNetWorkConnectionStatusViewState();
 }
@@ -591,8 +592,8 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
         );
         break;
       case _connectionState.failed:
-        connectionStateIcon = Icon(
-          Icons.close,
+        connectionStateIcon = InfIcon(
+          AppIcons.close,
           size: 32,
           color: Colors.red,
         );

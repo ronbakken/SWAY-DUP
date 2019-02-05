@@ -102,4 +102,8 @@ class ConfigServiceImplementation implements ConfigService {
   @override
   DeliverableIcon getDeliveryIconFromType(DeliverableType type) =>
       deliverableIcons.firstWhere((icon) => icon.deliverableType == type);
+
+  @override
+  List<Category> get topLevelCategories =>
+    categories.where((item) => item.parentId == -1).toList(growable: false);
 }

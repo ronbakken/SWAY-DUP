@@ -20,9 +20,7 @@ class SocialPlatformSelector extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  SocialPlatformSelectorState createState() {
-    return SocialPlatformSelectorState();
-  }
+  SocialPlatformSelectorState createState() => SocialPlatformSelectorState();
 }
 
 class SocialPlatformSelectorState extends State<SocialPlatformSelector> {
@@ -54,20 +52,18 @@ class SocialPlatformSelectorState extends State<SocialPlatformSelector> {
   }
 
   Widget buildSocialPlatformRow() {
-    var rowContent = <Widget>[];
-    for (var provider in backend.get<ConfigService>().socialNetworkProviders) {
-      rowContent.add(SocialNetworkToggleButton(
-        onTap: () => setState(() => widget.channels.toggle(provider)),
-        isSelected: widget.channels.contains(provider),
-        provider: provider,
-      ));
-    }
     return OverflowRow(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
       height: 96.0,
       childrenWidth: 48.0,
-      children: rowContent,
+      children: backend.get<ConfigService>().socialNetworkProviders.map((provider) {
+        return SocialNetworkToggleButton(
+          onTap: () => setState(() => widget.channels.toggle(provider)),
+          isSelected: widget.channels.contains(provider),
+          provider: provider,
+        );
+      }).toList(growable: false),
     );
   }
 }

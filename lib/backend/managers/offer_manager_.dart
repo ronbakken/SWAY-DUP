@@ -37,7 +37,7 @@ class OfferBuilder {
   bool isDirectOffer;
   SelectionSet<DeliverableType> deliverableTypes = SelectionSet<DeliverableType>();
   SelectionSet<SocialNetworkProvider> channels = SelectionSet<SocialNetworkProvider>();
-  SelectionSet<Category> categories = SelectionSet<Category>();
+  CategorySet categories = CategorySet();
   String deliverableDescription;
   Decimal cashValue;
   Decimal barterValue;
@@ -67,7 +67,7 @@ class OfferBuilder {
     isDirectOffer = offer.isDirectOffer;
     deliverableTypes = SelectionSet.fromIterable(offer.terms.deliverable.types);
     channels = SelectionSet.fromIterable(offer.terms.deliverable.channels);
-    categories = SelectionSet.fromIterable(offer.categories);
+    categories = CategorySet.fromIterable(offer.categories);
     deliverableDescription = offer.terms.deliverable.description;
     cashValue = offer.terms.reward.cashValue ?? Decimal.fromInt(0);
     barterValue = offer.terms.reward.barterValue ?? Decimal.fromInt(0);

@@ -9,7 +9,6 @@ import 'package:inf/ui/user_profile/profile_business_view.dart';
 import 'package:inf/ui/user_profile/profile_influencer_view.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
-
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
@@ -42,8 +41,8 @@ class ProfilePrivatePageState extends State<ProfilePrivatePage> {
               IconButton(
                 padding: EdgeInsets.all(16.0),
                 iconSize: 32.0,
-                icon: Icon(Icons.arrow_back),
-                onPressed: () => Navigator.of(context).pop(),
+                icon: const BackButtonIcon(),
+                onPressed: () => Navigator.of(context).maybePop(),
               ),
               IconButton(
                 padding: EdgeInsets.all(16.0),

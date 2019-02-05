@@ -46,7 +46,7 @@ class _MainMapViewState extends State<MainMapView> {
           mapController: mapController,
           options: MapOptions(
             onPositionChanged: onMapPositionChanged,
-            zoom: 11.6,
+            zoom: 12.0,
           ),
           layers: [
             TileLayerOptions(

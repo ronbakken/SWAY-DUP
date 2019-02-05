@@ -13,8 +13,8 @@ import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_input_decorator.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -162,11 +162,8 @@ class _UserDataViewState extends State<UserDataView> {
           onChanged: () => setState(() => hasChanged = true),
         ),
         ColumnSeparator(),
-      InfTextFormField(
-        decoration: InputDecoration(
-          labelText: 'MIN FEE (optional)',
-           icon: Text('\$')
-        ),
+        InfTextFormField(
+          decoration: InputDecoration(labelText: 'MIN FEE (optional)', icon: Text('\$')),
           inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
           keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
           initialValue: user.minimalFee != null ? user.minimalFee.toString() : null,
@@ -177,8 +174,8 @@ class _UserDataViewState extends State<UserDataView> {
     }
 
     columnItems.addAll([
-      InkWell(child:
-      InfInputDecorator(
+      InkWell(
+          child: InfInputDecorator(
         decoration: InputDecoration(labelText: 'LOCATION'),
         child: Row(
           children: [
@@ -187,7 +184,7 @@ class _UserDataViewState extends State<UserDataView> {
               alignment: Alignment.centerRight,
               child: Padding(
                 padding: const EdgeInsets.only(right: 24, top: 8.0),
-                child: Icon(Icons.search),
+                child: InfIcon(AppIcons.search),
               ),
             ),
           ],
@@ -248,10 +245,7 @@ class _UserDataViewState extends State<UserDataView> {
                         top: 32,
                         child: InkResponse(
                           onTap: onEditImage,
-                          child: InfAssetImage(
-                            AppIcons.edit,
-                            width: 32,
-                          ),
+                          child: InfIcon(AppIcons.edit, size: 32),
                         ),
                       )
                     : SizedBox(),

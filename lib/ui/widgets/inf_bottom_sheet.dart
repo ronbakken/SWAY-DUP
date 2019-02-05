@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 
 class InfBottomSheet extends StatelessWidget {
   final Widget child;
@@ -80,7 +82,7 @@ class _InfBottomSheetHeader extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: InkResponse(
                 onTap: () => Navigator.of(context).pop(null),
-                child: Icon(Icons.close, size: 32),
+                child: InfIcon(AppIcons.close, size: 16.0),
               ),
             ),
           )

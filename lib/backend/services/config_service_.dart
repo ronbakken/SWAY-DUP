@@ -24,4 +24,6 @@ abstract class ConfigService {
   DeliverableIcon getDeliveryIconFromType(DeliverableType type);
 
   List<Category> getCategoriesFromIds(List<int> ids);
+
+  List<Category> get topLevelCategories;
 }

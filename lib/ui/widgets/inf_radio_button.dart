@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/help_button.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 
 class InfRadioButton<T> extends StatelessWidget {
   final T value;
@@ -9,7 +11,8 @@ class InfRadioButton<T> extends StatelessWidget {
   final ValueChanged<T> onChanged;
   final VoidCallback onHelpButtonTapped;
 
-  const InfRadioButton({Key key, this.value, this.groupValue, this.label, this.onChanged, this.onHelpButtonTapped}) : super(key: key);
+  const InfRadioButton({Key key, this.value, this.groupValue, this.label, this.onChanged, this.onHelpButtonTapped})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -37,15 +40,14 @@ class InfRadioButton<T> extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: value == groupValue ? AppTheme.lightBlue : AppTheme.darkGrey,
                 ),
-                child: value == groupValue
-                    ? Icon(
-                        Icons.check,
-                        size: 24,
-                      )
-                    : SizedBox(),
+                child: value == groupValue ? InfIcon(AppIcons.check, size: 24) : SizedBox(),
               ),
               Text(label),
-              onHelpButtonTapped != null ? HelpButton(onTap: onHelpButtonTapped,) : SizedBox(),
+              onHelpButtonTapped != null
+                  ? HelpButton(
+                      onTap: onHelpButtonTapped,
+                    )
+                  : SizedBox(),
             ],
           ),
         ),

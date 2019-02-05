@@ -22,11 +22,12 @@ class WhiteBorderCircleAvatar extends StatelessWidget {
         aspectRatio: 1.0,
         child: Container(
           decoration: BoxDecoration(
-            color: AppTheme.darkGrey,
+            color: AppTheme.black12,
             shape: BoxShape.circle,
           ),
           padding: const EdgeInsets.all(4.0),
           child: Container(
+            alignment: Alignment.center,
             foregroundDecoration: BoxDecoration(
               border: Border.all(color: Colors.white, width: whiteThickness),
               shape: BoxShape.circle,

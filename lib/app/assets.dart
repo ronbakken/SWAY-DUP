@@ -1,4 +1,3 @@
-
 class AppFonts {
   const AppFonts();
 
@@ -17,8 +16,6 @@ class AppLogo {
   static const google = AppAsset.vector('assets/images/logo_google.svg');
   static const twitter = AppAsset.vector('assets/images/logo_twitter.svg');
   static const email = AppAsset.vector('assets/images/logo_email.svg');
-
-
 }
 
 class AppIcons {
@@ -34,7 +31,7 @@ class AppIcons {
   static const gift = AppAsset.vector('assets/images/icon_gift.svg');
   static const description = AppAsset.vector('assets/images/icon_description.svg');
   static const category = AppAsset.vector('assets/images/icon_category.svg');
-  static const deliverable = AppAsset.vector('assets/images/icon_deliverables.svg');
+  static const deliverable = AppAsset.vector('assets/images/icon_deliverable.svg');
   static const locked = AppAsset.vector('assets/images/icon_locked.svg');
   static const dollarSign = AppAsset.vector('assets/images/icon_dollar_sign.svg');
   static const mapMarker = AppAsset.vector('assets/images/icon_map_marker.svg');
@@ -44,7 +41,7 @@ class AppIcons {
   static const search = AppAsset.vector('assets/images/icon_search.svg');
   static const earnings = AppAsset.vector('assets/images/icon_earnings.svg');
   static const edit = AppAsset.vector('assets/images/icon_edit.svg');
-  static const payments = AppAsset.vector('assets/images/icon_payment.svg');
+  static const value = AppAsset.vector('assets/images/icon_value.svg');
   static const browse = AppAsset.vector('assets/images/icon_browse.svg');
   static const deals = AppAsset.vector('assets/images/icon_deals.svg');
   static const directOffers = AppAsset.vector('assets/images/icon_direct.svg');
@@ -55,6 +52,10 @@ class AppIcons {
   static const connect = AppAsset.vector('assets/images/icon_connect.svg');
   static const check = AppAsset.vector('assets/images/icon_check.svg');
   static const thumbUp = AppAsset.vector('assets/images/icon_thumb_up.svg');
+  static const arrowDown = AppAsset.vector('assets/images/icon_arrow_down.svg');
+  static const tick = AppAsset.vector('assets/images/icon_tick.svg');
+  static const close = AppAsset.vector('assets/images/icon_close.svg');
+  static const add = AppAsset.vector('assets/images/icon_add.svg');
 }
 
 class AppImages {
@@ -70,12 +71,34 @@ class AppImages {
 }
 
 class AppAsset {
-  const AppAsset.bitmap(this.path) : this.type = AppAssetType.Bitmap;
+  const AppAsset.bitmap(
+    this.path, {
+    this.matchTextDirection = false,
+  }) : this.type = AppAssetType.Bitmap;
 
-  const AppAsset.vector(this.path) : this.type = AppAssetType.Vector;
+  const AppAsset.vector(
+    this.path, {
+    this.matchTextDirection = false,
+  }) : this.type = AppAssetType.Vector;
 
   final String path;
   final AppAssetType type;
+  final bool matchTextDirection;
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppAsset &&
+          runtimeType == other.runtimeType &&
+          path == other.path &&
+          type == other.type &&
+          matchTextDirection == other.matchTextDirection;
+
+  @override
+  int get hashCode => path.hashCode ^ type.hashCode ^ matchTextDirection.hashCode;
+
+  @override
+  String toString() => 'AppAsset{$type:$path}';
 }
 
 enum AppAssetType {

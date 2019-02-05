@@ -9,6 +9,7 @@ import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
@@ -276,7 +277,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   _DetailEntry buildCategories() {
     return _DetailEntry(
-      icon: InfAssetImage(AppIcons.category),
+      icon: const InfAssetImage(AppIcons.browse, color: Color(0xFFA7A7A7)),
       title: 'CATEGORIES',
       content: offer.categories != null
           ? Wrap(
@@ -544,7 +545,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                   onTap: () => Navigator.of(context).pop(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                    child: Icon(Icons.close),
+                    child: InfIcon(AppIcons.close),
                   ),
                 ),
               ),

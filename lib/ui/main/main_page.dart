@@ -3,17 +3,15 @@ import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 
-import 'package:inf/ui/offer_add/add_business_offer_page.dart';
 import 'package:inf/ui/main/activities_section.dart';
-import 'package:inf/ui/main/bottom_nav.dart';
 import 'package:inf/ui/main/browse_section.dart';
 import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/ui/main/page_mode.dart';
+import 'package:inf/ui/filter/filter_panel.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-const kBottomNavHeight = 72.0;
 const kMenuIconSize = 48.0;
 
 class MainPage extends PageWidget {
@@ -125,96 +123,11 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
                     ),
                   ),
                 ),
-                MainBottomNav(
+                BottomNavPanel(
                   userType: userType,
-                  height: kBottomNavHeight,
                   initialValue: _mode,
                   onBottomNavChanged: _setMode,
-                  onFABPressed: () {
-                    if (userType == UserType.influencer) {
-                      // TODO SEARCH
-                    } else {
-                      if (_mode == MainPageMode.activities) {
-                        Navigator.of(context).push(AddBusinessOfferPage.route(userType));
-                      } else {
-                        // TODO SEARCH
-                      }
-                    }
-                  },
                 ),
-                /*
-                LayoutBuilder(
-                  builder: (BuildContext context, BoxConstraints constraints) {
-                    final height = constraints.maxHeight;
-                    return SingleChildScrollView(
-                      padding: EdgeInsets.only(top: height),
-                      child: Container(
-                        color: AppTheme.darkGrey,
-                        height: height * 0.5,
-                        child: Column(
-                          children: <Widget>[
-                            SizedBox(
-                              height: 96.0,
-                              child: Row(
-                                children: <Widget>[
-                                  Expanded(
-                                    child: TabBar(
-                                      controller: _tabController,
-                                      indicatorColor: Colors.transparent,
-                                      tabs: <Widget>[
-                                        _buildTab(Icon(Icons.inbox)),
-                                        _buildTab(Icon(Icons.message)),
-                                        _buildTab(Icon(Icons.list)),
-                                        _buildTab(Icon(Icons.forward)),
-                                      ],
-                                    ),
-                                  ),
-                                  FlatButton(
-                                    onPressed: () {},
-                                    child: Icon(Icons.clear),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Expanded(
-                              child: TabBarView(
-                                controller: _tabController,
-                                children: <Widget>[
-                                  Container(
-                                    color: Colors.red,
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                                      children: <Widget>[
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                                          child: TextField(
-                                            decoration: InputDecoration(
-                                              prefixIcon: Icon(Icons.search),
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Container(
-                                    color: Colors.green,
-                                  ),
-                                  Container(
-                                    color: Colors.blue,
-                                  ),
-                                  Container(
-                                    color: Colors.yellow,
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    );
-                  },
-                ),
-                */
               ],
             ),
           ),
