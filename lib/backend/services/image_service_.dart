@@ -13,6 +13,19 @@ class ImageUploadException implements Exception {
 }
 
 
+class ImageReference {
+  final String imageUrl;
+  final File imageFile;
+
+  bool get isFile => imageFile != null;
+
+  ImageReference({
+    this.imageUrl,
+    this.imageFile,
+  }) : assert(!(imageUrl != null && imageFile != null));
+}
+
+
 abstract class ImageService {
   Future<File> pickImage();
 
