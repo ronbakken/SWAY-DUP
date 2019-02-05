@@ -5,6 +5,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/social_media_connector.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 
@@ -46,7 +47,7 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
     for (var provider in configService.socialNetworkProviders) {
       if (provider.logoMonochromeData.isNotEmpty) {
         var connectedAccount = widget.socialMediaAccounts
-          .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
+            .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
         _socialMediaRows.add(_SocialMediaRow(account: connectedAccount, provider: provider));
       }
     }
@@ -112,7 +113,7 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
   }
 
   void _onSwitchToggle(_SocialMediaRow row) async {
-    if (row.connected) {
+    if (!row.connected) {
       var newAccount = await connectToSocialMediaAccount(row.provider, context);
       if (newAccount != null) {
         if (widget.onChanged != null) {
@@ -121,9 +122,13 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
         row.account = newAccount;
       }
     } else {
-      row.account = null;
-      if (widget.onChanged != null) {
-        widget.onChanged();
+      var shouldDisable =
+          await showQueryDialog(context, 'Are you sure?', 'Do you really want to disconnect ${row.provider.name}');
+      if (shouldDisable) {
+        row.account = null;
+        if (widget.onChanged != null) {
+          widget.onChanged();
+        }
       }
     }
     setState(() {});
