@@ -14,7 +14,7 @@ class OfferListTile extends StatelessWidget {
     this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
-  final BusinessOffer offer;
+  final BusinessOfferSummary offer;
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;
@@ -76,15 +76,15 @@ class OfferListTile extends StatelessWidget {
                         
                           width: 20.0,
                         ),
-                        (offer.numberOfProposals ?? 0) > 0
-                            ? Expanded(
-                                child: Align(
-                                  heightFactor: 2,
-                                  alignment: Alignment.topRight,
-                                  child: NotificationMarker(),
-                                ),
-                              )
-                            : SizedBox(),
+                        // (offer.numberOfProposals ?? 0) > 0
+                        //     ? Expanded(
+                        //         child: Align(
+                        //           heightFactor: 2,
+                        //           alignment: Alignment.topRight,
+                        //           child: NotificationMarker(),
+                        //         ),
+                        //       )
+                        //     : SizedBox(),
                       ],
                     ),
                     SizedBox(height: 10.0),

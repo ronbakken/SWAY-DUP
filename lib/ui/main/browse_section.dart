@@ -8,7 +8,9 @@ import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/offer_views/browse_carousel_item.dart';
 import 'package:inf/ui/offer_views/offer_post_tile.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
 enum BrowseMode { map, list }
@@ -26,8 +28,7 @@ class MainBrowseSection extends StatefulWidget {
   _MainBrowseSectionState createState() => _MainBrowseSectionState();
 }
 
-class _MainBrowseSectionState extends State<MainBrowseSection>
-    with SingleTickerProviderStateMixin {
+class _MainBrowseSectionState extends State<MainBrowseSection> with SingleTickerProviderStateMixin {
   AnimationController _controller;
   Animation<Offset> _carouselAnim;
   Animation<double> _listAnim;
@@ -40,8 +41,7 @@ class _MainBrowseSectionState extends State<MainBrowseSection>
       duration: const Duration(milliseconds: 750),
       vsync: this,
     );
-    _carouselAnim =
-        Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(1.0, 0.0)).animate(
+    _carouselAnim = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(1.0, 0.0)).animate(
       CurvedAnimation(
         parent: _controller,
         curve: Interval(0.0, 0.7, curve: Curves.easeInOut),
@@ -151,15 +151,13 @@ class _BrowseCarouselView extends StatefulWidget {
 }
 
 class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
-  final _controller =
-      PageController(viewportFraction: 1.0 / 2.5); // TODO: work out dimensions
+  final _controller = PageController(viewportFraction: 1.0 / 2.5); // TODO: work out dimensions
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<BusinessOffer>>(
-      stream: backend.get<OfferManager>().getFeaturedBusinessOffer(),
-      builder:
-          (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapshot) {
+    return StreamBuilder<List<BusinessOfferSummary>>(
+      stream: backend.get<OfferManager>().featuredBusinessOffers,
+      builder: (BuildContext context, AsyncSnapshot<List<BusinessOfferSummary>> snapshot) {
         if (snapshot.hasData) {
           return Align(
             alignment: Alignment.bottomCenter,
@@ -170,8 +168,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
                   margin: widget.padding + EdgeInsets.only(bottom: 32.0),
                   height: constraints.maxHeight / 5.0,
                   child: ListView.builder(
-                    padding: const EdgeInsets.symmetric(
-                        horizontal: 4.0, vertical: 4.0),
+                    padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
                     scrollDirection: Axis.horizontal,
                     controller: _controller,
                     physics: const PageScrollPhysics(),
@@ -185,9 +182,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
                           aspectRatio: 5.0 / 4.3,
                           child: BrowseCarouselItem(
                             offer: offer,
-                            onPressed: () => Navigator.of(context).push(
-                                OfferDetailsPage.route(
-                                    Observable.just(offer), tag)),
+                            onPressed: () => () => _onShowDetails(context, offer, tag),
                             tag: tag,
                           ),
                         ),
@@ -210,24 +205,19 @@ class _BrowseListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<BusinessOffer>>(
-      stream: backend.get<OfferManager>().getBusinessOffers(),
-      builder: (BuildContext context,
-          AsyncSnapshot<List<BusinessOffer>> snapShot) {
-        if (snapShot.connectionState == ConnectionState.active) {
-          // TODO
-          return Center(child: Text('Here has to be an waiting spinner'));
-        }
+    return StreamBuilder<List<BusinessOfferSummary>>(
+      stream: backend.get<OfferManager>().filteredOffers,
+      builder: (BuildContext context, AsyncSnapshot<List<BusinessOfferSummary>> snapShot) {
+
         if (!snapShot.hasData) {
           // TODO
-          return Center(child: Text('Here has to be an Error message'));
+          return Center(child: Text('Sorry no offer matches your criteria'));
         }
         final offerSummeries = snapShot.data;
         return Stack(
           children: <Widget>[
             ListView.builder(
-              padding: EdgeInsets.fromLTRB(
-                  16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
+              padding: EdgeInsets.fromLTRB(16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
               itemCount: offerSummeries.length,
               itemBuilder: (BuildContext context, int index) {
                 final offer = offerSummeries[index];
@@ -236,10 +226,7 @@ class _BrowseListView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
                   child: OfferPostTile(
                     offer: offer,
-                    onPressed: () => Navigator.of(context).push(
-                        OfferDetailsPage.route(
-                            Observable.just(offer),
-                            tag)),
+                    onPressed: () => _onShowDetails(context, offer, tag),
                     tag: tag,
                   ),
                 );
@@ -256,5 +243,15 @@ class _BrowseListView extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+void _onShowDetails(BuildContext context, BusinessOfferSummary offerSummary, String tag) async {
+  try {
+    var fullOffer = await backend.get<OfferManager>().getOfferFromSummary(offerSummary);
+    unawaited(Navigator.of(context).push(OfferDetailsPage.route(Observable.just(fullOffer), tag)));
+  } catch (ex) {
+    // TODO should this be done centralized?
+    await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
   }
 }

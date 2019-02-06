@@ -11,17 +11,17 @@ import 'package:rxdart/rxdart.dart';
 import 'package:rx_command/rx_command.dart';
 
 abstract class OfferManager {
+
   RxCommand<OfferBuilder, double> updateOfferCommand;
 
-  Observable<int> get newAppliedOfferMessages;
-  Observable<int> get newDealsOfferMessages;
-  Observable<int> get newDoneOfferMessages;
+  Observable<List<BusinessOfferSummary>> get myOffers;
+  Observable<List<BusinessOfferSummary>> get receivedDirectOffers;
 
-  Observable<int> get newOfferMessages;
+  Observable<List<BusinessOfferSummary>> get filteredOffers;
+  Observable<List<BusinessOfferSummary>> get featuredBusinessOffers;
 
-  Observable<List<BusinessOffer>> getBusinessOffers();
+  Future<BusinessOffer> getOfferFromSummary(BusinessOfferSummary summary);
 
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffer();
 
   Future<void> addOfferFilter(OfferFilter filter);
   Future<void> clearOfferFilter(OfferFilter filter);

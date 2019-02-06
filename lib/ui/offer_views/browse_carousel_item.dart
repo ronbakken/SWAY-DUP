@@ -12,15 +12,15 @@ class BrowseCarouselItem extends StatelessWidget {
     this.tag,
   }) : super(key: key);
 
-  final BusinessOffer offer;
+  final BusinessOfferSummary offer;
   final VoidCallback onPressed;
   final String tag;
 
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowRes: offer.coverLowRes[0],
-      imageUrl: offer.coverUrls[0],
+      lowRes: offer.featuredImageLowRes,
+      imageUrl: offer.featuredImageUrl,
       fit: BoxFit.cover,
     );
     if (tag != null) {

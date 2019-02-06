@@ -3,13 +3,13 @@ import 'package:rxdart/rxdart.dart';
 
 abstract class InfApiService {
   Future<BusinessOffer> getOfferById(int offerId);
-  Observable<BusinessOffer> getOfferByIdCached(int offerId);
 
 
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
-  Observable<List<BusinessOffer>> getFilteredBusinessOffers();
 
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(
+  Observable<List<BusinessOfferSummary>> getBusinessOffers(OfferFilter filter);
+  Observable<List<BusinessOfferSummary>> getFilteredBusinessOffers();
+
+  Observable<List<BusinessOfferSummary>> getFeaturedBusinessOffers(
       double longitude, double latitude);
 
   Future<void> setOfferFilter(OfferFilter filter);

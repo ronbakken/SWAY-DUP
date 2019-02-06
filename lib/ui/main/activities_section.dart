@@ -5,7 +5,9 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
 class MainActivitiesSection extends StatefulWidget {
@@ -65,20 +67,14 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection>
                     _TabBarItem(
                       text: 'APPLIED',
                       bottomPadding: kTabBarBottomPadding,
-                      notifications:
-                          backend.get<OfferManager>().newAppliedOfferMessages,
                     ),
                     _TabBarItem(
                       text: 'DEALS',
                       bottomPadding: kTabBarBottomPadding,
-                      notifications:
-                          backend.get<OfferManager>().newDealsOfferMessages,
                     ),
                     _TabBarItem(
                       text: 'DONE',
                       bottomPadding: kTabBarBottomPadding,
-                      notifications:
-                          backend.get<OfferManager>().newDoneOfferMessages,
                     ),
                   ],
                 ),
@@ -90,11 +86,11 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection>
                 child: TabBarView(
                   controller: controller,
                   children: [
-                    _ActivitiesListView(
+                    OfferSummeryListView(
                       name: 'offers-applied',
                     ),
-                    _ActivitiesListView(name: 'offers-with-deal'),
-                    _ActivitiesListView(name: 'offers-done'),
+                    OfferSummeryListView(name: 'offers-with-deal'),
+                    OfferSummeryListView(name: 'offers-done'),
                   ],
                 ),
               ),
@@ -129,7 +125,7 @@ class _TabBarItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(text),
           ),
-          Positioned(
+          notifications != null ? Positioned(
             right: 0.0,
             top: 0.0,
             child: StreamBuilder<int>(
@@ -142,32 +138,32 @@ class _TabBarItem extends StatelessWidget {
                 return NotificationMarker();
               },
             ),
-          ),
+          ) : SizedBox(),
         ],
       ),
     );
   }
 }
 
-class _ActivitiesListView extends StatefulWidget {
+class OfferSummeryListView extends StatefulWidget {
   final String name;
 
-  const _ActivitiesListView({
+  const OfferSummeryListView({
     @required this.name,
     Key key,
   }) : super(key: key);
 
   @override
-  _ActivitiesListViewState createState() => _ActivitiesListViewState();
+  _OfferSummeryListViewState createState() => _OfferSummeryListViewState();
 }
 
-class _ActivitiesListViewState extends State<_ActivitiesListView> {
-  Stream<List<BusinessOffer>> dataSource;
+class _OfferSummeryListViewState extends State<OfferSummeryListView> {
+  Stream<List<BusinessOfferSummary>> dataSource;
 
   @override
   void initState() {
     super.initState();
-    dataSource = backend.get<InfApiService>().getFeaturedBusinessOffers(0, 0);
+    dataSource = backend.get<OfferManager>().filteredOffers;
   }
 
   @override
@@ -177,14 +173,10 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<BusinessOffer>>(
+    return StreamBuilder<List<BusinessOfferSummary>>(
         stream: dataSource,
         builder: (BuildContext context,
-            AsyncSnapshot<List<BusinessOffer>> snapShot) {
-          if (snapShot.connectionState == ConnectionState.active) {
-            // TODO
-            return Center(child: Text('Here has to be an waiting spinner'));
-          }
+            AsyncSnapshot<List<BusinessOfferSummary>> snapShot) {
           if (!snapShot.hasData) {
             // TODO
             return Center(child: Text('Here has to be an Error message'));
@@ -202,8 +194,7 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
                 child: OfferListTile(
                   backGroundColor: AppTheme.listViewItemBackground,
                   offer: offer,
-                  onPressed: () => Navigator.of(context)
-                      .push(OfferDetailsPage.route(Observable.just(offer), tag)),
+                  onPressed: () => _onShowDetails(context, offer, tag),
                   tag: tag,
                 ),
               );
@@ -211,4 +202,13 @@ class _ActivitiesListViewState extends State<_ActivitiesListView> {
           );
         });
   }
+  void _onShowDetails(BuildContext context, BusinessOfferSummary offerSummary, String tag) async {
+  try {
+    var fullOffer = await backend.get<OfferManager>().getOfferFromSummary(offerSummary);
+    unawaited(Navigator.of(context).push(OfferDetailsPage.route(Observable.just(fullOffer), tag)));
+  } catch (ex) {
+    // TODO should this be done centralized?
+    await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
+  }
+}
 }

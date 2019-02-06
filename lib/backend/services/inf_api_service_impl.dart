@@ -4,13 +4,13 @@ import 'package:rxdart/rxdart.dart';
 
 class InfApiServiceImplementation implements InfApiService {
   @override
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
+  Observable<List<BusinessOfferSummary>> getBusinessOffers(OfferFilter filter) {
     // TODO: implement getChat
     throw Exception('Not implemented yet');
   }
 
   @override
-  Observable<List<BusinessOffer>> getFilteredBusinessOffers() {
+  Observable<List<BusinessOfferSummary>> getFilteredBusinessOffers() {
     // TODO: implement getFilteredBusinessOffers
     throw Exception('Not implemented yet');
   }
@@ -56,7 +56,7 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
   @override
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(
+  Observable<List<BusinessOfferSummary>> getFeaturedBusinessOffers(
       double longitude, double latitude) {
     // TODO: implement getFeaturedBusinessOffers
     throw Exception('Not implemented yet');
@@ -69,11 +69,7 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
-  @override
-  Observable<BusinessOffer> getOfferByIdCached(int offerId) {
-    // TODO: implement getOfferByIdCached
-    throw Exception('Not implemented yet');
-  }
+ 
 
   @override
   void setMapBoundary(

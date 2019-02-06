@@ -5,6 +5,7 @@ import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:rxdart/rxdart.dart';
 
 class MainBottomNav extends StatefulWidget {
   const MainBottomNav({
@@ -58,7 +59,7 @@ class _MainBottomNavState extends State<MainBottomNav> {
     final activitiesButton = Expanded(
       child: StreamBuilder<int>(
         initialData: 0,
-        stream: backend.get<OfferManager>().newOfferMessages,
+        stream: Observable.just(0), // TODO backend.get<OfferManager>().newOfferMessages,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           var notificationCount = snapshot.hasData ? snapshot.data : 0;
           return _BottomNavButton(

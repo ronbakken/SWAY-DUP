@@ -9,11 +9,9 @@ import 'package:rxdart/rxdart.dart';
 
 class OfferManagerImplementation implements OfferManager {
   OfferManagerImplementation() {
-    _newAppliedOfferMessages.add(2);
-//    _newDealsOfferMessages.add(1);
-    _newDoneOfferMessages.add(3);
-
     updateOfferCommand = RxCommand.createFromStream(updateOffer);
+
+    initConnection();
   }
 
   OfferBuilder activeBuilder;
@@ -22,32 +20,31 @@ class OfferManagerImplementation implements OfferManager {
   RxCommand<OfferBuilder, double> updateOfferCommand;
 
   @override
-  Observable<int> get newAppliedOfferMessages => _newAppliedOfferMessages;
-  final BehaviorSubject<int> _newAppliedOfferMessages = new BehaviorSubject<int>();
+  Observable<List<BusinessOfferSummary>> get myOffers => _myOffersSubject;
+  final BehaviorSubject<List<BusinessOfferSummary>> _myOffersSubject =
+      new BehaviorSubject<List<BusinessOfferSummary>>();
 
   @override
-  Observable<int> get newDealsOfferMessages => _newDealsOfferMessages;
-  final BehaviorSubject<int> _newDealsOfferMessages = new BehaviorSubject<int>();
+  Observable<List<BusinessOfferSummary>> get receivedDirectOffers => _receivedDirectOffersSubject;
+  final BehaviorSubject<List<BusinessOfferSummary>> _receivedDirectOffersSubject =
+      new BehaviorSubject<List<BusinessOfferSummary>>();
 
   @override
-  Observable<int> get newDoneOfferMessages => _newDoneOfferMessages;
-  final BehaviorSubject<int> _newDoneOfferMessages = new BehaviorSubject<int>();
+  Observable<List<BusinessOfferSummary>> get filteredOffers => _filteredOffersSubject;
+  final BehaviorSubject<List<BusinessOfferSummary>> _filteredOffersSubject =
+      new BehaviorSubject<List<BusinessOfferSummary>>();
 
   @override
-  Observable<int> get newOfferMessages => Observable.combineLatest3<int, int, int, int>(
-      newAppliedOfferMessages.startWith(0),
-      _newDealsOfferMessages.startWith(0),
-      newDoneOfferMessages.startWith(0),
-      (a, b, c) => a + b + c);
-  @override
-  Observable<List<BusinessOffer>> getBusinessOffers() {
-    return backend.get<InfApiService>().getBusinessOffers(null);
-  }
+  Observable<List<BusinessOfferSummary>> get featuredBusinessOffers => _featuredBusinessOffers;
+  final BehaviorSubject<List<BusinessOfferSummary>> _featuredBusinessOffers =
+      new BehaviorSubject<List<BusinessOfferSummary>>();
 
   @override
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffer() {
-    return backend.get<InfApiService>().getFeaturedBusinessOffers(0, 0);
-  }
+  // Observable<int> get newOfferMessages => Observable.combineLatest3<int, int, int, int>(
+  //     newAppliedOfferMessages.startWith(0),
+  //     _newDealsOfferMessages.startWith(0),
+  //     newDoneOfferMessages.startWith(0),
+  //     (a, b, c) => a + b + c);
 
   @override
   Future<void> addOfferFilter(OfferFilter filter) {
@@ -115,5 +112,21 @@ class OfferManagerImplementation implements OfferManager {
           'offer${DateTime.now().microsecondsSinceEpoch.toString()}.jpg',
           encodeJpg(thumbNailImage),
         );
+  }
+
+  @override
+  Future<BusinessOffer> getOfferFromSummary(BusinessOfferSummary summary) {
+    return backend.get<InfApiService>().getOfferById(summary.offerId);
+  }
+
+  void initConnection() {
+    myOffers.listen((x) => print(x.length));
+    backend.get<SystemService>().connectionStateChanges.listen((state) async {
+      await _myOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
+      await _featuredBusinessOffers.addStream(backend.get<InfApiService>().getBusinessOffers(null));
+      await _filteredOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
+      await _receivedDirectOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
+    });
+
   }
 }
