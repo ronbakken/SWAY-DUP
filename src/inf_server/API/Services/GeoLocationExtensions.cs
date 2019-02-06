@@ -5,14 +5,14 @@ namespace API.Services
 {
     public static class GeoLocationExtensions
     {
-        public static GeoLocationDto ToDto(this GeoLocation @this)
+        public static GeoPointDto ToDto(this GeoLocation @this)
         {
             if (@this == null)
             {
                 return null;
             }
 
-            var result = new GeoLocationDto
+            var result = new GeoPointDto
             {
                 Latitude = @this.Latitude,
                 Longitude = @this.Longitude,
@@ -21,7 +21,7 @@ namespace API.Services
             return result;
         }
 
-        public static GeoLocation ToServiceObject(this GeoLocationDto @this)
+        public static GeoLocation ToServiceObject(this GeoPointDto @this)
         {
             if (@this == null)
             {

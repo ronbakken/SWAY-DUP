@@ -389,7 +389,7 @@ namespace API.Services.Mocks
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
                     Location= new LocationDto{
-                        GeoLocation = new GeoLocationDto{
+                        GeoPoint = new GeoPointDto{
                             Latitude= 34.050863,
                             Longitude= -118.272657,
                         }
@@ -419,7 +419,7 @@ namespace API.Services.Mocks
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
                     Location= new LocationDto{
-                        GeoLocation = new GeoLocationDto
+                        GeoPoint = new GeoPointDto
                         {
                             Latitude= 34.050863,
                             Longitude= -118.272657,

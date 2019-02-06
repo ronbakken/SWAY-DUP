@@ -21,7 +21,7 @@ namespace API.Services
 
             if (@this.GeoLocation != null)
             {
-                result.GeoLocation = @this.GeoLocation.ToDto();
+                result.GeoPoint = @this.GeoLocation.ToDto();
             }
 
             return result;
@@ -36,7 +36,7 @@ namespace API.Services
 
             return new Location(
                 @this.Name,
-                @this.GeoLocation.ToServiceObject());
+                @this.GeoPoint.ToServiceObject());
         }
     }
 }

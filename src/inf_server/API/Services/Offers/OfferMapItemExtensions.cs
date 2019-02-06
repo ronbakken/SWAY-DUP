@@ -14,7 +14,7 @@ namespace API.Services.Offers
 
             return new OfferMapItemDto
             {
-                GeoLocation = @this.Location.ToDto(),
+                GeoPoint = @this.Location.ToDto(),
             };
         }
     }

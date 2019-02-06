@@ -16,9 +16,9 @@ namespace API.Services.Users
 
             SearchLocation searchLocation = null;
 
-            if (@this.Location?.GeoLocation != null && @this.LocationDistanceKms > 0)
+            if (@this.Location?.GeoPoint != null && @this.LocationDistanceKms > 0)
             {
-                searchLocation = new SearchLocation(@this.Location.GeoLocation.Latitude, @this.Location.GeoLocation.Longitude, @this.LocationDistanceKms);
+                searchLocation = new SearchLocation(@this.Location.GeoPoint.Latitude, @this.Location.GeoPoint.Longitude, @this.LocationDistanceKms);
             }
 
             var userTypes = UserTypes.All;

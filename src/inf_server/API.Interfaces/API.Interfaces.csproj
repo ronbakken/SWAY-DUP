@@ -15,8 +15,4 @@
         <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="optional.proto" />
-    </ItemGroup>
-
 </Project>
