@@ -1,0 +1,84 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Fabric;
+using System.Threading;
+using System.Threading.Tasks;
+using Mapping.Interfaces;
+using Microsoft.Azure.Cosmos;
+using Microsoft.ServiceFabric.Services.Communication.Runtime;
+using Microsoft.ServiceFabric.Services.Remoting.Client;
+using Microsoft.ServiceFabric.Services.Remoting.Runtime;
+using Microsoft.ServiceFabric.Services.Runtime;
+using Offers.Interfaces;
+using Optional;
+using Serilog;
+using Utility;
+
+namespace Offers
+{
+    internal sealed class Offers : StatelessService, IOffersService
+    {
+        private const string databaseId = "offers";
+        private const string offersCollectionId = "offers";
+        private readonly ILogger logger;
+        private CosmosContainer offersContainer;
+
+        public Offers(StatelessServiceContext context)
+            : base(context)
+        {
+            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
+            this.logger = Logging.GetLogger(this, logStorageConnectionString);
+        }
+
+        protected override async Task RunAsync(CancellationToken cancellationToken)
+        {
+            logger.Debug("Creating database if required");
+
+            var cosmosClient = this.GetCosmosClient();
+            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var database = databaseResult.Database;
+            var offersContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(offersCollectionId, "/userId");
+            this.offersContainer = offersContainerResult.Container;
+
+            logger.Debug("Database creation complete");
+        }
+
+        public Task<Offer> SaveOffer(Offer offer) =>
+            this.ReportExceptionsWithin(this.logger, (logger) => SaveOfferImpl(logger, offer));
+
+        internal async Task<Offer> SaveOfferImpl(ILogger logger, Offer offer)
+        {
+            var offerEntity = offer
+                .ToEntity()
+                .With(id: Option.Some(offer.Id ?? Guid.NewGuid().ToString()));
+            offer = offerEntity.ToServiceObject();
+
+            logger.Debug("Saving offer {@Offer}", offerEntity);
+            await this.offersContainer.Items.UpsertItemAsync(offerEntity.UserId, offerEntity);
+            logger.Debug("Offer saved: {@Offer}", offerEntity);
+
+            logger.Debug("Forwarding offer {@Offer} to mapping service", offer);
+            var mappingService = GetMappingService();
+            await mappingService.AddOffer(offer);
+
+            return offer;
+        }
+
+        protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>
+            this.CreateServiceRemotingInstanceListeners();
+
+        private CosmosClient GetCosmosClient()
+        {
+            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
+            var databaseConnectionString = configurationPackage.Settings.Sections["Database"].Parameters["ConnectionString"].Value;
+            var cosmosConfiguration = new InfCosmosConfiguration(databaseConnectionString);
+            var cosmosClient = new CosmosClient(cosmosConfiguration);
+
+            return cosmosClient;
+        }
+
+        private static IMappingService GetMappingService() =>
+            ServiceProxy.Create<IMappingService>(new Uri($"{FabricRuntime.GetActivationContext().ApplicationName}/Mapping"));
+    }
+}

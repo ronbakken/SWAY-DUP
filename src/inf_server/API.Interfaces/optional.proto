@@ -1,0 +1,22 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+message OptionalString {
+    string value = 1;
+}
+
+// General-purpose, but not sure there's any need for this
+// message OptionalPrimitive {
+//     bool hasValue = 1;
+//     OptionalPrimitiveValue value = 2;
+// }
+//
+// message OptionalPrimitiveValue {
+//     oneof value {
+//         int32 i = 1;
+//         string s = 2;
+//         // other primitives
+//     }
+// }

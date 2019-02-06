@@ -1,8 +1,7 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using API.Interfaces;
+using Common.Interfaces;
 using Google.Protobuf;
-using Users.Interfaces;
 
 namespace API.Services
 {

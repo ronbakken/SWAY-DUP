@@ -239,9 +239,9 @@ namespace Users
                     clauses.Append(" AND ");
                 }
 
-                clauses.Append("ST_DISTANCE({ 'type': 'Point', 'coordinates': [ u.location.latitude, u.location.longitude ] }, { 'type': 'Point', 'coordinates': [ @Latitude, @Longitude ] }) < @Distance");
-                parameters["@Latitude"] = filter.Location.Latitude;
+                clauses.Append("ST_DISTANCE({'type':'Point','coordinates':[u.location.longitude,u.location.latitude]},{'type':'Point','coordinates':[@Longitude,@Latitude]}) < @Distance");
                 parameters["@Longitude"] = filter.Location.Longitude;
+                parameters["@Latitude"] = filter.Location.Latitude;
                 parameters["@Distance"] = filter.Location.RadiusKms * 1000;
             }
 

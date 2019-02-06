@@ -1,6 +1,6 @@
 ﻿using System.Collections.Immutable;
 using System.Linq;
-using Users.Interfaces;
+using Common.Interfaces;
 
 namespace Users
 {

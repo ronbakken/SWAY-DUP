@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "location.proto";
+import "optional.proto";
+
+message OfferDto {
+    OptionalString id = 1;
+    GeoLocationDto geoLocation = 2;
+}
+
+message OfferMapItemDto {
+    string offerId = 1;
+    GeoLocationDto geoLocation = 2;
+}

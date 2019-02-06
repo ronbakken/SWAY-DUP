@@ -1,4 +1,4 @@
-﻿using Users.Interfaces;
+﻿using Common.Interfaces;
 
 namespace Users
 {
@@ -13,8 +13,7 @@ namespace Users
 
             return new Location(
                 @this.Name,
-                @this.Latitude,
-                @this.Longitude);
+                new GeoLocation(@this.Latitude, @this.Longitude));
         }
 
         public static LocationEntity ToEntity(this Location @this)
@@ -26,8 +25,8 @@ namespace Users
 
             return new LocationEntity(
                 @this.Name,
-                @this.Latitude,
-                @this.Longitude);
+                @this.GeoLocation?.Latitude ?? 0,
+                @this.GeoLocation?.Longitude ?? 0);
         }
     }
 }

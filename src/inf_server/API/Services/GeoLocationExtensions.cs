@@ -1,40 +1,34 @@
 ﻿using API.Interfaces;
-using Users.Interfaces;
+using Common.Interfaces;
 
-namespace API.Services.Auth
+namespace API.Services
 {
-    public static class LocationExtensions
+    public static class GeoLocationExtensions
     {
-        public static LocationDto ToDto(this Location @this)
+        public static GeoLocationDto ToDto(this GeoLocation @this)
         {
             if (@this == null)
             {
                 return null;
             }
 
-            var result = new LocationDto
+            var result = new GeoLocationDto
             {
                 Latitude = @this.Latitude,
                 Longitude = @this.Longitude,
             };
 
-            if (@this.Name != null)
-            {
-                result.Name = @this.Name;
-            }
-
             return result;
         }
 
-        public static Location ToServiceObject(this LocationDto @this)
+        public static GeoLocation ToServiceObject(this GeoLocationDto @this)
         {
             if (@this == null)
             {
                 return null;
             }
 
-            return new Location(
-                @this.Name,
+            return new GeoLocation(
                 @this.Latitude,
                 @this.Longitude);
         }

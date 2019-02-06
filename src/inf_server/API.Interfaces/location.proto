@@ -3,9 +3,12 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
+message GeoLocationDto {
+    double latitude = 1;
+    double longitude = 2;
+}
+
 message LocationDto {
     string name = 1;
-
-    double latitude = 2;
-    double longitude = 3;
+    GeoLocationDto geoLocation = 2;
 }

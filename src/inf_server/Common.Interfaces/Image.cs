@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Runtime.Serialization;
 
-namespace Users.Interfaces
+namespace Common.Interfaces
 {
     [DataContract]
     public sealed class Image

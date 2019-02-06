@@ -389,10 +389,11 @@ namespace API.Services.Mocks
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
                     Location= new LocationDto{
-                     Latitude= 34.050863,
-                     Longitude= -118.272657
-                    }
-                    ,
+                        GeoLocation = new GeoLocationDto{
+                            Latitude= 34.050863,
+                            Longitude= -118.272657,
+                        }
+                    },
                     Verified = true,
                     WebsiteUrl = "www.google.com",
                 },
@@ -418,9 +419,12 @@ namespace API.Services.Mocks
                     Description = "I run a online store for baking utilities",
                     Email = "thomas@burkharts.net",
                     Location= new LocationDto{
-                    Latitude= 34.050863,
-                    Longitude= -118.272657
-                }
+                        GeoLocation = new GeoLocationDto
+                        {
+                            Latitude= 34.050863,
+                            Longitude= -118.272657,
+                        }
+                    }
                     ,
                     Verified = false,
                     WebsiteUrl = "www.google.com",

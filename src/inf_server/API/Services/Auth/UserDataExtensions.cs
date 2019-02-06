@@ -2,6 +2,7 @@
 using System.Linq;
 using API.Interfaces;
 using Users.Interfaces;
+using API.Services;
 
 namespace API.Services.Auth
 {

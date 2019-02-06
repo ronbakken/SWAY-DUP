@@ -94,7 +94,9 @@ namespace Utility.Tokens
         /// </returns>
         public static LoginTokenValidationResult ValidateLoginToken(string token)
         {
-            var principal = GetPrincipal(token, requireExpirationTime: true);
+            var principal = GetPrincipal(
+                token,
+                requireExpirationTime: true);
 
             if (principal == null)
             {
@@ -154,6 +156,7 @@ namespace Utility.Tokens
                     }),
                 SigningCredentials = GetSigningCredentials(),
                 EncryptingCredentials = GetEncryptingCredentials(),
+                Expires = null,
             };
             var handler = new JwtSecurityTokenHandler();
             var token = handler.CreateJwtSecurityToken(descriptor);
@@ -173,7 +176,7 @@ namespace Utility.Tokens
         {
             var principal = GetPrincipal(
                 token,
-                requireExpirationTime: true,
+                requireExpirationTime: false,
                 decrypt: true);
 
             if (principal == null)
@@ -300,6 +303,7 @@ namespace Utility.Tokens
                     RequireExpirationTime = requireExpirationTime,
                     ValidateIssuer = true,
                     ValidateAudience = false,
+                    ValidateLifetime = requireExpirationTime,
                     IssuerSigningKey = new SymmetricSecurityKey(Convert.FromBase64String(signingSecret)),
                     TokenDecryptionKey = decrypt ? new SymmetricSecurityKey(Convert.FromBase64String(encryptingSecret)) : null,
                     ClockSkew = TimeSpan.Zero,

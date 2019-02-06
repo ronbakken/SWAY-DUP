@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using System.Collections.Immutable;
 using System.Runtime.Serialization;
+using Common.Interfaces;
 using Optional;
 
 namespace Users.Interfaces
