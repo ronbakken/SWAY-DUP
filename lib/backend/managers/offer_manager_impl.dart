@@ -20,24 +20,24 @@ class OfferManagerImplementation implements OfferManager {
   RxCommand<OfferBuilder, double> updateOfferCommand;
 
   @override
-  Observable<List<BusinessOfferSummary>> get myOffers => _myOffersSubject;
-  final BehaviorSubject<List<BusinessOfferSummary>> _myOffersSubject =
-      new BehaviorSubject<List<BusinessOfferSummary>>();
+  Observable<List<BusinessOffer>> get myOffers => _myOffersSubject;
+  final BehaviorSubject<List<BusinessOffer>> _myOffersSubject =
+      new BehaviorSubject<List<BusinessOffer>>();
 
   @override
-  Observable<List<BusinessOfferSummary>> get receivedDirectOffers => _receivedDirectOffersSubject;
-  final BehaviorSubject<List<BusinessOfferSummary>> _receivedDirectOffersSubject =
-      new BehaviorSubject<List<BusinessOfferSummary>>();
+  Observable<List<BusinessOffer>> get receivedDirectOffers => _receivedDirectOffersSubject;
+  final BehaviorSubject<List<BusinessOffer>> _receivedDirectOffersSubject =
+      new BehaviorSubject<List<BusinessOffer>>();
 
   @override
-  Observable<List<BusinessOfferSummary>> get filteredOffers => _filteredOffersSubject;
-  final BehaviorSubject<List<BusinessOfferSummary>> _filteredOffersSubject =
-      new BehaviorSubject<List<BusinessOfferSummary>>();
+  Observable<List<BusinessOffer>> get filteredOffers => _filteredOffersSubject;
+  final BehaviorSubject<List<BusinessOffer>> _filteredOffersSubject =
+      new BehaviorSubject<List<BusinessOffer>>();
 
   @override
-  Observable<List<BusinessOfferSummary>> get featuredBusinessOffers => _featuredBusinessOffers;
-  final BehaviorSubject<List<BusinessOfferSummary>> _featuredBusinessOffers =
-      new BehaviorSubject<List<BusinessOfferSummary>>();
+  Observable<List<BusinessOffer>> get featuredBusinessOffers => _featuredBusinessOffers;
+  final BehaviorSubject<List<BusinessOffer>> _featuredBusinessOffers =
+      new BehaviorSubject<List<BusinessOffer>>();
 
   @override
   // Observable<int> get newOfferMessages => Observable.combineLatest3<int, int, int, int>(
@@ -115,8 +115,9 @@ class OfferManagerImplementation implements OfferManager {
   }
 
   @override
-  Future<BusinessOffer> getOfferFromSummary(BusinessOfferSummary summary) {
-    return backend.get<InfApiService>().getOfferById(summary.offerId);
+  Future<BusinessOffer> getFullOffer(int offerId) async {
+    await Future.delayed(Duration(seconds: 1));
+    return await backend.get<InfApiService>().getOfferById(offerId);
   }
 
   void initConnection() {

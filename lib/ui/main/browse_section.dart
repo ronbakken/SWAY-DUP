@@ -10,6 +10,7 @@ import 'package:inf/ui/offer_views/offer_post_tile.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
+import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -155,9 +156,9 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<BusinessOfferSummary>>(
+    return StreamBuilder<List<BusinessOffer>>(
       stream: backend.get<OfferManager>().featuredBusinessOffers,
-      builder: (BuildContext context, AsyncSnapshot<List<BusinessOfferSummary>> snapshot) {
+      builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapshot) {
         if (snapshot.hasData) {
           return Align(
             alignment: Alignment.bottomCenter,
@@ -205,10 +206,9 @@ class _BrowseListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<BusinessOfferSummary>>(
+    return StreamBuilder<List<BusinessOffer>>(
       stream: backend.get<OfferManager>().filteredOffers,
-      builder: (BuildContext context, AsyncSnapshot<List<BusinessOfferSummary>> snapShot) {
-
+      builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
         if (!snapShot.hasData) {
           // TODO
           return Center(child: Text('Sorry no offer matches your criteria'));
@@ -246,10 +246,17 @@ class _BrowseListView extends StatelessWidget {
   }
 }
 
-void _onShowDetails(BuildContext context, BusinessOfferSummary offerSummary, String tag) async {
+void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag) async {
   try {
-    var fullOffer = await backend.get<OfferManager>().getOfferFromSummary(offerSummary);
-    unawaited(Navigator.of(context).push(OfferDetailsPage.route(Observable.just(fullOffer), tag)));
+    unawaited(
+      Navigator.of(context).push(
+        OfferDetailsPage.route(
+          streamFromValueAndFuture<BusinessOffer>(
+              partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+          tag,
+        ),
+      ),
+    );
   } catch (ex) {
     // TODO should this be done centralized?
     await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');

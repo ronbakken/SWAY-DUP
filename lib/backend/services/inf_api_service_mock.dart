@@ -14,13 +14,13 @@ class InfApiServiceMock implements InfApiService {
   BehaviorSubject<List<MapMarker>> makerSubject = BehaviorSubject<List<MapMarker>>();
 
   @override
-  Observable<List<BusinessOfferSummary>> getBusinessOffers(OfferFilter filter) {
-    return Observable.fromFuture(loadBusinessOfferSummaryMockData());
+  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
+    return Observable.fromFuture(loadPartialBusinessOfferMockData());
   }
 
   @override
-  Observable<List<BusinessOfferSummary>> getFeaturedBusinessOffers(double longitude, double latitude) {
-    return Observable.fromFuture(loadBusinessOfferSummaryMockData());
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(double longitude, double latitude) {
+    return Observable.fromFuture(loadPartialBusinessOfferMockData());
   }
 
   // @override
@@ -56,7 +56,7 @@ class InfApiServiceMock implements InfApiService {
   }
 
   @override
-  Observable<List<BusinessOfferSummary>> getFilteredBusinessOffers() {
+  Observable<List<BusinessOffer>> getFilteredBusinessOffers() {
     // TODO: implement getFilteredBusinessOffers
     return null;
   }
@@ -97,12 +97,12 @@ class InfApiServiceMock implements InfApiService {
     return null;
   }
 
-  Future<List<BusinessOfferSummary>> loadBusinessOfferSummaryMockData() async {
+  Future<List<BusinessOffer>> loadPartialBusinessOfferMockData() async {
     allOffers = await loadBusinessOfferMockData();
     return [
-      BusinessOfferSummary(
+      BusinessOffer(
           id: 1,
-          offerId: 1,
+          isPartial: true,
           isDirectOffer: false,
           numberOffered: 5,
           numberRemaining: 2,
@@ -127,15 +127,16 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          featuredImageLowRes: (await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List(),
-          featuredImageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e',
+          coverLowRes: [(await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List()],
+          coverUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e'
+          ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/car_wash2_thumb_lowres.jpg')).buffer.asUint8List(),
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
-      BusinessOfferSummary(
+      BusinessOffer(
           id: 2,
-          offerId: 2,
+          isPartial: true,
           numberRemaining: 2,
           businessName: 'Scent of Asia',
           businessAvatarThumbnailUrl:
@@ -155,15 +156,15 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          featuredImageLowRes: (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
-          featuredImageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          coverLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
+          coverUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
-      BusinessOfferSummary(
+      BusinessOffer(
           id: 3,
-          offerId: 3,
           numberRemaining: 2,
           businessName: 'Scent of Asia',
           businessAvatarThumbnailUrl:
@@ -183,9 +184,10 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          featuredImageLowRes: (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
-          featuredImageUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          coverLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
+          coverUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),

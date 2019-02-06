@@ -22,6 +22,7 @@ enum BusinessOfferStateReason {
 enum AcceptancePolicy { manualReview, automaticAcceptMatching, allowNegotiation }
 
 class BusinessOffer {
+  final bool isPartial;
   final int id;
   final int businessAccountId;
   final String businessName;
@@ -75,6 +76,7 @@ class BusinessOffer {
 
   BusinessOffer(
       {this.id,
+      this.isPartial = false,
       this.businessAccountId,
       this.businessName,
       this.businessDescription,
@@ -104,6 +106,7 @@ class BusinessOffer {
 
   BusinessOffer copyWith({
     int id,
+    bool isPartial,
     int businessAccountId,
     String businessName,
     String businessDescription,
@@ -131,6 +134,7 @@ class BusinessOffer {
   }) {
     return BusinessOffer(
       id: id ?? this.id,
+      isPartial: isPartial ?? this.isPartial,
       businessAccountId: businessAccountId ?? this.businessAccountId,
       businessName: businessName ?? this.businessName,
       businessDescription: businessDescription ?? this.businessDescription,
@@ -159,102 +163,3 @@ class BusinessOffer {
   }
 }
 
-class BusinessOfferSummary {
-  final int id;
-  final int offerId;
-  final String businessName;
-  final String businessAvatarThumbnailUrl;
-
-  final bool isDirectOffer;
-
-  final String title;
-  final String description;
-
-  final int numberOffered;
-  final int numberRemaining;
-
-  final String featuredImageUrl;
-  final Uint8List featuredImageLowRes;
-
-  final String thumbnailUrl;
-  final Uint8List thumbnailLowRes;
-
-  final List<Deliverable> deliverables;
-  final List<SocialNetworkProvider> channels;
-  final Reward reward;
-
-  final Location location;
-
-  // State
-  final BusinessOfferState state;
-  final BusinessOfferStateReason stateReason;
-
-  // only returned when an influencer queries this offer
-  // So the Offer View knows this offer has already been applied to
-  final int influencerProposalId;
-
-  BusinessOfferSummary({
-    this.id,
-    this.offerId,
-    this.businessName,
-    this.businessAvatarThumbnailUrl,
-    this.title,
-    this.description,
-    this.featuredImageUrl,
-    this.featuredImageLowRes,
-    this.isDirectOffer,
-    this.numberOffered = 1,
-    this.numberRemaining,
-    this.thumbnailUrl,
-    this.thumbnailLowRes,
-    this.channels,
-    this.deliverables,
-    this.reward,
-    this.location,
-    this.state,
-    this.stateReason,
-    this.influencerProposalId,
-  });
-
-  BusinessOfferSummary copyWith({
-    int id,
-    int offerId,
-    String businessName,
-    String businessAvatarThumbnailUrl,
-    bool isDirectOffer,
-    String title,
-    String description,
-    int numberOffered,
-    int numberRemaining,
-    String thumbnailUrl,
-    Uint8List thumbnailLowRes,
-    List<Deliverable> deliverables,
-    Reward reward,
-    Location location,
-    BusinessOfferState state,
-    BusinessOfferStateReason stateReason,
-    int influencerProposalId,
-  }) {
-    return BusinessOfferSummary(
-      id: id ?? this.id,
-      offerId: offerId ?? this.offerId,
-      businessName: businessName ?? this.businessName,
-      businessAvatarThumbnailUrl: businessAvatarThumbnailUrl ?? this.businessAvatarThumbnailUrl,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      featuredImageUrl:  featuredImageUrl ?? this.featuredImageUrl,
-      featuredImageLowRes: featuredImageLowRes ?? this.featuredImageLowRes,
-      isDirectOffer: isDirectOffer ?? this.isDirectOffer,
-      numberOffered: numberOffered ?? this.numberOffered,
-      numberRemaining: numberRemaining ?? this.numberRemaining,
-      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
-      thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
-      deliverables: deliverables ?? this.deliverables,
-      reward: reward ?? this.reward,
-      location: location ?? this.location,
-      state: state ?? this.state,
-      stateReason: stateReason ?? this.stateReason,
-      influencerProposalId: influencerProposalId ?? this.influencerProposalId,
-    );
-  }
-}

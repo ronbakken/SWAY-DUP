@@ -14,13 +14,13 @@ abstract class OfferManager {
 
   RxCommand<OfferBuilder, double> updateOfferCommand;
 
-  Observable<List<BusinessOfferSummary>> get myOffers;
-  Observable<List<BusinessOfferSummary>> get receivedDirectOffers;
+  // All this streams return partial BusinessOffers
+  Observable<List<BusinessOffer>> get myOffers;
+  Observable<List<BusinessOffer>> get receivedDirectOffers;
+  Observable<List<BusinessOffer>> get filteredOffers;
+  Observable<List<BusinessOffer>> get featuredBusinessOffers;
 
-  Observable<List<BusinessOfferSummary>> get filteredOffers;
-  Observable<List<BusinessOfferSummary>> get featuredBusinessOffers;
-
-  Future<BusinessOffer> getOfferFromSummary(BusinessOfferSummary summary);
+  Future<BusinessOffer> getFullOffer(int offerId);
 
 
   Future<void> addOfferFilter(OfferFilter filter);

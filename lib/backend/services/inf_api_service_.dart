@@ -6,10 +6,10 @@ abstract class InfApiService {
 
 
 
-  Observable<List<BusinessOfferSummary>> getBusinessOffers(OfferFilter filter);
-  Observable<List<BusinessOfferSummary>> getFilteredBusinessOffers();
+  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
+  Observable<List<BusinessOffer>> getFilteredBusinessOffers();
 
-  Observable<List<BusinessOfferSummary>> getFeaturedBusinessOffers(
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(
       double longitude, double latitude);
 
   Future<void> setOfferFilter(OfferFilter filter);

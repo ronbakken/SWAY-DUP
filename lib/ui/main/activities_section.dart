@@ -7,6 +7,7 @@ import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -23,8 +24,7 @@ class MainActivitiesSection extends StatefulWidget {
   _MainActivitiesSectionState createState() => _MainActivitiesSectionState();
 }
 
-class _MainActivitiesSectionState extends State<MainActivitiesSection>
-    with SingleTickerProviderStateMixin {
+class _MainActivitiesSectionState extends State<MainActivitiesSection> with SingleTickerProviderStateMixin {
   TabController controller;
 
   @override
@@ -45,8 +45,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection>
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Padding(
-      padding: EdgeInsets.only(
-          top: mediaQuery.padding.top, bottom: widget.padding.bottom),
+      padding: EdgeInsets.only(top: mediaQuery.padding.top, bottom: widget.padding.bottom),
       child: Container(
         color: AppTheme.darkGrey,
         child: Column(
@@ -59,8 +58,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection>
                   indicatorWeight: 4.0,
                   indicatorColor: AppTheme.tabIndicator,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding:
-                      const EdgeInsets.only(left: 10.0, right: 10.0),
+                  indicatorPadding: const EdgeInsets.only(left: 10.0, right: 10.0),
                   isScrollable: false,
                   controller: controller,
                   tabs: [
@@ -125,20 +123,22 @@ class _TabBarItem extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 10.0),
             child: Text(text),
           ),
-          notifications != null ? Positioned(
-            right: 0.0,
-            top: 0.0,
-            child: StreamBuilder<int>(
-              initialData: 0,
-              stream: notifications,
-              builder: (BuildContext context, AsyncSnapshot snapshot) {
-                if (!snapshot.hasData || snapshot.data == 0) {
-                  return SizedBox();
-                }
-                return NotificationMarker();
-              },
-            ),
-          ) : SizedBox(),
+          notifications != null
+              ? Positioned(
+                  right: 0.0,
+                  top: 0.0,
+                  child: StreamBuilder<int>(
+                    initialData: 0,
+                    stream: notifications,
+                    builder: (BuildContext context, AsyncSnapshot snapshot) {
+                      if (!snapshot.hasData || snapshot.data == 0) {
+                        return SizedBox();
+                      }
+                      return NotificationMarker();
+                    },
+                  ),
+                )
+              : SizedBox(),
         ],
       ),
     );
@@ -158,7 +158,7 @@ class OfferSummeryListView extends StatefulWidget {
 }
 
 class _OfferSummeryListViewState extends State<OfferSummeryListView> {
-  Stream<List<BusinessOfferSummary>> dataSource;
+  Stream<List<BusinessOffer>> dataSource;
 
   @override
   void initState() {
@@ -173,10 +173,9 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<BusinessOfferSummary>>(
+    return StreamBuilder<List<BusinessOffer>>(
         stream: dataSource,
-        builder: (BuildContext context,
-            AsyncSnapshot<List<BusinessOfferSummary>> snapShot) {
+        builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
           if (!snapShot.hasData) {
             // TODO
             return Center(child: Text('Here has to be an Error message'));
@@ -188,8 +187,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
             itemBuilder: (BuildContext context, int index) {
               final offer = offers[index];
               final tag = '${widget.name}-${offer.id}';
-              return 
-              Padding(
+              return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
                 child: OfferListTile(
                   backGroundColor: AppTheme.listViewItemBackground,
@@ -202,13 +200,21 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
           );
         });
   }
-  void _onShowDetails(BuildContext context, BusinessOfferSummary offerSummary, String tag) async {
-  try {
-    var fullOffer = await backend.get<OfferManager>().getOfferFromSummary(offerSummary);
-    unawaited(Navigator.of(context).push(OfferDetailsPage.route(Observable.just(fullOffer), tag)));
-  } catch (ex) {
-    // TODO should this be done centralized?
-    await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
+
+  void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag) async {
+    try {
+      unawaited(
+        Navigator.of(context).push(
+          OfferDetailsPage.route(
+            streamFromValueAndFuture<BusinessOffer>(
+                partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+            tag,
+          ),
+        ),
+      );
+    } catch (ex) {
+      // TODO should this be done centralized?
+      await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
+    }
   }
-}
 }

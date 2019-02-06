@@ -17,7 +17,7 @@ import 'package:intl/intl.dart';
 import 'package:rxdart/rxdart.dart';
 
 class OfferDetailsPage extends PageWidget {
-  static Route<dynamic> route(Observable<BusinessOffer> offerStream, [String tag]) {
+  static Route<dynamic> route(Stream<BusinessOffer> offerStream, [String tag]) {
     return FadePageRoute(
       builder: (BuildContext context) => OfferDetailsPage(
             cachedOfferStream: offerStream,
@@ -32,7 +32,7 @@ class OfferDetailsPage extends PageWidget {
     this.tag,
   }) : super(key: key);
 
-  final Observable<BusinessOffer> cachedOfferStream;
+  final Stream<BusinessOffer> cachedOfferStream;
   final String tag;
 
   @override
@@ -222,7 +222,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     SizedBox(
                       width: 10.0,
                     ),
-                    Text('${reward.description}'),
+                    Text('${reward.description ?? ''}'),
                   ],
                 )
               : SizedBox(),
@@ -235,37 +235,39 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     return _DetailEntry(
       icon: InfAssetImage(AppIcons.category),
       title: 'CATEGORIES',
-      content: Wrap(
-        spacing: 10.0,
-        runSpacing: 10.0,
-        alignment: WrapAlignment.start,
-        children: offer.categories.map<Widget>(
-          (category) {
-            return Container(
-              decoration: ShapeDecoration(
-                shape: const StadiumBorder(),
-                color: AppTheme.blue,
-              ),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: <Widget>[
-                    Text(category.name),
-                    SizedBox(
-                      width: 10.0,
+      content: offer.categories != null
+          ? Wrap(
+              spacing: 10.0,
+              runSpacing: 10.0,
+              alignment: WrapAlignment.start,
+              children: offer.categories.map<Widget>(
+                (category) {
+                  return Container(
+                    decoration: ShapeDecoration(
+                      shape: const StadiumBorder(),
+                      color: AppTheme.blue,
                     ),
-                    Icon(
-                      Icons.check,
-                      size: 12.0,
-                    )
-                  ],
-                ),
-              ),
-            );
-          },
-        ).toList(),
-      ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(category.name),
+                          SizedBox(
+                            width: 10.0,
+                          ),
+                          Icon(
+                            Icons.check,
+                            size: 12.0,
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ).toList(),
+            )
+          : SizedBox(),
     );
   }
 
@@ -282,9 +284,9 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
-                Text(offer.businessName),
+                Text(offer.businessName ?? ''),
                 Text(
-                  offer.businessDescription,
+                  offer.businessDescription ?? '',
                   style: const TextStyle(
                     color: Colors.white54,
                   ),

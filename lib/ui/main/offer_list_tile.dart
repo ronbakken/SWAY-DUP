@@ -14,7 +14,7 @@ class OfferListTile extends StatelessWidget {
     this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
-  final BusinessOfferSummary offer;
+  final BusinessOffer offer;
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;

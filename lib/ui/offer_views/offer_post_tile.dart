@@ -17,7 +17,7 @@ class OfferPostTile extends StatelessWidget {
     this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
-  final BusinessOfferSummary offer;
+  final BusinessOffer offer;
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;
@@ -26,8 +26,8 @@ class OfferPostTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     Widget imageArea = InfImage(
-      lowRes: offer.featuredImageLowRes,
-      imageUrl: offer.featuredImageUrl,
+      lowRes: offer.coverLowRes[0],
+      imageUrl: offer.coverUrls[0],
       fit: BoxFit.fitWidth,
       height: mediaQuery.size.height * 0.22,
     );
@@ -96,7 +96,7 @@ class _OfferDetailsRow extends StatelessWidget {
     @required this.offer,
   }) : super(key: key);
 
-  final BusinessOfferSummary offer;
+  final BusinessOffer offer;
 
   @override
   Widget build(BuildContext context) {
