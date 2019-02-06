@@ -1,7 +1,7 @@
 ﻿using API.Interfaces;
 using Mapping.Interfaces;
 
-namespace API.Services.Offers
+namespace API.Services.Mapping
 {
     public static class OfferMapItemExtensions
     {
@@ -14,7 +14,9 @@ namespace API.Services.Offers
 
             return new OfferMapItemDto
             {
-                GeoPoint = @this.Location.ToDto(),
+                ClusterId = @this.ClusterId,
+                OfferId = @this.OfferId,
+                UserId = @this.UserId,
             };
         }
     }

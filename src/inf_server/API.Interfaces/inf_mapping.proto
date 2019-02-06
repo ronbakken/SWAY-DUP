@@ -1,0 +1,54 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "location.proto";
+
+service InfMapping {
+  rpc SearchOffers (stream SearchRequest) returns (stream SearchResponse) {}
+}
+
+message SearchRequest {
+    int32 mapLevel = 1;
+    GeoPointDto northWest = 2;
+    GeoPointDto southEast = 3;
+
+    // Other stuff we can filter by
+}
+
+message SearchResponse {
+    repeated MapItemDto mapItems = 1;
+}
+
+message MapItemDto {
+    enum MapItemStatus {
+        inactive = 0;
+        active = 1;
+    }
+
+    GeoPointDto geoPoint = 1;
+    MapItemStatus status = 2;
+
+    oneof payload {
+        OfferMapItemDto offer = 3;
+        UserMapItemDto user = 4;
+        ClusterMapItemDto cluster = 5;
+    }
+}
+
+message OfferMapItemDto {
+    string clusterId = 1;
+    string offerId = 2;
+    string userId = 3;
+}
+
+message UserMapItemDto {
+    string clusterId = 1;
+    string userId = 2;
+}
+
+message ClusterMapItemDto {
+    string id = 1;
+    int32 itemCount = 2;
+}

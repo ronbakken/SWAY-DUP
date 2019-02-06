@@ -47,9 +47,11 @@ namespace API
             { "/api.InfInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
             { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Anonymous },
 
+            // InfMapping
+            { "/api.InfMapping/SearchOffers", UserTypes.Influencer | UserTypes.Business },
+
             // InfOffers
             { "/api.InfOffers/CreateOffer", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfOffers/SearchOffers", UserTypes.Influencer | UserTypes.Business },
 
             // InfSystem
             { "/api.InfSystem/PingServer", UserTypes.Anonymous },

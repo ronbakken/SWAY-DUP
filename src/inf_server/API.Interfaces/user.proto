@@ -8,7 +8,7 @@ import "location.proto";
 import "image.proto";
 
 enum UserType {
-    unknown_user_type = 0;
+    unknownUserType = 0;
     influencer = 1;
     business = 2;
     support = 3;

@@ -24,7 +24,10 @@ namespace Mapping
             }
 
             return new OfferMapItem(
-                @this.OfferId,
+                // TODO: cluster IDs
+                "",
+                // TODO: get offer IDs working too
+                @this.OfferId ?? "",
                 @this.UserId,
                 @this.Location.ToServiceObject());
         }

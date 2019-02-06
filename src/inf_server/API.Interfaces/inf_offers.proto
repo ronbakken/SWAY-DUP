@@ -3,13 +3,10 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-import "location.proto";
 import "offer.proto";
 
 service InfOffers {
   rpc CreateOffer (CreateOfferRequest) returns (CreateOfferResponse) {}
-
-  rpc SearchOffers (SearchOffersRequest) returns (SearchOffersResponse) {}
 }
 
 message CreateOfferRequest {
@@ -18,14 +15,4 @@ message CreateOfferRequest {
 
 message CreateOfferResponse {
     OfferDto offer = 1;
-}
-
-message SearchOffersRequest {
-    int32 mapLevel = 1;
-    GeoPointDto northWest = 2;
-    GeoPointDto southEast = 3;
-}
-
-message SearchOffersResponse {
-    repeated OfferMapItemDto offerMapItems = 1;
 }
