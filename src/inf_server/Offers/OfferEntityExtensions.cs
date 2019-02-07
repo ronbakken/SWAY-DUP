@@ -1,4 +1,5 @@
-﻿using Offers.Interfaces;
+﻿using NodaTime;
+using Offers.Interfaces;
 
 namespace Offers
 {
@@ -13,6 +14,8 @@ namespace Offers
 
             return new OfferEntity(
                 @this.Id,
+                @this.Status.ToEntity(),
+                new ZonedDateTime(),
                 @this.UserId,
                 @this.Location.ToEntity());
         }
@@ -26,6 +29,7 @@ namespace Offers
 
             return new Offer(
                 @this.Id,
+                @this.Status.ToService(),
                 @this.UserId,
                 @this.Location.ToServiceObject());
         }

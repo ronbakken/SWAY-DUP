@@ -6,5 +6,7 @@ namespace Offers.Interfaces
     public interface IOffersService : IService
     {
         Task<Offer> SaveOffer(Offer offer);
+
+        Task<Offer> RemoveOffer(Offer offer);
     }
 }

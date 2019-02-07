@@ -14,7 +14,9 @@ namespace API.Services.Offers
 
             return new OfferDto
             {
+                Id = @this.Id.OptionalOr(null),
                 GeoPoint = @this.Location.ToDto(),
+                Status = @this.Status.ToApi(),
             };
         }
 
@@ -27,6 +29,7 @@ namespace API.Services.Offers
 
             return new Offer(
                 @this.Id.ValueOr(null),
+                @this.Status.ToService(),
                 userId,
                 @this.GeoPoint.ToServiceObject());
         }
