@@ -162,9 +162,6 @@ Task("Deploy")
                 var outputs = ((JObject)infrastructureDeployment.Properties.Outputs);
                 var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
                 var clusterManagementUri = new Uri(clusterManagementEndpoint);
-                var userStorageAccountConnectionString = (string)outputs["userStorageAccountConnectionString"]["value"];
-                var loggingStorageAccountConnectionString = (string)outputs["loggingStorageAccountConnectionString"]["value"];
-                var databaseAccountConnectionString = (string)outputs["databaseAccountConnectionString"]["value"];
 
                 // 2. Build and upload the Service Fabric application.
                 Information("Restoring packages.");
@@ -189,6 +186,8 @@ Task("Deploy")
                 Information("Publishing services.");
                 PublishService("API");
                 PublishService("InvitationCodes");
+                PublishService("Mapping");
+                PublishService("Offers");
                 PublishService("Users");
 
                 var sourceApplicationManifest = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
@@ -199,9 +198,10 @@ Task("Deploy")
                     applicationParameters,
                     new Dictionary<string, string>
                     {
-                        { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", userStorageAccountConnectionString },
-                        { "LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING", loggingStorageAccountConnectionString },
-                        { "DATABASE_ACCOUNT_CONNECTION_STRING", databaseAccountConnectionString },
+                        { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["userStorageAccountConnectionString"]["value"] },
+                        { "LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["loggingStorageAccountConnectionString"]["value"] },
+                        { "DATABASE_ACCOUNT_CONNECTION_STRING", (string)outputs["databaseAccountConnectionString"]["value"] },
+                        { "SERVICE_BUS_CONNECTION_STRING", (string)outputs["serviceBusConnectionString"]["value"] },
                     });
 
                 Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());

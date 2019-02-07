@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Azure.Cosmos" />
+        <PackageReference Include="Microsoft.Azure.ServiceBus" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NodaTime" />

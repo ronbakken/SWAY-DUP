@@ -12,6 +12,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Azure.Cosmos" />
+        <PackageReference Include="Microsoft.Azure.ServiceBus" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NodaTime" />
@@ -20,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Mapping.Interfaces\Mapping.Interfaces.csproj" />
         <ProjectReference Include="..\Offers.Interfaces\Offers.Interfaces.csproj" />
         <ProjectReference Include="..\Utility\Utility.csproj" />
     </ItemGroup>

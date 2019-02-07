@@ -7,11 +7,12 @@
     <Parameter Name="InvitationCodes_InstanceCount" DefaultValue="-1" />
     <Parameter Name="API_InstanceCount" DefaultValue="-1" />
     <!--
-        The access token that facilitates access to the user storage account
+        Connection strings for various Azure services.
         -->
     <Parameter Name="UserStorageAccountConnectionString" DefaultValue="" />
     <Parameter Name="DatabaseAccountConnectionString" DefaultValue="" />
     <Parameter Name="LoggingStorageAccountConnectionString" DefaultValue="" />
+    <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion
        should match the Name and Version attributes of the ServiceManifest element defined in the
@@ -23,6 +24,9 @@
         <Settings>
           <Section Name="Database">
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
+          </Section>
+          <Section Name="ServiceBus">
+            <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
             <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
@@ -38,6 +42,9 @@
         <Settings>
           <Section Name="Database">
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
+          </Section>
+          <Section Name="ServiceBus">
+            <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
             <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />

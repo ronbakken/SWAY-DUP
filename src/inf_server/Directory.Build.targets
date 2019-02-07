@@ -10,6 +10,7 @@
         <PackageReference Update="Lucene.Net" Version="4.8.0-beta00005"/>
         <PackageReference Update="Lucene.Net.Analysis.Common" Version="4.8.0-beta00005"/>
         <PackageReference Update="Microsoft.Azure.Cosmos" Version="3.0.0.1-preview" />
+        <PackageReference Update="Microsoft.Azure.ServiceBus" Version="3.3.0" />
 		<PackageReference Update="Microsoft.ServiceFabric.Actors" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services" Version="3.3.624" />
         <PackageReference Update="Microsoft.ServiceFabric.Services.Remoting" Version="3.3.624" />

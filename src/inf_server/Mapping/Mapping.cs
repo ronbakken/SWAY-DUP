@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Fabric;
 using System.Linq;
 using System.Text;
@@ -8,6 +7,7 @@ using System.Threading.Tasks;
 using Common.Interfaces;
 using Mapping.Interfaces;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
@@ -15,6 +15,7 @@ using Offers.Interfaces;
 using Serilog;
 using Utility;
 using Utility.Mapping;
+using Utility.Serialization;
 
 namespace Mapping
 {
@@ -32,6 +33,11 @@ namespace Mapping
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
+            var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
+            var subscriptionClient = new SubscriptionClient(serviceBusConnectionString, "OfferUpdated", "subscription");
+
+            var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException);
+            subscriptionClient.RegisterMessageHandler(OnOfferUpdated, messageHandlerOptions);
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
@@ -44,48 +50,7 @@ namespace Mapping
             var offersContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(offersCollectionId, "/quadKey");
             this.offersContainer = offersContainerResult.Container;
 
-            //new CosmosContainerSettings().IndexingPolicy
-            //spatialData.IndexingPolicy = new IndexingPolicy(new SpatialIndex(DataType.Point));
-            //database.Containers.CreateContainerAsync()
-
-
             logger.Debug("Database creation complete");
-        }
-
-        public Task AddOffer(Offer offer) =>
-            this.ReportExceptionsWithin(this.logger, (logger) => AddOfferImpl(logger, offer));
-
-        internal async Task AddOfferImpl(ILogger logger, Offer offer)
-        {
-            using (logger.Performance("Saving offer {@Offer}", offer))
-            {
-                var mapLevel = maxMapLevel;
-
-                while (mapLevel > 0)
-                {
-                    var quadKey = QuadKey.From(offer.Location.Latitude, offer.Location.Longitude, mapLevel);
-                    logger.Debug("Determined level {MapLevel} quad key for offer to be {QuadKey}", mapLevel, quadKey);
-
-                    var offerMapItemEntity = offer.ToEntity(quadKey);
-                    logger.Debug("Saving offer map item {@OfferMapItem}", offerMapItemEntity);
-                    await this
-                        .offersContainer
-                        .Items
-                        .UpsertItemAsync(quadKey.ToString(), offerMapItemEntity)
-                        .ContinueOnAnyContext();
-                    logger.Debug("Offer map item saved: {@OfferMapItem}", offerMapItemEntity);
-
-                    --mapLevel;
-                }
-            }
-        }
-
-        public Task RemoveOffer(Offer offer) =>
-            this.ReportExceptionsWithin(this.logger, (logger) => RemoveOfferImpl(logger, offer));
-
-        internal async Task RemoveOfferImpl(ILogger logger, Offer offer)
-        {
-            throw new NotImplementedException();
         }
 
         public Task<List<OfferMapItem>> Search(OfferSearchFilter filter) =>
@@ -234,6 +199,47 @@ namespace Mapping
             var cosmosClient = new CosmosClient(cosmosConfiguration);
 
             return cosmosClient;
+        }
+
+        private async Task OnOfferUpdated(Message message, CancellationToken token)
+        {
+            this.logger.Debug("OnOfferUpdated");
+
+            var offer = message.Body.FromSerializedDataContract<Offer>();
+
+            using (logger.Performance("Updating map data for offer {@Offer}", offer))
+            {
+                var mapLevel = maxMapLevel;
+
+                while (mapLevel > 0)
+                {
+                    var quadKey = QuadKey.From(offer.Location.Latitude, offer.Location.Longitude, mapLevel);
+                    logger.Debug("Determined level {MapLevel} quad key for offer to be {QuadKey}", mapLevel, quadKey);
+
+                    var offerMapItemEntity = offer.ToEntity(quadKey);
+                    logger.Debug("Saving offer map item {@OfferMapItem}", offerMapItemEntity);
+                    await this
+                        .offersContainer
+                        .Items
+                        .UpsertItemAsync(quadKey.ToString(), offerMapItemEntity)
+                        .ContinueOnAnyContext();
+                    logger.Debug("Offer map item saved: {@OfferMapItem}", offerMapItemEntity);
+
+                    --mapLevel;
+                }
+            }
+        }
+
+        private Task OnServiceBusException(ExceptionReceivedEventArgs e)
+        {
+            this.logger.Error(
+                e.Exception,
+                "Error occurred on service bus for client ID {ClientId}, endpoint {Endpoint}, entity path {EntityPath}, action {Action}",
+                e.ExceptionReceivedContext.ClientId,
+                e.ExceptionReceivedContext.Endpoint,
+                e.ExceptionReceivedContext.EntityPath,
+                e.ExceptionReceivedContext.Action);
+            return Task.CompletedTask;
         }
     }
 }

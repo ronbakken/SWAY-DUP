@@ -85,7 +85,9 @@
       "vmImageSku": "2016-Datacenter-with-Containers",
       "vmImageVersion": "latest",
       "rdpUserName": "rdpadmin",
-      "userStorageAccountName": "[concat(variables('sanitizedResourcePrefix'), 'usa')]"
+      "userStorageAccountName": "[concat(variables('sanitizedResourcePrefix'), 'usa')]",
+      "defaultSASKeyName": "RootManageSharedAccessKey",
+      "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('resourcePrefix'), variables('defaultSASKeyName'))]"
    },
    "resources": [
       {
@@ -611,7 +613,7 @@
       {
          "apiVersion": "2015-04-08",
          "kind": "GlobalDocumentDB",
-         "type": "Microsoft.DocumentDb/databaseAccounts",
+         "type": "Microsoft.DocumentDB/databaseAccounts",
          "name": "[parameters('resourcePrefix')]",
          "location": "[resourceGroup().location]",
          "properties": {
@@ -627,6 +629,55 @@
          "tags": {
             "displayName": "DatabaseAccount"
          }
+      },
+      {
+         "apiVersion": "2017-04-01",
+         "name": "[parameters('resourcePrefix')]",
+         "type": "Microsoft.ServiceBus/namespaces",
+         "location": "[resourceGroup().location]",
+         "sku": {
+            "name": "Standard"
+         },
+         "resources": [
+            {
+               "apiVersion": "2017-04-01",
+               "name": "OfferUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               //  "properties": {
+               //    "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+               //    "maxSizeInMegabytes": "1024",
+               //    "requiresDuplicateDetection": "false",
+               //    "duplicateDetectionHistoryTimeWindow": "PT10M",
+               //    "enableBatchedOperations": "false",
+               //    "supportOrdering": "false",
+               //    "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S",
+               //    "enablePartitioning": "false",
+               //    "enableExpress": "false"
+               //  },
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "name": "subscription",
+                     "type": "Subscriptions",
+                     "dependsOn": [
+                        "OfferUpdated"
+                     ],
+                     //   "properties": {
+                     //     "lockDuration": "PT1M",
+                     //     "requiresSession": "false",
+                     //     "defaultMessageTimeToLive": "P10675199DT2H48M5.4775807S",
+                     //     "deadLetteringOnMessageExpiration": "false",
+                     //     "maxDeliveryCount": "10",
+                     //     "enableBatchedOperations": "false",
+                     //     "autoDeleteOnIdle": "P10675199DT2H48M5.4775807S"
+                     //   }
+                  }
+               ]
+            }
+         ]
       }
    ],
    "outputs": {
@@ -645,6 +696,14 @@
       "databaseAccountConnectionString": {
          "type": "string",
          "value": "[concat('AccountEndpoint=https://', parameters('resourcePrefix'), '.documents.azure.com:443/;AccountKey=', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('resourcePrefix')), providers('Microsoft.DocumentDB', 'databaseAccounts').apiVersions[0]).primaryMasterKey, ';')]"
+      },
+      "serviceBusConnectionString": {
+         "type": "string",
+         "value": "[listkeys(variables('authRuleResourceId'), '2017-04-01').primaryConnectionString]"
+      },
+      "serviceBusSharedAccessPolicyPrimaryKey": {
+         "type": "string",
+         "value": "[listkeys(variables('authRuleResourceId'), '2017-04-01').primaryKey]"
       }
    }
 }

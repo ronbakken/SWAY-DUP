@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
-using Mapping.Interfaces;
 using Microsoft.Azure.Cosmos;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Offers.Interfaces;
 using Optional;
 using Serilog;
 using Utility;
+using Utility.Serialization;
 
 namespace Offers
 {
@@ -21,6 +21,7 @@ namespace Offers
         private const string databaseId = "offers";
         private const string offersCollectionId = "offers";
         private readonly ILogger logger;
+        private readonly TopicClient offerUpdatedTopicClient;
         private CosmosContainer offersContainer;
 
         public Offers(StatelessServiceContext context)
@@ -29,6 +30,8 @@ namespace Offers
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
+            var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
+            this.offerUpdatedTopicClient = new TopicClient(serviceBusConnectionString, "OfferUpdated");
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
@@ -58,9 +61,12 @@ namespace Offers
             await this.offersContainer.Items.UpsertItemAsync(offerEntity.UserId, offerEntity);
             logger.Debug("Offer saved: {@Offer}", offerEntity);
 
-            logger.Debug("Forwarding offer {@Offer} to mapping service", offer);
-            var mappingService = GetMappingService();
-            await mappingService.AddOffer(offer);
+            logger.Debug("Publishing offer {@Offer} to service bus", offer);
+            var message = new Message(offer.ToSerializedDataContract());
+            await this
+                .offerUpdatedTopicClient
+                .SendAsync(message)
+                .ContinueOnAnyContext();
 
             return offer;
         }
@@ -77,8 +83,5 @@ namespace Offers
 
             return cosmosClient;
         }
-
-        private static IMappingService GetMappingService() =>
-            ServiceProxy.Create<IMappingService>(new Uri($"{FabricRuntime.GetActivationContext().ApplicationName}/Mapping"));
     }
 }

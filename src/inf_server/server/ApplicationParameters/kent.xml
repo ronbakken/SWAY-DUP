@@ -10,5 +10,6 @@
     <Parameter Name="UserStorageAccountConnectionString" Value="$USER_STORAGE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="DatabaseAccountConnectionString" Value="$DATABASE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="LoggingStorageAccountConnectionString" Value="$LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING" />
+    <Parameter Name="ServiceBusConnectionString" Value="$SERVICE_BUS_CONNECTION_STRING" />
   </Parameters>
 </Application>
