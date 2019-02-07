@@ -116,9 +116,9 @@ class InfApiServiceMock implements InfApiService {
               'Our car wash is the best car wash in the universe of car washes.',
           deliverables: [Deliverable(description: 'Tell people how good our service is', type: DeliverableType.POST)],
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          location: Location.fromDto(LocationDto()
-            ..latitude = 34.032395
-            ..longitude = -118.301019),
+          location: Location(
+            latitude:  34.032395,
+            longitude: -118.301019),
           reward: Reward(
             description: 'One free premium car wash',
             type: RewardType.barter,
@@ -146,9 +146,9 @@ class InfApiServiceMock implements InfApiService {
           numberOffered: 10,
           deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          location: Location.fromDto(LocationDto()
-            ..latitude = 34.040031
-            ..longitude = -118.257318),
+          location: Location(
+            latitude: 34.040031,
+            longitude: -118.257318),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
@@ -174,9 +174,9 @@ class InfApiServiceMock implements InfApiService {
           numberOffered: 10,
           deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          location: Location.fromDto(LocationDto()
-            ..latitude = 34.040031
-            ..longitude = -118.257318),
+          location: Location(
+            latitude: 34.040031,
+            longitude: -118.257318),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
@@ -219,9 +219,9 @@ class InfApiServiceMock implements InfApiService {
           deliverables: [Deliverable(description: 'Tell people how good our service is', type: DeliverableType.POST)],
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           endDate: DateTime.now().add(Duration(days: 10)),
-          location: Location.fromDto(LocationDto()
-            ..latitude = 34.032395
-            ..longitude = -118.301019),
+          location: Location(
+            latitude: 34.032395,
+            longitude: -118.301019),
           reward: Reward(
             description: 'One free premium car wash',
             type: RewardType.barter,
@@ -263,9 +263,9 @@ class InfApiServiceMock implements InfApiService {
           deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           endDate: DateTime.now().add(Duration(days: 10)),
-          location: Location.fromDto(LocationDto()
-            ..latitude = 34.040031
-            ..longitude = -118.257318),
+          location: Location(
+            latitude:34.040031,
+            longitude:-118.257318),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
@@ -306,9 +306,9 @@ class InfApiServiceMock implements InfApiService {
           deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           endDate: DateTime.now().add(Duration(days: 10)),
-          location: Location.fromDto(LocationDto()
-            ..latitude = 34.040031
-            ..longitude = -118.257318),
+          location: Location(
+            latitude: 34.040031,
+            longitude: -118.257318),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,

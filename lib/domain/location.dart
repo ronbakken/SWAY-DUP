@@ -8,17 +8,16 @@ class Location {
 
   Location.fromDto(LocationDto dto)
       : name = dto.name,
-        latitude = dto.latitude,
-        longitude = dto.longitude;
+        latitude = dto.geoPoint.latitude,
+        longitude = dto.geoPoint.longitude;
 
-  LocationDto toDto()
-  {
+  LocationDto toDto() {
     return LocationDto()
       ..name = name
-      ..latitude = latitude
-      ..longitude = longitude;
+      ..geoPoint = (GeoPointDto()
+        ..latitude = latitude
+        ..longitude = longitude);
   }
-
 
   Location({
     this.name,
