@@ -8,10 +8,10 @@ import "optional.proto";
 
 message OfferDto {
     OptionalString id = 1;
-    GeoLocationDto geoLocation = 2;
+    GeoPointDto geoLocation = 2;
 }
 
 message OfferMapItemDto {
     string offerId = 1;
-    GeoLocationDto geoLocation = 2;
+    GeoPointDto geoLocation = 2;
 }

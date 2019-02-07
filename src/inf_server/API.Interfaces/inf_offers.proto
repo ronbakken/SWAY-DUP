@@ -22,8 +22,8 @@ message CreateOfferResponse {
 
 message SearchOffersRequest {
     int32 mapLevel = 1;
-    GeoLocationDto northWest = 2;
-    GeoLocationDto southEast = 3;
+    GeoPointDto northWest = 2;
+    GeoPointDto southEast = 3;
 }
 
 message SearchOffersResponse {

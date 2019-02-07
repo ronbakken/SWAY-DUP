@@ -392,8 +392,10 @@ namespace MockServer
                     Email = "thomas@burkharts.net",
                     Location= new LocationDto{
                      Name = "Germany",
+                     GeoPoint = new GeoPointDto{
                      Latitude= 34.050863,
                      Longitude= -118.272657
+                     }
                     }
                     ,
                     Verified = true,
@@ -422,8 +424,10 @@ namespace MockServer
                     Email = "thomas@burkharts.net",
                     Location= new LocationDto{
                         Name = "Germany",
+                        GeoPoint = new GeoPointDto{
                     Latitude= 34.050863,
                     Longitude= -118.272657
+                        }
                 }
                     ,
                     Verified = false,
@@ -506,7 +510,7 @@ namespace MockServer
         {
             if (token == "INF")
             {
-                if ( (updatedUser != null) && (updatedUser.UserType == UserType.Influencer))
+                if ((updatedUser != null) && (updatedUser.UserType == UserType.Influencer))
                 {
                     return updatedUser;
                 }
