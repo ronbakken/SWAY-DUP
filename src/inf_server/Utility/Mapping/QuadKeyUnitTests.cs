@@ -140,6 +140,18 @@ namespace Utility.Mapping
         }
 
         [Theory]
+        [InlineData("0", new[] { 85.051128779806589, -180d, 0d, 0d })]
+        [InlineData("1", new[] { 85.051128779806589, 0, 0, 179.296875 })]
+        [InlineData("213101", new[] { -40.979898069620134, -16.875, -45.089035564831022, -11.25 })]
+        public void get_bounding_geo_points_returns_correct_boundary(string quadKey, double[] expected)
+        {
+            var sut = QuadKey.Parse(quadKey);
+            sut.GetBoundingGeoPoints(out var northWestLatitude, out var northWestLongitude, out var southEastLatitude, out var southEastLongitude);
+
+            Assert.True(expected.SequenceEqual(new[] { northWestLatitude, northWestLongitude, southEastLatitude, southEastLongitude }));
+        }
+
+        [Theory]
         [InlineData(0b0, "<<invalid>>")]
         [InlineData(0b1, "0")]
         [InlineData(0b000100_10000100, "2010")]

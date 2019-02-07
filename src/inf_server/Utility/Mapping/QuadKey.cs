@@ -339,6 +339,16 @@ namespace Utility.Mapping
             }
         }
 
+        public void GetBoundingGeoPoints(out double northWestLatitude, out double northWestLongitude, out double southEastLatitude, out double southEastLongitude)
+        {
+            GetTileCoordinatesFromQuadKey(this, out var tileX, out var tileY, out var levelOfDetail);
+            GetPixelCoordinatesFromTileCoordinates(tileX, tileY, out var pixelX, out var pixelY);
+            GetLatLongFromPixelCoordinates(pixelX, pixelY, levelOfDetail, out northWestLatitude, out northWestLongitude);
+
+            GetPixelCoordinatesFromTileCoordinates(tileX + 1, tileY + 1, out pixelX, out pixelY);
+            GetLatLongFromPixelCoordinates(pixelX, pixelY, levelOfDetail, out southEastLatitude, out southEastLongitude);
+        }
+
         private void EnsureValid()
         {
             if (!this.IsValid)
@@ -437,6 +447,22 @@ namespace Utility.Mapping
             tileY = pixelY / 256;
         }
 
+        private static void GetPixelCoordinatesFromTileCoordinates(int tileX, int tileY, out int pixelX, out int pixelY)
+        {
+            pixelX = tileX * 256;
+            pixelY = tileY * 256;
+        }
+
+        private static void GetLatLongFromPixelCoordinates(int pixelX, int pixelY, int levelOfDetail, out double latitude, out double longitude)
+        {
+            var mapSize = MapSize(levelOfDetail);
+            var x = (Clamp(pixelX, 0, mapSize - 1) / mapSize) - 0.5;
+            var y = 0.5 - (Clamp(pixelY, 0, mapSize - 1) / mapSize);
+
+            latitude = 90 - 360 * Math.Atan(Math.Exp(-y * 2 * Math.PI)) / Math.PI;
+            longitude = 360 * x;
+        }
+
         private static ulong GetRawValueFromTileCoordinates(int tileX, int tileY, int levelOfDetail)
         {
             var rawValue = 0UL;
@@ -464,6 +490,35 @@ namespace Utility.Mapping
             rawValue |= (uint)levelOfDetail;
 
             return rawValue;
+        }
+
+        public static void GetTileCoordinatesFromQuadKey(QuadKey quadKey, out int tileX, out int tileY, out int levelOfDetail)
+        {
+            tileX = 0;
+            tileY = 0;
+            levelOfDetail = quadKey.LevelCount;
+
+            for (int i = levelOfDetail; i > 0; i--)
+            {
+                var mask = 1 << (i - 1);
+                var quadValue = GetQuadValue(quadKey.rawValue, levelOfDetail - i);
+
+                switch (quadValue)
+                {
+                    case 0:
+                        break;
+                    case 1:
+                        tileX |= mask;
+                        break;
+                    case 2:
+                        tileY |= mask;
+                        break;
+                    case 3:
+                        tileX |= mask;
+                        tileY |= mask;
+                        break;
+                }
+            }
         }
     }
 }
