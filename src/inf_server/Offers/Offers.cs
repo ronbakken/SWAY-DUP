@@ -40,9 +40,15 @@ namespace Offers
             logger.Debug("Creating database if required");
 
             var cosmosClient = this.GetCosmosClient();
-            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var databaseResult = await cosmosClient
+                .Databases
+                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .ContinueOnAnyContext();
             var database = databaseResult.Database;
-            var offersContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(offersCollectionId, "/userId");
+            var offersContainerResult = await database
+                .Containers
+                .CreateContainerIfNotExistsAsync(offersCollectionId, "/id")
+                .ContinueOnAnyContext();
             this.offersContainer = offersContainerResult.Container;
 
             logger.Debug("Database creation complete");
@@ -67,7 +73,11 @@ namespace Offers
             offer = offerEntity.ToServiceObject();
 
             logger.Debug("Saving offer {@Offer}", offerEntity);
-            await this.offersContainer.Items.UpsertItemAsync(offerEntity.UserId, offerEntity);
+            await this
+                .offersContainer
+                .Items
+                .UpsertItemAsync(partitionKey: offerEntity.Id, offerEntity)
+                .ContinueOnAnyContext();
             logger.Debug("Offer saved: {@Offer}", offerEntity);
 
             logger.Debug("Publishing offer {@Offer} to service bus", offer);
@@ -102,7 +112,11 @@ namespace Offers
                     statusTimestamp: Option.Some(SystemClock.Instance.GetCurrentInstant().InUtc()));
 
             logger.Debug("Removing offer {@Offer}", offerEntity);
-            await this.offersContainer.Items.UpsertItemAsync(offerEntity.UserId, offerEntity);
+            await this
+                .offersContainer
+                .Items
+                .UpsertItemAsync(partitionKey: offerEntity.Id, offerEntity)
+                .ContinueOnAnyContext();
             logger.Debug("Offer removed: {@Offer}", offerEntity);
 
             logger.Debug("Publishing removal of offer {@Offer} to service bus", offer);
@@ -113,6 +127,67 @@ namespace Offers
                 .ContinueOnAnyContext();
 
             return offer;
+        }
+
+        public Task<Offer> GetOffer(string id) =>
+            this.ReportExceptionsWithin(this.logger, (logger) => GetOfferImpl(logger, id));
+
+        internal async Task<Offer> GetOfferImpl(ILogger logger, string id)
+        {
+            logger.Debug("Getting offer with ID {Id}", id);
+
+            var sql = new CosmosSqlQueryDefinition("SELECT * FROM o WHERE o.id = @Id");
+            sql.UseParameter("@Id", id);
+
+            var result = await this
+                .offersContainer
+                .Items
+                .ReadItemAsync<OfferEntity>(partitionKey: id, id)
+                .ContinueOnAnyContext();
+            var offer = result.Resource;
+            logger.Debug("Retrieved offer with ID {Id}: {@Offer}", id, offer);
+
+            return offer
+                .ToServiceObject();
+        }
+
+        public Task<ListOffersResult> ListOffers(string continuationToken, int pageSize) =>
+            this.ReportExceptionsWithin(this.logger, (logger) => ListOffersImpl(logger, continuationToken, pageSize));
+
+        internal async Task<ListOffersResult> ListOffersImpl(ILogger logger, string continuationToken = null, int pageSize = 25)
+        {
+            if (pageSize < 5 || pageSize > 100)
+            {
+                throw new ArgumentException(nameof(pageSize), "pageSize must be >= 5 and <= 100.");
+            }
+
+            this.logger.Debug("Retrieving offers using page size {PageSize}, continuation token {ContinutationToken}", pageSize, continuationToken);
+            var sql = new CosmosSqlQueryDefinition("SELECT * FROM o");
+
+            var itemQuery = this
+                .offersContainer
+                .Items
+                .CreateItemQuery<OfferEntity>(sql, 2, maxItemCount: pageSize, continuationToken: continuationToken);
+            var items = new List<Offer>();
+            string nextContinuationToken = null;
+
+            if (itemQuery.HasMoreResults)
+            {
+                var currentResultSet = await itemQuery
+                    .FetchNextSetAsync()
+                    .ContinueOnAnyContext();
+                nextContinuationToken = currentResultSet.ContinuationToken;
+
+                foreach (var offer in currentResultSet)
+                {
+                    items.Add(offer.ToServiceObject());
+                }
+            }
+
+            var result = new ListOffersResult(items, nextContinuationToken);
+            this.logger.Debug("Retrieved offers using page size {PageSize}, continuation token {ContinutationToken}. The next continuation token is {NextContinuationToken}: {Offers}", pageSize, continuationToken, nextContinuationToken, items);
+
+            return result;
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners() =>

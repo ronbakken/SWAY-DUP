@@ -70,10 +70,14 @@ namespace API.Services.Mocks
                 var response = new GetWelcomeImagesResponse();
 
                 response.ImageUrls.Add(displayedImageUrls);
-                await responseStream.WriteAsync(response);
+                await responseStream
+                    .WriteAsync(response)
+                    .ContinueOnAnyContext();
 
                 Console.WriteLine("Sending ImageUrls");
-                await Task.Delay(TimeSpan.FromSeconds(2));
+                await Task
+                    .Delay(TimeSpan.FromSeconds(2))
+                    .ContinueOnAnyContext();
             }
         }
     }

@@ -38,7 +38,8 @@ namespace Offers
         [JsonProperty("status")]
         public OfferStatusEntity Status { get; }
 
-        [JsonProperty("statusTimestamp")]
+        //[JsonProperty("statusTimestamp")]
+        [JsonIgnore]
         public ZonedDateTime StatusTimestamp { get; }
 
         [JsonProperty("version")]

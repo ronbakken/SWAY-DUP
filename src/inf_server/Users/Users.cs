@@ -41,11 +41,20 @@ namespace Users
             logger.Debug("Creating database if required");
 
             var cosmosClient = this.GetCosmosClient();
-            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var databaseResult = await cosmosClient
+                .Databases
+                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .ContinueOnAnyContext();
             var database = databaseResult.Database;
-            var usersContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(usersCollectionId, "/userId");
+            var usersContainerResult = await database
+                .Containers
+                .CreateContainerIfNotExistsAsync(usersCollectionId, "/userId")
+                .ContinueOnAnyContext();
             this.usersContainer = usersContainerResult.Container;
-            var sessionsContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(sessionsCollectionId, "/userId");
+            var sessionsContainerResult = await database
+                .Containers
+                .CreateContainerIfNotExistsAsync(sessionsCollectionId, "/userId")
+                .ContinueOnAnyContext();
             this.sessionsContainer = sessionsContainerResult.Container;
 
             logger.Debug("Database creation complete");
@@ -57,7 +66,11 @@ namespace Users
         internal async Task<UserData> GetUserDataImpl(ILogger logger, string userId)
         {
             logger.Debug("Getting data for user {UserId}", userId);
-            var userDataResponse = await this.usersContainer.Items.ReadItemAsync<UserDataEntity>(userId, userId);
+            var userDataResponse = await this
+                .usersContainer
+                .Items
+                .ReadItemAsync<UserDataEntity>(userId, userId)
+                .ContinueOnAnyContext();
 
             if (userDataResponse.StatusCode == HttpStatusCode.NotFound)
             {
@@ -86,7 +99,11 @@ namespace Users
 
             var userDataEntity = userData.ToEntity(userId, keywords);
             logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userDataEntity);
-            await this.usersContainer.Items.UpsertItemAsync(userId, userDataEntity);
+            await this
+                .usersContainer
+                .Items
+                .UpsertItemAsync(userId, userDataEntity)
+                .ContinueOnAnyContext();
             logger.Debug("Data saved for user {UserId}: {@UserData}", userId, userData);
 
             return userData;
@@ -109,7 +126,11 @@ namespace Users
             var userId = validationResults.UserId;
 
             logger.Debug("Getting session for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
-            var userSessionResponse = await this.sessionsContainer.Items.ReadItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken));
+            var userSessionResponse = await this
+                .sessionsContainer
+                .Items
+                .ReadItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken))
+                .ContinueOnAnyContext();
 
             if (userSessionResponse.StatusCode == HttpStatusCode.NotFound)
             {
@@ -142,7 +163,11 @@ namespace Users
             var userSessionEntity = userSession.ToEntity();
 
             logger.Debug("Saving session for user {UserId}: {UserSession}", userId, userSessionEntity);
-            await this.sessionsContainer.Items.CreateItemAsync(userId, userSessionEntity);
+            await this
+                .sessionsContainer
+                .Items
+                .CreateItemAsync(userId, userSessionEntity)
+                .ContinueOnAnyContext();
             logger.Information("Session for user {UserId} has been saved: {UserSession}", userId, userSessionEntity);
 
             return userSession;
@@ -165,7 +190,11 @@ namespace Users
             var userId = validationResults.UserId;
 
             logger.Debug("Deleting session for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
-            await this.sessionsContainer.Items.DeleteItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken));
+            await this
+                .sessionsContainer
+                .Items
+                .DeleteItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken))
+                .ContinueOnAnyContext();
             logger.Information("Session for user {UserId} with refresh token {RefreshToken} has been invalidated", userId, refreshToken);
         }
 
@@ -329,7 +358,9 @@ namespace Users
 
             while (itemQuery.HasMoreResults)
             {
-                var currentResultSet = await itemQuery.FetchNextSetAsync();
+                var currentResultSet = await itemQuery
+                    .FetchNextSetAsync()
+                    .ContinueOnAnyContext();
 
                 foreach (var user in currentResultSet)
                 {

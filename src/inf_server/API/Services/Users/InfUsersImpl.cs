@@ -29,7 +29,9 @@ namespace API.Services.Users
                     var userId = request.UserId;
                     logger.Debug("Getting data for user {UserId}", userId);
                     var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(userId);
+                    var userData = await usersService
+                        .GetUserData(userId)
+                        .ContinueOnAnyContext();
                     logger.Debug("Retrieved data for user {UserId}: {@UserData}", userId, userData);
 
                     return new GetUserResponse
@@ -54,13 +56,17 @@ namespace API.Services.Users
 
                     logger.Debug("Getting data for user {UserId}", authenticatedUserId);
                     var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(authenticatedUserId);
+                    var userData = await usersService
+                        .GetUserData(authenticatedUserId)
+                        .ContinueOnAnyContext();
 
                     var updatedUserData = request
                         .User
                         .ToServiceObject(userData.LoginToken);
                     logger.Debug("Saving data for user {UserId}: {@UserData}", authenticatedUserId, updatedUserData);
-                    var result = await usersService.SaveUserData(authenticatedUserId, updatedUserData);
+                    var result = await usersService
+                        .SaveUserData(authenticatedUserId, updatedUserData)
+                        .ContinueOnAnyContext();
 
                     var response = new UpdateUserResponse
                     {
@@ -76,8 +82,9 @@ namespace API.Services.Users
                 async (logger) =>
                 {
                     var results = await SearchUsersImpl(
-                        logger,
-                        request);
+                            logger,
+                            request)
+                        .ContinueOnAnyContext();
                     return results;
                 });
 
@@ -87,7 +94,9 @@ namespace API.Services.Users
             var usersService = GetUsersService();
 
             logger.Debug("Searching for users using filter {@SearchFilter}", searchFilter);
-            var results = await usersService.Search(searchFilter);
+            var results = await usersService
+                .Search(searchFilter)
+                .ContinueOnAnyContext();
 
             var response = new SearchUsersResponse();
             response.Results.AddRange(results.Select(result => result.ToDto()));

@@ -53,9 +53,15 @@ namespace Mapping
             logger.Debug("Creating database if required");
 
             var cosmosClient = this.GetCosmosClient();
-            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var databaseResult = await cosmosClient
+                .Databases
+                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .ContinueOnAnyContext();
             var database = databaseResult.Database;
-            var offersContainerResult = await database.Containers.CreateContainerIfNotExistsAsync(offersCollectionId, "/quadKey");
+            var offersContainerResult = await database
+                .Containers
+                .CreateContainerIfNotExistsAsync(offersCollectionId, "/quadKey")
+                .ContinueOnAnyContext();
             this.offersContainer = offersContainerResult.Container;
 
             logger.Debug("Database creation complete");
@@ -184,7 +190,9 @@ namespace Mapping
 
             while (itemQuery.HasMoreResults)
             {
-                var currentResultSet = await itemQuery.FetchNextSetAsync();
+                var currentResultSet = await itemQuery
+                    .FetchNextSetAsync()
+                    .ContinueOnAnyContext();
 
                 foreach (var offerMapItem in currentResultSet)
                 {

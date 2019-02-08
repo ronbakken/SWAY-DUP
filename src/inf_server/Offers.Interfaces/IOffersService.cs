@@ -8,5 +8,9 @@ namespace Offers.Interfaces
         Task<Offer> SaveOffer(Offer offer);
 
         Task<Offer> RemoveOffer(Offer offer);
+
+        Task<Offer> GetOffer(string id);
+
+        Task<ListOffersResult> ListOffers(string continuationToken, int pageSize);
     }
 }

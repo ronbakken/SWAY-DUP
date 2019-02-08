@@ -30,7 +30,7 @@ namespace API.Services.Auth
         //        request,
         //        usersService.Object,
         //        emailService.Object,
-        //        default);
+        //        default).ContinueOnAnyContext();
 
         //    Assert.NotNull(capturedUserData.LoginToken);
         //    Assert.NotEmpty(capturedUserData.LoginToken);

@@ -25,7 +25,9 @@ namespace API.Services.InvitationCodes
                 async (logger) =>
                 {
                     var service = GetInvitationCodesService();
-                    var invitationCode = await service.Generate();
+                    var invitationCode = await service
+                        .Generate()
+                        .ContinueOnAnyContext();
                     var response = new GenerateInvitationCodeResponse
                     {
                         InvitationCode = invitationCode,
@@ -43,7 +45,9 @@ namespace API.Services.InvitationCodes
                 {
                     var service = GetInvitationCodesService();
                     var invitationCode = request.InvitationCode;
-                    var status = await service.GetStatus(invitationCode);
+                    var status = await service
+                        .GetStatus(invitationCode)
+                        .ContinueOnAnyContext();
                     var response = new GetInvitationCodeStatusResponse
                     {
                         Status = status.ToDto(),

@@ -48,7 +48,9 @@ namespace API.Services.BlobStorage
                     var container = blobClient.GetContainerReference(containerName);
 
                     logger.Debug("Ensuring container with name {ContainerName} exists", containerName);
-                    await container.CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions { }, new OperationContext { }, context.CancellationToken);
+                    await container
+                        .CreateIfNotExistsAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions { }, new OperationContext { }, context.CancellationToken)
+                        .ContinueOnAnyContext();
 
                     var fileName = request.FileName;
                     var blob = container.GetBlockBlobReference(fileName);

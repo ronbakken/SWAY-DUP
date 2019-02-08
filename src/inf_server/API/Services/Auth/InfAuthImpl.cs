@@ -30,11 +30,12 @@ namespace API.Services.Auth
                 async (logger) =>
                 {
                     await SendLoginEmailImpl(
-                        logger,
-                        request,
-                        GetUsersService(),
-                        new SendGridEmailService(),
-                        context.CancellationToken);
+                            logger,
+                            request,
+                            GetUsersService(),
+                            new SendGridEmailService(),
+                            context.CancellationToken)
+                        .ContinueOnAnyContext();
                     return Empty.Instance;
                 });
 
@@ -46,7 +47,9 @@ namespace API.Services.Auth
             CancellationToken cancellationToken)
         {
             var userId = request.Email;
-            var userData = await usersService.GetUserData(userId);
+            var userData = await usersService
+                .GetUserData(userId)
+                .ContinueOnAnyContext();
             var userType = request.UserType;
             var userStatus = UserStatus.WaitingForActivation;
             var userShouldAlreadyBeActive = userType == Interfaces.UserType.UnknownUserType;
@@ -64,7 +67,9 @@ namespace API.Services.Auth
                     logger.Warning("User {UserId} should already be active, but their status is {UserStatus}", userId, userData?.Status);
 
                     // Help mitigate "timing" attacks.
-                    await Task.Delay(random.Next(100, 1000));
+                    await Task
+                        .Delay(random.Next(100, 1000))
+                        .ContinueOnAnyContext();
 
                     return;
                 }
@@ -80,7 +85,9 @@ namespace API.Services.Auth
                     logger.Warning("User {UserId} should either not exist, or be awaiting activation, but they do exist with a status of {UserStatus}", userId, userData.Status);
 
                     // Help mitigate "timing" attacks.
-                    await Task.Delay(random.Next(100, 1000));
+                    await Task
+                        .Delay(random.Next(100, 1000))
+                        .ContinueOnAnyContext();
 
                     return;
                 }
@@ -101,15 +108,19 @@ namespace API.Services.Auth
                     status: Option.Some(userStatus),
                     loginToken: Option.Some(loginToken));
             logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
-            await usersService.SaveUserData(userId, userData);
+            await usersService
+                .SaveUserData(userId, userData)
+                .ContinueOnAnyContext();
 
             var link = $"https://www.swaymarketplace.com/app/verify?token={loginToken}";
             logger.Debug("Sending verification email for user {UserId} with link {Link}", userId, link);
-            await emailService.SendVerificationEmail(
-                userId,
-                userData.Name ?? userId,
-                link,
-                cancellationToken);
+            await emailService
+                .SendVerificationEmail(
+                    userId,
+                    userData.Name ?? userId,
+                    link,
+                    cancellationToken)
+                .ContinueOnAnyContext();
         }
 
         public override Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context) =>
@@ -130,7 +141,9 @@ namespace API.Services.Auth
                     var userId = loginTokenValidationResults.UserId;
                     logger.Debug("Validating status of user {UserId}", userId);
                     var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(userId);
+                    var userData = await usersService
+                        .GetUserData(userId)
+                        .ContinueOnAnyContext();
 
                     if (userData.Status != UserStatus.WaitingForActivation)
                     {
@@ -141,7 +154,9 @@ namespace API.Services.Auth
                     var invitationCode = loginTokenValidationResults.InvitationCode;
                     logger.Debug("Honoring invitation code {InvitationCode} for user {UserId}", invitationCode, userId);
                     var invitationCodesService = GetInvitationCodesService();
-                    var honorResult = await invitationCodesService.Honor(invitationCode);
+                    var honorResult = await invitationCodesService
+                        .Honor(invitationCode)
+                        .ContinueOnAnyContext();
 
                     if (honorResult != InvitationCodeHonorResult.Success)
                     {
@@ -154,7 +169,9 @@ namespace API.Services.Auth
                     var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
                     logger.Debug("Saving session for user {UserId} with refresh token {RefreshToken}, device ID {DeviceId}", userId, refreshToken, request.DeviceId);
-                    await usersService.SaveUserSession(new UserSession(refreshToken, request.DeviceId));
+                    await usersService
+                        .SaveUserSession(new UserSession(refreshToken, request.DeviceId))
+                        .ContinueOnAnyContext();
 
                     userData = request
                         .UserData
@@ -163,7 +180,9 @@ namespace API.Services.Auth
                         .With(
                             status: Option.Some(UserStatus.Active));
                     logger.Debug("Updating data for user {UserId} to {@UserData}", userId, userData);
-                    userData = await usersService.SaveUserData(userId, userData);
+                    userData = await usersService
+                        .SaveUserData(userId, userData)
+                        .ContinueOnAnyContext();
 
                     var result = new CreateNewUserResponse
                     {
@@ -193,7 +212,9 @@ namespace API.Services.Auth
                     logger.Debug("Getting data for user {UserId}", userId);
                     var userType = validationResult.UserType;
                     var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(userId);
+                    var userData = await usersService
+                        .GetUserData(userId)
+                        .ContinueOnAnyContext();
 
                     if (userData.Status != UserStatus.WaitingForActivation && userData.Status != UserStatus.Active)
                     {
@@ -211,7 +232,9 @@ namespace API.Services.Auth
                     var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
                     logger.Debug("Updating session for user {UserId}", userId);
-                    var userSession = await usersService.GetUserSession(refreshToken);
+                    var userSession = await usersService
+                        .GetUserSession(refreshToken)
+                        .ContinueOnAnyContext();
 
                     if (userSession == null)
                     {
@@ -223,12 +246,16 @@ namespace API.Services.Auth
                         refreshToken: Option.Some(refreshToken));
 
                     logger.Debug("Updating user session for user {UserId} to {@UserSession}", userId, userSession);
-                    await usersService.SaveUserSession(userSession);
+                    await usersService
+                        .SaveUserSession(userSession)
+                        .ContinueOnAnyContext();
 
                     userData = userData.With(
                         loginToken: Option.Some<string>(null));
                     logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
-                    await usersService.SaveUserData(userId, userData);
+                    await usersService
+                        .SaveUserData(userId, userData)
+                        .ContinueOnAnyContext();
 
                     var result = new LoginWithLoginTokenResponse
                     {
@@ -257,7 +284,9 @@ namespace API.Services.Auth
                     var userId = validationResult.UserId;
                     logger.Debug("Retrieving data for user {UserId}", userId);
                     var usersService = GetUsersService();
-                    var userData = await usersService.GetUserData(userId);
+                    var userData = await usersService
+                        .GetUserData(userId)
+                        .ContinueOnAnyContext();
 
                     logger.Debug("Validating session for user {UserId}", userId);
                     var userSession = usersService.GetUserSession(refreshToken);
@@ -301,7 +330,9 @@ namespace API.Services.Auth
 
                     logger.Debug("Validating session for user {UserId} using refresh token {RefreshToken}", userId, refreshToken);
                     var usersService = GetUsersService();
-                    var userSession = await usersService.GetUserSession(refreshToken);
+                    var userSession = await usersService
+                        .GetUserSession(refreshToken)
+                        .ContinueOnAnyContext();
 
                     if (userSession == null)
                     {
@@ -328,7 +359,9 @@ namespace API.Services.Auth
                     var refreshToken = request.RefreshToken;
                     logger.Debug("Invalidating refresh token {RefreshToken}", refreshToken);
                     var usersService = GetUsersService();
-                    await usersService.InvalidateUserSession(refreshToken);
+                    await usersService
+                        .InvalidateUserSession(refreshToken)
+                        .ContinueOnAnyContext();
 
                     return Empty.Instance;
                 });

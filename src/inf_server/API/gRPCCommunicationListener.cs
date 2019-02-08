@@ -34,7 +34,7 @@ namespace API
             if (server != null)
             {
                 this.logger.Information("Abort");
-                await server.KillAsync();
+                await server.KillAsync().ContinueOnAnyContext();
             }
         }
 
@@ -43,7 +43,7 @@ namespace API
             if (server != null)
             {
                 this.logger.Information("Close");
-                await server.ShutdownAsync();
+                await server.ShutdownAsync().ContinueOnAnyContext();
             }
         }
 

@@ -57,7 +57,7 @@ namespace Microsoft.ServiceFabric.Services.Runtime
 
             try
             {
-                return await execute(executeLogger);
+                return await execute(executeLogger).ContinueOnAnyContext();
             }
             catch (Exception ex)
             {

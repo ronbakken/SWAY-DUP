@@ -60,7 +60,7 @@ namespace API.Services
 
             try
             {
-                return await execute(executeLogger);
+                return await execute(executeLogger).ContinueOnAnyContext();
             }
             catch (RpcException ex)
             {

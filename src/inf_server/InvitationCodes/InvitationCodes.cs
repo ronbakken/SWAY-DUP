@@ -37,9 +37,15 @@ namespace InvitationCodes
             logger.Debug("Creating database if required");
 
             var cosmosClient = this.GetCosmosClient();
-            var databaseResult = await cosmosClient.Databases.CreateDatabaseIfNotExistsAsync(databaseId);
+            var databaseResult = await cosmosClient
+                .Databases
+                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .ContinueOnAnyContext();
             var database = databaseResult.Database;
-            var containerResult = await database.Containers.CreateContainerIfNotExistsAsync(codesCollectionId, "/code");
+            var containerResult = await database
+                .Containers
+                .CreateContainerIfNotExistsAsync(codesCollectionId, "/code")
+                .ContinueOnAnyContext();
             this.codesContainer = containerResult.Container;
 
             logger.Debug("Database creation complete");
@@ -57,7 +63,11 @@ namespace InvitationCodes
                 code = GenerateRandomString(8);
                 logger.Debug("Generated random invitation code {InvitationCode}", code);
 
-                var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
+                var existingInvitationCodeResponse = await this
+                    .codesContainer
+                    .Items
+                    .ReadItemAsync<InvitationCodeEntity>(code, code)
+                    .ContinueOnAnyContext();
 
                 if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
                 {
@@ -79,7 +89,11 @@ namespace InvitationCodes
                 code,
                 expiryTimestamp);
 
-            await this.codesContainer.Items.CreateItemAsync(code, entity);
+            await this
+                .codesContainer
+                .Items
+                .CreateItemAsync(code, entity)
+                .ContinueOnAnyContext();
 
             logger.Information("Invitation code {InvitationCode} with expiry {Expiry} has been allocated", code, expiryTimestamp);
 
@@ -91,7 +105,11 @@ namespace InvitationCodes
 
         internal async Task<InvitationCodeStatus> GetStatusImpl(ILogger logger, string code)
         {
-            var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
+            var existingInvitationCodeResponse = await this
+                .codesContainer
+                .Items
+                .ReadItemAsync<InvitationCodeEntity>(code, code)
+                .ContinueOnAnyContext();
 
             if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
             {
@@ -125,7 +143,11 @@ namespace InvitationCodes
 
         internal async Task<InvitationCodeHonorResult> HonorImpl(ILogger logger, string code)
         {
-            var existingInvitationCodeResponse = await this.codesContainer.Items.ReadItemAsync<InvitationCodeEntity>(code, code);
+            var existingInvitationCodeResponse = await this
+                .codesContainer
+                .Items
+                .ReadItemAsync<InvitationCodeEntity>(code, code)
+                .ContinueOnAnyContext();
 
             if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
             {
@@ -154,7 +176,11 @@ namespace InvitationCodes
 
             existingInvitationCode = existingInvitationCode
                 .With(isHonored: Option.Some(true));
-            await this.codesContainer.Items.UpsertItemAsync(code, existingInvitationCode);
+            await this
+                .codesContainer
+                .Items
+                .UpsertItemAsync(code, existingInvitationCode)
+                .ContinueOnAnyContext();
             logger.Information("Invitation code {InvitationCode} is has been honored", code);
 
             return InvitationCodeHonorResult.Success;

@@ -52,6 +52,8 @@ namespace API
 
             // InfOffers
             { "/api.InfOffers/CreateOffer", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfOffers/GetOffer", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfOffers/ListOffers", UserTypes.Influencer | UserTypes.Business },
 
             // InfSystem
             { "/api.InfSystem/PingServer", UserTypes.Anonymous },
@@ -66,7 +68,7 @@ namespace API
         {
             this.logger.Verbose("ClientStreamingServerHandler");
             var newContext = Authorize(context);
-            var result = await continuation(requestStream, newContext);
+            var result = await continuation(requestStream, newContext).ContinueOnAnyContext();
             return result;
         }
 
@@ -74,21 +76,21 @@ namespace API
         {
             this.logger.Verbose("DuplexStreamingServerHandler");
             var newContext = Authorize(context);
-            await continuation(requestStream, responseStream, newContext);
+            await continuation(requestStream, responseStream, newContext).ContinueOnAnyContext();
         }
 
         public override async Task ServerStreamingServerHandler<TRequest, TResponse>(TRequest request, IServerStreamWriter<TResponse> responseStream, ServerCallContext context, ServerStreamingServerMethod<TRequest, TResponse> continuation)
         {
             this.logger.Verbose("ServerStreamingServerHandler");
             var newContext = Authorize(context);
-            await continuation(request, responseStream, newContext);
+            await continuation(request, responseStream, newContext).ContinueOnAnyContext();
         }
 
         public override async Task<TResponse> UnaryServerHandler<TRequest, TResponse>(TRequest request, ServerCallContext context, UnaryServerMethod<TRequest, TResponse> continuation)
         {
             this.logger.Verbose("UnaryServerHandler");
             var newContext = Authorize(context);
-            var result = await continuation(request, newContext);
+            var result = await continuation(request, newContext).ContinueOnAnyContext();
             return result;
         }
 

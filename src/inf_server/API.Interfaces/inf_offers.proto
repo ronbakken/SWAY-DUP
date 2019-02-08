@@ -7,6 +7,10 @@ import "offer.proto";
 
 service InfOffers {
   rpc CreateOffer (CreateOfferRequest) returns (CreateOfferResponse) {}
+
+  rpc GetOffer (GetOfferRequest) returns (GetOfferResponse) {}
+
+  rpc ListOffers (stream ListOffersRequest) returns (stream ListOffersResponse) {}
 }
 
 message CreateOfferRequest {
@@ -15,4 +19,39 @@ message CreateOfferRequest {
 
 message CreateOfferResponse {
     OfferDto offer = 1;
+}
+
+message GetOfferRequest {
+    string id = 1;
+}
+
+message GetOfferResponse {
+    OfferDto offer = 1;
+}
+
+// This is a general-purpose data structure and will be used for all ListXxx APIs.
+message ContinuationDto {
+    // For situations where continuation is not requested or not possible, this enumeration defines the reasons why.
+    enum NonContinuationReason {
+        // Clients can use this value when requesting the first page of data.
+        firstPage = 0;
+        // The server can use this value when returning the last page of data.
+        lastPage = 1;
+    }
+    oneof continuation {
+        // If continuation is requested by the client or is supported by the server, this value will be set to an appropriate continuation token.
+        string continuationToken = 1;
+        // If continuation is not requested by the client or is not supported by the server, this value will be set appropriately.
+        NonContinuationReason nonContinuationReason = 2;
+    }
+}
+
+message ListOffersRequest {
+    ContinuationDto continuation = 1;
+    int32 pageSize = 2;
+}
+
+message ListOffersResponse {
+    ContinuationDto continuation = 1;
+    repeated OfferDto items = 2;
 }

@@ -43,7 +43,9 @@ namespace API.Services.Auth
 
             var client = new SendGridClient(apiKey);
 
-            await client.SendEmailAsync(emailMessage, cancellationToken);
+            await client
+                .SendEmailAsync(emailMessage, cancellationToken)
+                .ContinueOnAnyContext();
         }
 
         private sealed class VerifyEmailTemplateData
