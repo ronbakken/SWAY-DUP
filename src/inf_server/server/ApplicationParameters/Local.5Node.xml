@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/server" xmlns="http://schemas.microsoft.com/2011/01/fabric">
-  <Parameters>
-    <Parameter Name="Mapping_InstanceCount" Value="1" />
-    <Parameter Name="Offers_InstanceCount" Value="1" />
-    <Parameter Name="Users_InstanceCount" Value="-1" />
-    <Parameter Name="InvitationCodes_InstanceCount" Value="-1" />
-    <Parameter Name="API_InstanceCount" Value="-1" />
-  </Parameters>
+    <Parameters>
+        <Parameter Name="UserStorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=tempkenttest;AccountKey=2MNEaPhl2mjytWIPLKvfJQ2IMHjVbuMBI+694FrorHn6Qu64ApW60HPsekJEWRqRoEQymPIENS9wKy6a4i2yzQ==;EndpointSuffix=core.windows.net" />
+        <Parameter Name="LoggingStorageAccountConnectionString" Value="" />
+        <Parameter Name="DatabaseAccountConnectionString" Value="AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" />
+        <Parameter Name="ServiceBusConnectionString" Value="Endpoint=sb://inf-kent.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ClJG7Ax2FSzjKlU+FOvjnQ6wIMzoC/wA/qIawmjPopI=" />
+    </Parameters>
 </Application>

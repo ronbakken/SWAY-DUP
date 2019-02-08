@@ -24,6 +24,7 @@
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
         <PackageReference Include="Grpc.Core.Testing" />
+        <PackageReference Include="Microsoft.Azure.ServiceBus" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
         <PackageReference Include="SerilogAnalyzer" />

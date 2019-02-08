@@ -1,11 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="serverType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="Mapping_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="Offers_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="Users_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="InvitationCodes_InstanceCount" DefaultValue="-1" />
-    <Parameter Name="API_InstanceCount" DefaultValue="-1" />
     <!--
         Connection strings for various Azure services.
         -->
@@ -91,6 +86,9 @@
           <Section Name="Storage">
             <Parameter Name="ConnectionString" Value="[UserStorageAccountConnectionString]" />
           </Section>
+          <Section Name="ServiceBus">
+            <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
+          </Section>
           <Section Name="Logging">
             <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
           </Section>
@@ -105,27 +103,27 @@
 
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
     <Service Name="Mapping" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="MappingType" InstanceCount="[Mapping_InstanceCount]">
+      <StatelessService ServiceTypeName="MappingType" InstanceCount="-1">
         <SingletonPartition />
       </StatelessService>
     </Service>
     <Service Name="Offers" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="OffersType" InstanceCount="[Offers_InstanceCount]">
+      <StatelessService ServiceTypeName="OffersType" InstanceCount="-1">
         <SingletonPartition />
       </StatelessService>
     </Service>
     <Service Name="Users" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="UsersType" InstanceCount="[Users_InstanceCount]">
+      <StatelessService ServiceTypeName="UsersType" InstanceCount="-1">
         <SingletonPartition />
       </StatelessService>
     </Service>
     <Service Name="InvitationCodes" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="InvitationCodesType" InstanceCount="[InvitationCodes_InstanceCount]">
+      <StatelessService ServiceTypeName="InvitationCodesType" InstanceCount="-1">
         <SingletonPartition />
       </StatelessService>
     </Service>
     <Service Name="API" ServicePackageActivationMode="ExclusiveProcess">
-      <StatelessService ServiceTypeName="APIType" InstanceCount="[API_InstanceCount]">
+      <StatelessService ServiceTypeName="APIType" InstanceCount="-1">
         <SingletonPartition />
       </StatelessService>
     </Service>

@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Application xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" Name="fabric:/server" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
-    <Parameter Name="Users_InstanceCount" Value="-1" />
-    <Parameter Name="InvitationCodes_InstanceCount" Value="-1" />
-    <Parameter Name="API_InstanceCount" Value="-1" />
     <!--
         Parameters substituted by the build script.
         -->
     <Parameter Name="UserStorageAccountConnectionString" Value="$USER_STORAGE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="DatabaseAccountConnectionString" Value="$DATABASE_ACCOUNT_CONNECTION_STRING" />
+    <Parameter Name="LoggingStorageAccountConnectionString" Value="$LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING" />
+    <Parameter Name="ServiceBusConnectionString" Value="$SERVICE_BUS_CONNECTION_STRING" />
   </Parameters>
 </Application>

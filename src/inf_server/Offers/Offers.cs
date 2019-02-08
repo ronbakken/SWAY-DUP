@@ -23,7 +23,6 @@ namespace Offers
         private const string offersCollectionId = "offers";
         private readonly ILogger logger;
         private readonly TopicClient offerUpdatedTopicClient;
-        private readonly TopicClient offerRemovedTopicClient;
         private CosmosContainer offersContainer;
 
         public Offers(StatelessServiceContext context)
@@ -34,7 +33,6 @@ namespace Offers
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
             var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
             this.offerUpdatedTopicClient = new TopicClient(serviceBusConnectionString, "OfferUpdated");
-            this.offerRemovedTopicClient = new TopicClient(serviceBusConnectionString, "OfferRemoved");
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
@@ -110,7 +108,7 @@ namespace Offers
             logger.Debug("Publishing removal of offer {@Offer} to service bus", offer);
             var message = new Message(offer.ToSerializedDataContract());
             await this
-                .offerRemovedTopicClient
+                .offerUpdatedTopicClient
                 .SendAsync(message)
                 .ContinueOnAnyContext();
 

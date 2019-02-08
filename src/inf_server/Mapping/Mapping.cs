@@ -34,10 +34,18 @@ namespace Mapping
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
             var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
-            var subscriptionClient = new SubscriptionClient(serviceBusConnectionString, "OfferUpdated", "subscription");
+            var subscriptionClient = new SubscriptionClient(
+                serviceBusConnectionString,
+                "OfferUpdated",
+                "mapping_service",
+                receiveMode: ReceiveMode.ReceiveAndDelete);
 
-            var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException);
-            subscriptionClient.RegisterMessageHandler(OnOfferUpdated, messageHandlerOptions);
+            var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException)
+            {
+                AutoComplete = true,
+                MaxConcurrentCalls = 4,
+            };
+            subscriptionClient.RegisterMessageHandler(this.OnOfferUpdated, messageHandlerOptions);
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
