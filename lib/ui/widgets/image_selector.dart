@@ -7,13 +7,15 @@ import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 
 class ImageSelector extends StatefulWidget {
-  final List<ImageReference> images;
+  final List<ImageReference> imageReferences;
   final double imageAspecRatio;
+  final ValueChanged<List<ImageReference>> onImageChanged;
 
   const ImageSelector({
     Key key,
-    @required this.images,
+    @required this.imageReferences,
     @required this.imageAspecRatio,
+    this.onImageChanged
   }) : super(key: key);
   @override
   _ImageSelectorState createState() => _ImageSelectorState();
@@ -21,6 +23,20 @@ class ImageSelector extends StatefulWidget {
 
 class _ImageSelectorState extends State<ImageSelector> {
   int selectedImageIndex = 0;
+  List<ImageReference> imageReferences;
+
+  @override
+  void initState() {
+    super.initState();
+    imageReferences = widget.imageReferences.map( (x) => x.copyWith()).toList();
+  }
+
+  @override
+  void didUpdateWidget(ImageSelector oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    imageReferences = widget.imageReferences.map( (x) => x.copyWith()).toList();
+  }
+ 
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -36,7 +52,7 @@ class _ImageSelectorState extends State<ImageSelector> {
   }
 
   Widget buildSelectedImageRow() {
-    var imageReferences = widget.images;
+    
     if (imageReferences.isEmpty) {
       return SizedBox();
     }
@@ -92,7 +108,7 @@ class _ImageSelectorState extends State<ImageSelector> {
   }
 
   Widget buildMainImage() {
-    if (widget.images.isEmpty) {
+    if (imageReferences.isEmpty) {
       return Container(
           color: AppTheme.grey,
           child: Row(
@@ -118,17 +134,17 @@ class _ImageSelectorState extends State<ImageSelector> {
             ],
           ));
     } else {
-      assert(selectedImageIndex < widget.images.length);
+      assert(selectedImageIndex < imageReferences.length);
       return Stack(
         fit: StackFit.passthrough,
         children: [
-          widget.images[selectedImageIndex].isFile
+          imageReferences[selectedImageIndex].isFile
               ? Image.file(
-                  widget.images[selectedImageIndex].imageFile,
+                  imageReferences[selectedImageIndex].imageFile,
                   fit: BoxFit.cover,
                 )
               : Image.network(
-                  widget.images[selectedImageIndex].imageUrl,
+                  imageReferences[selectedImageIndex].imageUrl,
                   fit: BoxFit.cover,
                 ),
           Positioned(
@@ -151,9 +167,10 @@ class _ImageSelectorState extends State<ImageSelector> {
 
   void onRemoveImage() {
     setState(() {
-      widget.images.removeAt(selectedImageIndex);
+      imageReferences.removeAt(selectedImageIndex);
       selectedImageIndex = selectedImageIndex > 0 ? selectedImageIndex - 1 : 0;
     });
+    widget.onImageChanged(imageReferences);
   }
 
   /// if [camera] is null a dialog is dispplayed to select which source should be used
@@ -168,10 +185,11 @@ class _ImageSelectorState extends State<ImageSelector> {
     var imageFile =
         camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
     if (imageFile != null) {
-      widget.images.add(ImageReference(imageFile: imageFile));
+      imageReferences.add(ImageReference(imageFile: imageFile));
       setState(() {
-        selectedImageIndex = widget.images.length - 1;
+        selectedImageIndex = widget.imageReferences.length - 1;
       });
+      widget.onImageChanged(imageReferences);
     }
   }
 }

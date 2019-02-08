@@ -19,8 +19,8 @@ class BrowseCarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowRes: offer.coverLowRes[0],
-      imageUrl: offer.coverUrls[0],
+      lowRes: offer.imagesLowRes[0],
+      imageUrl: offer.imageUrls[0],
       fit: BoxFit.cover,
     );
     if (tag != null) {

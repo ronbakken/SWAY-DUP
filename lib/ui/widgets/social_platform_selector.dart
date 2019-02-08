@@ -15,7 +15,7 @@ class SocialPlatformSelector extends StatefulWidget {
   const SocialPlatformSelector({
     Key key,
     @required this.channels,
-    this.padding,
+    this.padding = EdgeInsets.zero,
     this.label,
   }) : super(key: key);
 

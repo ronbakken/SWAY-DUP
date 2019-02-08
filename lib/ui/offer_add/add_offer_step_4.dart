@@ -142,11 +142,11 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                   InfTextFormField(
                     decoration: const InputDecoration(labelText: 'AMOUNT AVAILABLE'),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.numberOffered = int.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                    initialValue: widget.offerBuilder.amountAvailable != null
-                        ? widget.offerBuilder.amountAvailable.toString()
+                    initialValue: widget.offerBuilder.numberOffered != null
+                        ? widget.offerBuilder.numberOffered.toString()
                         : '',
                   ),
                   Row(

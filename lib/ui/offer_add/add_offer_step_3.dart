@@ -1,3 +1,4 @@
+import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inf/app/assets.dart';
@@ -5,6 +6,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
+import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_input_decorator.dart';
@@ -59,7 +61,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                       icon: Text('\$'),
                     ),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.cashValue = int.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.cashValue = Decimal.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                     onHelpPressed: () {},
@@ -81,7 +83,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                       icon: Text('\$'),
                     ),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.barterValue = int.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.barterValue = Decimal.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
@@ -91,7 +93,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                       labelText: 'MINIMUM FOLLOWERS',
                     ),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.miniFollowers = int.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.minFollowers = int.tryParse(s),
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                     onHelpPressed: () {},
                   ),
@@ -135,7 +137,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                       widget.offerBuilder.location = location;
                     },
                   ),
-                  _spacer(),
+                  ColumnSeparator(horizontalMargin: 0,),
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
                     child: InfStadiumButton(
@@ -162,11 +164,4 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
     }
   }
 
-  Container _spacer() {
-    return Container(
-      margin: const EdgeInsets.only(top: 16.0, bottom: 32),
-      height: 1,
-      color: AppTheme.white30,
-    );
-  }
 }

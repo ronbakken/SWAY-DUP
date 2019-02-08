@@ -18,8 +18,8 @@ class DeliverableIcon {
 
 class Deliverable {
   final int id;
-  final DeliverableType type;
+  final List<DeliverableType> types;
   final String description;
 
-  Deliverable({this.id, this.type, this.description});
+  Deliverable({this.id, this.types, this.description});
 }

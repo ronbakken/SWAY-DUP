@@ -114,8 +114,8 @@ class InfApiServiceMock implements InfApiService {
               'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
               'amazing service. '
               'Our car wash is the best car wash in the universe of car washes.',
-          deliverables: [Deliverable(description: 'Tell people how good our service is', type: DeliverableType.POST)],
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+          deliverable: Deliverable(description: 'Tell people how good our service is', types: [DeliverableType.POST,DeliverableType.VIDEO ]),
+          channels: [backend.get<ConfigService>().socialNetworkProviders[0],backend.get<ConfigService>().socialNetworkProviders[1]],
           location: Location(
             latitude:  34.032395,
             longitude: -118.301019),
@@ -127,8 +127,8 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          coverLowRes: [(await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List()],
-          coverUrls: [
+          imagesLowRes: [(await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List()],
+          imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e'
           ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/car_wash2_thumb_lowres.jpg')).buffer.asUint8List(),
@@ -144,7 +144,7 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
+          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(
             latitude: 34.040031,
@@ -156,8 +156,8 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          coverLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
-          coverUrls: [
+          imagesLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
+          imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
           ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
@@ -172,7 +172,7 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
+          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST, DeliverableType.MENTION]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(
             latitude: 34.040031,
@@ -184,8 +184,8 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          coverLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
-          coverUrls: [
+          imagesLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
+          imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
           ],
           thumbnailLowRes: (await rootBundle.load('assets/mockdata/ice_tea_thumb_lowres.jpg')).buffer.asUint8List(),
@@ -198,8 +198,9 @@ class InfApiServiceMock implements InfApiService {
     return [
       BusinessOffer(
           id: 1,
-          numberOffered: 5,
-          numberRemaining: 2,
+          startDate: DateTime(2019,1,1),
+          endDate: DateTime(2019,3,1),
+          acceptancePolicy: AcceptancePolicy.allowNegotiation,
           numberOfProposals: 1,
           businessAccountId: 42,
           businessName: 'CarWash Tom',
@@ -216,9 +217,9 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'cars'
               ..description = 'All about cars')
           ],
-          deliverables: [Deliverable(description: 'Tell people how good our service is', type: DeliverableType.POST)],
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          endDate: DateTime.now().add(Duration(days: 10)),
+          deliverable: Deliverable(description: 'Tell people how good our service is', types: [DeliverableType.POST,DeliverableType.VIDEO ]),
+          channels: [backend.get<ConfigService>().socialNetworkProviders[0],backend.get<ConfigService>().socialNetworkProviders[1]],
+          unlimitedAvailable: true,
           location: Location(
             latitude: 34.032395,
             longitude: -118.301019),
@@ -230,11 +231,11 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          coverLowRes: [
+          imagesLowRes: [
             (await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List(),
             (await rootBundle.load('assets/mockdata/car_wash2_lowres.jpg')).buffer.asUint8List(),
           ],
-          coverUrls: [
+          imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2.jpg?alt=media&token=0913cd09-1efc-47d6-a760-cbfe47476b5d'
           ],
@@ -243,6 +244,8 @@ class InfApiServiceMock implements InfApiService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
           id: 2,
+          startDate: DateTime(2019,1,1),
+          endDate: DateTime(2019,3,1),
           numberRemaining: 2,
           businessAccountId: 43,
           businessName: 'Scent of Asia',
@@ -252,6 +255,7 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
+          unlimitedAvailable: false,
           categories: [
             Category(CategoryDto()
               ..name = 'food'
@@ -260,9 +264,8 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'tea'
               ..description = 'Tea')
           ],
-          deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
+          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          endDate: DateTime.now().add(Duration(days: 10)),
           location: Location(
             latitude:34.040031,
             longitude:-118.257318),
@@ -273,11 +276,11 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          coverLowRes: [
+          imagesLowRes: [
             (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
             (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg')).buffer.asUint8List(),
           ],
-          coverUrls: [
+          imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
           ],
@@ -295,6 +298,7 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
+          unlimitedAvailable: false,
           categories: [
             Category(CategoryDto()
               ..name = 'food'
@@ -303,9 +307,10 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'tea'
               ..description = 'Tea')
           ],
-          deliverables: [Deliverable(description: 'Tell people how good our tea is', type: DeliverableType.POST)],
+          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          endDate: DateTime.now().add(Duration(days: 10)),
+          startDate: DateTime(2019,1,1),
+          endDate: DateTime(2019,3,1),
           location: Location(
             latitude: 34.040031,
             longitude: -118.257318),
@@ -316,11 +321,11 @@ class InfApiServiceMock implements InfApiService {
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
-          coverLowRes: [
+          imagesLowRes: [
             (await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List(),
             (await rootBundle.load('assets/mockdata/ice_tea2_lowres.jpg')).buffer.asUint8List(),
           ],
-          coverUrls: [
+          imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
           ],

@@ -44,8 +44,10 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
         InfPageScrollView(
           child: Column(
             children: [
-              ImageSelector(images: widget.offerBuilder.images,
-              imageAspecRatio: 4/3,
+              ImageSelector(
+                imageReferences: widget.offerBuilder.images,
+                imageAspecRatio: 4 / 3,
+                onImageChanged: (images) => widget.offerBuilder.images = images,
               ),
               Expanded(
                 child: Padding(
@@ -93,8 +95,6 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
     );
   }
 
- 
-
   void onNext(BuildContext context) {
     FormState state = form.currentState;
     if (true /*state.validate()*/) {
@@ -102,7 +102,4 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
       MultiPageWizard.of(context).nextPage();
     }
   }
-
 }
-
-

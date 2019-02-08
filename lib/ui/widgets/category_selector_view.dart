@@ -15,7 +15,7 @@ import 'package:inf/utils/selection_set.dart';
 class CategorySelectorView extends StatefulWidget {
   const CategorySelectorView({
     Key key,
-    this.padding,
+    this.padding = EdgeInsets.zero, 
     this.readOnly = false,
     @required this.categories,
     this.label,

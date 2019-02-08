@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
@@ -14,6 +16,7 @@ import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:intl/intl.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:rxdart/rxdart.dart';
 
 class OfferDetailsPage extends PageWidget {
@@ -44,6 +47,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   BusinessOffer offer;
 
+  bool _canBeEdited(BusinessOffer offer) => true;
+  // Fixme
+  // !offer.isPartial && offer.businessAccountId == backend.get<UserManager>().currentUser.id;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -56,7 +63,23 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               resizeToAvoidBottomPadding: false,
               appBar: AppBar(
                 centerTitle: true,
-                title: Text(offer.title),
+                title: Text(
+                  offer.title,
+                ),
+                actions: _canBeEdited(offer)
+                    ? [
+                        InkResponse(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: InfAssetImage(
+                              AppIcons.edit,
+                              height: 24,
+                            ),
+                          ),
+                          onTap: onEdit,
+                        ),
+                      ]
+                    : null,
               ),
               body: _buildBody(),
             );
@@ -90,8 +113,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               );
             },
             child: InfImage(
-              imageUrl: offer.coverUrls[0],
-              lowRes: offer.coverLowRes[0],
+              imageUrl: offer.imageUrls[0],
+              lowRes: offer.imagesLowRes[0],
             ),
           );
         },
@@ -122,14 +145,18 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 _DetailEntry(
                   icon: InfAssetImage(AppIcons.deliverable),
                   title: 'DELIVERABLES',
-                  //TODO show all
-                  rightSideIcons: [
-                    InfMemoryImage(
-                      offer.channels[0].logoColoredData,
-                      width: 24.0,
-                    )
-                  ],
-                  text: offer.deliverables[0].description,
+                  rightSideIcons: offer.channels
+                      .map<Widget>(
+                        (channel) => Padding(
+                              padding: const EdgeInsets.only(right:8),
+                              child: InfMemoryImage(
+                                channel.logoColoredData ?? channel.logoMonochromeData,
+                                width: 24.0,
+                              ),
+                            ),
+                      )
+                      .toList(),
+                  text: offer.deliverable.description,
                 ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
@@ -140,7 +167,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     _DetailEntry(
                       icon: InfAssetImage(AppIcons.location),
                       title: 'LOCATION',
-                      text: 'What do we display here?',
+                      text: offer.location.name ?? '',
                     ),
                     Divider(height: 1, color: AppTheme.white30),
                     buildCategories(),
@@ -306,7 +333,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: AppTheme.grey,
       child: Row(
         children: [
-          Text(
+          Text((offer.unlimitedAvailable ?? false) ? 'unlimited Available' :
             '${offer.numberRemaining}/${offer.numberOffered} Available',
           ),
           Expanded(
@@ -324,10 +351,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   Widget _buildImageArea() {
     List<InfImage> imageArray = <InfImage>[];
-    for (int i = 0; i < offer.coverUrls.length; i++) {
+    for (int i = 0; i < offer.imageUrls.length; i++) {
       imageArray.add(InfImage(
-        imageUrl: offer.coverUrls[i],
-        lowRes: offer.coverLowRes[i],
+        imageUrl: offer.imageUrls[i],
+        lowRes: offer.imagesLowRes[i],
       ));
     }
     return Stack(
@@ -341,11 +368,15 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           bottom: 20.0,
           child: InfPageIndicator(
             controller: pageController,
-            itemCount: offer.coverUrls.length,
+            itemCount: offer.imageUrls.length,
           ),
         ),
       ],
     );
+  }
+
+  void onEdit() async {
+    unawaited(Navigator.push(context, OfferEditPage.route(offer)));
   }
 }
 

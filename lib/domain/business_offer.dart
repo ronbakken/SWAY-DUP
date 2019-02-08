@@ -36,22 +36,24 @@ class BusinessOffer {
   final DateTime created;
   final DateTime startDate;
   final DateTime endDate;
+  final int minFolllowers;
 
   final int numberOffered;
   final int numberRemaining;
+  final bool unlimitedAvailable;
 
   final String thumbnailUrl;
   final Uint8List thumbnailLowRes;
 
-  final List<Deliverable> deliverables;
+  final Deliverable deliverable;
   final List<SocialNetworkProvider> channels;
   final Reward reward;
 
   final Location location;
 
   // Detail info
-  final List<String> coverUrls;
-  final List<Uint8List> coverLowRes;
+  final List<String> imageUrls;
+  final List<Uint8List> imagesLowRes;
 
   final List<Category> categories;
 
@@ -86,18 +88,20 @@ class BusinessOffer {
       this.startDate,
       this.endDate,
       this.created,
+      this.minFolllowers,
       this.isDirectOffer,
       this.numberOfProposals,
       this.numberOffered = 1,
+      this.unlimitedAvailable,
       this.numberRemaining,
       this.thumbnailUrl,
       this.thumbnailLowRes,
       this.channels,
-      this.deliverables,
+      this.deliverable,
       this.reward,
       this.location,
-      this.coverUrls,
-      this.coverLowRes,
+      this.imageUrls,
+      this.imagesLowRes,
       this.categories,
       this.state,
       this.stateReason,
@@ -117,15 +121,17 @@ class BusinessOffer {
     DateTime created,
     DateTime startDate,
     DateTime endDate,
+    int minFollowers,
     int numberOffered,
+    bool unlimitedAvailable,
     int numberRemaining,
     String thumbnailUrl,
     Uint8List thumbnailLowRes,
     List<Deliverable> deliverables,
     Reward reward,
     Location location,
-    List<String> coverUrls,
-    List<Uint8List> coverLowRes,
+    List<String> imageUrls,
+    List<Uint8List> imagesLowRes,
     List<Category> categories,
     BusinessOfferState state,
     BusinessOfferStateReason stateReason,
@@ -143,18 +149,20 @@ class BusinessOffer {
       description: description ?? this.description,
       startDate: startDate ?? this.startDate,
       endDate: endDate ?? this.endDate,
+      minFolllowers: minFollowers ?? this.minFolllowers,
       created: created ?? this.created,
       isDirectOffer: isDirectOffer ?? this.isDirectOffer,
       numberOfProposals: newChatMessages ?? this.numberOfProposals,
       numberOffered: numberOffered ?? this.numberOffered,
       numberRemaining: numberRemaining ?? this.numberRemaining,
+      unlimitedAvailable: unlimitedAvailable ?? this.unlimitedAvailable,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
       thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
-      deliverables: deliverables ?? this.deliverables,
+      deliverable: deliverables ?? this.deliverable,
       reward: reward ?? this.reward,
       location: location ?? this.location,
-      coverUrls: coverUrls ?? this.coverUrls,
-      coverLowRes: coverLowRes ?? this.coverLowRes,
+      imageUrls: imageUrls ??  this.imageUrls,
+      imagesLowRes: imagesLowRes ?? this.imagesLowRes,
       categories: categories ?? this.categories,
       state: state ?? this.state,
       stateReason: stateReason ?? this.stateReason,

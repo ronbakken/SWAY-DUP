@@ -24,4 +24,16 @@ class Location {
     this.latitude,
     this.longitude,
   });
+
+  Location copyWidth({
+    String name,
+    double latitude,
+    double longitude,
+  }) {
+    return Location(
+      name: name ?? this.name,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+    );
+  }
 }
