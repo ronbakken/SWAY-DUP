@@ -96,7 +96,7 @@ class OfferListTile extends StatelessWidget {
                           width: 8,
                         ),
                         Text(
-                          offer.reward.getTotalValueAsString(),
+                          offer.terms.reward.getTotalValueAsString(),
                           textScaleFactor: 1.2,
                         ),
                       ],

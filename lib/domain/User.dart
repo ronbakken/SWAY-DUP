@@ -7,7 +7,7 @@ import 'package:inf/domain/socialmedia_account.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class User {
-  final int id;
+  final String id;
   final bool verified;
   final AccountState accountState;
   final UserType userType;
@@ -52,7 +52,7 @@ class User {
   });
 
   User copyWith({
-    int id,
+    String id,
     bool verified,
     AccountState accountState,
     UserType userType,
@@ -97,6 +97,7 @@ class User {
 
   static User fromDto(UserDto dto) {
     return User(
+      id: dto.id.value,
       verified: dto.verified,
       accountState: dto.accountState,
       userType: dto.userType,
@@ -139,6 +140,7 @@ class User {
     assert(socialMediaAccounts != null);
 
     var dto = UserDto()
+      ..id = id != null ? (OptionalString()..value = id) : null
       ..verified = verified ?? false
       ..accountState = accountState
       ..userType = userType

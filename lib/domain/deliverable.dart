@@ -17,9 +17,19 @@ class DeliverableIcon {
 }
 
 class Deliverable {
-  final int id;
   final List<DeliverableType> types;
   final String description;
 
-  Deliverable({this.id, this.types, this.description});
+  Deliverable({this.types, this.description});
+
+  Deliverable copyWith({
+    int id,
+    List<DeliverableType> types,
+    String description,
+  }) {
+    return Deliverable(
+      description: description ?? this.description,
+      types: types ?? this.types,
+    );
+  }
 }

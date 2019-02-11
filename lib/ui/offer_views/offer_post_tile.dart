@@ -144,7 +144,7 @@ class _OfferDetailsRow extends StatelessWidget {
                       width: 8.0,
                     ),
                     Text(
-                      '${offer.reward.getTotalValueAsString(0)}',
+                      '${offer.terms.reward.getTotalValueAsString(0)}',
                       style: const TextStyle(fontSize: 14.5),
                     )
                   ],

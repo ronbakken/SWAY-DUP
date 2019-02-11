@@ -156,7 +156,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                             ),
                       )
                       .toList(),
-                  text: offer.deliverable.description,
+                  text: offer.terms.deliverable.description,
                 ),
                 Column(
                   mainAxisSize: MainAxisSize.min,
@@ -196,7 +196,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   _DetailEntry buildRewardsRow() {
-    final reward = offer.reward;
+    final reward = offer.terms.reward;
     return _DetailEntry(
       icon: InfAssetImage(AppIcons.gift),
       title: 'REWARDS',

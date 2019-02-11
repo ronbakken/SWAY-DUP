@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:decimal/decimal.dart';
 import 'package:intl/intl.dart';
 
-
 enum RewardType { barter, cash, barterAndCash }
 
 class Reward {
@@ -12,17 +11,14 @@ class Reward {
   final Decimal cashValue;
   final RewardType type;
 
-  final String imageUrl;
-  final Uint8List imageLowRes;
-
-  String  getTotalValueAsString([int digits = 2]) {
-    if (barterValue == null && cashValue == null)
-    {
+  String getTotalValueAsString([int digits = 2]) {
+    if (barterValue == null && cashValue == null) {
       return '';
     }
-    var formatter =NumberFormat.currency(locale: "en_US", symbol: '\$', decimalDigits: 0); 
+    var formatter = NumberFormat.currency(locale: "en_US", symbol: '\$', decimalDigits: 0);
     return formatter.format((barterValue ?? Decimal.fromInt(0) + (cashValue ?? Decimal.fromInt(0))).toDouble());
   }
+
   String get cashValueAsString => '\$${cashValue.toStringAsFixed(2)}';
   String get barterValueAsString => '\$${barterValue.toStringAsFixed(2)}';
 
@@ -31,7 +27,19 @@ class Reward {
     this.description,
     this.barterValue,
     this.cashValue,
-    this.imageUrl,
-    this.imageLowRes,
   });
+
+  Reward copyWith({
+    type,
+    description,
+    barterValue,
+    cashValue,
+  }) {
+    return Reward(
+      type: type ?? this.type,
+      description: description ?? this.description,
+      barterValue: barterValue ?? this.barterValue,
+      cashValue: cashValue ?? this.cashValue,
+    );
+  }
 }

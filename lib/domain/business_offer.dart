@@ -45,9 +45,9 @@ class BusinessOffer {
   final String thumbnailUrl;
   final Uint8List thumbnailLowRes;
 
-  final Deliverable deliverable;
+
+  final DealTerms terms;
   final List<SocialNetworkProvider> channels;
-  final Reward reward;
 
   final Location location;
 
@@ -97,8 +97,7 @@ class BusinessOffer {
       this.thumbnailUrl,
       this.thumbnailLowRes,
       this.channels,
-      this.deliverable,
-      this.reward,
+      this.terms,
       this.location,
       this.imageUrls,
       this.imagesLowRes,
@@ -127,8 +126,7 @@ class BusinessOffer {
     int numberRemaining,
     String thumbnailUrl,
     Uint8List thumbnailLowRes,
-    List<Deliverable> deliverables,
-    Reward reward,
+    DealTerms terms,
     Location location,
     List<String> imageUrls,
     List<Uint8List> imagesLowRes,
@@ -158,8 +156,7 @@ class BusinessOffer {
       unlimitedAvailable: unlimitedAvailable ?? this.unlimitedAvailable,
       thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
       thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
-      deliverable: deliverables ?? this.deliverable,
-      reward: reward ?? this.reward,
+      terms: terms ?? this.terms,
       location: location ?? this.location,
       imageUrls: imageUrls ??  this.imageUrls,
       imagesLowRes: imagesLowRes ?? this.imagesLowRes,

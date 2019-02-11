@@ -1,8 +1,11 @@
+import 'package:inf/domain/deal_terms.dart';
+
 enum ChatEntryType {
   plain,
-  haggle, // url-encoded haggle message (deliverable=...&reward=...&remarks=...)
+  haggle,
   image,
-  marker // system marker (id=...)
+  markerCheck,
+  markerReject,
 }
 
 /// the cumulated number of offers whith waiting chats
@@ -13,21 +16,33 @@ class WaitingChats {
 }
 
 class ChatEntry {
-  int id; // Sequential identifier in the chat stream
-  DateTime sent; // Sent timestamp
-  int senderId; // Account which sent
-  int applicantId; // One chat per applicant
+  final String id; // Sequential identifier in the chat stream
+  final DateTime sent; // Sent timestamp
+  final int senderId; // Account which sent
 
   // Question: Should we add avatarUrls here?
 
-  ChatEntryType type;
-  String text; // The written text
-  String attachmentUrl;
+  final ChatEntryType type;
+  final String text; // The written text
+  final String attachmentUrl;
+  final DealTerms newTerms;
 
-  DateTime seen; // null if not seen
-
+  ChatEntry({
+    this.id,
+    this.sent,
+    this.senderId,
+    this.type,
+    this.text,
+    this.attachmentUrl,
+    this.newTerms,
+  });
 }
 
 class Chat {
-  List<ChatEntry> entries;
+  final String id;
+  final DateTime lastTimeRead;
+  final String proposalId;
+  final List<ChatEntry> entries = [];
+
+  Chat({this.id, this.lastTimeRead, this.proposalId});
 }

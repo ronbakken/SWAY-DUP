@@ -114,17 +114,20 @@ class InfApiServiceMock implements InfApiService {
               'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
               'amazing service. '
               'Our car wash is the best car wash in the universe of car washes.',
-          deliverable: Deliverable(description: 'Tell people how good our service is', types: [DeliverableType.POST,DeliverableType.VIDEO ]),
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0],backend.get<ConfigService>().socialNetworkProviders[1]],
-          location: Location(
-            latitude:  34.032395,
-            longitude: -118.301019),
+          channels: [
+            backend.get<ConfigService>().socialNetworkProviders[0],
+            backend.get<ConfigService>().socialNetworkProviders[1]
+          ],
+          location: Location(latitude: 34.032395, longitude: -118.301019),
+          terms: DealTerms(
+          deliverable: Deliverable(
+              description: 'Tell people how good our service is', types: [DeliverableType.POST, DeliverableType.VIDEO]),
           reward: Reward(
             description: 'One free premium car wash',
             type: RewardType.barter,
             barterValue: Decimal.fromInt(20),
             cashValue: Decimal.fromInt(1000),
-          ),
+          ),),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [(await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List()],
@@ -144,16 +147,15 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          location: Location(
-            latitude: 34.040031,
-            longitude: -118.257318),
+          location: Location(latitude: 34.040031, longitude: -118.257318),
+          terms: DealTerms(
+          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
             barterValue: Decimal.fromInt(5),
-          ),
+          ),),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
@@ -172,16 +174,16 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST, DeliverableType.MENTION]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          location: Location(
-            latitude: 34.040031,
-            longitude: -118.257318),
+          location: Location(latitude: 34.040031, longitude: -118.257318),
+          terms: DealTerms(
+          deliverable: Deliverable(
+              description: 'Tell people how good our tea is', types: [DeliverableType.POST, DeliverableType.MENTION]),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
             barterValue: Decimal.fromInt(5),
-          ),
+          ),),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
@@ -198,8 +200,8 @@ class InfApiServiceMock implements InfApiService {
     return [
       BusinessOffer(
           id: 1,
-          startDate: DateTime(2019,1,1),
-          endDate: DateTime(2019,3,1),
+          startDate: DateTime(2019, 1, 1),
+          endDate: DateTime(2019, 3, 1),
           acceptancePolicy: AcceptancePolicy.allowNegotiation,
           numberOfProposals: 1,
           businessAccountId: 42,
@@ -217,18 +219,21 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'cars'
               ..description = 'All about cars')
           ],
-          deliverable: Deliverable(description: 'Tell people how good our service is', types: [DeliverableType.POST,DeliverableType.VIDEO ]),
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0],backend.get<ConfigService>().socialNetworkProviders[1]],
+          channels: [
+            backend.get<ConfigService>().socialNetworkProviders[0],
+            backend.get<ConfigService>().socialNetworkProviders[1]
+          ],
           unlimitedAvailable: true,
-          location: Location(
-            latitude: 34.032395,
-            longitude: -118.301019),
+          location: Location(latitude: 34.032395, longitude: -118.301019),
+          terms: DealTerms(
+          deliverable: Deliverable(
+              description: 'Tell people how good our service is', types: [DeliverableType.POST, DeliverableType.VIDEO]),
           reward: Reward(
             description: 'One free premium car wash',
             type: RewardType.barter,
             barterValue: Decimal.fromInt(20),
             cashValue: Decimal.fromInt(1000),
-          ),
+          ),),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [
@@ -244,8 +249,8 @@ class InfApiServiceMock implements InfApiService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
           id: 2,
-          startDate: DateTime(2019,1,1),
-          endDate: DateTime(2019,3,1),
+          startDate: DateTime(2019, 1, 1),
+          endDate: DateTime(2019, 3, 1),
           numberRemaining: 2,
           businessAccountId: 43,
           businessName: 'Scent of Asia',
@@ -264,15 +269,15 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'tea'
               ..description = 'Tea')
           ],
-          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          location: Location(
-            latitude:34.040031,
-            longitude:-118.257318),
-          reward: Reward(
-            description: 'One ice tea for you and a friend',
-            type: RewardType.barter,
-            barterValue: Decimal.fromInt(5),
+          location: Location(latitude: 34.040031, longitude: -118.257318),
+          terms: DealTerms(
+            deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
+            reward: Reward(
+              description: 'One ice tea for you and a friend',
+              type: RewardType.barter,
+              barterValue: Decimal.fromInt(5),
+            ),
           ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
@@ -307,18 +312,17 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'tea'
               ..description = 'Tea')
           ],
-          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-          startDate: DateTime(2019,1,1),
-          endDate: DateTime(2019,3,1),
-          location: Location(
-            latitude: 34.040031,
-            longitude: -118.257318),
+          startDate: DateTime(2019, 1, 1),
+          endDate: DateTime(2019, 3, 1),
+          location: Location(latitude: 34.040031, longitude: -118.257318),
+          terms: DealTerms(
+          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardType.barter,
             barterValue: Decimal.fromInt(5),
-          ),
+          ),),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [
@@ -357,15 +361,14 @@ Future<void> setOfferFilter(OfferFilter filter) {
 Future<List<Proposal>> loadproposalMockData() async {
   return [
     Proposal(
-      id: 1,
+      id: '1',
       offerId: 1912,
       // state: ProposalState.proposing,
-      deliverableType: DeliverableType.POST,
       // sentFrom: UserType.influencer,
-      influencerId: 43,
+      influencerId: "43",
       influencerName: 'Thomas',
       businessName: 'Scent of Asia',
-      businessId: 42,
+      businessId: "42",
       offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
           'So I think a selfy with me and your tea would fit great.',
       influencerWantsDeal: true,
@@ -380,15 +383,14 @@ Future<List<Proposal>> loadproposalMockData() async {
       influencerMarkedRewarded: false,
     ),
     Proposal(
-      id: 2,
+      id: '2',
       offerId: 4711,
       // state: ProposalState.deal,
-      deliverableType: DeliverableType.MENTION,
       // sentFrom: UserType.influencer,
-      influencerId: 43,
+      influencerId: '43',
       influencerName: 'Thomas',
       businessName: 'CarWash Tom',
-      businessId: 42,
+      businessId: '42',
       offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
           'So I think a selfy with me and your tea would fit great.',
       influencerWantsDeal: true,

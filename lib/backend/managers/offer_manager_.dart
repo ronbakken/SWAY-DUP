@@ -65,13 +65,13 @@ class OfferBuilder {
     description = offer.description;
 
     isDirectOffer = offer.isDirectOffer;
-    deliverableTypes = SelectionSet.fromIterable(offer.deliverable.types);
+    deliverableTypes = SelectionSet.fromIterable(offer.terms.deliverable.types);
     channels = SelectionSet.fromIterable(offer.channels);
     categories = SelectionSet.fromIterable(offer.categories);
-    deliverableDescription = offer.deliverable.description;
-    cashValue = offer.reward.cashValue ?? Decimal.fromInt(0);
-    barterValue = offer.reward.barterValue ?? Decimal.fromInt(0);
-    rewardDescription = offer.reward.description ?? '';
+    deliverableDescription = offer.terms.deliverable.description;
+    cashValue = offer.terms.reward.cashValue ?? Decimal.fromInt(0);
+    barterValue = offer.terms.reward.barterValue ?? Decimal.fromInt(0);
+    rewardDescription = offer.terms.reward.description ?? '';
     minFollowers = offer.minFolllowers ?? 0;
     location = offer.location.copyWidth();
     numberOffered = offer.numberOffered;

@@ -176,7 +176,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                                   title: 'Welcome to INF',
                                   child: SendSignupLoginEmailView(
                                     newUser: false,
-                                    userType: UserType.unknown_user_type,
+                                    userType: UserType.unknownUserType,
                                   ),
                                 ),
                               ),
