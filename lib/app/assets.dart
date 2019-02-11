@@ -11,6 +11,7 @@ class AppLogo {
   static const infSplash = AppAsset.bitmap('assets/images/splash_logo.png');
   static const infLogo = AppAsset.vector('assets/images/logo_inf.svg');
   static const infLogoWithShadow = AppAsset.vector('assets/images/logo_inf_shadow.svg');
+  static const swayLogo = AppAsset.vector('assets/images/logo_sway.svg');
   static const instagram = AppAsset.bitmap('assets/images/logo_instagram.png');
   static const facebook = AppAsset.vector('assets/images/logo_facebook.svg');
   static const google = AppAsset.vector('assets/images/logo_google.svg');

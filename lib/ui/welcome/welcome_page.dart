@@ -141,7 +141,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                         Expanded(
                           child: Center(
                             child: InfAssetImage(
-                              AppLogo.infLogoWithShadow,
+                              AppLogo.swayLogo,
                             ),
                           ),
                         ),
