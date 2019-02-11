@@ -47,6 +47,9 @@ export 'package:inf_api_client/src/inf_invitation_codes.pbenum.dart';
 export 'package:inf_api_client/src/location.pb.dart';
 export 'package:inf_api_client/src/location.pbenum.dart';
 
+export 'package:inf_api_client/src/optional.pb.dart';
+export 'package:inf_api_client/src/optional.pbenum.dart';
+
 export 'package:inf_api_client/src/social_media_account.pb.dart';
 export 'package:inf_api_client/src/social_media_account.pbenum.dart';
 

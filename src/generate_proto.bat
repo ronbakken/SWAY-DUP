@@ -17,6 +17,7 @@ protoc.exe ^
     inf_system.proto ^
     inf_users.proto ^
     location.proto ^
+    optional.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^
     user.proto
