@@ -7,7 +7,7 @@
 const UserType$json = const {
   '1': 'UserType',
   '2': const [
-    const {'1': 'unknown_user_type', '2': 0},
+    const {'1': 'unknownUserType', '2': 0},
     const {'1': 'influencer', '2': 1},
     const {'1': 'business', '2': 2},
     const {'1': 'support', '2': 3},
@@ -30,6 +30,7 @@ const AccountState$json = const {
 const UserDto$json = const {
   '1': 'UserDto',
   '2': const [
+    const {'1': 'id', '3': 1, '4': 1, '5': 11, '6': '.api.OptionalString', '10': 'id'},
     const {'1': 'verified', '3': 2, '4': 1, '5': 8, '10': 'verified'},
     const {'1': 'accountState', '3': 3, '4': 1, '5': 14, '6': '.api.AccountState', '10': 'accountState'},
     const {'1': 'userType', '3': 4, '4': 1, '5': 14, '6': '.api.UserType', '10': 'userType'},
