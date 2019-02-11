@@ -6,7 +6,8 @@ namespace Users
     public sealed class UserDataEntity
     {
         public UserDataEntity(
-            string userId,
+            string id,
+            string email,
             UserTypeEntity type,
             UserStatusEntity status,
             string name,
@@ -23,14 +24,15 @@ namespace Users
             ImmutableList<int> categoryIds,
             ImmutableList<SocialMediaAccountEntity> socialMediaAccounts,
             ImmutableList<string> keywords,
-            string loginToken) : this(1, userId, type, status, name, description, avatar, avatarThumbnail, location, showLocation, isVerified, websiteUri, acceptsDirectOffers, accountCompletionInPercent, minimalFee, categoryIds, socialMediaAccounts, keywords, loginToken)
+            string loginToken) : this(1, id, email, type, status, name, description, avatar, avatarThumbnail, location, showLocation, isVerified, websiteUri, acceptsDirectOffers, accountCompletionInPercent, minimalFee, categoryIds, socialMediaAccounts, keywords, loginToken)
         {
         }
 
         [JsonConstructor]
         public UserDataEntity(
             int version,
-            string userId,
+            string id,
+            string email,
             UserTypeEntity type,
             UserStatusEntity status,
             string name,
@@ -50,7 +52,8 @@ namespace Users
             string loginToken)
         {
             this.Version = version;
-            this.UserId = userId;
+            this.Id = id;
+            this.Email = email;
             this.Type = type;
             this.Status = status;
             this.Name = name;
@@ -71,13 +74,13 @@ namespace Users
         }
 
         [JsonProperty("id")]
-        public string Id => this.UserId;
+        public string Id { get; }
 
         [JsonProperty("version")]
         public int Version { get; }
 
-        [JsonProperty("userId")]
-        public string UserId { get; }
+        [JsonProperty("email")]
+        public string Email { get; }
 
         [JsonProperty("type", DefaultValueHandling = DefaultValueHandling.Include)]
         public UserTypeEntity Type { get; }

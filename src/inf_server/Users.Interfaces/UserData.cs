@@ -25,10 +25,12 @@ namespace Users.Interfaces
             default,
             default,
             default,
+            default,
             default);
 
         public UserData(
             string id,
+            string email,
             UserType type,
             UserStatus status,
             string name,
@@ -47,6 +49,7 @@ namespace Users.Interfaces
             string loginToken)
         {
             this.Id = id;
+            this.Email = email;
             this.Type = type;
             this.Status = status;
             this.Name = name;
@@ -67,6 +70,9 @@ namespace Users.Interfaces
 
         [DataMember]
         public string Id { get; private set; }
+
+        [DataMember]
+        public string Email { get; private set; }
 
         [DataMember]
         public UserType Type { get; private set; }
@@ -118,6 +124,7 @@ namespace Users.Interfaces
 
         public UserData With(
             Option<string> id = default,
+            Option<string> email = default,
             Option<UserType> type = default,
             Option<UserStatus> status = default,
             Option<string> name = default,
@@ -136,6 +143,7 @@ namespace Users.Interfaces
             Option<string> loginToken = default) =>
             new UserData(
                 id.ValueOr(Id),
+                email.ValueOr(Email),
                 type.ValueOr(Type),
                 status.ValueOr(Status),
                 name.ValueOr(Name),

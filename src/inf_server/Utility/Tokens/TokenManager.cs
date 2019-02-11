@@ -15,8 +15,9 @@ namespace Utility.Tokens
         private const string signingSecret = "utNULhCvR6FTH7HaSjVid4VGmMk8yL4Xep8GnhM6ZvLmFVdfumnpzobtuuLXxyx9XksWyAhlV9AeIaJSGZEGhg==";
         private const string encryptingSecret = "YQ1Dry8XqxydjPVNo9hA582xFuwCc3ULd+I+s/rUQIo=";
         private const string issuer = "https://api.sway-marketplace.com";
-        private const string userStatusClaimType = "userStatus";
-        private const string invitationCodeClaimType = "invitationCode";
+        private const string tokenTypeClaimType = "_tt";
+        private const string userStatusClaimType = "_us";
+        private const string invitationCodeClaimType = "_ic";
         private const string loginTokenType = "login";
         private const string refreshTokenType = "refresh";
         private const string accessTokenType = "access";
@@ -70,8 +71,8 @@ namespace Utility.Tokens
                 Subject = new ClaimsIdentity(
                     new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, loginTokenType),
-                        new Claim(JwtRegisteredClaimNames.Email, userId),
+                        new Claim(tokenTypeClaimType, loginTokenType),
+                        new Claim(JwtRegisteredClaimNames.Sub, userId),
                         new Claim(userStatusClaimType, userStatus),
                         new Claim(invitationCodeClaimType, invitationCode),
                     }),
@@ -104,10 +105,10 @@ namespace Utility.Tokens
             }
 
             var identity = (ClaimsIdentity)principal.Identity;
+            var tokenTypeClaim = identity.FindFirst(tokenTypeClaimType);
+            var tokenType = tokenTypeClaim?.Value;
             var subjectClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
             var subject = subjectClaim?.Value;
-            var emailClaim = identity.FindFirst(JwtRegisteredClaimNames.Email);
-            var email = emailClaim?.Value;
             var userStatusClaim = identity.FindFirst(userStatusClaimType);
             var userStatus = userStatusClaim?.Value;
             var invitationCodeClaim = identity.FindFirst(invitationCodeClaimType);
@@ -115,12 +116,12 @@ namespace Utility.Tokens
             var audienceClaim = identity.FindFirst(JwtRegisteredClaimNames.Aud);
             var audience = audienceClaim?.Value;
 
-            if (subject == null || subject != loginTokenType || email == null || userStatus == null || invitationCode == null || audience == null)
+            if (tokenType == null || tokenType != loginTokenType || subject == null || userStatus == null || invitationCode == null || audience == null)
             {
                 return LoginTokenValidationResult.Invalid;
             }
 
-            return LoginTokenValidationResult.From(email, userStatus, audience, invitationCode);
+            return LoginTokenValidationResult.From(subject, userStatus, audience, invitationCode);
         }
 
         /// <summary>
@@ -151,8 +152,8 @@ namespace Utility.Tokens
                 Subject = new ClaimsIdentity(
                     new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, refreshTokenType),
-                        new Claim(JwtRegisteredClaimNames.Email, userId),
+                        new Claim(tokenTypeClaimType, refreshTokenType),
+                        new Claim(JwtRegisteredClaimNames.Sub, userId),
                     }),
                 SigningCredentials = GetSigningCredentials(),
                 EncryptingCredentials = GetEncryptingCredentials(),
@@ -185,19 +186,19 @@ namespace Utility.Tokens
             }
 
             var identity = (ClaimsIdentity)principal.Identity;
-            var subjectClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
-            var subject = subjectClaim?.Value;
-            var emailClaim = identity.FindFirst(JwtRegisteredClaimNames.Email);
-            var email = emailClaim?.Value;
+            var tokenTypeClaim = identity.FindFirst(tokenTypeClaimType);
+            var tokenType = tokenTypeClaim?.Value;
+            var subClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
+            var sub = subClaim?.Value;
             var audienceClaim = identity.FindFirst(JwtRegisteredClaimNames.Aud);
             var audience = audienceClaim?.Value;
 
-            if (subject == null || subject != refreshTokenType || email == null || audience == null)
+            if (tokenType == null || tokenType != refreshTokenType || sub == null || audience == null)
             {
                 return RefreshTokenValidationResult.Invalid;
             }
 
-            return RefreshTokenValidationResult.From(email, audience);
+            return RefreshTokenValidationResult.From(sub, audience);
         }
 
         /// <summary>
@@ -234,8 +235,8 @@ namespace Utility.Tokens
                 Subject = new ClaimsIdentity(
                     new[]
                     {
-                        new Claim(JwtRegisteredClaimNames.Sub, accessTokenType),
-                        new Claim(JwtRegisteredClaimNames.Email, userId),
+                        new Claim(tokenTypeClaimType, accessTokenType),
+                        new Claim(JwtRegisteredClaimNames.Sub, userId),
                     }),
                 SigningCredentials = GetSigningCredentials(),
                 EncryptingCredentials = GetEncryptingCredentials(),
@@ -267,19 +268,19 @@ namespace Utility.Tokens
             }
 
             var identity = (ClaimsIdentity)principal.Identity;
-            var subjectClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
-            var subject = subjectClaim?.Value;
-            var emailClaim = identity.FindFirst(JwtRegisteredClaimNames.Email);
-            var email = emailClaim?.Value;
+            var tokenTypeClaim = identity.FindFirst(tokenTypeClaimType);
+            var tokenType = tokenTypeClaim?.Value;
+            var subClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
+            var sub = subClaim?.Value;
             var audienceClaim = identity.FindFirst(JwtRegisteredClaimNames.Aud);
             var audience = audienceClaim?.Value;
 
-            if (subject == null || subject != accessTokenType || email == null || audience == null)
+            if (tokenType == null || tokenType != accessTokenType || sub == null || audience == null)
             {
                 return AccessTokenValidationResult.Invalid;
             }
 
-            return AccessTokenValidationResult.From(email, audience);
+            return AccessTokenValidationResult.From(sub, audience);
         }
 
         private static ClaimsPrincipal GetPrincipal(string token, bool requireExpirationTime, bool decrypt = false)

@@ -60,12 +60,12 @@ namespace Utility.Tokens
             Assert.NotNull(jwtToken);
 
             Assert.Equal("https://api.sway-marketplace.com", jwtToken.Issuer);
-            Assert.Equal("login", jwtToken.Subject);
+            Assert.Equal(userId, jwtToken.Subject);
             Assert.Equal(userType, jwtToken.Audiences.First());
             var claims = jwtToken.Claims;
-            Assert.Equal(userId, claims.FirstOrDefault(claim => claim.Type == "email").Value);
-            Assert.Equal(userStatus, claims.FirstOrDefault(claim => claim.Type == "userStatus").Value);
-            Assert.Equal(invitationCode, claims.FirstOrDefault(claim => claim.Type == "invitationCode").Value);
+            Assert.Equal("login", claims.FirstOrDefault(claim => claim.Type == "_tt").Value);
+            Assert.Equal(userStatus, claims.FirstOrDefault(claim => claim.Type == "_us").Value);
+            Assert.Equal(invitationCode, claims.FirstOrDefault(claim => claim.Type == "_ic").Value);
         }
 
         [Fact]

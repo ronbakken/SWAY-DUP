@@ -46,9 +46,9 @@ namespace API.Services.Auth
             IEmailService emailService,
             CancellationToken cancellationToken)
         {
-            var userId = request.Email;
+            var email = request.Email;
             var userData = await usersService
-                .GetUserData(userId)
+                .GetUserDataByEmail(email)
                 .ContinueOnAnyContext();
             var userType = request.UserType;
             var userStatus = UserStatus.WaitingForActivation;
@@ -64,7 +64,7 @@ namespace API.Services.Auth
             {
                 if (userData == null || userData.Status != UserStatus.Active)
                 {
-                    logger.Warning("User {UserId} should already be active, but their status is {UserStatus}", userId, userData?.Status);
+                    logger.Warning("User with email {Email} should already be active, but their status is {UserStatus}", email, userData?.Status);
 
                     // Help mitigate "timing" attacks.
                     await Task
@@ -76,13 +76,13 @@ namespace API.Services.Auth
 
                 userType = userData.Type.ToDto();
                 userStatus = userData.Status;
-                logger.Debug("User {UserId} was found, and they are of type {UserType}, status {UserStatus}", userId, userType, userStatus);
+                logger.Debug("User with email {Email} was found, and they are of type {UserType}, status {UserStatus}", email, userType, userStatus);
             }
             else
             {
                 if (userData != null && userData.Status != UserStatus.WaitingForActivation)
                 {
-                    logger.Warning("User {UserId} should either not exist, or be awaiting activation, but they do exist with a status of {UserStatus}", userId, userData.Status);
+                    logger.Warning("User with email {Email} should either not exist, or be awaiting activation, but they do exist with a status of {UserStatus}", email, userData.Status);
 
                     // Help mitigate "timing" attacks.
                     await Task
@@ -95,29 +95,40 @@ namespace API.Services.Auth
                 userData = UserData.Initial;
             }
 
-            logger.Debug("Generating login token for {UserId}, status {UserStatus}, invitation code {InvitationCode}", userId, userType, request.InvitationCode);
+            // Initial save is to ensure user is allocated an ID, which we need in the login token.
+            userData = userData
+                .With(
+                    email: Option.Some(email),
+                    type: Option.Some(userType.ToServiceObject()),
+                    status: Option.Some(userStatus));
+            logger.Debug("Saving data for user with email {Email}: {@UserData}", email, userData);
+            userData = await usersService
+                .SaveUserData(userData)
+                .ContinueOnAnyContext();
+            var userId = userData.Id;
+
+            logger.Debug("Generating login token for user {UserId}, status {UserStatus}, invitation code {InvitationCode}", userId, userType, request.InvitationCode);
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
                 userStatus.ToString(),
                 userType.ToString(),
                 request.InvitationCode);
 
+            // Now we can save the user again, this time with an associated login token.
             userData = userData
                 .With(
-                    type: Option.Some(userType.ToServiceObject()),
-                    status: Option.Some(userStatus),
                     loginToken: Option.Some(loginToken));
             logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
-            await usersService
-                .SaveUserData(userId, userData)
+            userData = await usersService
+                .SaveUserData(userData)
                 .ContinueOnAnyContext();
 
             var link = $"https://www.swaymarketplace.com/app/verify?token={loginToken}";
             logger.Debug("Sending verification email for user {UserId} with link {Link}", userId, link);
             await emailService
                 .SendVerificationEmail(
-                    userId,
-                    userData.Name ?? userId,
+                    email,
+                    userData.Name ?? email,
                     link,
                     cancellationToken)
                 .ContinueOnAnyContext();
@@ -139,6 +150,13 @@ namespace API.Services.Auth
                     }
 
                     var userId = loginTokenValidationResults.UserId;
+
+                    if (userId != request.UserData.Id.ValueOr(userId))
+                    {
+                        logger.Warning("Login token's user ID, {TokenUserId}, differs from the user ID in the request, {RequestUserId}", userId, request.UserData.Id);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "The login token's user ID differs from that in the request data."));
+                    }
+
                     logger.Debug("Validating status of user {UserId}", userId);
                     var usersService = GetUsersService();
                     var userData = await usersService
@@ -181,7 +199,7 @@ namespace API.Services.Auth
                             status: Option.Some(UserStatus.Active));
                     logger.Debug("Updating data for user {UserId} to {@UserData}", userId, userData);
                     userData = await usersService
-                        .SaveUserData(userId, userData)
+                        .SaveUserData(userData)
                         .ContinueOnAnyContext();
 
                     var result = new CreateNewUserResponse
@@ -254,7 +272,7 @@ namespace API.Services.Auth
                         loginToken: Option.Some<string>(null));
                     logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
                     await usersService
-                        .SaveUserData(userId, userData)
+                        .SaveUserData(userData)
                         .ContinueOnAnyContext();
 
                     var result = new LoginWithLoginTokenResponse

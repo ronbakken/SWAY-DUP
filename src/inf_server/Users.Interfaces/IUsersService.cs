@@ -8,7 +8,9 @@ namespace Users.Interfaces
     {
         Task<UserData> GetUserData(string userId);
 
-        Task<UserData> SaveUserData(string userId, UserData userData);
+        Task<UserData> GetUserDataByEmail(string email);
+
+        Task<UserData> SaveUserData(UserData userData);
 
         Task<UserSession> GetUserSession(string refreshToken);
 

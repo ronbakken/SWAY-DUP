@@ -48,7 +48,7 @@ namespace API.Services.Users
                     var authenticatedUserId = context.GetAuthenticatedUserId();
                     logger.Debug("Validating authenticated user {UserId} matches user ID in request", authenticatedUserId);
 
-                    if (authenticatedUserId != request.User.Email)
+                    if (authenticatedUserId != request.User.Id.ValueOr(null))
                     {
                         logger.Warning("Authenticated user {UserId} does not match user ID in request {RequestUserId} - unable to update user", authenticatedUserId, request.User.Email);
                         throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update data for another user."));
@@ -65,7 +65,7 @@ namespace API.Services.Users
                         .ToServiceObject(userData.LoginToken);
                     logger.Debug("Saving data for user {UserId}: {@UserData}", authenticatedUserId, updatedUserData);
                     var result = await usersService
-                        .SaveUserData(authenticatedUserId, updatedUserData)
+                        .SaveUserData(updatedUserData)
                         .ContinueOnAnyContext();
 
                     var response = new UpdateUserResponse

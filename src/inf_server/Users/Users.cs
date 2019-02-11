@@ -11,6 +11,7 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Remoting.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
+using Optional;
 using Serilog;
 using Users.Interfaces;
 using Utility;
@@ -48,7 +49,7 @@ namespace Users
             var database = databaseResult.Database;
             var usersContainerResult = await database
                 .Containers
-                .CreateContainerIfNotExistsAsync(usersCollectionId, "/userId")
+                .CreateContainerIfNotExistsAsync(usersCollectionId, "/id")
                 .ContinueOnAnyContext();
             this.usersContainer = usersContainerResult.Container;
             var sessionsContainerResult = await database
@@ -83,12 +84,60 @@ namespace Users
             return userData.ToServiceObject();
         }
 
-        public Task<UserData> SaveUserData(string userId, UserData userData) =>
-            this.ReportExceptionsWithin(this.logger, (logger) => SaveUserDataImpl(logger, userId, userData));
+        public Task<UserData> GetUserDataByEmail(string email) =>
+            this.ReportExceptionsWithin(this.logger, (logger) => GetUserDataByEmailImpl(logger, email));
 
-        internal async Task<UserData> SaveUserDataImpl(ILogger logger, string userId, UserData userData)
+        internal async Task<UserData> GetUserDataByEmailImpl(ILogger logger, string email)
         {
-            logger.Debug("Determining keywords for user {UserId} with data {@UserData}", userId, userData);
+            logger.Debug("Getting data for user with email {Email}", email);
+
+            var sql = new CosmosSqlQueryDefinition("SELECT * FROM u WHERE u.email = @Email");
+            sql.UseParameter("@Email", email);
+
+            var itemQuery = this
+                .usersContainer
+                .Items
+                .CreateItemQuery<UserDataEntity>(sql, 2);
+
+            if (!itemQuery.HasMoreResults)
+            {
+                logger.Debug("No user found with email {Email}", email);
+                return null;
+            }
+
+            var currentResultSet = await itemQuery
+                .FetchNextSetAsync()
+                .ContinueOnAnyContext();
+            var results = currentResultSet
+                .Select(currentResult => currentResult.ToServiceObject())
+                .ToList();
+
+            if (results.Count == 0)
+            {
+                logger.Debug("No user found with email {Email}", email);
+                return null;
+            }
+            else if (results.Count > 1)
+            {
+                // This indicates something has gone horribly wrong, since there should only ever be a single user with a given email address.
+                logger.Error("Email {Email} has been used to create more than one user", email);
+                return null;
+            }
+
+            var result = results.First();
+            logger.Debug("Retrieved data for user with email {Email}: {@UserData}", email, result);
+            return result;
+        }
+
+        public Task<UserData> SaveUserData(UserData userData) =>
+            this.ReportExceptionsWithin(this.logger, (logger) => SaveUserDataImpl(logger, userData));
+
+        internal async Task<UserData> SaveUserDataImpl(ILogger logger, UserData userData)
+        {
+            userData = userData.With(
+                id: Option.Some(userData.Id ?? Guid.NewGuid().ToString()));
+
+            logger.Debug("Determining keywords for user data {@UserData}", userData);
             var keywords = Keywords
                 .Extract(
                     userData.Name,
@@ -97,14 +146,14 @@ namespace Users
                     userData.WebsiteUri)
                 .ToImmutableList();
 
-            var userDataEntity = userData.ToEntity(userId, keywords);
-            logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userDataEntity);
+            var userDataEntity = userData.ToEntity(keywords);
+            logger.Debug("Saving user data: {@UserData}", userDataEntity);
             await this
                 .usersContainer
                 .Items
-                .UpsertItemAsync(userId, userDataEntity)
+                .UpsertItemAsync(userData.Id, userDataEntity)
                 .ContinueOnAnyContext();
-            logger.Debug("Data saved for user {UserId}: {@UserData}", userId, userData);
+            logger.Debug("Uer data saved: {@UserData}", userData);
 
             return userData;
         }

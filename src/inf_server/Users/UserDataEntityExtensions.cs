@@ -15,6 +15,7 @@ namespace Users
 
             return new UserData(
                 @this.Id,
+                @this.Email,
                 @this.Type.ToServiceObject(),
                 @this.Status.ToServiceObject(),
                 @this.Name,
@@ -33,7 +34,7 @@ namespace Users
                 @this.LoginToken);
         }
 
-        public static UserDataEntity ToEntity(this UserData @this, string userId, ImmutableList<string> keywords)
+        public static UserDataEntity ToEntity(this UserData @this, ImmutableList<string> keywords)
         {
             if (@this == null)
             {
@@ -41,7 +42,8 @@ namespace Users
             }
 
             return new UserDataEntity(
-                userId,
+                @this.Id,
+                @this.Email,
                 @this.Type.ToEntity(),
                 @this.Status.ToEntity(),
                 @this.Name,

@@ -1,8 +1,6 @@
-﻿using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using API.Interfaces;
 using Users.Interfaces;
-using API.Services;
 
 namespace API.Services.Auth
 {
@@ -17,6 +15,7 @@ namespace API.Services.Auth
 
             var result = new UserDto
             {
+                Id = @this.Id.OptionalOr(null),
                 AcceptsDirectOffers = @this.AcceptsDirectOffers,
                 AccountCompletionInPercent = @this.AccountCompletionInPercent,
                 AccountState = @this.Status.ToDto(),
@@ -34,9 +33,9 @@ namespace API.Services.Auth
                 result.Description = @this.Description;
             }
 
-            if (@this.Id != null)
+            if (@this.Email != null)
             {
-                result.Email = @this.Id;
+                result.Email = @this.Email;
             }
 
             if (@this.Name != null)
@@ -70,6 +69,7 @@ namespace API.Services.Auth
             }
 
             return new UserData(
+                @this.Id.ValueOr(null),
                 @this.Email,
                 @this.UserType.ToServiceObject(),
                 @this.AccountState.ToServiceObject(),

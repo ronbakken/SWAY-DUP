@@ -3,9 +3,10 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-import "social_media_account.proto";
-import "location.proto";
 import "image.proto";
+import "location.proto";
+import "optional.proto";
+import "social_media_account.proto";
 
 enum UserType {
     unknownUserType = 0;
@@ -36,6 +37,7 @@ enum AccountState {
 }
 
 message UserDto {
+    OptionalString id = 1;
     bool verified = 2;
     AccountState accountState = 3;
     UserType userType = 4;
