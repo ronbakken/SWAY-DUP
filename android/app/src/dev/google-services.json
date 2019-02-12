@@ -39,6 +39,14 @@
           }
         },
         {
+          "client_id": "560562414986-f2t8bk5ba7g5th60j7f49es4h0mok5ct.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swaymarketplace.app.dev",
+            "certificate_hash": "b4340bf7eff4c87f420e26a7ee8f4dc50fb08df4"
+          }
+        },
+        {
           "client_id": "560562414986-qjqlj2jmupgr386t2m9p61sk4s2qlbs3.apps.googleusercontent.com",
           "client_type": 3
         }

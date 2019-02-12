@@ -1,7 +1,7 @@
 name: inf
 description: INFluencers
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -14,7 +14,7 @@ dependencies:
   firebase_messaging: any
   flutter_map: any
   flutter_page_indicator: any
-  flutter_secure_storage: any 
+  flutter_secure_storage: any
   flutter_svg: any
   flutter_webview_plugin: any
   get_it: any
@@ -22,9 +22,9 @@ dependencies:
   image_picker: any
   image: any
   intl: any
-  location: 
+  location:
     git: https://github.com/slightfoot/flutter_location.git
-  oauth1: any  
+  oauth1: any
   rxdart: any
   rx_command: any
   pedantic: any
@@ -43,10 +43,10 @@ dependencies:
     sdk: flutter
 
   inf_api_client:
-    # git: 
+    # git:
     #   url: https://github.com/infmarketplace/inf_backend.git
     #   path: inf_api_client
-    path: ../inf_server/src/inf_api_client 
+    path: ../inf_server/src/inf_api_client
 
 dev_dependencies:
   flutter_test:

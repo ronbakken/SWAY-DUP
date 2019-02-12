@@ -70,7 +70,7 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken}) async {
     case AppMode.prod:
       appEnvironment = AppEnvironment(
         mode: AppMode.prod,
-        host: 'api.staging.infdev.net',
+        host: 'api.swaymarketplace.com', // FIXME: server not yet operational
         port: -1,
       );
       registerImplementations();
