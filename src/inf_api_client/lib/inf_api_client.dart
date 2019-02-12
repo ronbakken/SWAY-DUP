@@ -7,8 +7,11 @@ export 'package:inf_api_client/src/deliverable.pbenum.dart';
 export 'package:inf_api_client/src/empty.pb.dart';
 export 'package:inf_api_client/src/empty.pbenum.dart';
 
-export 'package:inf_api_client/src/enums.pb.dart';
-export 'package:inf_api_client/src/enums.pbenum.dart';
+export 'package:inf_api_client/src/optional.pb.dart';
+export 'package:inf_api_client/src/optional.pbenum.dart';
+
+// export 'package:inf_api_client/src/enums.pb.dart';
+// export 'package:inf_api_client/src/enums.pbenum.dart';
 
 export 'package:inf_api_client/src/image.pb.dart';
 export 'package:inf_api_client/src/image.pbenum.dart';
