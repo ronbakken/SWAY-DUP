@@ -21,9 +21,9 @@ class ChatPostData {
 abstract class ProposalManager {
   Stream<Chat> openChat(String proposalId);
 
-  Observable<List<Proposal>> appliedProposals;
-  Observable<List<Proposal>> activeDeals;
-  Observable<List<Proposal>> doneProposals;
+  Observable<List<Proposal>> get appliedProposals;
+  Observable<List<Proposal>> get activeDeals;
+  Observable<List<Proposal>> get doneProposals;
 
   RxCommand<ChatPostData, void> postChatMessageCommand;
 

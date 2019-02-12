@@ -5,6 +5,8 @@ import 'package:inf/backend/api_keys.dart';
 import 'package:inf/backend/managers/app_manager_.dart';
 import 'package:inf/backend/managers/app_manager_impl.dart';
 import 'package:inf/backend/managers/offer_manager_impl.dart';
+import 'package:inf/backend/managers/proposal_manager_.dart';
+import 'package:inf/backend/managers/proposal_manager_impl.dart';
 import 'package:inf/backend/managers/user_manager_impl.dart';
 
 import 'package:inf/backend/services/auth_service_.dart';
@@ -33,6 +35,7 @@ import 'package:logging/logging.dart';
 export 'package:inf/backend/managers/app_manager_.dart';
 export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/managers/user_manager_.dart';
+export 'package:inf/backend/managers/proposal_manager_.dart';
 export 'package:inf/backend/services/config_service_.dart';
 export 'package:inf/backend/services/system_service_.dart';
 export 'package:inf/backend/services/inf_api_service_.dart';
@@ -115,6 +118,7 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerSingleton<ErrorReporter>(ErrorReporter(ApiKeys.sentry));
 
   // Services
+  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
   backend.registerLazySingleton<ConfigService>(() => ConfigServiceImplementation());
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerSingleton<InfApiClientsService>(InfApiClientsServiceImplementation());
@@ -130,13 +134,13 @@ void registerImplementations([String testRefreshToken]) {
           ));
 
   backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
-  backend.registerLazySingleton<SystemService>(() => SystemServiceImplementation());
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
   // Managers
   backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
   backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
+  backend.registerLazySingleton<ProposalManager>(() => ProposalManagerImplementation());
 
   // // Services
   // backend.registerLazySingleton<LocationService>(() => LocationServiceImplementation());

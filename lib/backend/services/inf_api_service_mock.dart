@@ -120,14 +120,16 @@ class InfApiServiceMock implements InfApiService {
           ],
           location: Location(latitude: 34.032395, longitude: -118.301019),
           terms: DealTerms(
-          deliverable: Deliverable(
-              description: 'Tell people how good our service is', types: [DeliverableType.POST, DeliverableType.VIDEO]),
-          reward: Reward(
-            description: 'One free premium car wash',
-            type: RewardType.barter,
-            barterValue: Decimal.fromInt(20),
-            cashValue: Decimal.fromInt(1000),
-          ),),
+            deliverable: Deliverable(
+                description: 'Tell people how good our service is',
+                types: [DeliverableType.POST, DeliverableType.VIDEO]),
+            reward: Reward(
+              description: 'One free premium car wash',
+              type: RewardType.barter,
+              barterValue: Decimal.fromInt(20),
+              cashValue: Decimal.fromInt(1000),
+            ),
+          ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [(await rootBundle.load('assets/mockdata/car_wash1_lowres.jpg')).buffer.asUint8List()],
@@ -150,12 +152,13 @@ class InfApiServiceMock implements InfApiService {
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
-          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
-          reward: Reward(
-            description: 'One ice tea for you and a friend',
-            type: RewardType.barter,
-            barterValue: Decimal.fromInt(5),
-          ),),
+            deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
+            reward: Reward(
+              description: 'One ice tea for you and a friend',
+              type: RewardType.barter,
+              barterValue: Decimal.fromInt(5),
+            ),
+          ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
@@ -177,13 +180,14 @@ class InfApiServiceMock implements InfApiService {
           channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
-          deliverable: Deliverable(
-              description: 'Tell people how good our tea is', types: [DeliverableType.POST, DeliverableType.MENTION]),
-          reward: Reward(
-            description: 'One ice tea for you and a friend',
-            type: RewardType.barter,
-            barterValue: Decimal.fromInt(5),
-          ),),
+            deliverable: Deliverable(
+                description: 'Tell people how good our tea is', types: [DeliverableType.POST, DeliverableType.MENTION]),
+            reward: Reward(
+              description: 'One ice tea for you and a friend',
+              type: RewardType.barter,
+              barterValue: Decimal.fromInt(5),
+            ),
+          ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [(await rootBundle.load('assets/mockdata/ice_tea_lowres.jpg')).buffer.asUint8List()],
@@ -226,14 +230,16 @@ class InfApiServiceMock implements InfApiService {
           unlimitedAvailable: true,
           location: Location(latitude: 34.032395, longitude: -118.301019),
           terms: DealTerms(
-          deliverable: Deliverable(
-              description: 'Tell people how good our service is', types: [DeliverableType.POST, DeliverableType.VIDEO]),
-          reward: Reward(
-            description: 'One free premium car wash',
-            type: RewardType.barter,
-            barterValue: Decimal.fromInt(20),
-            cashValue: Decimal.fromInt(1000),
-          ),),
+            deliverable: Deliverable(
+                description: 'Tell people how good our service is',
+                types: [DeliverableType.POST, DeliverableType.VIDEO]),
+            reward: Reward(
+              description: 'One free premium car wash',
+              type: RewardType.barter,
+              barterValue: Decimal.fromInt(20),
+              cashValue: Decimal.fromInt(1000),
+            ),
+          ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [
@@ -317,12 +323,13 @@ class InfApiServiceMock implements InfApiService {
           endDate: DateTime(2019, 3, 1),
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
-          deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
-          reward: Reward(
-            description: 'One ice tea for you and a friend',
-            type: RewardType.barter,
-            barterValue: Decimal.fromInt(5),
-          ),),
+            deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
+            reward: Reward(
+              description: 'One ice tea for you and a friend',
+              type: RewardType.barter,
+              barterValue: Decimal.fromInt(5),
+            ),
+          ),
           state: BusinessOfferState.open,
           stateReason: BusinessOfferStateReason.newOffer,
           imagesLowRes: [
@@ -338,102 +345,134 @@ class InfApiServiceMock implements InfApiService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a')
     ];
   }
-}
 
-@override
-Future<void> markOfferAsRead(BusinessOffer offer) {
-  // TODO: implement markOfferAsRead
-  return null;
-}
+  @override
+  Observable<List<Proposal>> getProposals(String userId) {
+    return Observable.fromFuture(loadProposalMockData());
+  }
 
-@override
-void setMapBoundery(double topLeftLatitude, double topLeftLongitude, double bottomRightLatitude,
-    double bottomRightLongitude, double zoomLevel) {
-  // TODO: implement setMapBoundery
-}
+  Future<List<Proposal>> loadProposalMockData() async {
+    return [
+      Proposal(
+        id: '1',
+        offerId: 1,
+        state: ProposalState.proposal,
+        sentFrom: UserType.business,
+        influencerId: "2",
+        influencerName: 'Thomas',
+        businessName: 'Scent of Asia',
+        businessAvatarUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
+        businessId: "1",
+        offerTitle: 'I love all sorts of Tea and my followers love all sort of great food.'
+            'So I think a selfy with me and your tea would fit great.',
+        influencerWantsDeal: true,
+        businessGaveRating: 0,
+        influencerGaveRating: 0,
+        influencerMarkedDelivered: false,
+        businessMarkedDelivered: false,
+        businessWantsDeal: false,
+        businessDisputed: false,
+        businessMarkedRewarded: false,
+        influencerDisputed: false,
+        influencerMarkedRewarded: false,
+        offerThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a',
+      ),
+      Proposal(
+        id: '2',
+        offerId: 2,
+        state: ProposalState.deal,
+        sentFrom: UserType.business,
+        influencerId: '2',
+        influencerName: 'Thomas',
+        businessName: 'CarWash Tom',
+        businessAvatarUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
+        businessId: '1',
+        offerTitle: 'I love all sorts of Tea and my followers love all sort of great food.'
+            'So I think a selfy with me and your tea would fit great.',
+        influencerWantsDeal: true,
+        businessGaveRating: 0,
+        influencerGaveRating: 0,
+        influencerMarkedDelivered: false,
+        businessMarkedDelivered: false,
+        businessWantsDeal: false,
+        businessDisputed: false,
+        businessMarkedRewarded: false,
+        influencerDisputed: false,
+        influencerMarkedRewarded: false,
+        offerThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a',
+      ),
+      Proposal(
+        id: '3',
+        offerId: 1,
+        state: ProposalState.done,
+        sentFrom: UserType.business,
+        influencerId: '43',
+        influencerName: 'Thomas',
+        businessName: 'CarWash Tom',
+        businessAvatarUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
+        businessId: '42',
+        offerTitle: 'I love all sorts of Tea and my followers love all sort of great food.'
+            'So I think a selfy with me and your tea would fit great.',
+        offerThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45',
+        influencerWantsDeal: true,
+        businessGaveRating: 0,
+        influencerGaveRating: 0,
+        influencerMarkedDelivered: false,
+        businessMarkedDelivered: false,
+        businessWantsDeal: false,
+        businessDisputed: false,
+        businessMarkedRewarded: false,
+        influencerDisputed: false,
+        influencerMarkedRewarded: false,
+      ),
+    ];
+  }
 
-@override
-Future<void> setOfferFilter(OfferFilter filter) {
-  // TODO: implement setOfferFilter
-  return null;
-}
-
-Future<List<Proposal>> loadproposalMockData() async {
-  return [
-    Proposal(
-      id: '1',
-      offerId: 1912,
-      // state: ProposalState.proposing,
-      // sentFrom: UserType.influencer,
-      influencerId: "43",
-      influencerName: 'Thomas',
-      businessName: 'Scent of Asia',
-      businessId: "42",
-      offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
-          'So I think a selfy with me and your tea would fit great.',
-      influencerWantsDeal: true,
-      businessGaveRating: 0,
-      influencerGaveRating: 0,
-      influencerMarkedDelivered: false,
-      businessMarkedDelivered: false,
-      businessWantsDeal: false,
-      businessDisputed: false,
-      businessMarkedRewarded: false,
-      influencerDisputed: false,
-      influencerMarkedRewarded: false,
-    ),
-    Proposal(
-      id: '2',
-      offerId: 4711,
-      // state: ProposalState.deal,
-      // sentFrom: UserType.influencer,
-      influencerId: '43',
-      influencerName: 'Thomas',
-      businessName: 'CarWash Tom',
-      businessId: '42',
-      offerText: 'I love all sorts of Tea and my followers love all sort of great food.'
-          'So I think a selfy with me and your tea would fit great.',
-      influencerWantsDeal: true,
-      businessGaveRating: 0,
-      influencerGaveRating: 0,
-      influencerMarkedDelivered: false,
-      businessMarkedDelivered: false,
-      businessWantsDeal: false,
-      businessDisputed: false,
-      businessMarkedRewarded: false,
-      influencerDisputed: false,
-      influencerMarkedRewarded: false,
-    ),
+  List<List<MapMarker>> allMarkers = [
+    [
+      MapMarker(
+          latitude: 34.043454, longitude: -118.314071, isDirectOffer: false, type: MapMarkerType.offer, offerId: 1),
+      MapMarker(
+          latitude: 34.044201, longitude: -118.318041, isDirectOffer: true, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.053055, longitude: -118.318084, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.047259, longitude: -118.324178, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.058309, longitude: -118.303922, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.061908, longitude: -118.299544, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.066095, longitude: -118.305627, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.068316, longitude: -118.309597, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
+      MapMarker(
+          latitude: 34.065668,
+          longitude: -118.314779,
+          isDirectOffer: null,
+          type: MapMarkerType.user,
+          userType: UserType.business,
+          userId: 42)
+    ],
+    [
+      MapMarker(latitude: 34.044201, longitude: -118.318041, type: MapMarkerType.cluster, clusterCount: 15),
+      MapMarker(latitude: 34.061908, longitude: -118.299544, type: MapMarkerType.cluster, clusterCount: 5),
+      MapMarker(
+          latitude: 34.065668,
+          longitude: -118.314779,
+          isDirectOffer: null,
+          type: MapMarkerType.user,
+          userType: UserType.business,
+          userId: 42)
+    ],
   ];
 }
-
-List<List<MapMarker>> allMarkers = [
-  [
-    MapMarker(latitude: 34.043454, longitude: -118.314071, isDirectOffer: false, type: MapMarkerType.offer, offerId: 1),
-    MapMarker(latitude: 34.044201, longitude: -118.318041, isDirectOffer: true, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(latitude: 34.053055, longitude: -118.318084, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(latitude: 34.047259, longitude: -118.324178, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(latitude: 34.058309, longitude: -118.303922, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(latitude: 34.061908, longitude: -118.299544, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(latitude: 34.066095, longitude: -118.305627, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(latitude: 34.068316, longitude: -118.309597, isDirectOffer: false, type: MapMarkerType.offer, offerId: 2),
-    MapMarker(
-        latitude: 34.065668,
-        longitude: -118.314779,
-        isDirectOffer: null,
-        type: MapMarkerType.user,
-        userType: UserType.business,
-        userId: 42)
-  ],
-  [
-    MapMarker(latitude: 34.044201, longitude: -118.318041, type: MapMarkerType.cluster, clusterCount: 15),
-    MapMarker(latitude: 34.061908, longitude: -118.299544, type: MapMarkerType.cluster, clusterCount: 5),
-    MapMarker(
-        latitude: 34.065668,
-        longitude: -118.314779,
-        isDirectOffer: null,
-        type: MapMarkerType.user,
-        userType: UserType.business,
-        userId: 42)
-  ],
-];

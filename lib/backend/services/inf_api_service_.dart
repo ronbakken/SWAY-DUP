@@ -22,6 +22,7 @@ abstract class InfApiService {
     double bottomRightLongitude,
     double zoomLevel,
   );
+
   Observable<List<MapMarker>> getMapMarkers();
 
   Observable<WaitingChats> waitingChatUpdates();
@@ -29,7 +30,8 @@ abstract class InfApiService {
   Future<void> markChatAsRead(Proposal proposal);
   Future<void> postChatEntry(Proposal proposal, ChatEntry entry);
 
-  // Observable<List<Proposal>> getProposals(ProposalFilter filter);
+
+  Observable<List<Proposal>> getProposals(String userId);
 
   // Future<Proposal> getProposalById(int proposalId);
 

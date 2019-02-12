@@ -5,6 +5,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/offer_list_tile.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:inf/ui/proposal_views/proposal_list_view.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf/utils/stream_from_value_and_future.dart';
@@ -29,7 +30,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
 
   @override
   void initState() {
-    controller = new TabController(length: 3, vsync: this);
+    controller = new TabController(length: 4, vsync: this);
     super.initState();
   }
 
@@ -63,7 +64,11 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                   controller: controller,
                   tabs: [
                     _TabBarItem(
-                      text: 'APPLIED',
+                      text: 'OFFERS',
+                      bottomPadding: kTabBarBottomPadding,
+                    ),
+                    _TabBarItem(
+                      text: 'PROPOSED',
                       bottomPadding: kTabBarBottomPadding,
                     ),
                     _TabBarItem(
@@ -87,8 +92,9 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                     OfferSummeryListView(
                       name: 'offers-applied',
                     ),
-                    OfferSummeryListView(name: 'offers-with-deal'),
-                    OfferSummeryListView(name: 'offers-done'),
+                    ProposalListView(dataSource: backend.get<ProposalManager>().appliedProposals,),                    
+                    ProposalListView(dataSource: backend.get<ProposalManager>().activeDeals,),                    
+                    ProposalListView(dataSource: backend.get<ProposalManager>().doneProposals,),                    
                   ],
                 ),
               ),
@@ -120,8 +126,8 @@ class _TabBarItem extends StatelessWidget {
         alignment: Alignment.center,
         children: <Widget>[
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10.0),
-            child: Text(text),
+            padding: const EdgeInsets.symmetric(horizontal: 0.0),
+            child: Text(text, style: const TextStyle(fontSize: 12),),
           ),
           notifications != null
               ? Positioned(

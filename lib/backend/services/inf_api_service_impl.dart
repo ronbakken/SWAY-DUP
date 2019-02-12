@@ -89,4 +89,10 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
 
+  Observable<List<Proposal>> getProposals(String userId)
+  {
+    
+  }
+
+
 }

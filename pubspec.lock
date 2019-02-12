@@ -56,7 +56,7 @@ packages:
       name: connectivity
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+1"
+    version: "0.4.2"
   console_log_handler:
     dependency: transitive
     description:
@@ -91,7 +91,7 @@ packages:
       name: device_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.0+1"
   file_utils:
     dependency: transitive
     description:
@@ -105,7 +105,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.0"
+    version: "3.0.1"
   fixnum:
     dependency: transitive
     description:
@@ -222,20 +222,20 @@ packages:
       name: image
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.0.6"
+    version: "2.0.7"
   image_picker:
     dependency: "direct main"
     description:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.0+3"
   inf_api_client:
     dependency: "direct main"
     description:
       path: "src/inf_api_client"
       ref: alpha
-      resolved-ref: "0743a687fa1ba8198dc41b35081a9cfb35e2130a"
+      resolved-ref: ee079efe7419377e4329c470c2ee2e75d906efaa
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"
@@ -296,7 +296,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0"
+    version: "0.4.0+1"
   path:
     dependency: transitive
     description:
@@ -324,7 +324,7 @@ packages:
       name: path_provider
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.0+1"
   pedantic:
     dependency: "direct main"
     description:
@@ -408,7 +408,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0"
+    version: "0.5.1+1"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -497,7 +497,7 @@ packages:
       name: url_launcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "5.0.0"
+    version: "5.0.1"
   usage:
     dependency: transitive
     description:

@@ -2,13 +2,14 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 
-enum ProposalState  {receivedFirstMessage, haggling, rejected, deal }
+enum ProposalState  {proposal, haggling, deal, dispute, done }
 
 class Proposal {
   final String id;
+  final ProposalState state;
   final int offerId;
   final String influencerId; // Account which applied
-  final String businessId;
+  final String businessId; // Account that created the proposal
   final UserType sentFrom; // Either influencer or business sent this
 
   final DateTime lastTimeSeen;
@@ -20,9 +21,11 @@ class Proposal {
   final String businessName;
   final String influencerAvatarUrl;
   final String businessAvatarUrl;
-  final String offerText;
-  final Location loaction;
-
+  final String offerThumbnailUrl;
+  final String offerTitle;
+  final Location location;
+  final bool issuerAllowsNegotiation;
+  
   final DealTerms latestTerms;
 
   final String chatId;
@@ -44,8 +47,9 @@ class Proposal {
   final bool influencerDisputed;
   final bool businessDisputed;
 
-  Proposal( {
+  Proposal({
     this.id,
+    this.state,
     this.lastTimeSeen, 
     this.lastTimeUpdated,    
     this.offerId,
@@ -54,12 +58,14 @@ class Proposal {
     this.sentFrom,
     this.influencerName,
     this.businessName,
+    this.issuerAllowsNegotiation,
     this.influencerAvatarUrl,
     this.businessAvatarUrl,
-    this.loaction,
+    this.offerThumbnailUrl,
+    this.location,
     this.latestTerms,
     this.chatId,
-    this.offerText,
+    this.offerTitle,
     this.influencerWantsDeal,
     this.businessWantsDeal,
     this.influencerRejected, 
@@ -74,59 +80,59 @@ class Proposal {
     this.businessDisputed,
   });
 
-  Proposal copyWith({
-    String id,
-    int offerId,
-    DateTime lastTimeSeen,
-    DateTime lastTimeUpdated,
-    String influencerId,
-    String businessId,
-    UserType sentFrom,
-    String influencerName,
-    String businessName,
-    String influencerAvatarUrl,
-    String businessAvatarUrl,
-    String offerText,
-    Location loaction,
-    DealTerms latestTerms,
-    bool influencerWantsDeal,
-    bool businessWantsDeal,
-    bool influencerMarkedDelivered,
-    bool influencerMarkedRewarded,
-    bool businessMarkedDelivered,
-    bool businessMarkedRewarded,
-    int influencerGaveRating,
-    int businessGaveRating,
-    bool influencerDisputed,
-    bool businessDisputed,
-  }) {
-    return Proposal(
-      id: id ?? this.id,
-      lastTimeSeen: lastTimeSeen ?? this.lastTimeSeen, 
-      lastTimeUpdated: lastTimeUpdated ?? this.lastTimeUpdated,    
-      offerId: offerId ?? this.offerId,
-      influencerId: influencerId ?? this.influencerId,
-      businessId: businessId ?? this.businessId,
-      sentFrom: sentFrom ?? this.sentFrom,
-      influencerName: influencerName ?? this.influencerName,
-      businessName: businessName ?? this.businessName,
-      influencerAvatarUrl: influencerAvatarUrl ?? this.influencerAvatarUrl,
-      businessAvatarUrl: businessAvatarUrl ?? this.businessAvatarUrl,
-      loaction: loaction ?? this.loaction,
-      latestTerms: latestTerms ?? this.latestTerms,
-      offerText: offerText ?? this.offerText,
-      influencerWantsDeal: influencerWantsDeal ?? this.influencerWantsDeal,
-      // chatID cannot be changed
-      chatId: this.chatId,
-      businessWantsDeal: businessWantsDeal ?? this.businessWantsDeal,
-      influencerMarkedDelivered: influencerMarkedDelivered ?? this.influencerMarkedDelivered,
-      influencerMarkedRewarded: influencerMarkedRewarded ?? this.influencerMarkedRewarded,
-      businessMarkedDelivered: businessMarkedDelivered ?? this.businessMarkedDelivered,
-      businessMarkedRewarded: businessMarkedRewarded ?? this.businessMarkedRewarded,
-      influencerGaveRating: influencerGaveRating ?? this.influencerGaveRating,
-      businessGaveRating: businessGaveRating ?? this.businessGaveRating,
-      influencerDisputed: influencerDisputed ?? this.influencerDisputed,
-      businessDisputed: businessDisputed ?? this.businessDisputed,
-    );
-  }
+  // Proposal copyWith({
+  //   String id,
+  //   int offerId,
+  //   DateTime lastTimeSeen,
+  //   DateTime lastTimeUpdated,
+  //   String influencerId,
+  //   String businessId,
+  //   UserType sentFrom,
+  //   String influencerName,
+  //   String businessName,
+  //   String influencerAvatarUrl,
+  //   String issuerAvatarUrl,
+  //   String offerText,
+  //   Location loaction,
+  //   DealTerms latestTerms,
+  //   bool influencerWantsDeal,
+  //   bool businessWantsDeal,
+  //   bool influencerMarkedDelivered,
+  //   bool influencerMarkedRewarded,
+  //   bool businessMarkedDelivered,
+  //   bool businessMarkedRewarded,
+  //   int influencerGaveRating,
+  //   int businessGaveRating,
+  //   bool influencerDisputed,
+  //   bool businessDisputed,
+  // }) {
+  //   return Proposal(
+  //     id: id ?? this.id,
+  //     lastTimeSeen: lastTimeSeen ?? this.lastTimeSeen, 
+  //     lastTimeUpdated: lastTimeUpdated ?? this.lastTimeUpdated,    
+  //     offerId: offerId ?? this.offerId,
+  //     clientId: influencerId ?? this.clientId,
+  //     issuerId: businessId ?? this.issuerId,
+  //     sentFrom: sentFrom ?? this.sentFrom,
+  //     clientName: influencerName ?? this.clientName,
+  //     issuerName: businessName ?? this.issuerName,
+  //     clientAvatarUrl: influencerAvatarUrl ?? this.clientAvatarUrl,
+  //     issuerAvatarUrl: issuerAvatarUrl ?? this.issuerAvatarUrl,
+  //     location: loaction ?? this.location,
+  //     latestTerms: latestTerms ?? this.latestTerms,
+  //     offerTitle: offerText ?? this.offerTitle,
+  //     influencerWantsDeal: influencerWantsDeal ?? this.influencerWantsDeal,
+  //     // chatID cannot be changed
+  //     chatId: this.chatId,
+  //     businessWantsDeal: businessWantsDeal ?? this.businessWantsDeal,
+  //     influencerMarkedDelivered: influencerMarkedDelivered ?? this.influencerMarkedDelivered,
+  //     influencerMarkedRewarded: influencerMarkedRewarded ?? this.influencerMarkedRewarded,
+  //     businessMarkedDelivered: businessMarkedDelivered ?? this.businessMarkedDelivered,
+  //     businessMarkedRewarded: businessMarkedRewarded ?? this.businessMarkedRewarded,
+  //     influencerGaveRating: influencerGaveRating ?? this.influencerGaveRating,
+  //     businessGaveRating: businessGaveRating ?? this.businessGaveRating,
+  //     influencerDisputed: influencerDisputed ?? this.influencerDisputed,
+  //     businessDisputed: businessDisputed ?? this.businessDisputed,
+  //   );
+  // }
 }

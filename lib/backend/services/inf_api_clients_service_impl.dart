@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:grpc/grpc.dart';
 import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -20,21 +22,41 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   @override
   InfUsersClient usersClient;
 
-
   ClientChannel channel;
 
   String host;
   int port;
 
   @override
-  Observable<bool> get connectionChanged => connectionChangedSubject;
+  Observable<bool> get connectionChanged => _connectionChangedSubject.distinct();
 
-  BehaviorSubject<bool> connectionChangedSubject = BehaviorSubject<bool>();
+  final BehaviorSubject<bool> _connectionChangedSubject = BehaviorSubject<bool>();
 
-  InfApiClientsServiceImplementation();
+  StreamSubscription _networkStateSubscription;
+  StreamSubscription _serverPeriodicCheckSubscription;
+
+  InfApiClientsServiceImplementation() {
+  }
 
   @override
   void init(String host, port) {
+    _networkStateSubscription =
+        backend.get<SystemService>().connectionStateChanges.debounce(Duration(seconds: 2)).listen((state) {
+      // if we have a network connection check if the server is online
+      if (state != NetworkConnectionState.none) {
+        _serverPeriodicCheckSubscription?.cancel();
+        _serverPeriodicCheckSubscription = Observable.periodic(Duration(seconds: 10)).startWith(0).listen((_) async {
+          // try to reach the server
+          if (await backend.get<InfApiClientsService>().isServerAlive()) {
+            _connectionChangedSubject.add(true);
+          } else {
+            _connectionChangedSubject.add(false);
+          }
+        });
+      } else {
+        _connectionChangedSubject.add(false);
+      }
+    });
     this.host = host;
 
     channel = new ClientChannel(
@@ -51,28 +73,22 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
     blobStorageClient = InfBlobStorageClient(channel);
     invitationCodeClient = InfInvitationCodesClient(channel);
     usersClient = InfUsersClient(channel);
+
+
+
+
   }
-
-
 
   @override
   Future<bool> isServerAlive() async {
-    try
-    {
-        var result = await systemClient.pingServer(Empty(), options: CallOptions(timeout: const Duration(seconds: 5)));
-        if (result is AliveMessage)
-        {
-          return true;
-        }
-    }
-    catch (e)
-    {
-        return false;
+    try {
+      var result = await systemClient.pingServer(Empty(), options: CallOptions(timeout: const Duration(seconds: 5)));
+      if (result is AliveMessage) {
+        return true;
+      }
+    } catch (e) {
+      return false;
     }
     return false;
   }
-
-
-
-
 }
