@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/proposal_views/proposal_details_page.dart';
+import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 
 class ProposalListView extends StatefulWidget {
@@ -79,34 +82,142 @@ class ProposalListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String avatarUrl;
+    var currentUser = backend.get<UserManager>().currentUser;
+
+    TextSpan fromTo;
+    if (proposal.sentFrom == currentUser.userType) {
+      if (currentUser.userType == UserType.business) {
+        avatarUrl = proposal.influencerAvatarUrl;
+        fromTo = TextSpan(text: 'proposal to ', children: [
+          TextSpan(text: proposal.influencerName, style: const TextStyle(color: Colors.white)),
+        ]);
+      } else {
+        avatarUrl = proposal.businessAvatarUrl;
+        fromTo = TextSpan(text: 'proposal to ', children: [
+          TextSpan(text: proposal.businessName, style: const TextStyle(color: Colors.white)),
+        ]);
+      }
+    } else {
+      if (currentUser.userType == UserType.business) {
+        avatarUrl = proposal.influencerAvatarUrl;
+        fromTo = TextSpan(text: 'proposal from ', children: [
+          TextSpan(text: proposal.influencerName, style: const TextStyle(color: Colors.white)),
+        ]);
+      } else {
+        avatarUrl = proposal.businessAvatarUrl;
+        fromTo = TextSpan(text: 'proposal from ', children: [
+          TextSpan(text: proposal.businessName, style: const TextStyle(color: Colors.white)),
+        ]);
+      }
+    }
+
+    String proposalStateText;
+    switch (proposal.state) {
+      case ProposalState.proposal:
+        proposalStateText = 'APPLIED';
+        break;
+      case ProposalState.haggling:
+        proposalStateText = 'NEGOTIATION';
+        break;
+      case ProposalState.dispute:
+        proposalStateText = 'DISPUTED';
+        break;
+      case ProposalState.deal:
+        proposalStateText = 'DEAL';
+        break;
+      case ProposalState.done:
+        proposalStateText = 'DONE';
+        break;
+      default:
+        assert(false, ' Not yet supported proposalState ${proposal.state.toString()}');
+    }
+
+    TextSpan middleText = TextSpan(style: const TextStyle(fontSize: 16, color: AppTheme.white50), children: [
+      fromTo,
+      TextSpan(text: ' on '),
+      TextSpan(text: proposal.offerTitle, style: const TextStyle(color: Colors.white))
+    ]);
+
     return Material(
       color: backGroundColor,
       elevation: 2.0,
       borderRadius: BorderRadius.circular(5.0),
       child: Container(
-        height: 104,
-        padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+        height: 168,
+        padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 8),
         child: InkResponse(
           onTap: onPressed,
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              AspectRatio(
-                aspectRatio: 1.0,
-                child: Container(
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(5.0),
-                    border: Border.all(color: Colors.black),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(5.0),
-                    child: Image.network(
-                      proposal.offerThumbnailUrl,
-                      fit: BoxFit.cover,
+          child: Column(
+            children: [
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    WhiteBorderCircleAvatar(
+                      radius: null,
+                      child: Image.network(avatarUrl),
+                      whiteThickness: 2,
                     ),
-                  ),
+                    SizedBox(width: 8),
+                    Expanded(
+                        child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: <Widget>[
+                        Text.rich(middleText),
+                        SizedBox(height: 8),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Container(
+                              alignment: Alignment.center,
+                              width: 90,
+                              decoration: ShapeDecoration(
+                                color: AppTheme.menuUserNameBackground,
+                                shape: StadiumBorder(),
+                              ),
+                              child: Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 2),
+                                child: Text(
+                                  proposalStateText,
+                                  style: const TextStyle(fontSize: 12),
+                                ),
+                              ),
+                            )
+                          ],
+                        )
+                      ],
+                    )),
+                    SizedBox(width: 8),
+                    AspectRatio(
+                      aspectRatio: 1.0,
+                      child: Container(
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(5.0),
+                          border: Border.all(color: Colors.black),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(5.0),
+                          child: Image.network(
+                            proposal.offerThumbnailUrl,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 12.0, vertical: 12),
+                child: Text(
+                  proposal.text,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(fontSize: 18),
+                ),
+              )
             ],
           ),
         ),

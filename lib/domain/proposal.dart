@@ -26,6 +26,7 @@ class Proposal {
   final Location location;
   final bool issuerAllowsNegotiation;
   
+  final String text;
   final DealTerms latestTerms;
 
   final String chatId;
@@ -64,6 +65,7 @@ class Proposal {
     this.offerThumbnailUrl,
     this.location,
     this.latestTerms,
+    this.text,
     this.chatId,
     this.offerTitle,
     this.influencerWantsDeal,

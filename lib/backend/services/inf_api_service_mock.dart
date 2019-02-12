@@ -356,16 +356,17 @@ class InfApiServiceMock implements InfApiService {
       Proposal(
         id: '1',
         offerId: 1,
+        offerTitle: 'Spoon Ice Tea',
         state: ProposalState.proposal,
-        sentFrom: UserType.business,
+        sentFrom: UserType.influencer,
         influencerId: "2",
-        influencerName: 'Thomas',
+        influencerName: 'Jane Doe',
         businessName: 'Scent of Asia',
         businessAvatarUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
         businessId: "1",
-        offerTitle: 'I love all sorts of Tea and my followers love all sort of great food.'
+        text: 'I love all sorts of Tea and my followers love all sort of great food.'
             'So I think a selfy with me and your tea would fit great.',
         influencerWantsDeal: true,
         businessGaveRating: 0,
@@ -383,17 +384,18 @@ class InfApiServiceMock implements InfApiService {
       Proposal(
         id: '2',
         offerId: 2,
-        state: ProposalState.deal,
-        sentFrom: UserType.business,
+        offerTitle: 'Car Wash',        
+        state: ProposalState.haggling,
+        sentFrom: UserType.influencer,
         influencerId: '2',
         influencerName: 'Thomas',
         businessName: 'CarWash Tom',
         businessAvatarUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
+        influencerAvatarUrl: 
+           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         businessId: '1',
-        offerTitle: 'I love all sorts of Tea and my followers love all sort of great food.'
-            'So I think a selfy with me and your tea would fit great.',
+        text: 'I could post a picture of my race car in front of your car wash',
         influencerWantsDeal: true,
         businessGaveRating: 0,
         influencerGaveRating: 0,
@@ -405,24 +407,25 @@ class InfApiServiceMock implements InfApiService {
         influencerDisputed: false,
         influencerMarkedRewarded: false,
         offerThumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a',
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45',
       ),
       Proposal(
         id: '3',
         offerId: 1,
+        offerTitle: 'Spoon Ice Tea',
         state: ProposalState.done,
         sentFrom: UserType.business,
         influencerId: '43',
-        influencerName: 'Thomas',
+        influencerName: 'Jane Doe',
         businessName: 'CarWash Tom',
         businessAvatarUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
         businessId: '42',
-        offerTitle: 'I love all sorts of Tea and my followers love all sort of great food.'
+        text: 'I love all sorts of Tea and my followers love all sort of great food.'
             'So I think a selfy with me and your tea would fit great.',
         offerThumbnailUrl:
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45',
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a',
         influencerWantsDeal: true,
         businessGaveRating: 0,
         influencerGaveRating: 0,

@@ -14,13 +14,13 @@ class ProposalManagerImplementation implements ProposalManager {
       if (connected) {
         proposalSubscription =
             backend.get<InfApiService>().getProposals(backend.get<UserManager>().currentUser.id).listen((proposals) {
-              _appliedProposalSubject.add(proposals.where((p) => p.state == ProposalState.proposal).toList());
-              _activeDealsSubject.add(proposals.where((p) => p.state == ProposalState.deal).toList());
-              _doneProposalSubject.add(proposals.where((p) => p.state == ProposalState.done).toList());
-            });
-      }
-      else
-      {
+          _appliedProposalSubject.add(
+              proposals.where((p) => p.state == ProposalState.proposal || p.state == ProposalState.haggling).toList());
+          _activeDealsSubject
+              .add(proposals.where((p) => p.state == ProposalState.deal || p.state == ProposalState.dispute).toList());
+          _doneProposalSubject.add(proposals.where((p) => p.state == ProposalState.done).toList());
+        });
+      } else {
         proposalSubscription?.cancel();
       }
     });
