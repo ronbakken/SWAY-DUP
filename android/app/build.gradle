@@ -2,7 +2,7 @@ def localProperties = new Properties()
 def localPropertiesFile = rootProject.file('local.properties')
 if (localPropertiesFile.exists()) {
 	localPropertiesFile.withReader('UTF-8') { reader ->
-		localProperties.load(reader)
+		localProperties.load((Reader)reader)
 	}
 }
 
@@ -11,14 +11,12 @@ if (flutterRoot == null) {
 	throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-	flutterVersionCode = '1'
+def gitVersionName() {
+	return "git -C ${rootDir} describe --tags --long --dirty".execute().text.trim()
 }
 
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-	flutterVersionName = '1.0'
+def gitVersionCode() {
+	return "git -C ${rootDir} rev-list --count HEAD".execute().text.trim().toInteger()
 }
 
 apply plugin: 'com.android.application'
@@ -36,13 +34,22 @@ android {
 		applicationId "com.swaymarketplace.app"
 		minSdkVersion 18
 		targetSdkVersion 28
-		versionCode flutterVersionCode.toInteger()
-		versionName flutterVersionName
-		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-		multiDexEnabled true
-		multiDexKeepFile file('multidex-flutter.txt')
+
+		versionCode gitVersionCode()
+		versionName gitVersionName()
+
 		def apiHost = InetAddress.getLocalHost().getHostAddress()
 		buildConfigField 'String', 'API_HOST', '"' + apiHost + '"'
+
+		def (gitTag, gitCommits, gitSha1) = gitVersionName().tokenize('-')
+		buildConfigField "String", "GIT_TAG", "\"${gitTag}\""
+		buildConfigField "String", "GIT_COMMITS", "\"${gitCommits}\""
+		buildConfigField "String", "GIT_SHA1", "\"${gitSha1}\""
+
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+		multiDexEnabled true
+		multiDexKeepFile file('multidex-flutter.txt')
 	}
 
 	buildTypes {
@@ -59,7 +66,7 @@ android {
 		dev {
 			dimension "env"
 			applicationIdSuffix ".dev"
-			versionNameSuffix "-DEV"
+			versionNameSuffix "-dev"
 			project.flutter.target = "lib/main_dev.dart"
 		}
 		prod {

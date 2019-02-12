@@ -233,9 +233,11 @@ packages:
   inf_api_client:
     dependency: "direct main"
     description:
-      path: "..\\inf_server\\src\\inf_api_client"
-      relative: true
-    source: path
+      path: "src/inf_api_client"
+      ref: alpha
+      resolved-ref: "0743a687fa1ba8198dc41b35081a9cfb35e2130a"
+      url: "https://github.com/infmarketplace/inf_server.git"
+    source: git
     version: "0.0.0"
   intl:
     dependency: "direct main"
