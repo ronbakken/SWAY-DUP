@@ -3,6 +3,7 @@ using Microsoft.WindowsAzure.Storage;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
+using Utility.Mapping;
 
 namespace Utility
 {
@@ -35,7 +36,8 @@ namespace Utility
                 .Enrich.WithProcessId()
                 .Enrich.WithProcessName()
                 .Enrich.WithThreadId()
-                .Enrich.WithMemoryUsage();
+                .Enrich.WithMemoryUsage()
+                .Destructure.ByTransforming<QuadKey>(quadKey => quadKey.ToString());
 
             if (context is StatelessService statelessService)
             {

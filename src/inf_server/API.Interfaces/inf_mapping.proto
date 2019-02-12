@@ -6,13 +6,19 @@ option csharp_namespace = "API.Interfaces";
 import "location.proto";
 
 service InfMapping {
-  rpc SearchOffers (stream SearchRequest) returns (stream SearchResponse) {}
+  rpc Search (stream SearchRequest) returns (stream SearchResponse) {}
 }
 
 message SearchRequest {
-    int32 mapLevel = 1;
-    GeoPointDto northWest = 2;
-    GeoPointDto southEast = 3;
+    enum MapItemType {
+        offer = 0;
+        user = 1;
+    }
+
+    repeated MapItemType itemTypes = 1;
+    int32 mapLevel = 2;
+    GeoPointDto northWest = 3;
+    GeoPointDto southEast = 4;
 
     // Other stuff we can filter by
 }
@@ -29,26 +35,25 @@ message MapItemDto {
 
     GeoPointDto geoPoint = 1;
     MapItemStatus status = 2;
+    string parentClusterId = 3;
 
     oneof payload {
-        OfferMapItemDto offer = 3;
-        UserMapItemDto user = 4;
-        ClusterMapItemDto cluster = 5;
+        OfferMapItemDto offer = 4;
+        UserMapItemDto user = 5;
+        ClusterMapItemDto cluster = 6;
     }
 }
 
 message OfferMapItemDto {
-    string clusterId = 1;
-    string offerId = 2;
-    string userId = 3;
-}
-
-message UserMapItemDto {
-    string clusterId = 1;
+    string offerId = 1;
     string userId = 2;
 }
 
+message UserMapItemDto {
+    string userId = 1;
+}
+
 message ClusterMapItemDto {
-    string id = 1;
+    string clusterId = 1;
     int32 itemCount = 2;
 }

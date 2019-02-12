@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Common.Interfaces;
 using Mapping.Interfaces;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.ServiceBus;
@@ -22,10 +21,10 @@ namespace Mapping
     internal sealed class Mapping : StatelessService, IMappingService
     {
         private const string databaseId = "mapping";
-        private const string offersCollectionId = "offers";
+        private const string collectionId = "mapItems";
         private const int maxMapLevel = 21;
         private readonly ILogger logger;
-        private CosmosContainer offersContainer;
+        private CosmosContainer mapItemsContainer;
 
         public Mapping(StatelessServiceContext context)
             : base(context)
@@ -58,113 +57,45 @@ namespace Mapping
                 .CreateDatabaseIfNotExistsAsync(databaseId)
                 .ContinueOnAnyContext();
             var database = databaseResult.Database;
-            var offersContainerResult = await database
+            var mapItemsContainerResult = await database
                 .Containers
-                .CreateContainerIfNotExistsAsync(offersCollectionId, "/quadKey")
+                .CreateContainerIfNotExistsAsync(collectionId, "/quadKey")
                 .ContinueOnAnyContext();
-            this.offersContainer = offersContainerResult.Container;
+            this.mapItemsContainer = mapItemsContainerResult.Container;
 
             logger.Debug("Database creation complete");
         }
 
-        public Task<List<OfferMapItem>> Search(OfferSearchFilter filter) =>
+        public Task<List<MapItem>> Search(SearchFilter filter) =>
             this.ReportExceptionsWithin(this.logger, (logger) => SearchImpl(logger, filter));
 
-        internal async Task<List<OfferMapItem>> SearchImpl(ILogger logger, OfferSearchFilter filter)
+        internal async Task<List<MapItem>> SearchImpl(ILogger logger, SearchFilter filter)
         {
-            using (logger.Performance("Searching for offers using filter {@Filter}", filter))
+            using (logger.Performance("Searching for map items using filter {@Filter}", filter))
             {
-                var northWestQuadKey = QuadKey.From(filter.NorthWest.Latitude, filter.NorthWest.Longitude, filter.MapLevel);
-                var southEastQuadKey = QuadKey.From(filter.SouthEast.Latitude, filter.SouthEast.Longitude, filter.MapLevel);
-                var quadKeys = QuadKey
-                    .GetRange(northWestQuadKey, southEastQuadKey)
+                var queryDefinition = GetSqlQueryDefinition(logger, filter);
+                var mapItems = await GetMapItemsMatching(logger, this.mapItemsContainer, queryDefinition, filter).ContinueOnAnyContext();
+                var results = mapItems
+                    .Select(mapItem => mapItem.ToOfferServiceObject())
+                    .Cast<MapItem>()
                     .ToList();
 
-                logger.Debug("Determined that filter {@Filter} encompasses quad keys {QuadKeys}", filter, quadKeys);
-
-                var queryDefinition = GetOffersSqlQueryDefinition(logger, filter);
-                var queryTasks = quadKeys
-                    .Select(quadKey => GetOffersMatching(logger, this.offersContainer, queryDefinition, quadKey, filter))
-                    .ToList();
-
-                var queryResults = await Task
-                    .WhenAll(queryTasks)
-                    .ContinueOnAnyContext();
-
-                var results = queryResults
-                    .SelectMany(queryResult => queryResult)
-                    .OrderBy(offerMapItem => offerMapItem.DistanceFromCenter)
-                    .Select(offerMapItem => offerMapItem.ToServiceObject())
-                    .ToList();
-
-                logger.Debug("Final results for filter {@Filter}: {@Results}", filter, results);
+                logger.Debug("Results for filter {@Filter}: {@Results}", filter, results);
 
                 return results;
             }
         }
 
-        private static CosmosSqlQueryDefinition GetOffersSqlQueryDefinition(ILogger logger, OfferSearchFilter filter)
+        private static CosmosSqlQueryDefinition GetSqlQueryDefinition(ILogger logger, SearchFilter filter)
         {
             var parameters = new Dictionary<string, object>();
             var clauses = new StringBuilder();
 
-            logger.Debug("Filtering on locations {@NorthWest} to {@SouthEast}", filter.NorthWest, filter.SouthEast);
+            // TODO: filter on types
 
-            if (clauses.Length > 0)
-            {
-                clauses.Append(" AND ");
-            }
+            // TODO: filter out deleted items with a status timestamp > some period (1 day? 1 week? 1 month?)
 
-            // TODO: normalize the geolocations?
-            var northWest = filter.NorthWest;
-            var southEast = filter.SouthEast;
-            var center = new GeoLocation((northWest.Latitude + southEast.Latitude) / 2, (northWest.Longitude + southEast.Longitude) / 2);
-
-            // Coordinates for the polygon that surrounds the bounding box
-            var boundingBoxCoordinates = new[]
-            {
-                (northWest.Longitude, northWest.Latitude),
-                (northWest.Longitude, southEast.Latitude),
-                (southEast.Longitude, southEast.Latitude),
-                (southEast.Longitude, northWest.Latitude),
-                (northWest.Longitude, northWest.Latitude),
-            };
-            logger.Debug("Bounding box polygon coordinates are {BoundingBoxCoordinates}", boundingBoxCoordinates);
-
-            var boundingBoxCoordinatesSql = boundingBoxCoordinates
-                .Aggregate(
-                    new StringBuilder(),
-                    (acc, next) =>
-                    {
-                        if (acc.Length > 0)
-                        {
-                            acc.Append(",");
-                        }
-
-                        acc
-                            .Append("[")
-                            .Append(next.Longitude)
-                            .Append(",")
-                            .Append(next.Latitude)
-                            .Append("]");
-
-                        return acc;
-                    },
-                    acc => acc.ToString());
-
-            clauses.Append($"ST_WITHIN({{'type':'Point','coordinates':[o.location.longitude,o.location.latitude]}},{{'type':'Polygon','coordinates':[[{boundingBoxCoordinatesSql}]]}})");
-
-            var sql = new StringBuilder("SELECT o.id,o.version,o.quadKey,o.userId,o.location,ST_DISTANCE({'type':'Point','coordinates':[o.location.longitude,o.location.latitude]},{'type':'Point','coordinates':[@CenterLongitude,@CenterLatitude]}) AS distanceFromCenter FROM o");
-            parameters["@CenterLongitude"] = center.Longitude;
-            parameters["@CenterLatitude"] = center.Latitude;
-
-            if (clauses.Length > 0)
-            {
-                sql
-                    .Append(" WHERE ")
-                    .Append(clauses);
-            }
-
+            var sql = new StringBuilder("SELECT * FROM o");
             logger.Debug("SQL for search using filter {@Filter} is {SQL}, parameters are {Parameters}", filter, sql, parameters);
             var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
 
@@ -176,17 +107,16 @@ namespace Mapping
             return queryDefinition;
         }
 
-        private static async Task<List<OfferMapItemQueryEntity>> GetOffersMatching(
+        private static async Task<List<MapItemEntity>> GetMapItemsMatching(
             ILogger logger,
-            CosmosContainer offersContainer,
+            CosmosContainer mapItemsContainer,
             CosmosSqlQueryDefinition queryDefinition,
-            QuadKey quadKey,
-            OfferSearchFilter filter)
+            SearchFilter filter)
         {
-            var itemQuery = offersContainer
+            var itemQuery = mapItemsContainer
                 .Items
-                .CreateItemQuery<OfferMapItemQueryEntity>(queryDefinition, quadKey.ToString());
-            var results = new List<OfferMapItemQueryEntity>();
+                .CreateItemQuery<MapItemEntity>(queryDefinition, filter.QuadKey);
+            var results = new List<MapItemEntity>();
 
             while (itemQuery.HasMoreResults)
             {
@@ -194,13 +124,13 @@ namespace Mapping
                     .FetchNextSetAsync()
                     .ContinueOnAnyContext();
 
-                foreach (var offerMapItem in currentResultSet)
+                foreach (var mapItem in currentResultSet)
                 {
-                    results.Add(offerMapItem);
+                    results.Add(mapItem);
                 }
             }
 
-            logger.Debug("Retrieved {Count} search results for filter {@Filter} in quad key {QuadKey}", results.Count, filter, quadKey);
+            logger.Debug("Retrieved {Count} search results for filter {@Filter}", results.Count, filter);
             return results;
         }
 
@@ -235,7 +165,7 @@ namespace Mapping
                     var offerMapItemEntity = offer.ToEntity(quadKey);
                     logger.Debug("Saving offer map item {@OfferMapItem}", offerMapItemEntity);
                     await this
-                        .offersContainer
+                        .mapItemsContainer
                         .Items
                         .UpsertItemAsync(quadKey.ToString(), offerMapItemEntity)
                         .ContinueOnAnyContext();

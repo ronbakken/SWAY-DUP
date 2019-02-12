@@ -6,6 +6,6 @@ namespace Mapping.Interfaces
 {
     public interface IMappingService : IService
     {
-        Task<List<OfferMapItem>> Search(OfferSearchFilter filter);
+        Task<List<MapItem>> Search(SearchFilter filter);
     }
 }

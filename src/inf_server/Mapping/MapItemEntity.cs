@@ -2,42 +2,45 @@
 
 namespace Mapping
 {
-    public class OfferMapItemEntity
+    public sealed class MapItemEntity
     {
-        public OfferMapItemEntity(
+        public MapItemEntity(
             string quadKey,
-            string offerId,
+            string id,
+            MapItemStatusEntity status,
             string userId,
-            GeoLocationEntity location) : this(1, quadKey, offerId, userId, location)
+            GeoLocationEntity location) : this(1, quadKey, id, status, userId, location)
         {
         }
 
         [JsonConstructor]
-        public OfferMapItemEntity(
+        public MapItemEntity(
             int version,
             string quadKey,
-            string offerId,
+            string id,
+            MapItemStatusEntity status,
             string userId,
             GeoLocationEntity location)
         {
             this.Version = version;
             this.QuadKey = quadKey;
-            this.OfferId = offerId;
+            this.Id = id;
+            this.Status = status;
             this.UserId = userId;
             this.Location = location;
         }
 
-        [JsonProperty("id")]
-        public string Id => this.OfferId;
+        [JsonProperty("version")]
+        public int Version { get; }
 
         [JsonProperty("quadKey")]
         public string QuadKey { get; }
 
-        [JsonProperty("offerId")]
-        public string OfferId { get; }
+        [JsonProperty("id")]
+        public string Id { get; }
 
-        [JsonProperty("version")]
-        public int Version { get; }
+        [JsonProperty("status")]
+        public MapItemStatusEntity Status { get; }
 
         [JsonProperty("userId")]
         public string UserId { get; }

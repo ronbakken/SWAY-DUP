@@ -48,7 +48,7 @@ namespace API
             { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Anonymous },
 
             // InfMapping
-            { "/api.InfMapping/SearchOffers", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfMapping/Search", UserTypes.Influencer | UserTypes.Business },
 
             // InfOffers
             { "/api.InfOffers/CreateOffer", UserTypes.Influencer | UserTypes.Business },

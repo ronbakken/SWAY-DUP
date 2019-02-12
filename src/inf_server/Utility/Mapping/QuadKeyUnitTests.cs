@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Xunit;
 
 namespace Utility.Mapping
@@ -18,8 +19,8 @@ namespace Utility.Mapping
         [Theory]
         [InlineData(0b0, false)]
         [InlineData(0b1, true)]
-        [InlineData(0b011110, false)]
-        [InlineData(0b011101, true)]
+        [InlineData(0b011000, false)]
+        [InlineData(0b010111, true)]
         [InlineData(0b1011000001, false)]
         public void is_valid_returns_true_only_for_valid_quad_keys(ulong rawValue, bool expected)
         {
@@ -32,10 +33,10 @@ namespace Utility.Mapping
         [InlineData(0b000010, 2)]
         [InlineData(0b1111000001, 1)]
         [InlineData(0b000111, 7)]
-        public void level_returns_the_level(ulong rawValue, int expected)
+        public void level_of_detail_returns_the_level_of_detail(ulong rawValue, int expected)
         {
             var sut = new QuadKey(rawValue);
-            Assert.Equal(expected, sut.LevelCount);
+            Assert.Equal(expected, sut.LevelOfDetail);
         }
 
         [Theory]
@@ -180,17 +181,33 @@ namespace Utility.Mapping
         [InlineData(51.49681999999999, 0.012860000000012306, 15, "120202020020003")]
         [InlineData(51.49681999999999, 0.012860000000012306, 3, "120")]
         [InlineData(51.49681999999999, 0.012860000000012306, 30, "<<invalid>>")]
-        public void from_works_as_expected(double latitude, double longitude, int level, string expected)
+        public void from_works_as_expected(double latitude, double longitude, int levelOfDetail, string expected)
         {
-            var sut = QuadKey.From(latitude, longitude, level);
+            var sut = QuadKey.From(latitude, longitude, levelOfDetail);
             Assert.Equal(expected, sut.ToString());
+        }
+
+        [Fact]
+        public void from_does_not_suffer_from_rounding_errors()
+        {
+            // These specific parameters were triggering a rounding error such that the second quad was not within
+            // the first, which breaks expectations of client code. To combat this, the From method resolves the quad
+            // to the highest level of detail and then truncates it.
+            var latitude = 41;
+            var longitude = 116;
+            var firstLevel = 4;
+            var secondLevel = 5;
+            var first = QuadKey.From(latitude, longitude, firstLevel);
+            var second = QuadKey.From(latitude, longitude, secondLevel);
+
+            Assert.StartsWith(first.ToString(), second.ToString());
         }
 
         [Theory]
         [InlineData("120", true, 0b0010_01000011)]
         [InlineData("3210", true, 0b000110_11000100)]
         [InlineData("4", false, 0)]
-        [InlineData("222222222222222222222222222222", false, 0b1010101010101010101010101010101010101010101010101010101010011110)]
+        [InlineData("222222222222222222222222222222", false, 0)]
         public void try_parse_works_as_expected(string input, bool expectedIsValid, ulong expectedRawValue)
         {
             QuadKey.TryParse(input, out var result);
