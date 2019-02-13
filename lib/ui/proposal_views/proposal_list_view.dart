@@ -4,6 +4,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/proposal_views/proposal_details_page.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf/utils/date_time_helpers.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -169,6 +170,7 @@ class ProposalListTile extends StatelessWidget {
                         SizedBox(height: 8),
                         Row(
                           mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               alignment: Alignment.center,
@@ -184,6 +186,11 @@ class ProposalListTile extends StatelessWidget {
                                   style: const TextStyle(fontSize: 12),
                                 ),
                               ),
+                            ),
+                            SizedBox(width: 16),
+                            Text(
+                              sinceWhen(proposal.lastTimeUpdated),
+                              style: const TextStyle(fontSize: 12),
                             )
                           ],
                         )

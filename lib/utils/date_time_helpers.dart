@@ -36,3 +36,28 @@ String getTimeString(BuildContext context, TimeOfDay time) {
   }
   return time.format(context);
 }
+
+String sinceWhen(DateTime date)
+{
+  var delta = DateTime.now().difference(date);
+  if (delta.compareTo(Duration(hours: 1)) < 0)
+  {
+    return '${delta.inMinutes} min. ago';
+  }
+
+  if (delta.compareTo(Duration(days: 1)) < 0)
+  {
+    if (delta.inHours ==1)
+    {
+      return '1 hour ago';
+    }
+    return '${delta.inHours} hours ago';
+  }
+
+  if (delta.compareTo(Duration(days: 2)) < 0)
+  {
+    return 'one day ago';
+  }
+
+  return DateFormat('mm/dd/yyyy').format(date);
+}
