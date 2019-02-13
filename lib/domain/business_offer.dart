@@ -1,7 +1,6 @@
 import 'dart:typed_data';
 
 import 'package:inf/domain/category.dart';
-import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
 
@@ -39,7 +38,7 @@ class BusinessOffer {
   final int minFolllowers;
 
   final int numberOffered;
-  final int numberRemaining;
+  int  get numberRemaining => numberOffered - numberOfProposals;
   final bool unlimitedAvailable;
 
   final String thumbnailUrl;
@@ -62,17 +61,14 @@ class BusinessOffer {
   final BusinessOfferStateReason stateReason;
 
   // proposal
-  final int numberOfProposals;
+  int get numberOfProposals => userIdsThatHaveProposed.length;
+  final List<String> userIdsThatHaveProposed;
 
   // For later: Info for business
   // final int proposalsCountNew;
   // final int proposalsCountAccepted;
   // final int proposalsCountCompleted;
   // final int proposalsCountRefused;
-
-  // only returned when an influencer queries this offer
-  // So the Offer View knows this offer has already been applied to
-  final int influencerProposalId;
 
   final AcceptancePolicy acceptancePolicy;
 
@@ -90,10 +86,8 @@ class BusinessOffer {
       this.created,
       this.minFolllowers,
       this.isDirectOffer,
-      this.numberOfProposals,
       this.numberOffered = 1,
       this.unlimitedAvailable,
-      this.numberRemaining,
       this.thumbnailUrl,
       this.thumbnailLowRes,
       this.channels,
@@ -104,67 +98,65 @@ class BusinessOffer {
       this.categories,
       this.state,
       this.stateReason,
-      this.influencerProposalId,
+      this.userIdsThatHaveProposed,
       this.acceptancePolicy});
 
-  BusinessOffer copyWith({
-    int id,
-    bool isPartial,
-    int businessAccountId,
-    String businessName,
-    String businessDescription,
-    String businessAvatarThumbnailUrl,
-    bool isDirectOffer,
-    String title,
-    String description,
-    DateTime created,
-    DateTime startDate,
-    DateTime endDate,
-    int minFollowers,
-    int numberOffered,
-    bool unlimitedAvailable,
-    int numberRemaining,
-    String thumbnailUrl,
-    Uint8List thumbnailLowRes,
-    DealTerms terms,
-    Location location,
-    List<String> imageUrls,
-    List<Uint8List> imagesLowRes,
-    List<Category> categories,
-    BusinessOfferState state,
-    BusinessOfferStateReason stateReason,
-    int newChatMessages,
-    int influencerProposalId,
-  }) {
-    return BusinessOffer(
-      id: id ?? this.id,
-      isPartial: isPartial ?? this.isPartial,
-      businessAccountId: businessAccountId ?? this.businessAccountId,
-      businessName: businessName ?? this.businessName,
-      businessDescription: businessDescription ?? this.businessDescription,
-      businessAvatarThumbnailUrl: businessAvatarThumbnailUrl ?? this.businessAvatarThumbnailUrl,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      startDate: startDate ?? this.startDate,
-      endDate: endDate ?? this.endDate,
-      minFolllowers: minFollowers ?? this.minFolllowers,
-      created: created ?? this.created,
-      isDirectOffer: isDirectOffer ?? this.isDirectOffer,
-      numberOfProposals: newChatMessages ?? this.numberOfProposals,
-      numberOffered: numberOffered ?? this.numberOffered,
-      numberRemaining: numberRemaining ?? this.numberRemaining,
-      unlimitedAvailable: unlimitedAvailable ?? this.unlimitedAvailable,
-      thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
-      thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
-      terms: terms ?? this.terms,
-      location: location ?? this.location,
-      imageUrls: imageUrls ??  this.imageUrls,
-      imagesLowRes: imagesLowRes ?? this.imagesLowRes,
-      categories: categories ?? this.categories,
-      state: state ?? this.state,
-      stateReason: stateReason ?? this.stateReason,
-      influencerProposalId: influencerProposalId ?? this.influencerProposalId,
-    );
-  }
+  // BusinessOffer copyWith({
+  //   int id,
+  //   bool isPartial,
+  //   int businessAccountId,
+  //   String businessName,
+  //   String businessDescription,
+  //   String businessAvatarThumbnailUrl,
+  //   bool isDirectOffer,
+  //   String title,
+  //   String description,
+  //   DateTime created,
+  //   DateTime startDate,
+  //   DateTime endDate,
+  //   int minFollowers,
+  //   int numberOffered,
+  //   bool unlimitedAvailable,
+  //   int numberRemaining,
+  //   String thumbnailUrl,
+  //   Uint8List thumbnailLowRes,
+  //   DealTerms terms,
+  //   Location location,
+  //   List<String> imageUrls,
+  //   List<Uint8List> imagesLowRes,
+  //   List<Category> categories,
+  //   BusinessOfferState state,
+  //   BusinessOfferStateReason stateReason,
+  //   int newChatMessages,
+  //   int influencerProposalId,
+  // }) {
+  //   return BusinessOffer(
+  //     id: id ?? this.id,
+  //     isPartial: isPartial ?? this.isPartial,
+  //     businessAccountId: businessAccountId ?? this.businessAccountId,
+  //     businessName: businessName ?? this.businessName,
+  //     businessDescription: businessDescription ?? this.businessDescription,
+  //     businessAvatarThumbnailUrl: businessAvatarThumbnailUrl ?? this.businessAvatarThumbnailUrl,
+  //     title: title ?? this.title,
+  //     description: description ?? this.description,
+  //     startDate: startDate ?? this.startDate,
+  //     endDate: endDate ?? this.endDate,
+  //     minFolllowers: minFollowers ?? this.minFolllowers,
+  //     created: created ?? this.created,
+  //     isDirectOffer: isDirectOffer ?? this.isDirectOffer,
+  //     numberOffered: numberOffered ?? this.numberOffered,
+    
+  //     unlimitedAvailable: unlimitedAvailable ?? this.unlimitedAvailable,
+  //     thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
+  //     thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
+  //     terms: terms ?? this.terms,
+  //     location: location ?? this.location,
+  //     imageUrls: imageUrls ??  this.imageUrls,
+  //     imagesLowRes: imagesLowRes ?? this.imagesLowRes,
+  //     categories: categories ?? this.categories,
+  //     state: state ?? this.state,
+  //     stateReason: stateReason ?? this.stateReason,
+  //   );
+  // }
 }
 

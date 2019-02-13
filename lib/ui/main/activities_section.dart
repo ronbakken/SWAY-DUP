@@ -2,15 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/main/offer_list_tile.dart';
+
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:inf/ui/offer_views/offer_short_summary_tile.dart';
 import 'package:inf/ui/proposal_views/proposal_list_view.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
-import 'package:rxdart/rxdart.dart';
 
 class MainActivitiesSection extends StatefulWidget {
   const MainActivitiesSection({
@@ -195,7 +195,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
               final tag = '${widget.name}-${offer.id}';
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: OfferListTile(
+                child: OfferShortSummaryTile(
                   backGroundColor: AppTheme.listViewItemBackground,
                   offer: offer,
                   onPressed: () => _onShowDetails(context, offer, tag),

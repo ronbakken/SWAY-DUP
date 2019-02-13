@@ -105,7 +105,7 @@ class InfApiServiceMock implements InfApiService {
           isPartial: true,
           isDirectOffer: false,
           numberOffered: 5,
-          numberRemaining: 2,
+          userIdsThatHaveProposed: [],
           businessName: 'CarWash Tom',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -142,7 +142,7 @@ class InfApiServiceMock implements InfApiService {
       BusinessOffer(
           id: 2,
           isPartial: true,
-          numberRemaining: 2,
+          userIdsThatHaveProposed: ['abc'],
           businessName: 'Scent of Asia',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -170,7 +170,7 @@ class InfApiServiceMock implements InfApiService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
       BusinessOffer(
           id: 3,
-          numberRemaining: 2,
+          userIdsThatHaveProposed: [],
           businessName: 'Scent of Asia',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -207,7 +207,7 @@ class InfApiServiceMock implements InfApiService {
           startDate: DateTime(2019, 1, 1),
           endDate: DateTime(2019, 3, 1),
           acceptancePolicy: AcceptancePolicy.allowNegotiation,
-          numberOfProposals: 1,
+          userIdsThatHaveProposed: [],
           businessAccountId: 42,
           businessName: 'CarWash Tom',
           businessDescription: 'We wash anything',
@@ -257,7 +257,7 @@ class InfApiServiceMock implements InfApiService {
           id: 2,
           startDate: DateTime(2019, 1, 1),
           endDate: DateTime(2019, 3, 1),
-          numberRemaining: 2,
+          userIdsThatHaveProposed: [],
           businessAccountId: 43,
           businessName: 'Scent of Asia',
           businessDescription: 'Best flavoured teas in town',
@@ -300,7 +300,7 @@ class InfApiServiceMock implements InfApiService {
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
       BusinessOffer(
           id: 3,
-          numberRemaining: 1,
+          userIdsThatHaveProposed: [],
           businessAccountId: 43,
           businessName: 'Scent of Asia',
           businessDescription: 'Best flavoured teas in town',

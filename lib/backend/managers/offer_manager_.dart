@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
@@ -17,7 +16,6 @@ abstract class OfferManager {
 
   // All this streams return partial BusinessOffers
   Observable<List<BusinessOffer>> get myOffers;
-  Observable<List<BusinessOffer>> get receivedDirectOffers;
   Observable<List<BusinessOffer>> get filteredOffers;
   Observable<List<BusinessOffer>> get featuredBusinessOffers;
 

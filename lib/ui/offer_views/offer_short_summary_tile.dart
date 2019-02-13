@@ -7,12 +7,13 @@ import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 
-class OfferListTile extends StatelessWidget {
-  const OfferListTile({
+class OfferShortSummaryTile extends StatelessWidget {
+  const OfferShortSummaryTile({
     Key key,
     @required this.offer,
     @required this.onPressed,
     this.tag,
+    this.isListTile = true,
     this.backGroundColor = AppTheme.grey,
   }) : super(key: key);
 
@@ -20,6 +21,7 @@ class OfferListTile extends StatelessWidget {
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;
+  final isListTile;
 
   @override
   Widget build(BuildContext context) {
@@ -51,8 +53,8 @@ class OfferListTile extends StatelessWidget {
 
     return Material(
       color: backGroundColor,
-      elevation: 2.0,
-      borderRadius: BorderRadius.circular(5.0),
+      elevation: isListTile ? 2.0 : 0,
+      borderRadius: isListTile ? BorderRadius.circular(5.0) : null,
       child: Container(
         height: 104,
         padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),

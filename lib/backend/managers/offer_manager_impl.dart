@@ -74,8 +74,6 @@ class OfferManagerImplementation implements OfferManager {
     var totalSteps = offerBuilder.images.length + 1;
     int completedSteps = 1;
 
-    List<Uint8List> loresImages = [];
-
     Image thumbNailImage;
     Image thumbNailLoresImage;
 
