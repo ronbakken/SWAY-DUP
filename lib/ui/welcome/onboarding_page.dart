@@ -103,11 +103,11 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
     if (pageIndex == pages.length - 1) {
       Navigator.of(context).pop();
       Navigator.of(context).push(
-            InfBottomSheet.route(
-              title: 'Welcome to INF',
-              child: SendSignupLoginEmailView(newUser: true, userType: widget.userType),
-            ),
-          );
+        InfBottomSheet.route(
+          title: 'Welcome to INF',
+          child: SendSignupLoginEmailView(newUser: true, userType: widget.userType),
+        ),
+      );
     } else {
       _gotoPage(pageIndex + 1);
     }

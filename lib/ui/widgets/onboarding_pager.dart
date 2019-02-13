@@ -274,14 +274,14 @@ class RenderStackViewport extends RenderBox
     double contentDimension = 0.0;
     _ChildParentData childData;
     int index = 0;
+    final paddedSize = _padding.deflateSize(constraints.biggest);
     final childConstraints = BoxConstraints.tight(
-      _padding.deflateSize(constraints.biggest),
+      Size(paddedSize.width.floorToDouble(), paddedSize.height.floorToDouble()),
     );
     for (RenderBox child = firstChild; child != null; child = childData.nextSibling) {
       child.layout(childConstraints, parentUsesSize: true);
-      width = math.max(width, child.size.width);
       height = math.max(height, child.size.height);
-      contentDimension += child.size.width;
+      contentDimension += childConstraints.maxWidth;
       childData = child.parentData;
       childData.index = index++;
       childData.offset = _padding.topLeft;
@@ -329,9 +329,10 @@ class RenderStackViewport extends RenderBox
   bool hitTestChildren(HitTestResult result, {Offset position}) {
     _ChildParentData childData;
     final paddedSize = _padding.deflateSize(size);
+    final roundedSize = Size(paddedSize.width.floorToDouble(), paddedSize.height.floorToDouble());
     for (RenderBox child = firstChild; child != null; child = childData.nextSibling) {
       childData = child.parentData;
-      final params = _ChildParams.create(childData.index, viewportOffset.pixels, paddedSize.width, inset);
+      final params = _ChildParams.create(childData.index, viewportOffset.pixels, roundedSize.width, inset);
       if (params.visible != 0.0) {
         continue;
       }
