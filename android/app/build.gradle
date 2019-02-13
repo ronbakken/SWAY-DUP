@@ -35,9 +35,6 @@ android {
 		minSdkVersion 18
 		targetSdkVersion 28
 
-		versionCode gitVersionCode()
-		versionName gitVersionName()
-
 		def apiHost = InetAddress.getLocalHost().getHostAddress()
 		buildConfigField 'String', 'API_HOST', '"' + apiHost + '"'
 
@@ -46,10 +43,19 @@ android {
 		buildConfigField "String", "GIT_COMMITS", "\"${gitCommits}\""
 		buildConfigField "String", "GIT_SHA1", "\"${gitSha1}\""
 
+		versionName "$gitTag-$gitCommits"
+		versionCode gitVersionCode()
+
 		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
 		multiDexEnabled true
 		multiDexKeepFile file('multidex-flutter.txt')
+
+		if (System.getenv()['CI']) {
+		    buildConfigField "String", "FCI_PROJECT_ID", "\"${System.getenv()['FCI_PROJECT_ID']}\""
+			buildConfigField "String", "FCI_BUILD_ID", "\"${System.getenv()['FCI_BUILD_ID']}\""
+			buildConfigField "String", "BUILD_NUMBER", "\"${System.getenv()['BUILD_NUMBER']}\""
+		}
 	}
 
 	signingConfigs {
