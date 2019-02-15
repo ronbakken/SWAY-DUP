@@ -93,7 +93,11 @@ namespace API.Services.Auth
 
                     return;
                 }
+            }
 
+            if (userData == null)
+            {
+                logger.Debug("No data found for user with email {Email}, so creating it", email);
                 userData = new UserData();
             }
 
