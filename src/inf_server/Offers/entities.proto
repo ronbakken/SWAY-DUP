@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+package offers;
+option csharp_namespace = "Offers";
+
+import "google/protobuf/timestamp.proto";
+
+message GeoPointEntity {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message OfferEntity {
+    enum Status {
+        unknown = 0;
+        inactive = 1;
+        active = 2;
+    }
+
+    int32 schemaVersion = 1;
+    string id = 2;
+    Status status = 3;
+    google.protobuf.Timestamp statusTimestamp = 4;
+    string userId = 5;
+    GeoPointEntity geoPoint = 6;
+}

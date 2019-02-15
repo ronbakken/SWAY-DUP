@@ -10,12 +10,12 @@ service InfMapping {
 }
 
 message SearchRequest {
-    enum MapItemType {
-        offer = 0;
-        user = 1;
+    enum ItemType {
+        offers = 0;
+        users = 1;
     }
 
-    repeated MapItemType itemTypes = 1;
+    repeated ItemType itemTypes = 1;
     int32 mapLevel = 2;
     GeoPointDto northWest = 3;
     GeoPointDto southEast = 4;

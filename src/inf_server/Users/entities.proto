@@ -1,0 +1,84 @@
+﻿syntax = "proto3";
+
+package users;
+option csharp_namespace = "Users";
+
+import "google/protobuf/timestamp.proto";
+
+message GeoPointEntity {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message LocationEntity {
+    string name = 1;
+    GeoPointEntity geoPoint = 2;
+}
+
+message ImageEntity {
+    string uri = 1;
+    bytes lowResData = 2;
+}
+
+message SocialMediaAccountEntity {
+    int32 socialNetworkProviderId = 1;
+    string displayName = 2;
+    string profileUri = 3;
+    string description = 4;
+    string email = 5;
+    string userId = 6;
+    string pageId = 7;
+    int32 audienceSize = 8;
+    int32 postCount = 9;
+    bool isVerified = 10;
+    string accessToken = 11;
+    string accessTokenSecret = 12;
+    string refreshToken = 13;
+}
+
+message UserDataEntity {
+    enum Type {
+        unknown = 0;
+        influencer = 1;
+        business = 2;
+        support = 3;
+        admin = 4;
+    }
+
+    enum Status {
+        unknownStatus = 0;
+        waitingForActivation = 1;
+        waitingForApproval = 2;
+        disabled = 3;
+        active = 4;
+    }
+
+    int32 schemaVersion = 1;
+    string id = 2;
+    string email = 3;
+    Type type = 4;
+    Status status = 5;
+    string name = 6;
+    string description = 7;
+    ImageEntity avatar = 8;
+    ImageEntity avatarThumbnail = 9;
+    LocationEntity location = 10;
+    bool showLocation = 11;
+    bool isVerified = 12;
+    string websiteUri = 13;
+    bool acceptsDirectOffers = 14;
+    int32 accountCompletionInPercent = 15;
+    int32 minimalFee = 16;
+    repeated int32 categoryIds = 17;
+    repeated SocialMediaAccountEntity socialMediaAccounts = 18;
+    string loginToken = 19;
+    repeated string keywords = 20;
+}
+
+message UserSessionEntity {
+    int32 schemaVersion = 1;
+    string id = 2;
+    string userId = 3;
+    string refreshToken = 4;
+    string deviceId = 5;
+}

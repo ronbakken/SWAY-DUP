@@ -9,6 +9,7 @@ using Grpc.Core;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
 using Serilog;
+using Utility;
 using static API.Interfaces.InfBlobStorage;
 
 namespace API.Services.BlobStorage

@@ -8,7 +8,9 @@ namespace InvitationCodes
         private static async Task Main()
         {
             await ServiceBootstrapper
-                .Bootstrap("InvitationCodes", context => new InvitationCodes(context))
+                .Bootstrap(
+                    "InvitationCodes",
+                    context => new InvitationCodes(context))
                 .ContinueOnAnyContext();
         }
     }

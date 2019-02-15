@@ -12,6 +12,8 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
         <PackageReference Include="Microsoft.Azure.Cosmos" />
         <PackageReference Include="Microsoft.Azure.ServiceBus" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
@@ -19,11 +21,17 @@
         <PackageReference Include="NodaTime" />
         <PackageReference Include="Optional" />
         <PackageReference Include="SerilogAnalyzer" />
+
+        <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
     </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\Offers.Interfaces\Offers.Interfaces.csproj" />
         <ProjectReference Include="..\Utility\Utility.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,19 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+service InfMessaging {
+    // Obviously just a POC - won't be remaining
+    rpc Notify (NotifyRequest) returns (NotifyResponse) {}
+}
+
+message NotifyRequest {
+    string token = 1;
+    string registrationToken = 2;
+    string title = 3;
+    string body = 4;
+}
+
+message NotifyResponse {
+}

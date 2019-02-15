@@ -7,17 +7,18 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
+using AutoMapper;
 using Grpc.Core;
 using Mapping.Interfaces;
 using Microsoft.Azure.ServiceBus;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Offers.Interfaces;
 using Optional;
 using Serilog;
+using Utility;
 using Utility.Mapping;
-using Utility.Serialization;
 using static API.Interfaces.InfMapping;
-using api = global::API.Interfaces.MapItemDto.Types;
+using static Mapping.Interfaces.MappingService;
+using api = global::API.Interfaces;
 
 namespace API.Services.Mapping
 {
@@ -47,7 +48,7 @@ namespace API.Services.Mapping
             subscriptionClient.RegisterMessageHandler(this.OnOfferUpdated, messageHandlerOptions);
         }
 
-        public override Task Search(IAsyncStreamReader<SearchRequest> requestStream, IServerStreamWriter<SearchResponse> responseStream, ServerCallContext context) =>
+        public override Task Search(IAsyncStreamReader<api.SearchRequest> requestStream, IServerStreamWriter<api.SearchResponse> responseStream, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
@@ -56,7 +57,7 @@ namespace API.Services.Mapping
                     // but should suffice for MVP. It currently assumes clients throw away all data and replace it with that given, and
                     // it does not support updates to the stream (see commented out code below).
 
-                    var mappingService = GetMappingService();
+                    var mappingService = await GetMappingServiceClient().ContinueOnAnyContext();
 
                     var clientId = Guid.NewGuid();
                     this.logger.Debug("Generated client ID {ClientId} for new search stream", clientId);
@@ -89,37 +90,40 @@ namespace API.Services.Mapping
                             // the meantime are processed against the most up to date information.
                             UpdateActiveSearchClient(clientId, activeSearchClient);
 
-                            var mapItemTypes = filter
-                                .ItemTypes
-                                .Select(itemType => itemType.ToServiceObject())
-                                .Aggregate(MapItemTypes.None, (acc, next) => acc | next);
-                            logger.Debug("Determined that filter {@Filter} encompasses map item types {MapItemTypes}", filter, mapItemTypes);
-
                             logger.Debug("Instigating service calls for client with ID {ClientId}", clientId);
-                            var serviceCalls = quadKeys
-                                .Select(quadKey => new SearchFilter(mapItemTypes, quadKey.ToString()))
-                                .Select(serviceFilter => mappingService.Search(serviceFilter))
+                            var serviceCallTasks = quadKeys
+                                .Select(
+                                    quadKey =>
+                                    {
+                                        var searchFilter = Mapper.Map<SearchFilter>(filter);
+                                        searchFilter.QuadKey = quadKey.ToString();
+                                        return searchFilter;
+                                    })
+                                .Select(serviceFilter => mappingService.SearchAsync(new global::Mapping.Interfaces.SearchRequest { Filter = serviceFilter }))
+                                .Select(serviceCall => serviceCall.ResponseAsync)
                                 .ToList();
 
                             var serviceCallResults = await Task
-                                .WhenAll(serviceCalls)
+                                .WhenAll(serviceCallTasks)
                                 .ContinueOnAnyContext();
 
                             logger.Debug("Populating active search client with ID {ClientId} with results of service calls", clientId);
 
                             foreach (var serviceCallResult in serviceCallResults)
                             {
-                                foreach (var mapItem in serviceCallResult)
+                                var results = serviceCallResult.Results;
+
+                                foreach (var mapItem in results)
                                 {
-                                    var mapItemDto = mapItem.ToDto();
+                                    var mapItemDto = Mapper.Map<MapItemDto>(mapItem);
 
                                     switch (mapItem.Status)
                                     {
-                                        case MapItemStatus.Active:
+                                        case MapItem.Types.Status.Active:
                                             activeSearchClient = activeSearchClient.AddItem(mapItemDto, out var addResult);
                                             logger.Debug("Added map item {MapItem} to active search client with ID {ClientId} and got result {Result}", mapItemDto, clientId, addResult);
                                             break;
-                                        case MapItemStatus.Inactive:
+                                        case MapItem.Types.Status.Inactive:
                                             activeSearchClient = activeSearchClient.RemoveItem(mapItemDto, out var removeResult);
                                             logger.Debug("Removed map item {MapItem} from active search client with ID {ClientId} and got result {Result}", mapItemDto, clientId, removeResult);
                                             break;
@@ -137,7 +141,7 @@ namespace API.Services.Mapping
                                 .ToList();
                             logger.Debug("Streaming initial result set of {Count} map items to client with ID {ClientId}", initialResultSet.Count, clientId);
 
-                            var response = new SearchResponse();
+                            var response = new api.SearchResponse();
                             response.MapItems.AddRange(initialResultSet);
                             await responseStream
                                 .WriteAsync(response)
@@ -148,7 +152,7 @@ namespace API.Services.Mapping
                     UnregisterActiveSearchClient(clientId);
                 });
 
-        private ActiveSearchClient RegisterActiveSearchClient(Guid clientId, IServerStreamWriter<SearchResponse> responseStream)
+        private ActiveSearchClient RegisterActiveSearchClient(Guid clientId, IServerStreamWriter<api.SearchResponse> responseStream)
         {
             this.logger.Debug("Registering active search client with ID {ClientId}", clientId);
             var activeSearchClient = ActiveSearchClient.For(responseStream);
@@ -201,14 +205,14 @@ namespace API.Services.Mapping
             }
         }
 
-        private static IMappingService GetMappingService() =>
-            ServiceProxy.Create<IMappingService>(new Uri($"{FabricRuntime.GetActivationContext().ApplicationName}/Mapping"));
+        private static Task<MappingServiceClient> GetMappingServiceClient() =>
+            APIClientResolver.Resolve<MappingServiceClient>("Mapping");
 
         private async Task OnOfferUpdated(Message message, CancellationToken token)
         {
             this.logger.Debug("OnOfferUpdated");
 
-            var offer = message.Body.FromSerializedDataContract<Offer>();
+            var offer = Offer.Parser.ParseFrom(message.Body);
             var activeSearchClients = this.activeSearchClients;
 
             //this.logger.Debug("Received offer {@Offer} - checking {ActiveSearchClientCount} active search clients for a matching filter", offer, activeSearchClients.Count);
@@ -247,9 +251,9 @@ namespace API.Services.Mapping
             //}
         }
 
-        private static bool Matches(Offer offer, SearchRequest filter)
+        private static bool Matches(Offer offer, api.SearchRequest filter)
         {
-            var offerLocation = offer.Location;
+            var offerLocation = offer.GeoPoint;
 
             if (
                 offerLocation.Latitude <= filter.NorthWest.Latitude &&
@@ -282,8 +286,8 @@ namespace API.Services.Mapping
             private const int maximumActiveQuads = 32;
 
             private ActiveSearchClient(
-                IServerStreamWriter<SearchResponse> response,
-                SearchRequest filter,
+                IServerStreamWriter<api.SearchResponse> response,
+                api.SearchRequest filter,
                 ImmutableDictionary<QuadKey, ActiveSearchClientQuad> quads,
                 ImmutableList<QuadKey> quadUsageHistory)
             {
@@ -295,16 +299,16 @@ namespace API.Services.Mapping
                 this.ValidateInvariants();
             }
 
-            public static ActiveSearchClient For(IServerStreamWriter<SearchResponse> response) =>
+            public static ActiveSearchClient For(IServerStreamWriter<api.SearchResponse> response) =>
                 new ActiveSearchClient(
                     response,
                     null,
                     ImmutableDictionary<QuadKey, ActiveSearchClientQuad>.Empty,
                     ImmutableList<QuadKey>.Empty);
 
-            public IServerStreamWriter<SearchResponse> Response { get; }
+            public IServerStreamWriter<api.SearchResponse> Response { get; }
 
-            public SearchRequest Filter { get; }
+            public api.SearchRequest Filter { get; }
 
             private ImmutableDictionary<QuadKey, ActiveSearchClientQuad> Quads { get; }
 
@@ -312,7 +316,7 @@ namespace API.Services.Mapping
             // from the cache as needed.
             private ImmutableList<QuadKey> QuadUsageHistory { get; }
 
-            public ActiveSearchClient SetFilter(SearchRequest filter) =>
+            public ActiveSearchClient SetFilter(api.SearchRequest filter) =>
                 this.With(
                     filter: Option.Some(filter));
 
@@ -416,7 +420,7 @@ namespace API.Services.Mapping
             }
 
             private ActiveSearchClient With(
-                    Option<SearchRequest> filter = default,
+                    Option<api.SearchRequest> filter = default,
                     Option<ImmutableDictionary<QuadKey, ActiveSearchClientQuad>> quads = default,
                     Option<ImmutableList<QuadKey>> quadUsageHistory = default) =>
                 new ActiveSearchClient(
@@ -635,7 +639,7 @@ namespace API.Services.Mapping
                             Latitude = this.AverageLatitude,
                         },
                         // TODO: clusters need to come and go too? Or does invalidation take care of this scenario?
-                        Status = api.MapItemStatus.Active,
+                        Status = MapItemDto.Types.MapItemStatus.Active,
                         Cluster = new ClusterMapItemDto
                         {
                             ClusterId = this.ClusterId,

@@ -1,12 +1,12 @@
-﻿using System;
-using System.Fabric;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using API.Interfaces;
+using AutoMapper;
 using Grpc.Core;
 using InvitationCodes.Interfaces;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Serilog;
+using Utility;
 using static API.Interfaces.InfInvitationCodes;
+using static InvitationCodes.Interfaces.InvitationCodeService;
 
 namespace API.Services.InvitationCodes
 {
@@ -24,16 +24,16 @@ namespace API.Services.InvitationCodes
                 logger,
                 async (logger) =>
                 {
-                    var service = GetInvitationCodesService();
-                    var invitationCode = await service
-                        .Generate()
-                        .ContinueOnAnyContext();
+                    var service = await GetInvitationCodeServiceClient().ContinueOnAnyContext();
+                    var generateResponse = await service
+                        .GenerateAsync(new GenerateRequest());
+                    var code = generateResponse.Code;
                     var response = new GenerateInvitationCodeResponse
                     {
-                        InvitationCode = invitationCode,
+                        InvitationCode = code,
                     };
 
-                    logger.Debug("Generated invitation code {InvitationCode}", invitationCode);
+                    logger.Debug("Generated invitation code {InvitationCode}", code);
 
                     return response;
                 });
@@ -43,22 +43,21 @@ namespace API.Services.InvitationCodes
                 logger,
                 async (logger) =>
                 {
-                    var service = GetInvitationCodesService();
+                    var service = await GetInvitationCodeServiceClient().ContinueOnAnyContext();
                     var invitationCode = request.InvitationCode;
-                    var status = await service
-                        .GetStatus(invitationCode)
-                        .ContinueOnAnyContext();
+                    var getStatusResponse = await service
+                        .GetStatusAsync(new GetStatusRequest { Code = invitationCode });
                     var response = new GetInvitationCodeStatusResponse
                     {
-                        Status = status.ToDto(),
+                        Status = Mapper.Map<GetInvitationCodeStatusResponse.Types.InvitationCodeStatus>(getStatusResponse.Status),
                     };
 
-                    logger.Debug("Determined status of invitation code {InvitationCode} to be {InvitationCodeStatus}", invitationCode, status);
+                    logger.Debug("Determined status of invitation code {InvitationCode} to be {InvitationCodeStatus}", invitationCode, response);
 
                     return response;
                 });
 
-        private static IInvitationCodesService GetInvitationCodesService() =>
-            ServiceProxy.Create<IInvitationCodesService>(new Uri($"{FabricRuntime.GetActivationContext().ApplicationName}/InvitationCodes"));
+        private static Task<InvitationCodeServiceClient> GetInvitationCodeServiceClient() =>
+            APIClientResolver.Resolve<InvitationCodeServiceClient>("InvitationCodes");
     }
 }

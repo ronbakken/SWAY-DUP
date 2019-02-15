@@ -13,7 +13,7 @@ message SocialMediaAccountDto {
     string description = 7;
     string email = 8;
     string userId = 9;
-    // for facebook we need to acess the page of the user
+    // for facebook we need to access the page of the user
     string pageId = 10;
 
     // The I think we should go away from showing follower counts to a sort of rating

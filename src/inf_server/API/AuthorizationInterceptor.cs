@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Serilog;
-using Users.Interfaces;
 using Utility.Tokens;
 
 namespace API
@@ -25,43 +24,46 @@ namespace API
         }
 
         // What user types can invoke a given method. If a method does not appear in this list, it won't be callable by anyone.
-        private static readonly Dictionary<string, UserTypes> userTypesForMethod = new Dictionary<string, UserTypes>
+        private static readonly Dictionary<string, AuthenticatedUserTypes> userTypesForMethod = new Dictionary<string, AuthenticatedUserTypes>
         {
             // InfAuth
-            { "/api.InfAuth/SendLoginEmail", UserTypes.Anonymous },
-            { "/api.InfAuth/CreateNewUser", UserTypes.Anonymous },
-            { "/api.InfAuth/LoginWithLoginToken", UserTypes.Anonymous },
-            { "/api.InfAuth/LoginWithRefreshToken", UserTypes.Anonymous },
-            { "/api.InfAuth/GetAccessToken", UserTypes.Anonymous },
-            { "/api.InfAuth/Logout", UserTypes.Anonymous },
+            { "/api.InfAuth/SendLoginEmail", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfAuth/CreateNewUser", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfAuth/LoginWithLoginToken", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfAuth/LoginWithRefreshToken", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfAuth/GetAccessToken", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfAuth/Logout", AuthenticatedUserTypes.Anonymous },
 
             // InfBlobStorage
-            { "/api.InfBlobStorage/GetUploadUrl", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfBlobStorage/GetUploadUrl", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 
             // InfConfig
-            { "/api.InfConfig/GetAppConfig", UserTypes.Anonymous },
-            { "/api.InfConfig/GetVersions", UserTypes.Anonymous },
-            { "/api.InfConfig/GetWelcomeImages", UserTypes.Anonymous },
+            { "/api.InfConfig/GetAppConfig", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfConfig/GetVersions", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfConfig/GetWelcomeImages", AuthenticatedUserTypes.Anonymous },
 
             // InfInvitationCodes
-            { "/api.InfInvitationCodes/GenerateInvitationCode", UserTypes.Admin },
-            { "/api.InfInvitationCodes/GetInvitationCodeStatus", UserTypes.Anonymous },
+            { "/api.InfInvitationCodes/GenerateInvitationCode", AuthenticatedUserTypes.Admin },
+            { "/api.InfInvitationCodes/GetInvitationCodeStatus", AuthenticatedUserTypes.Anonymous },
 
             // InfMapping
-            { "/api.InfMapping/Search", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfMapping/Search", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+
+            // InfMessaging
+            { "/api.InfMessaging/Notify", AuthenticatedUserTypes.Anonymous },
 
             // InfOffers
-            { "/api.InfOffers/CreateOffer", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfOffers/GetOffer", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfOffers/ListOffers", UserTypes.Influencer | UserTypes.Business },
+            { "/api.InfOffers/CreateOffer", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            { "/api.InfOffers/GetOffer", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            { "/api.InfOffers/ListOffers", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 
             // InfSystem
-            { "/api.InfSystem/PingServer", UserTypes.Anonymous },
+            { "/api.InfSystem/PingServer", AuthenticatedUserTypes.Anonymous },
 
             // InfUsers
-            { "/api.InfUsers/GetUser", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfUsers/UpdateUser", UserTypes.Influencer | UserTypes.Business },
-            { "/api.InfUsers/Search", UserTypes.Influencer | UserTypes.Business | UserTypes.Admin },
+            { "/api.InfUsers/GetUser", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            { "/api.InfUsers/UpdateUser", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            { "/api.InfUsers/Search", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business | AuthenticatedUserTypes.Admin },
         };
 
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)
@@ -108,7 +110,13 @@ namespace API
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' has no permitted user types defined."));
                 }
 
-                if (allowedUserTypes.HasFlag(UserTypes.Anonymous))
+                if (allowedUserTypes == AuthenticatedUserTypes.None)
+                {
+                    this.logger.Debug("Denied - method {Method} has been explicitly denied access for all users", method);
+                    throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' is explicitly denied access for all users."));
+                }
+
+                if (allowedUserTypes.HasFlag(AuthenticatedUserTypes.Anonymous))
                 {
                     this.logger.Debug("Allowed - anonymous access permitted for method {Method}", method);
                     return context;
@@ -141,9 +149,9 @@ namespace API
                     throw new RpcException(new Status(StatusCode.PermissionDenied, "Access token is invalid."));
                 }
 
-                var userType = Enum.Parse<UserType>(accessTokenValidationResult.UserType);
+                var userType = Enum.Parse<AuthenticatedUserTypes>(accessTokenValidationResult.UserType);
 
-                if (!allowedUserTypes.Contains(userType))
+                if (!allowedUserTypes.HasFlag(userType))
                 {
                     this.logger.Debug("Denied - method {Method} cannot be called by user type {UserType}", method, userType);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"Method '{method}' cannot be called by user type '{userType}'."));

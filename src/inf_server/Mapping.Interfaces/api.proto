@@ -1,0 +1,57 @@
+﻿syntax = "proto3";
+
+package mapping;
+option csharp_namespace = "Mapping.Interfaces";
+
+service MappingService {
+    rpc Search (SearchRequest) returns (SearchResponse) {}
+}
+
+message SearchFilter {
+    enum ItemType {
+        offers = 0;
+        users = 1;
+    }
+
+    repeated ItemType itemTypes = 1;
+    string quadKey = 2;
+}
+
+message GeoPoint {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message MapItem {
+    enum Status {
+        unknown = 0;
+        inactive = 1;
+        active = 2;
+    }
+
+    GeoPoint geoPoint = 1;
+    Status status = 2;
+    string parentClusterId = 3;
+
+    oneof payload {
+        OfferMapItem offer = 4;
+        UserMapItem user = 5;
+    }
+}
+
+message OfferMapItem {
+    string offerId = 1;
+    string userId = 2;
+}
+
+message UserMapItem {
+    string userId = 1;
+}
+
+message SearchRequest {
+    SearchFilter filter = 1;
+}
+
+message SearchResponse {
+    repeated MapItem results = 1;
+}

@@ -29,7 +29,6 @@
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
         <PackageReference Include="SerilogAnalyzer" />
-        <PackageReference Include="Splat" />
         <PackageReference Include="WindowsAzure.Storage" />
 
         <PackageReference Include="Genesis.TestUtil" />
@@ -39,7 +38,6 @@
 
     <ItemGroup>
         <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
-        <ProjectReference Include="..\Common.Interfaces\Common.Interfaces.csproj" />
         <ProjectReference Include="..\InvitationCodes.Interfaces\InvitationCodes.Interfaces.csproj" />
         <ProjectReference Include="..\Mapping.Interfaces\Mapping.Interfaces.csproj" />
         <ProjectReference Include="..\Offers.Interfaces\Offers.Interfaces.csproj" />

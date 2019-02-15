@@ -3,6 +3,7 @@ using System.Diagnostics;
 using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
+using AutoMapper;
 using Genesis.Ensure;
 using Microsoft.ServiceFabric.Services.Runtime;
 
@@ -19,7 +20,7 @@ namespace Utility
         private const string storageConnectionStringName = "StorageConnectionString";
 
         // Bootstrap a stateless service using a standardized approach.
-        public static async Task Bootstrap(string namePrefix, Func<StatelessServiceContext, StatelessService> createService)
+        public static async Task Bootstrap(string namePrefix, Func<StatelessServiceContext, StatelessService> createService, Action<IMapperConfigurationExpression> configureMapping = default)
         {
             Ensure.ArgumentNotNull(namePrefix, nameof(namePrefix));
             Ensure.ArgumentNotNull(createService, nameof(createService));
@@ -48,6 +49,33 @@ namespace Utility
             var logger = Logging.GetLogger($"{namePrefix}-Program", logStorageConnectionString.Value);
             var serviceType = $"{namePrefix}Type";
 
+            if (configureMapping != null)
+            {
+                logger.Information("Configuring mapping for service with type {ServiceType}", serviceType);
+
+                try
+                {
+                    Mapper.Initialize(
+                        config =>
+                        {
+                            configureMapping(config);
+                        });
+
+                    Mapper.AssertConfigurationIsValid();
+                }
+                catch (Exception ex)
+                {
+                    logger.Fatal(ex, "Failed to configure mapping for service with type {ServiceType}", serviceType);
+                    Debugger.Break();
+
+                    // We're careful not to throw here when running locally because Service Fabric behaves in a really annoying way if we do. It ignores future deployments
+                    // for the service and we have to reset the cluster :/
+#if !DEBUG
+                    throw;
+#endif
+                }
+            }
+
             logger.Information("Starting service with type {ServiceType}", serviceType);
 
             try
@@ -67,6 +95,7 @@ namespace Utility
             catch (Exception ex)
             {
                 logger.Fatal(ex, "Service type {ServiceType} could not be registered", serviceType);
+                Debugger.Break();
                 throw;
             }
         }

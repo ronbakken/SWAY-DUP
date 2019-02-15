@@ -1,0 +1,66 @@
+﻿syntax = "proto3";
+
+package offers;
+option csharp_namespace = "Offers.Interfaces";
+
+service OffersService {
+    rpc SaveOffer (SaveOfferRequest) returns (SaveOfferResponse) {}
+
+    rpc RemoveOffer (RemoveOfferRequest) returns (RemoveOfferResponse) {}
+
+    rpc GetOffer (GetOfferRequest) returns (GetOfferResponse) {}
+
+    rpc ListOffers (ListOffersRequest) returns (ListOffersResponse) {}
+}
+
+message GeoPoint {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message Offer {
+    enum Status {
+        unknown = 0;
+        inactive = 1;
+        active = 2;
+    }
+
+    string id = 1;
+    Status status = 2;
+    string userId = 3;
+    GeoPoint geoPoint = 4;
+}
+
+message SaveOfferRequest {
+    Offer offer = 1;
+}
+
+message SaveOfferResponse {
+    Offer offer = 1;
+}
+
+message RemoveOfferRequest {
+    Offer offer = 1;
+}
+
+message RemoveOfferResponse {
+    Offer offer = 1;
+}
+
+message GetOfferRequest {
+    string id = 1;
+}
+
+message GetOfferResponse {
+    Offer offer = 1;
+}
+
+message ListOffersRequest {
+    int32 pageSize = 1;
+    string continuationToken = 2;
+}
+
+message ListOffersResponse {
+    repeated Offer offers = 1;
+    string continuationToken = 2;
+}

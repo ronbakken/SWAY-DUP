@@ -22,7 +22,7 @@ namespace API
             return userId;
         }
 
-        public static UserType GetAuthenticatedUserType(this ServerCallContext @this)
+        public static AuthenticatedUserType GetAuthenticatedUserType(this ServerCallContext @this)
         {
             var userType = @this
                 .RequestHeaders
@@ -34,7 +34,7 @@ namespace API
                 throw new InvalidOperationException("No user authenticated.");
             }
 
-            return Enum.Parse<UserType>(userType);
+            return Enum.Parse<AuthenticatedUserType>(userType);
         }
     }
 }

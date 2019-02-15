@@ -1,13 +1,14 @@
-﻿using System;
-using System.Fabric;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using API.Interfaces;
+using AutoMapper;
 using Grpc.Core;
-using Microsoft.ServiceFabric.Services.Remoting.Client;
 using Offers.Interfaces;
 using Serilog;
+using Utility;
 using static API.Interfaces.InfOffers;
+using static Offers.Interfaces.OffersService;
+using api = API.Interfaces;
 
 namespace API.Services.Offers
 {
@@ -25,61 +26,62 @@ namespace API.Services.Offers
                 this.logger,
                 async (logger) =>
                 {
-                    var offersService = GetOffersService();
+                    var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
                     var userId = context.GetAuthenticatedUserId();
                     logger.Debug("Creating offer for user {UserId}: {@Offer}", userId, request.Offer);
 
+                    var offerDto = request.Offer;
+                    var offer = Mapper.Map<Offer>(offerDto);
+                    offer.UserId = userId;
+
                     var result = await offersService
-                        .SaveOffer(request.Offer.ToServiceObject(userId))
-                        .ContinueOnAnyContext();
+                        .SaveOfferAsync(new SaveOfferRequest { Offer = offer });
                     logger.Debug("Saved offer for user {UserId}: {@Offer}", userId, result);
 
                     var response = new CreateOfferResponse
                     {
-                        Offer = result.ToDto(),
+                        Offer = Mapper.Map<OfferDto>(result.Offer),
                     };
 
                     return response;
                 });
 
-        public override Task<GetOfferResponse> GetOffer(GetOfferRequest request, ServerCallContext context) =>
+        public override Task<api.GetOfferResponse> GetOffer(api.GetOfferRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
                 {
-                    var offersService = GetOffersService();
+                    var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
                     var offer = await offersService
-                        .GetOffer(request.Id)
-                        .ContinueOnAnyContext();
+                        .GetOfferAsync(Mapper.Map<global::Offers.Interfaces.GetOfferRequest>(request));
                     logger.Debug("Retrieved offer with ID {Id}: {@Offer}", request.Id, offer);
 
-                    var response = new GetOfferResponse
+                    var response = new api.GetOfferResponse
                     {
-                        Offer = offer.ToDto(),
+                        Offer = Mapper.Map<OfferDto>(offer),
                     };
 
                     return response;
                 });
 
-        public override Task ListOffers(IAsyncStreamReader<ListOffersRequest> requestStream, IServerStreamWriter<ListOffersResponse> responseStream, ServerCallContext context) =>
+        public override Task ListOffers(IAsyncStreamReader<api.ListOffersRequest> requestStream, IServerStreamWriter<api.ListOffersResponse> responseStream, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
                 {
-                    var offersService = GetOffersService();
+                    var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
 
                     while (await requestStream.MoveNext(context.CancellationToken).ContinueOnAnyContext())
                     {
                         var request = requestStream.Current;
                         var continuationToken = request.Continuation.ContinuationCase == ContinuationDto.ContinuationOneofCase.ContinuationToken ? request.Continuation.ContinuationToken : null;
                         var result = await offersService
-                            .ListOffers(continuationToken, request.PageSize)
-                            .ContinueOnAnyContext();
+                            .ListOffersAsync(Mapper.Map<global::Offers.Interfaces.ListOffersRequest>(request));
 
-                        var response = new ListOffersResponse
+                        var response = new api.ListOffersResponse
                         {
                             Continuation =
-                                result.ContinuationToken == null ?
+                                string.IsNullOrEmpty(result.ContinuationToken) ?
                                 new ContinuationDto
                                 {
                                     NonContinuationReason = ContinuationDto.Types.NonContinuationReason.LastPage,
@@ -89,14 +91,14 @@ namespace API.Services.Offers
                                     ContinuationToken = result.ContinuationToken,
                                 },
                         };
-                        response.Items.AddRange(result.Items.Select(item => item.ToDto()));
+                        response.Items.AddRange(result.Offers.Select(item => Mapper.Map<OfferDto>(item)));
                         await responseStream
                             .WriteAsync(response)
                             .ContinueOnAnyContext();
                     }
                 });
 
-        private static IOffersService GetOffersService() =>
-            ServiceProxy.Create<IOffersService>(new Uri($"{FabricRuntime.GetActivationContext().ApplicationName}/Offers"));
+        private static Task<OffersServiceClient> GetOffersServiceClient() =>
+            APIClientResolver.Resolve<OffersServiceClient>("Offers");
     }
 }

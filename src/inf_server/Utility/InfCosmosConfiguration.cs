@@ -1,8 +1,9 @@
 ﻿using System.IO;
+using System.Reflection;
 using System.Text;
+using Google.Protobuf;
+using Google.Protobuf.Reflection;
 using Microsoft.Azure.Cosmos;
-using Newtonsoft.Json;
-using Utility.Serialization;
 
 namespace Utility
 {
@@ -17,7 +18,9 @@ namespace Utility
         private sealed class JsonNetCosmosJsonSerializer : CosmosJsonSerializer
         {
             public static readonly JsonNetCosmosJsonSerializer Instance = new JsonNetCosmosJsonSerializer();
-            private static readonly JsonSerializer serializer = JsonSerializer.Create(InfJsonSerializerSettings.Instance);
+
+            private static readonly JsonFormatter jsonFormatter = new JsonFormatter(new JsonFormatter.Settings(formatDefaultValues: false));
+            private static readonly JsonParser jsonParser = new JsonParser(JsonParser.Settings.Default.WithIgnoreUnknownFields(true));
 
             private JsonNetCosmosJsonSerializer()
             {
@@ -32,10 +35,16 @@ namespace Utility
                         return (T)(object)stream;
                     }
 
-                    using (var streamReader = new StreamReader(stream))
-                    using (var jsonTextReader = new JsonTextReader(streamReader))
+                    var descriptor = (MessageDescriptor)typeof(T).GetProperty("Descriptor", BindingFlags.Public | BindingFlags.Static)?.GetValue(null);
+
+                    if (descriptor == null)
                     {
-                        return serializer.Deserialize<T>(jsonTextReader);
+                        return default;
+                    }
+
+                    using (var streamReader = new StreamReader(stream))
+                    {
+                        return (T)jsonParser.Parse(streamReader, descriptor);
                     }
                 }
             }
@@ -45,11 +54,8 @@ namespace Utility
                 var streamPayload = new MemoryStream();
 
                 using (var streamWriter = new StreamWriter(streamPayload, encoding: Encoding.Default, bufferSize: 1024, leaveOpen: true))
-                using (var writer = new JsonTextWriter(streamWriter))
                 {
-                    writer.Formatting = Formatting.None;
-                    serializer.Serialize(writer, input);
-                    writer.Flush();
+                    jsonFormatter.WriteValue(streamWriter, input);
                     streamWriter.Flush();
                 }
 

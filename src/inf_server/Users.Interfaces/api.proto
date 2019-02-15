@@ -1,0 +1,166 @@
+﻿syntax = "proto3";
+
+package offers;
+option csharp_namespace = "Users.Interfaces";
+
+service UsersService {
+    rpc GetUserData (GetUserDataRequest) returns (GetUserDataResponse) {}
+
+    rpc GetUserDataByEmail (GetUserDataByEmailRequest) returns (GetUserDataByEmailResponse) {}
+
+    rpc SaveUserData (SaveUserDataRequest) returns (SaveUserDataResponse) {}
+
+    rpc GetUserSession (GetUserSessionRequest) returns (GetUserSessionResponse) {}
+
+    rpc SaveUserSession (SaveUserSessionRequest) returns (SaveUserSessionResponse) {}
+
+    rpc InvalidateUserSession (InvalidateUserSessionRequest) returns (InvalidateUserSessionResponse) {}
+
+    rpc Search (SearchRequest) returns (SearchResponse) {}
+}
+
+message Image {
+    string uri = 1;
+    bytes lowResData = 2;
+}
+
+message GeoPoint {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message Location {
+    string name = 1;
+    GeoPoint geoPoint = 2;
+}
+
+message SocialMediaAccount {
+    int32 socialNetworkProviderId = 1;
+    string displayName = 2;
+    string profileUri = 3;
+    string description = 4;
+    string email = 5;
+    string userId = 6;
+    string pageId = 7;
+    int32 audienceSize = 8;
+    int32 postCount = 9;
+    bool isVerified = 10;
+    string accessToken = 11;
+    string accessTokenSecret = 12;
+    string refreshToken = 13;
+}
+
+message UserData {
+    enum Type {
+        unknown = 0;
+        influencer = 1;
+        business = 2;
+        support = 3;
+        admin = 4;
+    }
+
+    enum Status {
+        unknownStatus = 0;
+        waitingForActivation = 1;
+        waitingForApproval = 2;
+        disabled = 3;
+        active = 4;
+    }
+
+    string id = 1;
+    string email = 2;
+    Type type = 3;
+    Status status = 4;
+    string name = 5;
+    string description = 6;
+    Image avatar = 7;
+    Image avatarThumbnail = 8;
+    Location location = 9;
+    bool showLocation = 10;
+    bool isVerified = 11;
+    string websiteUri = 12;
+    bool acceptsDirectOffers = 13;
+    int32 accountCompletionInPercent = 14;
+    int32 minimalFee = 15;
+    repeated int32 categoryIds = 16;
+    repeated SocialMediaAccount socialMediaAccounts = 17;
+    string loginToken = 18;
+}
+
+message UserSession {
+    string refreshToken = 1;
+    string deviceId = 2;
+}
+
+message SearchFilter {
+    enum UserType {
+        unknown = 0;
+        influencer = 1;
+        business = 2;
+        support = 3;
+        admin = 4;
+    }
+
+    repeated UserType userTypes = 1;
+    repeated int32 categoryIds = 2;
+    repeated int32 socialMediaNetworkIds = 3;
+    GeoPoint geoPoint = 4;
+    double locationDistanceKms = 5;
+    int32 minimumValue = 6;
+    string phrase = 7;
+}
+
+message GetUserDataRequest {
+    string id = 1;
+}
+
+message GetUserDataResponse {
+    UserData userData = 1;
+}
+
+message GetUserDataByEmailRequest {
+    string email = 1;
+}
+
+message GetUserDataByEmailResponse {
+    UserData userData = 1;
+}
+
+message SaveUserDataRequest {
+    UserData userData = 1;
+}
+
+message SaveUserDataResponse {
+    UserData userData = 1;
+}
+
+message GetUserSessionRequest {
+    string refreshToken = 1;
+}
+
+message GetUserSessionResponse {
+    UserSession userSession = 1;
+}
+
+message SaveUserSessionRequest {
+    UserSession userSession = 1;
+}
+
+message SaveUserSessionResponse {
+    UserSession userSession = 1;
+}
+
+message InvalidateUserSessionRequest {
+    string refreshToken = 1;
+}
+
+message InvalidateUserSessionResponse {
+}
+
+message SearchRequest {
+    SearchFilter filter = 1;
+}
+
+message SearchResponse {
+    repeated UserData results = 1;
+}

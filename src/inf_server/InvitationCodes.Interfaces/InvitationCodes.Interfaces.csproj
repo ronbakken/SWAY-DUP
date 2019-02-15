@@ -7,7 +7,15 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
         <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" />
+
+        <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
 </Project>

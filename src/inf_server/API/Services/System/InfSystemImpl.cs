@@ -2,6 +2,7 @@
 using API.Interfaces;
 using Grpc.Core;
 using Serilog;
+using Utility;
 
 namespace API.Services.System
 {

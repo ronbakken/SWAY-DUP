@@ -1,0 +1,26 @@
+﻿syntax = "proto3";
+
+package mapping;
+option csharp_namespace = "Mapping";
+
+import "google/protobuf/timestamp.proto";
+
+message GeoPointEntity {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message MapItemEntity {
+    enum Status {
+        unknown = 0;
+        active = 1;
+        inactive = 2;
+    }
+
+    int32 schemaVersion = 1;
+    string quadKey = 2;
+    string id = 3;
+    Status status = 4;
+    string userId = 5;
+    GeoPointEntity geoPoint = 6;
+}

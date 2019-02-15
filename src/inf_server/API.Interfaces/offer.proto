@@ -4,7 +4,6 @@ package api;
 option csharp_namespace = "API.Interfaces";
 
 import "location.proto";
-import "optional.proto";
 
 enum OfferStatus {
     unknownOfferStatus = 0;
@@ -13,7 +12,8 @@ enum OfferStatus {
 }
 
 message OfferDto {
-    OptionalString id = 1;
+    string id = 1;
     OfferStatus status = 2;
     GeoPointDto geoPoint = 3;
+    string userId = 4;
 }

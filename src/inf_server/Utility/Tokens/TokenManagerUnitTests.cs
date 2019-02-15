@@ -11,16 +11,18 @@ namespace Utility.Tokens
     public sealed class TokenManagerUnitTests
     {
         [Theory]
-        [InlineData("kent.boogaart@gmail.com", "WaitingForActivation", "Influencer", "ABC123")]
-        [InlineData("someone@somewhere.com", "Disabled", "Business", "XYZ789")]
+        [InlineData("ID1", "kent.boogaart@gmail.com", "WaitingForActivation", "Influencer", "ABC123")]
+        [InlineData("ID2", "someone@somewhere.com", "Disabled", "Business", "XYZ789")]
         public void login_tokens_generate_and_validate_correctly(
             string userId,
+            string email,
             string userStatus,
             string userType,
             string invitationCode)
         {
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
+                email,
                 userStatus,
                 userType,
                 invitationCode);
@@ -29,22 +31,25 @@ namespace Utility.Tokens
 
             Assert.True(validationResult.IsValid);
             Assert.Equal(userId, validationResult.UserId);
+            Assert.Equal(email, validationResult.Email);
             Assert.Equal(userStatus, validationResult.UserStatus);
             Assert.Equal(userType, validationResult.UserType);
             Assert.Equal(invitationCode, validationResult.InvitationCode);
         }
 
         [Theory]
-        [InlineData("kent.boogaart@gmail.com", "WaitingForActivation", "Influencer", "ABC123")]
-        [InlineData("someone@somewhere.com", "Disabled", "Business", "XYZ789")]
+        [InlineData("ID1", "kent.boogaart@gmail.com", "WaitingForActivation", "Influencer", "ABC123")]
+        [InlineData("ID2", "someone@somewhere.com", "Disabled", "Business", "XYZ789")]
         public void login_tokens_are_reversible(
             string userId,
+            string email,
             string userStatus,
             string userType,
             string invitationCode)
         {
             var loginToken = TokenManager.GenerateLoginToken(
                 userId,
+                email,
                 userStatus,
                 userType,
                 invitationCode);
@@ -64,7 +69,8 @@ namespace Utility.Tokens
             Assert.Equal(userType, jwtToken.Audiences.First());
             var claims = jwtToken.Claims;
             Assert.Equal("login", claims.FirstOrDefault(claim => claim.Type == "_tt").Value);
-            Assert.Equal(userStatus, claims.FirstOrDefault(claim => claim.Type == "_us").Value);
+            Assert.Equal(email, claims.FirstOrDefault(claim => claim.Type == "email").Value);
+            Assert.Equal(userStatus, claims.FirstOrDefault(claim => claim.Type == "userStatus").Value);
             Assert.Equal(invitationCode, claims.FirstOrDefault(claim => claim.Type == "_ic").Value);
         }
 

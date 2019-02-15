@@ -7,16 +7,23 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
         <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" />
         <PackageReference Include="NodaTime" />
         <PackageReference Include="Optional" />
         <PackageReference Include="System.Collections.Immutable" />
+
+        <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Common.Interfaces\Common.Interfaces.csproj" />
         <ProjectReference Include="..\Offers.Interfaces\Offers.Interfaces.csproj" />
         <ProjectReference Include="..\Utility\Utility.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
 </Project>

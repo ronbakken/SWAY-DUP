@@ -16,7 +16,9 @@ namespace Utility.Tokens
         private const string encryptingSecret = "YQ1Dry8XqxydjPVNo9hA582xFuwCc3ULd+I+s/rUQIo=";
         private const string issuer = "https://api.sway-marketplace.com";
         private const string tokenTypeClaimType = "_tt";
-        private const string userStatusClaimType = "_us";
+        private const string userStatusClaimType = "userStatus";
+        private const string userTypeClaimType = "aud";
+        private const string emailClaimType = "email";
         private const string invitationCodeClaimType = "_ic";
         private const string loginTokenType = "login";
         private const string refreshTokenType = "refresh";
@@ -49,6 +51,9 @@ namespace Utility.Tokens
         /// <param name="userId">
         /// The associated user ID.
         /// </param>
+        /// <param name="email">
+        /// The associated email.
+        /// </param>
         /// <param name="userStatus">
         /// The status of the user.
         /// </param>
@@ -61,7 +66,7 @@ namespace Utility.Tokens
         /// <returns>
         /// The token in JWT format.
         /// </returns>
-        public static string GenerateLoginToken(string userId, string userStatus, string userType, string invitationCode)
+        public static string GenerateLoginToken(string userId, string email, string userStatus, string userType, string invitationCode)
         {
             var descriptor = new SecurityTokenDescriptor
             {

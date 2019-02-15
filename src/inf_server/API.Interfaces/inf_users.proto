@@ -36,7 +36,7 @@ message UpdateUserResponse {
 
 message SearchUsersRequest {
     repeated UserType userTypes = 1;
-    repeated int32 categories = 2;
+    repeated int32 categoryIds = 2;
     repeated int32 socialMediaNetworkIds = 3;
     LocationDto location = 4;
     double locationDistanceKms = 5;
