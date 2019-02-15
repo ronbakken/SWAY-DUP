@@ -46,7 +46,7 @@ class BusinessOffer {
 
 
   final DealTerms terms;
-  final List<SocialNetworkProvider> channels;
+
 
   final Location location;
 
@@ -90,7 +90,6 @@ class BusinessOffer {
       this.unlimitedAvailable,
       this.thumbnailUrl,
       this.thumbnailLowRes,
-      this.channels,
       this.terms,
       this.location,
       this.imageUrls,

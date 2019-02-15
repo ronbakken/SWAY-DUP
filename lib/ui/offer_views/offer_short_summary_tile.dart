@@ -40,7 +40,7 @@ class OfferShortSummaryTile extends StatelessWidget {
        Text(offer.title, textScaleFactor: 1.2, style: TextStyle(color: Colors.white)),
     ];
 
-    for(var channel in offer.channels)
+    for(var channel in offer.terms.deliverable.channels)
     { 
       topRowItems.addAll([
         SizedBox(width: 10.0),

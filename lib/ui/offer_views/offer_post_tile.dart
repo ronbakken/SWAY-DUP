@@ -158,7 +158,7 @@ class _OfferDetailsRow extends StatelessWidget {
         ],
       );
 
-    for (var channel in offer.channels) {
+    for (var channel in offer.terms.deliverable.channels) {
       rowContent.add(
         CircleAvatar(
           radius: 18,

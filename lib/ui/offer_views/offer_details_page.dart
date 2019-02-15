@@ -145,7 +145,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 _DetailEntry(
                   icon: InfAssetImage(AppIcons.deliverable),
                   title: 'DELIVERABLES',
-                  rightSideIcons: offer.channels
+                  rightSideIcons: offer.terms.deliverable.channels
                       .map<Widget>(
                         (channel) => Padding(
                               padding: const EdgeInsets.only(right:8),

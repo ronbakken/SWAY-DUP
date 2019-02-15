@@ -66,7 +66,7 @@ class OfferBuilder {
 
     isDirectOffer = offer.isDirectOffer;
     deliverableTypes = SelectionSet.fromIterable(offer.terms.deliverable.types);
-    channels = SelectionSet.fromIterable(offer.channels);
+    channels = SelectionSet.fromIterable(offer.terms.deliverable.channels);
     categories = SelectionSet.fromIterable(offer.categories);
     deliverableDescription = offer.terms.deliverable.description;
     cashValue = offer.terms.reward.cashValue ?? Decimal.fromInt(0);

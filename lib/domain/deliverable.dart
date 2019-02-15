@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class DeliverableIcon {
@@ -18,9 +19,10 @@ class DeliverableIcon {
 
 class Deliverable {
   final List<DeliverableType> types;
+  final List<SocialNetworkProvider> channels;
   final String description;
 
-  Deliverable({this.types, this.description});
+  Deliverable({this.types, this.description, this.channels});
 
   Deliverable copyWith({
     int id,

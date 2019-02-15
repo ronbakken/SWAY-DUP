@@ -116,15 +116,16 @@ class InfApiServiceMock implements InfApiService {
               'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
               'amazing service. '
               'Our car wash is the best car wash in the universe of car washes.',
-          channels: [
-            backend.get<ConfigService>().socialNetworkProviders[0],
-            backend.get<ConfigService>().socialNetworkProviders[1]
-          ],
           location: Location(latitude: 34.032395, longitude: -118.301019),
           terms: DealTerms(
             deliverable: Deliverable(
-                description: 'Tell people how good our service is',
-                types: [DeliverableType.POST, DeliverableType.VIDEO]),
+              description: 'Tell people how good our service is',
+              types: [DeliverableType.POST, DeliverableType.VIDEO],
+              channels: [
+                backend.get<ConfigService>().socialNetworkProviders[0],
+                backend.get<ConfigService>().socialNetworkProviders[1]
+              ],
+            ),
             reward: Reward(
               description: 'One free premium car wash',
               type: RewardType.barter,
@@ -151,10 +152,13 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
-            deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
+            deliverable: Deliverable(
+              description: 'Tell people how good our tea is',
+              types: [DeliverableType.POST],
+              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
               type: RewardType.barter,
@@ -179,11 +183,13 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
             deliverable: Deliverable(
-                description: 'Tell people how good our tea is', types: [DeliverableType.POST, DeliverableType.MENTION]),
+              description: 'Tell people how good our tea is',
+              types: [DeliverableType.POST, DeliverableType.MENTION],
+              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
               type: RewardType.barter,
@@ -225,16 +231,17 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'cars'
               ..description = 'All about cars')
           ],
-          channels: [
-            backend.get<ConfigService>().socialNetworkProviders[0],
-            backend.get<ConfigService>().socialNetworkProviders[1]
-          ],
           unlimitedAvailable: true,
           location: Location(latitude: 34.032395, longitude: -118.301019),
           terms: DealTerms(
             deliverable: Deliverable(
-                description: 'Tell people how good our service is',
-                types: [DeliverableType.POST, DeliverableType.VIDEO]),
+              description: 'Tell people how good our service is',
+              types: [DeliverableType.POST, DeliverableType.VIDEO],
+              channels: [
+                backend.get<ConfigService>().socialNetworkProviders[0],
+                backend.get<ConfigService>().socialNetworkProviders[1]
+              ],
+            ),
             reward: Reward(
               description: 'One free premium car wash',
               type: RewardType.barter,
@@ -277,10 +284,13 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'tea'
               ..description = 'Tea')
           ],
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
-            deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
+            deliverable: Deliverable(
+              description: 'Tell people how good our tea is',
+              types: [DeliverableType.POST],
+              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
               type: RewardType.barter,
@@ -320,12 +330,15 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'tea'
               ..description = 'Tea')
           ],
-          channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           startDate: DateTime(2019, 1, 1),
           endDate: DateTime(2019, 3, 1),
           location: Location(latitude: 34.040031, longitude: -118.257318),
           terms: DealTerms(
-            deliverable: Deliverable(description: 'Tell people how good our tea is', types: [DeliverableType.POST]),
+            deliverable: Deliverable(
+              description: 'Tell people how good our tea is',
+              types: [DeliverableType.POST],
+              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
               type: RewardType.barter,
@@ -367,7 +380,8 @@ class InfApiServiceMock implements InfApiService {
         businessName: 'Scent of Asia',
         businessAvatarUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
+        influencerAvatarUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
         businessId: "1",
         text: 'I love all sorts of Tea and my followers love all sort of great food.'
             'So I think a selfy with me and your tea would fit great.',
@@ -387,7 +401,7 @@ class InfApiServiceMock implements InfApiService {
       Proposal(
         id: '2',
         offerId: 2,
-        offerTitle: 'Car Wash',        
+        offerTitle: 'Car Wash',
         lastTimeUpdated: DateTime.now().subtract(Duration(hours: 5)),
         state: ProposalState.haggling,
         sentFrom: UserType.influencer,
@@ -396,8 +410,8 @@ class InfApiServiceMock implements InfApiService {
         businessName: 'CarWash Tom',
         businessAvatarUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        influencerAvatarUrl: 
-           'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        influencerAvatarUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
         businessId: '1',
         text: 'I could post a picture of my race car in front of your car wash',
         influencerWantsDeal: true,
@@ -418,7 +432,6 @@ class InfApiServiceMock implements InfApiService {
         offerId: 1,
         offerTitle: 'Spoon Ice Tea',
         lastTimeUpdated: DateTime.now().subtract(Duration(days: 2)),
-
         state: ProposalState.done,
         sentFrom: UserType.business,
         influencerId: '43',
@@ -426,7 +439,8 @@ class InfApiServiceMock implements InfApiService {
         businessName: 'CarWash Tom',
         businessAvatarUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-        influencerAvatarUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
+        influencerAvatarUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Finf_profile_small.png?alt=media&token=885455ad-0892-476b-9b78-725da0fb7c78',
         businessId: '42',
         text: 'I love all sorts of Tea and my followers love all sort of great food.'
             'So I think a selfy with me and your tea would fit great.',
