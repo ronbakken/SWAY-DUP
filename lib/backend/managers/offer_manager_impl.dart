@@ -1,4 +1,4 @@
-import 'dart:typed_data';
+import 'dart:async';
 
 import 'package:image/image.dart';
 import 'package:inf/backend/backend.dart';
@@ -22,11 +22,6 @@ class OfferManagerImplementation implements OfferManager {
   @override
   Observable<List<BusinessOffer>> get myOffers => _myOffersSubject;
   final BehaviorSubject<List<BusinessOffer>> _myOffersSubject =
-      new BehaviorSubject<List<BusinessOffer>>();
-
-  @override
-  Observable<List<BusinessOffer>> get receivedDirectOffers => _receivedDirectOffersSubject;
-  final BehaviorSubject<List<BusinessOffer>> _receivedDirectOffersSubject =
       new BehaviorSubject<List<BusinessOffer>>();
 
   @override
@@ -124,7 +119,6 @@ class OfferManagerImplementation implements OfferManager {
       await _myOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
       await _featuredBusinessOffers.addStream(backend.get<InfApiService>().getBusinessOffers(null));
       await _filteredOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
-      await _receivedDirectOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
     });
 
   }

@@ -4,7 +4,7 @@ description: INFluencers
 version: 1.0.0+2
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.0.0 <3.0.0"
 
 # Dependencies are ordered alphabetically or grouped if it makes sense
 

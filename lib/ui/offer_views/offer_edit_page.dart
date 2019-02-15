@@ -8,16 +8,11 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/category_selector_view.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
-import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/deliverable_selector.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/image_selector.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_date_picker.dart';
-import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
-import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
@@ -26,11 +21,7 @@ import 'package:inf/ui/widgets/inf_time_picker.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/social_platform_selector.dart';
-import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
-import 'package:intl/intl.dart';
-import 'package:rxdart/rxdart.dart';
 
 class OfferEditPage extends PageWidget {
   static Route<dynamic> route(BusinessOffer offer) {
@@ -54,7 +45,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    super.initState();
     offerBuilder = OfferBuilder.fromOffer(widget.offer);
   }
 

@@ -115,12 +115,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
-  Future<void> createNewUser(User user, String loginToken, String deviceId) async {
-    var response = await backend.get<InfApiClientsService>().authClient.createNewUser(CreateNewUserRequest()
-      ..userData = user.toDto()
-      ..loginToken = loginToken
-      ..deviceId = deviceId);
-
+  Future<void> activateUser(User user, String loginToken) async {
+    var response = await backend.get<InfApiClientsService>().authClient.activateUser(
+          ActivateUserRequest()
+            ..userData = user.toDto()
+            ..loginToken = loginToken,
+        );
     if (response.refreshToken.isNotEmpty) {
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = response.refreshToken;
       var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);

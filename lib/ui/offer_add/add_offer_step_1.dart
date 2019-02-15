@@ -1,13 +1,7 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
-import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
-import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/image_selector.dart';
-import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';

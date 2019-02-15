@@ -18,7 +18,6 @@ import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_input_decorator.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
-import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/routes.dart';

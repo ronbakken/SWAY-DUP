@@ -1,4 +1,5 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/auth_service_.dart';
 import 'package:inf/domain/domain.dart';
@@ -87,14 +88,13 @@ class UserManagerImplementation implements UserManager {
       userToSend = userData.user;
     }
     if (userData.user.accountState == AccountState.waitingForActivation) {
-      await backend.get<AuthenticationService>().createNewUser(
+      await backend.get<AuthenticationService>().activateUser(
             userToSend.copyWith(
               email: loginToken.email,
               // TODO add categories
               categories: [],
             ),
             loginToken.token,
-            '123243',
           );
     } else {
       await backend.get<AuthenticationService>().updateUser(userToSend);

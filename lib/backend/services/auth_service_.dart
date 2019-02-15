@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
@@ -117,7 +118,7 @@ abstract class AuthenticationService {
 
   Future<bool> loginUserWithLoginToken(String loginToken);
 
-  Future<void> createNewUser(User user, String loginToken, String deviceId);
+  Future<void> activateUser(User user, String loginToken);
 
   Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
 

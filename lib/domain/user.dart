@@ -140,11 +140,7 @@ class User {
     assert(socialMediaAccounts != null);
 
     var dto = UserDto()
-<<<<<<< HEAD:lib/domain/User.dart
       ..id = id ?? ""
-=======
-      ..id = id
->>>>>>> Minor cleanup during create user account bug resolution.:lib/domain/user.dart
       ..verified = verified ?? false
       ..accountState = accountState
       ..userType = userType

@@ -1,7 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
-import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
@@ -17,7 +18,6 @@ import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:intl/intl.dart';
 import 'package:pedantic/pedantic.dart';
-import 'package:rxdart/rxdart.dart';
 
 class OfferDetailsPage extends PageWidget {
   static Route<dynamic> route(Stream<BusinessOffer> offerStream, [String tag]) {

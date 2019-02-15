@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inf/ui/widgets/inf_input_decorator.dart';
-import 'package:intl/intl.dart';
 
 class InfTimePicker extends FormField<TimeOfDay> {
   InfTimePicker({

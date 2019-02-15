@@ -5,7 +5,6 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
-import 'package:inf/ui/widgets/notification_marker.dart';
 
 class OfferShortSummaryTile extends StatelessWidget {
   const OfferShortSummaryTile({
@@ -21,7 +20,7 @@ class OfferShortSummaryTile extends StatelessWidget {
   final VoidCallback onPressed;
   final String tag;
   final Color backGroundColor;
-  final isListTile;
+  final bool isListTile;
 
   @override
   Widget build(BuildContext context) {

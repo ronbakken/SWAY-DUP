@@ -12,7 +12,6 @@ import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
-import 'package:rxdart/rxdart.dart';
 
 enum BrowseMode { map, list }
 

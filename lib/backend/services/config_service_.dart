@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/social_network_provider.dart';

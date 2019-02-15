@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/offer_views/offer_short_summary_tile.dart';
 
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';

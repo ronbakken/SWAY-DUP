@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
@@ -111,7 +113,7 @@ class _TabBarItem extends StatelessWidget {
     Key key,
     @required this.text,
     @required this.bottomPadding,
-    @required this.notifications,
+    this.notifications,
   }) : super(key: key);
 
   final double bottomPadding;

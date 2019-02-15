@@ -9,7 +9,6 @@ import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_input_decorator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';

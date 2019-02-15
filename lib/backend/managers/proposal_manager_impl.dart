@@ -27,7 +27,7 @@ class ProposalManagerImplementation implements ProposalManager {
   }
 
   @override
-  Stream<Chat> openChat(String proposalId) {}
+  Stream<Chat> openChat(String proposalId) => null;
 
   @override
   Observable<List<Proposal>> get appliedProposals => _appliedProposalSubject;

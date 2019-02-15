@@ -235,11 +235,7 @@ packages:
     description:
       path: "src/inf_api_client"
       ref: alpha
-<<<<<<< HEAD
-      resolved-ref: "2ef081cde34cc939bd8157bf275a9f41ab33bed4"
-=======
-      resolved-ref: bad3869bfc03e38cf61d869b2f5b4dd4e41c36f7
->>>>>>> Minor cleanup during create user account bug resolution.
+      resolved-ref: bc9a21ec739787078cc5852b7d393a2537b89e08
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"
@@ -424,7 +420,7 @@ packages:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.5.4"
+    version: "1.5.3"
   stack_trace:
     dependency: transitive
     description:

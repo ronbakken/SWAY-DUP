@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';

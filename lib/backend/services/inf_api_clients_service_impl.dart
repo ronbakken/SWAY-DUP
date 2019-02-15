@@ -35,8 +35,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   StreamSubscription _networkStateSubscription;
   StreamSubscription _serverPeriodicCheckSubscription;
 
-  InfApiClientsServiceImplementation() {
-  }
+  InfApiClientsServiceImplementation();
 
   @override
   void init(String host, port) {

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/services.dart' show MethodChannel;
 
 class BuildConfig {
