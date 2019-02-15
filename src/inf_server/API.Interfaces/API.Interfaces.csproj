@@ -16,4 +16,16 @@
         <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="enums.proto" />
+      <None Remove="enums_old.proto" />
+      <None Remove="inf_offers_proposal.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProtoBuf Remove="enums.proto" />
+      <ProtoBuf Remove="enums_old.proto" />
+      <ProtoBuf Remove="inf_offers_proposal.proto" />
+    </ItemGroup>
+
 </Project>

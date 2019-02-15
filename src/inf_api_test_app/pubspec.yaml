@@ -14,7 +14,10 @@ environment:
 
 dependencies:
   inf_api_client:
-    path: ..\inf_api_client
+    git:
+       url: https://github.com/infmarketplace/inf_server.git
+       ref: alpha
+       path: src/inf_api_client
   flutter_svg: any
   flutter:
     sdk: flutter

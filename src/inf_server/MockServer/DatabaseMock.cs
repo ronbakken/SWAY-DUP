@@ -372,7 +372,7 @@ namespace MockServer
             {
                 new UserDto
                 {
-                    Id = new OptionalString{Value = "1" },
+                    Id = "1" ,
                     ShowLocation = true,
                     AcceptsDirectOffers = true,
                     Name = "Thomas",
@@ -404,7 +404,7 @@ namespace MockServer
                 },
                 new UserDto
                 {
-                    Id = new OptionalString{Value = "2" },
+                    Id = "2" ,
                     Name = "Jane Dow",
                     ShowLocation = true,
                     AcceptsDirectOffers = true,
