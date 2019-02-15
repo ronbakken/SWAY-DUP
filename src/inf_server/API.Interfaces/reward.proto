@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+
+enum RewardType { 
+    barter = 0; 
+    cash = 1; 
+    barterAndCash =2;
+}
+
+message RewardDto {
+    RewardType type = 1;
+    string barterValue = 2;
+    string cashValue = 3;
+    string description = 4;
+}

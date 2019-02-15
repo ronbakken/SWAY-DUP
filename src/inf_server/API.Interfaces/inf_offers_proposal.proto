@@ -1,0 +1,95 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "offer.proto";
+import "location.proto";
+import "deliverable.proto";
+import "reward.proto";
+import "empty.proto";
+
+service InfOffers {
+  // Updates an offer or creates a new one if it doesn't exist yet
+  rpc UpdateOffer (CreateOfferRequest) returns (CreateOfferResponse) {}
+
+  rpc GetOffer (GetOfferRequest) returns (GetOfferResponse) {}
+
+  rpc DeleteOffer (DeleteOfferRequest) returns (Empty) {}
+
+  rpc ListOffers (stream ListOffersRequest) returns (stream ListOffersResponse) {}
+}
+
+message CreateOfferRequest {
+    OfferDto offer = 1;
+}
+
+message CreateOfferResponse {
+    OfferDto offer = 1;
+}
+
+message GetOfferRequest {
+    string id = 1;
+}
+
+message DeleteOfferRequest {
+    string id = 1;
+}
+
+message GetOfferResponse {
+    OfferDto offer = 1;
+}
+
+
+
+message ListOffersRequest {
+    int32 maxItems = 1;
+    OfferFilterDto filter = 2;
+}
+
+// Does this make sense or do we always transmit all items after a change in the collection?
+// Do I always get all of them or only separate messages for every item or several batches?
+enum UpdateReason {
+    updated = 0;
+    deleted = 1;
+}
+
+message ListOffersResponse {
+    UpdateReason  reason = 1;
+    repeated OfferDto items = 2;
+}
+
+
+// Offer filter
+
+// I'm not sure if it helps on the server side to define which
+// aspects of a filter is set lets discuss
+enum OfferFilterApect {
+    offerrinBusinessId = 0;
+    userAppliyingId= 1;
+    channels = 2;
+    deliverable = 3;
+    reward = 4;
+    loction = 5;
+    date = 6;
+  }
+  
+  message OfferFilterDto{
+    repeated OfferFilterApect aspects = 1;
+    string  userApplyingId = 2;
+    string  offeringBusinessId = 3;
+    repeated OfferStatus status = 4;
+    string phrase = 5;
+    repeated int32 categories = 6;
+    repeated int32 socialMediaNetworkIds = 7;
+    LocationDto location = 8;
+    double locationDistanceKms = 9;
+    repeated DeliverableType deliverableType = 10;
+  
+    // if aspect 'reward' is included the next three can ne set
+    repeated RewardType rewardType = 11;
+    int32 rewardValueLowerLimit = 12;
+    int32 rewardValueUpperLimit = 13;
+    
+    int64 expiryDate = 14;    
+  }

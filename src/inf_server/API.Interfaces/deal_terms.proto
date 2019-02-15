@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "reward.proto";
+import "deliverable.proto";
+
+message DealTermsDto{
+  DeliverableDto deliverable = 1;
+  RewardDto reward = 2;
+}
