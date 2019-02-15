@@ -7,7 +7,6 @@ protoc.exe ^
     category.proto ^
     deliverable.proto ^
     empty.proto ^
-    enums.proto ^
     image.proto ^
     inf_api.proto ^
     inf_auth.proto ^
