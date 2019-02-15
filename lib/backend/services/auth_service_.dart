@@ -5,9 +5,6 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
-/// Keep in mind
-/// Save latest provider and login and warn user if he tries to signin
-/// with a user he has never used before
 
 enum AuthenticationState {
   connecting,

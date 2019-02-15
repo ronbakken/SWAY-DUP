@@ -235,7 +235,7 @@ packages:
     description:
       path: "src/inf_api_client"
       ref: alpha
-      resolved-ref: bc9a21ec739787078cc5852b7d393a2537b89e08
+      resolved-ref: bedf2a8a7fa08a2dbbf26033752b554f327d803d
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"
@@ -387,7 +387,7 @@ packages:
       name: rx_command
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.1.1"
+    version: "4.2.0"
   rxdart:
     dependency: "direct main"
     description:

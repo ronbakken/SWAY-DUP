@@ -13,6 +13,7 @@ import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:pedantic/pedantic.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:uni_links/uni_links.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -68,11 +69,22 @@ class _StartupPageState extends PageState<StartupPage> {
         Navigator.of(context).pushReplacement(nextPage);
       },
       onError: (error) async {
-        if (error is GrpcError || error is SocketException) {
+        if (error is SocketException) {
           // Wait till we have a connection again
           await Navigator.of(context).push(NoConnectionPage.route());
           loginCommand.execute(_loginToken);
-        } else {
+        }
+        else if (error is GrpcError)
+        {
+           if (_loginToken != null)
+           {
+             await showMessageDialog(
+                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please use the latest link you got or signup again'); 
+           }
+           unawaited(Navigator.of(context).pushReplacement(WelcomeRoute()));
+
+        }
+        else {
           await backend.get<ErrorReporter>().logException(error);
         }
       },

@@ -57,6 +57,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
     //print('Deeplink URI $uri');
     if (uri.queryParameters.containsKey('token')) {
       // setup listener for success of the login attempt with the token
+      loginCommandListener?.dispose();
       loginCommandListener = RxCommandListener(
         backend.get<UserManager>().logInUserCommand,
         onValue: (success) async {
@@ -73,7 +74,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
             }
           } else {
             await showMessageDialog(
-                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please use the latest link you got or please signup again');
           }
         },
         onError: (error) async {
