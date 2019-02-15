@@ -30,7 +30,6 @@ class UserManagerImplementation implements UserManager {
   @override
   RxCommand<void, void> logOutUserCommand;
 
-
   UserManagerImplementation() {
     logInUserCommand = RxCommand.createAsync(loginUser);
 
@@ -38,8 +37,8 @@ class UserManagerImplementation implements UserManager {
 
     updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
 
-    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend.get<AuthenticationService>().logOut, emitsLastValueToNewSubscriptions: true);
-
+    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend.get<AuthenticationService>().logOut,
+        emitsLastValueToNewSubscriptions: true);
   }
 
   @override
@@ -67,37 +66,36 @@ class UserManagerImplementation implements UserManager {
       var imageBytes = await userData.profilePicture.readAsBytes();
 
       var image = decodeImage(imageBytes);
-      var profileIMage = copyResize(image, 800);
-      var profileLores = copyResize(profileIMage, 100);
-      var thumbNail = copyResize(profileIMage, 100);
-      var thumbNailLores = copyResize(thumbNail, 20);
+      var profileImage = copyResize(image, 800);
+      var profileLowRes = copyResize(profileImage, 100);
+      var thumbNail = copyResize(profileImage, 100);
+      var thumbNailLowRes = copyResize(thumbNail, 20);
 
       var profileUrl = await backend
           .get<ImageService>()
-          .uploadImageFromBytes('profilePicture.jpg', encodeJpg(profileIMage, quality: 90));
+          .uploadImageFromBytes('profilePicture.jpg', encodeJpg(profileImage, quality: 90));
       var thumbNailUrl = await backend
           .get<ImageService>()
           .uploadImageFromBytes('profileThumbnail.jpg', encodeJpg(thumbNail, quality: 90));
       userToSend = userData.user.copyWith(
         avatarUrl: profileUrl,
-        avatarLowRes: encodeJpg(profileLores),
+        avatarLowRes: encodeJpg(profileLowRes),
         avatarThumbnailUrl: thumbNailUrl,
-        avatarThumbnailLowRes: encodeJpg(thumbNailLores),
+        avatarThumbnailLowRes: encodeJpg(thumbNailLowRes),
       );
-
     } else {
       userToSend = userData.user;
     }
     if (userData.user.accountState == AccountState.waitingForActivation) {
-      // TODO MVP Device ID
       await backend.get<AuthenticationService>().createNewUser(
-          userToSend.copyWith(
-            email: loginToken.email,
-            // TODO add categories
-            categories: []
-          ),
-          loginToken.token,
-          '123243');
+            userToSend.copyWith(
+              email: loginToken.email,
+              // TODO add categories
+              categories: [],
+            ),
+            loginToken.token,
+            '123243',
+          );
     } else {
       await backend.get<AuthenticationService>().updateUser(userToSend);
     }

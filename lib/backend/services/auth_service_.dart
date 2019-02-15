@@ -69,28 +69,33 @@ class LoginToken {
     var email = asMap['email'];
 
     AccountState accountState;
-    switch (userStatus)
-    {
-      case 'WaitingForActivation' : accountState = AccountState.waitingForActivation;
-      break;
-      case 'Active' : accountState = AccountState.active;
-      break;
-      case 'WaitingForApproval' : accountState = AccountState.waitingForApproval;
-      break;
-      case 'Disabled' : accountState = AccountState.disabled;
-      break;
-      case 'Rejected' : accountState = AccountState.rejected;
-      break;
+    switch (userStatus) {
+      case 'WaitingForActivation':
+        accountState = AccountState.waitingForActivation;
+        break;
+      case 'Active':
+        accountState = AccountState.active;
+        break;
+      case 'WaitingForApproval':
+        accountState = AccountState.waitingForApproval;
+        break;
+      case 'Disabled':
+        accountState = AccountState.disabled;
+        break;
+      case 'Rejected':
+        accountState = AccountState.rejected;
+        break;
       default:
-         throw AuthenticationException('Invalid account status in logintoken: $userStatus');      
+        throw AuthenticationException('Invalid account status in logintoken: $userStatus');
     }
     UserType userType;
-    switch (userTypeAsString)
-    {
-      case 'Business' : userType = UserType.business;
-      break;
-      case 'Influencer' : userType = UserType.influencer;
-      break;
+    switch (userTypeAsString) {
+      case 'Business':
+        userType = UserType.business;
+        break;
+      case 'Influencer':
+        userType = UserType.influencer;
+        break;
       default:
         assert(false, 'Unknown UserType');
     }
@@ -101,8 +106,8 @@ class LoginToken {
 
 abstract class AuthenticationService {
   User get currentUser;
-  CallOptions callOptions;
 
+  CallOptions callOptions;
 
   Observable<User> get currentUserUpdates;
 
@@ -112,7 +117,7 @@ abstract class AuthenticationService {
 
   Future<bool> loginUserWithLoginToken(String loginToken);
 
-  Future<void> createNewUser(User user, String loginToken,String deviceId);
+  Future<void> createNewUser(User user, String loginToken, String deviceId);
 
   Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
 

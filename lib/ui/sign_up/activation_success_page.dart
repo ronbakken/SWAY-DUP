@@ -14,7 +14,10 @@ class ActivationSuccessPage extends StatelessWidget {
 
   static Route<dynamic> route(UserType userType) {
     return FadePageRoute(
-      builder: (BuildContext context) => ActivationSuccessPage(userType: userType,),
+      builder: (BuildContext context) =>
+        ActivationSuccessPage(
+          userType: userType,
+        ),
     );
   }
 
@@ -42,9 +45,10 @@ class ActivationSuccessPage extends StatelessWidget {
               height: 16.0,
             ),
             Text(
-                'Welcome to INF, within a few steps you will\n'
+              'Welcome to INF, within a few steps you will\n'
                 'be all set up and ready to get networking',
-                style: const TextStyle(fontSize: 18),),
+              style: const TextStyle(fontSize: 18),
+            ),
             SizedBox(
               height: 32.0,
             ),
@@ -54,8 +58,9 @@ class ActivationSuccessPage extends StatelessWidget {
                 height: 56,
                 text: 'LET\'S GET STARTED',
                 color: AppTheme.blue,
-                onPressed: () => Navigator.of(context).pushAndRemoveUntil(NewUserProfilePage.route(userType), (_) => false)
-,
+                onPressed: () {
+                  Navigator.of(context).pushAndRemoveUntil(NewUserProfilePage.route(userType), (_) => false);
+                },
               ),
             )
           ],

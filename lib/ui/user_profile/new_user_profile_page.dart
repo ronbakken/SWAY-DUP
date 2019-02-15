@@ -65,13 +65,13 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
       backgroundColor: AppTheme.listViewAndMenuBackground,
       body: UserDataView(
         user: User(
-            userType: widget.userType,
-//            userType: widget.userType,
-            accountState: AccountState.waitingForActivation,
-            name: '',
-            description: '',
-            socialMediaAccounts: [],
-            categories: []),
+          userType: widget.userType,
+          accountState: AccountState.waitingForActivation,
+          name: '',
+          description: '',
+          socialMediaAccounts: [],
+          categories: [],
+        ),
       ),
     );
   }
