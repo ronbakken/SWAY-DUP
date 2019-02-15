@@ -97,7 +97,7 @@ class User {
 
   static User fromDto(UserDto dto) {
     return User(
-      id: dto.id.value,
+      id: dto.id,
       verified: dto.verified,
       accountState: dto.accountState,
       userType: dto.userType,
@@ -140,7 +140,7 @@ class User {
     assert(socialMediaAccounts != null);
 
     var dto = UserDto()
-      ..id = id != null ? (OptionalString()..value = id) : null
+      ..id = id ?? ""
       ..verified = verified ?? false
       ..accountState = accountState
       ..userType = userType
