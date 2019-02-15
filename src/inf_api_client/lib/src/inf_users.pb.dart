@@ -9,10 +9,10 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'user.pb.dart' as $5;
-import 'location.pb.dart' as $2;
+import 'user.pb.dart' as $4;
+import 'location.pb.dart' as $1;
 
-import 'user.pbenum.dart' as $5;
+import 'user.pbenum.dart' as $4;
 
 class GetUserRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetUserRequest', package: const $pb.PackageName('api'))
@@ -43,7 +43,7 @@ class GetUserRequest extends $pb.GeneratedMessage {
 
 class GetUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetUserResponse', package: const $pb.PackageName('api'))
-    ..a<$5.UserDto>(1, 'userData', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
+    ..a<$4.UserDto>(1, 'userData', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -62,15 +62,15 @@ class GetUserResponse extends $pb.GeneratedMessage {
     if (v is! GetUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $5.UserDto get userData => $_getN(0);
-  set userData($5.UserDto v) { setField(1, v); }
+  $4.UserDto get userData => $_getN(0);
+  set userData($4.UserDto v) { setField(1, v); }
   bool hasUserData() => $_has(0);
   void clearUserData() => clearField(1);
 }
 
 class UpdateUserRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateUserRequest', package: const $pb.PackageName('api'))
-    ..a<$5.UserDto>(1, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
+    ..a<$4.UserDto>(1, 'user', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -89,15 +89,15 @@ class UpdateUserRequest extends $pb.GeneratedMessage {
     if (v is! UpdateUserRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $5.UserDto get user => $_getN(0);
-  set user($5.UserDto v) { setField(1, v); }
+  $4.UserDto get user => $_getN(0);
+  set user($4.UserDto v) { setField(1, v); }
   bool hasUser() => $_has(0);
   void clearUser() => clearField(1);
 }
 
 class UpdateUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateUserResponse', package: const $pb.PackageName('api'))
-    ..a<$5.UserDto>(1, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
+    ..a<$4.UserDto>(1, 'user', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -116,18 +116,18 @@ class UpdateUserResponse extends $pb.GeneratedMessage {
     if (v is! UpdateUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $5.UserDto get user => $_getN(0);
-  set user($5.UserDto v) { setField(1, v); }
+  $4.UserDto get user => $_getN(0);
+  set user($4.UserDto v) { setField(1, v); }
   bool hasUser() => $_has(0);
   void clearUser() => clearField(1);
 }
 
 class SearchUsersRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SearchUsersRequest', package: const $pb.PackageName('api'))
-    ..pp<$5.UserType>(1, 'userTypes', $pb.PbFieldType.PE, $5.UserType.$checkItem, null, $5.UserType.valueOf, $5.UserType.values)
-    ..p<int>(2, 'categories', $pb.PbFieldType.P3)
+    ..pp<$4.UserType>(1, 'userTypes', $pb.PbFieldType.PE, $4.UserType.$checkItem, null, $4.UserType.valueOf, $4.UserType.values)
+    ..p<int>(2, 'categoryIds', $pb.PbFieldType.P3)
     ..p<int>(3, 'socialMediaNetworkIds', $pb.PbFieldType.P3)
-    ..a<$2.LocationDto>(4, 'location', $pb.PbFieldType.OM, $2.LocationDto.getDefault, $2.LocationDto.create)
+    ..a<$1.LocationDto>(4, 'location', $pb.PbFieldType.OM, $1.LocationDto.getDefault, $1.LocationDto.create)
     ..a<double>(5, 'locationDistanceKms', $pb.PbFieldType.OD)
     ..a<int>(6, 'minimumValue', $pb.PbFieldType.O3)
     ..aOS(7, 'phrase')
@@ -149,14 +149,14 @@ class SearchUsersRequest extends $pb.GeneratedMessage {
     if (v is! SearchUsersRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  List<$5.UserType> get userTypes => $_getList(0);
+  List<$4.UserType> get userTypes => $_getList(0);
 
-  List<int> get categories => $_getList(1);
+  List<int> get categoryIds => $_getList(1);
 
   List<int> get socialMediaNetworkIds => $_getList(2);
 
-  $2.LocationDto get location => $_getN(3);
-  set location($2.LocationDto v) { setField(4, v); }
+  $1.LocationDto get location => $_getN(3);
+  set location($1.LocationDto v) { setField(4, v); }
   bool hasLocation() => $_has(3);
   void clearLocation() => clearField(4);
 
@@ -178,7 +178,7 @@ class SearchUsersRequest extends $pb.GeneratedMessage {
 
 class SearchUsersResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SearchUsersResponse', package: const $pb.PackageName('api'))
-    ..pp<$5.UserDto>(1, 'results', $pb.PbFieldType.PM, $5.UserDto.$checkItem, $5.UserDto.create)
+    ..pp<$4.UserDto>(1, 'results', $pb.PbFieldType.PM, $4.UserDto.$checkItem, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -197,6 +197,6 @@ class SearchUsersResponse extends $pb.GeneratedMessage {
     if (v is! SearchUsersResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  List<$5.UserDto> get results => $_getList(0);
+  List<$4.UserDto> get results => $_getList(0);
 }
 

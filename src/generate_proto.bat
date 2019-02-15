@@ -14,10 +14,11 @@ protoc.exe ^
     inf_blob_storage.proto ^
     inf_config.proto ^
     inf_invitation_codes.proto ^
+    inf_mapping.proto ^
+    inf_messaging.proto ^
     inf_system.proto ^
     inf_users.proto ^
     location.proto ^
-    optional.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^
     user.proto

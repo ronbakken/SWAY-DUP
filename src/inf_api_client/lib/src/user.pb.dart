@@ -9,10 +9,9 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'optional.pb.dart' as $1;
-import 'location.pb.dart' as $2;
-import 'image.pb.dart' as $3;
-import 'social_media_account.pb.dart' as $4;
+import 'location.pb.dart' as $1;
+import 'image.pb.dart' as $2;
+import 'social_media_account.pb.dart' as $3;
 
 import 'user.pbenum.dart';
 
@@ -20,7 +19,7 @@ export 'user.pbenum.dart';
 
 class UserDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UserDto', package: const $pb.PackageName('api'))
-    ..a<$1.OptionalString>(1, 'id', $pb.PbFieldType.OM, $1.OptionalString.getDefault, $1.OptionalString.create)
+    ..aOS(1, 'id')
     ..aOB(2, 'verified')
     ..e<AccountState>(3, 'accountState', $pb.PbFieldType.OE, AccountState.unknown, AccountState.valueOf, AccountState.values)
     ..e<UserType>(4, 'userType', $pb.PbFieldType.OE, UserType.unknownUserType, UserType.valueOf, UserType.values)
@@ -31,12 +30,12 @@ class UserDto extends $pb.GeneratedMessage {
     ..aOB(9, 'acceptsDirectOffers')
     ..aOB(10, 'showLocation')
     ..a<int>(11, 'accountCompletionInPercent', $pb.PbFieldType.O3)
-    ..a<$2.LocationDto>(12, 'location', $pb.PbFieldType.OM, $2.LocationDto.getDefault, $2.LocationDto.create)
-    ..a<$3.ImageDto>(13, 'avatar', $pb.PbFieldType.OM, $3.ImageDto.getDefault, $3.ImageDto.create)
-    ..a<$3.ImageDto>(14, 'avatarThumbnail', $pb.PbFieldType.OM, $3.ImageDto.getDefault, $3.ImageDto.create)
+    ..a<$1.LocationDto>(12, 'location', $pb.PbFieldType.OM, $1.LocationDto.getDefault, $1.LocationDto.create)
+    ..a<$2.ImageDto>(13, 'avatar', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
+    ..a<$2.ImageDto>(14, 'avatarThumbnail', $pb.PbFieldType.OM, $2.ImageDto.getDefault, $2.ImageDto.create)
     ..p<int>(15, 'categoryIds', $pb.PbFieldType.P3)
     ..a<int>(16, 'minimalFee', $pb.PbFieldType.O3)
-    ..pp<$4.SocialMediaAccountDto>(25, 'socialMediaAccounts', $pb.PbFieldType.PM, $4.SocialMediaAccountDto.$checkItem, $4.SocialMediaAccountDto.create)
+    ..pp<$3.SocialMediaAccountDto>(25, 'socialMediaAccounts', $pb.PbFieldType.PM, $3.SocialMediaAccountDto.$checkItem, $3.SocialMediaAccountDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -55,8 +54,8 @@ class UserDto extends $pb.GeneratedMessage {
     if (v is! UserDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $1.OptionalString get id => $_getN(0);
-  set id($1.OptionalString v) { setField(1, v); }
+  String get id => $_getS(0, '');
+  set id(String v) { $_setString(0, v); }
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 
@@ -110,18 +109,18 @@ class UserDto extends $pb.GeneratedMessage {
   bool hasAccountCompletionInPercent() => $_has(10);
   void clearAccountCompletionInPercent() => clearField(11);
 
-  $2.LocationDto get location => $_getN(11);
-  set location($2.LocationDto v) { setField(12, v); }
+  $1.LocationDto get location => $_getN(11);
+  set location($1.LocationDto v) { setField(12, v); }
   bool hasLocation() => $_has(11);
   void clearLocation() => clearField(12);
 
-  $3.ImageDto get avatar => $_getN(12);
-  set avatar($3.ImageDto v) { setField(13, v); }
+  $2.ImageDto get avatar => $_getN(12);
+  set avatar($2.ImageDto v) { setField(13, v); }
   bool hasAvatar() => $_has(12);
   void clearAvatar() => clearField(13);
 
-  $3.ImageDto get avatarThumbnail => $_getN(13);
-  set avatarThumbnail($3.ImageDto v) { setField(14, v); }
+  $2.ImageDto get avatarThumbnail => $_getN(13);
+  set avatarThumbnail($2.ImageDto v) { setField(14, v); }
   bool hasAvatarThumbnail() => $_has(13);
   void clearAvatarThumbnail() => clearField(14);
 
@@ -132,6 +131,6 @@ class UserDto extends $pb.GeneratedMessage {
   bool hasMinimalFee() => $_has(15);
   void clearMinimalFee() => clearField(16);
 
-  List<$4.SocialMediaAccountDto> get socialMediaAccounts => $_getList(16);
+  List<$3.SocialMediaAccountDto> get socialMediaAccounts => $_getList(16);
 }
 

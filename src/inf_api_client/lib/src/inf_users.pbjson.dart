@@ -36,7 +36,7 @@ const SearchUsersRequest$json = const {
   '1': 'SearchUsersRequest',
   '2': const [
     const {'1': 'userTypes', '3': 1, '4': 3, '5': 14, '6': '.api.UserType', '10': 'userTypes'},
-    const {'1': 'categories', '3': 2, '4': 3, '5': 5, '10': 'categories'},
+    const {'1': 'categoryIds', '3': 2, '4': 3, '5': 5, '10': 'categoryIds'},
     const {'1': 'socialMediaNetworkIds', '3': 3, '4': 3, '5': 5, '10': 'socialMediaNetworkIds'},
     const {'1': 'location', '3': 4, '4': 1, '5': 11, '6': '.api.LocationDto', '10': 'location'},
     const {'1': 'locationDistanceKms', '3': 5, '4': 1, '5': 1, '10': 'locationDistanceKms'},
