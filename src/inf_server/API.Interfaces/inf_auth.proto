@@ -10,8 +10,8 @@ service InfAuth {
     // Send out a login email with a link including a login-token
     rpc SendLoginEmail(SendLoginEmailRequest) returns (Empty) {}
 
-    // Creates a new user based on the login-token that the app received through a deep link
-    rpc CreateNewUser(CreateNewUserRequest) returns (CreateNewUserResponse) {}
+    // Activates a user based on the login-token that the app received through a deep link
+    rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {}
 
     // Requests a long living refresh token based on a one time login-token the app
     // has reveived over a deep login link
@@ -37,7 +37,7 @@ message SendLoginEmailRequest {
     string invitationCode = 3;
 }
 
-message CreateNewUserRequest {
+message ActivateUserRequest {
     // Token that is passed to the app with the login / sign-up link from the email
     string loginToken = 1;
     UserDto userData = 2;
@@ -45,7 +45,7 @@ message CreateNewUserRequest {
     string deviceId = 3;
 }
 
-message CreateNewUserResponse {
+message ActivateUserResponse {
     string refreshToken = 1;
     UserDto userData = 2;
 }

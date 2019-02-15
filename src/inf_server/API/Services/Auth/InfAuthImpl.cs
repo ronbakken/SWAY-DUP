@@ -52,6 +52,9 @@ namespace API.Services.Auth
             var getUserDataResponse = await usersService
                 .GetUserDataByEmailAsync(new GetUserDataByEmailRequest { Email = email });
             var userData = getUserDataResponse.UserData;
+
+            logger.Debug("Resolved data for user with email {Email}: {@UserData}", email, userData);
+
             var userType = Mapper.Map<UserData.Types.Type>(request.UserType);
             var userStatus = UserData.Types.Status.WaitingForActivation;
             var userShouldAlreadyBeActive = userType == UserData.Types.Type.Unknown;
@@ -137,7 +140,7 @@ namespace API.Services.Auth
                 .ContinueOnAnyContext();
         }
 
-        public override Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context) =>
+        public override Task<ActivateUserResponse> ActivateUser(ActivateUserRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
@@ -152,23 +155,31 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, "Invalid login token."));
                     }
 
-                    var userId = loginTokenValidationResults.UserId;
+                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var email = loginTokenValidationResults.Email;
+                    var getUserDataResponse = await usersService
+                        .GetUserDataByEmailAsync(new GetUserDataByEmailRequest { Email = email });
+                    var userData = getUserDataResponse.UserData;
+
+                    if (userData == null)
+                    {
+                        logger.Warning("No user could be found with email {Email}", email);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "The login token's email address does not belong to an existing user."));
+                    }
+
+                    var userId = userData.Id;
 
                     if (userId != request.UserData.Id.ValueOr(userId))
                     {
-                        logger.Warning("Login token's user ID, {TokenUserId}, differs from the user ID in the request, {RequestUserId}", userId, request.UserData.Id);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "The login token's user ID differs from that in the request data."));
+                        logger.Warning("The user ID associated with email {Email} is {UserId}. However, the user ID in the request data is {RequestUserId}, which does not match.", email, userId, request.UserData.Id);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Mismatch between the user ID associated with the email address in the login token, and the user ID in the request data."));
                     }
 
                     logger.Debug("Validating status of user {UserId}", userId);
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var getUserDataResponse = await usersService
-                        .GetUserDataAsync(new GetUserDataRequest { Id = userId });
-                    var userData = getUserDataResponse.UserData;
 
                     if (userData.Status != UserData.Types.Status.WaitingForActivation)
                     {
-                        logger.Warning("User {UserId} has status {UserStatus}, so they can not be created", userId, userData.Status);
+                        logger.Warning("User {UserId} has status {UserStatus}, so they cannot be activated", userId, userData.Status);
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not awaiting activation."));
                     }
 
@@ -204,7 +215,7 @@ namespace API.Services.Auth
                         .SaveUserDataAsync(new SaveUserDataRequest { UserData = userData });
                     userData = saveUserDataResponse.UserData;
 
-                    var result = new CreateNewUserResponse
+                    var result = new ActivateUserResponse
                     {
                         RefreshToken = refreshToken,
                         UserData = Mapper.Map<UserDto>(userData),
