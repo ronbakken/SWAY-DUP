@@ -78,6 +78,7 @@ namespace Utility.Tokens
                     {
                         new Claim(tokenTypeClaimType, loginTokenType),
                         new Claim(JwtRegisteredClaimNames.Sub, userId),
+                        new Claim(emailClaimType, email),
                         new Claim(userStatusClaimType, userStatus),
                         new Claim(invitationCodeClaimType, invitationCode),
                     }),
@@ -114,6 +115,8 @@ namespace Utility.Tokens
             var tokenType = tokenTypeClaim?.Value;
             var subjectClaim = identity.FindFirst(JwtRegisteredClaimNames.Sub);
             var subject = subjectClaim?.Value;
+            var emailClaim = identity.FindFirst(emailClaimType);
+            var email = emailClaim?.Value;
             var userStatusClaim = identity.FindFirst(userStatusClaimType);
             var userStatus = userStatusClaim?.Value;
             var invitationCodeClaim = identity.FindFirst(invitationCodeClaimType);
@@ -126,7 +129,7 @@ namespace Utility.Tokens
                 return LoginTokenValidationResult.Invalid;
             }
 
-            return LoginTokenValidationResult.From(subject, userStatus, audience, invitationCode);
+            return LoginTokenValidationResult.From(subject, email, userStatus, audience, invitationCode);
         }
 
         /// <summary>
