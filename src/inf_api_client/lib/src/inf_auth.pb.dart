@@ -52,27 +52,26 @@ class SendLoginEmailRequest extends $pb.GeneratedMessage {
   void clearInvitationCode() => clearField(3);
 }
 
-class CreateNewUserRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CreateNewUserRequest', package: const $pb.PackageName('api'))
+class ActivateUserRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ActivateUserRequest', package: const $pb.PackageName('api'))
     ..aOS(1, 'loginToken')
     ..a<$4.UserDto>(2, 'userData', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
-    ..aOS(3, 'deviceId')
     ..hasRequiredFields = false
   ;
 
-  CreateNewUserRequest() : super();
-  CreateNewUserRequest.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  CreateNewUserRequest.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  CreateNewUserRequest clone() => new CreateNewUserRequest()..mergeFromMessage(this);
-  CreateNewUserRequest copyWith(void Function(CreateNewUserRequest) updates) => super.copyWith((message) => updates(message as CreateNewUserRequest));
+  ActivateUserRequest() : super();
+  ActivateUserRequest.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  ActivateUserRequest.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ActivateUserRequest clone() => new ActivateUserRequest()..mergeFromMessage(this);
+  ActivateUserRequest copyWith(void Function(ActivateUserRequest) updates) => super.copyWith((message) => updates(message as ActivateUserRequest));
   $pb.BuilderInfo get info_ => _i;
-  static CreateNewUserRequest create() => new CreateNewUserRequest();
-  CreateNewUserRequest createEmptyInstance() => create();
-  static $pb.PbList<CreateNewUserRequest> createRepeated() => new $pb.PbList<CreateNewUserRequest>();
-  static CreateNewUserRequest getDefault() => _defaultInstance ??= create()..freeze();
-  static CreateNewUserRequest _defaultInstance;
-  static void $checkItem(CreateNewUserRequest v) {
-    if (v is! CreateNewUserRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static ActivateUserRequest create() => new ActivateUserRequest();
+  ActivateUserRequest createEmptyInstance() => create();
+  static $pb.PbList<ActivateUserRequest> createRepeated() => new $pb.PbList<ActivateUserRequest>();
+  static ActivateUserRequest getDefault() => _defaultInstance ??= create()..freeze();
+  static ActivateUserRequest _defaultInstance;
+  static void $checkItem(ActivateUserRequest v) {
+    if (v is! ActivateUserRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get loginToken => $_getS(0, '');
@@ -84,33 +83,28 @@ class CreateNewUserRequest extends $pb.GeneratedMessage {
   set userData($4.UserDto v) { setField(2, v); }
   bool hasUserData() => $_has(1);
   void clearUserData() => clearField(2);
-
-  String get deviceId => $_getS(2, '');
-  set deviceId(String v) { $_setString(2, v); }
-  bool hasDeviceId() => $_has(2);
-  void clearDeviceId() => clearField(3);
 }
 
-class CreateNewUserResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CreateNewUserResponse', package: const $pb.PackageName('api'))
+class ActivateUserResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ActivateUserResponse', package: const $pb.PackageName('api'))
     ..aOS(1, 'refreshToken')
     ..a<$4.UserDto>(2, 'userData', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
 
-  CreateNewUserResponse() : super();
-  CreateNewUserResponse.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  CreateNewUserResponse.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  CreateNewUserResponse clone() => new CreateNewUserResponse()..mergeFromMessage(this);
-  CreateNewUserResponse copyWith(void Function(CreateNewUserResponse) updates) => super.copyWith((message) => updates(message as CreateNewUserResponse));
+  ActivateUserResponse() : super();
+  ActivateUserResponse.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  ActivateUserResponse.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  ActivateUserResponse clone() => new ActivateUserResponse()..mergeFromMessage(this);
+  ActivateUserResponse copyWith(void Function(ActivateUserResponse) updates) => super.copyWith((message) => updates(message as ActivateUserResponse));
   $pb.BuilderInfo get info_ => _i;
-  static CreateNewUserResponse create() => new CreateNewUserResponse();
-  CreateNewUserResponse createEmptyInstance() => create();
-  static $pb.PbList<CreateNewUserResponse> createRepeated() => new $pb.PbList<CreateNewUserResponse>();
-  static CreateNewUserResponse getDefault() => _defaultInstance ??= create()..freeze();
-  static CreateNewUserResponse _defaultInstance;
-  static void $checkItem(CreateNewUserResponse v) {
-    if (v is! CreateNewUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  static ActivateUserResponse create() => new ActivateUserResponse();
+  ActivateUserResponse createEmptyInstance() => create();
+  static $pb.PbList<ActivateUserResponse> createRepeated() => new $pb.PbList<ActivateUserResponse>();
+  static ActivateUserResponse getDefault() => _defaultInstance ??= create()..freeze();
+  static ActivateUserResponse _defaultInstance;
+  static void $checkItem(ActivateUserResponse v) {
+    if (v is! ActivateUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
   String get refreshToken => $_getS(0, '');

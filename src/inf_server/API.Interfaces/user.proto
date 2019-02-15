@@ -54,4 +54,7 @@ message UserDto {
     int32 minimalFee = 16;
 
     repeated SocialMediaAccountDto socialMediaAccounts = 25;
+
+    // For push notifications
+    repeated string registrationTokens = 26;
 }

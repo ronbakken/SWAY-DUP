@@ -73,6 +73,7 @@ message UserDataEntity {
     repeated SocialMediaAccountEntity socialMediaAccounts = 18;
     string loginToken = 19;
     repeated string keywords = 20;
+    repeated string registrationTokens = 21;
 }
 
 message UserSessionEntity {
@@ -80,5 +81,4 @@ message UserSessionEntity {
     string id = 2;
     string userId = 3;
     string refreshToken = 4;
-    string deviceId = 5;
 }

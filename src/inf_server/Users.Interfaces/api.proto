@@ -89,7 +89,6 @@ message UserData {
 
 message UserSession {
     string refreshToken = 1;
-    string deviceId = 2;
 }
 
 message SearchFilter {

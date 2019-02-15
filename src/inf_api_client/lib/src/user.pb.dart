@@ -36,6 +36,7 @@ class UserDto extends $pb.GeneratedMessage {
     ..p<int>(15, 'categoryIds', $pb.PbFieldType.P3)
     ..a<int>(16, 'minimalFee', $pb.PbFieldType.O3)
     ..pp<$3.SocialMediaAccountDto>(25, 'socialMediaAccounts', $pb.PbFieldType.PM, $3.SocialMediaAccountDto.$checkItem, $3.SocialMediaAccountDto.create)
+    ..pPS(26, 'registrationTokens')
     ..hasRequiredFields = false
   ;
 
@@ -132,5 +133,7 @@ class UserDto extends $pb.GeneratedMessage {
   void clearMinimalFee() => clearField(16);
 
   List<$3.SocialMediaAccountDto> get socialMediaAccounts => $_getList(16);
+
+  List<String> get registrationTokens => $_getList(17);
 }
 

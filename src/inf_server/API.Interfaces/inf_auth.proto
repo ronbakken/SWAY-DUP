@@ -41,8 +41,6 @@ message ActivateUserRequest {
     // Token that is passed to the app with the login / sign-up link from the email
     string loginToken = 1;
     UserDto userData = 2;
-    // device ID for push notification
-    string deviceId = 3;
 }
 
 message ActivateUserResponse {

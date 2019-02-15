@@ -47,6 +47,7 @@ const UserDto$json = const {
     const {'1': 'categoryIds', '3': 15, '4': 3, '5': 5, '10': 'categoryIds'},
     const {'1': 'minimalFee', '3': 16, '4': 1, '5': 5, '10': 'minimalFee'},
     const {'1': 'socialMediaAccounts', '3': 25, '4': 3, '5': 11, '6': '.api.SocialMediaAccountDto', '10': 'socialMediaAccounts'},
+    const {'1': 'registrationTokens', '3': 26, '4': 3, '5': 9, '10': 'registrationTokens'},
   ],
 };
 

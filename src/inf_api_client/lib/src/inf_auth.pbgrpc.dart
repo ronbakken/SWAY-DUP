@@ -18,11 +18,11 @@ class InfAuthClient extends Client {
           '/api.InfAuth/SendLoginEmail',
           (SendLoginEmailRequest value) => value.writeToBuffer(),
           (List<int> value) => new $0.Empty.fromBuffer(value));
-  static final _$createNewUser =
-      new ClientMethod<CreateNewUserRequest, CreateNewUserResponse>(
-          '/api.InfAuth/CreateNewUser',
-          (CreateNewUserRequest value) => value.writeToBuffer(),
-          (List<int> value) => new CreateNewUserResponse.fromBuffer(value));
+  static final _$activateUser =
+      new ClientMethod<ActivateUserRequest, ActivateUserResponse>(
+          '/api.InfAuth/ActivateUser',
+          (ActivateUserRequest value) => value.writeToBuffer(),
+          (List<int> value) => new ActivateUserResponse.fromBuffer(value));
   static final _$loginWithLoginToken =
       new ClientMethod<LoginWithLoginTokenRequest, LoginWithLoginTokenResponse>(
           '/api.InfAuth/LoginWithLoginToken',
@@ -55,11 +55,10 @@ class InfAuthClient extends Client {
     return new ResponseFuture(call);
   }
 
-  ResponseFuture<CreateNewUserResponse> createNewUser(
-      CreateNewUserRequest request,
+  ResponseFuture<ActivateUserResponse> activateUser(ActivateUserRequest request,
       {CallOptions options}) {
     final call = $createCall(
-        _$createNewUser, new $async.Stream.fromIterable([request]),
+        _$activateUser, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
@@ -111,13 +110,13 @@ abstract class InfAuthServiceBase extends Service {
         false,
         (List<int> value) => new SendLoginEmailRequest.fromBuffer(value),
         ($0.Empty value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<CreateNewUserRequest, CreateNewUserResponse>(
-        'CreateNewUser',
-        createNewUser_Pre,
+    $addMethod(new ServiceMethod<ActivateUserRequest, ActivateUserResponse>(
+        'ActivateUser',
+        activateUser_Pre,
         false,
         false,
-        (List<int> value) => new CreateNewUserRequest.fromBuffer(value),
-        (CreateNewUserResponse value) => value.writeToBuffer()));
+        (List<int> value) => new ActivateUserRequest.fromBuffer(value),
+        (ActivateUserResponse value) => value.writeToBuffer()));
     $addMethod(new ServiceMethod<LoginWithLoginTokenRequest,
             LoginWithLoginTokenResponse>(
         'LoginWithLoginToken',
@@ -155,9 +154,9 @@ abstract class InfAuthServiceBase extends Service {
     return sendLoginEmail(call, await request);
   }
 
-  $async.Future<CreateNewUserResponse> createNewUser_Pre(
+  $async.Future<ActivateUserResponse> activateUser_Pre(
       ServiceCall call, $async.Future request) async {
-    return createNewUser(call, await request);
+    return activateUser(call, await request);
   }
 
   $async.Future<LoginWithLoginTokenResponse> loginWithLoginToken_Pre(
@@ -182,8 +181,8 @@ abstract class InfAuthServiceBase extends Service {
 
   $async.Future<$0.Empty> sendLoginEmail(
       ServiceCall call, SendLoginEmailRequest request);
-  $async.Future<CreateNewUserResponse> createNewUser(
-      ServiceCall call, CreateNewUserRequest request);
+  $async.Future<ActivateUserResponse> activateUser(
+      ServiceCall call, ActivateUserRequest request);
   $async.Future<LoginWithLoginTokenResponse> loginWithLoginToken(
       ServiceCall call, LoginWithLoginTokenRequest request);
   $async.Future<LoginWithRefreshTokenResponse> loginWithRefreshToken(

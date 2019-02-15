@@ -199,11 +199,10 @@ namespace API.Services.Auth
                     logger.Debug("Generating refresh token for user {UserId}, type {UserType}", userId, userType);
                     var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
 
-                    logger.Debug("Saving session for user {UserId} with refresh token {RefreshToken}, device ID {DeviceId}", userId, refreshToken, request.DeviceId);
+                    logger.Debug("Saving session for user {UserId} with refresh token {RefreshToken}", userId, refreshToken);
                     var userSession = new UserSession
                     {
                         RefreshToken = refreshToken,
-                        DeviceId = request.DeviceId,
                     };
                     await usersService
                         .SaveUserSessionAsync(new SaveUserSessionRequest { UserSession = userSession });
