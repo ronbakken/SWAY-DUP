@@ -85,6 +85,7 @@ message UserData {
     repeated int32 categoryIds = 16;
     repeated SocialMediaAccount socialMediaAccounts = 17;
     string loginToken = 18;
+    repeated string registrationTokens = 19;
 }
 
 message UserSession {

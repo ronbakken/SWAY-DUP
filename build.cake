@@ -179,6 +179,7 @@ Task("Deploy")
                             Configuration = configuration,
                             NoRestore = true,
                             OutputDirectory = servicePkgDir + Directory("Code"),
+                            SelfContained = false,
                         });
                     CopyFiles(GetFiles((serviceDir + Directory("PackageRoot")).ToString() + "/**/*"), servicePkgDir, preserveFolderStructure: true);
                 }
