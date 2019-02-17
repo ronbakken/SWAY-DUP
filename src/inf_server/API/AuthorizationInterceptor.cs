@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Serilog;
+using Serilog.Events;
 using Utility.Tokens;
 
 namespace API
@@ -66,6 +67,11 @@ namespace API
             { "/api.InfUsers/Search", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business | AuthenticatedUserTypes.Admin },
         };
 
+        private static readonly Dictionary<string, LogEventLevel> logEventLevelOverrides = new Dictionary<string, LogEventLevel>
+        {
+            { "/api.InfSystem/PingServer", LogEventLevel.Verbose },
+        };
+
         public override async Task<TResponse> ClientStreamingServerHandler<TRequest, TResponse>(IAsyncStreamReader<TRequest> requestStream, ServerCallContext context, ClientStreamingServerMethod<TRequest, TResponse> continuation)
         {
             this.logger.Verbose("ClientStreamingServerHandler");
@@ -100,25 +106,31 @@ namespace API
         {
             var method = context.Method;
 
+            // Allow overriding the log level for "noisy" APIs like pinging the server.
+            if (!logEventLevelOverrides.TryGetValue(method, out var logEventLevel))
+            {
+                logEventLevel = LogEventLevel.Debug;
+            }
+
             try
             {
-                this.logger.Debug("Authorizing method {Method}.", method);
+                this.logger.Write(logEventLevel, "Authorizing method {Method}.", method);
 
                 if (!userTypesForMethod.TryGetValue(method, out var allowedUserTypes))
                 {
-                    this.logger.Debug("Denied - no permitted user types defined for method {Method}", method);
+                    this.logger.Write(logEventLevel, "Denied - no permitted user types defined for method {Method}", method);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' has no permitted user types defined."));
                 }
 
                 if (allowedUserTypes == AuthenticatedUserTypes.None)
                 {
-                    this.logger.Debug("Denied - method {Method} has been explicitly denied access for all users", method);
+                    this.logger.Write(logEventLevel, "Denied - method {Method} has been explicitly denied access for all users", method);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"RPC '{method}' is explicitly denied access for all users."));
                 }
 
                 if (allowedUserTypes.HasFlag(AuthenticatedUserTypes.Anonymous))
                 {
-                    this.logger.Debug("Allowed - anonymous access permitted for method {Method}", method);
+                    this.logger.Write(logEventLevel, "Allowed - anonymous access permitted for method {Method}", method);
                     return context;
                 }
 
@@ -128,7 +140,7 @@ namespace API
 
                 if (authorizationHeaderEntry == null)
                 {
-                    this.logger.Debug("Denied - no Authorization header set");
+                    this.logger.Write(logEventLevel, "Denied - no Authorization header set");
                     throw new RpcException(new Status(StatusCode.Unauthenticated, "No Authorization header set."));
                 }
 
@@ -136,7 +148,7 @@ namespace API
 
                 if (!authorizationHeaderEntry.Value.StartsWith(prefix))
                 {
-                    this.logger.Debug("Denied - Authorization header {AuthorizationHeader} is not in expected format", authorizationHeaderEntry.Value);
+                    this.logger.Write(logEventLevel, "Denied - Authorization header {AuthorizationHeader} is not in expected format", authorizationHeaderEntry.Value);
                     throw new RpcException(new Status(StatusCode.Unauthenticated, $"Authorization header does not start with expected schema, '{schema}'."));
                 }
 
@@ -145,7 +157,7 @@ namespace API
 
                 if (!accessTokenValidationResult.IsValid)
                 {
-                    this.logger.Debug("Denied - access token {AccessToken} is invalid", token);
+                    this.logger.Write(logEventLevel, "Denied - access token {AccessToken} is invalid", token);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, "Access token is invalid."));
                 }
 
@@ -153,14 +165,14 @@ namespace API
 
                 if (!allowedUserTypes.HasFlag(userType))
                 {
-                    this.logger.Debug("Denied - method {Method} cannot be called by user type {UserType}", method, userType);
+                    this.logger.Write(logEventLevel, "Denied - method {Method} cannot be called by user type {UserType}", method, userType);
                     throw new RpcException(new Status(StatusCode.PermissionDenied, $"Method '{method}' cannot be called by user type '{userType}'."));
                 }
 
                 context.RequestHeaders.Add(new Metadata.Entry(userIdKeyName, accessTokenValidationResult.UserId));
                 context.RequestHeaders.Add(new Metadata.Entry(userTypeKeyName, accessTokenValidationResult.UserType));
 
-                this.logger.Debug("Allowed - all checks passed");
+                this.logger.Write(logEventLevel, "Allowed - all checks passed");
 
                 return context;
             }

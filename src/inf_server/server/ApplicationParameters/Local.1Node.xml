@@ -4,6 +4,6 @@
     <Parameter Name="UserStorageAccountConnectionString" Value="DefaultEndpointsProtocol=https;AccountName=tempkenttest;AccountKey=2MNEaPhl2mjytWIPLKvfJQ2IMHjVbuMBI+694FrorHn6Qu64ApW60HPsekJEWRqRoEQymPIENS9wKy6a4i2yzQ==;EndpointSuffix=core.windows.net" />
     <Parameter Name="LoggingStorageAccountConnectionString" Value="" />
     <Parameter Name="DatabaseAccountConnectionString" Value="AccountEndpoint=https://localhost:8081/;AccountKey=C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==" />
-    <Parameter Name="ServiceBusConnectionString" Value="Endpoint=sb://inf-kent.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=ClJG7Ax2FSzjKlU+FOvjnQ6wIMzoC/wA/qIawmjPopI=" />
+    <Parameter Name="ServiceBusConnectionString" Value="Endpoint=sb://inf-kent.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=dCj6g65tBA1HNcvtQBlZvxEvSz4OE6p5P7iC3bNyRfA=" />
   </Parameters>
 </Application>

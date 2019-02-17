@@ -131,13 +131,22 @@ namespace API.Services.Auth
 
             var link = $"https://www.swaymarketplace.com/app/verify?token={loginToken}";
             logger.Debug("Sending verification email for user {UserId} with link {Link}", userId, link);
-            await emailService
-                .SendVerificationEmail(
-                    email,
-                    userData.Name ?? email,
-                    link,
-                    cancellationToken)
-                .ContinueOnAnyContext();
+
+            try
+            {
+                await emailService
+                    .SendVerificationEmail(
+                        email,
+                        userData.Name ?? email,
+                        link,
+                        cancellationToken)
+                    .ContinueOnAnyContext();
+            }
+            catch (Exception ex)
+            {
+                logger.Warning(ex, "Failed to send verification email for user {UserId}", userId);
+                throw new RpcException(new Status(StatusCode.Unavailable, "Email failed to send."));
+            }
         }
 
         public override Task<ActivateUserResponse> ActivateUser(ActivateUserRequest request, ServerCallContext context) =>
@@ -246,6 +255,12 @@ namespace API.Services.Auth
                         .GetUserDataAsync(new GetUserDataRequest { Id = userId });
                     var userData = getUserDataResponse.UserData;
 
+                    if (userData == null)
+                    {
+                        logger.Warning("Refresh token {LoginToken} for user with ID {UserId} has no associated data", loginToken, userId);
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Login token is for user with ID '{userId}', but that user has no associated data."));
+                    }
+
                     if (userData.Status != UserData.Types.Status.WaitingForActivation && userData.Status != UserData.Types.Status.Active)
                     {
                         logger.Warning("User {UserId} has status {UserStatus}, so they cannot be logged in with a login token", userId, userData.Status);
@@ -314,6 +329,12 @@ namespace API.Services.Auth
                     var getUserDataResponse = await usersService
                         .GetUserDataAsync(new GetUserDataRequest { Id = userId });
                     var userData = getUserDataResponse.UserData;
+
+                    if (userData == null)
+                    {
+                        logger.Warning("Refresh token {RefreshToken} for user with ID {UserId} has no associated data", refreshToken, userId);
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Refresh token is for user with ID '{userId}', but that user has no associated data."));
+                    }
 
                     logger.Debug("Validating session for user {UserId}", userId);
                     var getUserSessionResponse = await usersService.GetUserSessionAsync(new GetUserSessionRequest { RefreshToken = refreshToken });

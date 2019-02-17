@@ -75,7 +75,7 @@ namespace Users
                     if (userDataResponse.StatusCode == HttpStatusCode.NotFound)
                     {
                         logger.Debug("No data found for user {UserId}", userId);
-                        return null;
+                        return new GetUserDataResponse();
                     }
 
                     var userDataEntity = userDataResponse.Resource;
