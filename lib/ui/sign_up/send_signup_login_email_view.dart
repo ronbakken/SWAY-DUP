@@ -99,6 +99,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
             keyboardType: TextInputType.emailAddress,
             onChanged: (s) => setState(()=> _emailAddress = s),
             onSubmitted: (s) => _testSubmitEnabled() ? onButtonPressed() : null,
+            keyboardAppearance: Brightness.dark,
           ),
           widget.newUser
               ? Column(
@@ -114,6 +115,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
                     SizedBox(height: 8),
                     TextField(
                       onChanged: (s) => setState(()=> _invitationCode = s),
+                      keyboardAppearance: Brightness.dark,
                     ),
                   ],
                 )

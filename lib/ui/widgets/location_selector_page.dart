@@ -240,6 +240,7 @@ class __SearchViewState extends State<_SearchView> {
                   height: 24.0,
                 ),
               ),
+              keyboardAppearance: Brightness.dark,
             ),
           ),
           Expanded(

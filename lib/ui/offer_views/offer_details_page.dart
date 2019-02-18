@@ -490,6 +490,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                             child: TextField(
                               decoration: null,
                               maxLines: null,
+                              keyboardAppearance: Brightness.dark,
                             ),
                           ),
                         ),
