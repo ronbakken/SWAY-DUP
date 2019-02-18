@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf/domain/category.dart';
@@ -41,15 +41,16 @@ class ConfigServiceImplementation implements ConfigService {
 
   @override
   Future init() async {
-    //SharedPreferences prefs = await SharedPreferences.getInstance();
-    final secureStorage = new FlutterSecureStorage();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
     // Get locally stored AppConfig
-    //dsiabled while API is still fluent
-    // var configJson = await secureStorage.read(key: 'config');
+    //disabled while API is still fluent
+    // var configJson = prefs.getString('config');
     // if (configJson != null) {
     //   configData = AppConfigDto.fromJson(configJson);
     // }
+
+
 
     // Get curren Config and API version from server
     var versionInformationFromServer = await backend.get<InfApiClientsService>().configClient.getVersions(
@@ -78,7 +79,7 @@ class ConfigServiceImplementation implements ConfigService {
     // local config does not exists or is outdated update from server
     if (configData == null || configData.configVersion < versionInformationFromServer.versionInfo.configVersion) {
       configData = (await backend.get<InfApiClientsService>().configClient.getAppConfig(Empty())).appConfigData;
-      await secureStorage.write(key: 'config', value: configData.writeToJson());
+      await prefs.setString('config', configData.writeToJson());
     }
 
     socialNetworkProviders =

@@ -1,11 +1,11 @@
 import 'dart:async';
 
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationServiceImplementation implements AuthenticationService {
   AuthenticationServiceImplementation({this.userTestToken});
@@ -81,9 +81,9 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> logOut() async {
     //await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
-    final secureStorage = new FlutterSecureStorage();
-    await secureStorage.delete(key: 'refresh_token');
+     await deleteRefreshToken();
   }
+
 
   @override
   Future<void> updateUser(User user) async {
@@ -135,15 +135,22 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   Future<void> storeRefreshToken(String token) async {
-    final secureStorage = new FlutterSecureStorage();
-    await secureStorage.write(key: 'refresh_token', value: token);
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString('refresh_token', token);
   }
 
   Future<String> readRefreshToken() async
   {
-      final secureStorage = new FlutterSecureStorage();
-      return await secureStorage.read(key: 'refresh_token');
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+     return prefs.getString('refresh_token');
   }
+
+  Future<void> deleteRefreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.remove('refresh_token');
+  }
+
+
 }
 
 
