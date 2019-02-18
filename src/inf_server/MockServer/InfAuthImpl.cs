@@ -8,10 +8,10 @@ namespace MockServer
     class InfAuthImpl : InfAuth.InfAuthBase
     {
 
-        public override Task<CreateNewUserResponse> CreateNewUser(CreateNewUserRequest request, ServerCallContext context)
+        public override Task<ActivateUserResponse> ActivateUser(ActivateUserRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfConfigImpl.CreateNewUser called");
-            var result = new CreateNewUserResponse
+            var result = new ActivateUserResponse
             {
                 RefreshToken = "rt30948239846",
             };
