@@ -29,7 +29,7 @@ namespace API
         {
             // InfAuth
             { "/api.InfAuth/SendLoginEmail", AuthenticatedUserTypes.Anonymous },
-            { "/api.InfAuth/ActivateUser", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfAuth/ActivateUser", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
             { "/api.InfAuth/LoginWithLoginToken", AuthenticatedUserTypes.Anonymous },
             { "/api.InfAuth/LoginWithRefreshToken", AuthenticatedUserTypes.Anonymous },
             { "/api.InfAuth/GetAccessToken", AuthenticatedUserTypes.Anonymous },

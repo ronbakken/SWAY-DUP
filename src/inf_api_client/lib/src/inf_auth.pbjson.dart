@@ -24,7 +24,6 @@ const ActivateUserRequest$json = const {
 const ActivateUserResponse$json = const {
   '1': 'ActivateUserResponse',
   '2': const [
-    const {'1': 'refreshToken', '3': 1, '4': 1, '5': 9, '10': 'refreshToken'},
     const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
   ],
 };

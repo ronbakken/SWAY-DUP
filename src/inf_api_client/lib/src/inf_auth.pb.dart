@@ -87,7 +87,6 @@ class ActivateUserRequest extends $pb.GeneratedMessage {
 
 class ActivateUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ActivateUserResponse', package: const $pb.PackageName('api'))
-    ..aOS(1, 'refreshToken')
     ..a<$4.UserDto>(2, 'userData', $pb.PbFieldType.OM, $4.UserDto.getDefault, $4.UserDto.create)
     ..hasRequiredFields = false
   ;
@@ -107,14 +106,9 @@ class ActivateUserResponse extends $pb.GeneratedMessage {
     if (v is! ActivateUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  String get refreshToken => $_getS(0, '');
-  set refreshToken(String v) { $_setString(0, v); }
-  bool hasRefreshToken() => $_has(0);
-  void clearRefreshToken() => clearField(1);
-
-  $4.UserDto get userData => $_getN(1);
+  $4.UserDto get userData => $_getN(0);
   set userData($4.UserDto v) { setField(2, v); }
-  bool hasUserData() => $_has(1);
+  bool hasUserData() => $_has(0);
   void clearUserData() => clearField(2);
 }
 

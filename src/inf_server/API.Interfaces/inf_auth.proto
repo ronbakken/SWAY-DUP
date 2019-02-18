@@ -38,13 +38,12 @@ message SendLoginEmailRequest {
 }
 
 message ActivateUserRequest {
-    // Token that is passed to the app with the login / sign-up link from the email
+    // Token that is passed to the app with the login / sign-up link from the email.
     string loginToken = 1;
     UserDto userData = 2;
 }
 
 message ActivateUserResponse {
-    string refreshToken = 1;
     UserDto userData = 2;
 }
 

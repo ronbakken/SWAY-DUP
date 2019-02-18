@@ -154,34 +154,23 @@ namespace API.Services.Auth
                 this.logger,
                 async (logger) =>
                 {
-                    var loginToken = request.LoginToken;
-                    logger.Debug("Validating login token {LoginToken}", loginToken);
-                    var loginTokenValidationResults = TokenManager.ValidateLoginToken(loginToken);
-
-                    if (!loginTokenValidationResults.IsValid)
-                    {
-                        logger.Warning("Login token {LoginToken} is invalid", loginToken);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Invalid login token."));
-                    }
+                    var userId = context.GetAuthenticatedUserId();
 
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var email = loginTokenValidationResults.Email;
                     var getUserDataResponse = await usersService
-                        .GetUserDataByEmailAsync(new GetUserDataByEmailRequest { Email = email });
+                        .GetUserDataAsync(new GetUserDataRequest { Id = userId });
                     var userData = getUserDataResponse.UserData;
 
                     if (userData == null)
                     {
-                        logger.Warning("No user could be found with email {Email}", email);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "The login token's email address does not belong to an existing user."));
+                        logger.Warning("No user could be found with ID {UserId}", userId);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "No data found for user."));
                     }
-
-                    var userId = userData.Id;
 
                     if (userId != request.UserData.Id.ValueOr(userId))
                     {
-                        logger.Warning("The user ID associated with email {Email} is {UserId}. However, the user ID in the request data is {RequestUserId}, which does not match.", email, userId, request.UserData.Id);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Mismatch between the user ID associated with the email address in the login token, and the user ID in the request data."));
+                        logger.Warning("The authenticated user ID is {UserId}. However, the user ID in the request data is {RequestUserId}, which does not match", userId, request.UserData.Id);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Mismatch between the authenticated user ID and the user ID in the request data."));
                     }
 
                     logger.Debug("Validating status of user {UserId}", userId);
@@ -190,6 +179,20 @@ namespace API.Services.Auth
                     {
                         logger.Warning("User {UserId} has status {UserStatus}, so they cannot be activated", userId, userData.Status);
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not awaiting activation."));
+                    }
+
+                    var loginTokenValidationResults = TokenManager.ValidateLoginToken(request.LoginToken);
+
+                    if (!loginTokenValidationResults.IsValid)
+                    {
+                        logger.Warning("The provided login token {LoginToken} is not valid", request.LoginToken);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Login token is not valid."));
+                    }
+
+                    if (userId != loginTokenValidationResults.UserId)
+                    {
+                        logger.Warning("The user ID in the login token {LoginToken} is {TokenUserId}, which does not match the authenticated user's ID of {UserId}", request.LoginToken, loginTokenValidationResults.UserId, userId);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "Login token is not valid."));
                     }
 
                     var invitationCode = loginTokenValidationResults.InvitationCode;
@@ -204,19 +207,8 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, "Could not honor invitation code."));
                     }
 
-                    var userType = loginTokenValidationResults.UserType;
-                    logger.Debug("Generating refresh token for user {UserId}, type {UserType}", userId, userType);
-                    var refreshToken = TokenManager.GenerateRefreshToken(userId, userType);
-
-                    logger.Debug("Saving session for user {UserId} with refresh token {RefreshToken}", userId, refreshToken);
-                    var userSession = new UserSession
-                    {
-                        RefreshToken = refreshToken,
-                    };
-                    await usersService
-                        .SaveUserSessionAsync(new SaveUserSessionRequest { UserSession = userSession });
-
                     userData = Mapper.Map<UserData>(request.UserData);
+                    userData.Id = userId;
                     userData.Status = UserData.Types.Status.Active;
                     logger.Debug("Updating data for user {UserId} to {@UserData}", userId, userData);
                     var saveUserDataResponse = await usersService
@@ -225,9 +217,10 @@ namespace API.Services.Auth
 
                     var result = new ActivateUserResponse
                     {
-                        RefreshToken = refreshToken,
                         UserData = Mapper.Map<UserDto>(userData),
                     };
+
+                    logger.Information("User {UserId} has been activated", userId);
 
                     return result;
                 });
