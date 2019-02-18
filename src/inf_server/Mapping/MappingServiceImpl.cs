@@ -31,12 +31,15 @@ namespace Mapping
         {
             this.logger = logger.ForContext<MappingServiceImpl>();
 
-            var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException)
+            if (offerUpdatedSubscriptionClient != null)
             {
-                AutoComplete = true,
-                MaxConcurrentCalls = 4,
-            };
-            offerUpdatedSubscriptionClient.RegisterMessageHandler(this.OnOfferUpdated, messageHandlerOptions);
+                var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException)
+                {
+                    AutoComplete = true,
+                    MaxConcurrentCalls = 4,
+                };
+                offerUpdatedSubscriptionClient.RegisterMessageHandler(this.OnOfferUpdated, messageHandlerOptions);
+            }
         }
 
         public async Task Initialize(

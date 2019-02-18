@@ -33,6 +33,9 @@ namespace Utility
             }
 
             loggerConfiguration = loggerConfiguration
+#if DEBUG
+                .WriteTo.Seq("http://localhost:5341")
+#endif
                 .Enrich.WithProcessId()
                 .Enrich.WithProcessName()
                 .Enrich.WithThreadId()

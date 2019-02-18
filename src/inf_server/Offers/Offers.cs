@@ -24,7 +24,19 @@ namespace Offers
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
             var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
-            var offerUpdatedTopicClient = new TopicClient(serviceBusConnectionString, "OfferUpdated");
+            TopicClient offerUpdatedTopicClient = null;
+
+            if (string.IsNullOrEmpty(serviceBusConnectionString))
+            {
+                logger.Warning("Service bus connection string not configured.");
+            }
+            else
+            {
+                offerUpdatedTopicClient = new TopicClient(
+                    serviceBusConnectionString,
+                    "OfferUpdated");
+            }
+
             this.implementation = new OffersServiceImpl(this.logger, offerUpdatedTopicClient);
         }
 

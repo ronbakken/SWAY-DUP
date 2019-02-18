@@ -8,9 +8,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.ServiceBus;
-using NodaTime;
 using Offers.Interfaces;
-using Optional;
 using Serilog;
 using Utility;
 using static Offers.Interfaces.OffersService;
@@ -82,12 +80,15 @@ namespace Offers
                         .ContinueOnAnyContext();
                     logger.Debug("Offer saved: {@Offer}", offerEntity);
 
-                    logger.Debug("Publishing offer {@Offer} to service bus", offer);
-                    var message = new Message(offer.ToByteArray());
-                    await this
-                        .offerUpdatedTopicClient
-                        .SendAsync(message)
-                        .ContinueOnAnyContext();
+                    if (this.offerUpdatedTopicClient != null)
+                    {
+                        logger.Debug("Publishing offer {@Offer} to service bus", offer);
+                        var message = new Message(offer.ToByteArray());
+                        await this
+                            .offerUpdatedTopicClient
+                            .SendAsync(message)
+                            .ContinueOnAnyContext();
+                    }
 
                     return new SaveOfferResponse
                     {
@@ -126,12 +127,15 @@ namespace Offers
                         .ContinueOnAnyContext();
                     logger.Debug("Offer removed: {@Offer}", offerEntity);
 
-                    logger.Debug("Publishing removal of offer {@Offer} to service bus", offer);
-                    var message = new Message(offer.ToByteArray());
-                    await this
-                        .offerUpdatedTopicClient
-                        .SendAsync(message)
-                        .ContinueOnAnyContext();
+                    if (this.offerUpdatedTopicClient != null)
+                    {
+                        logger.Debug("Publishing removal of offer {@Offer} to service bus", offer);
+                        var message = new Message(offer.ToByteArray());
+                        await this
+                            .offerUpdatedTopicClient
+                            .SendAsync(message)
+                            .ContinueOnAnyContext();
+                    }
 
                     return new RemoveOfferResponse
                     {

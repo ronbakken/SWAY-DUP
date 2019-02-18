@@ -34,18 +34,26 @@ namespace API.Services.Mapping
 
             var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
             var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
-            var subscriptionClient = new SubscriptionClient(
-                serviceBusConnectionString,
-                "OfferUpdated",
-                "mapping_api",
-                receiveMode: ReceiveMode.ReceiveAndDelete);
 
-            var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException)
+            if (string.IsNullOrEmpty(serviceBusConnectionString))
             {
-                AutoComplete = true,
-                MaxConcurrentCalls = 4,
-            };
-            subscriptionClient.RegisterMessageHandler(this.OnOfferUpdated, messageHandlerOptions);
+                logger.Warning("Service bus connection string not configured.");
+            }
+            else
+            {
+                var subscriptionClient = new SubscriptionClient(
+                    serviceBusConnectionString,
+                    "OfferUpdated",
+                    "mapping_api",
+                    receiveMode: ReceiveMode.ReceiveAndDelete);
+
+                var messageHandlerOptions = new MessageHandlerOptions(this.OnServiceBusException)
+                {
+                    AutoComplete = true,
+                    MaxConcurrentCalls = 4,
+                };
+                subscriptionClient.RegisterMessageHandler(this.OnOfferUpdated, messageHandlerOptions);
+            }
         }
 
         public override Task Search(IAsyncStreamReader<api.SearchRequest> requestStream, IServerStreamWriter<api.SearchResponse> responseStream, ServerCallContext context) =>

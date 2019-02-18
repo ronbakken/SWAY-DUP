@@ -24,11 +24,21 @@ namespace Mapping
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
             var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
-            var subscriptionClient = new SubscriptionClient(
-                serviceBusConnectionString,
-                "OfferUpdated",
-                "mapping_service",
-                receiveMode: ReceiveMode.ReceiveAndDelete);
+            SubscriptionClient subscriptionClient = null;
+
+            if (string.IsNullOrEmpty(serviceBusConnectionString))
+            {
+                logger.Warning("Service bus connection string not configured.");
+            }
+            else
+            {
+                subscriptionClient = new SubscriptionClient(
+                    serviceBusConnectionString,
+                    "OfferUpdated",
+                    "mapping_service",
+                    receiveMode: ReceiveMode.ReceiveAndDelete);
+            }
+
             this.implementation = new MappingServiceImpl(this.logger, subscriptionClient);
         }
 

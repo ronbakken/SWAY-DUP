@@ -24,6 +24,7 @@
         <PackageReference Include="Serilog.Enrichers.Thread" />
         <PackageReference Include="Serilog.Sinks.AzureTableStorage" />
         <PackageReference Include="Serilog.Sinks.Debug" />
+        <PackageReference Include="Serilog.Sinks.Seq" />
         <PackageReference Include="System.Collections.Immutable" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
         <PackageReference Include="WindowsAzure.Storage" />
