@@ -74,6 +74,11 @@ class ConfigServiceMock implements ConfigService {
         "?access_token={accessToken}";
   }
 
+    @override
+  DeliverableIcon getDeliveryIconFromType(DeliverableType type) =>
+      deliverableIcons.firstWhere((icon) => icon.deliverableType == type);
+
+
   @override
   Future init() async {
     var categoryDtos = <CategoryDto>[

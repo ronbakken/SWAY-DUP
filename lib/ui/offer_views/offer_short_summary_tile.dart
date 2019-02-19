@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
@@ -38,6 +39,7 @@ class OfferShortSummaryTile extends StatelessWidget {
 
     var topRowItems = <Widget>[
        Text(offer.title, textScaleFactor: 1.2, style: TextStyle(color: Colors.white)),
+       Spacer()
     ];
 
     for(var channel in offer.terms.deliverable.channels)
@@ -49,6 +51,17 @@ class OfferShortSummaryTile extends StatelessWidget {
           width: 20.0,
         ),]);
     }
+
+    for(var deliverableType in offer.terms.deliverable.types)
+    { 
+      topRowItems.addAll([
+        SizedBox(width: 10.0),
+        InfMemoryImage(
+          backend.get<ConfigService>().getDeliveryIconFromType(deliverableType).iconData,
+          width: 20.0,
+        ),]);
+    }
+
 
     return Material(
       color: backGroundColor,

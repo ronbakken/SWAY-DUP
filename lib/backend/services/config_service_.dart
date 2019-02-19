@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/social_network_provider.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class AppMustUpdateException implements Exception {}
 
@@ -19,6 +20,8 @@ abstract class ConfigService {
   Future init();
 
   SocialNetworkProvider getSocialNetworkProviderById(int id);
+
+  DeliverableIcon getDeliveryIconFromType(DeliverableType type);
 
   List<Category> getCategoriesFromIds(List<int> ids);
 }

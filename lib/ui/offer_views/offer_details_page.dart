@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
@@ -120,6 +121,31 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         },
       );
     }
+
+    var deliverableIcons = <Widget>[Spacer()]..addAll(
+        offer.terms.deliverable.channels.map<Widget>(
+          (channel) => Padding(
+                padding: const EdgeInsets.only(left: 8),
+                child: InfMemoryImage(
+                  channel.logoColoredData ?? channel.logoMonochromeData,
+                  width: 24.0,
+                ),
+              ),
+        ),
+      );
+
+    deliverableIcons.addAll(
+      offer.terms.deliverable.types.map<Widget>(
+        (type) => Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: InfMemoryImage(
+                backend.get<ConfigService>().getDeliveryIconFromType(type).iconData,
+                width: 20.0,
+              ),
+            ),
+      ),
+    );
+
     return InfPageScrollView(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -145,17 +171,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 _DetailEntry(
                   icon: InfAssetImage(AppIcons.deliverable),
                   title: 'DELIVERABLES',
-                  rightSideIcons: offer.terms.deliverable.channels
-                      .map<Widget>(
-                        (channel) => Padding(
-                              padding: const EdgeInsets.only(right:8),
-                              child: InfMemoryImage(
-                                channel.logoColoredData ?? channel.logoMonochromeData,
-                                width: 24.0,
-                              ),
-                            ),
-                      )
-                      .toList(),
+                  rightSideIcons: deliverableIcons,
                   text: offer.terms.deliverable.description,
                 ),
                 Column(
@@ -333,8 +349,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: AppTheme.grey,
       child: Row(
         children: [
-          Text((offer.unlimitedAvailable ?? false) ? 'unlimited Available' :
-            '${offer.numberRemaining}/${offer.numberOffered} Available',
+          Text(
+            (offer.unlimitedAvailable ?? false)
+                ? 'unlimited Available'
+                : '${offer.numberRemaining}/${offer.numberOffered} Available',
           ),
           Expanded(
             child: offer.endDate != null

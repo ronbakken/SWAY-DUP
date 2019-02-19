@@ -50,8 +50,6 @@ class ConfigServiceImplementation implements ConfigService {
     //   configData = AppConfigDto.fromJson(configJson);
     // }
 
-
-
     // Get curren Config and API version from server
     var versionInformationFromServer = await backend.get<InfApiClientsService>().configClient.getVersions(
           Empty(),
@@ -66,7 +64,7 @@ class ConfigServiceImplementation implements ConfigService {
     // better would be an in the App itself embedded API version that is set by the CI server
 
     /// While the API is still not fixed we don't use the stores ApiConfig
-    /// 
+    ///
     // var currentApiVersion = prefs.getInt('API_VERSION');
     // if (currentApiVersion != null && currentApiVersion < versionInformationFromServer.versionInfo.apiVersion) {
     //   throw AppMustUpdateException();
@@ -100,4 +98,8 @@ class ConfigServiceImplementation implements ConfigService {
         (category) => ids.contains(category.id),
       )
       .toList();
+
+  @override
+  DeliverableIcon getDeliveryIconFromType(DeliverableType type) =>
+      deliverableIcons.firstWhere((icon) => icon.deliverableType == type);
 }
