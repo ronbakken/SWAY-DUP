@@ -13,7 +13,7 @@ namespace MockServer
             Console.WriteLine("InfConfigImpl.CreateNewUser called");
             var result = new ActivateUserResponse
             {
-                RefreshToken = "rt30948239846",
+                UserData = request.UserData
             };
             return Task.FromResult(result);
         }
