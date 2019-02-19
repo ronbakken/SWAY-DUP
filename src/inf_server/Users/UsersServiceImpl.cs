@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AutoMapper;
 using Grpc.Core;
 using Microsoft.Azure.Cosmos;
+using Newtonsoft.Json.Linq;
 using Serilog;
 using Users.Interfaces;
 using Utility;
@@ -100,10 +101,11 @@ namespace Users
                     var sql = new CosmosSqlQueryDefinition("SELECT * FROM u WHERE u.email = @Email");
                     sql.UseParameter("@Email", email);
 
+                    // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = this
                         .usersContainer
                         .Items
-                        .CreateItemQuery<UserDataEntity>(sql, 2);
+                        .CreateItemQuery<JObject>(sql, 2);
 
                     if (!itemQuery.HasMoreResults)
                     {
@@ -115,6 +117,7 @@ namespace Users
                         .FetchNextSetAsync()
                         .ContinueOnAnyContext();
                     var results = currentResultSet
+                        .Select(InfCosmosConfiguration.Transform<UserDataEntity>)
                         .Select(currentResult => Mapper.Map<UserData>(currentResult))
                         .ToList();
 
@@ -427,9 +430,10 @@ namespace Users
                         queryDefinition.UseParameter(parameter.Key, parameter.Value);
                     }
 
+                    // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = usersContainer
                         .Items
-                        .CreateItemQuery<UserDataEntity>(queryDefinition, 2);
+                        .CreateItemQuery<JObject>(queryDefinition, 2);
                     var results = new List<UserData>();
 
                     while (itemQuery.HasMoreResults)
@@ -438,7 +442,7 @@ namespace Users
                             .FetchNextSetAsync()
                             .ContinueOnAnyContext();
 
-                        foreach (var user in currentResultSet)
+                        foreach (var user in currentResultSet.Select(InfCosmosConfiguration.Transform<UserDataEntity>))
                         {
                             results.Add(Mapper.Map<UserData>(user));
                         }

@@ -4,6 +4,7 @@ using System.Text;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.Azure.Cosmos;
+using Newtonsoft.Json.Linq;
 
 namespace Utility
 {
@@ -15,6 +16,10 @@ namespace Utility
             this.UseCustomJsonSerializer(JsonNetCosmosJsonSerializer.Instance);
         }
 
+        // TODO: HACK: exists only to get around https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
+        public static T Transform<T>(JObject jobject) where T : IMessage, new() =>
+            JsonNetCosmosJsonSerializer.Instance.FromJObject<T>(jobject);
+
         private sealed class JsonNetCosmosJsonSerializer : CosmosJsonSerializer
         {
             public static readonly JsonNetCosmosJsonSerializer Instance = new JsonNetCosmosJsonSerializer();
@@ -25,6 +30,10 @@ namespace Utility
             private JsonNetCosmosJsonSerializer()
             {
             }
+
+            // TODO: HACK: exists only to get around https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
+            public T FromJObject<T>(JObject jobject) where T : IMessage, new() =>
+                jsonParser.Parse<T>(jobject.ToString());
 
             public override T FromStream<T>(Stream stream)
             {

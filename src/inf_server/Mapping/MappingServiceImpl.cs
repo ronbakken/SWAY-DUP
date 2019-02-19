@@ -8,6 +8,7 @@ using Grpc.Core;
 using Mapping.Interfaces;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.ServiceBus;
+using Newtonsoft.Json.Linq;
 using Offers.Interfaces;
 using Serilog;
 using Utility;
@@ -112,9 +113,10 @@ namespace Mapping
             CosmosSqlQueryDefinition queryDefinition,
             SearchFilter filter)
         {
+            // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
             var itemQuery = mapItemsContainer
                 .Items
-                .CreateItemQuery<MapItemEntity>(queryDefinition, filter.QuadKey);
+                .CreateItemQuery<JObject>(queryDefinition, filter.QuadKey);
             var results = new List<MapItemEntity>();
 
             while (itemQuery.HasMoreResults)
@@ -123,7 +125,7 @@ namespace Mapping
                     .FetchNextSetAsync()
                     .ContinueOnAnyContext();
 
-                foreach (var mapItem in currentResultSet)
+                foreach (var mapItem in currentResultSet.Select(InfCosmosConfiguration.Transform<MapItemEntity>))
                 {
                     results.Add(mapItem);
                 }

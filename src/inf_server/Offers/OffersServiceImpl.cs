@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -8,6 +9,7 @@ using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.ServiceBus;
+using Newtonsoft.Json.Linq;
 using Offers.Interfaces;
 using Serilog;
 using Utility;
@@ -186,10 +188,11 @@ namespace Offers
                     this.logger.Debug("Retrieving offers using page size {PageSize}, continuation token {ContinutationToken}", pageSize, continuationToken);
                     var sql = new CosmosSqlQueryDefinition("SELECT * FROM o");
 
+                    // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = this
                         .offersContainer
                         .Items
-                        .CreateItemQuery<OfferEntity>(sql, 2, maxItemCount: pageSize, continuationToken: continuationToken);
+                        .CreateItemQuery<JObject>(sql, 2, maxItemCount: pageSize, continuationToken: continuationToken);
                     var items = new List<Offer>();
                     string nextContinuationToken = null;
 
@@ -200,7 +203,7 @@ namespace Offers
                             .ContinueOnAnyContext();
                         nextContinuationToken = currentResultSet.ContinuationToken;
 
-                        foreach (var offer in currentResultSet)
+                        foreach (var offer in currentResultSet.Select(InfCosmosConfiguration.Transform<OfferEntity>))
                         {
                             items.Add(Mapper.Map<Offer>(offer));
                         }
