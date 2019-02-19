@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 class InfImage extends StatefulWidget {
   InfImage({
     Key key,
-    @required Uint8List lowRes,
+    @required String lowResUrl,
     @required String imageUrl,
     double lowResScale = 1.0,
     double imageUrlScale = 1.0,
@@ -18,7 +18,7 @@ class InfImage extends StatefulWidget {
     this.alignment = Alignment.center,
     this.repeat = ImageRepeat.noRepeat,
     this.matchTextDirection = false,
-  })  : placeholder = MemoryImage(lowRes, scale: lowResScale),
+  })  : placeholder = NetworkImage(lowResUrl, scale: lowResScale),
         image = NetworkImage(imageUrl, scale: imageUrlScale),
         super(key: key);
 

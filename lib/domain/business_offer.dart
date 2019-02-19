@@ -42,7 +42,7 @@ class BusinessOffer {
   final bool unlimitedAvailable;
 
   final String thumbnailUrl;
-  final Uint8List thumbnailLowRes;
+  final String thumbnailLowResUrl;
 
 
   final DealTerms terms;
@@ -52,7 +52,7 @@ class BusinessOffer {
 
   // Detail info
   final List<String> imageUrls;
-  final List<Uint8List> imagesLowRes;
+  final List<String> imagesLowResUrls;
 
   final List<Category> categories;
 
@@ -89,11 +89,11 @@ class BusinessOffer {
       this.numberOffered = 1,
       this.unlimitedAvailable,
       this.thumbnailUrl,
-      this.thumbnailLowRes,
+      this.thumbnailLowResUrl,
       this.terms,
       this.location,
       this.imageUrls,
-      this.imagesLowRes,
+      this.imagesLowResUrls,
       this.categories,
       this.state,
       this.stateReason,

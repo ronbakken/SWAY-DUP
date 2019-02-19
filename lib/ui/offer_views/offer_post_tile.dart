@@ -26,7 +26,7 @@ class OfferPostTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     Widget imageArea = InfImage(
-      lowRes: offer.imagesLowRes[0],
+      lowResUrl: offer.imagesLowResUrls[0],
       imageUrl: offer.imageUrls[0],
       fit: BoxFit.fitWidth,
       height: mediaQuery.size.height * 0.22,

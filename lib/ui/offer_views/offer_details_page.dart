@@ -116,7 +116,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             },
             child: InfImage(
               imageUrl: offer.imageUrls[0],
-              lowRes: offer.imagesLowRes[0],
+              lowResUrl: offer.imagesLowResUrls[0],
             ),
           );
         },
@@ -373,7 +373,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     for (int i = 0; i < offer.imageUrls.length; i++) {
       imageArray.add(InfImage(
         imageUrl: offer.imageUrls[i],
-        lowRes: offer.imagesLowRes[i],
+        lowResUrl: offer.imagesLowResUrls[i],
       ));
     }
     return Stack(

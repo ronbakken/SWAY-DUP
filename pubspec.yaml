@@ -44,7 +44,8 @@ dependencies:
   inf_api_client:
     git:
        url: https://github.com/infmarketplace/inf_server.git
-       ref: alpha
+       ref: feature/offers
+      #  ref: alpha
        path: src/inf_api_client
 
 dev_dependencies:

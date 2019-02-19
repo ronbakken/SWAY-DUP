@@ -78,11 +78,18 @@ class UserManagerImplementation implements UserManager {
       var thumbNailUrl = await backend
           .get<ImageService>()
           .uploadImageFromBytes('profileThumbnail.jpg', encodeJpg(thumbNail, quality: 90));
+      var profileLoResUrl = await backend
+          .get<ImageService>()
+          .uploadImageFromBytes('profilePicture_lores.jpg', encodeJpg(profileLowRes, quality: 90));
+      var thumbNailLoresUrl = await backend
+          .get<ImageService>()
+          .uploadImageFromBytes('profileThumbnail.jpg', encodeJpg(thumbNailLowRes, quality: 90));
+
       userToSend = userData.user.copyWith(
         avatarUrl: profileUrl,
-        avatarLowRes: encodeJpg(profileLowRes),
+        avatarLowResUrl: profileLoResUrl,
         avatarThumbnailUrl: thumbNailUrl,
-        avatarThumbnailLowRes: encodeJpg(thumbNailLowRes),
+        avatarThumbnailLowResUrl: thumbNailLoresUrl,
       );
     } else {
       userToSend = userData.user;
