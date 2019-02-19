@@ -22,7 +22,7 @@ class _InfPageScrollViewState extends State<InfPageScrollView> {
     final mediaQuery = MediaQuery.of(context);
     return LayoutBuilder(
       builder: (BuildContext context, BoxConstraints constraints) {
-        EdgeInsets scrollViewPadding = EdgeInsets.only(bottom: mediaQuery.padding.bottom);
+        double scrollViewBottomInset = mediaQuery.padding.bottom;
 
         Widget top;
         if (widget.top != null) {
@@ -43,9 +43,7 @@ class _InfPageScrollViewState extends State<InfPageScrollView> {
             alignment: Alignment.bottomCenter,
             child: widget.bottom,
           );
-          scrollViewPadding += EdgeInsets.only(
-            bottom: widget.bottom.preferredSize.height,
-          );
+          scrollViewBottomInset += widget.bottom.preferredSize.height;
         } else {
           bottom = SizedBox();
         }
@@ -55,16 +53,18 @@ class _InfPageScrollViewState extends State<InfPageScrollView> {
           child: Stack(
             fit: StackFit.passthrough,
             children: <Widget>[
-              SingleChildScrollView(
-                padding: scrollViewPadding,
-                child: ConstrainedBox(
-                  constraints: constraints.copyWith(
-                    minWidth: constraints.maxWidth,
-                    minHeight: constraints.maxHeight,
-                    maxHeight: double.infinity,
-                  ),
-                  child: IntrinsicHeight(
-                    child: widget.child,
+              Positioned.fill(
+                bottom: scrollViewBottomInset,
+                child: SingleChildScrollView(
+                  child: ConstrainedBox(
+                    constraints: constraints.copyWith(
+                      minWidth: constraints.maxWidth,
+                      minHeight: constraints.maxHeight,
+                      maxHeight: double.infinity,
+                    ),
+                    child: IntrinsicHeight(
+                      child: widget.child,
+                    ),
                   ),
                 ),
               ),

@@ -57,6 +57,7 @@ class _StartupPageState extends PageState<StartupPage> {
             nextPage = MainPage.route();
           }
         } else {
+          // No login success
           nextPage = WelcomeRoute();
         }
         _firebaseMessaging.requestNotificationPermissions();

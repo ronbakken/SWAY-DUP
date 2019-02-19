@@ -228,7 +228,7 @@ packages:
     description:
       path: "src/inf_api_client"
       ref: alpha
-      resolved-ref: bedf2a8a7fa08a2dbbf26033752b554f327d803d
+      resolved-ref: "43b2a646f0d02bace44d9ebfa27a2c1ef7706750"
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"

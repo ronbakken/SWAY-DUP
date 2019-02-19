@@ -55,7 +55,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      resizeToAvoidBottomPadding: true,
+      resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
         title: Text('ACCOUNT SETUP'),

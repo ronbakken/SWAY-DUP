@@ -23,8 +23,8 @@ class AddOfferStep1 extends StatefulWidget {
 
 class _AddOfferStep1State extends State<AddOfferStep1> {
   int selectedImageIndex = 0;
-
-  GlobalKey form = GlobalKey();
+  
+  final form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -48,6 +48,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                   padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
                   child: Form(
                     key: form,
+                    onChanged: () => form.currentState.save(),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
