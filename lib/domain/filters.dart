@@ -31,13 +31,13 @@ class OfferFilter {
   List<OfferFilter> aspects;
   int userApplyingId;
   int offeringBusinessId;
-  BusinessOfferState state;
+  OfferDto_Status state;
   String freeText;
   List<SocialNetworkProvider> channels;
   List<DeliverableType> deliverableType;
 
   // if aspect 'reward' is included the next three can ne set
-  List<RewardType> rewardType;
+  List<RewardDto_Type> rewardType;
   Decimal rewardValueLowerLimit;
   Decimal rewardValueUpperLimit;
 

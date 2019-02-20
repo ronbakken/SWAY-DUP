@@ -1,34 +1,27 @@
 import 'dart:typed_data';
 
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
+import 'package:inf/utils/date_time_helpers.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
-enum BusinessOfferState {
-  draft,
-  open, // Open and awaiting new applicants
-  closed, // Active but no longer accepting applicants
-  archived
-}
 
-enum BusinessOfferStateReason {
-  newOffer,
-  userClosed, // Business has closed this offer.
-  tosViolation, // This offer violates the Terms of Service
-  completed // This offer has been completed by all applicants
-}
-
-enum AcceptancePolicy { manualReview, automaticAcceptMatching, allowNegotiation }
 
 class BusinessOffer {
+  final String id;
+  final int revision;
   final bool isPartial;
-  final int id;
-  final int businessAccountId;
+  final Location location;
+  // State
+  final OfferDto_Status status;
+  final OfferDto_StatusReason statusReason;
+
+  final String businessAccountId;
   final String businessName;
   final String businessDescription;
   final String businessAvatarThumbnailUrl;
-
-  final bool isDirectOffer;
 
   final String title;
   final String description;
@@ -38,8 +31,8 @@ class BusinessOffer {
   final int minFolllowers;
 
   final int numberOffered;
-  int  get numberRemaining => numberOffered - numberOfProposals;
-  final bool unlimitedAvailable;
+  final int numberRemaining;
+  bool get unlimitedAvailable => numberOffered == 0;
 
   final String thumbnailUrl;
   final String thumbnailLowResUrl;
@@ -47,8 +40,9 @@ class BusinessOffer {
 
   final DealTerms terms;
 
+  final OfferDto_AcceptancePolicy acceptancePolicy;
 
-  final Location location;
+  final OfferDto_ProposalStatus proposalStatus;
 
   // Detail info
   final List<String> imageUrls;
@@ -56,13 +50,6 @@ class BusinessOffer {
 
   final List<Category> categories;
 
-  // State
-  final BusinessOfferState state;
-  final BusinessOfferStateReason stateReason;
-
-  // proposal
-  int get numberOfProposals => userIdsThatHaveProposed.length;
-  final List<String> userIdsThatHaveProposed;
 
   // For later: Info for business
   // final int proposalsCountNew;
@@ -70,10 +57,10 @@ class BusinessOffer {
   // final int proposalsCountCompleted;
   // final int proposalsCountRefused;
 
-  final AcceptancePolicy acceptancePolicy;
 
-  BusinessOffer(
+  BusinessOffer( 
       {this.id,
+      this.revision, 
       this.isPartial = false,
       this.businessAccountId,
       this.businessName,
@@ -85,9 +72,9 @@ class BusinessOffer {
       this.endDate,
       this.created,
       this.minFolllowers,
-      this.isDirectOffer,
-      this.numberOffered = 1,
-      this.unlimitedAvailable,
+      this.numberOffered = 0,
+      this.numberRemaining,
+      this.proposalStatus,
       this.thumbnailUrl,
       this.thumbnailLowResUrl,
       this.terms,
@@ -95,9 +82,8 @@ class BusinessOffer {
       this.imageUrls,
       this.imagesLowResUrls,
       this.categories,
-      this.state,
-      this.stateReason,
-      this.userIdsThatHaveProposed,
+      this.status,
+      this.statusReason,
       this.acceptancePolicy});
 
   // BusinessOffer copyWith({
@@ -157,5 +143,71 @@ class BusinessOffer {
   //     stateReason: stateReason ?? this.stateReason,
   //   );
   // }
+
+  static BusinessOffer fromDto(OfferDto dto)
+  {
+    if (dto.hasList())
+    {
+      return BusinessOffer(
+        acceptancePolicy: null,
+        businessAccountId: dto.list.businessAccountId,
+        businessAvatarThumbnailUrl: dto.list.businessAvatarThumbnailUrl,
+        businessDescription: dto.list.businessDescription,
+        businessName: dto.list.businessName,
+        categories: null,
+        created: fromTimeStamp(dto.list.created),
+        startDate: fromTimeStamp(dto.list.start),
+        endDate: fromTimeStamp(dto.list.end),
+        description: dto.list.description,
+        id: dto.id,
+        imagesLowResUrls: [dto.list.featuredImage.lowResUrl],
+        imageUrls: [dto.list.featuredImage.url],
+        isPartial: true,
+        location: Location.fromDto(dto.location),
+        minFolllowers: null,
+        numberOffered: dto.list.numberOffered,
+        numberRemaining: dto.list.numberRemaining,
+        proposalStatus: dto.list.proposalStatus,
+        revision: dto.revision,
+        status: dto.status,
+        statusReason: dto.statusReason,
+        terms: DealTerms.fromDto(dto.list.terms),
+        thumbnailLowResUrl: dto.list.thumbnail.lowResUrl,
+        thumbnailUrl: dto.list.thumbnail.lowResUrl,
+        title: dto.list.title,
+      );
+    }
+    else
+    {
+      return BusinessOffer(
+        acceptancePolicy: dto.full.acceptancePolicy,
+        businessAccountId: dto.full.businessAccountId,
+        businessAvatarThumbnailUrl: dto.full.businessAvatarThumbnailUrl,
+        businessDescription: dto.full.businessDescription,
+        businessName: dto.full.businessName,
+        categories: backend.get<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
+        created: fromTimeStamp(dto.full.created),
+        startDate: fromTimeStamp(dto.full.start),
+        endDate: fromTimeStamp(dto.full.end),
+        description: dto.full.description,
+        id: dto.id,
+        imagesLowResUrls: dto.full.images.map<String>((x)=> x.lowResUrl).toList(),
+        imageUrls: dto.full.images.map<String>((x)=> x.url).toList(),
+        isPartial: false,
+        location: Location.fromDto(dto.location),
+        minFolllowers: dto.full.minFollowers,
+        numberOffered: dto.full.numberOffered,
+        numberRemaining: dto.full.numberRemaining,
+        proposalStatus: dto.full.proposalStatus,
+        revision: dto.revision,
+        status: dto.status,
+        statusReason: dto.statusReason,
+        terms: DealTerms.fromDto(dto.full.terms),
+        thumbnailLowResUrl: dto.full.thumbnail.lowResUrl,
+        thumbnailUrl: dto.full.thumbnail.lowResUrl,
+        title: dto.full.title,
+      );      
+    }
+  }
 }
 

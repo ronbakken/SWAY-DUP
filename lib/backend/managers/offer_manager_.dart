@@ -21,7 +21,7 @@ abstract class OfferManager {
   Observable<List<BusinessOffer>> get filteredOffers;
   Observable<List<BusinessOffer>> get featuredBusinessOffers;
 
-  Future<BusinessOffer> getFullOffer(int offerId);
+  Future<BusinessOffer> getFullOffer(String offerId);
 
   Future<void> addOfferFilter(OfferFilter filter);
   Future<void> clearOfferFilter(OfferFilter filter);
@@ -34,7 +34,6 @@ class OfferBuilder {
   List<ImageReference> images = [];
   String title;
   String description;
-  bool isDirectOffer;
   SelectionSet<DeliverableType> deliverableTypes = SelectionSet<DeliverableType>();
   SelectionSet<SocialNetworkProvider> channels = SelectionSet<SocialNetworkProvider>();
   CategorySet categories = CategorySet();
@@ -46,7 +45,7 @@ class OfferBuilder {
   Location location;
   int numberOffered;
   bool unlimitedAvailable = false;
-  AcceptancePolicy acceptancePolicy;
+  OfferDto_AcceptancePolicy acceptancePolicy;
 
   DateTime startDate;
   DateTime endDate;
@@ -64,7 +63,6 @@ class OfferBuilder {
     title = offer.title;
     description = offer.description;
 
-    isDirectOffer = offer.isDirectOffer;
     deliverableTypes = SelectionSet.fromIterable(offer.terms.deliverable.types);
     channels = SelectionSet.fromIterable(offer.terms.deliverable.channels);
     categories = CategorySet.fromIterable(offer.categories);

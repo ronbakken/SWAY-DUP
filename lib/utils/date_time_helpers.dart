@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:intl/intl.dart';
 
 DateTime updateTimeOfDay(DateTime currentDate, TimeOfDay time) {
@@ -60,4 +61,9 @@ String sinceWhen(DateTime date)
   }
 
   return DateFormat('mm/dd/yyyy').format(date);
+}
+
+DateTime fromTimeStamp(Timestamp t)
+{
+  return DateTime.fromMillisecondsSinceEpoch(t.seconds.toInt()*1000);
 }

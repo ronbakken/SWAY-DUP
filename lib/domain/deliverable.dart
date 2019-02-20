@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
@@ -32,6 +33,16 @@ class Deliverable {
     return Deliverable(
       description: description ?? this.description,
       types: types ?? this.types,
+    );
+  }
+
+  static Deliverable fromDto(DeliverableDto dto) {
+    return Deliverable(
+      description: dto.description,
+      types: dto.deliverableTypes,
+      channels: dto.socialNetworkProviderIds
+          .map<SocialNetworkProvider>((id) => backend.get<ConfigService>().getSocialNetworkProviderById(id))
+          .toList(),
     );
   }
 }

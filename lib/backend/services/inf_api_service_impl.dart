@@ -28,7 +28,7 @@ class InfApiServiceImplementation implements InfApiService {
   // }
 
   @override
-  Future<BusinessOffer> getOfferById(int offerId) {
+  Future<BusinessOffer> getOfferById(String offerId) {
     // TODO: implement getChat
     throw Exception('Not implemented yet');
   }

@@ -88,12 +88,12 @@ class ConfigServiceImplementation implements ConfigService {
   }
 
   @override
-  SocialNetworkProvider getSocialNetworkProviderById(int id) {
+  SocialNetworkProvider getSocialNetworkProviderById(String id) {
     return socialNetworkProviders.where((provider) => provider.id == id).first;
   }
 
   @override
-  List<Category> getCategoriesFromIds(List<int> ids) => categories
+  List<Category> getCategoriesFromIds(List<String> ids) => categories
       .where(
         (category) => ids.contains(category.id),
       )

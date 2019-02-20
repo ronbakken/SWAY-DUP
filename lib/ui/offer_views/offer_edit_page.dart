@@ -22,6 +22,7 @@ import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/social_platform_selector.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class OfferEditPage extends PageWidget {
   static Route<dynamic> route(BusinessOffer offer) {
@@ -342,22 +343,22 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                               style: TextStyle(fontSize: 18.0, color: Colors.white),
                             ),
                             SizedBox(height: 16.0),
-                            InfRadioButton<AcceptancePolicy>(
-                              value: AcceptancePolicy.manualReview,
+                            InfRadioButton<OfferDto_AcceptancePolicy>(
+                              value: OfferDto_AcceptancePolicy.manualReview,
                               groupValue: offerBuilder.acceptancePolicy,
                               label: 'MANUALLY REVIEW PROPOSALS',
                               onChanged: (val) => setState(() => offerBuilder.acceptancePolicy = val),
                             ),
                             SizedBox(height: 8.0),
-                            InfRadioButton<AcceptancePolicy>(
-                              value: AcceptancePolicy.automaticAcceptMatching,
+                            InfRadioButton<OfferDto_AcceptancePolicy>(
+                              value: OfferDto_AcceptancePolicy.automaticAcceptMatching,
                               groupValue: offerBuilder.acceptancePolicy,
                               label: 'ACCEPT MATCHING PROPOSALS',
                               onChanged: (val) => setState(() => offerBuilder.acceptancePolicy = val),
                             ),
                             SizedBox(height: 8.0),
-                            InfRadioButton<AcceptancePolicy>(
-                              value: AcceptancePolicy.allowNegotiation,
+                            InfRadioButton<OfferDto_AcceptancePolicy>(
+                              value: OfferDto_AcceptancePolicy.allowNegotiation,
                               groupValue: offerBuilder.acceptancePolicy,
                               label: 'ALLOW NEGOTIATION',
                               onChanged: (val) => setState(() => offerBuilder.acceptancePolicy = val),

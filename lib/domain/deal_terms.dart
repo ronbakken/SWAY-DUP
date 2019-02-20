@@ -1,4 +1,5 @@
 import 'package:inf/domain/domain.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class DealTerms {
   final Deliverable deliverable;
@@ -13,6 +14,13 @@ class DealTerms {
     return DealTerms(
       deliverable: deliverable ?? this.deliverable,
       reward: reward ?? this.reward,
+    );
+  }
+
+  static DealTerms fromDto(DealTermsDto dto) {
+    return DealTerms(
+      deliverable: Deliverable.fromDto(dto.deliverable),
+      reward: Reward.fromDto(dto.reward),
     );
   }
 }

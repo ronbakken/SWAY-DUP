@@ -11,6 +11,7 @@ import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/inf_time_picker.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rx_command/rx_command.dart';
 
@@ -169,22 +170,22 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
                   SizedBox(height: 16.0),
-                  InfRadioButton<AcceptancePolicy>(
-                    value: AcceptancePolicy.manualReview,
+                  InfRadioButton<OfferDto_AcceptancePolicy>(
+                    value: OfferDto_AcceptancePolicy.manualReview,
                     groupValue: widget.offerBuilder.acceptancePolicy,
                     label: 'MANUALLY REVIEW PROPOSALS',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
                   ),
                   SizedBox(height: 8.0),
-                  InfRadioButton<AcceptancePolicy>(
-                    value: AcceptancePolicy.automaticAcceptMatching,
+                  InfRadioButton<OfferDto_AcceptancePolicy>(
+                    value: OfferDto_AcceptancePolicy.automaticAcceptMatching,
                     groupValue: widget.offerBuilder.acceptancePolicy,
                     label: 'ACCEPT MATCHING PROPOSALS',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
                   ),
                   SizedBox(height: 8.0),
-                  InfRadioButton<AcceptancePolicy>(
-                    value: AcceptancePolicy.allowNegotiation,
+                  InfRadioButton<OfferDto_AcceptancePolicy>(
+                    value: OfferDto_AcceptancePolicy.allowNegotiation,
                     groupValue: widget.offerBuilder.acceptancePolicy,
                     label: 'ALLOW NEGOTIATION',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),

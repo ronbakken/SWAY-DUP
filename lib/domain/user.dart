@@ -110,9 +110,9 @@ class User {
       accountCompletionInPercent: dto.accountCompletionInPercent,
       location: Location.fromDto(dto.location),
       avatarThumbnailUrl: dto.avatarThumbnail.url,
-      avatarThumbnailLowResUrl: dto.avatarThumbnail.lowResDataUrl,
+      avatarThumbnailLowResUrl: dto.avatarThumbnail.lowResUrl,
       avatarUrl: dto.avatar.url,
-      avatarLowResUrl: dto.avatar.lowResDataUrl,
+      avatarLowResUrl: dto.avatar.lowResUrl,
       categories: backend.get<ConfigService>().getCategoriesFromIds(dto.categoryIds),
       minimalFee: dto.minimalFee,
       socialMediaAccounts:
@@ -123,10 +123,10 @@ class User {
   UserDto toDto() {
     var avatarThumbnailDto = ImageDto()
       ..url = avatarThumbnailUrl
-      ..lowResDataUrl = avatarThumbnailLowResUrl;
+      ..lowResUrl = avatarThumbnailLowResUrl;
     var avatarDto = ImageDto()
       ..url = avatarUrl
-      ..lowResDataUrl = avatarLowResUrl;
+      ..lowResUrl = avatarLowResUrl;
 
     assert(accountState != null);
     assert(userType != null);
@@ -153,7 +153,7 @@ class User {
       ..accountCompletionInPercent = accountCompletionInPercent ?? -1
       ..avatarThumbnail = avatarThumbnailDto
       ..avatar = avatarDto
-      ..categoryIds.addAll(categories.map<int>((c) => c.id))
+      ..categoryIds.addAll(categories.map<String>((c) => c.id))
       ..minimalFee = minimalFee ?? 0
       ..websiteUrl = websiteUrl ?? ''
       ..socialMediaAccounts.addAll(socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()));

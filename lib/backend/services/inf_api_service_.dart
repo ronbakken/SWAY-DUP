@@ -4,7 +4,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:rxdart/rxdart.dart';
 
 abstract class InfApiService {
-  Future<BusinessOffer> getOfferById(int offerId);
+  Future<BusinessOffer> getOfferById(String offerId);
 
 
 

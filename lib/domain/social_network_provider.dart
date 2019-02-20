@@ -5,7 +5,7 @@ import 'package:inf_api_client/inf_api_client.dart';
 class SocialNetworkProvider {
   final SocialNetworkProviderDto dto;
 
-  int get id => dto.id;
+  String get id => dto.id;
   SocialNetworkProviderType get type => dto.type;
   String get name => dto.name;
   Uint8List get logoColoredData => _logoColoredData;

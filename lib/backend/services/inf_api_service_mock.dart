@@ -35,7 +35,7 @@ class InfApiServiceMock implements InfApiService {
   // }
 
   @override
-  Future<BusinessOffer> getOfferById(int offerId) {
+  Future<BusinessOffer> getOfferById(String offerId) {
     return Future.value(allOffers.firstWhere((x) => x.id == offerId, orElse: null));
   }
 
@@ -103,11 +103,10 @@ class InfApiServiceMock implements InfApiService {
     allOffers = await loadBusinessOfferMockData();
     return [
       BusinessOffer(
-          id: 1,
+          id: '1',
           isPartial: true,
-          isDirectOffer: false,
           numberOffered: 5,
-          userIdsThatHaveProposed: [],
+          proposalStatus: OfferDto_ProposalStatus.none,
           businessName: 'CarWash Tom',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -128,13 +127,13 @@ class InfApiServiceMock implements InfApiService {
             ),
             reward: Reward(
               description: 'One free premium car wash',
-              type: RewardType.barter,
+              type: RewardDto_Type.barter,
               barterValue: Decimal.fromInt(20),
               cashValue: Decimal.fromInt(1000),
             ),
           ),
-          state: BusinessOfferState.open,
-          stateReason: BusinessOfferStateReason.newOffer,
+          status: OfferDto_Status.active,
+          statusReason: OfferDto_StatusReason.open,
           imagesLowResUrls: ['https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2'],
           imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e'
@@ -143,9 +142,9 @@ class InfApiServiceMock implements InfApiService {
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
-          id: 2,
+          id: '2',
           isPartial: true,
-          userIdsThatHaveProposed: ['abc'],
+          proposalStatus: OfferDto_ProposalStatus.atLeastOne,
           businessName: 'Scent of Asia',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -161,12 +160,12 @@ class InfApiServiceMock implements InfApiService {
             ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
-              type: RewardType.barter,
+              type: RewardDto_Type.barter,
               barterValue: Decimal.fromInt(5),
             ),
           ),
-          state: BusinessOfferState.open,
-          stateReason: BusinessOfferStateReason.newOffer,
+          status: OfferDto_Status.active,
+          statusReason: OfferDto_StatusReason.open,
           imagesLowResUrls: ['https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'],
           imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
@@ -175,8 +174,8 @@ class InfApiServiceMock implements InfApiService {
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
       BusinessOffer(
-          id: 3,
-          userIdsThatHaveProposed: [],
+          id: '3',
+          proposalStatus: OfferDto_ProposalStatus.none,
           businessName: 'Scent of Asia',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -192,12 +191,12 @@ class InfApiServiceMock implements InfApiService {
             ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
-              type: RewardType.barter,
+              type: RewardDto_Type.barter,
               barterValue: Decimal.fromInt(5),
             ),
           ),
-          state: BusinessOfferState.open,
-          stateReason: BusinessOfferStateReason.newOffer,
+          status: OfferDto_Status.active,
+          statusReason: OfferDto_StatusReason.open,
           imagesLowResUrls: ['https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'],
           imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
@@ -211,12 +210,12 @@ class InfApiServiceMock implements InfApiService {
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
       BusinessOffer(
-          id: 1,
+          id: '1',
           startDate: DateTime(2019, 1, 1),
           endDate: DateTime(2019, 3, 1),
-          acceptancePolicy: AcceptancePolicy.allowNegotiation,
-          userIdsThatHaveProposed: [],
-          businessAccountId: 42,
+          acceptancePolicy: OfferDto_AcceptancePolicy.allowNegotiation,
+          proposalStatus: OfferDto_ProposalStatus.atLeastOne,
+          businessAccountId: '1',
           businessName: 'CarWash Tom',
           businessDescription: 'We wash anything',
           businessAvatarThumbnailUrl:
@@ -231,7 +230,7 @@ class InfApiServiceMock implements InfApiService {
               ..name = 'cars'
               ..description = 'All about cars')
           ],
-          unlimitedAvailable: true,
+          numberOffered: 0,
           location: Location(latitude: 34.032395, longitude: -118.301019),
           terms: DealTerms(
             deliverable: Deliverable(
@@ -244,13 +243,13 @@ class InfApiServiceMock implements InfApiService {
             ),
             reward: Reward(
               description: 'One free premium car wash',
-              type: RewardType.barter,
+              type: RewardDto_Type.barter,
               barterValue: Decimal.fromInt(20),
               cashValue: Decimal.fromInt(1000),
             ),
           ),
-          state: BusinessOfferState.open,
-          stateReason: BusinessOfferStateReason.newOffer,
+          status: OfferDto_Status.active,
+          statusReason: OfferDto_StatusReason.open,
           imagesLowResUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_lowres.jpg?alt=media&token=f25fca74-8f5a-4356-b748-ca772f334431',
@@ -263,11 +262,11 @@ class InfApiServiceMock implements InfApiService {
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
-          id: 2,
+          id: '2',
           startDate: DateTime(2019, 1, 1),
           endDate: DateTime(2019, 3, 1),
-          userIdsThatHaveProposed: [],
-          businessAccountId: 43,
+          proposalStatus: OfferDto_ProposalStatus.none,
+          businessAccountId: "1",
           businessName: 'Scent of Asia',
           businessDescription: 'Best flavoured teas in town',
           businessAvatarThumbnailUrl:
@@ -275,7 +274,6 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          unlimitedAvailable: false,
           categories: [
             Category(CategoryDto()
               ..name = 'food'
@@ -293,12 +291,12 @@ class InfApiServiceMock implements InfApiService {
             ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
-              type: RewardType.barter,
+              type: RewardDto_Type.barter,
               barterValue: Decimal.fromInt(5),
             ),
           ),
-          state: BusinessOfferState.open,
-          stateReason: BusinessOfferStateReason.newOffer,
+          status: OfferDto_Status.active,
+          statusReason: OfferDto_StatusReason.open,
           imagesLowResUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=3dc3ad04-ed66-4dec-8621-76ac3cbe05ab',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
@@ -311,9 +309,9 @@ class InfApiServiceMock implements InfApiService {
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
       BusinessOffer(
-          id: 3,
-          userIdsThatHaveProposed: [],
-          businessAccountId: 43,
+          id: '3',
+          proposalStatus: OfferDto_ProposalStatus.none,
+          businessAccountId: "1",
           businessName: 'Scent of Asia',
           businessDescription: 'Best flavoured teas in town',
           businessAvatarThumbnailUrl:
@@ -321,7 +319,6 @@ class InfApiServiceMock implements InfApiService {
           title: 'Spoon Ice Tea',
           description: 'Free ice tea if you stop by',
           numberOffered: 10,
-          unlimitedAvailable: false,
           categories: [
             Category(CategoryDto()
               ..name = 'food'
@@ -341,12 +338,12 @@ class InfApiServiceMock implements InfApiService {
             ),
             reward: Reward(
               description: 'One ice tea for you and a friend',
-              type: RewardType.barter,
+              type: RewardDto_Type.barter,
               barterValue: Decimal.fromInt(5),
             ),
           ),
-          state: BusinessOfferState.open,
-          stateReason: BusinessOfferStateReason.newOffer,
+          status: OfferDto_Status.active,
+          statusReason: OfferDto_StatusReason.open,
           imagesLowResUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=3dc3ad04-ed66-4dec-8621-76ac3cbe05ab',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',

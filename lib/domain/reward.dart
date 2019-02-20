@@ -1,14 +1,12 @@
-
 import 'package:decimal/decimal.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:intl/intl.dart';
-
-enum RewardType { barter, cash, barterAndCash }
 
 class Reward {
   final String description;
   final Decimal barterValue;
   final Decimal cashValue;
-  final RewardType type;
+  final RewardDto_Type type;
 
   String getTotalValueAsString([int digits = 2]) {
     if (barterValue == null && cashValue == null) {
@@ -39,6 +37,15 @@ class Reward {
       description: description ?? this.description,
       barterValue: barterValue ?? this.barterValue,
       cashValue: cashValue ?? this.cashValue,
+    );
+  }
+
+  static Reward fromDto(RewardDto dto) {
+    return Reward(
+      barterValue: Decimal.fromInt(dto.barterValue) / Decimal.fromInt(100),
+      cashValue: Decimal.fromInt(dto.cashValue) / Decimal.fromInt(100),
+      description: dto.description,
+      type: dto.type,
     );
   }
 }
