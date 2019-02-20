@@ -42,19 +42,19 @@ class OfferManagerImplementation implements OfferManager {
   //     (a, b, c) => a + b + c);
 
   @override
-  Future<void> addOfferFilter(OfferFilter filter) {
+  Future<void> addOfferFilter(Filter filter) {
     // TODO: implement addOfferFilter
     throw Exception('Not implemented yet');
   }
 
   @override
-  Future<void> clearOfferFilter(OfferFilter filter) {
+  Future<void> clearOfferFilter(Filter filter) {
     // TODO: implement clearOfferFilter
     throw Exception('Not implemented yet');
   }
 
   @override
-  Future<OfferFilter> getOfferFilter(OfferFilter filter) {
+  Future<Filter> getOfferFilter(Filter filter) {
     // TODO: implement getOfferFilter
     throw Exception('Not implemented yet');
   }

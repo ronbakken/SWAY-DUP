@@ -23,9 +23,9 @@ abstract class OfferManager {
 
   Future<BusinessOffer> getFullOffer(String offerId);
 
-  Future<void> addOfferFilter(OfferFilter filter);
-  Future<void> clearOfferFilter(OfferFilter filter);
-  Future<OfferFilter> getOfferFilter(OfferFilter filter);
+  Future<void> addOfferFilter(Filter filter);
+  Future<void> clearOfferFilter(Filter filter);
+  Future<Filter> getOfferFilter(Filter filter);
 
   OfferBuilder getOfferBuilder();
 }

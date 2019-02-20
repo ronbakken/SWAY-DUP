@@ -12,6 +12,7 @@ abstract class InfApiClientsService
     InfBlobStorageClient blobStorageClient;
     InfInvitationCodesClient invitationCodeClient;
     InfUsersClient usersClient;
+    InfListClient listClient;
 
     Observable<bool> get connectionChanged;
 

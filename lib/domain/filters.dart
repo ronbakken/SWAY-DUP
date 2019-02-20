@@ -26,9 +26,9 @@ enum OfferFilterApect {
   date,
 }
 
-class OfferFilter {
+class Filter {
   // Defines which fields  of the filter should be applied/cleared
-  List<OfferFilter> aspects;
+  List<Filter> aspects;
   int userApplyingId;
   int offeringBusinessId;
   OfferDto_Status state;

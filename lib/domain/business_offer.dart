@@ -7,8 +7,6 @@ import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/utils/date_time_helpers.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-
-
 class BusinessOffer {
   final String id;
   final int revision;
@@ -37,7 +35,6 @@ class BusinessOffer {
   final String thumbnailUrl;
   final String thumbnailLowResUrl;
 
-
   final DealTerms terms;
 
   final OfferDto_AcceptancePolicy acceptancePolicy;
@@ -50,17 +47,15 @@ class BusinessOffer {
 
   final List<Category> categories;
 
-
   // For later: Info for business
   // final int proposalsCountNew;
   // final int proposalsCountAccepted;
   // final int proposalsCountCompleted;
   // final int proposalsCountRefused;
 
-
-  BusinessOffer( 
+  BusinessOffer(
       {this.id,
-      this.revision, 
+      this.revision,
       this.isPartial = false,
       this.businessAccountId,
       this.businessName,
@@ -130,7 +125,7 @@ class BusinessOffer {
   //     created: created ?? this.created,
   //     isDirectOffer: isDirectOffer ?? this.isDirectOffer,
   //     numberOffered: numberOffered ?? this.numberOffered,
-    
+
   //     unlimitedAvailable: unlimitedAvailable ?? this.unlimitedAvailable,
   //     thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
   //     thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
@@ -144,10 +139,8 @@ class BusinessOffer {
   //   );
   // }
 
-  static BusinessOffer fromDto(OfferDto dto)
-  {
-    if (dto.hasList())
-    {
+  static BusinessOffer fromDto(OfferDto dto) {
+    if (dto.hasList()) {
       return BusinessOffer(
         acceptancePolicy: null,
         businessAccountId: dto.list.businessAccountId,
@@ -176,9 +169,7 @@ class BusinessOffer {
         thumbnailUrl: dto.list.thumbnail.lowResUrl,
         title: dto.list.title,
       );
-    }
-    else
-    {
+    } else {
       return BusinessOffer(
         acceptancePolicy: dto.full.acceptancePolicy,
         businessAccountId: dto.full.businessAccountId,
@@ -191,8 +182,8 @@ class BusinessOffer {
         endDate: fromTimeStamp(dto.full.end),
         description: dto.full.description,
         id: dto.id,
-        imagesLowResUrls: dto.full.images.map<String>((x)=> x.lowResUrl).toList(),
-        imageUrls: dto.full.images.map<String>((x)=> x.url).toList(),
+        imagesLowResUrls: dto.full.images.map<String>((x) => x.lowResUrl).toList(),
+        imageUrls: dto.full.images.map<String>((x) => x.url).toList(),
         isPartial: false,
         location: Location.fromDto(dto.location),
         minFolllowers: dto.full.minFollowers,
@@ -206,8 +197,7 @@ class BusinessOffer {
         thumbnailLowResUrl: dto.full.thumbnail.lowResUrl,
         thumbnailUrl: dto.full.thumbnail.lowResUrl,
         title: dto.full.title,
-      );      
+      );
     }
   }
 }
-

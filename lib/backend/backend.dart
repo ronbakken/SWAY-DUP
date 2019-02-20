@@ -2,8 +2,8 @@ import 'dart:async';
 
 import 'package:get_it/get_it.dart';
 import 'package:inf/backend/api_keys.dart';
-import 'package:inf/backend/managers/app_manager_.dart';
-import 'package:inf/backend/managers/app_manager_impl.dart';
+import 'package:inf/backend/managers/list_manager_impl.dart';
+
 import 'package:inf/backend/managers/offer_manager_impl.dart';
 import 'package:inf/backend/managers/proposal_manager_.dart';
 import 'package:inf/backend/managers/proposal_manager_impl.dart';
@@ -19,23 +19,27 @@ import 'package:inf/backend/services/image_service_impl.dart';
 import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf/backend/services/inf_api_clients_service_impl.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
+import 'package:inf/backend/services/inf_list_service_impl.dart';
 import 'package:inf/backend/services/location_service_mock.dart';
 import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf/backend/services/system_service_.dart';
 import 'package:inf/backend/services/system_service_impl.dart';
 
 import 'package:inf/backend/services/inf_api_service_.dart';
+import 'package:inf/backend/services/inf_list_service_.dart';
 import 'package:inf/backend/services/location_service_.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
+import 'package:inf/backend/managers/list_manager_.dart';
 import 'package:inf/utils/build_config.dart';
 
 import 'package:inf/utils/error_capture.dart';
 import 'package:logging/logging.dart';
 
-export 'package:inf/backend/managers/app_manager_.dart';
+
 export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/managers/user_manager_.dart';
 export 'package:inf/backend/managers/proposal_manager_.dart';
+export 'package:inf/backend/managers/list_manager_.dart';
 export 'package:inf/backend/services/config_service_.dart';
 export 'package:inf/backend/services/system_service_.dart';
 export 'package:inf/backend/services/inf_api_service_.dart';
@@ -43,6 +47,7 @@ export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
 export 'package:inf/backend/services/image_service_.dart';
 export 'package:inf/backend/services/inf_api_clients_service_.dart';
+export 'package:inf/backend/services/inf_list_service_.dart';
 export 'package:inf/utils/error_capture.dart' show ErrorReporter;
 export 'package:grpc/grpc.dart' show GrpcError, CallOptions;
 
@@ -122,6 +127,7 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerLazySingleton<ConfigService>(() => ConfigServiceImplementation());
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerSingleton<InfApiClientsService>(InfApiClientsServiceImplementation());
+  backend.registerLazySingleton<InfListService>(()=> InfListServiceImplementation());
 
   backend.registerLazySingleton<AuthenticationService>(
 
@@ -137,10 +143,11 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
 
   // Managers
-  backend.registerLazySingleton<AppManager>(() => AppManagerImplementation());
+ 
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
   backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
   backend.registerLazySingleton<ProposalManager>(() => ProposalManagerImplementation());
+  backend.registerLazySingleton<ListManager>(() => ListManagerImplementation());
 
   // // Services
   // backend.registerLazySingleton<LocationService>(() => LocationServiceImplementation());

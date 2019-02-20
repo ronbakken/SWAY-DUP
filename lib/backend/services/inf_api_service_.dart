@@ -8,13 +8,13 @@ abstract class InfApiService {
 
 
 
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter);
+  Observable<List<BusinessOffer>> getBusinessOffers(Filter filter);
   Observable<List<BusinessOffer>> getFilteredBusinessOffers();
 
   Observable<List<BusinessOffer>> getFeaturedBusinessOffers(
       double longitude, double latitude);
 
-  Future<void> setOfferFilter(OfferFilter filter);
+  Future<void> setOfferFilter(Filter filter);
   Observable<int> getFilteredBusinessOffersCount();
 
   void setMapBoundary(

@@ -158,7 +158,6 @@ class User {
       ..websiteUrl = websiteUrl ?? ''
       ..socialMediaAccounts.addAll(socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()));
 
-
-      return dto;
+    return dto;
   }
 }

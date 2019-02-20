@@ -16,7 +16,7 @@ class InfApiServiceMock implements InfApiService {
   BehaviorSubject<List<MapMarker>> makerSubject = BehaviorSubject<List<MapMarker>>();
 
   @override
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
+  Observable<List<BusinessOffer>> getBusinessOffers(Filter filter) {
     return Observable.fromFuture(loadPartialBusinessOfferMockData());
   }
 
@@ -94,7 +94,7 @@ class InfApiServiceMock implements InfApiService {
   }
 
   @override
-  Future<void> setOfferFilter(OfferFilter filter) {
+  Future<void> setOfferFilter(Filter filter) {
     // TODO: implement setOfferFilter
     return null;
   }
@@ -134,11 +134,14 @@ class InfApiServiceMock implements InfApiService {
           ),
           status: OfferDto_Status.active,
           statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: ['https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2'],
+          imagesLowResUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2'
+          ],
           imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e'
           ],
-          thumbnailLowResUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
+          thumbnailLowResUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
@@ -166,11 +169,14 @@ class InfApiServiceMock implements InfApiService {
           ),
           status: OfferDto_Status.active,
           statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: ['https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'],
+          imagesLowResUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'
+          ],
           imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
           ],
-          thumbnailLowResUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+          thumbnailLowResUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
       BusinessOffer(
@@ -197,11 +203,14 @@ class InfApiServiceMock implements InfApiService {
           ),
           status: OfferDto_Status.active,
           statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: ['https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'],
+          imagesLowResUrls: [
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'
+          ],
           imageUrls: [
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
           ],
-          thumbnailLowResUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+          thumbnailLowResUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
     ];
@@ -258,7 +267,8 @@ class InfApiServiceMock implements InfApiService {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2.jpg?alt=media&token=0913cd09-1efc-47d6-a760-cbfe47476b5d'
           ],
-          thumbnailLowResUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
+          thumbnailLowResUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
       BusinessOffer(
@@ -305,7 +315,8 @@ class InfApiServiceMock implements InfApiService {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
           ],
-          thumbnailLowResUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+          thumbnailLowResUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
       BusinessOffer(
@@ -352,7 +363,8 @@ class InfApiServiceMock implements InfApiService {
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
           ],
-          thumbnailLowResUrl: 'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+          thumbnailLowResUrl:
+              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
           thumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
     ];

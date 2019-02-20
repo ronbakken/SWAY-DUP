@@ -6,7 +6,7 @@ import 'package:rxdart/rxdart.dart';
 
 class InfApiServiceImplementation implements InfApiService {
   @override
-  Observable<List<BusinessOffer>> getBusinessOffers(OfferFilter filter) {
+  Observable<List<BusinessOffer>> getBusinessOffers(Filter filter) {
     // TODO: implement getChat
     throw Exception('Not implemented yet');
   }
@@ -85,7 +85,7 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
   @override
-  Future<void> setOfferFilter(OfferFilter filter) {
+  Future<void> setOfferFilter(Filter filter) {
     // TODO: implement setOfferFilter
     throw Exception('Not implemented yet');
   }
