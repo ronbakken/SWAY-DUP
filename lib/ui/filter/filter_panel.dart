@@ -4,6 +4,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/ui/filter/expand_transition.dart';
 import 'package:inf/ui/main/bottom_nav.dart';
@@ -13,6 +14,7 @@ import 'package:inf/ui/widgets/category_selector_view.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
+import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/swipe_detector.dart';
 import 'package:inf/utils/animation_choreographer.dart';
 import 'package:inf/utils/trim_path.dart';
@@ -241,10 +243,22 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
                   padding: EdgeInsets.only(top: 8.0),
                   alignment: Alignment.topCenter,
                   color: const Color(0xFF17161A),
-                  child: CategoryRow(
-                    selectedCategories: _selectedCategories,
-                    onCategoryPressed: (category){
-                      _selectedCategories.add(category);
+                  child: ListenableBuilder(
+                    listenable: _selectedCategories,
+                    builder: (BuildContext context, Widget child) {
+                      return CategoryRow(
+                        selectedSubCategories: _selectedCategories,
+                        onCategoryPressed: (category) {
+                          final topLevelCategories = backend.get<ConfigService>().topLevelCategories;
+                          final subCats =
+                              topLevelCategories.where((cat) => cat.parentId == category.id).toList(growable: false);
+                          if (_selectedCategories.containsAll(subCats)) {
+                            _selectedCategories.removeAll(subCats);
+                          } else {
+                            _selectedCategories.addAll(subCats);
+                          }
+                        },
+                      );
                     },
                   ),
                 ),

@@ -10,7 +10,6 @@ import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
-import 'package:inf/utils/selection_set.dart';
 
 class CategorySelectorView extends StatefulWidget {
   const CategorySelectorView({
@@ -59,7 +58,7 @@ class _CategorySelectorState extends State<CategorySelectorView> {
           listenable: widget.selectedCategories,
           builder: (context, child) {
             return CategoryRow(
-              selectedCategories: widget.selectedCategories,
+              selectedSubCategories: widget.selectedCategories,
               onCategoryPressed: (category) => setState(() => activeTopLevelCategory.value = category),
             );
           },
@@ -130,11 +129,11 @@ class _CategorySelectorState extends State<CategorySelectorView> {
 class CategoryRow extends StatelessWidget {
   const CategoryRow({
     Key key,
-    @required this.selectedCategories,
+    @required this.selectedSubCategories,
     this.onCategoryPressed,
   }) : super(key: key);
 
-  final CategorySet selectedCategories;
+  final CategorySet selectedSubCategories;
   final ValueChanged<Category> onCategoryPressed;
 
   @override
@@ -149,7 +148,7 @@ class CategoryRow extends StatelessWidget {
         return CategoryButton(
           onTap: () => onCategoryPressed(topLevelCategory),
           selectedSubCategories:
-              selectedCategories.values.where((category) => category.parentId == topLevelCategory.id).length,
+              selectedSubCategories.where((category) => category.parentId == topLevelCategory.id).length,
           label: topLevelCategory.name,
           radius: 64.0,
           child: InfMemoryImage(

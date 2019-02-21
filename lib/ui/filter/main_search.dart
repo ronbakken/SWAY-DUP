@@ -3,11 +3,16 @@ import 'dart:ui' show window;
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/filter/filter_panel.dart';
 import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-void main() => runApp(FilterMenuApp());
+void main() async {
+  await setupBackend(mode: AppMode.mock, testRefreshToken: 'INF');
+  await initBackend();
+  runApp(FilterMenuApp());
+}
 
 class FilterMenuApp extends StatelessWidget {
   @override

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
-import 'package:inf/utils/selection_set.dart';
 
 class CategorySelector extends StatefulWidget {
   final Category parentCategory;
@@ -87,7 +86,7 @@ class _CategorySelectorState extends State<CategorySelector> {
           },
           text: 'Select all',
           isSelected:
-              widget.selectedSubCategories.values.where((cat) => cat.parentId == widget.parentCategory.id).length ==
+              widget.selectedSubCategories.where((cat) => cat.parentId == widget.parentCategory.id).length ==
                   subCategories.length,
         ),
       );

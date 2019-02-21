@@ -3,6 +3,16 @@ import 'package:inf/app/theme.dart';
 
 /// This widget is used to display Toplevel categories or Content Types.
 class CategoryButton extends StatelessWidget {
+  const CategoryButton({
+    Key key,
+    this.selectedSubCategories = 0,
+    this.selected = false,
+    this.onTap,
+    @required this.radius,
+    @required this.child,
+    this.label,
+  }) : super(key: key);
+
   /// if [selectedSubCategories] == null or == 0 no circle with number will be displayed
   final int selectedSubCategories;
 
@@ -13,78 +23,80 @@ class CategoryButton extends StatelessWidget {
   final String label;
   final double radius;
 
-  const CategoryButton({
-    Key key,
-    this.selectedSubCategories = 0,
-    this.selected = false,
-    @required this.child,
-    @required this.onTap,
-    @required this.radius,
-    this.label,
-  }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+    Widget count;
+    if (selectedSubCategories != null && selectedSubCategories > 0) {
+      count = Container(
+        alignment: Alignment.center,
+        width: 28.0,
+        height: 28.0,
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: AppTheme.red,
+          border: Border.all(color: Colors.black, width: 2.0),
+        ),
+        child: Text(
+          selectedSubCategories.toString(),
+          strutStyle: StrutStyle(
+            height: 1,
+            forceStrutHeight: true,
+          ),
+        ),
+      );
+    } else {
+      count = const SizedBox();
+    }
+
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
         Expanded(
-          child: InkResponse(
-            onTap: onTap,
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: Center(
-                child: Stack(
-                  fit: StackFit.passthrough,
-                  overflow: Overflow.visible,
-                  children: <Widget>[
-                    Container(
-                      width: 2 * radius,
-                      height: 2 * radius,
+          child: Stack(
+            fit: StackFit.passthrough,
+            overflow: Overflow.visible,
+            children: <Widget>[
+              SizedBox(
+                width: 2 * radius,
+                height: 2 * radius,
+                child: Material(
+                  color: selectedSubCategories > 0 || selected ? AppTheme.lightBlue : AppTheme.grey,
+                  shape: CircleBorder(
+                    side: BorderSide(width: 2.0, color: selectedSubCategories > 0 ? Colors.white : AppTheme.grey),
+                  ),
+                  child: InkResponse(
+                    onTap: onTap,
+                    child: Container(
                       padding: const EdgeInsets.all(4.0),
                       alignment: Alignment.center,
-                      decoration: BoxDecoration(
-                        color: selectedSubCategories > 0 || selected
-                            ? AppTheme.lightBlue
-                            : AppTheme.grey,
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                            width: 2.0,
-                            color: selectedSubCategories > 0
-                                ? Colors.white
-                                : AppTheme.grey),
-                      ),
                       child: child,
                     ),
-                    (selectedSubCategories != null) &&
-                            (selectedSubCategories > 0)
-                        ? Positioned(
-                            bottom: -4,
-                            right: -12,
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 28.0,
-                              height: 28.0,
-                              decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppTheme.red,
-                                  border: Border.all(
-                                      color: Colors.black, width: 2.0)),
-                              child: Text('$selectedSubCategories'),
-                            ),
-                          )
-                        : SizedBox(),
-                  ],
+                  ),
                 ),
               ),
-            ),
+              Positioned(
+                bottom: -4,
+                right: -12,
+                child: AnimatedSwitcher(
+                  transitionBuilder: _scaleTransitionBuilder,
+                  duration: kThemeChangeDuration,
+                  child: count,
+                ),
+              ),
+            ],
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: label != null ? Text(label) : SizedBox(),
-        ),
+        label != null
+            ? Padding(
+                padding: const EdgeInsets.only(top: 8),
+                child: Text(label),
+              )
+            : SizedBox(),
       ],
     );
+  }
+
+  Widget _scaleTransitionBuilder(Widget child, Animation<double> animation) {
+    return ScaleTransition(scale: animation, child: child);
   }
 }

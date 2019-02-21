@@ -1,38 +1,42 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 
-class SelectionSet<T> extends ChangeNotifier {
+class SelectionSet<T> extends DelegatingSet<T> with ChangeNotifier {
+  SelectionSet() : super(Set<T>());
 
-  final Set<T> values;
-
-  SelectionSet() : values = Set<T>();
-
-  SelectionSet.fromIterable(Iterable<T> iterable) : values = Set.from(iterable);
-
-  List<T> toList() => values.toList();
-
-  bool contains(T value) => values.contains(value);
-
-  void add(T value) {
-    values.add(value);
-    notifyListeners();
-  }
-
-  void remove(T value) {
-    values.remove(value);
-    notifyListeners();
-  }
-
-  void addAll(Iterable<T> toAdd) {
-    values.addAll(toAdd);
-    notifyListeners();
-  }
+  SelectionSet.fromIterable(Iterable<T> iterable) : super(Set<T>.from(iterable));
 
   void toggle(T value) {
-    if (values.contains(value)) {
-      values.remove(value);
+    if (contains(value)) {
+      remove(value);
     } else {
-      values.add(value);
+      add(value);
     }
+  }
+
+  @override
+  bool add(T value) {
+    final result = super.add(value);
+    notifyListeners();
+    return result;
+  }
+
+  @override
+  void addAll(Iterable<T> elements) {
+    super.addAll(elements);
+    notifyListeners();
+  }
+
+  @override
+  bool remove(Object value) {
+    final result = super.remove(value);
+    notifyListeners();
+    return result;
+  }
+
+  @override
+  void removeAll(Iterable<Object> elements) {
+    super.removeAll(elements);
     notifyListeners();
   }
 }

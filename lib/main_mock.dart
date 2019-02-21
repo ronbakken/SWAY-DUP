@@ -9,7 +9,7 @@ Future<void> main() async {
   /// when 'loginWithToken' is called so that we can test without the need for a real user token
   /// token: 'INF' and influencer
   /// token: 'BUSINESS' a business user
-  await setupBackend(mode: AppMode.mock, testRefreshToken: null);
+  await setupBackend(mode: AppMode.mock, testRefreshToken: 'BUSINESS');
 
   runCapturedApp(SwayApp(), backend.get<ErrorReporter>());
 }
