@@ -66,7 +66,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
             await deepLinkSubscription?.cancel();
 
             // did we get a link from a new user subscription?
-            if (loginToken.accountState == AccountState.waitingForActivation) {
+            if (loginToken.accountState == UserDto_Status.waitingForActivation) {
               Navigator.of(context).popUntil((route) => route is WelcomeRoute);
               unawaited(Navigator.push(context, ActivationSuccessPage.route(loginToken.userType)));
             } else {
@@ -177,7 +177,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                                   title: 'Welcome to INF',
                                   child: SendSignupLoginEmailView(
                                     newUser: false,
-                                    userType: UserType.unknownUserType,
+                                    userType: UserType.unknownType,
                                   ),
                                 ),
                               ),

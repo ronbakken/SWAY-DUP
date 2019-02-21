@@ -1,37 +1,33 @@
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-class InfItem {
-  final ItemDto_Type type;
+enum InfItemType {user, offer, map}
 
+class InfItem {
+  final InfItemType type;
   /// Only one of them will be set according to [type]
   final BusinessOffer offer;
   final User user;
   final MapMarker mapMarker;
- 
 
   InfItem({
     this.type,
     this.offer,
     this.user,
-    this.mapMarker,}
-  );
+    this.mapMarker,
+  });
 
-  static InfItem fromDto(ItemDto dto)
-  {
-    switch (dto.type) {
-      case ItemDto_Type.offerItem:
-        assert(dto.hasOffer());
-        return InfItem(type: ItemDto_Type.offerItem, offer: BusinessOffer.fromDto(dto.offer));
-      case ItemDto_Type.userItem:
-        assert(dto.hasUser());
-        return InfItem(type: ItemDto_Type.userItem, user: User.fromDto(dto.user));
-      case ItemDto_Type.map:
-        assert(dto.hasMapItem());
-        return InfItem(type: ItemDto_Type.map, mapMarker: null);        
-      default:
-        assert(false, 'Should never get here');
-        return null;
+  static InfItem fromDto(ItemDto dto) {
+    if (dto.hasOffer()) {
+      return InfItem(type: InfItemType.offer, offer: BusinessOffer.fromDto(dto.offer));
     }
+    if (dto.hasUser()) {
+      return InfItem(type: InfItemType.user, user: User.fromDto(dto.user));
+    }
+    if (dto.hasMapItem()) {
+      return InfItem(type: InfItemType.map, mapMarker: null);
+    }
+    assert(false, 'Should never get here');
+    return null;
   }
 }

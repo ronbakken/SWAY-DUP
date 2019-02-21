@@ -9,7 +9,7 @@ import 'package:inf_api_client/inf_api_client.dart';
 class User {
   final String id;
   final bool verified;
-  final AccountState accountState;
+  final UserDto_Status accountState;
   final UserType userType;
   final String name;
   final String description;
@@ -54,7 +54,7 @@ class User {
   User copyWith({
     String id,
     bool verified,
-    AccountState accountState,
+    UserDto_Status accountState,
     UserType userType,
     String name,
     String description,
@@ -98,25 +98,25 @@ class User {
   static User fromDto(UserDto dto) {
     return User(
       id: dto.id,
-      verified: dto.verified,
-      accountState: dto.accountState,
-      userType: dto.userType,
-      name: dto.name,
-      description: dto.description,
-      email: dto.email,
-      websiteUrl: dto.websiteUrl,
-      acceptsDirectOffers: dto.acceptsDirectOffers,
-      showLocation: dto.showLocation,
-      accountCompletionInPercent: dto.accountCompletionInPercent,
-      location: Location.fromDto(dto.location),
-      avatarThumbnailUrl: dto.avatarThumbnail.url,
-      avatarThumbnailLowResUrl: dto.avatarThumbnail.lowResUrl,
-      avatarUrl: dto.avatar.url,
-      avatarLowResUrl: dto.avatar.lowResUrl,
-      categories: backend.get<ConfigService>().getCategoriesFromIds(dto.categoryIds),
-      minimalFee: dto.minimalFee,
+      accountState: dto.status,
+      verified: dto.full.isVerified,
+      userType: dto.full.type,
+      name: dto.full.name,
+      description: dto.full.description,
+      email: dto.full.email,
+      websiteUrl: dto.full.websiteUrl,
+      acceptsDirectOffers: dto.full.acceptsDirectOffers,
+      showLocation: dto.full.showLocation,
+      accountCompletionInPercent: dto.full.accountCompletionInPercent,
+      location: Location.fromDto(dto.full.location),
+      avatarThumbnailUrl: dto.full.avatarThumbnail.url,
+      avatarThumbnailLowResUrl: dto.full.avatarThumbnail.lowResUrl,
+      avatarUrl: dto.full.avatar.url,
+      avatarLowResUrl: dto.full.avatar.lowResUrl,
+      categories: backend.get<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
+      minimalFee: dto.full.minimalFee,
       socialMediaAccounts:
-          dto.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),
+          dto.full.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),
     );
   }
 
@@ -141,22 +141,25 @@ class User {
 
     var dto = UserDto()
       ..id = id ?? ""
-      ..verified = verified ?? false
-      ..accountState = accountState
-      ..userType = userType
-      ..name = name
-      ..description = description
-      ..email = email
-      ..acceptsDirectOffers = acceptsDirectOffers ?? false
-      ..location = location.toDto()
-      ..showLocation = showLocation ?? false
-      ..accountCompletionInPercent = accountCompletionInPercent ?? -1
-      ..avatarThumbnail = avatarThumbnailDto
-      ..avatar = avatarDto
-      ..categoryIds.addAll(categories.map<String>((c) => c.id))
-      ..minimalFee = minimalFee ?? 0
-      ..websiteUrl = websiteUrl ?? ''
-      ..socialMediaAccounts.addAll(socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()));
+        ..status = accountState
+      ..full = (UserDto_FullDataDto()
+        ..isVerified = verified ?? false
+        ..type = userType
+        ..name = name
+        ..description = description
+        ..email = email
+        ..acceptsDirectOffers = acceptsDirectOffers ?? false
+        ..location = location.toDto()
+        ..showLocation = showLocation ?? false
+        ..accountCompletionInPercent = accountCompletionInPercent ?? -1
+        ..avatarThumbnail = avatarThumbnailDto
+        ..avatar = avatarDto
+        ..categoryIds.addAll(categories.map<String>((c) => c.id))
+        ..minimalFee = minimalFee ?? 0
+        ..websiteUrl = websiteUrl ?? ''
+        ..socialMediaAccounts.addAll(
+          socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()),
+        ));
 
     return dto;
   }

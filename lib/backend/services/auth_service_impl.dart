@@ -62,7 +62,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       /// store reecived token in secure storage
       /// We only store it for an active user
       /// new user store the token after sucessfull activation
-      if (authResult.userData.accountState == AccountState.active) {
+      if (authResult.userData.status == UserDto_Status.active) {
         await storeRefreshToken(refreshToken);
       }
 

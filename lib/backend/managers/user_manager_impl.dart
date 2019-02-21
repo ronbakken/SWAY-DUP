@@ -94,7 +94,7 @@ class UserManagerImplementation implements UserManager {
     } else {
       userToSend = userData.user;
     }
-    if (userData.user.accountState == AccountState.waitingForActivation) {
+    if (userData.user.accountState == UserDto_Status.waitingForActivation) {
       await backend.get<AuthenticationService>().activateUser(
             userToSend.copyWith(
               email: loginToken.email,

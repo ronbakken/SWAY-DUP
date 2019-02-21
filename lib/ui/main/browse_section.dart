@@ -205,21 +205,21 @@ class _BrowseListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<BusinessOffer>>(
-      stream: backend.get<OfferManager>().filteredOffers,
-      builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
+    return StreamBuilder<List<InfItem>>(
+      stream: backend.get<ListManager>().filteredListItems,
+      builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
         if (!snapShot.hasData) {
           // TODO
           return Center(child: Text('Sorry no offer matches your criteria'));
         }
-        final offerSummeries = snapShot.data;
+        final items = snapShot.data;
         return Stack(
           children: <Widget>[
             ListView.builder(
               padding: EdgeInsets.fromLTRB(16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
-              itemCount: offerSummeries.length,
+              itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                final offer = offerSummeries[index];
+                final offer = items[index].offer;
                 final tag = 'browse-offer-list-${offer.id}';
                 return Padding(
                   padding: const EdgeInsets.symmetric(vertical: 8.0),
@@ -235,7 +235,7 @@ class _BrowseListView extends StatelessWidget {
               child: Container(
                 height: 48.0,
                 alignment: Alignment.center,
-                child: Text('${offerSummeries.length} OFFERS NEAR YOU'),
+                child: Text('${items.length} OFFERS NEAR YOU'),
               ),
             ),
           ],

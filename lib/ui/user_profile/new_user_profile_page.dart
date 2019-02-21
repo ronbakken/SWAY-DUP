@@ -66,7 +66,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
       body: UserDataView(
         user: User(
           userType: widget.userType,
-          accountState: AccountState.waitingForActivation,
+          accountState: UserDto_Status.waitingForActivation,
           name: '',
           description: '',
           socialMediaAccounts: [],

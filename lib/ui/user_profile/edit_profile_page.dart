@@ -110,7 +110,7 @@ class _UserDataViewState extends State<UserDataView> {
   @override
   void initState() {
     user = widget.user;
-    newUser = user.accountState == AccountState.waitingForActivation;
+    newUser = user.accountState == UserDto_Status.waitingForActivation;
     location = user.location;
     super.initState();
   }

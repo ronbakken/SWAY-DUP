@@ -33,7 +33,7 @@ class AuthenticationException implements Exception {
 
 class LoginToken {
   final UserType userType;
-  final AccountState accountState;
+  final UserDto_Status accountState;
   final String token;
   final String email;
 
@@ -66,22 +66,22 @@ class LoginToken {
     var userTypeAsString = asMap['aud'];
     var email = asMap['email'];
 
-    AccountState accountState;
+    UserDto_Status accountState;
     switch (userStatus) {
       case 'WaitingForActivation':
-        accountState = AccountState.waitingForActivation;
+        accountState = UserDto_Status.waitingForActivation;
         break;
       case 'Active':
-        accountState = AccountState.active;
+        accountState = UserDto_Status.active;
         break;
       case 'WaitingForApproval':
-        accountState = AccountState.waitingForApproval;
+        accountState = UserDto_Status.waitingForApproval;
         break;
       case 'Disabled':
-        accountState = AccountState.disabled;
+        accountState = UserDto_Status.disabled;
         break;
       case 'Rejected':
-        accountState = AccountState.rejected;
+        accountState = UserDto_Status.rejected;
         break;
       default:
         throw AuthenticationException('Invalid account status in logintoken: $userStatus');

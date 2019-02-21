@@ -49,7 +49,7 @@ class _StartupPageState extends PageState<StartupPage> {
         if (loginSuccess) {
           // we got started with an login token with a new user we jump to a different startup page
           if ((_loginToken != null) &&
-              _loginToken.accountState == AccountState.waitingForActivation) {
+              _loginToken.accountState == UserDto_Status.waitingForActivation) {
             Navigator.of(context).pushReplacement(WelcomeRoute());
             Navigator.of(context).push(ActivationSuccessPage.route(_loginToken.userType));
             return;
