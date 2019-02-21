@@ -20,6 +20,8 @@ import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf/backend/services/inf_api_clients_service_impl.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
 import 'package:inf/backend/services/inf_list_service_impl.dart';
+import 'package:inf/backend/services/inf_offer_service_.dart';
+import 'package:inf/backend/services/inf_offer_service_impl.dart';
 import 'package:inf/backend/services/location_service_mock.dart';
 import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf/backend/services/system_service_.dart';
@@ -48,6 +50,7 @@ export 'package:inf/backend/managers/offer_manager_.dart';
 export 'package:inf/backend/services/image_service_.dart';
 export 'package:inf/backend/services/inf_api_clients_service_.dart';
 export 'package:inf/backend/services/inf_list_service_.dart';
+export 'package:inf/backend/services/inf_offer_service_.dart';
 export 'package:inf/utils/error_capture.dart' show ErrorReporter;
 export 'package:grpc/grpc.dart' show GrpcError, CallOptions;
 
@@ -128,6 +131,7 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerSingleton<InfApiClientsService>(InfApiClientsServiceImplementation());
   backend.registerLazySingleton<InfListService>(()=> InfListServiceImplementation());
+  backend.registerLazySingleton<InfOfferService>(()=> InfOfferServiceImplementation());
 
   backend.registerLazySingleton<AuthenticationService>(
 

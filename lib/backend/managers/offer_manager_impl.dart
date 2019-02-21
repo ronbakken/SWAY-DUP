@@ -108,9 +108,8 @@ class OfferManagerImplementation implements OfferManager {
   }
 
   @override
-  Future<BusinessOffer> getFullOffer(String offerId) async {
-    await Future.delayed(Duration(seconds: 1));
-    return await backend.get<InfApiService>().getOfferById(offerId);
+  Future<BusinessOffer> getFullOffer(String offerId) { 
+    return backend.get<InfOfferService>().getOffer(offerId);
   }
 
   void initConnection() {

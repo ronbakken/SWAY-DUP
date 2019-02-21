@@ -9,6 +9,7 @@ import 'package:inf_api_client/inf_api_client.dart';
 class User {
   final String id;
   final bool verified;
+  final int revision;
   final UserDto_Status accountState;
   final UserType userType;
   final String name;
@@ -31,6 +32,7 @@ class User {
 
   User({
     this.id,
+    this.revision,
     this.verified,
     this.accountState,
     this.userType,
@@ -54,6 +56,7 @@ class User {
   User copyWith({
     String id,
     bool verified,
+    int revision,
     UserDto_Status accountState,
     UserType userType,
     String name,
@@ -74,6 +77,7 @@ class User {
   }) {
     return User(
       id: id ?? this.id,
+      revision: revision ?? this.revision,
       verified: verified ?? this.verified,
       accountState: accountState ?? this.accountState,
       userType: userType ?? this.userType,
@@ -98,6 +102,7 @@ class User {
   static User fromDto(UserDto dto) {
     return User(
       id: dto.id,
+      revision: dto.revision,
       accountState: dto.status,
       verified: dto.full.isVerified,
       userType: dto.full.type,
@@ -142,6 +147,7 @@ class User {
     var dto = UserDto()
       ..id = id ?? ""
         ..status = accountState
+        ..revision =revision
       ..full = (UserDto_FullDataDto()
         ..isVerified = verified ?? false
         ..type = userType

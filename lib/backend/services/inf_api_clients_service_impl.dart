@@ -23,6 +23,9 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   InfUsersClient usersClient;
   @override
   InfListClient listClient;
+  @override
+  InfOffersClient offerClient;
+
 
   ClientChannel channel;
 
@@ -80,6 +83,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
     invitationCodeClient = InfInvitationCodesClient(channel);
     usersClient = InfUsersClient(channel);
     listClient =InfListClient(channel);
+    offerClient =InfOffersClient(channel);
   }
 
   @override
