@@ -16,15 +16,19 @@ class AddOfferStep1 extends StatefulWidget {
   final OfferBuilder offerBuilder;
 
   @override
-  _AddOfferStep1State createState() {
-    return new _AddOfferStep1State();
-  }
+  _AddOfferStep1State createState() => _AddOfferStep1State();
 }
 
-class _AddOfferStep1State extends State<AddOfferStep1> {
+class _AddOfferStep1State extends State<AddOfferStep1> with MultiPageWizardNav<AddOfferStep1> {
   int selectedImageIndex = 0;
   
-  final form = GlobalKey<FormState>();
+  final _form = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    setUpNav(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -47,8 +51,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                 child: Padding(
                   padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
                   child: Form(
-                    key: form,
-                    onChanged: () => form.currentState.save(),
+                    key: _form,
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
@@ -80,7 +83,7 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
                   height: 56,
                   color: Colors.white,
                   text: 'NEXT',
-                  onPressed: () => onNext(context),
+                  onPressed: onNextPage,
                 ),
               )
             ],
@@ -90,10 +93,15 @@ class _AddOfferStep1State extends State<AddOfferStep1> {
     );
   }
 
-  void onNext(BuildContext context) {
-    FormState state = form.currentState;
-    if (true /*state.validate()*/) {
-      state.save();
+  @override
+  void onPrevPage() {
+    _form.currentState.save();
+  }
+
+  @override
+  void onNextPage() {
+    if (_form.currentState.validate() || true) {
+      _form.currentState.save();
       MultiPageWizard.of(context).nextPage();
     }
   }

@@ -25,6 +25,7 @@ class MultiPageWizard extends StatefulWidget {
 
 class MultiPageWizardState extends State<MultiPageWizard> {
   PageController _controller;
+  VoidCallback onPrevPage;
   int _pageCount;
 
   @override
@@ -83,6 +84,9 @@ class MultiPageWizardState extends State<MultiPageWizard> {
     // if we aren't on the first tab, a tap on the back button doesn't pop the page but moves
     // to the previous tab
     if (_controller.page > 0) {
+      if (onPrevPage != null){
+        onPrevPage();
+      }
       unawaited(_controller.previousPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn));
       return false;
     }
@@ -94,6 +98,18 @@ class MultiPageWizardState extends State<MultiPageWizard> {
       _controller.nextPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn);
     }
   }
+}
+
+mixin MultiPageWizardNav<T extends StatefulWidget>  {
+  BuildContext localContext;
+  void setUpNav(BuildContext context) {
+    localContext =context;
+    MultiPageWizard.of(context).onPrevPage = onPrevPage;
+  }
+
+  void onPrevPage();
+
+  void onNextPage() => MultiPageWizard.of(localContext).nextPage();
 }
 
 class _WizardPageIndicatorPainter extends CustomPainter {

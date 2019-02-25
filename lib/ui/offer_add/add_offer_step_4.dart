@@ -11,12 +11,13 @@ import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/inf_time_picker.dart';
+import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rx_command/rx_command.dart';
 
 class AddOfferStep4 extends StatefulWidget {
-  const AddOfferStep4({
+  AddOfferStep4({
     Key key,
     this.offerBuilder,
   }) : super(key: key);
@@ -24,19 +25,24 @@ class AddOfferStep4 extends StatefulWidget {
   final OfferBuilder offerBuilder;
 
   @override
-  _AddOfferStep4State createState() {
-    return new _AddOfferStep4State();
-  }
+  _AddOfferStep4State createState() => _AddOfferStep4State();
 }
 
-class _AddOfferStep4State extends State<AddOfferStep4> {
+class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<AddOfferStep4> {
   ValueNotifier<Category> activeTopLevelCategory = ValueNotifier<Category>(null);
-  GlobalKey form = GlobalKey();
+  TextEditingController amountController = TextEditingController();
   RxCommandListener<OfferBuilder, double> updateOfferListener;
+
+  final _form = GlobalKey<FormState>();
 
   @override
   void initState() {
     super.initState();
+
+    setUpNav(context);
+
+    amountController = TextEditingController(
+        text: widget.offerBuilder.unlimitedAvailable ? '' : widget.offerBuilder.numberOffered.toString());
 
     var updateOfferCommand = backend.get<OfferManager>().updateOfferCommand;
 
@@ -66,7 +72,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
           child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
             child: Form(
-              key: form,
+              key: _form,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -141,14 +147,15 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                   ),
                   SizedBox(height: 32.0),
                   InfTextFormField(
+                    controller: amountController,
+                    enabled: !widget.offerBuilder.unlimitedAvailable,
                     decoration: const InputDecoration(labelText: 'AMOUNT AVAILABLE'),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.numberOffered = int.tryParse(s),
+                    onSaved: (s) {
+                      return widget.offerBuilder.numberOffered = int.tryParse(s);
+                    },
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
-                    initialValue: widget.offerBuilder.numberOffered != null
-                        ? widget.offerBuilder.numberOffered.toString()
-                        : '',
                   ),
                   Row(
                     children: [
@@ -156,7 +163,13 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                         widthFactor: 0.4,
                         child: Checkbox(
                           value: widget.offerBuilder.unlimitedAvailable,
-                          onChanged: (val) => setState(() => widget.offerBuilder.unlimitedAvailable = val),
+                          onChanged: (isChecked) => setState(() {
+                                if (isChecked) {
+                                  widget.offerBuilder.numberOffered = 1;
+                                  amountController.clear();
+                                }
+                                return widget.offerBuilder.unlimitedAvailable = isChecked;
+                              }),
                           activeColor: AppTheme.lightBlue,
                         ),
                       ),
@@ -197,7 +210,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
                       height: 56,
                       color: Colors.white,
                       text: 'SAVE OFFER',
-                      onPressed: () => onSave(context),
+                      onPressed: onSave,
                     ),
                   )
                 ],
@@ -209,10 +222,16 @@ class _AddOfferStep4State extends State<AddOfferStep4> {
     );
   }
 
-  void onSave(BuildContext context) async {
-    FormState state = form.currentState;
+  @override
+  void onPrevPage() {
+    _form.currentState.save();
+  }
+
+  void onSave() {
+    _form.currentState.save();
 
     backend.get<OfferManager>().updateOfferCommand(widget.offerBuilder);
+
     // if (!state.validate()) {
     //   await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
     //   return;

@@ -132,7 +132,7 @@ class OfferBuilder {
         ..start = toTimeStamp(startDate)
         ..end = toTimeStamp(endDate)
         ..minFollowers = minFollowers
-        ..numberOffered = numberOffered
+        ..numberOffered = unlimitedAvailable ? 0 : numberOffered
         ..terms = (DealTermsDto()
           ..deliverable = (DeliverableDto()
             ..deliverableTypes.addAll(deliverableTypes.toList())

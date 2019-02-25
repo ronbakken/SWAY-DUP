@@ -26,13 +26,18 @@ class AddOfferStep3 extends StatefulWidget {
   final OfferBuilder offerBuilder;
 
   @override
-  _AddOfferStep3State createState() {
-    return new _AddOfferStep3State();
-  }
+  _AddOfferStep3State createState() => _AddOfferStep3State();
 }
 
-class _AddOfferStep3State extends State<AddOfferStep3> {
-  final _form = GlobalKey();
+class _AddOfferStep3State extends State<AddOfferStep3> with MultiPageWizardNav<AddOfferStep3> {
+  final _form = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    setUpNav(context);
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -144,7 +149,7 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
                       height: 56,
                       color: Colors.white,
                       text: 'NEXT',
-                      onPressed: () => onNext(context),
+                      onPressed: onNextPage,
                     ),
                   )
                 ],
@@ -156,12 +161,16 @@ class _AddOfferStep3State extends State<AddOfferStep3> {
     );
   }
 
-  void onNext(BuildContext context) {
-    FormState state = _form.currentState;
-    if (true /*state.validate()*/) {
-      state.save();
+  @override
+  void onPrevPage() {
+    _form.currentState.save();
+  }
+
+  @override
+  void onNextPage() {
+    if (_form.currentState.validate() || true) {
+      _form.currentState.save();
       MultiPageWizard.of(context).nextPage();
     }
   }
-
 }
