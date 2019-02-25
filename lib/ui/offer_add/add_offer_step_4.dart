@@ -4,6 +4,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_date_picker.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -42,7 +43,9 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
     setUpNav(context);
 
     amountController = TextEditingController(
-        text: widget.offerBuilder.unlimitedAvailable ? '' : widget.offerBuilder.numberOffered.toString());
+        text: widget.offerBuilder.unlimitedAvailable
+            ? ''
+            : widget.offerBuilder.numberOffered != null ? widget.offerBuilder.numberOffered.toString() : '');
 
     var updateOfferCommand = backend.get<OfferManager>().updateOfferCommand;
 
@@ -92,7 +95,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                                 firstDate: DateTime.now(),
                                 lastDate: DateTime.now().add(Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
-                                onSaved: (date) => widget.offerBuilder.startDate,
+                                onSaved: (date) => widget.offerBuilder.startDate = date,
                               ),
                             ),
                           ),
@@ -105,7 +108,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                                 ),
                                 initialValue: widget.offerBuilder.startTime,
                                 validator: (time) => time == null ? 'You have to provide a time' : null,
-                                onSaved: (time) => widget.offerBuilder.startTime,
+                                onSaved: (time) => widget.offerBuilder.startTime = time,
                               ),
                             ),
                           )
@@ -120,11 +123,13 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                                 decoration: InputDecoration(
                                   labelText: 'OFFER END DATE',
                                 ),
-                                initialValue: widget.offerBuilder.endDate,
-                                firstDate: DateTime.now(),
+                                initialValue: widget.offerBuilder.endDate ?? DateTime.now(),
+                                firstDate:  widget.offerBuilder.startDate,
                                 lastDate: DateTime.now().add(Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
-                                onSaved: (date) => widget.offerBuilder.endDate,
+                                onSaved: (date) {
+                                  return widget.offerBuilder.endDate = date;
+                                },
                               ),
                             ),
                           ),
@@ -137,7 +142,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                                 ),
                                 initialValue: widget.offerBuilder.endTime,
                                 validator: (time) => time == null ? 'You have to provide a time' : null,
-                                onSaved: (time) => widget.offerBuilder.endTime,
+                                onSaved: (time) => widget.offerBuilder.endTime = time,
                               ),
                             ),
                           )
@@ -154,7 +159,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                     onSaved: (s) {
                       return widget.offerBuilder.numberOffered = int.tryParse(s);
                     },
-                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+                    validator: (s) => s.isEmpty && !widget.offerBuilder.unlimitedAvailable ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
                   Row(
@@ -227,24 +232,27 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
     _form.currentState.save();
   }
 
-  void onSave() {
+  void onSave() async {
+    
+
+    if (!_form.currentState.validate()) {
+      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+      return;
+    }
+
+    if (widget.offerBuilder.acceptancePolicy == null)
+    {
+      await showMessageDialog(context, 'We need a bit more...', 'Please tell us how you want to deal with proposals');
+      return;
+    }
+
     _form.currentState.save();
-
+    // FIXME make sure end date and times cannot be before startdate
+    if (widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0)
+    {
+      await showMessageDialog(context, 'End date cannot be before start date', 'Please select an end date that is after the start date.');
+      return;
+    }
     backend.get<OfferManager>().updateOfferCommand(widget.offerBuilder);
-
-    // if (!state.validate()) {
-    //   await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
-    //   return;
-    // }
-
-    // if (widget.offerBuilder.acceptancePolicy == null)
-    // {
-    //   await showMessageDialog(context, 'We need a bit more...', 'Please tell us how you want to deal with proposals');
-    //   return;
-    // }
-
-    // // FIXME make sure end date and times cannot be before startdate
-    // // if (widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) ==
-    // state.save();
   }
 }

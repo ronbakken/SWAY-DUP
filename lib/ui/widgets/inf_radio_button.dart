@@ -40,7 +40,7 @@ class InfRadioButton<T> extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: value == groupValue ? AppTheme.lightBlue : AppTheme.darkGrey,
                 ),
-                child: value == groupValue ? InfIcon(AppIcons.check, size: 24) : SizedBox(),
+                child: value == groupValue ? InfIcon(AppIcons.check, size: 16) : SizedBox(),
               ),
               Text(label),
               onHelpButtonTapped != null
