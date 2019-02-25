@@ -65,8 +65,8 @@ class ProfileSummary extends StatelessWidget {
             child: imageFile == null
                 ? InfImage(
                     fit: BoxFit.fitHeight,
-                    lowResUrl: user.avatarLowResUrl,
-                    imageUrl: user.avatarUrl,
+                    lowResUrl: user.avatarImage.lowresUrl,
+                    imageUrl: user.avatarImage.imageUrl,
                   )
                 : Image.file(imageFile, fit: BoxFit.fitHeight),
           ),

@@ -20,10 +20,8 @@ class User {
   final bool showLocation;
   final int accountCompletionInPercent;
   final Location location;
-  final String avatarThumbnailUrl;
-  final String avatarThumbnailLowResUrl;
-  final String avatarUrl;
-  final String avatarLowResUrl;
+  final ImageReference avatarThumbnail;
+  final ImageReference avatarImage;
   final List<Category> categories;
   final int minimalFee;
   final List<SocialMediaAccount> socialMediaAccounts;
@@ -44,10 +42,8 @@ class User {
     this.showLocation,
     this.accountCompletionInPercent,
     this.location,
-    this.avatarThumbnailUrl,
-    this.avatarThumbnailLowResUrl,
-    this.avatarUrl,
-    this.avatarLowResUrl,
+    this.avatarThumbnail,
+    this.avatarImage,
     this.categories,
     this.minimalFee,
     this.socialMediaAccounts,
@@ -67,10 +63,8 @@ class User {
     bool showLocation,
     int accountCompletionInPercent,
     Location location,
-    String avatarThumbnailUrl,
-    String avatarThumbnailLowResUrl,
-    String avatarUrl,
-    String avatarLowResUrl,
+    ImageReference avatarThumbnail,
+    ImageReference avatarImage,
     List<Category> categories,
     int minimalFee,
     List<SocialMediaAccount> socialMediaAccounts,
@@ -89,10 +83,8 @@ class User {
       showLocation: showLocation ?? this.showLocation,
       accountCompletionInPercent: accountCompletionInPercent ?? this.accountCompletionInPercent,
       location: location ?? this.location,
-      avatarThumbnailUrl: avatarThumbnailUrl ?? this.avatarThumbnailUrl,
-      avatarThumbnailLowResUrl: avatarThumbnailLowResUrl ?? this.avatarThumbnailLowResUrl,
-      avatarUrl: avatarUrl ?? this.avatarUrl,
-      avatarLowResUrl: avatarLowResUrl ?? this.avatarLowResUrl,
+      avatarThumbnail: avatarThumbnail ?? this.avatarThumbnail,
+      avatarImage: avatarImage ?? this.avatarImage,
       categories: categories ?? this.categories,
       minimalFee: minimalFee ?? this.minimalFee,
       socialMediaAccounts: socialMediaAccounts ?? this.socialMediaAccounts,
@@ -114,10 +106,8 @@ class User {
       showLocation: dto.full.showLocation,
       accountCompletionInPercent: dto.full.accountCompletionInPercent,
       location: Location.fromDto(dto.full.location),
-      avatarThumbnailUrl: dto.full.avatarThumbnail.url,
-      avatarThumbnailLowResUrl: dto.full.avatarThumbnail.lowResUrl,
-      avatarUrl: dto.full.avatar.url,
-      avatarLowResUrl: dto.full.avatar.lowResUrl,
+      avatarThumbnail: ImageReference.fromImageDto(dto.full.avatarThumbnail),
+      avatarImage: ImageReference.fromImageDto(dto.full.avatar),
       categories: backend.get<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
       minimalFee: dto.full.minimalFee,
       socialMediaAccounts:
@@ -126,21 +116,14 @@ class User {
   }
 
   UserDto toDto() {
-    var avatarThumbnailDto = ImageDto()
-      ..url = avatarThumbnailUrl
-      ..lowResUrl = avatarThumbnailLowResUrl;
-    var avatarDto = ImageDto()
-      ..url = avatarUrl
-      ..lowResUrl = avatarLowResUrl;
-
     assert(accountState != null);
     assert(userType != null);
     assert(name != null);
     assert(description != null);
     assert(email != null);
     assert(location != null);
-    assert(avatarThumbnailDto != null);
-    assert(avatarDto != null);
+    assert(avatarThumbnail != null);
+    assert(avatarImage != null);
     assert(categories != null);
     assert(socialMediaAccounts != null);
 
@@ -158,8 +141,8 @@ class User {
         ..location = location.toDto()
         ..showLocation = showLocation ?? false
         ..accountCompletionInPercent = accountCompletionInPercent ?? -1
-        ..avatarThumbnail = avatarThumbnailDto
-        ..avatar = avatarDto
+        ..avatarThumbnail = avatarThumbnail.toDto()
+        ..avatar = avatarImage.toDto()
         ..categoryIds.addAll(categories.map<String>((c) => c.id))
         ..minimalFee = minimalFee ?? 0
         ..websiteUrl = websiteUrl ?? ''

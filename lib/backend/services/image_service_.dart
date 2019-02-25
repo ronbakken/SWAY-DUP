@@ -23,7 +23,7 @@ class ImageReference {
 
   bool get isFile => imageFile != null;
 
-  ImageReference({this.imageUrl, this.imageFile, this.lowresUrl}) : assert(!(imageUrl != null && imageFile != null));
+  ImageReference({this.imageUrl, this.imageFile, this.lowresUrl});
 
   ImageReference copyWith({
     String imageUrl,

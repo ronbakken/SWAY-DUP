@@ -64,32 +64,31 @@ class UserManagerImplementation implements UserManager {
     // if an image file is provided create all needed resolutions
     // and upload them
     if (userData.profilePicture != null) {
-      var imageBytes = await userData.profilePicture.readAsBytes();
+      var imageReference = userData.user.avatarImage.copyWith(imageFile: userData.profilePicture);
 
-      var image = decodeImage(imageBytes);
-      var profileImage = copyResize(image, 800);
-      var profileLowRes = copyResize(profileImage, 100);
-      var thumbNail = copyResize(profileImage, 100);
-      var thumbNailLowRes = copyResize(thumbNail, 20);
+      // var image = decodeImage(imageBytes);
+      // var profileImage = copyResize(image, 800);
+      // var profileLowRes = copyResize(profileImage, 100);
+      // var thumbNail = copyResize(profileImage, 100);
+      // var thumbNailLowRes = copyResize(thumbNail, 20);
 
-      var profileUrl = await backend
+
+      var avatarImage = await backend
           .get<ImageService>()
-          .uploadImageFromBytes('profilePicture.jpg', encodeJpg(profileImage, quality: 90));
-      var thumbNailUrl = await backend
+          .uploadImageReference(fileNameTrunc: 'profilePicture',
+          imageReference: imageReference,
+          imageWidth: 800,
+          lowResWidth: 100);     
+      var thumbnailImage = await backend
           .get<ImageService>()
-          .uploadImageFromBytes('profileThumbnail.jpg', encodeJpg(thumbNail, quality: 90));
-      var profileLoResUrl = await backend
-          .get<ImageService>()
-          .uploadImageFromBytes('profilePicture_lores.jpg', encodeJpg(profileLowRes, quality: 90));
-      var thumbNailLoresUrl = await backend
-          .get<ImageService>()
-          .uploadImageFromBytes('profileThumbnail.jpg', encodeJpg(thumbNailLowRes, quality: 90));
+          .uploadImageReference(fileNameTrunc: 'profileThumbnail',
+          imageReference: imageReference,
+          imageWidth: 100,
+          lowResWidth: 20);     
 
       userToSend = userData.user.copyWith(
-        avatarUrl: profileUrl,
-        avatarLowResUrl: profileLoResUrl,
-        avatarThumbnailUrl: thumbNailUrl,
-        avatarThumbnailLowResUrl: thumbNailLoresUrl,
+        avatarImage: avatarImage,
+        avatarThumbnail: thumbnailImage,
       );
     } else {
       userToSend = userData.user;
