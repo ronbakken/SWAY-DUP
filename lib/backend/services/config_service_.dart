@@ -19,11 +19,11 @@ abstract class ConfigService {
 
   Future init();
 
-  SocialNetworkProvider getSocialNetworkProviderById(int id);
+  SocialNetworkProvider getSocialNetworkProviderById(String id);
 
   DeliverableIcon getDeliveryIconFromType(DeliverableType type);
 
-  List<Category> getCategoriesFromIds(List<int> ids);
+  List<Category> getCategoriesFromIds(List<String> ids);
 
   List<Category> get topLevelCategories;
 }

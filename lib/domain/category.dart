@@ -6,10 +6,10 @@ import 'package:inf_api_client/inf_api_client.dart';
 class Category {
   final CategoryDto dto;
 
-  int get id => dto.id;
+  String get id => dto.id;
 
   // for top level categories this is set to -1
-  int get parentId => dto.parentId;
+  String get parentId => dto.parentId;
 
   String get name => dto.name;
 
