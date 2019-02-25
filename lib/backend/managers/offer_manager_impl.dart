@@ -21,18 +21,15 @@ class OfferManagerImplementation implements OfferManager {
 
   @override
   Observable<List<BusinessOffer>> get myOffers => _myOffersSubject;
-  final BehaviorSubject<List<BusinessOffer>> _myOffersSubject =
-      new BehaviorSubject<List<BusinessOffer>>();
+  final BehaviorSubject<List<BusinessOffer>> _myOffersSubject = new BehaviorSubject<List<BusinessOffer>>();
 
   @override
   Observable<List<BusinessOffer>> get filteredOffers => _filteredOffersSubject;
-  final BehaviorSubject<List<BusinessOffer>> _filteredOffersSubject =
-      new BehaviorSubject<List<BusinessOffer>>();
+  final BehaviorSubject<List<BusinessOffer>> _filteredOffersSubject = new BehaviorSubject<List<BusinessOffer>>();
 
   @override
   Observable<List<BusinessOffer>> get featuredBusinessOffers => _featuredBusinessOffers;
-  final BehaviorSubject<List<BusinessOffer>> _featuredBusinessOffers =
-      new BehaviorSubject<List<BusinessOffer>>();
+  final BehaviorSubject<List<BusinessOffer>> _featuredBusinessOffers = new BehaviorSubject<List<BusinessOffer>>();
 
   @override
   // Observable<int> get newOfferMessages => Observable.combineLatest3<int, int, int, int>(
@@ -69,9 +66,6 @@ class OfferManagerImplementation implements OfferManager {
     var totalSteps = offerBuilder.images.length + 1;
     int completedSteps = 1;
 
-    Image thumbNailImage;
-    Image thumbNailLoresImage;
-
     var imagesToUpLoad = offerBuilder.images.where((image) => image.isFile).toList();
 
     // upload all offer images
@@ -79,36 +73,31 @@ class OfferManagerImplementation implements OfferManager {
       yield completedSteps / totalSteps;
       completedSteps++;
 
-      var imageBytes = await imagesToUpLoad[i].imageFile.readAsBytes();
-
-      var image = decodeImage(imageBytes);
-      var imageReducedSize = copyResize(image, 800);
-
-      // store a thumbnail of the first image
-      if (i == 0) {
-        thumbNailImage = copyResize(imageReducedSize, 100);
-        thumbNailLoresImage = copyResize(thumbNailImage, 20);
-      }
-
-      var imageUrl = await backend.get<ImageService>().uploadImageFromBytes(
-            'offer${DateTime.now().microsecondsSinceEpoch.toString()}.jpg',
-            encodeJpg(imageReducedSize, quality: 90),
+      imagesToUpLoad[i] = await backend.get<ImageService>().uploadImageReference(
+            fileNameTrunc: 'offer',
+            imageReference: imagesToUpLoad[i],
+            imageWidth: 800,
+            lowResWidth: 64,
           );
-      offerBuilder.images.add(ImageReference(imageUrl: imageUrl));
     }
 
     yield completedSteps / totalSteps;
     completedSteps++;
-
-    // uploadThumbnail
-    var thumbnailUrl = await backend.get<ImageService>().uploadImageFromBytes(
-          'offer${DateTime.now().microsecondsSinceEpoch.toString()}.jpg',
-          encodeJpg(thumbNailImage),
-        );
+    
+    // Upload Thumbnail
+    if (offerBuilder.images[0].imageFile != null) // first image changed
+    {
+      offerBuilder.offerThumbnail = await backend.get<ImageService>().uploadImageReference(
+            fileNameTrunc: 'offer_thumbnail',
+            imageReference: imagesToUpLoad[0],
+            imageWidth: 100,
+            lowResWidth: 20,
+          );
+    }
   }
 
   @override
-  Future<BusinessOffer> getFullOffer(String offerId) { 
+  Future<BusinessOffer> getFullOffer(String offerId) {
     return backend.get<InfOfferService>().getOffer(offerId);
   }
 
@@ -119,6 +108,5 @@ class OfferManagerImplementation implements OfferManager {
       await _featuredBusinessOffers.addStream(backend.get<InfApiService>().getBusinessOffers(null));
       await _filteredOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
     });
-
   }
 }

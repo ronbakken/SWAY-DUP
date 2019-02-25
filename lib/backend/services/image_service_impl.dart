@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/image_service_.dart';
@@ -38,6 +39,51 @@ class ImageServiceImplementation implements ImageService {
     } else {
       throw ImageUploadException(cloudUrls.uploadUrl);
     }
+  }
+
+  @override
+  Future<ImageReference> uploadImageReference({
+    String fileNameTrunc,
+    ImageReference imageReference,
+    int imageWidth,
+    int lowResWidth,
+  }) async {
+    // if there is already an existing image url extract file name
+    String fileName;
+    String fileNameLowRes;
+    if (imageReference.imageUrl != null) {
+      var start = imageReference.imageUrl.indexOf(fileNameTrunc);
+      if (start >= 0) {
+        var end = imageReference.imageUrl.indexOf('jpg') + 3;
+        if (end > start) {}
+        fileName = imageReference.imageUrl.substring(start, end);
+      }
+    }
+
+    if (fileName == null) // no previous or valid file name in url
+    {
+      fileName = '$fileNameTrunc-${DateTime.now().microsecondsSinceEpoch.toString()}.jpg';
+      fileNameLowRes = '${fileNameTrunc}_lowres-${DateTime.now().microsecondsSinceEpoch.toString()}.jpg';
+    }
+
+    var imageBytes = await imageReference.imageFile.readAsBytes();
+
+    var image = decodeImage(imageBytes);
+    var imageReducedSize = copyResize(image, imageWidth);
+    var imageUrl = await backend.get<ImageService>().uploadImageFromBytes(
+          fileName,
+          encodeJpg(imageReducedSize, quality: 90),
+        );
+
+    String lowResUrl;
+    if (lowResWidth != null) {
+      var imageLowRes = copyResize(image, lowResWidth);
+      lowResUrl = await backend.get<ImageService>().uploadImageFromBytes(
+            fileNameLowRes,
+            encodeJpg(imageLowRes, quality: 60),
+          );
+    }
+    return imageReference.copyWith(imageUrl: imageUrl,imageLowResUrl: lowResUrl);
   }
 
   @override

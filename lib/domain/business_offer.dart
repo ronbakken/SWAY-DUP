@@ -32,8 +32,7 @@ class BusinessOffer {
   final int numberRemaining;
   bool get unlimitedAvailable => numberOffered == 0;
 
-  final String thumbnailUrl;
-  final String thumbnailLowResUrl;
+  final ImageReference thumbnailImage;
 
   final DealTerms terms;
 
@@ -42,9 +41,8 @@ class BusinessOffer {
   final OfferDto_ProposalStatus proposalStatus;
 
   // Detail info
-  final List<String> imageUrls;
-  final List<String> imagesLowResUrls;
-
+  final List<ImageReference> images;
+ 
   final List<Category> categories;
 
   // For later: Info for business
@@ -70,12 +68,10 @@ class BusinessOffer {
       this.numberOffered = 0,
       this.numberRemaining,
       this.proposalStatus,
-      this.thumbnailUrl,
-      this.thumbnailLowResUrl,
+      this.thumbnailImage,
       this.terms,
       this.location,
-      this.imageUrls,
-      this.imagesLowResUrls,
+      this.images,
       this.categories,
       this.status,
       this.statusReason,
@@ -153,8 +149,7 @@ class BusinessOffer {
         endDate: fromTimeStamp(dto.list.end),
         description: dto.list.description,
         id: dto.id,
-        imagesLowResUrls: [dto.list.featuredImage.lowResUrl],
-        imageUrls: [dto.list.featuredImage.url],
+        images: [ ImageReference.fromImageDto(dto.list.featuredImage)],
         isPartial: true,
         location: Location.fromDto(dto.location),
         minFolllowers: null,
@@ -165,8 +160,7 @@ class BusinessOffer {
         status: dto.status,
         statusReason: dto.statusReason,
         terms: DealTerms.fromDto(dto.list.terms),
-        thumbnailLowResUrl: dto.list.thumbnail.lowResUrl,
-        thumbnailUrl: dto.list.thumbnail.lowResUrl,
+        thumbnailImage: ImageReference.fromImageDto(dto.list.thumbnail),
         title: dto.list.title,
       );
     } else {
@@ -182,8 +176,7 @@ class BusinessOffer {
         endDate: fromTimeStamp(dto.full.end),
         description: dto.full.description,
         id: dto.id,
-        imagesLowResUrls: dto.full.images.map<String>((x) => x.lowResUrl).toList(),
-        imageUrls: dto.full.images.map<String>((x) => x.url).toList(),
+        images: dto.full.images.map<ImageReference>((x) => ImageReference.fromImageDto(x)).toList(),
         isPartial: false,
         location: Location.fromDto(dto.location),
         minFolllowers: dto.full.minFollowers,
@@ -194,8 +187,7 @@ class BusinessOffer {
         status: dto.status,
         statusReason: dto.statusReason,
         terms: DealTerms.fromDto(dto.full.terms),
-        thumbnailLowResUrl: dto.full.thumbnail.lowResUrl,
-        thumbnailUrl: dto.full.thumbnail.lowResUrl,
+        thumbnailImage: ImageReference.fromImageDto(dto.list.thumbnail),
         title: dto.full.title,
       );
     }

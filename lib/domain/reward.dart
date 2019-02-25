@@ -48,4 +48,15 @@ class Reward {
       type: dto.type,
     );
   }
+
+  RewardDto toDto()
+  {
+    assert(barterValue != null);
+    assert(cashValue !=null);
+     return RewardDto()
+     ..barterValue = (barterValue * Decimal.fromInt(100)).toInt()
+     ..barterValue = (cashValue * Decimal.fromInt(100)).toInt()
+     ..description = description ?? ''
+     ..type =type;
+  }
 }

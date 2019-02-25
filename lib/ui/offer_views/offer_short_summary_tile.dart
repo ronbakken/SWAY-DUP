@@ -26,8 +26,8 @@ class OfferShortSummaryTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowResUrl: offer.thumbnailLowResUrl,
-      imageUrl: offer.thumbnailUrl,
+      lowResUrl: offer.thumbnailImage.lowresUrl,
+      imageUrl: offer.thumbnailImage.imageUrl,
       fit: BoxFit.cover,
     );
     if (tag != null) {

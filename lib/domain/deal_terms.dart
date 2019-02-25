@@ -23,4 +23,13 @@ class DealTerms {
       reward: Reward.fromDto(dto.reward),
     );
   }
+
+  DealTermsDto toDto() {
+    assert(deliverable != null);
+    assert(reward != null);
+    
+    return DealTermsDto()
+      ..deliverable = deliverable.toDto()
+      ..reward = reward.toDto();
+  }
 }

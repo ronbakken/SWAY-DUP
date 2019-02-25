@@ -1,3 +1,4 @@
+import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:intl/intl.dart';
@@ -66,4 +67,9 @@ String sinceWhen(DateTime date)
 DateTime fromTimeStamp(Timestamp t)
 {
   return DateTime.fromMillisecondsSinceEpoch(t.seconds.toInt()*1000);
+}
+
+Timestamp toTimeStamp(DateTime date)
+{
+  return Timestamp()..seconds = Int64(date.millisecondsSinceEpoch ~/ 1000);
 }

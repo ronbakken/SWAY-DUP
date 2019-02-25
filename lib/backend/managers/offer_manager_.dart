@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:decimal/decimal.dart';
@@ -31,7 +30,18 @@ abstract class OfferManager {
 }
 
 class OfferBuilder {
+  // Defaults for new offers or values that get copied from the original offer
+  // but cannot be edited
+  final String id;
+  final OfferDto_Status status;
+  final OfferDto_StatusReason statusReason;
+  final String businessAccountId;
+  final String businessName;
+  final String businessDescription;
+  final String businessAvatarThumbnailUrl;
+
   List<ImageReference> images = [];
+  ImageReference offerThumbnail;
   String title;
   String description;
   SelectionSet<DeliverableType> deliverableTypes = SelectionSet<DeliverableType>();
@@ -40,6 +50,7 @@ class OfferBuilder {
   String deliverableDescription;
   Decimal cashValue;
   Decimal barterValue;
+  RewardDto_Type rewardType;
   String rewardDescription;
   int minFollowers;
   Location location;
@@ -52,14 +63,29 @@ class OfferBuilder {
   TimeOfDay startTime;
   TimeOfDay endTime;
 
-  OfferBuilder();
-  OfferBuilder.fromOffer(BusinessOffer offer) {
+  OfferBuilder(
+      {this.id,
+      this.status,
+      this.statusReason,
+      this.businessAccountId,
+      this.businessName,
+      this.businessDescription,
+      this.businessAvatarThumbnailUrl});
+  OfferBuilder.fromOffer(BusinessOffer offer)
+      : id = offer.id,
+        status = offer.status,
+        statusReason = offer.statusReason,
+        businessAccountId = offer.businessAccountId,
+        businessName = offer.businessName,
+        businessDescription = offer.businessDescription,
+        businessAvatarThumbnailUrl = offer.businessAvatarThumbnailUrl {
     assert(offer.title != null);
     assert(offer.description != null);
     assert(offer.startDate != null);
     assert(offer.endDate != null);
 
-    images = offer.imageUrls.map<ImageReference>((url) => ImageReference(imageUrl: url)).toList();
+    images = offer.images;
+    offerThumbnail = offer.thumbnailImage;
     title = offer.title;
     description = offer.description;
 
@@ -70,6 +96,7 @@ class OfferBuilder {
     cashValue = offer.terms.reward.cashValue ?? Decimal.fromInt(0);
     barterValue = offer.terms.reward.barterValue ?? Decimal.fromInt(0);
     rewardDescription = offer.terms.reward.description ?? '';
+    rewardType = offer.terms.reward.type;
     minFollowers = offer.minFolllowers ?? 0;
     location = offer.location.copyWidth();
     numberOffered = offer.numberOffered;
@@ -79,5 +106,46 @@ class OfferBuilder {
     endDate = getPureDate(offer.endDate);
     startTime = TimeOfDay.fromDateTime(offer.startDate);
     endTime = TimeOfDay.fromDateTime(offer.endDate);
+  }
+
+  OfferDto toDto() {
+    assert(location != null);
+    assert(businessAccountId != null);
+    assert(businessName != null);
+    assert(businessDescription != null);
+    assert(businessAvatarThumbnailUrl != null);
+    assert(title != null && title.isNotEmpty);
+    assert(description != null && title.isNotEmpty);
+    assert(offerThumbnail !=null);
+    return OfferDto()
+      ..id = id ?? ''
+      ..status = status ?? OfferDto_Status.active
+      ..statusReason = statusReason ?? OfferDto_StatusReason.open
+      ..location = location.toDto()
+      ..full = (OfferDto_FullDataDto()
+        ..businessAccountId = businessAccountId
+        ..businessName = businessName
+        ..businessDescription = businessDescription
+        ..businessAvatarThumbnailUrl = businessAvatarThumbnailUrl
+        ..title = title
+        ..description = description
+        ..start = toTimeStamp(startDate)
+        ..end = toTimeStamp(endDate)
+        ..minFollowers = minFollowers
+        ..numberOffered = numberOffered
+        ..terms = (DealTermsDto()
+          ..deliverable = (DeliverableDto()
+            ..deliverableTypes.addAll(deliverableTypes.toList())
+            ..socialNetworkProviderIds.addAll(channels.toList().map<String>((c) => c.id))
+            ..description = deliverableDescription)
+          ..reward = (RewardDto()
+            ..barterValue = (barterValue * Decimal.fromInt(100)).toInt()
+            ..barterValue = (cashValue * Decimal.fromInt(100)).toInt()
+            ..description = description ?? ''
+            ..type = rewardType))
+        ..acceptancePolicy = acceptancePolicy
+        ..images.addAll(images.map<ImageDto>((x) => x.toDto()))
+        ..categoryIds.addAll(categories.toList().map((x) => x.id))
+        ..thumbnail	=  offerThumbnail.toDto());
   }
 }

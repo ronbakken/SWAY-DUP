@@ -45,4 +45,15 @@ class Deliverable {
           .toList(),
     );
   }
+
+  DeliverableDto toDto()
+  {
+    assert (description !=null);
+    assert(channels != null && channels.isNotEmpty);
+    assert(types != null && types.isNotEmpty);
+    return DeliverableDto()
+    ..description =description
+    ..socialNetworkProviderIds.addAll(channels.map<String>( (channel) => channel.id ))
+    ..deliverableTypes.addAll(types);    
+  }
 }

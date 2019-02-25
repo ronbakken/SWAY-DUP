@@ -115,8 +115,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               );
             },
             child: InfImage(
-              imageUrl: offer.imageUrls[0],
-              lowResUrl: offer.imagesLowResUrls[0],
+              imageUrl: offer.images[0].imageUrl,
+              lowResUrl: offer.images[0].lowresUrl,
             ),
           );
         },
@@ -370,10 +370,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   Widget _buildImageArea() {
     List<InfImage> imageArray = <InfImage>[];
-    for (int i = 0; i < offer.imageUrls.length; i++) {
+    for (int i = 0; i < offer.images.length; i++) {
       imageArray.add(InfImage(
-        imageUrl: offer.imageUrls[i],
-        lowResUrl: offer.imagesLowResUrls[i],
+        imageUrl: offer.images[i].imageUrl,
+        lowResUrl: offer.images[i].lowresUrl,
       ));
     }
     return Stack(
@@ -387,7 +387,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           bottom: 20.0,
           child: InfPageIndicator(
             controller: pageController,
-            itemCount: offer.imageUrls.length,
+            itemCount: offer.images.length,
           ),
         ),
       ],

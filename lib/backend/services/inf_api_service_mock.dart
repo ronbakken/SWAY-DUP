@@ -134,239 +134,272 @@ class InfApiServiceMock implements InfApiService {
           ),
           status: OfferDto_Status.active,
           statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2'
+          images: [
+            ImageReference(
+                lowresUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2',
+                imageUrl:
+                    'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e')
           ],
-          imageUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e'
-          ],
-          thumbnailLowResUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
-          thumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
+          thumbnailImage: ImageReference(
+              lowresUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
+              imageUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45')),
       BusinessOffer(
-          id: '2',
-          isPartial: true,
-          proposalStatus: OfferDto_ProposalStatus.atLeastOne,
-          businessName: 'Scent of Asia',
-          businessAvatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          title: 'Spoon Ice Tea',
-          description: 'Free ice tea if you stop by',
-          numberOffered: 10,
-          location: Location(latitude: 34.040031, longitude: -118.257318),
-          terms: DealTerms(
-            deliverable: Deliverable(
-              description: 'Tell people how good our tea is',
-              types: [DeliverableType.post],
-              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-            ),
-            reward: Reward(
-              description: 'One ice tea for you and a friend',
-              type: RewardDto_Type.barter,
-              barterValue: Decimal.fromInt(5),
-            ),
+        id: '2',
+        isPartial: true,
+        proposalStatus: OfferDto_ProposalStatus.atLeastOne,
+        businessName: 'Scent of Asia',
+        businessAvatarThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        title: 'Spoon Ice Tea',
+        description: 'Free ice tea if you stop by',
+        numberOffered: 10,
+        location: Location(latitude: 34.040031, longitude: -118.257318),
+        terms: DealTerms(
+          deliverable: Deliverable(
+            description: 'Tell people how good our tea is',
+            types: [DeliverableType.post],
+            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           ),
-          status: OfferDto_Status.active,
-          statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'
-          ],
-          imageUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
-          ],
-          thumbnailLowResUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
-          thumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+          reward: Reward(
+            description: 'One ice tea for you and a friend',
+            type: RewardDto_Type.barter,
+            barterValue: Decimal.fromInt(5),
+          ),
+        ),
+        status: OfferDto_Status.active,
+        statusReason: OfferDto_StatusReason.open,
+        images: [
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          ),
+        ],
+        thumbnailImage: ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+      ),
       BusinessOffer(
-          id: '3',
-          proposalStatus: OfferDto_ProposalStatus.none,
-          businessName: 'Scent of Asia',
-          businessAvatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          title: 'Spoon Ice Tea',
-          description: 'Free ice tea if you stop by',
-          numberOffered: 10,
-          location: Location(latitude: 34.040031, longitude: -118.257318),
-          terms: DealTerms(
-            deliverable: Deliverable(
-              description: 'Tell people how good our tea is',
-              types: [DeliverableType.post, DeliverableType.mention],
-              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-            ),
-            reward: Reward(
-              description: 'One ice tea for you and a friend',
-              type: RewardDto_Type.barter,
-              barterValue: Decimal.fromInt(5),
-            ),
+        id: '3',
+        proposalStatus: OfferDto_ProposalStatus.none,
+        businessName: 'Scent of Asia',
+        businessAvatarThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        title: 'Spoon Ice Tea',
+        description: 'Free ice tea if you stop by',
+        numberOffered: 10,
+        location: Location(latitude: 34.040031, longitude: -118.257318),
+        terms: DealTerms(
+          deliverable: Deliverable(
+            description: 'Tell people how good our tea is',
+            types: [DeliverableType.post, DeliverableType.mention],
+            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           ),
-          status: OfferDto_Status.active,
-          statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3'
-          ],
-          imageUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
-          ],
-          thumbnailLowResUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
-          thumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+          reward: Reward(
+            description: 'One ice tea for you and a friend',
+            type: RewardDto_Type.barter,
+            barterValue: Decimal.fromInt(5),
+          ),
+        ),
+        status: OfferDto_Status.active,
+        statusReason: OfferDto_StatusReason.open,
+        images: [
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          ),
+        ],
+        thumbnailImage: ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+      ),
     ];
   }
 
   Future<List<BusinessOffer>> loadBusinessOfferMockData() async {
     return [
       BusinessOffer(
-          id: '1',
-          startDate: DateTime(2019, 1, 1),
-          endDate: DateTime(2019, 3, 1),
-          acceptancePolicy: OfferDto_AcceptancePolicy.allowNegotiation,
-          proposalStatus: OfferDto_ProposalStatus.atLeastOne,
-          businessAccountId: '1',
-          businessName: 'CarWash Tom',
-          businessDescription: 'We wash anything',
-          businessAvatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          title: 'Car Wash',
-          description:
-              'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
-              'amazing service. '
-              'Our car wash is the best car wash in the universe of car washes.',
-          categories: [
-            Category(CategoryDto()
-              ..name = 'cars'
-              ..description = 'All about cars')
-          ],
-          numberOffered: 0,
-          location: Location(latitude: 34.032395, longitude: -118.301019),
-          terms: DealTerms(
-            deliverable: Deliverable(
-              description: 'Tell people how good our service is',
-              types: [DeliverableType.post, DeliverableType.video],
-              channels: [
-                backend.get<ConfigService>().socialNetworkProviders[0],
-                backend.get<ConfigService>().socialNetworkProviders[1]
-              ],
-            ),
-            reward: Reward(
-              description: 'One free premium car wash',
-              type: RewardDto_Type.barter,
-              barterValue: Decimal.fromInt(20),
-              cashValue: Decimal.fromInt(1000),
-            ),
+        id: '1',
+        startDate: DateTime(2019, 1, 1),
+        endDate: DateTime(2019, 3, 1),
+        acceptancePolicy: OfferDto_AcceptancePolicy.allowNegotiation,
+        proposalStatus: OfferDto_ProposalStatus.atLeastOne,
+        businessAccountId: '1',
+        businessName: 'CarWash Tom',
+        businessDescription: 'We wash anything',
+        businessAvatarThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        title: 'Car Wash',
+        description:
+            'Our car wash is the best car wash in the universe of car washes. We want more people to get to know our'
+            'amazing service. '
+            'Our car wash is the best car wash in the universe of car washes.',
+        categories: [
+          Category(CategoryDto()
+            ..name = 'cars'
+            ..description = 'All about cars')
+        ],
+        numberOffered: 0,
+        location: Location(latitude: 34.032395, longitude: -118.301019),
+        terms: DealTerms(
+          deliverable: Deliverable(
+            description: 'Tell people how good our service is',
+            types: [DeliverableType.post, DeliverableType.video],
+            channels: [
+              backend.get<ConfigService>().socialNetworkProviders[0],
+              backend.get<ConfigService>().socialNetworkProviders[1]
+            ],
           ),
-          status: OfferDto_Status.active,
-          statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2',
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_lowres.jpg?alt=media&token=f25fca74-8f5a-4356-b748-ca772f334431',
-          ],
-          imageUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e',
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2.jpg?alt=media&token=0913cd09-1efc-47d6-a760-cbfe47476b5d'
-          ],
-          thumbnailLowResUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
-          thumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
+          reward: Reward(
+            description: 'One free premium car wash',
+            type: RewardDto_Type.barter,
+            barterValue: Decimal.fromInt(20),
+            cashValue: Decimal.fromInt(1000),
+          ),
+        ),
+        status: OfferDto_Status.active,
+        statusReason: OfferDto_StatusReason.open,
+        images: [
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1_lowres.jpg?alt=media&token=cb093556-5af8-4dda-9979-2bc9ef6f42f2',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash1.jpg?alt=media&token=af2e4919-a67d-4e48-b7c0-286c2e444f2e',
+          ),
+          ImageReference(
+              lowresUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_lowres.jpg?alt=media&token=f25fca74-8f5a-4356-b748-ca772f334431',
+              imageUrl:
+                  'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2.jpg?alt=media&token=0913cd09-1efc-47d6-a760-cbfe47476b5d')
+        ],
+        thumbnailImage: ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb_lowres.jpg?alt=media&token=6e219c88-d480-4ce5-8d75-b765b35df1f9',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fcar_wash2_thumb.jpg?alt=media&token=a3c145ef-790c-433d-ae11-7ea5c48eeb45'),
+      ),
       BusinessOffer(
-          id: '2',
-          startDate: DateTime(2019, 1, 1),
-          endDate: DateTime(2019, 3, 1),
-          proposalStatus: OfferDto_ProposalStatus.none,
-          businessAccountId: "1",
-          businessName: 'Scent of Asia',
-          businessDescription: 'Best flavoured teas in town',
-          businessAvatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          title: 'Spoon Ice Tea',
-          description: 'Free ice tea if you stop by',
-          numberOffered: 10,
-          categories: [
-            Category(CategoryDto()
-              ..name = 'food'
-              ..description = 'All about food'),
-            Category(CategoryDto()
-              ..name = 'tea'
-              ..description = 'Tea')
-          ],
-          location: Location(latitude: 34.040031, longitude: -118.257318),
-          terms: DealTerms(
-            deliverable: Deliverable(
-              description: 'Tell people how good our tea is',
-              types: [DeliverableType.post],
-              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-            ),
-            reward: Reward(
-              description: 'One ice tea for you and a friend',
-              type: RewardDto_Type.barter,
-              barterValue: Decimal.fromInt(5),
-            ),
+        id: '2',
+        startDate: DateTime(2019, 1, 1),
+        endDate: DateTime(2019, 3, 1),
+        proposalStatus: OfferDto_ProposalStatus.none,
+        businessAccountId: "1",
+        businessName: 'Scent of Asia',
+        businessDescription: 'Best flavoured teas in town',
+        businessAvatarThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        title: 'Spoon Ice Tea',
+        description: 'Free ice tea if you stop by',
+        numberOffered: 10,
+        categories: [
+          Category(CategoryDto()
+            ..name = 'food'
+            ..description = 'All about food'),
+          Category(CategoryDto()
+            ..name = 'tea'
+            ..description = 'Tea')
+        ],
+        location: Location(latitude: 34.040031, longitude: -118.257318),
+        terms: DealTerms(
+          deliverable: Deliverable(
+            description: 'Tell people how good our tea is',
+            types: [DeliverableType.post],
+            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           ),
-          status: OfferDto_Status.active,
-          statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=3dc3ad04-ed66-4dec-8621-76ac3cbe05ab',
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
-          ],
-          imageUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
-          ],
-          thumbnailLowResUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
-          thumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+          reward: Reward(
+            description: 'One ice tea for you and a friend',
+            type: RewardDto_Type.barter,
+            barterValue: Decimal.fromInt(5),
+          ),
+        ),
+        status: OfferDto_Status.active,
+        statusReason: OfferDto_StatusReason.open,
+        images: [
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          ),
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          )
+        ],
+        thumbnailImage: ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+      ),
       BusinessOffer(
-          id: '3',
-          proposalStatus: OfferDto_ProposalStatus.none,
-          businessAccountId: "1",
-          businessName: 'Scent of Asia',
-          businessDescription: 'Best flavoured teas in town',
-          businessAvatarThumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
-          title: 'Spoon Ice Tea',
-          description: 'Free ice tea if you stop by',
-          numberOffered: 10,
-          categories: [
-            Category(CategoryDto()
-              ..name = 'food'
-              ..description = 'All about food'),
-            Category(CategoryDto()
-              ..name = 'tea'
-              ..description = 'Tea')
-          ],
-          startDate: DateTime(2019, 1, 1),
-          endDate: DateTime(2019, 3, 1),
-          location: Location(latitude: 34.040031, longitude: -118.257318),
-          terms: DealTerms(
-            deliverable: Deliverable(
-              description: 'Tell people how good our tea is',
-              types: [DeliverableType.post],
-              channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
-            ),
-            reward: Reward(
-              description: 'One ice tea for you and a friend',
-              type: RewardDto_Type.barter,
-              barterValue: Decimal.fromInt(5),
-            ),
+        id: '3',
+        proposalStatus: OfferDto_ProposalStatus.none,
+        businessAccountId: "1",
+        businessName: 'Scent of Asia',
+        businessDescription: 'Best flavoured teas in town',
+        businessAvatarThumbnailUrl:
+            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
+        title: 'Spoon Ice Tea',
+        description: 'Free ice tea if you stop by',
+        numberOffered: 10,
+        categories: [
+          Category(CategoryDto()
+            ..name = 'food'
+            ..description = 'All about food'),
+          Category(CategoryDto()
+            ..name = 'tea'
+            ..description = 'Tea')
+        ],
+        startDate: DateTime(2019, 1, 1),
+        endDate: DateTime(2019, 3, 1),
+        location: Location(latitude: 34.040031, longitude: -118.257318),
+        terms: DealTerms(
+          deliverable: Deliverable(
+            description: 'Tell people how good our tea is',
+            types: [DeliverableType.post],
+            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
           ),
-          status: OfferDto_Status.active,
-          statusReason: OfferDto_StatusReason.open,
-          imagesLowResUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=3dc3ad04-ed66-4dec-8621-76ac3cbe05ab',
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
-          ],
-          imageUrls: [
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
-            'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=e4b231d1-a4d3-419b-9c50-8b05fd4ab8d7'
-          ],
-          thumbnailLowResUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
-          thumbnailUrl:
-              'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+          reward: Reward(
+            description: 'One ice tea for you and a friend',
+            type: RewardDto_Type.barter,
+            barterValue: Decimal.fromInt(5),
+          ),
+        ),
+        status: OfferDto_Status.active,
+        statusReason: OfferDto_StatusReason.open,
+        images: [
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          ),
+          ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2_lowres.jpg?alt=media&token=084f7e12-b9f0-4181-ba29-2d98bd56fdc3',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea2.jpg?alt=media&token=284e7496-d2ba-4462-8bec-26799e6e2b3a',
+          )
+        ],
+        thumbnailImage: ImageReference(
+            lowresUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb_lowres.jpg?alt=media&token=702a2349-6ef0-45a6-89c7-904dd8950e0a',
+            imageUrl:
+                'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fice_tea_thumb.jpg?alt=media&token=340434bf-7a23-423b-991b-bf938404e14a'),
+      ),
     ];
   }
 
