@@ -23,6 +23,8 @@ class CategoryButton extends StatelessWidget {
   final String label;
   final double radius;
 
+  bool get _selected => selectedSubCategories > 0 || selected;
+
   @override
   Widget build(BuildContext context) {
     Widget count;
@@ -60,9 +62,12 @@ class CategoryButton extends StatelessWidget {
                 width: 2 * radius,
                 height: 2 * radius,
                 child: Material(
-                  color: selectedSubCategories > 0 || selected ? AppTheme.lightBlue : AppTheme.grey,
+                  color: _selected ? AppTheme.lightBlue : AppTheme.grey,
                   shape: CircleBorder(
-                    side: BorderSide(width: 2.0, color: selectedSubCategories > 0 ? Colors.white : AppTheme.grey),
+                    side: BorderSide(
+                      width: 2.0,
+                      color: _selected ? Colors.white : AppTheme.grey,
+                    ),
                   ),
                   child: InkResponse(
                     onTap: onTap,

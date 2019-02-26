@@ -19,20 +19,19 @@ class Category {
 
   Uint8List _iconData;
 
-  Category(this.dto) {
+  Category(this.dto) : assert(dto != null) {
     _iconData = Uint8List.fromList(dto.iconData);
   }
 
   @override
   bool operator ==(Object other) =>
-      identical(this, other) ||
-      other is Category &&
-          runtimeType == other.runtimeType &&
-          (dto != null && other.dto != null) &&
-          dto.id == other.dto.id;
+      identical(this, other) || other is Category && runtimeType == other.runtimeType && id == other.id;
 
   @override
-  int get hashCode => dto?.id?.hashCode;
+  int get hashCode => id.hashCode;
+
+  @override
+  String toString() => 'Category{$id: $name}';
 }
 
 class CategorySet extends SelectionSet<Category> {

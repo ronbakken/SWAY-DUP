@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/filter/filter_panel.dart';
+import 'package:inf/ui/filter/bottom_nav.dart';
 import 'package:inf/ui/proposal_views/proposal_details_page.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/utils/date_time_helpers.dart';
