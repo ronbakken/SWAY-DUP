@@ -131,7 +131,7 @@ class OfferBuilder {
         ..description = description
         ..start = toTimeStamp(startDate)
         ..end = toTimeStamp(endDate)
-        ..minFollowers = minFollowers
+        ..minFollowers = minFollowers ?? 0
         ..numberOffered = unlimitedAvailable ? 0 : numberOffered
         ..terms = (DealTermsDto()
           ..deliverable = (DeliverableDto()
@@ -139,8 +139,8 @@ class OfferBuilder {
             ..socialNetworkProviderIds.addAll(channels.toList().map<String>((c) => c.id))
             ..description = deliverableDescription)
           ..reward = (RewardDto()
-            ..barterValue = barterValue.toDto()
-            ..barterValue = cashValue.toDto()
+            ..barterValue = barterValue?.toDto() ?? Money.fromInt(0).toDto()
+            ..barterValue = cashValue?.toDto() ?? Money.fromInt(0).toDto()
             ..description = description ?? ''
             ..type = rewardType))
         ..acceptancePolicy = acceptancePolicy

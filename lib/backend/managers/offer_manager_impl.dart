@@ -71,19 +71,20 @@ class OfferManagerImplementation implements OfferManager {
     var totalSteps = offerBuilder.images.length + 1;
     int completedSteps = 1;
 
-    var imagesToUpLoad = offerBuilder.images.where((image) => image.isFile).toList();
-
     // upload all offer images
-    for (int i = 0; i < imagesToUpLoad.length; i++) {
+    for (int i = 0; i < offerBuilder.images.length; i++) {
       yield completedSteps / totalSteps;
       completedSteps++;
 
-      imagesToUpLoad[i] = await backend.get<ImageService>().uploadImageReference(
-            fileNameTrunc: 'offer',
-            imageReference: imagesToUpLoad[i],
-            imageWidth: 800,
-            lowResWidth: 64,
-          );
+      // we have an imagefile attached we upload it
+      if (offerBuilder.images[i].imageFile != null) {
+        offerBuilder.images[i] = await backend.get<ImageService>().uploadImageReference(
+              fileNameTrunc: 'offer',
+              imageReference: offerBuilder.images[i],
+              imageWidth: 800,
+              lowResWidth: 64,
+            );
+      }
     }
 
     yield completedSteps / totalSteps;
@@ -94,13 +95,15 @@ class OfferManagerImplementation implements OfferManager {
     {
       offerBuilder.offerThumbnail = await backend.get<ImageService>().uploadImageReference(
             fileNameTrunc: 'offer_thumbnail',
-            imageReference: imagesToUpLoad[0],
+            imageReference: offerBuilder.images[0],
             imageWidth: 100,
             lowResWidth: 20,
           );
     }
 
     var updatedOffer = await backend.get<InfOfferService>().updateOffer(offerBuilder);
+    // signal all done
+    yield 1.0;
   }
 
   @override

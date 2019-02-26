@@ -16,6 +16,7 @@ import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 
 class AddOfferStep3 extends MultiPageWizardPageWidget {
   const AddOfferStep3({
@@ -62,7 +63,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                         widget.offerBuilder.cashValue != null ? widget.offerBuilder.cashValue.toString(0) : '',
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                     onSaved: (s) => widget.offerBuilder.cashValue = Money.tryParse(s),
-                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+//                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                     onHelpPressed: () {},
                   ),
@@ -176,6 +177,37 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
   void nextPage() async {
     if (_form.currentState.validate()) {
       _form.currentState.save();
+
+      if (widget.offerBuilder.cashValue != null) {
+        if (widget.offerBuilder.barterValue != null) {
+          widget.offerBuilder.rewardType = RewardDto_Type.barterAndCash;
+        } else {
+          widget.offerBuilder.rewardType = RewardDto_Type.cash;
+        }
+      } else if (widget.offerBuilder.barterValue != null){
+        widget.offerBuilder.rewardType = RewardDto_Type.barter;
+      }
+
+      if (widget.offerBuilder.rewardType ==null)
+      {
+         if (!await showQueryDialog(context, 'No reward?', 'Are you sure that you don\'t want to set a reward?\n Even if you provide a reward item or service you have to enter a value for it.'))
+         {
+           return;
+         }
+      }
+
+      if (widget.offerBuilder.rewardType == RewardDto_Type.barter && widget.offerBuilder.rewardDescription.isEmpty)
+      {
+        await showMessageDialog(context, 'We need a bit more...', 'Please provide a description of your reward item or service');
+      }
+
+      if (widget.offerBuilder.location == null)
+      {
+        await showMessageDialog(context, 'We need a bit more...', 'Please provide a location for the offer');
+      }
+
+      
+
       super.nextPage();
     } else {
       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');

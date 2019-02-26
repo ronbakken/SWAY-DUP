@@ -121,6 +121,7 @@ class _OfferDetailsRow extends StatelessWidget {
                   style: const TextStyle(
                     color: Colors.white54,
                   ),
+                  maxLines: 2,
                 ),
               ],
             ),

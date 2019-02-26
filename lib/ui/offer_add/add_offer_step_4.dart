@@ -48,9 +48,17 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
 
     updateOfferListener = RxCommandListener(
       updateOfferCommand,
+      onValue: (val) {
+        if (val == 1.0)
+        {
+          InfLoader.hide();
+          Navigator.of(context).pop();
+        }
+      },
       onIsBusy: () => InfLoader.show(context, updateOfferCommand),
       onNotBusy: () => InfLoader.hide(),
     );
+
   }
 
   @override
@@ -61,6 +69,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
 
   @override
   Widget build(BuildContext context) {
+    final now = DateTime.now();
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
@@ -72,6 +81,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
           child: Padding(
             padding: const EdgeInsets.only(left: 24, right: 24, top: 32),
             child: Form(
+              onChanged: () => _form.currentState.save(),
               key: _form,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -89,8 +99,8 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                                   labelText: 'OFFER START DATE',
                                 ),
                                 initialValue: widget.offerBuilder.startDate,
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime.now().add(Duration(days: 90)),
+                                firstDate: now,
+                                lastDate: now.add(Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
                                 onSaved: (date) => widget.offerBuilder.startDate = date,
                               ),
@@ -120,10 +130,12 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                                 decoration: InputDecoration(
                                   labelText: 'OFFER END DATE',
                                 ),
-                                initialValue: widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0
-                                    ? widget.offerBuilder.startDate ?? DateTime.now()
-                                    : widget.offerBuilder.endDate,
-                                firstDate: widget.offerBuilder.startDate ?? DateTime.now(),
+                                initialValue: widget.offerBuilder.endDate == null
+                                    ? null
+                                    : widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0
+                                        ? widget.offerBuilder.startDate ?? now
+                                        : widget.offerBuilder.endDate,
+                                firstDate: widget.offerBuilder.startDate ?? now,
                                 lastDate: DateTime.now().add(Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
                                 onSaved: (date) {
