@@ -93,7 +93,7 @@ class CategoryButton extends StatelessWidget {
         ),
         label != null
             ? Padding(
-                padding: const EdgeInsets.only(top: 8),
+                padding: const EdgeInsets.only(top: 4),
                 child: Text(label),
               )
             : SizedBox(),

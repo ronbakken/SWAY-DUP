@@ -39,5 +39,6 @@ class CategorySet extends SelectionSet<Category> {
 
   CategorySet.fromIterable(Iterable<Category> iterable) : super.fromIterable(iterable);
 
-  List<Category> onlyWithParent(Category parent) => where((category) => category.parentId == parent.id);
+  List<Category> onlyWithParent(Category parent) =>
+      where((category) => category.parentId == parent.id).toList(growable: false);
 }

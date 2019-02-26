@@ -1,7 +1,7 @@
 import 'package:inf/app/assets.dart';
 
 class FilterButton {
-  static const None = FilterButton._('None');
+  static const Search = FilterButton._('Search');
   static const Category = FilterButton._('Category', AppIcons.category);
   static const Value = FilterButton._('Value', AppIcons.value);
   static const Deliverable = FilterButton._('Deliverable', AppIcons.deliverable);

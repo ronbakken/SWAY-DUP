@@ -145,10 +145,9 @@ class CategoryRow extends StatelessWidget {
       height: 96.0,
       childrenWidth: 64.0,
       children: topLevelCategories.map((topLevelCategory) {
-        final subCats = selectedSubCategories.where((category) => category.parentId == topLevelCategory.id);
         return CategoryButton(
-          onTap: () => onCategoryPressed(topLevelCategory),
-          selectedSubCategories: subCats.length,
+          onTap: onCategoryPressed != null ? () => onCategoryPressed(topLevelCategory) : null,
+          selectedSubCategories: selectedSubCategories.onlyWithParent(topLevelCategory).length,
           label: topLevelCategory.name,
           radius: 64.0,
           child: InfMemoryImage(

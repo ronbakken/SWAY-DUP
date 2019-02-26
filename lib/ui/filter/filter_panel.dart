@@ -26,26 +26,28 @@ class FilterPanel extends StatefulWidget {
 }
 
 class FilterPanelState extends State<FilterPanel> with SingleTickerProviderStateMixin {
-  static const _frontPanelHeight = 230.0;
-  static const _backPanelHeight = _frontPanelHeight + 208.0;
+  static const _frontHeight = 242.0;
+  static const _backHeight = _frontHeight + 208.0;
 
   AnimationController _controller;
   Animation<double> curveAmount;
   Animation<double> frontPanelCloseAnim;
   Animation<double> backPanelLeaveAnim;
+  Animation<double> frontPanelAnim;
+  Animation<double> backPanelAnim;
 
-  final _button = ValueNotifier<FilterButton>(FilterButton.None);
+  final _button = ValueNotifier<FilterButton>(FilterButton.Search);
   final _selectedCategories = CategorySet();
 
   @override
   void initState() {
     super.initState();
-
     _controller = AnimationController(duration: Duration(milliseconds: 250), vsync: this);
-
     curveAmount = Tween<double>(begin: 0.8, end: 2.0).animate(_controller);
     frontPanelCloseAnim = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
     backPanelLeaveAnim = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+    frontPanelAnim = Tween<double>(begin: _frontHeight, end: _frontHeight + 64.0).animate(_controller);
+    backPanelAnim = Tween<double>(begin: _frontHeight - 48.0, end: _backHeight).animate(_controller);
   }
 
   @override
@@ -59,30 +61,11 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
     final mediaQuery = MediaQuery.of(context);
     final bottomInset = mediaQuery.padding.bottom + mediaQuery.viewInsets.bottom;
 
-    final frontPanelAnim = Tween<double>(
-      begin: _frontPanelHeight,
-      end: _frontPanelHeight + 64.0,
-    ).animate(_controller);
-
-    final backPanelAnim = Tween<double>(
-      begin: _frontPanelHeight - 48.0,
-      end: _backPanelHeight,
-    ).animate(_controller);
-
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
-        AnimatedBuilder(
-          animation: backPanelAnim,
-          builder: (BuildContext context, Widget child) {
-            return Positioned(
-              left: 0.0,
-              right: 0.0,
-              bottom: 0.0,
-              height: backPanelAnim.value + bottomInset,
-              child: child,
-            );
-          },
+        AnimatedPanel(
+          height: backPanelAnim,
           child: Column(
             children: <Widget>[
               RawMaterialButton(
@@ -138,17 +121,8 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
             ],
           ),
         ),
-        AnimatedBuilder(
-          animation: frontPanelAnim,
-          builder: (BuildContext context, Widget child) {
-            return Positioned(
-              left: 0.0,
-              right: 0.0,
-              bottom: 0.0,
-              height: frontPanelAnim.value + bottomInset,
-              child: child,
-            );
-          },
+        AnimatedPanel(
+          height: frontPanelAnim,
           child: AnimatedBuilder(
             animation: curveAmount,
             builder: (BuildContext context, Widget child) {
@@ -170,29 +144,11 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
                 child: ListenableBuilder(
                   listenable: _button,
                   builder: (BuildContext context, Widget child) {
-                    WidgetBuilder builder = (context) {
-                      switch (_button.value) {
-                        case FilterButton.None:
-                          return SearchFilterPanel(
-                            onButtonPressed: _onFilterButtonPressed,
-                          );
-                        case FilterButton.Category:
-                          return CategoryFilterPanel();
-                        case FilterButton.Value:
-                          return ValueFilterPanel();
-                        case FilterButton.Deliverable:
-                          return DeliverableFilterPanel();
-                        case FilterButton.Location:
-                          return LocationFilterPanel();
-                        default:
-                          throw StateError('Invalid button type: ${_button.value}');
-                      }
-                    };
                     return AnimatedSwitcher(
                       duration: _controller.duration,
                       child: KeyedSubtree(
                         key: ValueKey<FilterButton>(_button.value),
-                        child: builder(context),
+                        child: _buttonPanel(context),
                       ),
                     );
                   },
@@ -204,7 +160,7 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
         Positioned(
           left: 0.0,
           right: 0.0,
-          bottom: _frontPanelHeight - 16.0 + bottomInset,
+          bottom: _frontHeight - 16.0 + bottomInset,
           child: ScaleTransition(
             scale: frontPanelCloseAnim,
             child: RawMaterialButton(
@@ -237,14 +193,71 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
     );
   }
 
-  void _deselectFilterPanel() => _onFilterButtonPressed(FilterButton.None);
+  Widget _buttonPanel(BuildContext context) {
+    switch (_button.value) {
+      case FilterButton.Search:
+        return SearchFilterPanel(
+          onButtonPressed: _onFilterButtonPressed,
+        );
+      case FilterButton.Category:
+        return CategoryFilterPanel(
+          padding: const EdgeInsets.only(bottom: 124.0),
+        );
+      case FilterButton.Value:
+        return ValueFilterPanel(
+          padding: const EdgeInsets.only(bottom: 124.0),
+        );
+      case FilterButton.Deliverable:
+        return DeliverableFilterPanel(
+          padding: const EdgeInsets.only(bottom: 124.0),
+        );
+      case FilterButton.Location:
+        return LocationFilterPanel(
+          padding: const EdgeInsets.only(bottom: 124.0),
+        );
+      default:
+        throw StateError('Invalid button type: ${_button.value}');
+    }
+  }
+
+  void _deselectFilterPanel() => _onFilterButtonPressed(FilterButton.Search);
 
   void _onFilterButtonPressed(FilterButton button) {
     _button.value = button;
-    if (button == FilterButton.None) {
+    if (button == FilterButton.Search) {
       _controller.reverse();
     } else {
       _controller.forward();
     }
   }
+}
+
+class _BackFilterPanel extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    // TODO: implement build
+    return null;
+  }
+}
+
+class AnimatedPanel extends AnimatedBuilder {
+  AnimatedPanel({
+    Key key,
+    Animation<double> height,
+    Widget child,
+  }) : super(
+          key: key,
+          animation: height,
+          builder: (BuildContext context, Widget child) {
+            final mediaQuery = MediaQuery.of(context);
+            return Positioned(
+              left: 0.0,
+              right: 0.0,
+              bottom: 0.0,
+              height: height.value + mediaQuery.padding.bottom + mediaQuery.viewInsets.bottom,
+              child: child,
+            );
+          },
+          child: child,
+        );
 }

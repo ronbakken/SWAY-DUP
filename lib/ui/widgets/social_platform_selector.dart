@@ -3,15 +3,12 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/help_button.dart';
+import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/social_network_toggle_button.dart';
 import 'package:inf/utils/selection_set.dart';
 
-class SocialPlatformSelector extends StatefulWidget {
-  final SelectionSet<SocialNetworkProvider> channels;
-  final EdgeInsets padding;
-  final String label;
-
+class SocialPlatformSelector extends StatelessWidget {
   const SocialPlatformSelector({
     Key key,
     @required this.channels,
@@ -19,48 +16,77 @@ class SocialPlatformSelector extends StatefulWidget {
     this.label,
   }) : super(key: key);
 
-  @override
-  SocialPlatformSelectorState createState() => SocialPlatformSelectorState();
-}
+  final SelectionSet<SocialNetworkProvider> channels;
+  final EdgeInsets padding;
+  final String label;
 
-class SocialPlatformSelectorState extends State<SocialPlatformSelector> {
   @override
   Widget build(BuildContext context) {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Padding(
-          padding: widget.padding,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                widget.label,
-                textAlign: TextAlign.left,
-                style: AppTheme.formFieldLabelStyle,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(right: 24.0),
-                child: HelpButton(),
-              ),
-            ],
-          ),
+        label != null
+            ? Padding(
+                padding: padding,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      label,
+                      textAlign: TextAlign.left,
+                      style: AppTheme.formFieldLabelStyle,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(right: 24.0),
+                      child: HelpButton(),
+                    ),
+                  ],
+                ),
+              )
+            : SizedBox(),
+        ListenableBuilder(
+          listenable: channels,
+          builder: (BuildContext context, Widget child) {
+            return SocialNetworkRow(
+              selectedPlatforms: channels,
+              onProviderPressed: channels.toggle,
+            );
+          },
         ),
-        buildSocialPlatformRow(),
       ],
     );
   }
+}
 
-  Widget buildSocialPlatformRow() {
+class SocialNetworkRow extends StatelessWidget {
+  const SocialNetworkRow({
+    Key key,
+    @required this.selectedPlatforms,
+    this.onProviderPressed,
+    this.height = 96.0,
+    this.childrenWidth = 48.0,
+    this.padding = const EdgeInsets.symmetric(horizontal: 24.0),
+  })  : assert(padding != null),
+        super(key: key);
+
+  final double height;
+  final double childrenWidth;
+  final EdgeInsets padding;
+  final SelectionSet<SocialNetworkProvider> selectedPlatforms;
+  final ValueChanged<SocialNetworkProvider> onProviderPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final socialNetworkProviders = backend.get<ConfigService>().socialNetworkProviders;
     return OverflowRow(
-      padding: const EdgeInsets.symmetric(horizontal: 24.0),
+      padding: padding,
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-      height: 96.0,
-      childrenWidth: 48.0,
-      children: backend.get<ConfigService>().socialNetworkProviders.map((provider) {
+      height: height,
+      childrenWidth: this.childrenWidth,
+      children: socialNetworkProviders.map((provider) {
         return SocialNetworkToggleButton(
-          onTap: () => setState(() => widget.channels.toggle(provider)),
-          isSelected: widget.channels.contains(provider),
+          onTap: onProviderPressed != null ? () => onProviderPressed(provider) : null,
+          isSelected: selectedPlatforms.contains(provider),
           provider: provider,
         );
       }).toList(growable: false),

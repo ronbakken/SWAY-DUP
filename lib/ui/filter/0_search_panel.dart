@@ -142,6 +142,8 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
                   hintMaxLines: 1,
                 ),
                 keyboardAppearance: Brightness.dark,
+                keyboardType: TextInputType.text,
+                textInputAction: TextInputAction.search,
               ),
             ),
           ),
