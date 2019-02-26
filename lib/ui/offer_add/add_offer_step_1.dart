@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/image_selector.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -52,12 +53,14 @@ class _AddOfferStep1State extends MultiPageWizardPageState<AddOfferStep1> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         InfTextFormField(
+                          initialValue: widget.offerBuilder.title,
                           decoration: const InputDecoration(labelText: 'TITLE'),
                           onSaved: (s) => widget.offerBuilder.title = s,
                           validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
                         ),
                         SizedBox(height: 32.0),
                         InfTextFormField(
+                          initialValue: widget.offerBuilder.deliverableDescription,
                           decoration: const InputDecoration(
                             labelText: 'DESCRIPTION',
                           ),
@@ -84,10 +87,14 @@ class _AddOfferStep1State extends MultiPageWizardPageState<AddOfferStep1> {
   }
 
   @override
-  void nextPage() {
-    if (_form.currentState.validate() || true) {
+  void nextPage() async {
+    if (_form.currentState.validate()) {
       _form.currentState.save();
       super.nextPage();
+    }
+    else
+    {
+       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
     }
   }
 }

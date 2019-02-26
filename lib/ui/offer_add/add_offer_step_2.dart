@@ -5,6 +5,7 @@ import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/category_selector_view.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/deliverable_selector.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
@@ -64,6 +65,7 @@ class _AddOfferStep2State extends MultiPageWizardPageState<AddOfferStep2> {
                 child: Padding(
                   padding: const EdgeInsets.only(left: 24.0, right: 24),
                   child: InfTextFormField(
+                    initialValue: widget.offerBuilder.deliverableDescription,
                     decoration: const InputDecoration(labelText: 'DELIVERABLE DESCRIPTION'),
                     onSaved: (s) => widget.offerBuilder.deliverableDescription = s,
                     validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
@@ -91,10 +93,19 @@ class _AddOfferStep2State extends MultiPageWizardPageState<AddOfferStep2> {
   }
 
   @override
-  void nextPage() {
-    if (_form.currentState.validate() || true) {
+  void nextPage() async {
+    if (_form.currentState.validate()) {
+      if (widget.offerBuilder.categories.isEmpty ||
+          widget.offerBuilder.channels.isEmpty ||
+          widget.offerBuilder.deliverableTypes.isEmpty) {
+        await showMessageDialog(context, 'We need a bit more...',
+            'Please select at least one of categories, social platforms and content types.');
+        return;
+      }
       _form.currentState.save();
       super.nextPage();
+    } else {
+      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
     }
   }
 }

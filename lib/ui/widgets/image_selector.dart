@@ -187,7 +187,7 @@ class _ImageSelectorState extends State<ImageSelector> {
     if (imageFile != null) {
       imageReferences.add(ImageReference(imageFile: imageFile));
       setState(() {
-        selectedImageIndex = widget.imageReferences.length - 1;
+        selectedImageIndex = imageReferences.length - 1;
       });
       widget.onImageChanged(imageReferences);
     }

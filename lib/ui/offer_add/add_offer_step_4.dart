@@ -120,8 +120,10 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                                 decoration: InputDecoration(
                                   labelText: 'OFFER END DATE',
                                 ),
-                                initialValue: widget.offerBuilder.endDate ?? DateTime.now(),
-                                firstDate: widget.offerBuilder.startDate,
+                                initialValue: widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0
+                                    ? widget.offerBuilder.startDate ?? DateTime.now()
+                                    : widget.offerBuilder.endDate,
+                                firstDate: widget.offerBuilder.startDate ?? DateTime.now(),
                                 lastDate: DateTime.now().add(Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
                                 onSaved: (date) {

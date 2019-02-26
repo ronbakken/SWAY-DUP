@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -12,8 +13,6 @@ class OfferManagerImplementation implements OfferManager {
 
     initConnection();
   }
-
-  OfferBuilder activeBuilder;
 
   @override
   RxCommand<OfferBuilder, double> updateOfferCommand;
@@ -57,8 +56,15 @@ class OfferManagerImplementation implements OfferManager {
 
   @override
   OfferBuilder getOfferBuilder() {
-    activeBuilder = new OfferBuilder();
-    return activeBuilder;
+    var currentUser = backend.get<UserManager>().currentUser;
+    return OfferBuilder(
+      businessAccountId: currentUser.id,
+      businessAvatarThumbnailUrl: currentUser.avatarThumbnail.imageUrl,
+      businessDescription: currentUser.description,
+      businessName: currentUser.name,
+      status: OfferDto_Status.active,
+      statusReason: OfferDto_StatusReason.open,
+    );
   }
 
   Stream<double> updateOffer(OfferBuilder offerBuilder) async* {
@@ -82,7 +88,7 @@ class OfferManagerImplementation implements OfferManager {
 
     yield completedSteps / totalSteps;
     completedSteps++;
-    
+
     // Upload Thumbnail
     if (offerBuilder.images[0].imageFile != null) // first image changed
     {
@@ -93,6 +99,8 @@ class OfferManagerImplementation implements OfferManager {
             lowResWidth: 20,
           );
     }
+
+    var updatedOffer = await backend.get<InfOfferService>().updateOffer(offerBuilder);
   }
 
   @override

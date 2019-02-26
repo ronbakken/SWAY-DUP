@@ -13,4 +13,15 @@ class InfOfferServiceImplementation implements InfOfferService {
         );
     return BusinessOffer.fromDto(result.offer);
   }
+
+  @override
+  Future<BusinessOffer> updateOffer(OfferBuilder offerBuilder) async
+  {
+    var result = await backend.get<InfApiClientsService>().offerClient.updateOffer(
+          UpdateOfferRequest()..offer = offerBuilder.toDto(),
+        );
+    return BusinessOffer.fromDto(result.offer);
+
+  }
+
 }

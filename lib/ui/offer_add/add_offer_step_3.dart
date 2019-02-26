@@ -7,6 +7,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/money.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
+import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
@@ -57,6 +58,8 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                       labelText: 'CASH REWARD VALUE',
                       icon: Text('\$'),
                     ),
+                    initialValue:
+                        widget.offerBuilder.cashValue != null ? widget.offerBuilder.cashValue.toString(0) : '',
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                     onSaved: (s) => widget.offerBuilder.cashValue = Money.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
@@ -68,8 +71,9 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                     decoration: InputDecoration(
                       labelText: 'REWARD ITEM OR SERVICE DESCRIPTION',
                     ),
+                    initialValue: widget.offerBuilder.rewardDescription,
                     onSaved: (s) => widget.offerBuilder.rewardDescription = s,
-                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+//                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
                   ),
@@ -79,9 +83,11 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                       labelText: 'ITEM OR SERVICE VALUE',
                       icon: Text('\$'),
                     ),
+                    initialValue:
+                        widget.offerBuilder.barterValue != null ? widget.offerBuilder.barterValue.toString(0) : '',
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                     onSaved: (s) => widget.offerBuilder.barterValue = Money.tryParse(s),
-                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+//                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
                   Spacer(),
@@ -89,6 +95,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                     decoration: InputDecoration(
                       labelText: 'MINIMUM FOLLOWERS',
                     ),
+                    initialValue: widget.offerBuilder.minFollowers?.toString(),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                     onSaved: (s) => widget.offerBuilder.minFollowers = int.tryParse(s),
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
@@ -103,7 +110,9 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                         textAlign: TextAlign.left,
                         style: AppTheme.formFieldLabelStyle,
                       ),
-                      HelpButton(),
+                      HelpButton(
+                        onTap: () {},
+                      ),
                     ],
                   ),
                   SizedBox(height: 16),
@@ -117,24 +126,32 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                         SizedBox(
                           width: 8.0,
                         ),
-                        Text('Location'),
                         Expanded(
-                          child: Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: const EdgeInsets.only(right: 24, top: 8.0),
-                              child: InfIcon(AppIcons.search),
-                            ),
+                          child: Text(
+                            widget.offerBuilder.location != null ? widget.offerBuilder.location.name : 'Location',
+                            maxLines: 2,
+                          ),
+                        ),
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: Padding(
+                            padding: const EdgeInsets.only(right: 24, top: 8.0),
+                            child: InfIcon(AppIcons.search),
                           ),
                         ),
                       ],
                     ),
                     onTap: () async {
                       Location location = await Navigator.of(context).push(LocationSelectorPage.route());
-                      widget.offerBuilder.location = location;
+                      setState(() {
+                        widget.offerBuilder.location = location;
+                      });
                     },
                   ),
                   ColumnSeparator(horizontalMargin: 0),
+                  Spacer(
+                    flex: 3,
+                  ),
                 ],
               ),
             ),
@@ -156,10 +173,12 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
   }
 
   @override
-  void nextPage() {
-    if (_form.currentState.validate() || true) {
+  void nextPage() async {
+    if (_form.currentState.validate()) {
       _form.currentState.save();
       super.nextPage();
+    } else {
+      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
     }
   }
 }
