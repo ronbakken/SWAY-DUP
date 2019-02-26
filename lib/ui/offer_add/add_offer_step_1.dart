@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/image_selector.dart';
+import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
-import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 
-class AddOfferStep1 extends StatefulWidget {
+class AddOfferStep1 extends MultiPageWizardPageWidget {
   const AddOfferStep1({
     Key key,
     this.offerBuilder,
@@ -19,16 +19,10 @@ class AddOfferStep1 extends StatefulWidget {
   _AddOfferStep1State createState() => _AddOfferStep1State();
 }
 
-class _AddOfferStep1State extends State<AddOfferStep1> with MultiPageWizardNav<AddOfferStep1> {
+class _AddOfferStep1State extends MultiPageWizardPageState<AddOfferStep1> {
   int selectedImageIndex = 0;
-  
-  final _form = GlobalKey<FormState>();
 
-  @override
-  void initState() {
-    super.initState();
-    setUpNav(context);
-  }
+  final _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -77,16 +71,12 @@ class _AddOfferStep1State extends State<AddOfferStep1> with MultiPageWizardNav<A
                   ),
                 ),
               ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                child: InfStadiumButton(
-                  height: 56,
-                  color: Colors.white,
-                  text: 'NEXT',
-                  onPressed: onNextPage,
-                ),
-              )
             ],
+          ), // InfBottomButton
+          bottom: InfBottomButton(
+            color: Colors.white,
+            text: 'NEXT',
+            onPressed: nextPage,
           ),
         ),
       ],
@@ -94,15 +84,10 @@ class _AddOfferStep1State extends State<AddOfferStep1> with MultiPageWizardNav<A
   }
 
   @override
-  void onPrevPage() {
-    _form.currentState.save();
-  }
-
-  @override
-  void onNextPage() {
+  void nextPage() {
     if (_form.currentState.validate() || true) {
       _form.currentState.save();
-      MultiPageWizard.of(context).nextPage();
+      super.nextPage();
     }
   }
 }

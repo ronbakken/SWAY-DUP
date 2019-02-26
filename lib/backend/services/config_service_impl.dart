@@ -1,12 +1,12 @@
 import 'dart:async';
 
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/config_service_.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigServiceImplementation implements ConfigService {
   @override
@@ -104,6 +104,5 @@ class ConfigServiceImplementation implements ConfigService {
       deliverableIcons.firstWhere((icon) => icon.deliverableType == type);
 
   @override
-  List<Category> get topLevelCategories =>
-    categories.where((item) => item.parentId == -1).toList(growable: false);
+  List<Category> get topLevelCategories => categories.where((item) => item.parentId.isEmpty).toList(growable: false);
 }

@@ -20,7 +20,7 @@ import 'package:inf/utils/animation_choreographer.dart';
 import 'package:inf/utils/trim_path.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-const kBottomNavHeight = 72.0;
+const kBottomNavHeight = 84.0;
 
 class BottomNavPanel extends StatefulWidget {
   const BottomNavPanel({
@@ -84,7 +84,7 @@ class BottomNavPanelState extends State<BottomNavPanel> with SingleTickerProvide
         SlideTransition(
           position: _panel1,
           child: Container(
-            height: mediaQuery.padding.bottom + 96.0,
+            height: mediaQuery.padding.bottom + kBottomNavHeight + 12.0,
             child: MainNavPanel(
               userType: widget.userType,
               initialValue: widget.initialValue,

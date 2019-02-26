@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/filter/filter_panel.dart';
 import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/offer_views/browse_carousel_item.dart';
 import 'package:inf/ui/offer_views/offer_post_tile.dart';
@@ -216,7 +217,8 @@ class _BrowseListView extends StatelessWidget {
         return Stack(
           children: <Widget>[
             ListView.builder(
-              padding: EdgeInsets.fromLTRB(16.0, mediaQuery.padding.top + 54.0, 16.0, 0.0),
+              padding: EdgeInsets.fromLTRB(16.0, mediaQuery.padding.top + 54.0, 16.0,
+                mediaQuery.padding.bottom + kBottomNavHeight),
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
                 final offer = items[index].offer;

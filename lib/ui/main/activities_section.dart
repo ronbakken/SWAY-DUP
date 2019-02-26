@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-
+import 'package:inf/ui/filter/filter_panel.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/offer_views/offer_short_summary_tile.dart';
@@ -48,7 +48,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return Padding(
-      padding: EdgeInsets.only(top: mediaQuery.padding.top, bottom: widget.padding.bottom),
+      padding: EdgeInsets.only(top: mediaQuery.padding.top),
       child: Container(
         color: AppTheme.darkGrey,
         child: Column(
@@ -61,25 +61,26 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                   indicatorWeight: 4.0,
                   indicatorColor: AppTheme.tabIndicator,
                   indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.only(left: 10.0, right: 10.0),
+                  indicatorPadding: const EdgeInsets.only(
+                    left: 10.0,
+                    right: 10.0,
+                    top: kTabBarBottomPadding,
+                  ),
+                  labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
                   isScrollable: false,
                   controller: controller,
                   tabs: [
                     _TabBarItem(
                       text: 'OFFERS',
-                      bottomPadding: kTabBarBottomPadding,
                     ),
                     _TabBarItem(
                       text: 'PROPOSED',
-                      bottomPadding: kTabBarBottomPadding,
                     ),
                     _TabBarItem(
                       text: 'DEALS',
-                      bottomPadding: kTabBarBottomPadding,
                     ),
                     _TabBarItem(
                       text: 'DONE',
-                      bottomPadding: kTabBarBottomPadding,
                     ),
                   ],
                 ),
@@ -94,9 +95,15 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                     OfferSummeryListView(
                       name: 'offers-applied',
                     ),
-                    ProposalListView(dataSource: backend.get<ProposalManager>().appliedProposals,),                    
-                    ProposalListView(dataSource: backend.get<ProposalManager>().activeDeals,),                    
-                    ProposalListView(dataSource: backend.get<ProposalManager>().doneProposals,),                    
+                    ProposalListView(
+                      dataSource: backend.get<ProposalManager>().appliedProposals,
+                    ),
+                    ProposalListView(
+                      dataSource: backend.get<ProposalManager>().activeDeals,
+                    ),
+                    ProposalListView(
+                      dataSource: backend.get<ProposalManager>().doneProposals,
+                    ),
                   ],
                 ),
               ),
@@ -112,43 +119,41 @@ class _TabBarItem extends StatelessWidget {
   const _TabBarItem({
     Key key,
     @required this.text,
-    @required this.bottomPadding,
     this.notifications,
   }) : super(key: key);
 
-  final double bottomPadding;
   final String text;
   final Stream<int> notifications;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: bottomPadding),
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0.0),
-            child: Text(text, style: const TextStyle(fontSize: 12),),
+    return Stack(
+      alignment: Alignment.center,
+      children: <Widget>[
+        Text(
+          text,
+          style: const TextStyle(
+            fontSize: 12,
           ),
-          notifications != null
-              ? Positioned(
-                  right: 0.0,
-                  top: 0.0,
-                  child: StreamBuilder<int>(
-                    initialData: 0,
-                    stream: notifications,
-                    builder: (BuildContext context, AsyncSnapshot snapshot) {
-                      if (!snapshot.hasData || snapshot.data == 0) {
-                        return SizedBox();
-                      }
-                      return NotificationMarker();
-                    },
-                  ),
-                )
-              : SizedBox(),
-        ],
-      ),
+          maxLines: 1,
+        ),
+        notifications != null
+            ? Positioned(
+                right: 0.0,
+                top: 0.0,
+                child: StreamBuilder<int>(
+                  initialData: 0,
+                  stream: notifications,
+                  builder: (BuildContext context, AsyncSnapshot snapshot) {
+                    if (!snapshot.hasData || snapshot.data == 0) {
+                      return SizedBox();
+                    }
+                    return NotificationMarker();
+                  },
+                ),
+              )
+            : SizedBox(),
+      ],
     );
   }
 }
@@ -181,6 +186,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return StreamBuilder<List<BusinessOffer>>(
         stream: dataSource,
         builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
@@ -190,7 +196,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
           }
           final offers = snapShot.data;
           return ListView.builder(
-            padding: EdgeInsets.fromLTRB(16.0, 8, 16.0, 0.0),
+            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
             itemCount: offers.length,
             itemBuilder: (BuildContext context, int index) {
               final offer = offers[index];

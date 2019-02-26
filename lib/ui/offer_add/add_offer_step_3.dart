@@ -9,15 +9,14 @@ import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
-import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
-
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 
-class AddOfferStep3 extends StatefulWidget {
+class AddOfferStep3 extends MultiPageWizardPageWidget {
   const AddOfferStep3({
     Key key,
     this.offerBuilder,
@@ -29,15 +28,8 @@ class AddOfferStep3 extends StatefulWidget {
   _AddOfferStep3State createState() => _AddOfferStep3State();
 }
 
-class _AddOfferStep3State extends State<AddOfferStep3> with MultiPageWizardNav<AddOfferStep3> {
+class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
   final _form = GlobalKey<FormState>();
-
-  @override
-  void initState() {
-    super.initState();
-    setUpNav(context);
-  }
-
 
   @override
   Widget build(BuildContext context) {
@@ -142,19 +134,15 @@ class _AddOfferStep3State extends State<AddOfferStep3> with MultiPageWizardNav<A
                       widget.offerBuilder.location = location;
                     },
                   ),
-                  ColumnSeparator(horizontalMargin: 0,),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                    child: InfStadiumButton(
-                      height: 56,
-                      color: Colors.white,
-                      text: 'NEXT',
-                      onPressed: onNextPage,
-                    ),
-                  )
+                  ColumnSeparator(horizontalMargin: 0),
                 ],
               ),
             ),
+          ), // InfBottomButton
+          bottom: InfBottomButton(
+            color: Colors.white,
+            text: 'NEXT',
+            onPressed: nextPage,
           ),
         ),
       ],
@@ -163,14 +151,15 @@ class _AddOfferStep3State extends State<AddOfferStep3> with MultiPageWizardNav<A
 
   @override
   void onPrevPage() {
+    print('onPrevPage 3');
     _form.currentState.save();
   }
 
   @override
-  void onNextPage() {
+  void nextPage() {
     if (_form.currentState.validate() || true) {
       _form.currentState.save();
-      MultiPageWizard.of(context).nextPage();
+      super.nextPage();
     }
   }
 }

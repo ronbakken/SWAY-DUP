@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/filter/filter_panel.dart';
 import 'package:inf/ui/proposal_views/proposal_details_page.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/utils/date_time_helpers.dart';
@@ -35,6 +36,7 @@ class _ProposalListViewState extends State<ProposalListView> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
     return StreamBuilder<List<Proposal>>(
         stream: widget.dataSource,
         builder: (BuildContext context, AsyncSnapshot<List<Proposal>> snapShot) {
@@ -44,7 +46,7 @@ class _ProposalListViewState extends State<ProposalListView> {
           }
           final proposals = snapShot.data;
           return ListView.builder(
-            padding: EdgeInsets.fromLTRB(16.0, 8, 16.0, 0.0),
+            padding: EdgeInsets.fromLTRB(16.0, 8, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
             itemCount: proposals.length,
             itemBuilder: (BuildContext context, int index) {
               final proposal = proposals[index];

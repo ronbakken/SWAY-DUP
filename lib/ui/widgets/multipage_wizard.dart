@@ -1,19 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
-
 import 'package:pedantic/pedantic.dart';
 
-class MultiPageWizard extends StatefulWidget {
-  final List<Widget> pages;
-  final Color indicatorColor;
-  final Color indicatorBackgroundColor;
+/// Returned widget's must use the given key
+typedef MultiPageWizardBuilder = Widget Function(BuildContext context, Key key, int index);
 
+class MultiPageWizard extends StatefulWidget {
   const MultiPageWizard({
     Key key,
-    @required this.pages,
+    @required this.pageCount,
+    @required this.pageBuilder,
     this.indicatorColor = AppTheme.red,
     this.indicatorBackgroundColor = AppTheme.lightBlue,
   }) : super(key: key);
+
+  final int pageCount;
+  final MultiPageWizardBuilder pageBuilder;
+  final Color indicatorColor;
+  final Color indicatorBackgroundColor;
 
   @override
   MultiPageWizardState createState() => MultiPageWizardState();
@@ -25,20 +29,14 @@ class MultiPageWizard extends StatefulWidget {
 
 class MultiPageWizardState extends State<MultiPageWizard> {
   PageController _controller;
-  VoidCallback onPrevPage;
-  int _pageCount;
+  List<GlobalKey<MultiPageWizardPageState>> _pageKeys;
+  MultiPageWizardPageState _currentPage;
 
   @override
   void initState() {
     super.initState();
     _controller = PageController();
-    _pageCount = widget.pages.length;
-  }
-
-  @override
-  void didUpdateWidget(MultiPageWizard oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    _pageCount = widget.pages.length;
+    _pageKeys = List.generate(widget.pageCount, (_) => GlobalKey());
   }
 
   @override
@@ -61,7 +59,7 @@ class MultiPageWizardState extends State<MultiPageWizard> {
               child: CustomPaint(
                 painter: _WizardPageIndicatorPainter(
                   controller: _controller,
-                  pageCount: _pageCount,
+                  pageCount: widget.pageCount,
                   color: widget.indicatorColor,
                 ),
                 size: Size(double.infinity, 56.0),
@@ -69,10 +67,16 @@ class MultiPageWizardState extends State<MultiPageWizard> {
             ),
           ),
           Expanded(
-            child: PageView(
-              physics: NeverScrollableScrollPhysics(),
-              children: widget.pages,
+            child: PageView.builder(
+              physics: const NeverScrollableScrollPhysics(),
               controller: _controller,
+              onPageChanged: (int page) => _currentPage = _pageKeys[page].currentState,
+              itemCount: widget.pageCount,
+              itemBuilder: (BuildContext context, int index) {
+                Widget child = widget.pageBuilder(context, _pageKeys[index], index);
+                assert(child.key == _pageKeys[index], 'Child must use given key');
+                return child;
+              },
             ),
           )
         ],
@@ -84,9 +88,7 @@ class MultiPageWizardState extends State<MultiPageWizard> {
     // if we aren't on the first tab, a tap on the back button doesn't pop the page but moves
     // to the previous tab
     if (_controller.page > 0) {
-      if (onPrevPage != null){
-        onPrevPage();
-      }
+      _currentPage?.onPrevPage();
       unawaited(_controller.previousPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn));
       return false;
     }
@@ -94,22 +96,39 @@ class MultiPageWizardState extends State<MultiPageWizard> {
   }
 
   void nextPage() {
-    if (_controller.page.round() + 1 < _pageCount) {
+    if (_controller.page.round() + 1 < widget.pageCount) {
       _controller.nextPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn);
     }
   }
 }
 
-mixin MultiPageWizardNav<T extends StatefulWidget>  {
-  BuildContext localContext;
-  void setUpNav(BuildContext context) {
-    localContext =context;
-    MultiPageWizard.of(context).onPrevPage = onPrevPage;
+abstract class MultiPageWizardPageWidget extends StatefulWidget {
+  const MultiPageWizardPageWidget({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  MultiPageWizardPageState createState();
+}
+
+abstract class MultiPageWizardPageState<T extends MultiPageWizardPageWidget> extends State<T> {
+  MultiPageWizardState _wizard;
+
+  MultiPageWizardState get wizard => _wizard;
+
+  @override
+  void initState() {
+    super.initState();
+    _wizard = MultiPageWizard.of(context);
   }
 
-  void onPrevPage();
+  void onPrevPage() {
+    //
+  }
 
-  void onNextPage() => MultiPageWizard.of(localContext).nextPage();
+  void nextPage() {
+    _wizard.nextPage();
+  }
 }
 
 class _WizardPageIndicatorPainter extends CustomPainter {
@@ -176,7 +195,7 @@ class _WizardPageIndicatorPainter extends CustomPainter {
     );
     painter.layout();
 
-    for(int i = 0; i < controller.page.round(); i++){
+    for (int i = 0; i < controller.page.round(); i++) {
       painter.paint(canvas, centerLeft + Offset(i * segmentSize, 0.0) - painter.size.center(Offset.zero));
     }
 

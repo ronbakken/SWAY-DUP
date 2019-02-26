@@ -27,7 +27,6 @@ class AddBusinessOfferPage extends PageWidget {
 
 class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
   OfferBuilder _offerBuilder;
-  final _wizardKey = GlobalKey<MultiPageWizardState>();
 
   @override
   void initState() {
@@ -49,45 +48,15 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
       body: MultiPageWizard(
         indicatorBackgroundColor: AppTheme.blue,
         indicatorColor: AppTheme.lightBlue,
-        key: _wizardKey,
-        pages: [
-          AddOfferStep1(
-            offerBuilder: _offerBuilder,
-          ),
-          AddOfferStep2(
-            offerBuilder: _offerBuilder,
-          ),
-          AddOfferStep3(
-            offerBuilder: _offerBuilder,
-          ),
-          AddOfferStep4(
-            offerBuilder: _offerBuilder,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class OfferPage extends StatelessWidget {
-  const OfferPage({
-    Key key,
-    this.color,
-    this.offerBuilder,
-    this.next,
-  }) : super(key: key);
-
-  final Color color;
-  final OfferBuilder offerBuilder;
-  final VoidCallback next;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.blue,
-      child: RaisedButton(
-        onPressed: () {
-          MultiPageWizard.of(context).nextPage();
+        pageCount: 4,
+        pageBuilder: (BuildContext context, Key key, int index) {
+          switch(index) {
+            case 0: return AddOfferStep1(key: key, offerBuilder: _offerBuilder);
+            case 1: return AddOfferStep2(key: key, offerBuilder: _offerBuilder);
+            case 2: return AddOfferStep3(key: key, offerBuilder: _offerBuilder);
+            case 3: return AddOfferStep4(key: key, offerBuilder: _offerBuilder);
+          }
+          throw StateError('Invalid page index: $index');
         },
       ),
     );

@@ -5,19 +5,18 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
+import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_date_picker.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_radio_button.dart';
-import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/inf_time_picker.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf_api_client/inf_api_client.dart';
-
 import 'package:rx_command/rx_command.dart';
 
-class AddOfferStep4 extends StatefulWidget {
+class AddOfferStep4 extends MultiPageWizardPageWidget {
   AddOfferStep4({
     Key key,
     this.offerBuilder,
@@ -29,7 +28,7 @@ class AddOfferStep4 extends StatefulWidget {
   _AddOfferStep4State createState() => _AddOfferStep4State();
 }
 
-class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<AddOfferStep4> {
+class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
   ValueNotifier<Category> activeTopLevelCategory = ValueNotifier<Category>(null);
   TextEditingController amountController = TextEditingController();
   RxCommandListener<OfferBuilder, double> updateOfferListener;
@@ -39,8 +38,6 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
   @override
   void initState() {
     super.initState();
-
-    setUpNav(context);
 
     amountController = TextEditingController(
         text: widget.offerBuilder.unlimitedAvailable
@@ -124,7 +121,7 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                                   labelText: 'OFFER END DATE',
                                 ),
                                 initialValue: widget.offerBuilder.endDate ?? DateTime.now(),
-                                firstDate:  widget.offerBuilder.startDate,
+                                firstDate: widget.offerBuilder.startDate,
                                 lastDate: DateTime.now().add(Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
                                 onSaved: (date) {
@@ -159,7 +156,8 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                     onSaved: (s) {
                       return widget.offerBuilder.numberOffered = int.tryParse(s);
                     },
-                    validator: (s) => s.isEmpty && !widget.offerBuilder.unlimitedAvailable ? 'You have so provide value' : null,
+                    validator: (s) =>
+                        s.isEmpty && !widget.offerBuilder.unlimitedAvailable ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
                   Row(
@@ -208,19 +206,14 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
                     label: 'ALLOW NEGOTIATION',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
                   ),
-                  Spacer(),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32.0, vertical: 32.0),
-                    child: InfStadiumButton(
-                      height: 56,
-                      color: Colors.white,
-                      text: 'SAVE OFFER',
-                      onPressed: onSave,
-                    ),
-                  )
                 ],
               ),
             ),
+          ), // InfBottomButton
+          bottom: InfBottomButton(
+            color: Colors.white,
+            text: 'SAVE OFFER',
+            onPressed: onSave,
           ),
         ),
       ],
@@ -229,28 +222,26 @@ class _AddOfferStep4State extends State<AddOfferStep4> with MultiPageWizardNav<A
 
   @override
   void onPrevPage() {
+    print('onPrevPage 4');
     _form.currentState.save();
   }
 
   void onSave() async {
-    
-
     if (!_form.currentState.validate()) {
       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
       return;
     }
 
-    if (widget.offerBuilder.acceptancePolicy == null)
-    {
+    if (widget.offerBuilder.acceptancePolicy == null) {
       await showMessageDialog(context, 'We need a bit more...', 'Please tell us how you want to deal with proposals');
       return;
     }
 
     _form.currentState.save();
     // FIXME make sure end date and times cannot be before startdate
-    if (widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0)
-    {
-      await showMessageDialog(context, 'End date cannot be before start date', 'Please select an end date that is after the start date.');
+    if (widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0) {
+      await showMessageDialog(
+          context, 'End date cannot be before start date', 'Please select an end date that is after the start date.');
       return;
     }
     backend.get<OfferManager>().updateOfferCommand(widget.offerBuilder);

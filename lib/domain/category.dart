@@ -8,7 +8,7 @@ class Category {
 
   String get id => dto.id;
 
-  // for top level categories this is set to -1
+  // for top level categories this is set to an empty string
   String get parentId => dto.parentId;
 
   String get name => dto.name;
