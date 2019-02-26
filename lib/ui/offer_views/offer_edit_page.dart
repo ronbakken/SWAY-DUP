@@ -1,10 +1,10 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/category_selector_view.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
@@ -163,7 +163,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                               ),
                               initialValue: offerBuilder.cashValue.toString(),
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                              onSaved: (s) => offerBuilder.cashValue = Decimal.tryParse(s),
+                              onSaved: (s) => offerBuilder.cashValue = Money.tryParse(s),
                               validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                               keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                               onHelpPressed: () {},
@@ -187,7 +187,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                               ),
                               initialValue: offerBuilder.barterValue.toString(),
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                              onSaved: (s) => offerBuilder.barterValue = Decimal.tryParse(s),
+                              onSaved: (s) => offerBuilder.barterValue = Money.tryParse(s),
                               validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                               keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                             ),

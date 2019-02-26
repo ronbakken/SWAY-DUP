@@ -1,11 +1,11 @@
-import 'package:decimal/decimal.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:intl/intl.dart';
 
 class Reward {
   final String description;
-  final Decimal barterValue;
-  final Decimal cashValue;
+  final Money barterValue;
+  final Money cashValue;
   final RewardDto_Type type;
 
   String getTotalValueAsString([int digits = 2]) {
@@ -13,11 +13,11 @@ class Reward {
       return '';
     }
     var formatter = NumberFormat.currency(locale: "en_US", symbol: '\$', decimalDigits: 0);
-    return formatter.format((barterValue ?? Decimal.fromInt(0) + (cashValue ?? Decimal.fromInt(0))).toDouble());
+    return formatter.format((barterValue ?? Money.fromInt(0) + (cashValue ?? Money.fromInt(0))).toDouble());
   }
 
-  String get cashValueAsString => '\$${cashValue.toStringAsFixed(2)}';
-  String get barterValueAsString => '\$${barterValue.toStringAsFixed(2)}';
+  String get cashValueAsString => '\$${cashValue.toString()}';
+  String get barterValueAsString => '\$${barterValue.toString()}';
 
   Reward({
     this.type,
@@ -42,8 +42,8 @@ class Reward {
 
   static Reward fromDto(RewardDto dto) {
     return Reward(
-      barterValue: Decimal.fromInt(dto.barterValue) / Decimal.fromInt(100),
-      cashValue: Decimal.fromInt(dto.cashValue) / Decimal.fromInt(100),
+      barterValue: Money.fromDto(dto.barterValue),
+      cashValue: Money.fromDto(dto.cashValue),
       description: dto.description,
       type: dto.type,
     );
@@ -54,8 +54,8 @@ class Reward {
     assert(barterValue != null);
     assert(cashValue !=null);
      return RewardDto()
-     ..barterValue = (barterValue * Decimal.fromInt(100)).toInt()
-     ..barterValue = (cashValue * Decimal.fromInt(100)).toInt()
+     ..barterValue = barterValue.toDto()
+     ..barterValue = cashValue.toDto()
      ..description = description ?? ''
      ..type =type;
   }

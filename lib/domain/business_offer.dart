@@ -1,9 +1,7 @@
-import 'dart:typed_data';
 
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/utils/date_time_helpers.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 

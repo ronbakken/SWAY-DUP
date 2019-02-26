@@ -40,7 +40,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
         if (authResult.accessToken.isNotEmpty) {
           updateAccessToken(authResult.accessToken);
-          _currentUser = User.fromDto(authResult.userData);
+          _currentUser = User.fromDto(authResult.user);
           currentUserUpdatesSubject.add(_currentUser);
           return true;
         }
@@ -62,7 +62,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       /// store reecived token in secure storage
       /// We only store it for an active user
       /// new user store the token after sucessfull activation
-      if (authResult.userData.status == UserDto_Status.active) {
+      if (authResult.user.status == UserDto_Status.active) {
         await storeRefreshToken(refreshToken);
       }
 
@@ -70,7 +70,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       updateAccessToken(accessTokenResult.accessToken);
 
-      _currentUser = User.fromDto(authResult.userData);
+      _currentUser = User.fromDto(authResult.user);
       currentUserUpdatesSubject.add(_currentUser);
       return true;
     } else {
@@ -120,12 +120,12 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     assert(refreshToken != null);
     var response = await backend.get<InfApiClientsService>().authClient.activateUser(
         ActivateUserRequest()
-          ..userData = user.toDto()
+          ..user = user.toDto()
           ..loginToken = loginToken,
         options: callOptions);
-    if (response.userData != null) {
+    if (response.user != null) {
       await storeRefreshToken(refreshToken);
-      _currentUser = User.fromDto(response.userData);
+      _currentUser = User.fromDto(response.user);
       currentUserUpdatesSubject.add(_currentUser);
     }
   }

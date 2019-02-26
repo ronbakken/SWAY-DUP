@@ -105,7 +105,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.0.1"
+    version: "4.0.0+1"
   fixnum:
     dependency: transitive
     description:
@@ -145,7 +145,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.10.3"
+    version: "0.10.4"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -178,7 +178,7 @@ packages:
       name: googleapis_auth
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.2.6"
+    version: "0.2.7"
   grpc:
     dependency: transitive
     description:
@@ -228,7 +228,7 @@ packages:
     description:
       path: "src/inf_api_client"
       ref: "feature/list"
-      resolved-ref: c96dc0bb5d2c56c012faa40a4714c391ac4da4d3
+      resolved-ref: "0364fa2ee9b70537ee88204f19161cec2f05ea99"
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"

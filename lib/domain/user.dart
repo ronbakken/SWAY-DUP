@@ -1,8 +1,7 @@
-import 'dart:typed_data';
-
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/location.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf/domain/socialmedia_account.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
@@ -23,7 +22,7 @@ class User {
   final ImageReference avatarThumbnail;
   final ImageReference avatarImage;
   final List<Category> categories;
-  final int minimalFee;
+  final Money minimalFee;
   final List<SocialMediaAccount> socialMediaAccounts;
 
   String get locationAsString => location.name;
@@ -66,7 +65,7 @@ class User {
     ImageReference avatarThumbnail,
     ImageReference avatarImage,
     List<Category> categories,
-    int minimalFee,
+    Money minimalFee,
     List<SocialMediaAccount> socialMediaAccounts,
   }) {
     return User(
@@ -109,7 +108,7 @@ class User {
       avatarThumbnail: ImageReference.fromImageDto(dto.full.avatarThumbnail),
       avatarImage: ImageReference.fromImageDto(dto.full.avatar),
       categories: backend.get<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
-      minimalFee: dto.full.minimalFee,
+      minimalFee: Money.fromDto(dto.full.minimalFee),
       socialMediaAccounts:
           dto.full.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),
     );
@@ -144,7 +143,7 @@ class User {
         ..avatarThumbnail = avatarThumbnail.toDto()
         ..avatar = avatarImage.toDto()
         ..categoryIds.addAll(categories.map<String>((c) => c.id))
-        ..minimalFee = minimalFee ?? 0
+        ..minimalFee = minimalFee.toDto() ?? Money.fromInt(0)
         ..websiteUrl = websiteUrl ?? ''
         ..socialMediaAccounts.addAll(
           socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()),

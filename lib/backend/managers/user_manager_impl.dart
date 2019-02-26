@@ -6,7 +6,6 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:image/image.dart';
 
 class UserManagerImplementation implements UserManager {
   @override

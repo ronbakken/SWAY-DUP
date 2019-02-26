@@ -1,10 +1,9 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
-import 'package:flutter/services.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/inf_api_service_.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -128,8 +127,8 @@ class InfApiServiceMock implements InfApiService {
             reward: Reward(
               description: 'One free premium car wash',
               type: RewardDto_Type.barter,
-              barterValue: Decimal.fromInt(20),
-              cashValue: Decimal.fromInt(1000),
+              barterValue: Money.fromInt(20),
+              cashValue: Money.fromInt(1000),
             ),
           ),
           status: OfferDto_Status.active,
@@ -166,7 +165,7 @@ class InfApiServiceMock implements InfApiService {
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardDto_Type.barter,
-            barterValue: Decimal.fromInt(5),
+            barterValue: Money.fromInt(5),
           ),
         ),
         status: OfferDto_Status.active,
@@ -204,7 +203,7 @@ class InfApiServiceMock implements InfApiService {
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardDto_Type.barter,
-            barterValue: Decimal.fromInt(5),
+            barterValue: Money.fromInt(5),
           ),
         ),
         status: OfferDto_Status.active,
@@ -263,8 +262,8 @@ class InfApiServiceMock implements InfApiService {
           reward: Reward(
             description: 'One free premium car wash',
             type: RewardDto_Type.barter,
-            barterValue: Decimal.fromInt(20),
-            cashValue: Decimal.fromInt(1000),
+            barterValue: Money.fromInt(20),
+            cashValue: Money.fromInt(1000),
           ),
         ),
         status: OfferDto_Status.active,
@@ -319,7 +318,7 @@ class InfApiServiceMock implements InfApiService {
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardDto_Type.barter,
-            barterValue: Decimal.fromInt(5),
+            barterValue: Money.fromInt(5),
           ),
         ),
         status: OfferDto_Status.active,
@@ -375,7 +374,7 @@ class InfApiServiceMock implements InfApiService {
           reward: Reward(
             description: 'One ice tea for you and a friend',
             type: RewardDto_Type.barter,
-            barterValue: Decimal.fromInt(5),
+            barterValue: Money.fromInt(5),
           ),
         ),
         status: OfferDto_Status.active,

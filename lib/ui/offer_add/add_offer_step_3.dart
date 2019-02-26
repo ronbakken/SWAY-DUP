@@ -1,10 +1,10 @@
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/help_button.dart';
@@ -58,7 +58,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                       icon: Text('\$'),
                     ),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.cashValue = Decimal.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.cashValue = Money.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                     onHelpPressed: () {},
@@ -80,7 +80,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                       icon: Text('\$'),
                     ),
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.barterValue = Decimal.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.barterValue = Money.tryParse(s),
                     validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),

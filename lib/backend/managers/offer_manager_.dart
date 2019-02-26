@@ -1,10 +1,10 @@
 import 'dart:async';
 
-import 'package:decimal/decimal.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -48,8 +48,8 @@ class OfferBuilder {
   SelectionSet<SocialNetworkProvider> channels = SelectionSet<SocialNetworkProvider>();
   CategorySet categories = CategorySet();
   String deliverableDescription;
-  Decimal cashValue;
-  Decimal barterValue;
+  Money cashValue;
+  Money barterValue;
   RewardDto_Type rewardType;
   String rewardDescription;
   int minFollowers;
@@ -93,8 +93,8 @@ class OfferBuilder {
     channels = SelectionSet.fromIterable(offer.terms.deliverable.channels);
     categories = CategorySet.fromIterable(offer.categories);
     deliverableDescription = offer.terms.deliverable.description;
-    cashValue = offer.terms.reward.cashValue ?? Decimal.fromInt(0);
-    barterValue = offer.terms.reward.barterValue ?? Decimal.fromInt(0);
+    cashValue = offer.terms.reward.cashValue;
+    barterValue = offer.terms.reward.barterValue;
     rewardDescription = offer.terms.reward.description ?? '';
     rewardType = offer.terms.reward.type;
     minFollowers = offer.minFolllowers ?? 0;
@@ -139,8 +139,8 @@ class OfferBuilder {
             ..socialNetworkProviderIds.addAll(channels.toList().map<String>((c) => c.id))
             ..description = deliverableDescription)
           ..reward = (RewardDto()
-            ..barterValue = (barterValue * Decimal.fromInt(100)).toInt()
-            ..barterValue = (cashValue * Decimal.fromInt(100)).toInt()
+            ..barterValue = barterValue.toDto()
+            ..barterValue = cashValue.toDto()
             ..description = description ?? ''
             ..type = rewardType))
         ..acceptancePolicy = acceptancePolicy

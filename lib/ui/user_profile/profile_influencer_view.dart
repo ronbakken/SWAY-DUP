@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
@@ -84,7 +85,7 @@ class ProfileInfluencerView extends StatelessWidget {
               SizedBox(
                 height: 8.0,
               ),
-              Text(user.minimalFee > 0 ? '\$${ user.minimalFee.toString()}'  : ''),
+              Text(user.minimalFee > Money.fromInt(0) ? '\$${ user.minimalFee.toString()}'  : ''),
               SizedBox(
                 height: 16.0,
               ),

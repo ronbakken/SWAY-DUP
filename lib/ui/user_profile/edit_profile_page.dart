@@ -7,6 +7,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/location.dart';
+import 'package:inf/domain/money.dart';
 import 'package:inf/ui/user_profile/edit_social_media_view.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
@@ -326,7 +327,7 @@ class _UserDataViewState extends State<UserDataView> {
           name: name,
           description: aboutYou,
           location: location,
-          minimalFee: minFee ?? 0,
+          minimalFee: Money.fromInt( minFee ?? 0),
           socialMediaAccounts: socialAccounts ?? [],
         ),
         profilePicture: selectedImageFile,
