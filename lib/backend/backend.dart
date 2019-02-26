@@ -54,7 +54,7 @@ export 'package:inf/backend/services/inf_offer_service_.dart';
 export 'package:inf/utils/error_capture.dart' show ErrorReporter;
 export 'package:grpc/grpc.dart' show GrpcError, CallOptions;
 
-enum AppMode { dev, prod, mock }
+enum AppMode { dev, alpha, prod, mock }
 
 class AppEnvironment {
   final AppMode mode;
@@ -63,12 +63,20 @@ class AppEnvironment {
 
   AppEnvironment({this.mode, this.host, this.port});
 }
-
 GetIt backend = GetIt();
 AppEnvironment appEnvironment;
 
 Future<void> setupBackend({AppMode mode, String testRefreshToken}) async {
-  switch (mode) {
+  switch (mode) {   
+    case AppMode.alpha:
+      appEnvironment = AppEnvironment(
+        mode: AppMode.dev,
+        host: 'api.alpha.swaymarketplace.com',
+        port: 9026,
+      );
+      configureDevLogger();
+      registerImplementations(testRefreshToken);
+      break;
     case AppMode.dev:
       appEnvironment = AppEnvironment(
         mode: AppMode.dev,

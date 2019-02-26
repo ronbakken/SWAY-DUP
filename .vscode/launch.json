@@ -31,6 +31,22 @@
             "program": "lib/main_dev.dart",
         },
         {
+            "name": "Alpha",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_alpha.dart",
+            "args": [
+                "--flavor",
+                "dev"
+            ]
+        },
+        {
+            "name": "Alpha-ios",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main_alpha.dart",
+        },
+        {
             "name": "prod",
             "request": "launch",
             "type": "dart",
