@@ -5,5 +5,5 @@ option csharp_namespace = "API.Interfaces";
 
 message ImageDto {
     string url = 1;
-    bytes lowResData = 2;
+    string lowResUrl = 2;
 }

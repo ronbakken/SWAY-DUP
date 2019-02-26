@@ -667,7 +667,26 @@
                      ],
                      "properties": {}
                   }
-
+               ]
+            },
+            {
+               "apiVersion": "2017-04-01",
+               "name": "UserUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "mapping_service",
+                     "dependsOn": [
+                        "UserUpdated"
+                     ],
+                     "properties": {}
+                  }
                ]
             }
          ]

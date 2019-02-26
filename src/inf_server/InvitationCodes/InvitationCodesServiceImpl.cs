@@ -42,7 +42,7 @@ namespace InvitationCodes
             var database = databaseResult.Database;
             var containerResult = await database
                 .Containers
-                .CreateContainerIfNotExistsAsync(codesCollectionId, "/id")
+                .CreateContainerFromConfigurationIfNotExistsAsync(codesCollectionId, "/id")
                 .ContinueOnAnyContext();
             this.codesContainer = containerResult.Container;
 

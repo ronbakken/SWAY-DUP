@@ -23,27 +23,14 @@ namespace Offers
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
-            var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
-            TopicClient offerUpdatedTopicClient = null;
-
-            if (string.IsNullOrEmpty(serviceBusConnectionString))
-            {
-                logger.Warning("Service bus connection string not configured.");
-            }
-            else
-            {
-                offerUpdatedTopicClient = new TopicClient(
-                    serviceBusConnectionString,
-                    "OfferUpdated");
-            }
-
+            var offerUpdatedTopicClient = this.Context.CodePackageActivationContext.GetServiceBusTopicClient(this.logger, "OfferUpdated");
             this.implementation = new OffersServiceImpl(this.logger, offerUpdatedTopicClient);
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
             await implementation
-                .Initialize(this.GetCosmosClient(), cancellationToken)
+                .Initialize(this.Context.CodePackageActivationContext.GetCosmosClient(), cancellationToken)
                 .ContinueOnAnyContext();
         }
 
@@ -56,15 +43,5 @@ namespace Offers
                             this.logger,
                             OffersService.BindService(this.implementation))),
             };
-
-        private CosmosClient GetCosmosClient()
-        {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var databaseConnectionString = configurationPackage.Settings.Sections["Database"].Parameters["ConnectionString"].Value;
-            var cosmosConfiguration = new InfCosmosConfiguration(databaseConnectionString);
-            var cosmosClient = new CosmosClient(cosmosConfiguration);
-
-            return cosmosClient;
-        }
     }
 }

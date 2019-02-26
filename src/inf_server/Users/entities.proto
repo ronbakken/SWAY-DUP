@@ -5,6 +5,12 @@ option csharp_namespace = "Users";
 
 import "google/protobuf/timestamp.proto";
 
+message MoneyEntity {
+  string currency_code = 1;
+  int32 units = 2;
+  int32 nanos = 3;
+}
+
 message GeoPointEntity {
     double latitude = 1;
     double longitude = 2;
@@ -16,14 +22,14 @@ message LocationEntity {
 }
 
 message ImageEntity {
-    string uri = 1;
-    bytes lowResData = 2;
+    string url = 1;
+    string lowResUrl = 2;
 }
 
 message SocialMediaAccountEntity {
-    int32 socialNetworkProviderId = 1;
+    string socialNetworkProviderId = 1;
     string displayName = 2;
-    string profileUri = 3;
+    string profileUrl = 3;
     string description = 4;
     string email = 5;
     string userId = 6;
@@ -36,7 +42,7 @@ message SocialMediaAccountEntity {
     string refreshToken = 13;
 }
 
-message UserDataEntity {
+message UserEntity {
     enum Type {
         unknown = 0;
         influencer = 1;
@@ -53,31 +59,35 @@ message UserDataEntity {
         active = 4;
     }
 
-    int32 schemaVersion = 1;
+    uint32 schemaVersion = 1;
     string id = 2;
-    string email = 3;
-    Type type = 4;
-    Status status = 5;
-    string name = 6;
-    string description = 7;
-    ImageEntity avatar = 8;
-    ImageEntity avatarThumbnail = 9;
-    LocationEntity location = 10;
-    bool showLocation = 11;
-    bool isVerified = 12;
-    string websiteUri = 13;
-    bool acceptsDirectOffers = 14;
-    int32 accountCompletionInPercent = 15;
-    int32 minimalFee = 16;
-    repeated int32 categoryIds = 17;
-    repeated SocialMediaAccountEntity socialMediaAccounts = 18;
-    string loginToken = 19;
-    repeated string keywords = 20;
-    repeated string registrationTokens = 21;
+    uint32 revision = 3;
+    google.protobuf.Timestamp created = 4;
+    string email = 5;
+    Type type = 6;
+    Status status = 7;
+    google.protobuf.Timestamp statusTimestamp = 8;
+    string name = 9;
+    string description = 10;
+    ImageEntity avatar = 11;
+    ImageEntity avatarThumbnail = 12;
+    LocationEntity location = 13;
+    bool showLocation = 14;
+    bool isVerified = 15;
+    string websiteUrl = 16;
+    bool acceptsDirectOffers = 17;
+    int32 accountCompletionInPercent = 18;
+    MoneyEntity minimalFee = 19;
+    repeated string categoryIds = 20;
+    repeated SocialMediaAccountEntity socialMediaAccounts = 21;
+    repeated string keywords = 22;
+    repeated string registrationTokens = 23;
+
+    string loginToken = 24;
 }
 
 message UserSessionEntity {
-    int32 schemaVersion = 1;
+    uint32 schemaVersion = 1;
     string id = 2;
     string userId = 3;
     string refreshToken = 4;

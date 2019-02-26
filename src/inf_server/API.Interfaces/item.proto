@@ -1,0 +1,18 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "map_item.proto";
+import "offer.proto";
+import "user.proto";
+
+message ItemDto {
+    oneof data {
+        OfferDto offer = 1;
+        UserDto user = 2;
+        MapItemDto mapItem = 3;
+
+        // Other item types to be added here.
+    }
+}

@@ -21,7 +21,9 @@ namespace MockServer
                     InfConfig.BindService(new InfConfigImpl()),
                     InfSystem.BindService(new InfSystemImpl()),
                     InfBlobStorage.BindService(new InfBlobStorageImpl()),
-                    InfUsers.BindService(new InfUsersImpl())
+                    InfUsers.BindService(new InfUsersImpl()),
+                    InfList.BindService(new InfListImpl()),
+                    InfOffers.BindService(new InfOffersImpl())
                 },
                 Ports =
                 {

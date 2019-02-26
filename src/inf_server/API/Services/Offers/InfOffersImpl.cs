@@ -1,7 +1,6 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using API.Interfaces;
-using AutoMapper;
+using API.ObjectMapping;
 using Grpc.Core;
 using Offers.Interfaces;
 using Serilog;
@@ -9,6 +8,7 @@ using Utility;
 using static API.Interfaces.InfOffers;
 using static Offers.Interfaces.OffersService;
 using api = API.Interfaces;
+using offers = Offers.Interfaces;
 
 namespace API.Services.Offers
 {
@@ -21,26 +21,27 @@ namespace API.Services.Offers
             this.logger = logger.ForContext<InfOffersImpl>();
         }
 
-        public override Task<CreateOfferResponse> CreateOffer(CreateOfferRequest request, ServerCallContext context) =>
+        public override Task<UpdateOfferResponse> UpdateOffer(UpdateOfferRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
                 {
                     var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
                     var userId = context.GetAuthenticatedUserId();
-                    logger.Debug("Creating offer for user {UserId}: {@Offer}", userId, request.Offer);
+                    logger.Debug("Updating offer for user {UserId}: {@Offer}", userId, request.Offer);
 
                     var offerDto = request.Offer;
-                    var offer = Mapper.Map<Offer>(offerDto);
-                    offer.UserId = userId;
+                    var offer = offerDto.ToOffer();
+                    // TODO: should maybe assert that the business account ID is either empty or the current user's ID? Set it if empty.
+                    //offer.BusinessAccountId = userId;
 
                     var result = await offersService
                         .SaveOfferAsync(new SaveOfferRequest { Offer = offer });
                     logger.Debug("Saved offer for user {UserId}: {@Offer}", userId, result);
 
-                    var response = new CreateOfferResponse
+                    var response = new UpdateOfferResponse
                     {
-                        Offer = Mapper.Map<OfferDto>(result.Offer),
+                        Offer = result.Offer.ToOfferDto(OfferDto.DataOneofCase.Full),
                     };
 
                     return response;
@@ -52,50 +53,22 @@ namespace API.Services.Offers
                 async (logger) =>
                 {
                     var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
-                    var offer = await offersService
-                        .GetOfferAsync(Mapper.Map<global::Offers.Interfaces.GetOfferRequest>(request));
+                    var getOfferRequest = new offers.GetOfferRequest
+                    {
+                        Id = request.Id,
+                        UserId = request.UserId,
+                    };
+                    var getOfferResponse = await offersService
+                        .GetOfferAsync(getOfferRequest);
+                    var offer = getOfferResponse.Offer;
                     logger.Debug("Retrieved offer with ID {Id}: {@Offer}", request.Id, offer);
 
                     var response = new api.GetOfferResponse
                     {
-                        Offer = Mapper.Map<OfferDto>(offer),
+                        Offer = getOfferResponse.Offer.ToOfferDto(OfferDto.DataOneofCase.Full),
                     };
 
                     return response;
-                });
-
-        public override Task ListOffers(IAsyncStreamReader<api.ListOffersRequest> requestStream, IServerStreamWriter<api.ListOffersResponse> responseStream, ServerCallContext context) =>
-            APISanitizer.Sanitize(
-                this.logger,
-                async (logger) =>
-                {
-                    var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
-
-                    while (await requestStream.MoveNext(context.CancellationToken).ContinueOnAnyContext())
-                    {
-                        var request = requestStream.Current;
-                        var continuationToken = request.Continuation.ContinuationCase == ContinuationDto.ContinuationOneofCase.ContinuationToken ? request.Continuation.ContinuationToken : null;
-                        var result = await offersService
-                            .ListOffersAsync(Mapper.Map<global::Offers.Interfaces.ListOffersRequest>(request));
-
-                        var response = new api.ListOffersResponse
-                        {
-                            Continuation =
-                                string.IsNullOrEmpty(result.ContinuationToken) ?
-                                new ContinuationDto
-                                {
-                                    NonContinuationReason = ContinuationDto.Types.NonContinuationReason.LastPage,
-                                } :
-                                new ContinuationDto
-                                {
-                                    ContinuationToken = result.ContinuationToken,
-                                },
-                        };
-                        response.Items.AddRange(result.Offers.Select(item => Mapper.Map<OfferDto>(item)));
-                        await responseStream
-                            .WriteAsync(response)
-                            .ContinueOnAnyContext();
-                    }
                 });
 
         private static Task<OffersServiceClient> GetOffersServiceClient() =>

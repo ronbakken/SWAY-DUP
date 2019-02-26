@@ -4,17 +4,13 @@ package mapping;
 option csharp_namespace = "Mapping.Interfaces";
 
 service MappingService {
-    rpc Search (SearchRequest) returns (SearchResponse) {}
+    rpc ListMapItems (ListMapItemsRequest) returns (ListMapItemsResponse) {}
 }
 
-message SearchFilter {
-    enum ItemType {
-        offers = 0;
-        users = 1;
-    }
-
-    repeated ItemType itemTypes = 1;
-    string quadKey = 2;
+message Money {
+  string currency_code = 1;
+  int32 units = 2;
+  int32 nanos = 3;
 }
 
 message GeoPoint {
@@ -41,17 +37,81 @@ message MapItem {
 
 message OfferMapItem {
     string offerId = 1;
-    string userId = 2;
 }
 
 message UserMapItem {
     string userId = 1;
 }
 
-message SearchRequest {
-    SearchFilter filter = 1;
+message ListMapItemsRequest {
+    message Filter {
+        // Offer-specific filters
+        message OfferFilterDto {
+            enum Status {
+                unknown = 0;
+                active = 1;
+                inactive = 2;
+                closed = 3;
+                archived = 4;
+            }
+
+            enum DeliverableType {
+                post = 0;
+                mention = 1;
+                video = 2;
+                custom = 3;
+            }
+
+            enum AcceptancePolicy {
+                manualReview = 0;
+                automaticAcceptMatching = 1;
+                allowNegotiation = 2;
+            }
+
+            enum RewardType {
+                barter = 0;
+                cash = 1;
+                barterAndCash =2;
+            }
+
+            string businessAccountId = 1;
+            repeated Status offerStatuses = 2;
+            repeated DeliverableType deliverableTypes = 3;
+            repeated AcceptancePolicy acceptancePolicies = 4;
+            repeated RewardType rewardTypes = 5;
+            Money minimumReward = 6;
+        }
+
+        // User-specific filter
+        message UserFilterDto {
+            enum Type {
+                unknown = 0;
+                influencer = 1;
+                business = 2;
+            }
+
+            repeated Type userTypes = 1;
+            repeated string socialMediaNetworkIds = 2;
+        }
+
+        enum ItemType {
+            offers = 0;
+            users = 1;
+        }
+
+        repeated ItemType itemTypes = 1;
+        repeated string quadKeys = 2;
+
+        repeated string categoryIds = 3;
+        string phrase = 4;
+
+        OfferFilterDto offerFilter = 5;
+        UserFilterDto userFilter = 6;
+    }
+
+    Filter filter = 1;
 }
 
-message SearchResponse {
+message ListMapItemsResponse {
     repeated MapItem results = 1;
 }

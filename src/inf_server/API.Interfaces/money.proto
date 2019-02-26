@@ -1,0 +1,10 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+message MoneyDto {
+  string currency_code = 1;
+  int32 units = 2;
+  int32 nanos = 3;
+}

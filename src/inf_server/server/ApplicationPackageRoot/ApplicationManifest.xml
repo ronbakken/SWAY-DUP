@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="serverType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="serverType" ApplicationTypeVersion="1.0.1" xmlns="http://schemas.microsoft.com/2011/01/fabric">
   <Parameters>
     <!--
         Connection strings for various Azure services.
@@ -13,7 +13,7 @@
        should match the Name and Version attributes of the ServiceManifest element defined in the
        ServiceManifest.xml file. -->
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="MappingPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="MappingPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides>
       <ConfigOverride Name="Config">
         <Settings>
@@ -31,7 +31,7 @@
     </ConfigOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="OffersPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="OffersPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides>
       <ConfigOverride Name="Config">
         <Settings>
@@ -49,7 +49,25 @@
     </ConfigOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="UsersPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="UsersPkg" ServiceManifestVersion="1.0.1" />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="Database">
+            <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
+          </Section>
+          <Section Name="ServiceBus">
+            <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
+          </Section>
+          <Section Name="Logging">
+            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="InvitationCodesPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides>
       <ConfigOverride Name="Config">
         <Settings>
@@ -64,22 +82,7 @@
     </ConfigOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="InvitationCodesPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides>
-      <ConfigOverride Name="Config">
-        <Settings>
-          <Section Name="Database">
-            <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
-          </Section>
-          <Section Name="Logging">
-            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
-          </Section>
-        </Settings>
-      </ConfigOverride>
-    </ConfigOverrides>
-  </ServiceManifestImport>
-  <ServiceManifestImport>
-    <ServiceManifestRef ServiceManifestName="APIPkg" ServiceManifestVersion="1.0.0" />
+    <ServiceManifestRef ServiceManifestName="APIPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides>
       <ConfigOverride Name="Config">
         <Settings>

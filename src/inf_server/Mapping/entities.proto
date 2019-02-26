@@ -1,9 +1,13 @@
-﻿syntax = "proto3";
+﻿ syntax = "proto3";
 
 package mapping;
 option csharp_namespace = "Mapping";
 
-import "google/protobuf/timestamp.proto";
+message MoneyEntity {
+  string currency_code = 1;
+  int32 units = 2;
+  int32 nanos = 3;
+}
 
 message GeoPointEntity {
     double latitude = 1;
@@ -17,10 +21,71 @@ message MapItemEntity {
         inactive = 2;
     }
 
-    int32 schemaVersion = 1;
+    message OfferEntity {
+        enum Status {
+            unknown = 0;
+            active = 1;
+            inactive = 2;
+            closed = 3;
+            archived = 4;
+        }
+
+        enum DeliverableType {
+            post = 0;
+            mention = 1;
+            video = 2;
+            custom = 3;
+        }
+
+        enum AcceptancePolicy {
+            manualReview = 0;
+            automaticAcceptMatching = 1;
+            allowNegotiation = 2;
+        }
+
+        enum RewardType {
+            barter = 0;
+            cash = 1;
+            barterAndCash =2;
+        }
+
+        string businessAccountId = 1;
+        Status status = 2;
+        repeated DeliverableType deliverableTypes = 3;
+        AcceptancePolicy acceptancePolicy = 4;
+        RewardType rewardType = 5;
+        MoneyEntity reward = 6;
+    }
+
+    message UserEntity {
+        enum UserType {
+            unknown = 0;
+            influencer = 1;
+            business = 2;
+        }
+
+        UserType type = 1;
+        repeated string socialMediaNetworkIds = 2;
+    }
+
+    uint32 schemaVersion = 1;
     string quadKey = 2;
     string id = 3;
     Status status = 4;
-    string userId = 5;
-    GeoPointEntity geoPoint = 6;
+    GeoPointEntity geoPoint = 5;
+    repeated string categoryIds = 6;
+    repeated string keywords = 7;
+
+    oneof data {
+        OfferEntity offer = 8;
+        UserEntity user = 9;
+    }
+}
+
+// Arguments to the saveMapItem stored procedure
+message SaveMapItemArgsEntity {
+    uint32 maxMapLevel = 1;
+    string previousQuadKey = 2;
+    string currentQuadKey = 3;
+    MapItemEntity mapItem = 4;
 }

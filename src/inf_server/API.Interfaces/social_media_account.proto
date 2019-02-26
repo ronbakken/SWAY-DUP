@@ -5,7 +5,7 @@ option csharp_namespace = "API.Interfaces";
 
 message SocialMediaAccountDto {
     string displayName = 4 ;
-    int32 socialNetworkProviderId = 5;
+    string socialNetworkProviderId = 5;
 
     /* Further info. May have null values. Most data isn't always shared. */
     /// Url to the actual social media profile
@@ -19,7 +19,7 @@ message SocialMediaAccountDto {
     // The I think we should go away from showing follower counts to a sort of rating
     int32 audienceSize = 11;
     int32 postCount = 12;
-    bool verified = 13;
+    bool isVerified = 13;
 
     // Not all of them will be set
     // meaning depends on the type of Social Network Provider

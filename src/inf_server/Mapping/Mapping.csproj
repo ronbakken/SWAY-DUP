@@ -12,7 +12,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" />
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
         <PackageReference Include="Microsoft.Azure.Cosmos" />
@@ -28,6 +27,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Mapping.Interfaces\Mapping.Interfaces.csproj" />
+        <ProjectReference Include="..\Offers.Interfaces\Offers.Interfaces.csproj" />
+        <ProjectReference Include="..\Users.Interfaces\Users.Interfaces.csproj" />
         <ProjectReference Include="..\Utility\Utility.csproj" />
     </ItemGroup>
 

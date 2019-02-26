@@ -5,14 +5,14 @@ namespace Serilog
 {
     public static class LoggerExtensions
     {
-        public static PerformanceBlock Performance(this ILogger @this, string messageTemplate)
+        public static PerformanceBlock Performance(this ILogger @this, string message)
         {
             if (!@this.IsEnabled(LogEventLevel.Debug))
             {
                 return PerformanceBlock.Empty;
             }
 
-            return new PerformanceBlock(@this, messageTemplate, null);
+            return new PerformanceBlock(@this, message, null);
         }
 
         public static PerformanceBlock Performance<T>(this ILogger @this, string messageTemplate, T propertyValue)

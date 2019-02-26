@@ -13,7 +13,7 @@ namespace MockServer
             Console.WriteLine("InfConfigImpl.CreateNewUser called");
             var result = new ActivateUserResponse
             {
-                UserData = request.UserData
+                User = request.User,
             };
             return Task.FromResult(result);
         }
@@ -38,7 +38,7 @@ namespace MockServer
             var user = DatabaseMock.Instance().GetUser(request.LoginToken);
             if (user != null)
             {
-                return Task.FromResult(new LoginWithLoginTokenResponse { RefreshToken = "4711", UserData = user });
+                return Task.FromResult(new LoginWithLoginTokenResponse { RefreshToken = "4711", User = user });
             }
             else
             {
@@ -52,7 +52,7 @@ namespace MockServer
             var user = DatabaseMock.Instance().GetUser(request.RefreshToken);
             if (user != null)
             {
-                return Task.FromResult(new LoginWithRefreshTokenResponse { AccessToken = "4711", UserData = user });
+                return Task.FromResult(new LoginWithRefreshTokenResponse { AccessToken = "4711", User = user });
             }
             else
             {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using API.Interfaces;
-using AutoMapper;
+using API.ObjectMapping;
 using Grpc.Core;
 using InvitationCodes.Interfaces;
 using Serilog;
@@ -12,6 +12,7 @@ using Utility.Tokens;
 using static API.Interfaces.InfAuth;
 using static InvitationCodes.Interfaces.InvitationCodeService;
 using static Users.Interfaces.UsersService;
+using service = Users.Interfaces;
 
 namespace API.Services.Auth
 {
@@ -49,15 +50,15 @@ namespace API.Services.Auth
             CancellationToken cancellationToken)
         {
             var email = request.Email;
-            var getUserDataResponse = await usersService
-                .GetUserDataByEmailAsync(new GetUserDataByEmailRequest { Email = email });
-            var userData = getUserDataResponse.UserData;
+            var getUserResponse = await usersService
+                .GetUserByEmailAsync(new GetUserByEmailRequest { Email = email });
+            var user = getUserResponse.User;
 
-            logger.Debug("Resolved data for user with email {Email}: {@UserData}", email, userData);
+            logger.Debug("Resolved user with email {Email}: {@User}", email, user);
 
-            var userType = Mapper.Map<UserData.Types.Type>(request.UserType);
-            var userStatus = UserData.Types.Status.WaitingForActivation;
-            var userShouldAlreadyBeActive = userType == UserData.Types.Type.Unknown;
+            var userType = request.UserType.ToUserType();
+            var userStatus = UserStatus.WaitingForActivation;
+            var userShouldAlreadyBeActive = userType == global::Users.Interfaces.UserType.Unknown;
 
             if (!userShouldAlreadyBeActive && string.IsNullOrEmpty(request.InvitationCode))
             {
@@ -67,9 +68,9 @@ namespace API.Services.Auth
 
             if (userShouldAlreadyBeActive)
             {
-                if (userData == null || userData.Status != UserData.Types.Status.Active)
+                if (user == null || user.Status != UserStatus.Active)
                 {
-                    logger.Warning("User with email {Email} should already be active, but their status is {UserStatus}", email, userData?.Status);
+                    logger.Warning("User with email {Email} should already be active, but their status is {UserStatus}", email, user?.Status);
 
                     // Help mitigate "timing" attacks.
                     await Task
@@ -79,15 +80,15 @@ namespace API.Services.Auth
                     return;
                 }
 
-                userType = userData.Type;
-                userStatus = userData.Status;
+                userType = user.Type;
+                userStatus = user.Status;
                 logger.Debug("User with email {Email} was found, and they are of type {UserType}, status {UserStatus}", email, userType, userStatus);
             }
             else
             {
-                if (userData != null && userData.Status != UserData.Types.Status.WaitingForActivation)
+                if (user != null && user.Status != UserStatus.WaitingForActivation)
                 {
-                    logger.Warning("User with email {Email} should either not exist, or be awaiting activation, but they do exist with a status of {UserStatus}", email, userData.Status);
+                    logger.Warning("User with email {Email} should either not exist, or be awaiting activation, but they do exist with a status of {UserStatus}", email, user.Status);
 
                     // Help mitigate "timing" attacks.
                     await Task
@@ -98,21 +99,21 @@ namespace API.Services.Auth
                 }
             }
 
-            if (userData == null)
+            if (user == null)
             {
-                logger.Debug("No data found for user with email {Email}, so creating it", email);
-                userData = new UserData();
+                logger.Debug("No user with email {Email} was found, so creating one", email);
+                user = new User();
             }
 
             // Initial save is to ensure user is allocated an ID, which we need in the login token.
-            userData.Email = email;
-            userData.Type = userType;
-            userData.Status = userStatus;
-            logger.Debug("Saving data for user with email {Email}: {@UserData}", email, userData);
-            var saveUserDataResponse = await usersService
-                .SaveUserDataAsync(new SaveUserDataRequest { UserData = userData });
-            userData = saveUserDataResponse.UserData;
-            var userId = userData.Id;
+            user.Email = email;
+            user.Type = userType;
+            user.Status = userStatus;
+            logger.Debug("Saving user with email {Email}: {@User}", email, user);
+            var saveUserResponse = await usersService
+                .SaveUserAsync(new SaveUserRequest { User = user });
+            user = saveUserResponse.User;
+            var userId = user.Id;
 
             logger.Debug("Generating login token for user {UserId}, email {Email}, status {UserStatus}, invitation code {InvitationCode}", userId, email, userType, request.InvitationCode);
             var loginToken = TokenManager.GenerateLoginToken(
@@ -123,11 +124,11 @@ namespace API.Services.Auth
                 request.InvitationCode);
 
             // Now we can save the user again, this time with an associated login token.
-            userData.LoginToken = loginToken;
-            logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
-            saveUserDataResponse = await usersService
-                .SaveUserDataAsync(new SaveUserDataRequest { UserData = userData });
-            userData = saveUserDataResponse.UserData;
+            user.LoginToken = loginToken;
+            logger.Debug("Saving user {UserId}: {@User}", userId, user);
+            saveUserResponse = await usersService
+                .SaveUserAsync(new SaveUserRequest { User = user });
+            user = saveUserResponse.User;
 
             var link = $"https://www.swaymarketplace.com/app/verify?token={loginToken}";
             logger.Debug("Sending verification email for user {UserId} with link {Link}", userId, link);
@@ -137,7 +138,7 @@ namespace API.Services.Auth
                 await emailService
                     .SendVerificationEmail(
                         email,
-                        userData.Name ?? email,
+                        user.Name ?? email,
                         link,
                         cancellationToken)
                     .ContinueOnAnyContext();
@@ -157,27 +158,27 @@ namespace API.Services.Auth
                     var userId = context.GetAuthenticatedUserId();
 
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var getUserDataResponse = await usersService
-                        .GetUserDataAsync(new GetUserDataRequest { Id = userId });
-                    var userData = getUserDataResponse.UserData;
+                    var getUserResponse = await usersService
+                        .GetUserAsync(new service.GetUserRequest { Id = userId });
+                    var user = getUserResponse.User;
 
-                    if (userData == null)
+                    if (user == null)
                     {
                         logger.Warning("No user could be found with ID {UserId}", userId);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "No data found for user."));
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, "User not found."));
                     }
 
-                    if (userId != request.UserData.Id.ValueOr(userId))
+                    if (userId != request.User.Id.ValueOr(userId))
                     {
-                        logger.Warning("The authenticated user ID is {UserId}. However, the user ID in the request data is {RequestUserId}, which does not match", userId, request.UserData.Id);
+                        logger.Warning("The authenticated user ID is {UserId}. However, the user ID in the request data is {RequestUserId}, which does not match", userId, request.User.Id);
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, "Mismatch between the authenticated user ID and the user ID in the request data."));
                     }
 
                     logger.Debug("Validating status of user {UserId}", userId);
 
-                    if (userData.Status != UserData.Types.Status.WaitingForActivation)
+                    if (user.Status != UserStatus.WaitingForActivation)
                     {
-                        logger.Warning("User {UserId} has status {UserStatus}, so they cannot be activated", userId, userData.Status);
+                        logger.Warning("User {UserId} has status {UserStatus}, so they cannot be activated", userId, user.Status);
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' is not awaiting activation."));
                     }
 
@@ -207,17 +208,17 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.FailedPrecondition, "Could not honor invitation code."));
                     }
 
-                    userData = Mapper.Map<UserData>(request.UserData);
-                    userData.Id = userId;
-                    userData.Status = UserData.Types.Status.Active;
-                    logger.Debug("Updating data for user {UserId} to {@UserData}", userId, userData);
-                    var saveUserDataResponse = await usersService
-                        .SaveUserDataAsync(new SaveUserDataRequest { UserData = userData });
-                    userData = saveUserDataResponse.UserData;
+                    user = request.User.ToUser();
+                    user.Id = userId;
+                    user.Status = UserStatus.Active;
+                    logger.Debug("Updating user {UserId} to {@User}", userId, user);
+                    var saveUserResponse = await usersService
+                        .SaveUserAsync(new SaveUserRequest { User = user });
+                    user = saveUserResponse.User;
 
                     var result = new ActivateUserResponse
                     {
-                        UserData = Mapper.Map<UserDto>(userData),
+                        User = user.ToUserDto(UserDto.DataOneofCase.Full),
                     };
 
                     logger.Information("User {UserId} has been activated", userId);
@@ -241,29 +242,29 @@ namespace API.Services.Auth
                     }
 
                     var userId = validationResult.UserId;
-                    logger.Debug("Getting data for user {UserId}", userId);
+                    logger.Debug("Getting user {UserId}", userId);
                     var userType = validationResult.UserType;
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var getUserDataResponse = await usersService
-                        .GetUserDataAsync(new GetUserDataRequest { Id = userId });
-                    var userData = getUserDataResponse.UserData;
+                    var getUserResponse = await usersService
+                        .GetUserAsync(new service.GetUserRequest { Id = userId });
+                    var user = getUserResponse.User;
 
-                    if (userData == null)
+                    if (user == null)
                     {
-                        logger.Warning("Refresh token {LoginToken} for user with ID {UserId} has no associated data", loginToken, userId);
-                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Login token is for user with ID '{userId}', but that user has no associated data."));
+                        logger.Warning("Refresh token {LoginToken} for user with ID {UserId} has no associated user", loginToken, userId);
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Login token is for user with ID '{userId}', but that user was not found."));
                     }
 
-                    if (userData.Status != UserData.Types.Status.WaitingForActivation && userData.Status != UserData.Types.Status.Active)
+                    if (user.Status != UserStatus.WaitingForActivation && user.Status != UserStatus.Active)
                     {
-                        logger.Warning("User {UserId} has status {UserStatus}, so they cannot be logged in with a login token", userId, userData.Status);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' has a status of '{userData.Status}'. They must be waiting for activation or already active."));
+                        logger.Warning("User {UserId} has status {UserStatus}, so they cannot be logged in with a login token", userId, user.Status);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' has a status of '{user.Status}'. They must be waiting for activation or already active."));
                     }
 
-                    if (userData.LoginToken != loginToken)
+                    if (user.LoginToken != loginToken)
                     {
-                        logger.Warning("User {UserId} has login token {UserLoginToken} which does not match provided login token {LoginToken}, so they cannot be logged in", userId, userData.LoginToken, loginToken);
-                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"Provided login token does not match against the data for user '{userId}'."));
+                        logger.Warning("User {UserId} has login token {UserLoginToken} which does not match provided login token {LoginToken}, so they cannot be logged in", userId, user.LoginToken, loginToken);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"Provided login token does not match against the user '{userId}'."));
                     }
 
                     logger.Debug("Generating refresh token for user {UserId}, type {UserType}", userId, userType);
@@ -286,16 +287,16 @@ namespace API.Services.Auth
                     await usersService
                         .SaveUserSessionAsync(new SaveUserSessionRequest { UserSession = userSession });
 
-                    userData.LoginToken = "";
-                    logger.Debug("Saving data for user {UserId}: {@UserData}", userId, userData);
-                    var saveUserDataResponse = await usersService
-                        .SaveUserDataAsync(new SaveUserDataRequest { UserData = userData });
-                    userData = saveUserDataResponse.UserData;
+                    user.LoginToken = "";
+                    logger.Debug("Saving user {UserId}: {@User}", userId, user);
+                    var saveUserResponse = await usersService
+                        .SaveUserAsync(new SaveUserRequest { User = user });
+                    user = saveUserResponse.User;
 
                     var result = new LoginWithLoginTokenResponse
                     {
                         RefreshToken = refreshToken,
-                        UserData = Mapper.Map<UserDto>(userData),
+                        User = user.ToUserDto(UserDto.DataOneofCase.Full),
                     };
 
                     return result;
@@ -317,16 +318,16 @@ namespace API.Services.Auth
                     }
 
                     var userId = validationResult.UserId;
-                    logger.Debug("Retrieving data for user {UserId}", userId);
+                    logger.Debug("Retrieving user {UserId}", userId);
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var getUserDataResponse = await usersService
-                        .GetUserDataAsync(new GetUserDataRequest { Id = userId });
-                    var userData = getUserDataResponse.UserData;
+                    var getUserResponse = await usersService
+                        .GetUserAsync(new service.GetUserRequest { Id = userId });
+                    var user = getUserResponse.User;
 
-                    if (userData == null)
+                    if (user == null)
                     {
-                        logger.Warning("Refresh token {RefreshToken} for user with ID {UserId} has no associated data", refreshToken, userId);
-                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Refresh token is for user with ID '{userId}', but that user has no associated data."));
+                        logger.Warning("Refresh token {RefreshToken} for user with ID {UserId} has no associated user", refreshToken, userId);
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, $"Refresh token is for user with ID '{userId}', but that user was not found."));
                     }
 
                     logger.Debug("Validating session for user {UserId}", userId);
@@ -339,14 +340,14 @@ namespace API.Services.Auth
                         throw new RpcException(new Status(StatusCode.PermissionDenied, $"Refresh token is not associated with a valid session for user '{userId}'."));
                     }
 
-                    var userType = userData.Type;
+                    var userType = user.Type;
                     logger.Debug("Generating access token for user {UserId}, type {UserType}", userId, userType);
                     var accessToken = TokenManager.GenerateAccessToken(userId, userType.ToString());
 
                     var result = new LoginWithRefreshTokenResponse
                     {
                         AccessToken = accessToken,
-                        UserData = Mapper.Map<UserDto>(userData),
+                        User = user.ToUserDto(UserDto.DataOneofCase.Full),
                     };
 
                     return result;

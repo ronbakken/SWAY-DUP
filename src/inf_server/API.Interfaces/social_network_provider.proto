@@ -13,7 +13,7 @@ enum SocialNetworkProviderType {
 }
 
 message SocialNetworkProviderDto {
-    int32 id  = 1;
+    string id  = 1;
     SocialNetworkProviderType type = 2;
     string name = 3;
     // one of the following must be set

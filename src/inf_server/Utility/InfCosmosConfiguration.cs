@@ -1,10 +1,13 @@
 ﻿using System.IO;
 using System.Reflection;
 using System.Text;
+using System.Threading;
+using System.Threading.Tasks;
 using Google.Protobuf;
 using Google.Protobuf.Reflection;
 using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json.Linq;
+using Serilog;
 
 namespace Utility
 {
@@ -14,6 +17,7 @@ namespace Utility
             : base(connectionString)
         {
             this.UseCustomJsonSerializer(JsonNetCosmosJsonSerializer.Instance);
+            this.AddCustomHandlers(LoggingHandler.Instance);
         }
 
         // TODO: HACK: exists only to get around https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
@@ -70,6 +74,38 @@ namespace Utility
 
                 streamPayload.Position = 0;
                 return streamPayload;
+            }
+        }
+
+        private sealed class LoggingHandler : CosmosRequestHandler
+        {
+            public static readonly LoggingHandler Instance = new LoggingHandler();
+
+            private static readonly ILogger logger = Logging.GetLogger<InfCosmosConfiguration>();
+
+            private LoggingHandler()
+            {
+            }
+
+            public override async Task<CosmosResponseMessage> SendAsync(CosmosRequestMessage request, CancellationToken cancellationToken)
+            {
+                using (var performanceBlock = logger.Performance("Cosmos DB request: method {Method}, URI {Uri}, headers {@Headers}, properties {@Properties}", request.Method, request.RequestUri, request.Headers, request.Properties))
+                {
+                    var response = await base.SendAsync(request, cancellationToken);
+
+                    performanceBlock.ReplaceMessage(
+                        "Cosmos DB request: method {Method}, URI {Uri}, headers {@Headers}, properties {@Properties}. Response: status code {StatusCode} (is success {IsSuccess}), error message {ErrorMessage}, headers {@Headers}",
+                        request.Method,
+                        request.RequestUri,
+                        request.Headers,
+                        request.Properties,
+                        response.StatusCode,
+                        response.IsSuccessStatusCode,
+                        response.ErrorMessage,
+                        response.Headers);
+
+                    return response;
+                }
             }
         }
     }

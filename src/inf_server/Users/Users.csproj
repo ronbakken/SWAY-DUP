@@ -12,7 +12,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" />
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
         <PackageReference Include="Microsoft.Azure.Cosmos" />
@@ -32,6 +31,14 @@
 
     <ItemGroup>
         <ProtoBuf Include="*.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="CosmosServerSideCode\saveUser.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="CosmosServerSideCode\saveUser.js" />
     </ItemGroup>
 
 </Project>

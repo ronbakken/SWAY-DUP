@@ -47,14 +47,14 @@ namespace API
             { "/api.InfInvitationCodes/GenerateInvitationCode", AuthenticatedUserTypes.Admin },
             { "/api.InfInvitationCodes/GetInvitationCodeStatus", AuthenticatedUserTypes.Anonymous },
 
-            // InfMapping
-            { "/api.InfMapping/Search", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            // InfList
+            { "/api.InfList/List", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 
             // InfMessaging
             { "/api.InfMessaging/Notify", AuthenticatedUserTypes.Anonymous },
 
             // InfOffers
-            { "/api.InfOffers/CreateOffer", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            { "/api.InfOffers/UpdateOffer", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
             { "/api.InfOffers/GetOffer", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
             { "/api.InfOffers/ListOffers", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 

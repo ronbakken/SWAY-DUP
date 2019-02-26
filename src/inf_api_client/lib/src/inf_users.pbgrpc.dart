@@ -21,11 +21,6 @@ class InfUsersClient extends Client {
           '/api.InfUsers/UpdateUser',
           (UpdateUserRequest value) => value.writeToBuffer(),
           (List<int> value) => new UpdateUserResponse.fromBuffer(value));
-  static final _$searchUsers =
-      new ClientMethod<SearchUsersRequest, SearchUsersResponse>(
-          '/api.InfUsers/SearchUsers',
-          (SearchUsersRequest value) => value.writeToBuffer(),
-          (List<int> value) => new SearchUsersResponse.fromBuffer(value));
 
   InfUsersClient(ClientChannel channel, {CallOptions options})
       : super(channel, options: options);
@@ -42,14 +37,6 @@ class InfUsersClient extends Client {
       {CallOptions options}) {
     final call = $createCall(
         _$updateUser, new $async.Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
-  }
-
-  ResponseFuture<SearchUsersResponse> searchUsers(SearchUsersRequest request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$searchUsers, new $async.Stream.fromIterable([request]),
         options: options);
     return new ResponseFuture(call);
   }
@@ -73,13 +60,6 @@ abstract class InfUsersServiceBase extends Service {
         false,
         (List<int> value) => new UpdateUserRequest.fromBuffer(value),
         (UpdateUserResponse value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<SearchUsersRequest, SearchUsersResponse>(
-        'SearchUsers',
-        searchUsers_Pre,
-        false,
-        false,
-        (List<int> value) => new SearchUsersRequest.fromBuffer(value),
-        (SearchUsersResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<GetUserResponse> getUser_Pre(
@@ -92,15 +72,8 @@ abstract class InfUsersServiceBase extends Service {
     return updateUser(call, await request);
   }
 
-  $async.Future<SearchUsersResponse> searchUsers_Pre(
-      ServiceCall call, $async.Future request) async {
-    return searchUsers(call, await request);
-  }
-
   $async.Future<GetUserResponse> getUser(
       ServiceCall call, GetUserRequest request);
   $async.Future<UpdateUserResponse> updateUser(
       ServiceCall call, UpdateUserRequest request);
-  $async.Future<SearchUsersResponse> searchUsers(
-      ServiceCall call, SearchUsersRequest request);
 }

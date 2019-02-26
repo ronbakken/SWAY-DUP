@@ -16,7 +16,7 @@ export 'deliverable.pbenum.dart';
 class DeliverableIconDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DeliverableIconDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'id', $pb.PbFieldType.O3)
-    ..e<DeliverableType>(2, 'deliverableType', $pb.PbFieldType.OE, DeliverableType.POST, DeliverableType.valueOf, DeliverableType.values)
+    ..e<DeliverableType>(2, 'deliverableType', $pb.PbFieldType.OE, DeliverableType.post, DeliverableType.valueOf, DeliverableType.values)
     ..a<List<int>>(3, 'iconData', $pb.PbFieldType.OY)
     ..aOS(4, 'name')
     ..hasRequiredFields = false
@@ -61,8 +61,9 @@ class DeliverableIconDto extends $pb.GeneratedMessage {
 class DeliverableDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DeliverableDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'id', $pb.PbFieldType.O3)
-    ..e<DeliverableType>(2, 'type', $pb.PbFieldType.OE, DeliverableType.POST, DeliverableType.valueOf, DeliverableType.values)
-    ..aOS(3, 'description')
+    ..pp<DeliverableType>(2, 'deliverableTypes', $pb.PbFieldType.PE, DeliverableType.$checkItem, null, DeliverableType.valueOf, DeliverableType.values)
+    ..pPS(3, 'socialNetworkProviderIds')
+    ..aOS(4, 'description')
     ..hasRequiredFields = false
   ;
 
@@ -86,14 +87,13 @@ class DeliverableDto extends $pb.GeneratedMessage {
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 
-  DeliverableType get type => $_getN(1);
-  set type(DeliverableType v) { setField(2, v); }
-  bool hasType() => $_has(1);
-  void clearType() => clearField(2);
+  List<DeliverableType> get deliverableTypes => $_getList(1);
 
-  String get description => $_getS(2, '');
-  set description(String v) { $_setString(2, v); }
-  bool hasDescription() => $_has(2);
-  void clearDescription() => clearField(3);
+  List<String> get socialNetworkProviderIds => $_getList(2);
+
+  String get description => $_getS(3, '');
+  set description(String v) { $_setString(3, v); }
+  bool hasDescription() => $_has(3);
+  void clearDescription() => clearField(4);
 }
 

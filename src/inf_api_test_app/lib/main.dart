@@ -7,7 +7,7 @@ import 'package:inf_api_test_app/api_tester.dart';
 import 'package:inf_api_test_app/build_config.dart';
 
 void main() async {
-  final host = "inf-dev-cluster.australiaeast.cloudapp.azure.com";
+  final host = 'api.dev.swaymarketplace.com';
   final port = 9026;
   runApp(MyApp(host: host, port: port));
 }

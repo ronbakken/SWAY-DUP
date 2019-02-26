@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Lucene.Net.Analysis.En;
 using Lucene.Net.Analysis.TokenAttributes;
 using Lucene.Net.Util;
@@ -8,7 +9,29 @@ namespace Utility.Search
 {
     public static class Keywords
     {
-        public static IEnumerable<string> Extract(string input)
+        public static IEnumerable<string> Extract(params string[] inputs) =>
+            ExtractIncludingDuplicates(inputs).Distinct();
+
+        public static IEnumerable<string> Extract(string input) =>
+            ExtractIncludingDuplicates(input).Distinct();
+
+        private static IEnumerable<string> ExtractIncludingDuplicates(params string[] inputs)
+        {
+            if (inputs == null)
+            {
+                yield break;
+            }
+
+            foreach (var input in inputs)
+            {
+                foreach (var keyword in Extract(input))
+                {
+                    yield return keyword;
+                }
+            }
+        }
+
+        private static IEnumerable<string> ExtractIncludingDuplicates(string input)
         {
             if (input == null)
             {
@@ -27,22 +50,6 @@ namespace Utility.Search
                 {
                     var termAttribute = tokenStream.GetAttribute<ICharTermAttribute>();
                     var keyword = termAttribute.ToString();
-                    yield return keyword;
-                }
-            }
-        }
-
-        public static IEnumerable<string> Extract(params string[] inputs)
-        {
-            if (inputs == null)
-            {
-                yield break;
-            }
-
-            foreach (var input in inputs)
-            {
-                foreach (var keyword in Extract(input))
-                {
                     yield return keyword;
                 }
             }

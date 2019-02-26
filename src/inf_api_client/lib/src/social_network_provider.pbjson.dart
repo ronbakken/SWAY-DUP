@@ -19,7 +19,7 @@ const SocialNetworkProviderType$json = const {
 const SocialNetworkProviderDto$json = const {
   '1': 'SocialNetworkProviderDto',
   '2': const [
-    const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
+    const {'1': 'id', '3': 1, '4': 1, '5': 9, '10': 'id'},
     const {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.api.SocialNetworkProviderType', '10': 'type'},
     const {'1': 'name', '3': 3, '4': 1, '5': 9, '10': 'name'},
     const {'1': 'logoColoredData', '3': 4, '4': 1, '5': 12, '10': 'logoColoredData'},

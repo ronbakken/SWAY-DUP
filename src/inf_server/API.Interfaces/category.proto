@@ -4,9 +4,9 @@ package api;
 option csharp_namespace = "API.Interfaces";
 
 message CategoryDto {
-    int32 id = 1;
+    string id = 1;
 	// for top level categories this is set to -1
-    int32 parentId = 2;
+    string parentId = 2;
     string name = 3;
     string description = 4;
     bytes iconData = 5;

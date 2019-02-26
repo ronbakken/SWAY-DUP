@@ -4,7 +4,7 @@ using API.Interfaces;
 using API.Services.Auth;
 using API.Services.BlobStorage;
 using API.Services.InvitationCodes;
-using API.Services.Mapping;
+using API.Services.List;
 using API.Services.Messaging;
 using API.Services.Offers;
 using API.Services.System;
@@ -39,7 +39,7 @@ namespace API
                 InfBlobStorage.BindService(new InfBlobStorageImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfConfig.BindService(new Services.Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
                 InfInvitationCodes.BindService(new InfInvitationCodesImpl(this.logger)).Intercept(authorizationInterceptor),
-                InfMapping.BindService(new InfMappingImpl(this.logger)).Intercept(authorizationInterceptor),
+                InfList.BindService(new InfListImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfMessaging.BindService(new InfMessagingImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfOffers.BindService(new InfOffersImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfSystem.BindService(new InfSystemImpl(this.logger)).Intercept(authorizationInterceptor),

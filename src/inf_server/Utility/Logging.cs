@@ -1,4 +1,6 @@
-﻿using Microsoft.ServiceFabric.Services.Runtime;
+﻿using System;
+using Microsoft.Azure.Cosmos;
+using Microsoft.ServiceFabric.Services.Runtime;
 using Microsoft.WindowsAzure.Storage;
 using Serilog;
 using Serilog.Core;
@@ -36,6 +38,20 @@ namespace Utility
 #if DEBUG
                 .WriteTo.Seq("http://localhost:5341")
 #endif
+                .Destructure.ByTransforming<CosmosResponseMessageHeaders>(
+                    r =>
+                    {
+                        return new
+                        {
+                            r.ActivityId,
+                            r.ContentLength,
+                            r.ContentType,
+                            r.Continuation,
+                            r.ETag,
+                            r.Location,
+                            r.RequestCharge,
+                        };
+                    })
                 .Enrich.WithProcessId()
                 .Enrich.WithProcessName()
                 .Enrich.WithThreadId()

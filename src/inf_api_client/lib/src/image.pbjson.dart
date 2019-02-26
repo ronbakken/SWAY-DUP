@@ -8,7 +8,7 @@ const ImageDto$json = const {
   '1': 'ImageDto',
   '2': const [
     const {'1': 'url', '3': 1, '4': 1, '5': 9, '10': 'url'},
-    const {'1': 'lowResData', '3': 2, '4': 1, '5': 12, '10': 'lowResData'},
+    const {'1': 'lowResUrl', '3': 2, '4': 1, '5': 9, '10': 'lowResUrl'},
   ],
 };
 

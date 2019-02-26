@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using API.Interfaces;
-using AutoMapper;
+using API.ObjectMapping;
 using Grpc.Core;
 using InvitationCodes.Interfaces;
 using Serilog;
@@ -49,7 +49,7 @@ namespace API.Services.InvitationCodes
                         .GetStatusAsync(new GetStatusRequest { Code = invitationCode });
                     var response = new GetInvitationCodeStatusResponse
                     {
-                        Status = Mapper.Map<GetInvitationCodeStatusResponse.Types.InvitationCodeStatus>(getStatusResponse.Status),
+                        Status = getStatusResponse.Status.ToInvitationCodeStatus(),
                     };
 
                     logger.Debug("Determined status of invitation code {InvitationCode} to be {InvitationCodeStatus}", invitationCode, response);

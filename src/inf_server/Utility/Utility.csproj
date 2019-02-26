@@ -7,13 +7,13 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="AutoMapper" />
         <PackageReference Include="Genesis.Ensure" />
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
         <PackageReference Include="Lucene.Net" />
         <PackageReference Include="Lucene.Net.Analysis.Common" />
         <PackageReference Include="Microsoft.Azure.Cosmos" />
+        <PackageReference Include="Microsoft.Azure.ServiceBus" />
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="NodaTime" />

@@ -23,29 +23,15 @@ namespace Mapping
             var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
             var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
             this.logger = Logging.GetLogger(this, logStorageConnectionString);
-            var serviceBusConnectionString = configurationPackage.Settings.Sections["ServiceBus"].Parameters["ConnectionString"].Value;
-            SubscriptionClient subscriptionClient = null;
-
-            if (string.IsNullOrEmpty(serviceBusConnectionString))
-            {
-                logger.Warning("Service bus connection string not configured.");
-            }
-            else
-            {
-                subscriptionClient = new SubscriptionClient(
-                    serviceBusConnectionString,
-                    "OfferUpdated",
-                    "mapping_service",
-                    receiveMode: ReceiveMode.ReceiveAndDelete);
-            }
-
-            this.implementation = new MappingServiceImpl(this.logger, subscriptionClient);
+            var offerUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "OfferUpdated", "mapping_service", ReceiveMode.ReceiveAndDelete);
+            var userUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "UserUpdated", "mapping_service", ReceiveMode.ReceiveAndDelete);
+            this.implementation = new MappingServiceImpl(this.logger, offerUpdatedSubscriptionClient, userUpdatedSubscriptionClient);
         }
 
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
             await implementation
-                .Initialize(this.GetCosmosClient(), cancellationToken)
+                .Initialize(this.Context.CodePackageActivationContext.GetCosmosClient(), cancellationToken)
                 .ContinueOnAnyContext();
         }
 
@@ -58,15 +44,5 @@ namespace Mapping
                             this.logger,
                             MappingService.BindService(this.implementation))),
             };
-
-        private CosmosClient GetCosmosClient()
-        {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var databaseConnectionString = configurationPackage.Settings.Sections["Database"].Parameters["ConnectionString"].Value;
-            var cosmosConfiguration = new InfCosmosConfiguration(databaseConnectionString);
-            var cosmosClient = new CosmosClient(cosmosConfiguration);
-
-            return cosmosClient;
-        }
     }
 }

@@ -6,7 +6,7 @@ option csharp_namespace = "InvitationCodes";
 import "google/protobuf/timestamp.proto";
 
 message InvitationCodeEntity {
-    int32 schemaVersion = 1;
+    uint32 schemaVersion = 1;
     string id = 2;
     google.protobuf.Timestamp expiryTimestamp = 3;
     bool isHonored = 4;

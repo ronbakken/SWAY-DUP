@@ -3,16 +3,17 @@ syntax = "proto3";
 package api;
 option csharp_namespace = "API.Interfaces";
 
-
-enum RewardType { 
-    barter = 0; 
-    cash = 1; 
-    barterAndCash =2;
-}
+import "money.proto";
 
 message RewardDto {
-    RewardType type = 1;
-    string barterValue = 2;
-    string cashValue = 3;
+    enum Type {
+        barter = 0;
+        cash = 1;
+        barterAndCash =2;
+    }
+
+    Type type = 1;
+    MoneyDto barterValue = 2;
+    MoneyDto cashValue = 3;
     string description = 4;
 }

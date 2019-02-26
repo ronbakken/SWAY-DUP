@@ -29,6 +29,7 @@
         <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
         <PackageReference Include="SerilogAnalyzer" />
+        <PackageReference Include="System.Reactive" />
         <PackageReference Include="WindowsAzure.Storage" />
 
         <PackageReference Include="Genesis.TestUtil" />

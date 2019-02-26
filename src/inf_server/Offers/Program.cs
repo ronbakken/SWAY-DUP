@@ -1,8 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
-using AutoMapper;
-using Google.Protobuf.WellKnownTypes;
-using Offers.Interfaces;
+﻿using System.Threading.Tasks;
 using Utility;
 
 namespace Offers
@@ -14,21 +10,7 @@ namespace Offers
             await ServiceBootstrapper
                 .Bootstrap(
                     "Offers",
-                    context => new Offers(context),
-                    config =>
-                    {
-                        config
-                            .CreateMap<Offer, OfferEntity>()
-                            .ForMember(
-                                x => x.SchemaVersion,
-                                options => options.MapFrom((_) => 1))
-                            .ForMember(
-                                x => x.StatusTimestamp,
-                                options => options.MapFrom((_) => Timestamp.FromDateTime(DateTime.UtcNow)))
-                            .ReverseMap();
-
-                        config.MapRepeatedFields();
-                    })
+                    context => new Offers(context))
                 .ContinueOnAnyContext();
         }
     }

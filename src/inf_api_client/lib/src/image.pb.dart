@@ -12,7 +12,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class ImageDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ImageDto', package: const $pb.PackageName('api'))
     ..aOS(1, 'url')
-    ..a<List<int>>(2, 'lowResData', $pb.PbFieldType.OY)
+    ..aOS(2, 'lowResUrl')
     ..hasRequiredFields = false
   ;
 
@@ -36,9 +36,9 @@ class ImageDto extends $pb.GeneratedMessage {
   bool hasUrl() => $_has(0);
   void clearUrl() => clearField(1);
 
-  List<int> get lowResData => $_getN(1);
-  set lowResData(List<int> v) { $_setBytes(1, v); }
-  bool hasLowResData() => $_has(1);
-  void clearLowResData() => clearField(2);
+  String get lowResUrl => $_getS(1, '');
+  set lowResUrl(String v) { $_setString(1, v); }
+  bool hasLowResUrl() => $_has(1);
+  void clearLowResUrl() => clearField(2);
 }
 

@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using AutoMapper;
 using Google.Protobuf;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -11,8 +11,11 @@ using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.ServiceBus;
 using Newtonsoft.Json.Linq;
 using Offers.Interfaces;
+using Offers.ObjectMapping;
 using Serilog;
 using Utility;
+using Utility.Search;
+using Utility.Sql;
 using static Offers.Interfaces.OffersService;
 
 namespace Offers
@@ -25,6 +28,7 @@ namespace Offers
         private readonly ILogger logger;
         private readonly TopicClient offerUpdatedTopicClient;
         private CosmosContainer offersContainer;
+        private CosmosStoredProcedure saveOfferSproc;
 
         public OffersServiceImpl(
             ILogger logger,
@@ -47,9 +51,14 @@ namespace Offers
             var database = databaseResult.Database;
             var offersContainerResult = await database
                 .Containers
-                .CreateContainerIfNotExistsAsync(offersCollectionId, "/id")
+                .CreateContainerFromConfigurationIfNotExistsAsync(offersCollectionId, "/businessAccountId")
                 .ContinueOnAnyContext();
             this.offersContainer = offersContainerResult.Container;
+
+            var createSprocResult = await offersContainer
+                .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "saveOffer")
+                .ContinueOnAnyContext();
+            this.saveOfferSproc = createSprocResult.StoredProcedure;
 
             logger.Debug("Database creation complete");
         }
@@ -60,27 +69,28 @@ namespace Offers
                 async (logger) =>
                 {
                     var offer = request.Offer;
+                    var offerEntity = offer.ToEntity();
+                    offerEntity.Id = offerEntity.Id.ValueOr(Guid.NewGuid().ToString());
 
-                    if (offer.Status == Offer.Types.Status.Inactive)
-                    {
-                        throw new ArgumentException("Cannot save inactive offer.");
-                    }
-
-                    var offerEntity = Mapper
-                        .Map<OfferEntity>(offer);
-
-                    offerEntity.Id = offer.Id.ValueOr(Guid.NewGuid().ToString());
-                    offerEntity.Status = OfferEntity.Types.Status.Active;
-                    offerEntity.StatusTimestamp = Timestamp.FromDateTime(DateTime.UtcNow);
-                    offer = Mapper.Map<Offer>(offerEntity);
+                    logger.Debug("Determining keywords for offer {@Offer}", offer);
+                    var keywords = Keywords
+                        .Extract(
+                            offer.BusinessName,
+                            offer.BusinessDescription,
+                            offer.Description,
+                            offer.Location?.Name,
+                            offer.Title)
+                        .ToList();
+                    offerEntity.Keywords.AddRange(keywords);
 
                     logger.Debug("Saving offer {@Offer}", offerEntity);
-                    await this
-                        .offersContainer
-                        .Items
-                        .UpsertItemAsync(partitionKey: offerEntity.Id, offerEntity)
-                        .ContinueOnAnyContext();
+                    var executeResponse = await this
+                        .saveOfferSproc
+                        .ExecuteWithLoggingAsync<OfferEntity, OfferEntity>(offerEntity.BusinessAccountId, offerEntity);
+                    offerEntity = executeResponse.Resource;
                     logger.Debug("Offer saved: {@Offer}", offerEntity);
+
+                    offer = offerEntity.ToServiceDto();
 
                     if (this.offerUpdatedTopicClient != null)
                     {
@@ -110,13 +120,12 @@ namespace Offers
                         throw new ArgumentException("Cannot remove an offer that has no ID.");
                     }
 
-                    if (offer.Status != Offer.Types.Status.Active)
+                    if (offer.Status != OfferStatus.Active)
                     {
                         throw new ArgumentException("Cannot remove an offer unless it is active.");
                     }
 
-                    var offerEntity = Mapper
-                        .Map<OfferEntity>(offer);
+                    var offerEntity = offer.ToEntity();
 
                     offerEntity.Status = OfferEntity.Types.Status.Inactive;
                     offerEntity.StatusTimestamp = Timestamp.FromDateTime(DateTime.UtcNow);
@@ -125,7 +134,7 @@ namespace Offers
                     await this
                         .offersContainer
                         .Items
-                        .UpsertItemAsync(partitionKey: offerEntity.Id, offerEntity)
+                        .UpsertItemAsync(partitionKey: offerEntity.BusinessAccountId, offerEntity)
                         .ContinueOnAnyContext();
                     logger.Debug("Offer removed: {@Offer}", offerEntity);
 
@@ -151,7 +160,8 @@ namespace Offers
                 async (logger) =>
                 {
                     var id = request.Id;
-                    logger.Debug("Getting offer with ID {Id}", id);
+                    var userId = request.UserId;
+                    logger.Debug("Getting offer with ID {Id} for user {UserId}", id, userId);
 
                     var sql = new CosmosSqlQueryDefinition("SELECT * FROM o WHERE o.id = @Id");
                     sql.UseParameter("@Id", id);
@@ -159,12 +169,12 @@ namespace Offers
                     var result = await this
                         .offersContainer
                         .Items
-                        .ReadItemAsync<OfferEntity>(partitionKey: id, id)
+                        .ReadItemAsync<OfferEntity>(partitionKey: userId, id)
                         .ContinueOnAnyContext();
                     var offerEntity = result.Resource;
                     logger.Debug("Retrieved offer with ID {Id}: {@Offer}", id, offerEntity);
 
-                    var offer = Mapper.Map<Offer>(offerEntity);
+                    var offer = offerEntity.ToServiceDto();
 
                     return new GetOfferResponse
                     {
@@ -179,20 +189,94 @@ namespace Offers
                 {
                     var pageSize = request.PageSize;
                     var continuationToken = request.ContinuationToken;
+                    var filter = request.Filter;
 
                     if (pageSize < 5 || pageSize > 100)
                     {
                         throw new ArgumentException(nameof(pageSize), "pageSize must be >= 5 and <= 100.");
                     }
 
-                    this.logger.Debug("Retrieving offers using page size {PageSize}, continuation token {ContinutationToken}", pageSize, continuationToken);
-                    var sql = new CosmosSqlQueryDefinition("SELECT * FROM o");
+                    this.logger.Debug("Retrieving offers using page size {PageSize}, continuation token {ContinutationToken}, filter {@Filter}", pageSize, continuationToken, filter);
+
+                    var clause = new FilterClauseBuilder("o");
+
+                    if (filter != null)
+                    {
+                        clause
+                            .AppendScalarFieldClause(
+                                "businessAccountId",
+                                filter.BusinessAccountId.ValueOr(null),
+                                value => value)
+                            .AppendScalarFieldOneOfClause(
+                                "acceptancePolicy",
+                                filter.OfferAcceptancePolicies,
+                                value => value.ToEntity().ToString().ToCamelCase())
+                            .AppendScalarFieldOneOfClause(
+                                "status",
+                                filter.OfferStatuses,
+                                value => value.ToEntity().ToString().ToCamelCase())
+                            .AppendScalarFieldOneOfClause(
+                                "terms.reward.type",
+                                filter.RewardTypes,
+                                value => value.ToEntity().ToString().ToCamelCase())
+                            .AppendArrayFieldClause(
+                                "terms.deliverable.deliverableTypes",
+                                filter.DeliverableTypes,
+                                value => value.ToEntity().ToString().ToCamelCase())
+                            .AppendArrayFieldClause(
+                                "categoryIds",
+                                filter.CategoryIds,
+                                value => value,
+                                FilterLogicalOperator.And)
+                            .AppendMoneyAtLeastClause(
+                                "terms.reward.cashValue",
+                                new Utility.Money(filter.MinimumReward?.CurrencyCode, filter.MinimumReward?.Units ?? 0, filter.MinimumReward?.Nanos ?? 0))
+                            .AppendBoundingBoxClause(
+                                "location.geoPoint.longitude",
+                                "location.geoPoint.latitude",
+                                filter.NorthWest?.Latitude,
+                                filter.NorthWest?.Longitude,
+                                filter.SouthEast?.Latitude,
+                                filter.SouthEast?.Longitude);
+
+                        if (!string.IsNullOrEmpty(filter.Phrase))
+                        {
+                            var keywordsToFind = Keywords
+                                .Extract(filter.Phrase)
+                                .Take(10)
+                                .ToList();
+
+                            clause
+                                .AppendArrayFieldClause(
+                                    "keywords",
+                                    keywordsToFind,
+                                    value => value,
+                                    FilterLogicalOperator.And);
+                        }
+                    }
+
+                    var sql = new StringBuilder("SELECT * FROM o");
+
+                    if (!clause.IsEmpty)
+                    {
+                        sql
+                            .Append(" WHERE ")
+                            .Append(clause);
+                    }
+
+                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
+                    var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
+
+                    foreach (var parameter in clause.Parameters)
+                    {
+                        queryDefinition.UseParameter(parameter.Key, parameter.Value);
+                    }
 
                     // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = this
                         .offersContainer
                         .Items
-                        .CreateItemQuery<JObject>(sql, 2, maxItemCount: pageSize, continuationToken: continuationToken);
+                        .CreateItemQuery<JObject>(queryDefinition, 2, maxItemCount: pageSize, continuationToken: continuationToken);
                     var items = new List<Offer>();
                     string nextContinuationToken = null;
 
@@ -205,12 +289,11 @@ namespace Offers
 
                         foreach (var offer in currentResultSet.Select(InfCosmosConfiguration.Transform<OfferEntity>))
                         {
-                            items.Add(Mapper.Map<Offer>(offer));
+                            items.Add(offer.ToServiceDto());
                         }
                     }
 
                     var result = new ListOffersResponse();
-
                     result.Offers.AddRange(items);
 
                     if (nextContinuationToken != null)
@@ -218,7 +301,7 @@ namespace Offers
                         result.ContinuationToken = nextContinuationToken;
                     }
 
-                    this.logger.Debug("Retrieved offers using page size {PageSize}, continuation token {ContinutationToken}. The next continuation token is {NextContinuationToken}: {Offers}", pageSize, continuationToken, nextContinuationToken, items);
+                    this.logger.Debug("Retrieved offers using page size {PageSize}, continuation token {ContinutationToken}, filter {@Filter}. The next continuation token is {NextContinuationToken}: {Offers}", pageSize, continuationToken, filter, nextContinuationToken, items);
 
                     return result;
                 });

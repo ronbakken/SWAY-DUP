@@ -34,4 +34,12 @@
         <ProtoBuf Include="*.proto" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Remove="CosmosServerSideCode\saveOffer.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="CosmosServerSideCode\saveOffer.js" />
+    </ItemGroup>
+
 </Project>

@@ -7,10 +7,10 @@
 const DeliverableType$json = const {
   '1': 'DeliverableType',
   '2': const [
-    const {'1': 'POST', '2': 0},
-    const {'1': 'MENTION', '2': 1},
-    const {'1': 'VIDEO', '2': 2},
-    const {'1': 'CUSTOM_DELIVERABLE', '2': 3},
+    const {'1': 'post', '2': 0},
+    const {'1': 'mention', '2': 1},
+    const {'1': 'video', '2': 2},
+    const {'1': 'custom', '2': 3},
   ],
 };
 
@@ -28,8 +28,9 @@ const DeliverableDto$json = const {
   '1': 'DeliverableDto',
   '2': const [
     const {'1': 'id', '3': 1, '4': 1, '5': 5, '10': 'id'},
-    const {'1': 'type', '3': 2, '4': 1, '5': 14, '6': '.api.DeliverableType', '10': 'type'},
-    const {'1': 'description', '3': 3, '4': 1, '5': 9, '10': 'description'},
+    const {'1': 'deliverableTypes', '3': 2, '4': 3, '5': 14, '6': '.api.DeliverableType', '10': 'deliverableTypes'},
+    const {'1': 'socialNetworkProviderIds', '3': 3, '4': 3, '5': 9, '10': 'socialNetworkProviderIds'},
+    const {'1': 'description', '3': 4, '4': 1, '5': 9, '10': 'description'},
   ],
 };
 

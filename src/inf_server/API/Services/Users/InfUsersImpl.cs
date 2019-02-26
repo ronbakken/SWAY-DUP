@@ -1,13 +1,14 @@
-﻿using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using API.Interfaces;
-using AutoMapper;
+using API.ObjectMapping;
 using Grpc.Core;
 using Serilog;
 using Users.Interfaces;
 using Utility;
 using static API.Interfaces.InfUsers;
 using static Users.Interfaces.UsersService;
+using api = API.Interfaces;
+using service = Users.Interfaces;
 
 namespace API.Services.Users
 {
@@ -20,22 +21,22 @@ namespace API.Services.Users
             this.logger = logger.ForContext<InfUsersImpl>();
         }
 
-        public override Task<GetUserResponse> GetUser(GetUserRequest request, ServerCallContext context) =>
+        public override Task<api.GetUserResponse> GetUser(api.GetUserRequest request, ServerCallContext context) =>
             APISanitizer.Sanitize(
                 this.logger,
                 async (logger) =>
                 {
                     var userId = request.UserId;
-                    logger.Debug("Getting data for user {UserId}", userId);
+                    logger.Debug("Getting user {UserId}", userId);
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var getUserDataResponse = await usersService
-                        .GetUserDataAsync(new GetUserDataRequest { Id = userId });
-                    var userData = getUserDataResponse.UserData;
-                    logger.Debug("Retrieved data for user {UserId}: {@UserData}", userId, userData);
+                    var getUserResponse = await usersService
+                        .GetUserAsync(new service.GetUserRequest { Id = userId });
+                    var user = getUserResponse.User;
+                    logger.Debug("Retrieved user {UserId}: {@User}", userId, user);
 
-                    return new GetUserResponse
+                    return new api.GetUserResponse
                     {
-                        UserData = Mapper.Map<UserDto>(userData),
+                        User = user.ToUserDto(UserDto.DataOneofCase.Full),
                     };
                 });
 
@@ -49,57 +50,29 @@ namespace API.Services.Users
 
                     if (authenticatedUserId != request.User.Id.ValueOr(null))
                     {
-                        logger.Warning("Authenticated user {UserId} does not match user ID in request {RequestUserId} - unable to update user", authenticatedUserId, request.User.Email);
-                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update data for another user."));
+                        logger.Warning("Authenticated user {UserId} does not match user ID in request {RequestUserId} - unable to update user", authenticatedUserId, request.User.Id);
+                        throw new RpcException(new Status(StatusCode.PermissionDenied, "Attempted to update another user."));
                     }
 
-                    logger.Debug("Getting data for user {UserId}", authenticatedUserId);
+                    logger.Debug("Getting user {UserId}", authenticatedUserId);
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-                    var getUserDataResponse = await usersService
-                        .GetUserDataAsync(new GetUserDataRequest { Id = authenticatedUserId });
-                    var userData = getUserDataResponse.UserData;
+                    var getUserResponse = await usersService
+                        .GetUserAsync(new service.GetUserRequest { Id = authenticatedUserId });
+                    var user = getUserResponse.User;
 
-                    var updatedUserData = Mapper.Map<UserData>(request.User);
-                    logger.Debug("Saving data for user {UserId}: {@UserData}", authenticatedUserId, updatedUserData);
-                    var saveUserDataResponse = await usersService
-                        .SaveUserDataAsync(new SaveUserDataRequest { UserData = updatedUserData });
-                    userData = saveUserDataResponse.UserData;
+                    var updatedUser = request.User.ToUser();
+                    logger.Debug("Saving user {UserId}: {@User}", authenticatedUserId, updatedUser);
+                    var saveUserResponse = await usersService
+                        .SaveUserAsync(new SaveUserRequest { User = updatedUser });
+                    user = saveUserResponse.User;
 
                     var response = new UpdateUserResponse
                     {
-                        User = Mapper.Map<UserDto>(userData),
+                        User = user.ToUserDto(UserDto.DataOneofCase.Full),
                     };
 
                     return response;
                 });
-
-        public override Task<SearchUsersResponse> SearchUsers(SearchUsersRequest request, ServerCallContext context) =>
-            APISanitizer.Sanitize(
-                this.logger,
-                async (logger) =>
-                {
-                    var results = await SearchUsersImpl(
-                            logger,
-                            request)
-                        .ContinueOnAnyContext();
-                    return results;
-                });
-
-        internal async Task<SearchUsersResponse> SearchUsersImpl(ILogger logger, SearchUsersRequest request)
-        {
-            var searchFilter = Mapper.Map<SearchFilter>(request);
-            var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
-
-            logger.Debug("Searching for users using filter {@SearchFilter}", searchFilter);
-            var searchResponse = await usersService
-                .SearchAsync(new global::Users.Interfaces.SearchRequest { Filter = searchFilter });
-            var results = searchResponse.Results;
-
-            var response = new SearchUsersResponse();
-            response.Results.AddRange(results.Select(result => Mapper.Map<UserDto>(result)));
-
-            return response;
-        }
 
         private static Task<UsersServiceClient> GetUsersServiceClient() =>
             APIClientResolver.Resolve<UsersServiceClient>("Users");

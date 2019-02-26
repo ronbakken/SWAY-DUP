@@ -235,6 +235,19 @@ Task("Deploy")
                     Information($"Uploaded, available at URI '{packageUri}'.");
 
                     // 3. Deploy the application ARM template.
+                    var applicationManifestFile = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
+                    var applicationVersion = XmlPeek(
+                        applicationManifestFile,
+                        "/fabric:ApplicationManifest/@ApplicationTypeVersion",
+                        new XmlPeekSettings
+                        {
+                            Namespaces = new Dictionary<string, string>
+                            {
+                                { "fabric", "http://schemas.microsoft.com/2011/01/fabric" },
+                            },
+                        });
+                    Information($"Determined application version to be '{applicationVersion}'");
+
                     var applicationDeployment = await DeployARMTemplate(
                         context,
                         resourceManagementClient,
@@ -245,7 +258,7 @@ Task("Deploy")
                         new Dictionary<string, object>
                         {
                             { "resourcePrefix", resourceNamePrefix },
-                            { "appVersion", "1.0.0" },
+                            { "appVersion", applicationVersion },
                             { "appPackageUri", packageUri },
                         });
                 }

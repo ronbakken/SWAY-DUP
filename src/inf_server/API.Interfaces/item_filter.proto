@@ -1,0 +1,47 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "deliverable.proto";
+import "location.proto";
+import "money.proto";
+import "offer.proto";
+import "reward.proto";
+import "user.proto";
+
+message ItemFilterDto {
+    // Offer-specific filters
+    message OfferFilterDto {
+        string businessAccountId = 1;
+        repeated OfferDto.Status offerStatuses = 2;
+        repeated DeliverableType deliverableTypes = 3;
+        repeated OfferDto.AcceptancePolicy acceptancePolicies = 4;
+        repeated RewardDto.Type rewardTypes = 5;
+        MoneyDto minimumReward = 6;
+    }
+
+    // User-specific filter
+    message UserFilterDto {
+        repeated UserType userTypes = 1;
+        repeated string socialMediaNetworkIds = 2;
+    }
+
+    enum ItemType {
+        offers = 0;
+        users = 1;
+    }
+
+    repeated ItemType itemTypes = 1;
+    GeoPointDto northWest = 2;
+    GeoPointDto southEast = 3;
+
+    // By assigning a value to this filter field, the client is effectively saying it wants map pins, not the items themselves.
+    int32 mapLevel = 4;
+
+    repeated string categoryIds = 5;
+    string phrase = 6;
+
+    OfferFilterDto offerFilter = 10;
+    UserFilterDto userFilter = 11;
+}

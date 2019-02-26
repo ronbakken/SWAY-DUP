@@ -11,7 +11,7 @@ namespace MockServer
         public override Task<GetUploadUrlResponse> GetUploadUrl(GetUploadUrlRequest request, ServerCallContext context)
         {
             Console.WriteLine("InfBlobStorageImpl.GetUploadUrl called");
-            if (request.FileName.Contains("Thumb"))
+            if (request.FileName.Contains("lowres") || request.FileName.Contains("Thumb"))
             {
                 return Task.FromResult(new GetUploadUrlResponse
                 {

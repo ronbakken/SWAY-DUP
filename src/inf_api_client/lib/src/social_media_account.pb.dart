@@ -12,7 +12,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class SocialMediaAccountDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SocialMediaAccountDto', package: const $pb.PackageName('api'))
     ..aOS(4, 'displayName')
-    ..a<int>(5, 'socialNetworkProviderId', $pb.PbFieldType.O3)
+    ..aOS(5, 'socialNetworkProviderId')
     ..aOS(6, 'profileUrl')
     ..aOS(7, 'description')
     ..aOS(8, 'email')
@@ -20,7 +20,7 @@ class SocialMediaAccountDto extends $pb.GeneratedMessage {
     ..aOS(10, 'pageId')
     ..a<int>(11, 'audienceSize', $pb.PbFieldType.O3)
     ..a<int>(12, 'postCount', $pb.PbFieldType.O3)
-    ..aOB(13, 'verified')
+    ..aOB(13, 'isVerified')
     ..aOS(14, 'accessToken')
     ..aOS(15, 'accessTokenSecret')
     ..aOS(16, 'refreshToken')
@@ -47,8 +47,8 @@ class SocialMediaAccountDto extends $pb.GeneratedMessage {
   bool hasDisplayName() => $_has(0);
   void clearDisplayName() => clearField(4);
 
-  int get socialNetworkProviderId => $_get(1, 0);
-  set socialNetworkProviderId(int v) { $_setSignedInt32(1, v); }
+  String get socialNetworkProviderId => $_getS(1, '');
+  set socialNetworkProviderId(String v) { $_setString(1, v); }
   bool hasSocialNetworkProviderId() => $_has(1);
   void clearSocialNetworkProviderId() => clearField(5);
 
@@ -87,10 +87,10 @@ class SocialMediaAccountDto extends $pb.GeneratedMessage {
   bool hasPostCount() => $_has(8);
   void clearPostCount() => clearField(12);
 
-  bool get verified => $_get(9, false);
-  set verified(bool v) { $_setBool(9, v); }
-  bool hasVerified() => $_has(9);
-  void clearVerified() => clearField(13);
+  bool get isVerified => $_get(9, false);
+  set isVerified(bool v) { $_setBool(9, v); }
+  bool hasIsVerified() => $_has(9);
+  void clearIsVerified() => clearField(13);
 
   String get accessToken => $_getS(10, '');
   set accessToken(String v) { $_setString(10, v); }

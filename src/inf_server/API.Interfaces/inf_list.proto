@@ -1,0 +1,27 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "item.proto";
+import "item_filter.proto";
+
+service InfList {
+    // Stream items matching the given filter to the client at a rate dictated by the server (it may deliberately slow things down for a greedy client).
+    // The client can explicitly pause/resume the stream.
+    rpc List (stream ListRequest) returns (stream ListResponse) {}
+}
+
+message ListRequest {
+    enum State {
+        paused = 0;
+        resumed = 1;
+    }
+
+    ItemFilterDto filter = 1;
+    State state = 2;
+}
+
+message ListResponse {
+    repeated ItemDto items = 1;
+}

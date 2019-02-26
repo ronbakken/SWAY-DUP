@@ -3,6 +3,9 @@
     <Section Name="Database">
         <Parameter Name="ConnectionString" Value="" />
     </Section>
+    <Section Name="ServiceBus">
+        <Parameter Name="ConnectionString" Value="" />
+    </Section>
     <Section Name="Logging">
         <Parameter Name="StorageConnectionString" Value="" />
     </Section>

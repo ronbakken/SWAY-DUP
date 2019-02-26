@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading;
+using Serilog.Events;
 
 namespace Serilog
 {
@@ -10,9 +11,9 @@ namespace Serilog
         public static readonly PerformanceBlock Empty = new PerformanceBlock();
 
         private readonly ILogger owner;
-        private readonly string messageTemplate;
-        private readonly object[] propertyValues;
         private readonly Stopwatch stopwatch;
+        private string messageTemplate;
+        private object[] propertyValues;
         private int disposed;
 
         public PerformanceBlock(ILogger owner, string messageTemplate, object[] propertyValues)
@@ -26,6 +27,60 @@ namespace Serilog
             this.stopwatch = Stopwatch.StartNew();
 
             this.owner.Debug($"BEGIN: {this.messageTemplate}", this.propertyValues);
+        }
+
+        public void ReplaceMessage(string message)
+        {
+            if (!this.owner.IsEnabled(LogEventLevel.Debug))
+            {
+                return;
+            }
+
+            this.messageTemplate = message;
+        }
+
+        public void ReplaceMessage<T>(string messageTemplate, T propertyValue)
+        {
+            if (!this.owner.IsEnabled(LogEventLevel.Debug))
+            {
+                return;
+            }
+
+            this.messageTemplate = messageTemplate;
+            this.propertyValues = new object[] { propertyValue };
+        }
+
+        public void ReplaceMessage<T0, T1>(string messageTemplate, T0 propertyValue0, T1 propertyValue1)
+        {
+            if (!this.owner.IsEnabled(LogEventLevel.Debug))
+            {
+                return;
+            }
+
+            this.messageTemplate = messageTemplate;
+            this.propertyValues = new object[] { propertyValue0, propertyValue1 };
+        }
+
+        public void ReplaceMessage<T0, T1, T2>(string messageTemplate, T0 propertyValue0, T1 propertyValue1, T2 propertyValue2)
+        {
+            if (!this.owner.IsEnabled(LogEventLevel.Debug))
+            {
+                return;
+            }
+
+            this.messageTemplate = messageTemplate;
+            this.propertyValues = new object[] { propertyValue0, propertyValue1, propertyValue2 };
+        }
+
+        public void ReplaceMessage(string messageTemplate, params object[] propertyValues)
+        {
+            if (!this.owner.IsEnabled(LogEventLevel.Debug))
+            {
+                return;
+            }
+
+            this.messageTemplate = messageTemplate;
+            this.propertyValues = propertyValues;
         }
 
         public void Dispose()

@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="ApplicationPackageRoot\ApplicationManifest.xml" />
+    <None Include="ApplicationParameters\alpha.xml" />
     <None Include="ApplicationParameters\ephemeral.xml" />
     <None Include="ApplicationParameters\kent.xml" />
     <None Include="ApplicationParameters\prod.xml" />

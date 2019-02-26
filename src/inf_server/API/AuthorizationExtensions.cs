@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using Grpc.Core;
-using Users.Interfaces;
 
 namespace API
 {

@@ -1,0 +1,32 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "item.proto";
+import "item_filter.proto";
+
+service InfListen {
+    rpc Listen (stream ListenRequest) returns (stream ListenResponse) {}
+}
+
+message ListenRequest {
+    enum Action {
+        register = 0;
+        deregister = 1;
+    }
+
+    Action action = 1;
+
+    oneof target {
+        // Listen to a specific item (e.g. offer or user)
+        string itemId = 2;
+
+        // Listen for items matching the filter.
+        ItemFilterDto filter = 3;
+    }
+}
+
+message ListenResponse {
+    repeated ItemDto items = 1;
+}

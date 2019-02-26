@@ -26,8 +26,8 @@ message GetStatusResponse {
     enum Status {
         nonExistant = 0;
         pending = 1;
-        expired = 2;
-        honored = 3;
+        honored = 2;
+        expired = 3;
     }
 
     Status status = 1;

@@ -14,16 +14,12 @@ namespace MockServer
             var user = DatabaseMock.Instance().GetUser("INF");
             var response = new GetUserResponse
             {
-                UserData = user,
+                User = user,
             };
             return Task.FromResult(response);
 
         }
 
-        public override Task<SearchUsersResponse> SearchUsers(SearchUsersRequest request, ServerCallContext context)
-        {
-            return base.SearchUsers(request, context);
-        }
 
         public override Task<UpdateUserResponse> UpdateUser(UpdateUserRequest request, ServerCallContext context)
         {

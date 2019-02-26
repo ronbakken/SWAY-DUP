@@ -17,14 +17,14 @@ const ActivateUserRequest$json = const {
   '1': 'ActivateUserRequest',
   '2': const [
     const {'1': 'loginToken', '3': 1, '4': 1, '5': 9, '10': 'loginToken'},
-    const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
+    const {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
   ],
 };
 
 const ActivateUserResponse$json = const {
   '1': 'ActivateUserResponse',
   '2': const [
-    const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
+    const {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
   ],
 };
 
@@ -39,7 +39,7 @@ const LoginWithLoginTokenResponse$json = const {
   '1': 'LoginWithLoginTokenResponse',
   '2': const [
     const {'1': 'refreshToken', '3': 1, '4': 1, '5': 9, '10': 'refreshToken'},
-    const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
+    const {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
   ],
 };
 
@@ -68,7 +68,7 @@ const LoginWithRefreshTokenResponse$json = const {
   '1': 'LoginWithRefreshTokenResponse',
   '2': const [
     const {'1': 'accessToken', '3': 1, '4': 1, '5': 9, '10': 'accessToken'},
-    const {'1': 'userData', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'userData'},
+    const {'1': 'user', '3': 2, '4': 1, '5': 11, '6': '.api.UserDto', '10': 'user'},
   ],
 };
 

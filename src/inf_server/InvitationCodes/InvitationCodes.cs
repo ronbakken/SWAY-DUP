@@ -28,7 +28,7 @@ namespace InvitationCodes
         protected override async Task RunAsync(CancellationToken cancellationToken)
         {
             await implementation
-                .Initialize(this.GetCosmosClient(), cancellationToken)
+                .Initialize(this.Context.CodePackageActivationContext.GetCosmosClient(), cancellationToken)
                 .ContinueOnAnyContext();
         }
 
@@ -41,15 +41,5 @@ namespace InvitationCodes
                             this.logger,
                             InvitationCodeService.BindService(this.implementation))),
             };
-
-        private CosmosClient GetCosmosClient()
-        {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var databaseConnectionString = configurationPackage.Settings.Sections["Database"].Parameters["ConnectionString"].Value;
-            var cosmosConfiguration = new InfCosmosConfiguration(databaseConnectionString);
-            var cosmosClient = new CosmosClient(cosmosConfiguration);
-
-            return cosmosClient;
-        }
     }
 }

@@ -5,56 +5,82 @@ option csharp_namespace = "API.Interfaces";
 
 import "image.proto";
 import "location.proto";
+import "money.proto";
 import "social_media_account.proto";
 
 enum UserType {
-    unknownUserType = 0;
+    unknownType = 0;
     influencer = 1;
     business = 2;
     support = 3;
     admin = 4;
 }
 
-// Here we need a discussion what states make sense
-enum AccountState {
-    unknown = 0;
-    disabled = 1;
-    active = 2;
-    waitingForActivation = 3; // User has signed up but not clicked on his signup link
-    waitingForApproval = 4; // User did not fullfill all requirements for direct signup waiting for manual approval
-    rejected = 5;
-
-    // These are the old definitions, not sure if they all make sense
-// GASR_NEW_ACCOUNT = 0; // User is a new account
-// GASR_ACCOUNT_BANNED = 1; // User is disallowed from the service
-// GASR_CREATE_DENIED = 2; // User account creation request was denied. Contact support
-// GASR_APPROVED = 3; // User account was approved
-// GASR_DEMO_APPROVED = 4; // User account was automatically approved for demonstration purpose
-// GASR_PENDING = 5; // User account approval is pending
-// GASR_REQUIRE_INFO = 6; // More information is required from the user to approve their account
-
-}
-
 message UserDto {
+    enum Status {
+        unknown = 0;
+        disabled = 1;
+        active = 2;
+        // User has signed up but not clicked on their signup link
+        waitingForActivation = 3;
+        // User did not fullfill all requirements for direct signup waiting for manual approval
+        waitingForApproval = 4;
+        rejected = 5;
+    }
+
+    // Data that is always sent for a user.
     string id = 1;
-    bool verified = 2;
-    AccountState accountState = 3;
-    UserType userType = 4;
-    string name = 5;
-    string description = 6;
-    string email = 7;
-    string websiteUrl = 8;
-    bool acceptsDirectOffers = 9;
-    bool showLocation = 10;
-    int32 accountCompletionInPercent = 11;
-    LocationDto location = 12;
-    ImageDto avatar = 13;
-    ImageDto avatarThumbnail = 14;
-    repeated int32 categoryIds = 15;
-    int32 minimalFee = 16;
+    uint32 revision = 2;
+    Status status = 3;
 
-    repeated SocialMediaAccountDto socialMediaAccounts = 25;
+    // What is that?
+    // Data sent only for "handle" users.
+    message HandleDataDto {
+        string name = 1;
+    }
 
-    // For push notifications
-    repeated string registrationTokens = 26;
+    // Data sent only for users being used in a list context.
+    message ListDataDto {
+        string name = 1;
+        UserType type = 2;
+        string description = 4;
+        bool showLocation = 8;
+        LocationDto location = 10;
+        ImageDto avatar = 11;
+        ImageDto avatarThumbnail = 12;
+        repeated string categoryIds = 13;
+        // The provider ids of their socialMediaAccounts
+        repeated string socialMediaProviderIds = 14;
+
+        // I am certain we'll need more here, but I don't want to guess what.
+    }
+
+    // Data sent when full user information is required.
+    message FullDataDto {
+        string name = 1;
+        UserType type = 2;
+        bool isVerified = 3;
+        string description = 4;
+        string email = 5;
+        string websiteUrl = 6;
+        bool acceptsDirectOffers = 7;
+        bool showLocation = 8;
+        int32 accountCompletionInPercent = 9;
+        LocationDto location = 10;
+        ImageDto avatar = 11;
+        ImageDto avatarThumbnail = 12;
+        repeated string categoryIds = 13;
+        MoneyDto minimalFee = 14;
+
+        repeated SocialMediaAccountDto socialMediaAccounts = 15;
+
+        // For push notifications
+        repeated string registrationTokens = 16;
+    }
+
+    oneof data {
+        HandleDataDto handle = 4;
+        ListDataDto list = 5;
+        FullDataDto full = 6;
+    }
 }

@@ -15,7 +15,7 @@ export 'social_network_provider.pbenum.dart';
 
 class SocialNetworkProviderDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SocialNetworkProviderDto', package: const $pb.PackageName('api'))
-    ..a<int>(1, 'id', $pb.PbFieldType.O3)
+    ..aOS(1, 'id')
     ..e<SocialNetworkProviderType>(2, 'type', $pb.PbFieldType.OE, SocialNetworkProviderType.INSTAGRAM, SocialNetworkProviderType.valueOf, SocialNetworkProviderType.values)
     ..aOS(3, 'name')
     ..a<List<int>>(4, 'logoColoredData', $pb.PbFieldType.OY)
@@ -42,8 +42,8 @@ class SocialNetworkProviderDto extends $pb.GeneratedMessage {
     if (v is! SocialNetworkProviderDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get id => $_get(0, 0);
-  set id(int v) { $_setSignedInt32(0, v); }
+  String get id => $_getS(0, '');
+  set id(String v) { $_setString(0, v); }
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 

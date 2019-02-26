@@ -11,8 +11,8 @@ import 'package:protobuf/protobuf.dart' as $pb;
 
 class CategoryDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('CategoryDto', package: const $pb.PackageName('api'))
-    ..a<int>(1, 'id', $pb.PbFieldType.O3)
-    ..a<int>(2, 'parentId', $pb.PbFieldType.O3)
+    ..aOS(1, 'id')
+    ..aOS(2, 'parentId')
     ..aOS(3, 'name')
     ..aOS(4, 'description')
     ..a<List<int>>(5, 'iconData', $pb.PbFieldType.OY)
@@ -34,13 +34,13 @@ class CategoryDto extends $pb.GeneratedMessage {
     if (v is! CategoryDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  int get id => $_get(0, 0);
-  set id(int v) { $_setSignedInt32(0, v); }
+  String get id => $_getS(0, '');
+  set id(String v) { $_setString(0, v); }
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
 
-  int get parentId => $_get(1, 0);
-  set parentId(int v) { $_setSignedInt32(1, v); }
+  String get parentId => $_getS(1, '');
+  set parentId(String v) { $_setString(1, v); }
   bool hasParentId() => $_has(1);
   void clearParentId() => clearField(2);
 

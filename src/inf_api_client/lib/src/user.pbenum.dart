@@ -9,14 +9,14 @@ import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class UserType extends $pb.ProtobufEnum {
-  static const UserType unknownUserType = const UserType._(0, 'unknownUserType');
+  static const UserType unknownType = const UserType._(0, 'unknownType');
   static const UserType influencer = const UserType._(1, 'influencer');
   static const UserType business = const UserType._(2, 'business');
   static const UserType support = const UserType._(3, 'support');
   static const UserType admin = const UserType._(4, 'admin');
 
   static const List<UserType> values = const <UserType> [
-    unknownUserType,
+    unknownType,
     influencer,
     business,
     support,
@@ -32,15 +32,15 @@ class UserType extends $pb.ProtobufEnum {
   const UserType._(int v, String n) : super(v, n);
 }
 
-class AccountState extends $pb.ProtobufEnum {
-  static const AccountState unknown = const AccountState._(0, 'unknown');
-  static const AccountState disabled = const AccountState._(1, 'disabled');
-  static const AccountState active = const AccountState._(2, 'active');
-  static const AccountState waitingForActivation = const AccountState._(3, 'waitingForActivation');
-  static const AccountState waitingForApproval = const AccountState._(4, 'waitingForApproval');
-  static const AccountState rejected = const AccountState._(5, 'rejected');
+class UserDto_Status extends $pb.ProtobufEnum {
+  static const UserDto_Status unknown = const UserDto_Status._(0, 'unknown');
+  static const UserDto_Status disabled = const UserDto_Status._(1, 'disabled');
+  static const UserDto_Status active = const UserDto_Status._(2, 'active');
+  static const UserDto_Status waitingForActivation = const UserDto_Status._(3, 'waitingForActivation');
+  static const UserDto_Status waitingForApproval = const UserDto_Status._(4, 'waitingForApproval');
+  static const UserDto_Status rejected = const UserDto_Status._(5, 'rejected');
 
-  static const List<AccountState> values = const <AccountState> [
+  static const List<UserDto_Status> values = const <UserDto_Status> [
     unknown,
     disabled,
     active,
@@ -49,12 +49,12 @@ class AccountState extends $pb.ProtobufEnum {
     rejected,
   ];
 
-  static final Map<int, AccountState> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static AccountState valueOf(int value) => _byValue[value];
-  static void $checkItem(AccountState v) {
-    if (v is! AccountState) $pb.checkItemFailed(v, 'AccountState');
+  static final Map<int, UserDto_Status> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static UserDto_Status valueOf(int value) => _byValue[value];
+  static void $checkItem(UserDto_Status v) {
+    if (v is! UserDto_Status) $pb.checkItemFailed(v, 'UserDto_Status');
   }
 
-  const AccountState._(int v, String n) : super(v, n);
+  const UserDto_Status._(int v, String n) : super(v, n);
 }
 
