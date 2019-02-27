@@ -12,20 +12,50 @@ class InfListServiceImplementation implements InfListService {
         .get<InfApiClientsService>()
         .listClient
         .list(
-            filterStream.map<ListRequest>(
-              (f) => ListRequest()
-                ..state =ListRequest_State.resumed
-                ..filter = (ItemFilterDto()
-                  ..itemTypes.addAll([ItemFilterDto_ItemType.offers])
-                  ..offerFilter = (ItemFilterDto_OfferFilterDto())),
-            ),
-            options: backend.get<AuthenticationService>().callOptions)
+          filterStream.map<ListRequest>(mapFilter),
+          options: backend.get<AuthenticationService>().callOptions,
+        )
         .map<List<InfItem>>((items) => items.items
             .map(
-              (item) {
-                return InfItem.fromDto(item);
-              },
+              (item) => InfItem.fromDto(item),
             )
             .toList());
+  }
+
+  ListRequest mapFilter(Filter filter) {
+    var filterDto = ItemFilterDto();
+    ItemFilterDto_OfferFilterDto offerFilter;
+    ItemFilterDto_UserFilterDto userFilter;
+
+    var itemTypes = <ItemFilterDto_ItemType>[];
+    var userType = backend.get<UserManager>().currentUser.userType;
+
+    if (filter.freeText != null && filter.freeText.isNotEmpty && userType == UserType.influencer) {
+      // if influencers search with free text they get businesses and offers back
+      itemTypes.add(ItemFilterDto_ItemType.offers);
+      userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.business);
+
+      // TODO continue
+    }
+    if (userType == UserType.influencer) {
+      itemTypes.add(ItemFilterDto_ItemType.offers);
+      offerFilter = ItemFilterDto_OfferFilterDto();
+    } else if (userType == UserType.business) {
+      itemTypes.add(ItemFilterDto_ItemType.users);
+      userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.influencer);
+    } else {
+      throw Exception('Unsupported user type');
+    }
+
+    filterDto.itemTypes.addAll(itemTypes);
+    if (offerFilter != null) {
+      filterDto.offerFilter = offerFilter;
+    }
+    if (userFilter != null) {
+      filterDto.userFilter = userFilter;
+    }
+    return ListRequest()
+      ..state = ListRequest_State.resumed
+      ..filter = filterDto;
   }
 }

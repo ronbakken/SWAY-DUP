@@ -221,16 +221,22 @@ class _BrowseListView extends StatelessWidget {
                   16.0, mediaQuery.padding.top + 54.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
               itemCount: items.length,
               itemBuilder: (BuildContext context, int index) {
-                final offer = items[index].offer;
-                final tag = 'browse-offer-list-${offer.id}';
-                return Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8.0),
-                  child: OfferPostTile(
-                    offer: offer,
-                    onPressed: () => _onShowDetails(context, offer, tag),
-                    tag: tag,
-                  ),
-                );
+                if (items[index].type == InfItemType.offer) {
+                  final offer = items[index].offer;
+                  final tag = 'browse-offer-list-${offer.id}';
+                  return Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 8.0),
+                    child: OfferPostTile(
+                      offer: offer,
+                      onPressed: () => _onShowDetails(context, offer, tag),
+                      tag: tag,
+                    ),
+                  );
+                }
+                else
+                {
+                  return Text(items[index].user.name);
+                }
               },
             ),
             SafeArea(
@@ -252,8 +258,7 @@ void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag
     unawaited(
       Navigator.of(context).push(
         OfferDetailsPage.route(
-          streamFromValueAndFuture<BusinessOffer>(
-              partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer)),
+          streamFromValueAndFuture<BusinessOffer>(partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer)),
           tag,
         ),
       ),

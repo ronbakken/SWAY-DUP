@@ -7,5 +7,6 @@ abstract class ListManager {
 
   Observable<List<InfItem>> get filteredListItems;
   
-  
+  void setFilter(Filter filter);
+
 }

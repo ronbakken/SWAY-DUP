@@ -644,9 +644,11 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
   void onButtonPressed() async {
     switch (connectionState) {
       case _connectionState.notConnected:
-        var result = await Navigator.of(context).push<SocialMediaAccount>(SocialMediaConnectorPage.route(
-          connectTo: widget.connectTo,
-        ));
+        var result = await Navigator.of(context).push<SocialMediaAccount>(
+          SocialMediaConnectorPage.route(
+            connectTo: widget.connectTo,
+          ),
+        );
         if (result != null) {
           setState(() {
             account = result;

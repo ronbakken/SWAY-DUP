@@ -24,7 +24,7 @@ class ListManagerImplementation  implements ListManager {
     backend.get<InfApiClientsService>().connectionChanged.listen((connected) {
       if (connected) {
         listSubscription =
-            backend.get<InfListService>().listItems(filterSubject.startWith(Filter())).listen( (items) {
+            backend.get<InfListService>().listItems(filterSubject).listen( (items) {
               filteredListItemSubject.add(items);
             }); 
        } else {
@@ -32,6 +32,22 @@ class ListManagerImplementation  implements ListManager {
       }
     });
 
+    // for filter debug
+    filterSubject.listen((f){
+      print(f);
+    });
+
   }
   
+  @override
+  void setFilter(Filter filter)
+  {
+    filterSubject.add(filter);
+  }
+
+
+  
+
+
+
 }
