@@ -5,6 +5,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/profile_private_page.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
+import 'package:inf/ui/user_profile/switch_user_dialog.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
@@ -36,14 +37,13 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               context, 'Update Problem', 'Sorry we had a problem update your user\'s settings. Please try again later');
         });
 
-    logOutUserListener = RxCommandListener(backend.get<UserManager>().logOutUserCommand,
-        onValue: (_) {
-          return Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (_) => false);},
-         onError: (error) async {
-          print(error);
-          await showMessageDialog(
-              context, 'Logout Problem', 'Sorry we had a problem logging you out. Please try again later');
-        });
+    logOutUserListener = RxCommandListener(backend.get<UserManager>().logOutUserCommand, onValue: (_) {
+      return Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (_) => false);
+    }, onError: (error) async {
+      print(error);
+      await showMessageDialog(
+          context, 'Logout Problem', 'Sorry we had a problem logging you out. Please try again later');
+    });
   }
 
   @override
@@ -133,8 +133,8 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               AppIcons.switchUser,
               color: Colors.white,
             ),
-            text: 'Log out',
-            onTap: logOut,
+            text: 'Profiles',
+            onTap: switchProfile,
           ),
         ]);
       return entries;
@@ -214,15 +214,23 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
     );
   }
 
-  void logOut() async
-  {
-     var shouldLogout = await showQueryDialog(context, 'Do you really want to log out?', 'If you log out you will have to request a new login link when you start the app the next time.');
-     if (shouldLogout)
-     {
-       backend.get<UserManager>().logOutUserCommand();
-     }
+  void switchProfile() async {
+    var profiles = backend.get<UserManager>().getLoginProfiles();
+    var selectedProfile = await showDialog<LoginProfile>(
+        context: context,
+        builder: (context) => SwitchUserDialog(
+              profiles: profiles,
+            ));
+    if (selectedProfile == null)
+    {
+      return;
+    }
+    if (selectedProfile.email == 'LOGOUT')
+    {
+      backend.get<UserManager>().logOutUserCommand();
+    }
+    backend.get<UserManager>().switchUserCommand(selectedProfile);
   }
-
 }
 
 class _MainNavigationItem extends StatelessWidget {

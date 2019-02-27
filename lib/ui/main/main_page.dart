@@ -2,6 +2,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/bottom_nav.dart';
 
 import 'package:inf/ui/main/activities_section.dart';
@@ -11,6 +12,7 @@ import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:rx_command/rx_command.dart';
 
 const kMenuIconSize = 48.0;
 
@@ -24,7 +26,6 @@ class MainPage extends PageWidget {
   const MainPage({
     Key key,
   }) : super(key: key);
-
 
   @override
   _MainPageState createState() => _MainPageState();
@@ -43,6 +44,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
   MainPageMode _mode = MainPageMode.activities;
   bool _menuVisible = false;
   UserType userType;
+  RxCommandListener<LoginProfile, void> switchUserListener;
 
   @override
   void initState() {
@@ -57,15 +59,19 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     // TODO: Add curves
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
-    
-    assert(backend.get<UserManager>().currentUser != null);
 
-    userType = backend.get<UserManager>().currentUser.userType;
-    if ( userType == UserType.influencer) {
+    final userManager = backend.get<UserManager>();
+    assert(userManager.currentUser != null);
+
+    userType = userManager.currentUser.userType;
+    backend.get<ListManager>().setFilter(Filter());
+    if (userType == UserType.influencer) {
       _setMode(MainPageMode.browse);
     } else {
       _setMode(MainPageMode.activities);
     }
+
+    switchUserListener = RxCommandListener(userManager.switchUserCommand, onValue: onUserSwitched);
   }
 
   @override
@@ -73,6 +79,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     _drawerController.dispose();
     _sectionController.dispose();
     _tabController.dispose();
+    switchUserListener?.dispose();
     super.dispose();
   }
 
@@ -84,6 +91,19 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     }
     setState(() => _mode = value);
   }
+
+
+  void onUserSwitched(void _)
+  {
+      setState(() => userType = backend.get<UserManager>().currentUser.userType);
+      if (userType == UserType.influencer) {
+        _setMode(MainPageMode.browse);
+      } else {
+        _setMode(MainPageMode.activities);
+      } 
+      backend.get<ListManager>().setFilter(Filter()); 
+  }
+
 
   @override
   Widget build(BuildContext context) {

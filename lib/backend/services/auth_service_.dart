@@ -50,6 +50,10 @@ abstract class AuthenticationService {
   Future<void> updateUser(User user);
 
   Future<void> logOut();
+
+  List<LoginProfile> getLoginProfiles();
+
+  Future<void> switchUser(LoginProfile newProfile); 
 }
 
 class LoginToken {
@@ -123,13 +127,15 @@ class LoginToken {
   }
 }
 
-class StoredUserProfile {
+class LoginProfile {
   String userName;
+  String email;
   String avatarUrl;
   String refreshToken;
 
-  StoredUserProfile({
+  LoginProfile({
     this.userName,
+    this.email,
     this.avatarUrl,
     this.refreshToken,
   });
@@ -137,41 +143,43 @@ class StoredUserProfile {
   String toJson() {
     var map = <String, dynamic>{};
     map['userName'] = userName;
+    map['email'] = email;
     map['avatarUrl'] = avatarUrl;
     map['refreshToken'] = refreshToken;
 
     return json.encode(map);
   }
 
-  static StoredUserProfile fromJson(String jsonString) {
+  static LoginProfile fromJson(String jsonString) {
     var map = json.decode(jsonString);
-    return StoredUserProfile(
+    return LoginProfile(
       userName: map['userName'],
       avatarUrl: map['avatarUrl'],
+      email: map['email'],
       refreshToken: map['refreshToken'],
     );
   }
 }
-class StoredUserProfiles {
-  final int lastUsedProfileIndex;
-  final List<StoredUserProfile> profiles;
+class LoginProfiles {
+  String lastUsedProfileEmail;
+  Map<String,LoginProfile> profiles;
 
-  StoredUserProfiles({this.lastUsedProfileIndex, this.profiles});
+  LoginProfiles({this.lastUsedProfileEmail, this.profiles});
 
 
   String toJson() {
     var map = <String, dynamic>{};
-    map['lastUsesProfileIndex'] = lastUsedProfileIndex;
+    map['lastUsesProfileEmail'] = lastUsedProfileEmail;
     map['profiles'] = profiles;
 
     return json.encode(map);
   }
 
-  static StoredUserProfiles fromJson(String jsonString) {
+  static LoginProfiles fromJson(String jsonString) {
     var map = json.decode(jsonString);
-    return StoredUserProfiles(
-      lastUsedProfileIndex: map['lastUsesProfileIndex'],
-      profiles: (map['profiles'] as List).map<StoredUserProfile>((s) => StoredUserProfile.fromJson(s)).toList(),
+    return LoginProfiles(
+      lastUsedProfileEmail: map['lastUsesProfileEmail'],
+      profiles: (map['profiles'] as Map).map<String,LoginProfile>((k,s) => MapEntry(k,LoginProfile.fromJson(s))),
     );
   }
 }

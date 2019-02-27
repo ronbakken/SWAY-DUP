@@ -63,4 +63,9 @@ abstract class UserManager {
 
   // Updates the underlying Subject of currentUserUpdates from the server
   RxCommand<void, void> updateUserFromServer;
+
+  List<LoginProfile> getLoginProfiles();
+
+  RxCommand<LoginProfile, void> switchUserCommand;
+
 }

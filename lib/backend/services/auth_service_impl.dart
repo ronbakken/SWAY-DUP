@@ -13,7 +13,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   CallOptions callOptions;
   String refreshToken;
-  StoredUserProfiles userProfiles;
+  LoginProfiles loginProfiles;
 
   @override
   User get currentUser => _currentUser;
@@ -30,7 +30,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<bool> loginUserWithRefreshToken() async {
     try {
-      refreshToken = await readRefreshToken();
+      await loadLoginProfiles();
+      refreshToken = getLastUsedRefreshtoken();
 
       /// just when using the mock implmentation
       if (userTestToken != null) {
@@ -58,6 +59,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
           LoginWithLoginTokenRequest()..loginToken = loginToken,
         );
+    await loadLoginProfiles();
     refreshToken = authResult.refreshToken;
 
     if (authResult.refreshToken.isNotEmpty) {
@@ -67,7 +69,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       /// We only store it for an active user
       /// new user store the token after sucessfull activation
       if (authResult.user.status == UserDto_Status.active) {
-        await storeRefreshToken(refreshToken, _currentUser);
+        await storeLoginProfile(refreshToken, _currentUser);
       }
 
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
@@ -84,7 +86,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> logOut() async {
     //await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
-    await deleteRefreshToken();
+    loginProfiles.lastUsedProfileEmail = '';
+    await saveLoginProfiles();
   }
 
   @override
@@ -127,7 +130,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         options: callOptions);
     if (response.user != null) {
       _currentUser = User.fromDto(response.user);
-      await storeRefreshToken(refreshToken, _currentUser);
+      await storeLoginProfile(refreshToken, _currentUser);
       currentUserUpdatesSubject.add(_currentUser);
     }
   }
@@ -136,39 +139,71 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     callOptions = CallOptions(metadata: {'Authorization': 'Bearer $token'});
   }
 
-  Future<void> storeRefreshToken(String token, User user) async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    if (userProfiles == null) {
-      userProfiles = StoredUserProfiles(
-        lastUsedProfileIndex: 0,
-        profiles: [
-          StoredUserProfile(
+  Future<void> storeLoginProfile(String token, User user) async {
+    if (loginProfiles == null) {
+      loginProfiles = LoginProfiles(
+        lastUsedProfileEmail: user.email,
+        profiles: {
+          user.email: LoginProfile(
             refreshToken: token,
             userName: user.name,
+            email: user.email,
             avatarUrl: user.avatarThumbnail.imageUrl,
           ),
-        ],
+        },
       );
     } else {
-      userProfiles.profiles[userProfiles.lastUsedProfileIndex].refreshToken = token;
+      var profile = loginProfiles.profiles[user.email];
+      if (profile != null) {
+        profile.refreshToken = token;
+      } else {
+        loginProfiles.profiles[user.email] = LoginProfile(
+          refreshToken: token,
+          userName: user.name,
+          email: user.email,
+          avatarUrl: user.avatarThumbnail.imageUrl,
+        );
+      }
+      loginProfiles.lastUsedProfileEmail = user.email;
     }
 
-    var asJson = userProfiles.toJson();
-    await prefs.setString('userProfiles', asJson);
+    await saveLoginProfiles();
   }
 
-  Future<String> readRefreshToken() async {
+  String getLastUsedRefreshtoken() {
+    if (loginProfiles.lastUsedProfileEmail.isEmpty) {
+      return null;
+    }
+    return loginProfiles.profiles[loginProfiles.lastUsedProfileEmail].refreshToken;
+  }
+
+  Future<void> loadLoginProfiles() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var jsonString = prefs.getString('userProfiles');
     if (jsonString == null) {
-      return null;
+      loginProfiles = null;
     }
-    userProfiles = StoredUserProfiles.fromJson(jsonString);
-    return userProfiles.profiles[userProfiles.lastUsedProfileIndex].refreshToken;
+    loginProfiles = LoginProfiles.fromJson(jsonString);
   }
 
-  Future<void> deleteRefreshToken() async {
+  Future<void> saveLoginProfiles() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var asJson = loginProfiles.toJson();
+    await prefs.setString('userProfiles', asJson);
+  }
+
+  Future<void> deleteLoginProfiles() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.remove('userProfiles');
+  }
+
+  @override
+  List<LoginProfile> getLoginProfiles() => loginProfiles.profiles.values.toList(growable: false);
+
+  @override
+  Future<void> switchUser(LoginProfile newProfile) async {
+    loginProfiles.lastUsedProfileEmail = newProfile.email;
+    await saveLoginProfiles();
+    await loginUserWithRefreshToken();
   }
 }

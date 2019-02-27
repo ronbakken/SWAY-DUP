@@ -30,6 +30,10 @@ class UserManagerImplementation implements UserManager {
   @override
   RxCommand<void, void> logOutUserCommand;
 
+  @override
+  RxCommand<LoginProfile, void> switchUserCommand;
+
+
   UserManagerImplementation() {
     logInUserCommand = RxCommand.createAsync(loginUser);
 
@@ -39,6 +43,8 @@ class UserManagerImplementation implements UserManager {
 
     logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend.get<AuthenticationService>().logOut,
         emitsLastValueToNewSubscriptions: true);
+
+    switchUserCommand =RxCommand.createAsyncNoResult(switchUser);    
   }
 
   @override
@@ -110,4 +116,19 @@ class UserManagerImplementation implements UserManager {
       return await authenticationService.loginUserWithLoginToken(token.token);
     }
   }
+
+  @override
+  List<LoginProfile> getLoginProfiles() => backend.get<AuthenticationService>().getLoginProfiles();
+
+  Future<void> switchUser(LoginProfile profile) async
+  {
+      // the user hasn't really changed don't do anything
+      if (profile.email ==currentUser.email)
+      {
+        return;
+      }
+      await backend.get<AuthenticationService>().switchUser(profile);
+
+  }
+
 }
