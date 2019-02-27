@@ -221,7 +221,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
         Navigator.of(context).push(
           OfferDetailsPage.route(
             streamFromValueAndFuture<BusinessOffer>(
-                partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+                partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer)),
             tag,
           ),
         ),

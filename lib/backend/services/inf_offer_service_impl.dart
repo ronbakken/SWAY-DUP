@@ -7,9 +7,11 @@ import 'package:inf_api_client/inf_api_client.dart';
 
 class InfOfferServiceImplementation implements InfOfferService {
   @override
-  Future<BusinessOffer> getOffer(String id) async {
+  Future<BusinessOffer> getOffer(String id,String creatorId) async {
     var result = await backend.get<InfApiClientsService>().offerClient.getOffer(
-          GetOfferRequest()..id = id,
+          GetOfferRequest()
+          ..userId =creatorId
+          ..id = id,
           options: backend.get<AuthenticationService>().callOptions
         );
     return BusinessOffer.fromDto(result.offer);

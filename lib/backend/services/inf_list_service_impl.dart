@@ -14,6 +14,7 @@ class InfListServiceImplementation implements InfListService {
         .list(
             filterStream.map<ListRequest>(
               (f) => ListRequest()
+                ..state =ListRequest_State.resumed
                 ..filter = (ItemFilterDto()
                   ..itemTypes.addAll([ItemFilterDto_ItemType.offers])
                   ..offerFilter = (ItemFilterDto_OfferFilterDto())),
