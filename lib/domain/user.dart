@@ -28,8 +28,8 @@ class User {
   String get locationAsString => location.name;
 
   User({
-    this.id,
-    this.revision,
+    this.id = '',
+    this.revision =0,
     this.verified,
     this.accountState,
     this.userType,

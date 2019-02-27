@@ -13,6 +13,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   CallOptions callOptions;
   String refreshToken;
+  StoredUserProfiles userProfiles;
 
   @override
   User get currentUser => _currentUser;
@@ -30,6 +31,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   Future<bool> loginUserWithRefreshToken() async {
     try {
       refreshToken = await readRefreshToken();
+
       /// just when using the mock implmentation
       if (userTestToken != null) {
         refreshToken = userTestToken;
@@ -59,18 +61,19 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     refreshToken = authResult.refreshToken;
 
     if (authResult.refreshToken.isNotEmpty) {
+      _currentUser = User.fromDto(authResult.user);
+
       /// store reecived token in secure storage
       /// We only store it for an active user
       /// new user store the token after sucessfull activation
       if (authResult.user.status == UserDto_Status.active) {
-        await storeRefreshToken(refreshToken);
+        await storeRefreshToken(refreshToken, _currentUser);
       }
 
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
       var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       updateAccessToken(accessTokenResult.accessToken);
 
-      _currentUser = User.fromDto(authResult.user);
       currentUserUpdatesSubject.add(_currentUser);
       return true;
     } else {
@@ -81,9 +84,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> logOut() async {
     //await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
-     await deleteRefreshToken();
+    await deleteRefreshToken();
   }
-
 
   @override
   Future<void> updateUser(User user) async {
@@ -124,8 +126,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
           ..loginToken = loginToken,
         options: callOptions);
     if (response.user != null) {
-      await storeRefreshToken(refreshToken);
       _currentUser = User.fromDto(response.user);
+      await storeRefreshToken(refreshToken, _currentUser);
       currentUserUpdatesSubject.add(_currentUser);
     }
   }
@@ -134,23 +136,39 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     callOptions = CallOptions(metadata: {'Authorization': 'Bearer $token'});
   }
 
-  Future<void> storeRefreshToken(String token) async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString('refresh_token', token);
+  Future<void> storeRefreshToken(String token, User user) async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    if (userProfiles == null) {
+      userProfiles = StoredUserProfiles(
+        lastUsedProfileIndex: 0,
+        profiles: [
+          StoredUserProfile(
+            refreshToken: token,
+            userName: user.name,
+            avatarUrl: user.avatarThumbnail.imageUrl,
+          ),
+        ],
+      );
+    } else {
+      userProfiles.profiles[userProfiles.lastUsedProfileIndex].refreshToken = token;
+    }
+
+    var asJson = userProfiles.toJson();
+    await prefs.setString('userProfiles', asJson);
   }
 
-  Future<String> readRefreshToken() async
-  {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-     return prefs.getString('refresh_token');
+  Future<String> readRefreshToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var jsonString = prefs.getString('userProfiles');
+    if (jsonString == null) {
+      return null;
+    }
+    userProfiles = StoredUserProfiles.fromJson(jsonString);
+    return userProfiles.profiles[userProfiles.lastUsedProfileIndex].refreshToken;
   }
 
   Future<void> deleteRefreshToken() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('refresh_token');
+    await prefs.remove('userProfiles');
   }
-
-
 }
-
-

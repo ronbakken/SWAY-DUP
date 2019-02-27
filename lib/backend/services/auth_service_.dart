@@ -5,7 +5,6 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
-
 enum AuthenticationState {
   connecting,
   notLoggedIn,
@@ -29,6 +28,28 @@ class AuthenticationException implements Exception {
   String toString() {
     return message;
   }
+}
+
+abstract class AuthenticationService {
+  User get currentUser;
+
+  CallOptions callOptions;
+
+  Observable<User> get currentUserUpdates;
+
+  Future<void> sendLoginEmail(UserType userType, String email, String invitationCode);
+
+  Future<bool> loginUserWithRefreshToken();
+
+  Future<bool> loginUserWithLoginToken(String loginToken);
+
+  Future<void> activateUser(User user, String loginToken);
+
+  Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
+
+  Future<void> updateUser(User user);
+
+  Future<void> logOut();
 }
 
 class LoginToken {
@@ -102,24 +123,56 @@ class LoginToken {
   }
 }
 
-abstract class AuthenticationService {
-  User get currentUser;
+class StoredUserProfile {
+  String userName;
+  String avatarUrl;
+  String refreshToken;
 
-  CallOptions callOptions;
+  StoredUserProfile({
+    this.userName,
+    this.avatarUrl,
+    this.refreshToken,
+  });
 
-  Observable<User> get currentUserUpdates;
+  String toJson() {
+    var map = <String, dynamic>{};
+    map['userName'] = userName;
+    map['avatarUrl'] = avatarUrl;
+    map['refreshToken'] = refreshToken;
 
-  Future<void> sendLoginEmail(UserType userType, String email, String invitationCode);
+    return json.encode(map);
+  }
 
-  Future<bool> loginUserWithRefreshToken();
-
-  Future<bool> loginUserWithLoginToken(String loginToken);
-
-  Future<void> activateUser(User user, String loginToken);
-
-  Future<GetInvitationCodeStatusResponse_InvitationCodeStatus> checkInvitationCode(String code);
-
-  Future<void> updateUser(User user);
-
-  Future<void> logOut();
+  static StoredUserProfile fromJson(String jsonString) {
+    var map = json.decode(jsonString);
+    return StoredUserProfile(
+      userName: map['userName'],
+      avatarUrl: map['avatarUrl'],
+      refreshToken: map['refreshToken'],
+    );
+  }
 }
+class StoredUserProfiles {
+  final int lastUsedProfileIndex;
+  final List<StoredUserProfile> profiles;
+
+  StoredUserProfiles({this.lastUsedProfileIndex, this.profiles});
+
+
+  String toJson() {
+    var map = <String, dynamic>{};
+    map['lastUsesProfileIndex'] = lastUsedProfileIndex;
+    map['profiles'] = profiles;
+
+    return json.encode(map);
+  }
+
+  static StoredUserProfiles fromJson(String jsonString) {
+    var map = json.decode(jsonString);
+    return StoredUserProfiles(
+      lastUsedProfileIndex: map['lastUsesProfileIndex'],
+      profiles: (map['profiles'] as List).map<StoredUserProfile>((s) => StoredUserProfile.fromJson(s)).toList(),
+    );
+  }
+}
+

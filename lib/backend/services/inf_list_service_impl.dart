@@ -12,20 +12,18 @@ class InfListServiceImplementation implements InfListService {
         .get<InfApiClientsService>()
         .listClient
         .list(
-          filterStream.map<ListRequest>(
-            (f) => ListRequest()
-              ..filter = (ItemFilterDto()
-                ..northWest = (GeoPointDto()
-                  ..latitude = 0.0
-                  ..longitude = 0.0)
-                ..southEast = (GeoPointDto()
-                  ..latitude = 1.0
-                  ..longitude = 2.0)),
-          ),
-        )
+            filterStream.map<ListRequest>(
+              (f) => ListRequest()
+                ..filter = (ItemFilterDto()
+                  ..itemTypes.addAll([ItemFilterDto_ItemType.offers])
+                  ..offerFilter = (ItemFilterDto_OfferFilterDto())),
+            ),
+            options: backend.get<AuthenticationService>().callOptions)
         .map<List<InfItem>>((items) => items.items
             .map(
-              (item) => InfItem.fromDto(item),
+              (item) {
+                return InfItem.fromDto(item);
+              },
             )
             .toList());
   }

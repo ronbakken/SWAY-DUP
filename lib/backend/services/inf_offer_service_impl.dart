@@ -10,6 +10,7 @@ class InfOfferServiceImplementation implements InfOfferService {
   Future<BusinessOffer> getOffer(String id) async {
     var result = await backend.get<InfApiClientsService>().offerClient.getOffer(
           GetOfferRequest()..id = id,
+          options: backend.get<AuthenticationService>().callOptions
         );
     return BusinessOffer.fromDto(result.offer);
   }
@@ -19,6 +20,7 @@ class InfOfferServiceImplementation implements InfOfferService {
   {
     var result = await backend.get<InfApiClientsService>().offerClient.updateOffer(
           UpdateOfferRequest()..offer = offerBuilder.toDto(),
+          options: backend.get<AuthenticationService>().callOptions
         );
     return BusinessOffer.fromDto(result.offer);
 

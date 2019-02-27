@@ -63,7 +63,9 @@ class UserManagerImplementation implements UserManager {
     // if an image file is provided create all needed resolutions
     // and upload them
     if (userData.profilePicture != null) {
-      var imageReference = userData.user.avatarImage.copyWith(imageFile: userData.profilePicture);
+      var imageReference = userData.user.avatarImage != null
+          ? userData.user.avatarImage.copyWith(imageFile: userData.profilePicture)
+          : ImageReference(imageFile: userData.profilePicture);
 
       // var image = decodeImage(imageBytes);
       // var profileImage = copyResize(image, 800);
@@ -71,19 +73,10 @@ class UserManagerImplementation implements UserManager {
       // var thumbNail = copyResize(profileImage, 100);
       // var thumbNailLowRes = copyResize(thumbNail, 20);
 
-
-      var avatarImage = await backend
-          .get<ImageService>()
-          .uploadImageReference(fileNameTrunc: 'profilePicture',
-          imageReference: imageReference,
-          imageWidth: 800,
-          lowResWidth: 100);     
-      var thumbnailImage = await backend
-          .get<ImageService>()
-          .uploadImageReference(fileNameTrunc: 'profileThumbnail',
-          imageReference: imageReference,
-          imageWidth: 100,
-          lowResWidth: 20);     
+      var avatarImage = await backend.get<ImageService>().uploadImageReference(
+          fileNameTrunc: 'profilePicture', imageReference: imageReference, imageWidth: 800, lowResWidth: 100);
+      var thumbnailImage = await backend.get<ImageService>().uploadImageReference(
+          fileNameTrunc: 'profileThumbnail', imageReference: imageReference, imageWidth: 100, lowResWidth: 20);
 
       userToSend = userData.user.copyWith(
         avatarImage: avatarImage,
