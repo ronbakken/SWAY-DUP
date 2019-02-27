@@ -14,7 +14,7 @@ import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
-const kMenuIconSize = 48.0;
+const kMenuIconSize = kToolbarHeight;
 
 class MainPage extends PageWidget {
   static Route<dynamic> route() {

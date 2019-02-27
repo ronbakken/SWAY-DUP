@@ -22,7 +22,8 @@ class AppTheme {
   static const toggleActive = Colors.white;
   static const toggleIconActive = blue;
   static const toggleIconInActive = Colors.white;
-  static const tabIndicator = blue;
+  static const tabIndicator = const Color(0xFF0274B3);
+  static const tabIndicatorInactive = const Color(0xFF4D4D4E);
   static const notificationDot = const Color(0xFFDC7173);
 
   static const radioButtonBgUnselected = const Color(0xFF4C4C4D);
@@ -34,6 +35,12 @@ class AppTheme {
   );
 
   static ThemeData themeTopLevel() {
+    final textTheme = TextTheme(
+      title: TextStyle(
+        fontWeight: FontWeight.normal,
+        fontSize: 16.0,
+      ),
+    );
     var theme = ThemeData(
       brightness: Brightness.dark,
       backgroundColor: AppTheme.darkGrey,
@@ -50,6 +57,9 @@ class AppTheme {
         buttonColor: Colors.white,
         textTheme: ButtonTextTheme.primary,
       ),
+      textTheme: textTheme,
+      primaryTextTheme: textTheme,
+      accentTextTheme: textTheme,
       inputDecorationTheme: InputDecorationTheme(
         labelStyle: formFieldLabelStyle,
       ),

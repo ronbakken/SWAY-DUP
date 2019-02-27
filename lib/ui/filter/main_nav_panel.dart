@@ -224,7 +224,7 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.notificationCount > 0 ? new NotificationMarker() : SizedBox(),
+                widget.notificationCount > 0 ? NotificationMarker() : SizedBox(),
                 InfAssetImage(widget.mode.icon, width: 24.0),
                 SizedBox(height: 4.0),
                 Text(

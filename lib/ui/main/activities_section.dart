@@ -11,6 +11,7 @@ import 'package:inf/ui/offer_views/offer_short_summary_tile.dart';
 import 'package:inf/ui/proposal_views/proposal_list_view.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -42,80 +43,105 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
     super.dispose();
   }
 
-  static const double kTabBarBottomPadding = 16;
+  static const double kTabIndicatorWeight = 4.0;
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
-    return Padding(
-      padding: EdgeInsets.only(top: mediaQuery.padding.top),
-      child: Container(
-        color: AppTheme.darkGrey,
-        child: Column(
-          children: [
-            SizedBox(
-              height: kMenuIconSize + kTabBarBottomPadding,
-              child: Padding(
-                padding: const EdgeInsets.only(left: 32.0),
-                child: TabBar(
-                  indicatorWeight: 4.0,
-                  indicatorColor: AppTheme.tabIndicator,
-                  indicatorSize: TabBarIndicatorSize.tab,
-                  indicatorPadding: const EdgeInsets.only(
-                    left: 10.0,
-                    right: 10.0,
-                    top: kTabBarBottomPadding,
+    final proposalManager = backend.get<ProposalManager>();
+    return Column(
+      children: [
+        Container(
+          color: AppTheme.menuUserNameBackground,
+          padding: EdgeInsets.only(top: mediaQuery.padding.top),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              Container(
+                height: kMenuIconSize,
+                alignment: Alignment.center,
+                child: Text('ACTIVITIES', style: theme.textTheme.title),
+              ),
+              Container(
+                height: kTextTabBarHeight,
+                child: CustomPaint(
+                  painter: _TabBarBackground(
+                    inactiveIndicatorColor: AppTheme.tabIndicatorInactive,
+                    indicatorWeight: kTabIndicatorWeight,
+                    spacing: 1.0,
+                    tabCount: controller.length,
                   ),
-                  labelPadding: const EdgeInsets.symmetric(horizontal: 8.0),
-                  isScrollable: false,
-                  controller: controller,
-                  tabs: [
-                    _TabBarItem(
-                      text: 'OFFERS',
-                    ),
-                    _TabBarItem(
-                      text: 'PROPOSED',
-                    ),
-                    _TabBarItem(
-                      text: 'DEALS',
-                    ),
-                    _TabBarItem(
-                      text: 'DONE',
-                    ),
-                  ],
+                  child: TabBar(
+                    indicatorWeight: kTabIndicatorWeight,
+                    indicatorColor: AppTheme.tabIndicator,
+                    indicatorPadding: EdgeInsets.symmetric(horizontal: 0.5),
+                    labelPadding: EdgeInsets.zero,
+                    isScrollable: false,
+                    controller: controller,
+                    tabs: [
+                      _TabBarItem(text: 'MY OFFERS'),
+                      _TabBarItem(text: 'APPLIED'),
+                      _TabBarItem(text: 'DEALS'),
+                      _TabBarItem(text: 'DONE'),
+                    ],
+                  ),
                 ),
               ),
-            ),
-            Expanded(
-              child: Container(
-                color: AppTheme.listViewAndMenuBackground,
-                child: TabBarView(
-                  controller: controller,
-                  children: [
-                    OfferSummeryListView(
-                      name: 'offers-applied',
-                    ),
-                    ProposalListView(
-                      dataSource: backend.get<ProposalManager>().appliedProposals,
-                    ),
-                    ProposalListView(
-                      dataSource: backend.get<ProposalManager>().activeDeals,
-                    ),
-                    ProposalListView(
-                      dataSource: backend.get<ProposalManager>().doneProposals,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
+            ],
+          ),
         ),
-      ),
+        Expanded(
+          child: Container(
+            color: AppTheme.listViewAndMenuBackground,
+            child: TabBarView(
+              controller: controller,
+              children: [
+                OfferSummeryListView(name: 'offers-applied'),
+                ProposalListView(dataSource: proposalManager.appliedProposals),
+                ProposalListView(dataSource: proposalManager.activeDeals),
+                ProposalListView(dataSource: proposalManager.doneProposals),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _TabBarItem extends StatelessWidget {
+class _TabBarBackground extends CustomPainter {
+  _TabBarBackground({
+    @required Color inactiveIndicatorColor,
+    this.indicatorWeight,
+    this.spacing = 0.0,
+    this.tabCount = 1,
+  }) {
+    _paint.color = inactiveIndicatorColor;
+    _paint.strokeWidth = indicatorWeight;
+  }
+
+  final _paint = Paint();
+  final double indicatorWeight;
+  final double spacing;
+  final int tabCount;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final bottom = size.height - (indicatorWeight / 2);
+    final width = (size.width - (tabCount * spacing)) / tabCount;
+    for (int i = 0; i < tabCount; i++) {
+      final left = (spacing / 2) + (width + spacing) * i;
+      final right = left + width;
+      canvas.drawLine(Offset(left, bottom), Offset(right, bottom), _paint);
+    }
+  }
+
+  @override
+  bool shouldRepaint(CustomPainter oldDelegate) => false;
+}
+
+class _TabBarItem extends StatefulWidget {
   const _TabBarItem({
     Key key,
     @required this.text,
@@ -126,34 +152,51 @@ class _TabBarItem extends StatelessWidget {
   final Stream<int> notifications;
 
   @override
+  _TabBarItemState createState() => _TabBarItemState();
+}
+
+class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderStateMixin {
+  @override
   Widget build(BuildContext context) {
-    return Stack(
+    return Container(
+      width: double.infinity,
+      height: double.infinity,
       alignment: Alignment.center,
-      children: <Widget>[
-        Text(
-          text,
-          style: const TextStyle(
-            fontSize: 12,
-          ),
-          maxLines: 1,
-        ),
-        notifications != null
-            ? Positioned(
-                right: 0.0,
-                top: 0.0,
-                child: StreamBuilder<int>(
-                  initialData: 0,
-                  stream: notifications,
-                  builder: (BuildContext context, AsyncSnapshot snapshot) {
-                    if (!snapshot.hasData || snapshot.data == 0) {
-                      return SizedBox();
-                    }
-                    return NotificationMarker();
-                  },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        child: FittedBox(
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: nonNullChildren(<Widget>[
+              StreamBuilder<int>(
+                initialData: 0,
+                stream: widget.notifications,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  return AnimatedSize(
+                    vsync: this,
+                    duration: const Duration(milliseconds: 350),
+                    alignment: Alignment.centerLeft,
+                    child: ifWidget(!snapshot.hasData || snapshot.data == 0,
+                        then: SizedBox(height: 12.0),
+                        orElse: NotificationMarker(
+                          margin: const EdgeInsets.only(top: 2.5, right: 5.0),
+                        )),
+                  );
+                },
+              ),
+              Text(
+                widget.text,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal,
                 ),
-              )
-            : SizedBox(),
-      ],
+                maxLines: 1,
+              ),
+            ]),
+          ),
+        ),
+      ),
     );
   }
 }

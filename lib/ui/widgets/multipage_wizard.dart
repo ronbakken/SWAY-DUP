@@ -62,7 +62,7 @@ class MultiPageWizardState extends State<MultiPageWizard> {
                   pageCount: widget.pageCount,
                   color: widget.indicatorColor,
                 ),
-                size: Size(double.infinity, 56.0),
+                size: Size(double.infinity, kTextTabBarHeight),
               ),
             ),
           ),
