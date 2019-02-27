@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Genesis.Ensure;
 using Grpc.Core;
 using Serilog;
+using Serilog.Context;
 
 namespace Utility
 {
