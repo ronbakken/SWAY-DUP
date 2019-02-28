@@ -55,7 +55,7 @@ class OfferManagerImplementation implements OfferManager {
   }
 
   @override
-  OfferBuilder getOfferBuilder() {
+  OfferBuilder createOfferBuilder() {
     var currentUser = backend.get<UserManager>().currentUser;
     return OfferBuilder(
       businessAccountId: currentUser.id,
@@ -108,7 +108,7 @@ class OfferManagerImplementation implements OfferManager {
 
   @override
   Future<BusinessOffer> getFullOffer(BusinessOffer partialOffer) {
-    return backend.get<InfOfferService>().getOffer(partialOffer.id, partialOffer.businessAccountId);
+    return backend.get<InfOfferService>().getOffer(partialOffer.id);
   }
 
   void initConnection() {

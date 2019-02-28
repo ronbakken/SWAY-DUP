@@ -1,16 +1,21 @@
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-enum InfItemType {user, offer, map}
+enum InfItemType { user, offer, map }
 
 class InfItem {
+  final String id;
+  final int revision;
   final InfItemType type;
+
   /// Only one of them will be set according to [type]
   final BusinessOffer offer;
   final User user;
   final MapMarker mapMarker;
 
   InfItem({
+    this.id,
+    this.revision,
     this.type,
     this.offer,
     this.user,
@@ -19,10 +24,20 @@ class InfItem {
 
   static InfItem fromDto(ItemDto dto) {
     if (dto.hasOffer()) {
-      return InfItem(type: InfItemType.offer, offer: BusinessOffer.fromDto(dto.offer));
+      return InfItem(
+        type: InfItemType.offer,
+        offer: BusinessOffer.fromDto(dto.offer),
+        id: dto.offer.id,
+        revision: dto.offer.revision,
+      );
     }
     if (dto.hasUser()) {
-      return InfItem(type: InfItemType.user, user: User.fromDto(dto.user));
+      return InfItem(
+        type: InfItemType.user,
+        user: User.fromDto(dto.user),
+        id: dto.user.id,
+        revision: dto.user.revision,
+      );
     }
     if (dto.hasMapItem()) {
       return InfItem(type: InfItemType.map, mapMarker: null);

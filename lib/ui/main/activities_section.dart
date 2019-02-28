@@ -214,12 +214,12 @@ class OfferSummeryListView extends StatefulWidget {
 }
 
 class _OfferSummeryListViewState extends State<OfferSummeryListView> {
-  Stream<List<BusinessOffer>> dataSource;
+  Stream<List<InfItem>> dataSource;
 
   @override
   void initState() {
     super.initState();
-    dataSource = backend.get<OfferManager>().filteredOffers;
+    dataSource = backend.get<ListManager>().userCreatedItems;
   }
 
   @override
@@ -230,19 +230,20 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<BusinessOffer>>(
+    return StreamBuilder<List<InfItem>>(
         stream: dataSource,
-        builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapShot) {
+        builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
           if (!snapShot.hasData) {
             // TODO
             return Center(child: Text('Here has to be an Error message'));
           }
-          final offers = snapShot.data;
+          final items = snapShot.data;
           return ListView.builder(
             padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
-            itemCount: offers.length,
+            itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
-              final offer = offers[index];
+              assert(items[index].type ==InfItemType.offer);
+              final offer = items[index].offer;
               final tag = '${widget.name}-${offer.id}';
               return Padding(
                 padding: const EdgeInsets.symmetric(vertical: 4.0),

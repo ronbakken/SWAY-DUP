@@ -5,7 +5,7 @@ import 'package:inf/domain/domain.dart';
 
 abstract class InfOfferService {
 
-  Future<BusinessOffer> getOffer(String id, String creatorId);
+  Future<BusinessOffer> getOffer(String id,);
   Future<BusinessOffer> updateOffer(OfferBuilder offerBuilder);
   
 }

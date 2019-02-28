@@ -41,8 +41,16 @@ class InfListServiceImplementation implements InfListService {
       itemTypes.add(ItemFilterDto_ItemType.offers);
       offerFilter = ItemFilterDto_OfferFilterDto();
     } else if (userType == UserType.business) {
-      itemTypes.add(ItemFilterDto_ItemType.users);
       userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.influencer);
+      if (filter.offeringBusinessId != null && filter.offeringBusinessId.isNotEmpty)
+      {
+        itemTypes.add(ItemFilterDto_ItemType.offers);
+        offerFilter.businessAccountId = filter.offeringBusinessId;
+      }
+      else
+      {
+        itemTypes.add(ItemFilterDto_ItemType.users);
+      }
     } else {
       throw Exception('Unsupported user type');
     }

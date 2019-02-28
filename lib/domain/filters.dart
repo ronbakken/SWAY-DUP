@@ -3,25 +3,40 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-
 class Filter {
-  int offeringBusinessId;
-  OfferDto_Status state;
-  String freeText;
-  List<SocialNetworkProvider> channels;
-  List<DeliverableType> deliverableType;
+  final String offeringBusinessId;
+  final OfferDto_Status state;
+  final String freeText;
+  final List<SocialNetworkProvider> channels;
+  final List<DeliverableType> deliverableType;
 
-  List<RewardDto_Type> rewardType;
-  Decimal rewardValueLowerLimit;
-  Decimal rewardValueUpperLimit;
+  final List<RewardDto_Type> rewardType;
+  final Money rewardValueLowerLimit;
+  final Money rewardValueUpperLimit;
 
-  double latitude;
-  double longitude;
-  double radiusInMeters;
+  final double latitude;
+  final double longitude;
+  final double radiusInMeters;
 
-  DateTime created;
+  final DateTime created;
 
-  UserType userType;
+  final UserType userType;
+
+  Filter({
+    this.offeringBusinessId,
+    this.state,
+    this.freeText,
+    this.channels,
+    this.deliverableType,
+    this.rewardType,
+    this.rewardValueLowerLimit,
+    this.rewardValueUpperLimit,
+    this.latitude,
+    this.longitude,
+    this.radiusInMeters,
+    this.created,
+    this.userType,
+  });
 }
 
 // class ProposalFilter

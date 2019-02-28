@@ -12,3 +12,4 @@ export 'package:inf/domain/map_marker.dart';
 export 'package:inf/domain/social_network_provider.dart';
 export 'package:inf/domain/deal_terms.dart';
 export 'package:inf/domain/inf_item.dart';
+export 'package:inf/domain/money.dart';
