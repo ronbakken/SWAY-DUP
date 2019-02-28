@@ -89,6 +89,15 @@ class ListManagerImplementation implements ListManager {
     allOffersCache.clear();
     filterSubject.add(filter);
   }
+
+  @override
+  void flushCaches()
+  {
+      allOffersCache.clear();
+      allOffersCache.updateOutput();
+      userCreatedOffers.clear();
+      userCreatedOffers.updateOutput();
+  }
 }
 
 class InfItemCache {

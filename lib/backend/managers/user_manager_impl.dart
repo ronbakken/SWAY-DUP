@@ -131,6 +131,7 @@ class UserManagerImplementation implements UserManager {
         return;
       }
       await backend.get<AuthenticationService>().switchUser(profile);
+      backend.get<ListManager>().flushCaches();
       backend.get<ListManager>().updateListeners();
 
 

@@ -9,6 +9,7 @@ import 'package:inf/ui/main/activities_section.dart';
 import 'package:inf/ui/main/browse_section.dart';
 import 'package:inf/ui/main/menu_drawer.dart';
 import 'package:inf/ui/main/page_mode.dart';
+import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -71,7 +72,12 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
       _setMode(MainPageMode.activities);
     }
 
-    switchUserListener = RxCommandListener(userManager.switchUserCommand, onValue: onUserSwitched);
+    switchUserListener = RxCommandListener(
+      userManager.switchUserCommand,
+      onValue: onUserSwitched,
+      onIsBusy: () => InfLoader.show(context),
+      onNotBusy: () => InfLoader.hide(),
+    );
   }
 
   @override
@@ -92,18 +98,15 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     setState(() => _mode = value);
   }
 
-
-  void onUserSwitched(void _)
-  {
-      setState(() => userType = backend.get<UserManager>().currentUser.userType);
-      if (userType == UserType.influencer) {
-        _setMode(MainPageMode.browse);
-      } else {
-        _setMode(MainPageMode.activities);
-      } 
-      backend.get<ListManager>().setFilter(Filter()); 
+  void onUserSwitched(void _) {
+    setState(() => userType = backend.get<UserManager>().currentUser.userType);
+    if (userType == UserType.influencer) {
+      _setMode(MainPageMode.browse);
+    } else {
+      _setMode(MainPageMode.activities);
+    }
+    backend.get<ListManager>().setFilter(Filter());
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -154,7 +157,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
 
           /// Main Menu Drawer
           IgnorePointer(
-            ignoring: _menuVisible,
+            ignoring: !_menuVisible,
             child: AnimatedBuilder(
               animation: _drawerAnim,
               builder: (BuildContext context, Widget navigationDrawer) {

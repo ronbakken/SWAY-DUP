@@ -44,9 +44,11 @@ class _MainMapViewState extends State<MainMapView> {
         if (snapshot.hasData) {
           markers = buildMarkers(snapshot.data);
         }
+        var initialCenter = backend.get<LocationService>().lastLocation;
         return FlutterMap(
           mapController: mapController,
           options: MapOptions(
+            center: LatLng(initialCenter.latitude, initialCenter.longitude),
             onPositionChanged: onMapPositionChanged,
             zoom: 12.0,
           ),
@@ -92,7 +94,6 @@ class _MainMapViewState extends State<MainMapView> {
                   height: 38.0,
                 ),
               );
-              ;
             },
           ),
         );
