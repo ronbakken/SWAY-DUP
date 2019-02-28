@@ -1,9 +1,12 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:latlong/latlong.dart';
@@ -72,28 +75,35 @@ class _MainMapViewState extends State<MainMapView> {
       AppAsset markerAsset;
       Widget markerWidget;
 
-      if (item.type == InfItemType.user) {
-        markerAsset = AppIcons.mapMarkerBusiness;
-      } else {
+      if (item.type == InfItemType.offer) {
         markerAsset = AppIcons.mapMarker;
+
+        markerList.add(
+          Marker(
+            width: 38.0,
+            height: 38.0,
+            point: LatLng(item.latitude, item.longitude),
+            builder: (BuildContext context) {
+              return InkResponse(
+                onTap: () => onMarkerClicked(item),
+                child: InfAssetImage(
+                  markerAsset,
+                  width: 38.0,
+                  height: 38.0,
+                ),
+              );
+              ;
+            },
+          ),
+        );
       }
-      markerWidget = InfAssetImage(
-        markerAsset,
-        width: 38.0,
-        height: 38.0,
-      );
-      markerList.add(
-        Marker(
-          width: 38.0,
-          height: 38.0,
-          point: LatLng(item.latitude, item.longitude),
-          builder: (BuildContext context) {
-            return markerWidget;
-          },
-        ),
-      );
     }
     return markerList;
+  }
+
+  void onMarkerClicked(InfItem item) {
+    Navigator.of(context)
+        .push(OfferDetailsPage.route(Stream.fromFuture(backend.get<OfferManager>().getFullOffer(item.id))));
   }
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {

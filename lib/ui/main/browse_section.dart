@@ -258,7 +258,7 @@ void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag
     unawaited(
       Navigator.of(context).push(
         OfferDetailsPage.route(
-          streamFromValueAndFuture<BusinessOffer>(partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer)),
+          streamFromValueAndFuture<BusinessOffer>(partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer.id)),
           tag,
         ),
       ),

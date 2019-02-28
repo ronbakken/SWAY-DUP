@@ -108,8 +108,8 @@ class OfferManagerImplementation implements OfferManager {
   }
 
   @override
-  Future<BusinessOffer> getFullOffer(BusinessOffer partialOffer) {
-    return backend.get<InfOfferService>().getOffer(partialOffer.id);
+  Future<BusinessOffer> getFullOffer(String id) {
+    return backend.get<InfOfferService>().getOffer(id);
   }
 
   void initConnection() {

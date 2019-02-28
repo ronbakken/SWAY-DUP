@@ -20,7 +20,7 @@ abstract class OfferManager {
   Observable<List<BusinessOffer>> get filteredOffers;
   Observable<List<BusinessOffer>> get featuredBusinessOffers;
 
-  Future<BusinessOffer> getFullOffer(BusinessOffer partialOffer);
+  Future<BusinessOffer> getFullOffer(String id);
 
   Future<void> addOfferFilter(Filter filter);
   Future<void> clearOfferFilter(Filter filter);
