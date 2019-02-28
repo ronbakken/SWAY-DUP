@@ -31,7 +31,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   Future<bool> loginUserWithRefreshToken() async {
     try {
       await loadLoginProfiles();
-      refreshToken = getLastUsedRefreshtoken();
+      refreshToken = getLastUsedRefreshToken();
 
       /// just when using the mock implmentation
       if (userTestToken != null) {
@@ -170,8 +170,8 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     await saveLoginProfiles();
   }
 
-  String getLastUsedRefreshtoken() {
-    if (loginProfiles.lastUsedProfileEmail.isEmpty) {
+  String getLastUsedRefreshToken() {
+    if (loginProfiles == null || loginProfiles.lastUsedProfileEmail.isEmpty) {
       return null;
     }
     return loginProfiles.profiles[loginProfiles.lastUsedProfileEmail].refreshToken;
@@ -182,6 +182,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     var jsonString = prefs.getString('userProfiles');
     if (jsonString == null) {
       loginProfiles = null;
+      return;
     }
     loginProfiles = LoginProfiles.fromJson(jsonString);
   }
