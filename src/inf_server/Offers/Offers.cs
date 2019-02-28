@@ -2,7 +2,6 @@
 using System.Fabric;
 using System.Threading;
 using System.Threading.Tasks;
-using Grpc.Core.Interceptors;
 using Microsoft.Azure.Cosmos;
 using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
