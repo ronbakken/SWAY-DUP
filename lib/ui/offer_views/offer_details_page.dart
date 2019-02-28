@@ -371,10 +371,13 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   Widget _buildImageArea() {
     List<InfImage> imageArray = <InfImage>[];
     for (int i = 0; i < offer.images.length; i++) {
-      imageArray.add(InfImage(
-        imageUrl: offer.images[i].imageUrl,
-        lowResUrl: offer.images[i].lowresUrl,
-      ));
+      imageArray.add(
+        InfImage(
+          imageUrl: offer.images[i].imageUrl,
+          lowResUrl: offer.images[i].lowresUrl,
+        
+        fit: BoxFit.fitHeight,),
+      );
     }
     return Stack(
       alignment: Alignment.center,

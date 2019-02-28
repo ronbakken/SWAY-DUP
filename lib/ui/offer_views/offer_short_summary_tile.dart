@@ -41,31 +41,52 @@ class OfferShortSummaryTile extends StatelessWidget {
       );
     }
 
-    var topRowItems = <Widget>[
-       Text(offer.title, textScaleFactor: 1.2, style: TextStyle(color: Colors.white)),
-       Spacer()
-    ];
-
-    for(var channel in offer.terms.deliverable.channels)
-    { 
-      topRowItems.addAll([
-        SizedBox(width: 10.0),
-        InfMemoryImage(
-          channel.logoColoredData != null ? channel.logoColoredData : channel.logoMonochromeData,
-          width: 20.0,
-        ),]);
+    var channelsAndDleiverables = <Widget>[];
+    for (var channel in offer.terms.deliverable.channels) {
+      channelsAndDleiverables.add(
+        Padding(
+          padding: const EdgeInsets.only(left: 4),
+          child: CircleAvatar(
+            radius: 12,
+            backgroundColor:
+                channel.logoBackGroundColor != null ? Color(channel.logoBackGroundColor) : Colors.transparent,
+            backgroundImage: channel.logoBackgroundData != null ? MemoryImage(channel.logoBackgroundData) : null,
+            child: Padding(
+              padding: const EdgeInsets.all(6.0),
+              child: InfMemoryImage(
+                channel.logoMonochromeData,
+              ),
+            ),
+          ),
+        ),
+      );
     }
 
-    for(var deliverableType in offer.terms.deliverable.types)
-    { 
-      topRowItems.addAll([
+    for (var deliverableType in offer.terms.deliverable.types) {
+      channelsAndDleiverables.addAll([
         SizedBox(width: 10.0),
         InfMemoryImage(
           backend.get<ConfigService>().getDeliveryIconFromType(deliverableType).iconData,
           width: 20.0,
-        ),]);
+        ),
+      ]);
     }
 
+    var topRowItems = <Widget>[
+      Expanded(
+              child: Text(
+          offer.title,
+          textScaleFactor: 1.2,
+          style: TextStyle(color: Colors.white),
+          overflow: TextOverflow.ellipsis,
+          maxLines: 1,
+        ),
+      ),
+      Row(
+        mainAxisSize: MainAxisSize.min,
+        children: channelsAndDleiverables,
+      )
+    ];
 
     return Material(
       color: backGroundColor,
@@ -96,9 +117,10 @@ class OfferShortSummaryTile extends StatelessWidget {
               Expanded(
                 flex: 10,
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: <Widget>[
                     Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: topRowItems,
                     ),
                     SizedBox(height: 4.0),

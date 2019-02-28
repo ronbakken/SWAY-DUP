@@ -124,53 +124,70 @@ class _OfferDetailsRow extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(width: 10.0),
-          SizedBox(
-            height: 32,
-            child: Material(
-              color: Colors.black,
-              shape: StadiumBorder(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Row(
-                  children: [
-                    InfAssetImage(
-                      AppIcons.value,
-                      width: 20.0,
-                    ),
-                    SizedBox(
-                      width: 8.0,
-                    ),
-                    Text(
-                      '${offer.terms.reward.getTotalValueAsString(0)}',
-                      style: const TextStyle(fontSize: 14.5),
-                    )
-                  ],
-                ),
-              ),
-            ),
-          ),
           SizedBox(
             width: 8.0,
+          ),
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: offer.terms.deliverable.channels
+                    .map<Widget>(
+                      (channel) => Padding(
+                            padding: const EdgeInsets.only(left: 4),
+                            child: CircleAvatar(
+                              radius: 14,
+                              backgroundColor: channel.logoBackGroundColor != null
+                                  ? Color(channel.logoBackGroundColor)
+                                  : Colors.transparent,
+                              backgroundImage:
+                                  channel.logoBackgroundData != null ? MemoryImage(channel.logoBackgroundData) : null,
+                              child: Padding(
+                                padding: const EdgeInsets.all(6.0),
+                                child: InfMemoryImage(
+                                  channel.logoMonochromeData,
+                                ),
+                              ),
+                            ),
+                          ),
+                    )
+                    .toList(growable: false),
+              ),
+              SizedBox(height: 8),
+              SizedBox(
+                height: 32,
+                child: Material(
+                  color: AppTheme.black12,
+                  shape: StadiumBorder(),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Row(
+                      children: [
+                        InfAssetImage(
+                          AppIcons.value,
+                          width: 20.0,
+                        ),
+                        SizedBox(
+                          width: 8.0,
+                        ),
+                        Text(
+                          '${offer.terms.reward.getTotalValueAsString(0)}',
+                          style: const TextStyle(fontSize: 14.5),
+                        )
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ],
           )
         ],
       );
 
-    for (var channel in offer.terms.deliverable.channels) {
-      rowContent.add(
-        CircleAvatar(
-          radius: 18,
-          backgroundColor: Colors.black,
-          child: InfMemoryImage(
-            channel.logoColoredData,
-            width: 16.0,
-          ),
-        ),
-      );
-    }
-
     return Container(
-      height: 68.0,
+      height: 86.0,
       color: AppTheme.darkGrey,
       alignment: Alignment.center,
       padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 8.0),
