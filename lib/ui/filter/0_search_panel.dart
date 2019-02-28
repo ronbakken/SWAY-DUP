@@ -29,8 +29,9 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
   Animation<double> _expandAnim;
   Animation<double> _inputAnim;
 
-  FocusNode _panelFocus;
+  TextEditingController _searchController;
   FocusNode _searchFocus;
+  FocusNode _panelFocus;
 
   bool _expanded = false;
 
@@ -62,15 +63,17 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
       curve: Curves.easeOutCirc,
     );
 
-    _panelFocus = FocusNode();
+    _searchController = TextEditingController();
     _searchFocus = FocusNode();
     _searchFocus.addListener(_onSearchFocusChanged);
+    _panelFocus = FocusNode();
   }
 
   @override
   void dispose() {
-    _searchFocus.dispose();
     _panelFocus.dispose();
+    _searchFocus.dispose();
+    _searchController.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -83,7 +86,9 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
 
   void _hideSearch() {
     FocusScope.of(context).requestFocus(_panelFocus);
-    _controller.reverse();
+    _controller.reverse().then((_){
+      _searchController.clear();
+    });
   }
 
   @override
@@ -133,6 +138,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
             child: CustomPaint(
               painter: _SearchBorderPainter(_inputAnim),
               child: TextField(
+                controller: _searchController,
                 focusNode: _searchFocus,
                 decoration: InputDecoration(
                   prefixIcon: InfIcon(AppIcons.search, size: 16.0),

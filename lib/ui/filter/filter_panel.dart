@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/category.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/0_search_panel.dart';
 import 'package:inf/ui/filter/1_category_panel.dart';
 import 'package:inf/ui/filter/2_value_panel.dart';
 import 'package:inf/ui/filter/3_deliverable_panel.dart';
 import 'package:inf/ui/filter/4_location_panel.dart';
 import 'package:inf/ui/filter/filter_button.dart';
+import 'package:inf/ui/filter/filter_confirmation.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
@@ -26,6 +28,7 @@ class FilterPanel extends StatefulWidget {
 }
 
 class FilterPanelState extends State<FilterPanel> with SingleTickerProviderStateMixin {
+  Filter _filter = Filter();
   static const _frontHeight = 242.0;
   static const _backHeight = _frontHeight + 208.0;
 
@@ -36,8 +39,7 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
   Animation<double> frontPanelAnim;
   Animation<double> backPanelAnim;
 
-  final _button = ValueNotifier<FilterButton>(FilterButton.Search);
-  final _selectedCategories = CategorySet();
+  final button = ValueNotifier<FilterButton>(FilterButton.Search);
 
   @override
   void initState() {
@@ -60,66 +62,12 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final bottomInset = mediaQuery.padding.bottom + mediaQuery.viewInsets.bottom;
-
     return Stack(
       alignment: Alignment.bottomCenter,
       children: <Widget>[
         AnimatedPanel(
           height: backPanelAnim,
-          child: Column(
-            children: <Widget>[
-              RawMaterialButton(
-                onPressed: _deselectFilterPanel,
-                fillColor: const Color(0xFF222226),
-                constraints: BoxConstraints(minWidth: double.infinity, minHeight: 0.0),
-                materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                shape: const Border(),
-                padding: const EdgeInsets.all(4.0),
-                child: InfIcon(AppIcons.arrowDown, size: 18.0),
-              ),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.only(top: 8.0),
-                  alignment: Alignment.topCenter,
-                  color: const Color(0xFF17161A),
-                  child: Container(
-                    alignment: Alignment.center,
-                    height: 96.0,
-                    child: ListenableBuilder(
-                      listenable: _button,
-                      builder: (BuildContext context, Widget child) {
-                        return CategoryButton(
-                          label: _button.value.title,
-                          radius: 64.0,
-                          selected: true,
-                          child: InfIcon(_button.value.icon, size: 32.0),
-                        );
-                      },
-                    ),
-                  ),
-                  /*child: ListenableBuilder(
-                    listenable: _selectedCategories,
-                    builder: (BuildContext context, Widget child) {
-                      return CategoryRow(
-                        selectedSubCategories: _selectedCategories,
-                        onCategoryPressed: (category) {
-                          final categories = backend.get<ConfigService>().categories;
-                          final subCats = categories
-                            .where((cat) => cat.parentId == category.id)
-                            .toList(growable: false);
-                          if (_selectedCategories.containsAll(subCats)) {
-                            _selectedCategories.removeAll(subCats);
-                          } else {
-                            _selectedCategories.addAll(subCats);
-                          }
-                        },
-                      );
-                    },
-                  ),*/
-                ),
-              ),
-            ],
-          ),
+          child: _BackFilterPanel(),
         ),
         AnimatedPanel(
           height: frontPanelAnim,
@@ -142,13 +90,17 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
                 margin: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
                 alignment: Alignment.topCenter,
                 child: ListenableBuilder(
-                  listenable: _button,
+                  listenable: button,
                   builder: (BuildContext context, Widget child) {
-                    return AnimatedSwitcher(
-                      duration: _controller.duration,
-                      child: KeyedSubtree(
-                        key: ValueKey<FilterButton>(_button.value),
-                        child: _buttonPanel(context),
+                    return FilterConfirmationButton(
+                      showHideAnimation: backPanelLeaveAnim,
+                      initialIcon: AppIcons.tick,
+                      child: AnimatedSwitcher(
+                        duration: _controller.duration,
+                        child: KeyedSubtree(
+                          key: ValueKey<FilterButton>(button.value),
+                          child: _buttonPanel(context),
+                        ),
                       ),
                     );
                   },
@@ -174,27 +126,15 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
             ),
           ),
         ),
-        Positioned(
-          bottom: 24.0 + bottomInset,
-          child: ScaleTransition(
-            scale: backPanelLeaveAnim,
-            child: RawMaterialButton(
-              onPressed: _deselectFilterPanel,
-              fillColor: AppTheme.lightBlue,
-              constraints: BoxConstraints(minWidth: 64.0, minHeight: 64.0),
-              materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-              shape: const CircleBorder(),
-              padding: const EdgeInsets.only(top: 4.0),
-              child: InfIcon(AppIcons.tick, size: 32.0),
-            ),
-          ),
-        ),
+        /*
+
+         */
       ],
     );
   }
 
   Widget _buttonPanel(BuildContext context) {
-    switch (_button.value) {
+    switch (button.value) {
       case FilterButton.Search:
         return SearchFilterPanel(
           onButtonPressed: _onFilterButtonPressed,
@@ -216,15 +156,15 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
           padding: const EdgeInsets.only(bottom: 124.0),
         );
       default:
-        throw StateError('Invalid button type: ${_button.value}');
+        throw StateError('Invalid button type: ${button.value}');
     }
   }
 
-  void _deselectFilterPanel() => _onFilterButtonPressed(FilterButton.Search);
+  void deselectFilterPanel() => _onFilterButtonPressed(FilterButton.Search);
 
-  void _onFilterButtonPressed(FilterButton button) {
-    _button.value = button;
-    if (button == FilterButton.Search) {
+  void _onFilterButtonPressed(FilterButton item) {
+    button.value = item;
+    if (item == FilterButton.Search) {
       _controller.reverse();
     } else {
       _controller.forward();
@@ -233,10 +173,67 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
 }
 
 class _BackFilterPanel extends StatelessWidget {
+  const _BackFilterPanel({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return null;
+    final FilterPanelState _state = context.ancestorStateOfType(TypeMatcher<FilterPanelState>());
+    return Column(
+      children: <Widget>[
+        RawMaterialButton(
+          onPressed: _state.deselectFilterPanel,
+          fillColor: const Color(0xFF222226),
+          constraints: BoxConstraints(minWidth: double.infinity, minHeight: 0.0),
+          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+          shape: const Border(),
+          padding: const EdgeInsets.all(4.0),
+          child: InfIcon(AppIcons.arrowDown, size: 18.0),
+        ),
+        Expanded(
+          child: Container(
+            padding: EdgeInsets.only(top: 8.0),
+            alignment: Alignment.topCenter,
+            color: const Color(0xFF17161A),
+            child: Container(
+              alignment: Alignment.center,
+              height: 96.0,
+              child: ListenableBuilder(
+                listenable: _state.button,
+                builder: (BuildContext context, Widget child) {
+                  return CategoryButton(
+                    label: _state.button.value.title,
+                    radius: 64.0,
+                    selected: true,
+                    child: InfIcon(_state.button.value.icon, size: 32.0),
+                  );
+                },
+              ),
+            ),
+            /*
+            child: ListenableBuilder(
+              listenable: _selectedCategories,
+              builder: (BuildContext context, Widget child) {
+                return CategoryRow(
+                  selectedSubCategories: _selectedCategories,
+                  onCategoryPressed: (category) {
+                    final categories = backend.get<ConfigService>().categories;
+                    final subCats = categories
+                      .where((cat) => cat.parentId == category.id)
+                      .toList(growable: false);
+                    if (_selectedCategories.containsAll(subCats)) {
+                      _selectedCategories.removeAll(subCats);
+                    } else {
+                      _selectedCategories.addAll(subCats);
+                    }
+                  },
+                );
+              },
+            ),
+            */
+          ),
+        ),
+      ],
+    );
   }
 }
 

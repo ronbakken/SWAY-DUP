@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
+import 'package:inf/ui/filter/filter_confirmation.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/category_selector.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
@@ -24,22 +26,33 @@ class _CategoryFilterPanelState extends State<CategoryFilterPanel> {
 
   @override
   Widget build(BuildContext context) {
+    Widget child;
     if (_topLevel == null) {
-      return _TopLevelCategories(
+      child = _TopLevelCategories(
         selectedCategories: _selectedCategories,
         onTopLevelCategoryPressed: _onTopLevelSelected,
         padding: widget.padding,
       );
     } else {
-      return _SubCategoryGrid(
-        parentCategory: _topLevel,
-        selectedCategories: _selectedCategories,
+      child = Padding(
+        padding: widget.padding + const EdgeInsets.only(top: 24.0),
+        child: _SubCategoryGrid(
+          parentCategory: _topLevel,
+          selectedCategories: _selectedCategories,
+        ),
       );
     }
+    return AnimatedSwitcher(
+      duration: kThemeAnimationDuration,
+      child: child,
+    );
   }
 
   void _onTopLevelSelected(Category category) {
-    setState(() => _topLevel = category);
+    setState((){
+      _topLevel = category;
+      FilterConfirmationButton.of(context).icon = AppIcons.close;
+    });
   }
 }
 
@@ -97,9 +110,12 @@ class _SubCategoryGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CategorySelector(
-      parentCategory: parentCategory,
-      selectedSubCategories: selectedCategories,
+    return Align(
+      alignment: Alignment.topCenter,
+      child: CategorySelector(
+        parentCategory: parentCategory,
+        selectedSubCategories: selectedCategories,
+      ),
     );
   }
 }

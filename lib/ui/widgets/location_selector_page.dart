@@ -13,6 +13,8 @@ import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:latlong/latlong.dart';
 import 'package:rx_command/rx_command.dart';
 
+export 'package:inf/domain/location.dart';
+
 class LocationSelectorPage extends StatefulWidget {
   const LocationSelectorPage({Key key, this.location}) : super(key: key);
 

@@ -12,6 +12,7 @@ import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
+import 'package:inf/ui/widgets/inf_location_field.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
@@ -91,7 +92,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
 //                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
-                  Spacer(),
+                  SizedBox(height: 16),
                   InfTextFormField(
                     decoration: InputDecoration(
                       labelText: 'MINIMUM FOLLOWERS',
@@ -102,7 +103,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                     keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
                     onHelpPressed: () {},
                   ),
-                  Spacer(),
+                  SizedBox(height: 16),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -117,41 +118,9 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                     ],
                   ),
                   SizedBox(height: 16),
-                  InkWell(
-                    child: Row(
-                      children: [
-                        InfAssetImage(
-                          AppIcons.location,
-                          height: 24,
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
-                        Expanded(
-                          child: Text(
-                            widget.offerBuilder.location != null ? widget.offerBuilder.location.name : 'Location',
-                            maxLines: 2,
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Padding(
-                            padding: const EdgeInsets.only(right: 24, top: 8.0),
-                            child: InfIcon(AppIcons.search),
-                          ),
-                        ),
-                      ],
-                    ),
-                    onTap: () async {
-                      Location location = await Navigator.of(context).push(LocationSelectorPage.route());
-                      setState(() {
-                        widget.offerBuilder.location = location;
-                      });
-                    },
-                  ),
-                  ColumnSeparator(horizontalMargin: 0),
-                  Spacer(
-                    flex: 3,
+                  InfLocationField(
+                    location: widget.offerBuilder.location,
+                    onChanged: (location) => setState(() => widget.offerBuilder.location = location),
                   ),
                 ],
               ),

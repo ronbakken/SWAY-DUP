@@ -1,7 +1,7 @@
-import 'package:decimal/decimal.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+
 
 class Filter {
   final String offeringBusinessId;
@@ -22,6 +22,8 @@ class Filter {
 
   final UserType userType;
 
+  final CategorySet categorySet;
+
   Filter({
     this.offeringBusinessId,
     this.state,
@@ -36,7 +38,62 @@ class Filter {
     this.radiusInMeters,
     this.created,
     this.userType,
+    this.categorySet,
   });
+
+  Filter copyWith({
+    String offeringBusinessId,
+    OfferDto_Status state,
+    String freeText,
+    List<SocialNetworkProvider> channels,
+    List<DeliverableType> deliverableType,
+    List<RewardDto_Type> rewardType,
+    Money rewardValueLowerLimit,
+    Money rewardValueUpperLimit,
+    double latitude,
+    double longitude,
+    double radiusInMeters,
+    DateTime created,
+    UserType userType,
+    CategorySet categorySet,
+  }) {
+    return Filter(
+      offeringBusinessId: offeringBusinessId ?? this.offeringBusinessId,
+      state: state ?? this.state,
+      freeText: freeText ?? this.freeText,
+      channels: channels ?? this.channels,
+      deliverableType: deliverableType ?? this.deliverableType,
+      rewardType: rewardType ?? this.rewardType,
+      rewardValueLowerLimit: rewardValueLowerLimit ?? this.rewardValueLowerLimit,
+      rewardValueUpperLimit: rewardValueUpperLimit ?? this.rewardValueUpperLimit,
+      latitude: latitude ?? this.latitude,
+      longitude: longitude ?? this.longitude,
+      radiusInMeters: radiusInMeters ?? this.radiusInMeters,
+      created: created ?? this.created,
+      userType: userType ?? this.userType,
+      categorySet: categorySet ?? this.categorySet,
+    );
+  }
+
+  @override
+  String toString() {
+    return 'Filter{\n'
+        '  offeringBusinessId: $offeringBusinessId, \n'
+        '  state: $state, \n'
+        '  freeText: $freeText, \n'
+        '  channels: $channels, \n'
+        '  deliverableType: $deliverableType, \n'
+        '  rewardType: $rewardType, \n'
+        '  rewardValueLowerLimit: $rewardValueLowerLimit, \n'
+        '  rewardValueUpperLimit: $rewardValueUpperLimit, \n'
+        '  latitude: $latitude, \n'
+        '  longitude: $longitude, \n'
+        '  radiusInMeters: $radiusInMeters, \n'
+        '  created: $created, \n'
+        '  userType: $userType \n'
+        '  categorySet: $categorySet \n'
+        '}\n';
+  }
 }
 
 // class ProposalFilter
