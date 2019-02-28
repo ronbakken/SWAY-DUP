@@ -142,7 +142,7 @@ namespace Users
                     {
                         // This indicates something has gone horribly wrong, since there should only ever be a single user with a given email address.
                         logger.Error("Email {Email} has been used to create more than one user", email);
-                        return new GetUserByEmailResponse();
+                        throw new InvalidOperationException($"Email '{email}' has been used to create more than one user.");
                     }
 
                     var result = results.First();

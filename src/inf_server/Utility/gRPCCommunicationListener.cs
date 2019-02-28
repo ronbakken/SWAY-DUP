@@ -2,6 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Serilog;
 
@@ -65,7 +66,7 @@ namespace Utility
 
             foreach (var service in this.services)
             {
-                server.Services.Add(service);
+                server.Services.Add(service.Intercept(LogContextInterceptor.Instance));
             }
 
             server.Start();

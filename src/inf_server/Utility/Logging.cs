@@ -1,7 +1,7 @@
 ﻿using System;
+using System.Fabric;
 using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Runtime;
-using Microsoft.WindowsAzure.Storage;
 using Serilog;
 using Serilog.Core;
 using Serilog.Events;
@@ -11,32 +11,22 @@ namespace Utility
 {
     public static class Logging
     {
-        public static ILogger GetLogger<T>(T context = default, string azureTableStorageConnectionString = default)
+        private const string configurationPackageObjectName = "Config";
+        private const string sectionName = "Logging";
+        private const string seqServerUrlStringName = "SeqServerUrl";
+        private const string seqApiKeyStringName = "SeqApiKey";
+
+        public static ILogger GetLogger<T>(T context = default)
         {
             var loggerConfiguration = new LoggerConfiguration();
-
-            if (string.IsNullOrEmpty(azureTableStorageConnectionString))
-            {
-                loggerConfiguration = loggerConfiguration
-                    .WriteTo.Debug()
-                    .MinimumLevel.Debug();
-            }
-            else
-            {
-                var storage = CloudStorageAccount.Parse(azureTableStorageConnectionString);
-
-                // TODO: we may want to enable batch writes in the future (e.g. every minute)
-                loggerConfiguration = loggerConfiguration
-                    .WriteTo.AzureTableStorage(
-                        storage,
-                        storageTableName: "Logs")
-                    // TODO: we may want to turn this down (or have it dynamically switchable) once we're steady in production
-                    .MinimumLevel.Debug();
-            }
+            var seqConfiguration = GetSeqConfiguration();
 
             loggerConfiguration = loggerConfiguration
+                .WriteTo.Seq(seqConfiguration.seqServerUrl, apiKey: seqConfiguration.seqApiKey)
 #if DEBUG
-                .WriteTo.Seq("http://localhost:5341")
+                .MinimumLevel.Verbose()
+#else
+                .MinimumLevel.Debug()
 #endif
                 .Destructure.ByTransforming<CosmosResponseMessageHeaders>(
                     r =>
@@ -56,6 +46,7 @@ namespace Utility
                 .Enrich.WithProcessName()
                 .Enrich.WithThreadId()
                 .Enrich.WithMemoryUsage()
+                .Enrich.FromLogContext()
                 .Destructure.ByTransforming<QuadKey>(quadKey => quadKey.ToString());
 
             if (context is StatelessService statelessService)
@@ -65,11 +56,41 @@ namespace Utility
             }
 
             var logger = loggerConfiguration
-                .Enrich.With()
                 .CreateLogger()
                 .ForContext<T>();
 
             return logger;
+        }
+
+        private static (string seqServerUrl, string seqApiKey) GetSeqConfiguration()
+        {
+            var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject(configurationPackageObjectName);
+
+            if (configurationPackage == null)
+            {
+                throw new InvalidOperationException($"No '{configurationPackageObjectName}' configuration configuration package object.");
+            }
+
+            if (!configurationPackage.Settings.Sections.Contains(sectionName))
+            {
+                throw new InvalidOperationException($"No '{sectionName}' configuration section could be found in the '{configurationPackageObjectName}' configuration package.");
+            }
+
+            var section = configurationPackage.Settings.Sections[sectionName];
+
+            if (!section.Parameters.Contains(seqServerUrlStringName))
+            {
+                throw new InvalidOperationException($"No '{seqServerUrlStringName}' parameter found in the '{sectionName}' configuration section.");
+            }
+
+            if (!section.Parameters.Contains(seqApiKeyStringName))
+            {
+                throw new InvalidOperationException($"No '{seqApiKeyStringName}' parameter found in the '{sectionName}' configuration section.");
+            }
+
+            var result = (section.Parameters[seqServerUrlStringName].Value, section.Parameters[seqApiKeyStringName].Value);
+
+            return result;
         }
 
         private sealed class StatelessServiceEnricher : ILogEventEnricher

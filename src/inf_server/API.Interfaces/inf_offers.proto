@@ -21,8 +21,6 @@ message UpdateOfferResponse {
 
 message GetOfferRequest {
     string id = 1;
-    // What is this for?
-    string userId = 2;
 }
 
 message GetOfferResponse {

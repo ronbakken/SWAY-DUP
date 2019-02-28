@@ -27,6 +27,7 @@
         <PackageReference Include="Serilog.Sinks.Seq" />
         <PackageReference Include="System.Collections.Immutable" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
+        <PackageReference Include="System.Reactive" />
         <PackageReference Include="WindowsAzure.Storage" />
 
         <PackageReference Include="xunit" />

@@ -10,6 +10,16 @@ service InfListen {
     rpc Listen (stream ListenRequest) returns (stream ListenResponse) {}
 }
 
+message SingleItemFilterDto {
+    enum Type {
+        offer = 0;
+        user = 1;
+    }
+
+    Type type = 1;
+    string id = 2;
+}
+
 message ListenRequest {
     enum Action {
         register = 0;
@@ -19,10 +29,10 @@ message ListenRequest {
     Action action = 1;
 
     oneof target {
-        // Listen to a specific item (e.g. offer or user)
-        string itemId = 2;
+        // Listen to a single item.
+        SingleItemFilterDto singleItemFilter = 2;
 
-        // Listen for items matching the filter.
+        // Listen to all items matching a filter.
         ItemFilterDto filter = 3;
     }
 }

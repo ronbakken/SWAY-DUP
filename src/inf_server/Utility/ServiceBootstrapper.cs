@@ -24,28 +24,7 @@ namespace Utility
             Ensure.ArgumentNotNull(namePrefix, nameof(namePrefix));
             Ensure.ArgumentNotNull(createService, nameof(createService));
 
-            var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject(configurationPackageObjectName);
-
-            if (configurationPackage == null)
-            {
-                throw new InvalidOperationException($"No '{configurationPackageObjectName}' configuration configuration package object.");
-            }
-
-            if (!configurationPackage.Settings.Sections.Contains(loggingSectionName))
-            {
-                throw new InvalidOperationException($"No '{loggingSectionName}' configuration section could be found in the '{configurationPackageObjectName}' configuration package.");
-            }
-
-            var logStorageSection = configurationPackage.Settings.Sections[loggingSectionName];
-
-            if (!logStorageSection.Parameters.Contains(storageConnectionStringName))
-            {
-                throw new InvalidOperationException($"No '{storageConnectionStringName}' parameter found in the '{loggingSectionName}' configuration section.");
-            }
-
-            var logStorageConnectionString = logStorageSection.Parameters[storageConnectionStringName];
-
-            var logger = Logging.GetLogger($"{namePrefix}-Program", logStorageConnectionString.Value);
+            var logger = Logging.GetLogger($"{namePrefix}-Program");
             var serviceType = $"{namePrefix}Type";
 
             logger.Information("Starting service with type {ServiceType}", serviceType);

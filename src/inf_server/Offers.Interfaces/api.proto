@@ -150,7 +150,6 @@ message RemoveOfferResponse {
 
 message GetOfferRequest {
     string id = 1;
-    string userId = 2;
 }
 
 message GetOfferResponse {

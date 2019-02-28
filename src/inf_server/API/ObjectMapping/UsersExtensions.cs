@@ -333,10 +333,42 @@ namespace API.ObjectMapping
         public static users.UserType ToUserType(this UserType @this) =>
             (users.UserType)(int)@this;
 
-        public static UserDto.Types.Status ToStatus(this users.UserStatus @this) =>
-            (UserDto.Types.Status)(int)@this;
+        public static UserDto.Types.Status ToStatus(this users.UserStatus @this)
+        {
+            switch (@this)
+            {
+                case users.UserStatus.Active:
+                    return UserDto.Types.Status.Active;
+                case users.UserStatus.Disabled:
+                    return UserDto.Types.Status.Disabled;
+                case users.UserStatus.UnknownStatus:
+                    return UserDto.Types.Status.Unknown;
+                case users.UserStatus.WaitingForActivation:
+                    return UserDto.Types.Status.WaitingForActivation;
+                case users.UserStatus.WaitingForApproval:
+                    return UserDto.Types.Status.WaitingForApproval;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
 
-        public static users.UserStatus ToUserStatus(this UserDto.Types.Status @this) =>
-            (users.UserStatus)(int)@this;
+        public static users.UserStatus ToUserStatus(this UserDto.Types.Status @this)
+        {
+            switch (@this)
+            {
+                case UserDto.Types.Status.Active:
+                    return users.UserStatus.Active;
+                case UserDto.Types.Status.Disabled:
+                    return users.UserStatus.Disabled;
+                case UserDto.Types.Status.Unknown:
+                    return users.UserStatus.UnknownStatus;
+                case UserDto.Types.Status.WaitingForActivation:
+                    return users.UserStatus.WaitingForActivation;
+                case UserDto.Types.Status.WaitingForApproval:
+                    return users.UserStatus.WaitingForApproval;
+                default:
+                    throw new NotSupportedException();
+            }
+        }
     }
 }

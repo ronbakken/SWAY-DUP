@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
+using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Client;
 
 namespace Utility
@@ -32,8 +33,12 @@ namespace Utility
             address = address.Substring(0, address.IndexOf("\""));
 
             var channel = new Channel(address, ChannelCredentials.Insecure);
-            var client = Activator.CreateInstance(typeof(T), channel);
-            return (T)client;
+            var callInvoker = channel.Intercept(LogContextInterceptor.Instance);
+
+            var client = Activator.CreateInstance(typeof(T), callInvoker);
+            var result = (T)client;
+
+            return result;
         }
     }
 }

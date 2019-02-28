@@ -50,6 +50,9 @@ namespace API
             // InfList
             { "/api.InfList/List", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 
+            // InfListen
+            { "/api.InfListen/Listen", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+
             // InfMessaging
             { "/api.InfMessaging/Notify", AuthenticatedUserTypes.Anonymous },
 

@@ -11,40 +11,57 @@ namespace Utility
 {
     public static class APISanitizer
     {
+        public const string CorrelationIdKey = "CorrelationId";
+        public const string ApiKey = "API";
+
         public static T Sanitize<T>(ILogger logger, Func<ILogger, T> execute, [CallerMemberName]string caller = "")
         {
             Ensure.ArgumentNotNull(logger, nameof(logger));
             Ensure.ArgumentNotNull(execute, nameof(execute));
 
-            var executeLogger = logger
-                .ForContext("API", caller)
-                .ForContext("CorrelationId", Guid.NewGuid());
-            executeLogger.Verbose("Executing");
+            var correlationId = Guid.NewGuid().ToString();
+            var api = caller;
 
-            try
+            if (LoggingContextCorrelator.TryGetValue(CorrelationIdKey, out var existingCorrelationId))
             {
-                return execute(executeLogger);
+                correlationId = existingCorrelationId + "->" + correlationId;
             }
-            catch (RpcException ex)
-            {
-                logger.Warning(ex, "Expected failure whilst invoking API, caller {Caller}", caller);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
 
-                var codePackageActivationContext = FabricRuntime.GetActivationContext();
-                SendHealthReport(
-                    codePackageActivationContext,
-                    caller,
-                    ex);
-
-                throw;
-            }
-            finally
+            if (LoggingContextCorrelator.TryGetValue(ApiKey, out var existingApi))
             {
-                executeLogger.Verbose("Execution complete");
+                api = existingApi + "->" + api;
+            }
+
+            using (LoggingContextCorrelator.BeginOrReplaceCorrelationScope(CorrelationIdKey, correlationId))
+            using (LoggingContextCorrelator.BeginOrReplaceCorrelationScope(ApiKey, api))
+            {
+                logger.Verbose("Executing");
+
+                try
+                {
+                    return execute(logger);
+                }
+                catch (RpcException ex)
+                {
+                    logger.Warning(ex, "Expected failure whilst invoking API, caller {Caller}", caller);
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
+
+                    var codePackageActivationContext = FabricRuntime.GetActivationContext();
+                    SendHealthReport(
+                        codePackageActivationContext,
+                        caller,
+                        ex);
+
+                    throw;
+                }
+                finally
+                {
+                    logger.Verbose("Execution complete");
+                }
             }
         }
 
@@ -53,35 +70,50 @@ namespace Utility
             Ensure.ArgumentNotNull(logger, nameof(logger));
             Ensure.ArgumentNotNull(execute, nameof(execute));
 
-            var executeLogger = logger
-                .ForContext("API", caller)
-                .ForContext("CorrelationId", Guid.NewGuid());
-            executeLogger.Verbose("Executing");
+            var correlationId = Guid.NewGuid().ToString();
+            var api = caller;
 
-            try
+            if (LoggingContextCorrelator.TryGetValue(CorrelationIdKey, out var existingCorrelationId))
             {
-                return await execute(executeLogger).ContinueOnAnyContext();
+                correlationId = existingCorrelationId + "->" + correlationId;
             }
-            catch (RpcException ex)
-            {
-                logger.Warning(ex, "Expected failure whilst invoking API, caller {Caller}", caller);
-                throw;
-            }
-            catch (Exception ex)
-            {
-                logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
 
-                var codePackageActivationContext = FabricRuntime.GetActivationContext();
-                SendHealthReport(
-                    codePackageActivationContext,
-                    caller,
-                    ex);
-
-                throw;
-            }
-            finally
+            if (LoggingContextCorrelator.TryGetValue(ApiKey, out var existingApi))
             {
-                executeLogger.Verbose("Execution complete");
+                api = existingApi + "->" + api;
+            }
+
+            using (LoggingContextCorrelator.BeginOrReplaceCorrelationScope(CorrelationIdKey, correlationId))
+            using (LoggingContextCorrelator.BeginOrReplaceCorrelationScope(ApiKey, api))
+            {
+                logger.Verbose("Executing");
+
+                try
+                {
+                    // We continue on same context because pushing properties onto LogContext (via the LoggingContextCorrelator) has thread affinity.
+                    return await execute(logger).ContinueOnSameContext();
+                }
+                catch (RpcException ex)
+                {
+                    logger.Warning(ex, "Expected failure whilst invoking API, caller {Caller}", caller);
+                    throw;
+                }
+                catch (Exception ex)
+                {
+                    logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
+
+                    var codePackageActivationContext = FabricRuntime.GetActivationContext();
+                    SendHealthReport(
+                        codePackageActivationContext,
+                        caller,
+                        ex);
+
+                    throw;
+                }
+                finally
+                {
+                    logger.Verbose("Execution complete");
+                }
             }
         }
 

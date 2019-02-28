@@ -58,7 +58,7 @@ namespace API.Services.Auth
 
             var userType = request.UserType.ToUserType();
             var userStatus = UserStatus.WaitingForActivation;
-            var userShouldAlreadyBeActive = userType == global::Users.Interfaces.UserType.Unknown;
+            var userShouldAlreadyBeActive = userType == service.UserType.Unknown;
 
             if (!userShouldAlreadyBeActive && string.IsNullOrEmpty(request.InvitationCode))
             {
@@ -140,6 +140,7 @@ namespace API.Services.Auth
                         email,
                         user.Name ?? email,
                         link,
+                        !userShouldAlreadyBeActive,
                         cancellationToken)
                     .ContinueOnAnyContext();
             }
@@ -211,6 +212,7 @@ namespace API.Services.Auth
                     user = request.User.ToUser();
                     user.Id = userId;
                     user.Status = UserStatus.Active;
+                    user.LoginToken = "";
                     logger.Debug("Updating user {UserId} to {@User}", userId, user);
                     var saveUserResponse = await usersService
                         .SaveUserAsync(new SaveUserRequest { User = user });
@@ -244,6 +246,7 @@ namespace API.Services.Auth
                     var userId = validationResult.UserId;
                     logger.Debug("Getting user {UserId}", userId);
                     var userType = validationResult.UserType;
+                    var userShouldAlreadyBeActive = userType == service.UserType.Unknown.ToString();
                     var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
                     var getUserResponse = await usersService
                         .GetUserAsync(new service.GetUserRequest { Id = userId });
@@ -287,7 +290,12 @@ namespace API.Services.Auth
                     await usersService
                         .SaveUserSessionAsync(new SaveUserSessionRequest { UserSession = userSession });
 
-                    user.LoginToken = "";
+                    if (userShouldAlreadyBeActive)
+                    {
+                        logger.Debug("User is already active, so clearing their login token");
+                        user.LoginToken = "";
+                    }
+
                     logger.Debug("Saving user {UserId}: {@User}", userId, user);
                     var saveUserResponse = await usersService
                         .SaveUserAsync(new SaveUserRequest { User = user });

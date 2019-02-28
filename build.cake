@@ -73,6 +73,8 @@ var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
 var deploymentsStorageAccountConnectionString = EnvironmentVariable("AZURE_STORAGE_ACCOUNT_CONNECTION_STRING");
 var vmInstanceCount = int.Parse(EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1");
+var seqServerUrl = EnvironmentVariable("SEQ_SERVER_URL");
+var seqApiKey = EnvironmentVariable("SEQ_API_KEY");
 var configuration = "Release";
 
 // Paths.
@@ -199,8 +201,9 @@ Task("Deploy")
                     applicationParameters,
                     new Dictionary<string, string>
                     {
+                        { "SEQ_SERVER_URL", seqServerUrl },
+                        { "SEQ_API_KEY", seqApiKey },
                         { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["userStorageAccountConnectionString"]["value"] },
-                        { "LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["loggingStorageAccountConnectionString"]["value"] },
                         { "DATABASE_ACCOUNT_CONNECTION_STRING", (string)outputs["databaseAccountConnectionString"]["value"] },
                         { "SERVICE_BUS_CONNECTION_STRING", (string)outputs["serviceBusConnectionString"]["value"] },
                     });

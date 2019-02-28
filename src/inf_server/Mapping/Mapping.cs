@@ -20,9 +20,7 @@ namespace Mapping
         public Mapping(StatelessServiceContext context)
             : base(context)
         {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
-            this.logger = Logging.GetLogger(this, logStorageConnectionString);
+            this.logger = Logging.GetLogger(this);
             var offerUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "OfferUpdated", "mapping_service", ReceiveMode.ReceiveAndDelete);
             var userUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "UserUpdated", "mapping_service", ReceiveMode.ReceiveAndDelete);
             this.implementation = new MappingServiceImpl(this.logger, offerUpdatedSubscriptionClient, userUpdatedSubscriptionClient);

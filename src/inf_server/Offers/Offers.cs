@@ -20,9 +20,7 @@ namespace Offers
         public Offers(StatelessServiceContext context)
             : base(context)
         {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
-            this.logger = Logging.GetLogger(this, logStorageConnectionString);
+            this.logger = Logging.GetLogger(this);
             var offerUpdatedTopicClient = this.Context.CodePackageActivationContext.GetServiceBusTopicClient(this.logger, "OfferUpdated");
             this.implementation = new OffersServiceImpl(this.logger, offerUpdatedTopicClient);
         }

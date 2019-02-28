@@ -101,6 +101,7 @@ workflows:
     envs:
     - ENVIRONMENT: "ephemeral"
     - REGION: "West US 2"
+    - SEQ_API_KEY: "Vq2LdmE8oou7oofdRu7E"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -110,7 +111,19 @@ workflows:
     envs:
     - ENVIRONMENT: "dev"
     - REGION: "West US 2"
-    - VM_INSTANCE_COUNT: "3"
+    - VM_INSTANCE_COUNT: "1"
+    - SEQ_API_KEY: "YsgRrpzdVZo78muClDKT"
+    before_run:
+    - _cloudPreSteps
+    after_run:
+    - _primary
+    - _cloudPostSteps
+  alpha:
+    envs:
+    - ENVIRONMENT: "alpha"
+    - REGION: "West US 2"
+    - VM_INSTANCE_COUNT: "1"
+    - SEQ_API_KEY: "EmK33v2uxcnnPvWw1MgF"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -121,6 +134,7 @@ workflows:
     - ENVIRONMENT: "test"
     - REGION: "West US 2"
     - VM_INSTANCE_COUNT: "3"
+    - SEQ_API_KEY: "SX8w1F4ZP51dRl0qsxWH"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -131,6 +145,9 @@ workflows:
     - ENVIRONMENT: "prod"
     - REGION: "West US 2"
     - VM_INSTANCE_COUNT: "5"
+    # TODO
+    - SEQ_SERVER_URL: ""
+    - SEQ_API_KEY: ""
     before_run:
     - _cloudPreSteps
     after_run:
@@ -150,3 +167,4 @@ app:
     - AZURE_STORAGE_ACCOUNT_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=infdeployments;AccountKey=tQm1Lhs0Wwindvct2mRHtbEa0QrKn8D5HDnaN26yhWuhU7lzF+96vxy5fnF3GNH0vHK0ZgM0wv4KcoyuDy/iSg==;EndpointSuffix=core.windows.net"
     # How many VMs to create in the cluster.
     - VM_INSTANCE_COUNT: "1"
+    - SEQ_SERVER_URL: "http://52.151.37.246/"

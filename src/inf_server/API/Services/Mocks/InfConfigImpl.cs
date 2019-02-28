@@ -29,56 +29,56 @@ namespace API.Services.Mocks
                     new CategoryDto
                     {
                         Id = "0",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Cars",
                         IconData = MockHelpers.ReadIconData("./icons/cars.svg")
                     },
                     new CategoryDto
                     {
                         Id = "1",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Drinks",
                         IconData = MockHelpers.ReadIconData("./icons/drinks.svg")
                     },
                     new CategoryDto
                     {
                         Id = "2",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Fashion",
                         IconData = MockHelpers.ReadIconData("./icons/fashion.svg")
                     },
                     new CategoryDto
                     {
                         Id = "3",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Food",
                         IconData = MockHelpers.ReadIconData("./icons/food.svg")
                     },
                     new CategoryDto
                     {
                         Id = "4",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Fun",
                         IconData = MockHelpers.ReadIconData("./icons/fun.svg")
                     },
                     new CategoryDto
                     {
                         Id = "5",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Health",
                         IconData = MockHelpers.ReadIconData("./icons/health.svg")
                     },
                     new CategoryDto
                     {
                         Id = "6",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Services",
                         IconData = MockHelpers.ReadIconData("./icons/services.svg")
                     },
                     new CategoryDto
                     {
                         Id = "7",
-                        ParentId = "-1",
+                        ParentId = "",
                         Name = "Travel",
                         IconData = MockHelpers.ReadIconData("./icons/travel.svg")
                     },

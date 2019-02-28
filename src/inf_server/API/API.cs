@@ -5,11 +5,13 @@ using API.Services.Auth;
 using API.Services.BlobStorage;
 using API.Services.InvitationCodes;
 using API.Services.List;
+using API.Services.Listen;
 using API.Services.Messaging;
 using API.Services.Offers;
 using API.Services.System;
 using API.Services.Users;
 using Grpc.Core.Interceptors;
+using Microsoft.Azure.ServiceBus;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Serilog;
@@ -20,18 +22,21 @@ namespace API
     internal sealed class API : StatelessService
     {
         private readonly ILogger logger;
+        private readonly SubscriptionClient offerUpdatedSubscriptionClient;
+        private readonly SubscriptionClient userUpdatedSubscriptionClient;
 
         public API(StatelessServiceContext context)
             : base(context)
         {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
-            this.logger = Logging.GetLogger(this, logStorageConnectionString);
+            this.logger = Logging.GetLogger(this);
+            this.offerUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "OfferUpdated", "listen_api", ReceiveMode.ReceiveAndDelete);
+            this.userUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "UserUpdated", "listen_api", ReceiveMode.ReceiveAndDelete);
         }
 
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
             var authorizationInterceptor = new AuthorizationInterceptor(this.logger);
+
             var gRPCCommunicationListener = new gRPCCommunicationListener(
                 this.logger,
                 InfApi.BindService(new Services.Mocks.InfApiImpl()).Intercept(authorizationInterceptor),
@@ -40,6 +45,7 @@ namespace API
                 InfConfig.BindService(new Services.Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
                 InfInvitationCodes.BindService(new InfInvitationCodesImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfList.BindService(new InfListImpl(this.logger)).Intercept(authorizationInterceptor),
+                InfListen.BindService(new InfListenImpl(this.logger, this.offerUpdatedSubscriptionClient, this.userUpdatedSubscriptionClient)).Intercept(authorizationInterceptor),
                 InfMessaging.BindService(new InfMessagingImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfOffers.BindService(new InfOffersImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfSystem.BindService(new InfSystemImpl(this.logger)).Intercept(authorizationInterceptor),

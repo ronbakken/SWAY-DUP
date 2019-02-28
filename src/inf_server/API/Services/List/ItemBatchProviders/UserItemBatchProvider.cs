@@ -38,6 +38,7 @@ namespace API.Services.List.ItemBatchProviders
                 ContinuationToken = continuationToken ?? "",
                 Filter = ToUsersFilter(userType, filter),
             };
+
             var response = await usersService
                 .ListUsersAsync(request);
             var items = response

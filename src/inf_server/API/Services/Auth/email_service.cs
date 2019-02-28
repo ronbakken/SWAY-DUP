@@ -9,16 +9,21 @@ namespace API.Services.Auth
 {
     public interface IEmailService
     {
-        Task SendVerificationEmail(string emailAddress, string name, string link, CancellationToken cancellationToken = default);
+        Task SendVerificationEmail(
+            string emailAddress,
+            string name,
+            string link,
+            bool isNewUser,
+            CancellationToken cancellationToken = default);
     }
 
     public sealed class SendGridEmailService : IEmailService
     {
-        public async Task SendVerificationEmail(string emailAddress, string name, string link, CancellationToken cancellationToken = default)
+        public async Task SendVerificationEmail(string emailAddress, string name, string link, bool isNewUser, CancellationToken cancellationToken = default)
         {
             // TODO: parameterize these
             var apiKey = "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";
-            var templateId = "d-410b5cc2a77e4357a82afede83e92621";
+            var templateId = isNewUser ? "d-483fc2ac76984399bf6c58a411c14d45" : "d-410b5cc2a77e4357a82afede83e92621";
             var emailFromAddress = "donotreply@swaymarketplace.com";
             var emailFromName = "Sway Marketplace";
 

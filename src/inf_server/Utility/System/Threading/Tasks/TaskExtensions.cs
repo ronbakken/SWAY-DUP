@@ -16,5 +16,17 @@ namespace System.Threading.Tasks
             Ensure.ArgumentNotNull(@this, nameof(@this));
             return @this.ConfigureAwait(continueOnCapturedContext: false);
         }
+
+        public static ConfiguredTaskAwaitable ContinueOnSameContext(this Task @this)
+        {
+            Ensure.ArgumentNotNull(@this, nameof(@this));
+            return @this.ConfigureAwait(continueOnCapturedContext: true);
+        }
+
+        public static ConfiguredTaskAwaitable<T> ContinueOnSameContext<T>(this Task<T> @this)
+        {
+            Ensure.ArgumentNotNull(@this, nameof(@this));
+            return @this.ConfigureAwait(continueOnCapturedContext: true);
+        }
     }
 }

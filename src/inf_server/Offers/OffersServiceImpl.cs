@@ -51,7 +51,7 @@ namespace Offers
             var database = databaseResult.Database;
             var offersContainerResult = await database
                 .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(offersCollectionId, "/businessAccountId")
+                .CreateContainerFromConfigurationIfNotExistsAsync(offersCollectionId, "/id")
                 .ContinueOnAnyContext();
             this.offersContainer = offersContainerResult.Container;
 
@@ -86,7 +86,7 @@ namespace Offers
                     logger.Debug("Saving offer {@Offer}", offerEntity);
                     var executeResponse = await this
                         .saveOfferSproc
-                        .ExecuteWithLoggingAsync<OfferEntity, OfferEntity>(offerEntity.BusinessAccountId, offerEntity);
+                        .ExecuteWithLoggingAsync<OfferEntity, OfferEntity>(offerEntity.Id, offerEntity);
                     offerEntity = executeResponse.Resource;
                     logger.Debug("Offer saved: {@Offer}", offerEntity);
 
@@ -134,7 +134,7 @@ namespace Offers
                     await this
                         .offersContainer
                         .Items
-                        .UpsertItemAsync(partitionKey: offerEntity.BusinessAccountId, offerEntity)
+                        .UpsertItemAsync(partitionKey: offerEntity.Id, offerEntity)
                         .ContinueOnAnyContext();
                     logger.Debug("Offer removed: {@Offer}", offerEntity);
 
@@ -160,8 +160,7 @@ namespace Offers
                 async (logger) =>
                 {
                     var id = request.Id;
-                    var userId = request.UserId;
-                    logger.Debug("Getting offer with ID {Id} for user {UserId}", id, userId);
+                    logger.Debug("Getting offer with ID {Id}", id);
 
                     var sql = new CosmosSqlQueryDefinition("SELECT * FROM o WHERE o.id = @Id");
                     sql.UseParameter("@Id", id);
@@ -169,7 +168,7 @@ namespace Offers
                     var result = await this
                         .offersContainer
                         .Items
-                        .ReadItemAsync<OfferEntity>(partitionKey: userId, id)
+                        .ReadItemAsync<OfferEntity>(partitionKey: id, id)
                         .ContinueOnAnyContext();
                     var offerEntity = result.Resource;
                     logger.Debug("Retrieved offer with ID {Id}: {@Offer}", id, offerEntity);

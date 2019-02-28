@@ -4,26 +4,19 @@
     var container = context.getCollection();
 
     var id = offer.id;
-    // TODO: this should change to be a proper user object with ID at some point
-    var userId = offer.businessAccountId;
 
     if (!id) {
         throw new Error("ID not set.");
     }
 
-    if (!userId) {
-        throw new Error("UserId not set.");
-    }
-
     var now = new Date();
 
-    console.log("Saving offer with ID '" + id + "', user ID '" + userId + "'. It is now " + now);
+    console.log("Saving offer with ID '" + id + "'. It is now " + now);
 
     var existingQuery =
     {
-        "query": "SELECT * FROM Offers o WHERE o.businessAccountId = @UserId AND o.id = @Id",
+        "query": "SELECT * FROM Offers o WHERE o.id = @Id",
         "parameters": [
-            { "name": "@UserId", "value": userId },
             { "name": "@Id", "value": id }
         ]
     };

@@ -20,9 +20,7 @@ namespace Users
         public Users(StatelessServiceContext context)
             : base(context)
         {
-            var configurationPackage = this.Context.CodePackageActivationContext.GetConfigurationPackageObject("Config");
-            var logStorageConnectionString = configurationPackage.Settings.Sections["Logging"].Parameters["StorageConnectionString"].Value;
-            this.logger = Logging.GetLogger(this, logStorageConnectionString);
+            this.logger = Logging.GetLogger(this);
             var userUpdatedTopicClient = this.Context.CodePackageActivationContext.GetServiceBusTopicClient(this.logger, "UserUpdated");
             this.implementation = new UsersServiceImpl(this.logger, userUpdatedTopicClient);
         }

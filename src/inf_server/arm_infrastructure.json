@@ -661,7 +661,7 @@
                   {
                      "apiVersion": "2017-04-01",
                      "type": "subscriptions",
-                     "name": "mapping_api",
+                     "name": "listen_api",
                      "dependsOn": [
                         "OfferUpdated"
                      ],
@@ -686,6 +686,15 @@
                         "UserUpdated"
                      ],
                      "properties": {}
+                  },
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "UserUpdated"
+                     ],
+                     "properties": {}
                   }
                ]
             }
@@ -700,10 +709,6 @@
       "userStorageAccountConnectionString": {
          "type": "string",
          "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('userStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('userStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
-      },
-      "loggingStorageAccountConnectionString": {
-         "type": "string",
-         "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('applicationDiagnosticsStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('applicationDiagnosticsStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
       },
       "databaseAccountConnectionString": {
          "type": "string",

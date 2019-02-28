@@ -6,8 +6,9 @@
         -->
     <Parameter Name="UserStorageAccountConnectionString" DefaultValue="" />
     <Parameter Name="DatabaseAccountConnectionString" DefaultValue="" />
-    <Parameter Name="LoggingStorageAccountConnectionString" DefaultValue="" />
     <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
+    <Parameter Name="SeqServerUrl" DefaultValue="" />
+    <Parameter Name="SeqApiKey" DefaultValue="" />
   </Parameters>
   <!-- Import the ServiceManifest from the ServicePackage. The ServiceManifestName and ServiceManifestVersion
        should match the Name and Version attributes of the ServiceManifest element defined in the
@@ -24,7 +25,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
-            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+            <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
+            <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
         </Settings>
       </ConfigOverride>
@@ -42,7 +44,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
-            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+            <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
+            <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
         </Settings>
       </ConfigOverride>
@@ -60,7 +63,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
-            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+            <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
+            <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
         </Settings>
       </ConfigOverride>
@@ -75,7 +79,8 @@
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
           </Section>
           <Section Name="Logging">
-            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+            <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
+            <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
         </Settings>
       </ConfigOverride>
@@ -93,7 +98,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
-            <Parameter Name="StorageConnectionString" Value="[LoggingStorageAccountConnectionString]" />
+            <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
+            <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
         </Settings>
       </ConfigOverride>

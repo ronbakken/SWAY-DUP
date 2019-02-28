@@ -6,7 +6,8 @@
         -->
     <Parameter Name="UserStorageAccountConnectionString" Value="$USER_STORAGE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="DatabaseAccountConnectionString" Value="$DATABASE_ACCOUNT_CONNECTION_STRING" />
-    <Parameter Name="LoggingStorageAccountConnectionString" Value="$LOGGING_STORAGE_ACCOUNT_CONNECTION_STRING" />
     <Parameter Name="ServiceBusConnectionString" Value="$SERVICE_BUS_CONNECTION_STRING" />
+    <Parameter Name="SeqServerUrl" Value="$SEQ_SERVER_URL" />
+    <Parameter Name="SeqApiKey" Value="$SEQ_API_KEY" />
   </Parameters>
 </Application>

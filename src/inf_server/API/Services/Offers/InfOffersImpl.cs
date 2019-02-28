@@ -56,7 +56,6 @@ namespace API.Services.Offers
                     var getOfferRequest = new offers.GetOfferRequest
                     {
                         Id = request.Id,
-                        UserId = request.UserId,
                     };
                     var getOfferResponse = await offersService
                         .GetOfferAsync(getOfferRequest);
