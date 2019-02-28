@@ -8,6 +8,24 @@
 import 'dart:core' show int, dynamic, String, List, Map;
 import 'package:protobuf/protobuf.dart' as $pb;
 
+class SingleItemFilterDto_Type extends $pb.ProtobufEnum {
+  static const SingleItemFilterDto_Type offer = const SingleItemFilterDto_Type._(0, 'offer');
+  static const SingleItemFilterDto_Type user = const SingleItemFilterDto_Type._(1, 'user');
+
+  static const List<SingleItemFilterDto_Type> values = const <SingleItemFilterDto_Type> [
+    offer,
+    user,
+  ];
+
+  static final Map<int, SingleItemFilterDto_Type> _byValue = $pb.ProtobufEnum.initByValue(values);
+  static SingleItemFilterDto_Type valueOf(int value) => _byValue[value];
+  static void $checkItem(SingleItemFilterDto_Type v) {
+    if (v is! SingleItemFilterDto_Type) $pb.checkItemFailed(v, 'SingleItemFilterDto_Type');
+  }
+
+  const SingleItemFilterDto_Type._(int v, String n) : super(v, n);
+}
+
 class ListenRequest_Action extends $pb.ProtobufEnum {
   static const ListenRequest_Action register = const ListenRequest_Action._(0, 'register');
   static const ListenRequest_Action deregister = const ListenRequest_Action._(1, 'deregister');

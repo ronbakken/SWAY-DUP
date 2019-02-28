@@ -16,21 +16,54 @@ import 'inf_listen.pbenum.dart';
 
 export 'inf_listen.pbenum.dart';
 
+class SingleItemFilterDto extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SingleItemFilterDto', package: const $pb.PackageName('api'))
+    ..e<SingleItemFilterDto_Type>(1, 'type', $pb.PbFieldType.OE, SingleItemFilterDto_Type.offer, SingleItemFilterDto_Type.valueOf, SingleItemFilterDto_Type.values)
+    ..aOS(2, 'id')
+    ..hasRequiredFields = false
+  ;
+
+  SingleItemFilterDto() : super();
+  SingleItemFilterDto.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  SingleItemFilterDto.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  SingleItemFilterDto clone() => new SingleItemFilterDto()..mergeFromMessage(this);
+  SingleItemFilterDto copyWith(void Function(SingleItemFilterDto) updates) => super.copyWith((message) => updates(message as SingleItemFilterDto));
+  $pb.BuilderInfo get info_ => _i;
+  static SingleItemFilterDto create() => new SingleItemFilterDto();
+  SingleItemFilterDto createEmptyInstance() => create();
+  static $pb.PbList<SingleItemFilterDto> createRepeated() => new $pb.PbList<SingleItemFilterDto>();
+  static SingleItemFilterDto getDefault() => _defaultInstance ??= create()..freeze();
+  static SingleItemFilterDto _defaultInstance;
+  static void $checkItem(SingleItemFilterDto v) {
+    if (v is! SingleItemFilterDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
+  }
+
+  SingleItemFilterDto_Type get type => $_getN(0);
+  set type(SingleItemFilterDto_Type v) { setField(1, v); }
+  bool hasType() => $_has(0);
+  void clearType() => clearField(1);
+
+  String get id => $_getS(1, '');
+  set id(String v) { $_setString(1, v); }
+  bool hasId() => $_has(1);
+  void clearId() => clearField(2);
+}
+
 enum ListenRequest_Target {
-  itemId, 
+  singleItemFilter, 
   filter, 
   notSet
 }
 
 class ListenRequest extends $pb.GeneratedMessage {
   static const Map<int, ListenRequest_Target> _ListenRequest_TargetByTag = {
-    2 : ListenRequest_Target.itemId,
+    2 : ListenRequest_Target.singleItemFilter,
     3 : ListenRequest_Target.filter,
     0 : ListenRequest_Target.notSet
   };
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ListenRequest', package: const $pb.PackageName('api'))
     ..e<ListenRequest_Action>(1, 'action', $pb.PbFieldType.OE, ListenRequest_Action.register, ListenRequest_Action.valueOf, ListenRequest_Action.values)
-    ..aOS(2, 'itemId')
+    ..a<SingleItemFilterDto>(2, 'singleItemFilter', $pb.PbFieldType.OM, SingleItemFilterDto.getDefault, SingleItemFilterDto.create)
     ..a<$14.ItemFilterDto>(3, 'filter', $pb.PbFieldType.OM, $14.ItemFilterDto.getDefault, $14.ItemFilterDto.create)
     ..oo(0, [2, 3])
     ..hasRequiredFields = false
@@ -59,10 +92,10 @@ class ListenRequest extends $pb.GeneratedMessage {
   bool hasAction() => $_has(0);
   void clearAction() => clearField(1);
 
-  String get itemId => $_getS(1, '');
-  set itemId(String v) { $_setString(1, v); }
-  bool hasItemId() => $_has(1);
-  void clearItemId() => clearField(2);
+  SingleItemFilterDto get singleItemFilter => $_getN(1);
+  set singleItemFilter(SingleItemFilterDto v) { setField(2, v); }
+  bool hasSingleItemFilter() => $_has(1);
+  void clearSingleItemFilter() => clearField(2);
 
   $14.ItemFilterDto get filter => $_getN(2);
   set filter($14.ItemFilterDto v) { setField(3, v); }

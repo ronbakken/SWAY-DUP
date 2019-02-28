@@ -68,7 +68,6 @@ class UpdateOfferResponse extends $pb.GeneratedMessage {
 class GetOfferRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetOfferRequest', package: const $pb.PackageName('api'))
     ..aOS(1, 'id')
-    ..aOS(2, 'userId')
     ..hasRequiredFields = false
   ;
 
@@ -91,11 +90,6 @@ class GetOfferRequest extends $pb.GeneratedMessage {
   set id(String v) { $_setString(0, v); }
   bool hasId() => $_has(0);
   void clearId() => clearField(1);
-
-  String get userId => $_getS(1, '');
-  set userId(String v) { $_setString(1, v); }
-  bool hasUserId() => $_has(1);
-  void clearUserId() => clearField(2);
 }
 
 class GetOfferResponse extends $pb.GeneratedMessage {
