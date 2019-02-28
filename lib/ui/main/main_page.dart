@@ -157,7 +157,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
 
           /// Main Menu Drawer
           IgnorePointer(
-            ignoring: !_menuVisible,
+            ignoring: _menuVisible,
             child: AnimatedBuilder(
               animation: _drawerAnim,
               builder: (BuildContext context, Widget navigationDrawer) {

@@ -321,7 +321,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: Colors.black,
       child: Row(
         children: <Widget>[
-          WhiteBorderCircleAvatar(child: Image.network(offer.businessAvatarThumbnailUrl)),
+          WhiteBorderCircleAvatar(child: Image.network(offer.businessAvatarThumbnailUrl,fit: BoxFit.cover,),),
           SizedBox(width: 12.0),
           Expanded(
             child: Column(

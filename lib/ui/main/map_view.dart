@@ -93,7 +93,7 @@ class _MainMapViewState extends State<MainMapView> {
               if (item.offer.categories[0].parentId.isEmpty) {
                 iconData = item.offer.categories[0].iconData;
               } else {
-                // fixme: link topcategories directly to subcategories
+                // fixme: link topcategories directly to subcategories at startup in ConfigService
                 var topLevelCategory = backend
                     .get<ConfigService>()
                     .topLevelCategories
