@@ -97,7 +97,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
           TextField(
             textInputAction: TextInputAction.go,
             keyboardType: TextInputType.emailAddress,
-            onChanged: (s) => setState(()=> _emailAddress = s),
+            onChanged: (s) => setState(()=> _emailAddress = s.toLowerCase()),
             onSubmitted: (s) => _testSubmitEnabled() ? onButtonPressed() : null,
             keyboardAppearance: Brightness.dark,
           ),
