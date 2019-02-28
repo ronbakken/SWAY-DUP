@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,6 +9,8 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:latlong/latlong.dart';
 
@@ -86,12 +89,37 @@ class _MainMapViewState extends State<MainMapView> {
             height: 38.0,
             point: LatLng(item.latitude, item.longitude),
             builder: (BuildContext context) {
-              return InkResponse(
-                onTap: () => onMarkerClicked(item),
-                child: InfAssetImage(
-                  markerAsset,
-                  width: 38.0,
-                  height: 38.0,
+              Uint8List iconData;
+              if (item.offer.categories[0].parentId.isEmpty) {
+                iconData = item.offer.categories[0].iconData;
+              } else {
+                // fixme: link topcategories directly to subcategories
+                var topLevelCategory = backend
+                    .get<ConfigService>()
+                    .topLevelCategories
+                    .firstWhere((x) => x.id == item.offer.categories[0].parentId, orElse: null);
+                if (topLevelCategory != null) {
+                  iconData = topLevelCategory.iconData;
+                }
+              }
+              return Material(
+                type: MaterialType.canvas,
+                color: AppTheme.lightBlue,
+                shape: CircleBorder(
+                  side: BorderSide(color: Colors.white),
+                ),
+                clipBehavior: Clip.antiAlias,
+                child: InkResponse(
+                  onTap: () => onMarkerClicked(item),
+                  child: Center(
+                    child: iconData != null
+                        ? InfMemoryImage(
+                            iconData,
+                            width: 16,
+                            height: 16,
+                          )
+                        : Icon(Icons.close),
+                  ),
                 ),
               );
             },
