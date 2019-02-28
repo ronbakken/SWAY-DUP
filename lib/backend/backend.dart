@@ -70,7 +70,7 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken}) async {
   switch (mode) {   
     case AppMode.alpha:
       appEnvironment = AppEnvironment(
-        mode: AppMode.dev,
+        mode: AppMode.alpha,
         host: 'api.alpha.swaymarketplace.com',
         port: 9026,
       );

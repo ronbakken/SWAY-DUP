@@ -93,6 +93,11 @@ android {
 			versionNameSuffix "-dev"
 			project.flutter.target = "lib/main_dev.dart"
 		}
+		alpha {
+			dimension "env"
+			applicationIdSuffix ".dev"
+			project.flutter.target = "lib/main_alpha.dart"
+		}
 		prod {
 			dimension "env"
 			project.flutter.target = "lib/main_prod.dart"
