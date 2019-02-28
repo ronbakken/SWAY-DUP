@@ -71,6 +71,10 @@ namespace API.ObjectMapping
                 WebsiteUrl = @this.Full.WebsiteUrl,
             };
 
+            result.CategoryIds.AddRange(@this.Full.CategoryIds);
+            result.RegistrationTokens.AddRange(@this.Full.RegistrationTokens);
+            result.SocialMediaAccounts.AddRange(@this.Full.SocialMediaAccounts.Select(x => x.ToSocialMediaAccount()));
+
             return result;
         }
 
@@ -124,6 +128,7 @@ namespace API.ObjectMapping
             };
 
             result.CategoryIds.AddRange(@this.CategoryIds);
+            result.SocialMediaProviderIds.AddRange(@this.SocialMediaAccounts.Select(x => x.SocialNetworkProviderId));
 
             return result;
         }
