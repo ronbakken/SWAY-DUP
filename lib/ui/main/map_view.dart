@@ -27,16 +27,15 @@ class _MainMapViewState extends State<MainMapView> {
     mapController = new MapController();
 
     backend.get<LocationService>().onLocationChanged.listen((newPos) {
-      mapController.move(
-          LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
+      mapController.move(LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
     });
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<List<MapMarker>>(
-      stream: backend.get<InfApiService>().getMapMarkers(),
+    return StreamBuilder<List<InfItem>>(
+      stream: backend.get<ListManager>().filteredListItems,
       builder: (context, snapshot) {
         List<Marker> markers;
         if (snapshot.hasData) {
@@ -66,34 +65,28 @@ class _MainMapViewState extends State<MainMapView> {
     );
   }
 
-  List<Marker> buildMarkers(List<MapMarker> mapMarkers) {
+  List<Marker> buildMarkers(List<InfItem> items) {
     // TODO implement fading of markers with Simon
     var markerList = <Marker>[];
-    for (var mapMarker in mapMarkers) {
+    for (var item in items) {
       AppAsset markerAsset;
       Widget markerWidget;
-      if (mapMarker.type == MapMarkerType.cluster) {
-        markerWidget = new _ClusterMarker(mapMarker: mapMarker);
+
+      if (item.type == InfItemType.user) {
+        markerAsset = AppIcons.mapMarkerBusiness;
       } else {
-        if (mapMarker.isDirectOffer ?? false) {
-          markerAsset = AppIcons.mapMarkerDirectOffer;
-        } else if (mapMarker.userType != null &&
-            mapMarker.userType == UserType.business) {
-          markerAsset = AppIcons.mapMarkerBusiness;
-        } else {
-          markerAsset = AppIcons.mapMarker;
-        }
-        markerWidget = InfAssetImage(
-          markerAsset,
-          width: 38.0,
-          height: 38.0,
-        );
+        markerAsset = AppIcons.mapMarker;
       }
+      markerWidget = InfAssetImage(
+        markerAsset,
+        width: 38.0,
+        height: 38.0,
+      );
       markerList.add(
         Marker(
           width: 38.0,
           height: 38.0,
-          point: LatLng(mapMarker.latitude, mapMarker.longitude),
+          point: LatLng(item.latitude, item.longitude),
           builder: (BuildContext context) {
             return markerWidget;
           },
@@ -105,12 +98,8 @@ class _MainMapViewState extends State<MainMapView> {
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {
     mapPosition = position;
-    backend.get<InfApiService>().setMapBoundary(
-        position.bounds.northWest.latitude,
-        position.bounds.northWest.longitude,
-        position.bounds.southEast.latitude,
-        position.bounds.southEast.longitude,
-        position.zoom);
+    backend.get<InfApiService>().setMapBoundary(position.bounds.northWest.latitude, position.bounds.northWest.longitude,
+        position.bounds.southEast.latitude, position.bounds.southEast.longitude, position.zoom);
   }
 }
 
@@ -135,8 +124,7 @@ class _ClusterMarker extends StatelessWidget {
           ),
         ),
         Container(
-          margin: const EdgeInsets.only(
-              right: 3.75, left: 3.75, top: 2.5, bottom: 2.5),
+          margin: const EdgeInsets.only(right: 3.75, left: 3.75, top: 2.5, bottom: 2.5),
           decoration: BoxDecoration(
             border: Border.all(color: Colors.white, width: 1.0),
             color: AppTheme.blue,

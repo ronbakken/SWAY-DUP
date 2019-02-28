@@ -11,4 +11,6 @@ abstract class ListManager {
   
   void setFilter(Filter filter);
 
+  void updateListeners();
+
 }

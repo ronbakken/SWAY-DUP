@@ -100,6 +100,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     if (response != null) {
       _currentUser = User.fromDto(response.user);
       currentUserUpdatesSubject.add(_currentUser);
+      await updateLoginProfile(_currentUser);
     }
   }
 
@@ -206,5 +207,20 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     loginProfiles.lastUsedProfileEmail = newProfile.email;
     await saveLoginProfiles();
     await loginUserWithRefreshToken();
+
   }
+
+  @override
+  Future<void> updateLoginProfile(User user) async
+  {
+    if (loginProfiles.profiles.containsKey(user.email))
+    {
+      // Update stored user data
+      loginProfiles.profiles[user.email].userName =user.name;
+      loginProfiles.profiles[user.email].avatarUrl =user.avatarThumbnail.imageUrl;
+      await saveLoginProfiles();
+
+    }
+  } 
+
 }

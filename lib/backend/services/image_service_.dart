@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class ImageUploadException implements Exception {
@@ -65,6 +66,7 @@ abstract class ImageService {
     ImageReference imageReference,
     int imageWidth,
     int lowResWidth,
+    VoidCallback onImageUploaded
   });
 
   Future<File> takePicture();

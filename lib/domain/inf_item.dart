@@ -7,6 +7,8 @@ class InfItem {
   final String id;
   final int revision;
   final InfItemType type;
+  final double latitude;
+  final double longitude;
 
   /// Only one of them will be set according to [type]
   final BusinessOffer offer;
@@ -20,6 +22,8 @@ class InfItem {
     this.offer,
     this.user,
     this.mapMarker,
+    this.latitude,
+    this.longitude
   });
 
   static InfItem fromDto(ItemDto dto) {
@@ -29,6 +33,8 @@ class InfItem {
         offer: BusinessOffer.fromDto(dto.offer),
         id: dto.offer.id,
         revision: dto.offer.revision,
+        latitude: dto.offer.location.geoPoint.latitude,
+        longitude: dto.offer.location.geoPoint.longitude,
       );
     }
     if (dto.hasUser()) {

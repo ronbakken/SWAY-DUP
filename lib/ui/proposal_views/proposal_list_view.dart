@@ -161,7 +161,7 @@ class ProposalListTile extends StatelessWidget {
                   children: [
                     WhiteBorderCircleAvatar(
                       radius: null,
-                      child: Image.network(avatarUrl),
+                      child: Image.network(avatarUrl, fit:BoxFit.cover,),
                       whiteThickness: 2,
                     ),
                     SizedBox(width: 8),

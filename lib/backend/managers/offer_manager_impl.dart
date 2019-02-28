@@ -9,7 +9,7 @@ import 'package:rxdart/rxdart.dart';
 
 class OfferManagerImplementation implements OfferManager {
   OfferManagerImplementation() {
-    updateOfferCommand = RxCommand.createFromStream(updateOffer);
+    updateOfferCommand = RxCommand.createFromStream(updateOffer, emitLastResult: true);
 
     initConnection();
   }
@@ -68,8 +68,9 @@ class OfferManagerImplementation implements OfferManager {
   }
 
   Stream<double> updateOffer(OfferBuilder offerBuilder) async* {
-    var totalSteps = offerBuilder.images.length + 1;
+    var totalSteps = offerBuilder.images.length + 2;
     int completedSteps = 1;
+    yield 0.2;
 
     // upload all offer images
     for (int i = 0; i < offerBuilder.images.length; i++) {

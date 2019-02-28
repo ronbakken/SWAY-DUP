@@ -51,11 +51,15 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
       onValue: (val) {
         if (val == 1.0)
         {
+          print(val);
           InfLoader.hide();
-   //       Navigator.of(context).pop();
+          Navigator.of(context).pop();
         }
       },
-      onIsBusy: () => InfLoader.show(context, updateOfferCommand),
+      onIsBusy: () {
+        InfLoader.show(context);
+        // InfLoader.show(context, updateOfferCommand);
+      },
       onNotBusy: () => InfLoader.hide(),
     );
 

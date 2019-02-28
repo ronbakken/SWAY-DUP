@@ -15,26 +15,24 @@ class ListManagerImplementation implements ListManager {
   Observable<List<InfItem>> get userCreatedItems => userCreatedOffers.itemUpdates;
 
   BehaviorSubject<Filter> filterSubject = BehaviorSubject<Filter>();
+  BehaviorSubject<Filter> filterCreatedOffersSubject = BehaviorSubject<Filter>();
 
   StreamSubscription listAllOffersSubscription;
+  StreamSubscription listenAllOffersSubscription;
   StreamSubscription listCreatedOffersSubscription;
+  StreamSubscription listenCreatedOffersSubscription;
+
+  final userCreateOfferFilter = Filter(offeringBusinessId: backend.get<UserManager>().currentUser.id);
 
   ListManagerImplementation() {
-    final userCreateOfferFilter = Filter(offeringBusinessId: backend.get<UserManager>().currentUser.id);
-
     backend.get<InfApiClientsService>().connectionChanged.listen((connected) {
       if (connected) {
-        listAllOffersSubscription = backend.get<InfListService>().listItems(filterSubject).listen((items) {
-          allOffersCache.addInfItems(items);
-        });
-
-        listCreatedOffersSubscription =
-            backend.get<InfListService>().listItems(Observable.just(userCreateOfferFilter)).listen((items) {
-          userCreatedOffers.addInfItems(items);
-        });
+        updateListeners();
       } else {
         listAllOffersSubscription?.cancel();
+        listenAllOffersSubscription?.cancel();
         listCreatedOffersSubscription?.cancel();
+        listenCreatedOffersSubscription?.cancel();
       }
     });
 
@@ -42,6 +40,48 @@ class ListManagerImplementation implements ListManager {
     filterSubject.listen((f) {
       print(f);
     });
+  }
+
+  @override
+  void updateListeners() {
+    listAllOffersSubscription?.cancel();
+    listenAllOffersSubscription?.cancel();
+    listCreatedOffersSubscription?.cancel();
+    listenCreatedOffersSubscription?.cancel();
+
+    listAllOffersSubscription = backend.get<InfListService>().listItems(filterSubject).listen(
+      (items) {
+        allOffersCache.addInfItems(items);
+      },
+      onError: (error) => print('Error in listAllOffersSubscription $error'),
+    );
+
+    listenAllOffersSubscription = backend.get<InfListService>().listenItemChanges(filterSubject).listen(
+      (items) {
+        allOffersCache.addInfItems(items);
+        print("Listen update ${items.length} items");
+      },
+      onError: (error) => print('Error in listenAllOffersSubscription $error'),
+    );
+
+    listCreatedOffersSubscription =
+        backend.get<InfListService>().listItems(filterCreatedOffersSubject).listen(
+      (items) {
+        userCreatedOffers.addInfItems(items);
+      },
+      onError: (error) => print('Error in listCreatedOffersSubscription $error'),
+    );
+
+    listenCreatedOffersSubscription =
+        backend.get<InfListService>().listenItemChanges(filterCreatedOffersSubject).listen(
+      (items) {
+        print("Listen my offers update ${items.length} items");
+        userCreatedOffers.addInfItems(items);
+      },
+      onError: (error) => print('Error in listenCreatedOffersSubscription $error'),
+    );
+
+     filterCreatedOffersSubject.add(userCreateOfferFilter);
   }
 
   @override

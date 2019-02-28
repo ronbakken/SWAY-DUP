@@ -13,6 +13,7 @@ abstract class InfApiClientsService
     InfInvitationCodesClient invitationCodeClient;
     InfUsersClient usersClient;
     InfListClient listClient;
+    InfListenClient listenClient;
     InfOffersClient offerClient;
 
     Observable<bool> get connectionChanged;

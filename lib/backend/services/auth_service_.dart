@@ -54,6 +54,8 @@ abstract class AuthenticationService {
   List<LoginProfile> getLoginProfiles();
 
   Future<void> switchUser(LoginProfile newProfile); 
+  
+  Future<void> updateLoginProfile(User user); 
 }
 
 class LoginToken {

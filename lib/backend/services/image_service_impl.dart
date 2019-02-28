@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inf/backend/backend.dart';
@@ -47,6 +48,8 @@ class ImageServiceImplementation implements ImageService {
     ImageReference imageReference,
     int imageWidth,
     int lowResWidth,
+    VoidCallback onImageUploaded
+
   }) async {
     // if there is already an existing image url extract file name
     String fileName;
@@ -59,6 +62,17 @@ class ImageServiceImplementation implements ImageService {
         fileName = imageReference.imageUrl.substring(start, end);
       }
     }
+
+
+    if (imageReference.lowresUrl != null) {
+      var start = imageReference.lowresUrl.indexOf(fileNameTrunc);
+      if (start >= 0) {
+        var end = imageReference.lowresUrl.indexOf('jpg') + 3;
+        if (end > start) {}
+        fileNameLowRes = imageReference.lowresUrl.substring(start, end);
+      }
+    }
+
 
     if (fileName == null) // no previous or valid file name in url
     {
@@ -75,6 +89,12 @@ class ImageServiceImplementation implements ImageService {
           encodeJpg(imageReducedSize, quality: 90),
         );
 
+    if (onImageUploaded !=null)
+    {
+      onImageUploaded();
+    }
+
+
     String lowResUrl;
     if (lowResWidth != null) {
       var imageLowRes = copyResize(image, lowResWidth);
@@ -82,6 +102,10 @@ class ImageServiceImplementation implements ImageService {
             fileNameLowRes,
             encodeJpg(imageLowRes, quality: 60),
           );
+    }
+    if (onImageUploaded !=null)
+    {
+      onImageUploaded();
     }
     return imageReference.copyWith(imageUrl: imageUrl,imageLowResUrl: lowResUrl);
   }

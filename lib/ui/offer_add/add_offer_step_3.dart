@@ -199,11 +199,13 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
       if (widget.offerBuilder.rewardType == RewardDto_Type.barter && widget.offerBuilder.rewardDescription.isEmpty)
       {
         await showMessageDialog(context, 'We need a bit more...', 'Please provide a description of your reward item or service');
+        return;
       }
 
       if (widget.offerBuilder.location == null)
       {
         await showMessageDialog(context, 'We need a bit more...', 'Please provide a location for the offer');
+        return;
       }
 
       

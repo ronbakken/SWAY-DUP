@@ -24,8 +24,10 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   @override
   InfListClient listClient;
   @override
-  InfOffersClient offerClient;
+  InfListenClient listenClient;
 
+  @override
+  InfOffersClient offerClient;
 
   ClientChannel channel;
 
@@ -82,8 +84,9 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
     blobStorageClient = InfBlobStorageClient(channel);
     invitationCodeClient = InfInvitationCodesClient(channel);
     usersClient = InfUsersClient(channel);
-    listClient =InfListClient(channel);
-    offerClient =InfOffersClient(channel);
+    listClient = InfListClient(channel);
+    listenClient = InfListenClient(channel);
+    offerClient = InfOffersClient(channel);
   }
 
   @override

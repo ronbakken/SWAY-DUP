@@ -72,6 +72,9 @@ class UserManagerImplementation implements UserManager {
       var imageReference = userData.user.avatarImage != null
           ? userData.user.avatarImage.copyWith(imageFile: userData.profilePicture)
           : ImageReference(imageFile: userData.profilePicture);
+      var thumbNailReference = userData.user.avatarThumbnail != null
+          ? userData.user.avatarThumbnail.copyWith(imageFile: userData.profilePicture)
+          : ImageReference(imageFile: userData.profilePicture);
 
       // var image = decodeImage(imageBytes);
       // var profileImage = copyResize(image, 800);
@@ -82,7 +85,7 @@ class UserManagerImplementation implements UserManager {
       var avatarImage = await backend.get<ImageService>().uploadImageReference(
           fileNameTrunc: 'profilePicture', imageReference: imageReference, imageWidth: 800, lowResWidth: 100);
       var thumbnailImage = await backend.get<ImageService>().uploadImageReference(
-          fileNameTrunc: 'profileThumbnail', imageReference: imageReference, imageWidth: 100, lowResWidth: 20);
+          fileNameTrunc: 'profileThumbnail', imageReference: thumbNailReference, imageWidth: 100, lowResWidth: 20);
 
       userToSend = userData.user.copyWith(
         avatarImage: avatarImage,
@@ -128,6 +131,8 @@ class UserManagerImplementation implements UserManager {
         return;
       }
       await backend.get<AuthenticationService>().switchUser(profile);
+      backend.get<ListManager>().updateListeners();
+
 
   }
 

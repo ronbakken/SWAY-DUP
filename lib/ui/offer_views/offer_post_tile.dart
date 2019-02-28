@@ -40,10 +40,7 @@ class OfferPostTile extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: AppTheme.listViewItemBackground,
-        boxShadow: [
-          BoxShadow(
-              color: AppTheme.white30, spreadRadius: 0.75, blurRadius: 1.0)
-        ],
+        boxShadow: [BoxShadow(color: AppTheme.white30, spreadRadius: 0.75, blurRadius: 1.0)],
         borderRadius: BorderRadius.circular(8.0),
       ),
       child: ClipRRect(
@@ -58,12 +55,10 @@ class OfferPostTile extends StatelessWidget {
             ),
             new _OfferDetailsRow(offer: offer),
             Padding(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+              padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: Text(
                 offer.description ?? "",
-                style: TextStyle(
-                    color: Colors.white, fontSize: 14.5, height: 1.25),
+                style: TextStyle(color: Colors.white, fontSize: 14.5, height: 1.25),
               ),
             ),
             InkResponse(
@@ -103,7 +98,10 @@ class _OfferDetailsRow extends StatelessWidget {
     List<Widget> rowContent = <Widget>[]..addAll(
         [
           WhiteBorderCircleAvatar(
-            child: Image.network(offer.businessAvatarThumbnailUrl),
+            child: Image.network(
+              offer.businessAvatarThumbnailUrl,
+              fit: BoxFit.cover,
+            ),
             radius: 32,
           ),
           SizedBox(width: 8.0),
@@ -117,7 +115,7 @@ class _OfferDetailsRow extends StatelessWidget {
                   height: 4.0,
                 ),
                 Text(
-                  offer.location.name ??  '',
+                  offer.location.name ?? '',
                   style: const TextStyle(
                     color: Colors.white54,
                   ),
@@ -133,8 +131,7 @@ class _OfferDetailsRow extends StatelessWidget {
               color: Colors.black,
               shape: StadiumBorder(),
               child: Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Row(
                   children: [
                     InfAssetImage(

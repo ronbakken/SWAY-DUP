@@ -12,7 +12,7 @@ class InfListServiceImplementation implements InfListService {
         .get<InfApiClientsService>()
         .listClient
         .list(
-          filterStream.map<ListRequest>(mapFilter),
+          filterStream.map<ListRequest>(mapFilterToListRequest),
           options: backend.get<AuthenticationService>().callOptions,
         )
         .map<List<InfItem>>((items) => items.items
@@ -22,7 +22,37 @@ class InfListServiceImplementation implements InfListService {
             .toList());
   }
 
-  ListRequest mapFilter(Filter filter) {
+  @override
+  Stream<List<InfItem>> listenItemChanges(Stream<Filter> filterStream)
+  {
+    return backend
+        .get<InfApiClientsService>()
+        .listenClient
+        .listen(
+          filterStream.map<ListenRequest>(mapFilterToListenRequest),
+          options: backend.get<AuthenticationService>().callOptions,
+        )
+        .map<List<InfItem>>((items) => items.items
+            .map(
+              (item) => InfItem.fromDto(item),
+            )
+            .toList());
+
+  }
+
+  ListRequest mapFilterToListRequest(Filter filter) {
+      return ListRequest()
+      ..state = ListRequest_State.resumed
+      ..filter = mapFilter(filter);
+  }
+
+  ListenRequest mapFilterToListenRequest(Filter filter) {
+      return ListenRequest()
+      ..action =ListenRequest_Action.register
+      ..filter = mapFilter(filter);
+  }
+
+  ItemFilterDto mapFilter(Filter filter) {
     var filterDto = ItemFilterDto();
     ItemFilterDto_OfferFilterDto offerFilter;
     ItemFilterDto_UserFilterDto userFilter;
@@ -44,8 +74,9 @@ class InfListServiceImplementation implements InfListService {
       userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.influencer);
       if (filter.offeringBusinessId != null && filter.offeringBusinessId.isNotEmpty)
       {
-        itemTypes.add(ItemFilterDto_ItemType.offers);
-        offerFilter.businessAccountId = filter.offeringBusinessId;
+        itemTypes=[ItemFilterDto_ItemType.offers];
+        offerFilter = ItemFilterDto_OfferFilterDto();
+        //offerFilter.businessAccountId = filter.offeringBusinessId;
       }
       else
       {
@@ -62,8 +93,6 @@ class InfListServiceImplementation implements InfListService {
     if (userFilter != null) {
       filterDto.userFilter = userFilter;
     }
-    return ListRequest()
-      ..state = ListRequest_State.resumed
-      ..filter = filterDto;
+    return filterDto;
   }
 }
