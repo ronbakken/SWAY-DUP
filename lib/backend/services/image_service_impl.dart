@@ -22,10 +22,30 @@ class ImageServiceImplementation implements ImageService {
 
   @override
   Future<String> uploadImageFromBytes(String fileName, List<int> value) async {
-    var cloudUrls = await backend.get<InfApiClientsService>().blobStorageClient.getUploadUrl(
-          GetUploadUrlRequest()..fileName = fileName,
-          options: backend.get<AuthenticationService>().callOptions,
-        );
+    GetUploadUrlResponse cloudUrls;
+    try {
+      cloudUrls = await backend.get<InfApiClientsService>().blobStorageClient.getUploadUrl(
+            GetUploadUrlRequest()..fileName = fileName,
+            options: backend.get<AuthenticationService>().callOptions,
+          );
+    } on GrpcError catch (e) {
+      if (e.code == 7) // permission denied
+      {
+        // retry with new access token
+        await backend.get<AuthenticationService>().refreshAccessToken();
+        cloudUrls = await backend.get<InfApiClientsService>().blobStorageClient.getUploadUrl(
+              GetUploadUrlRequest()..fileName = fileName,
+              options: backend.get<AuthenticationService>().callOptions,
+            );
+      }
+      else
+      {
+        await backend.get<ErrorReporter>().logException(e, message: 'uploadImageFromBytes');
+        print(e);
+        rethrow;
+
+      }
+    }
 
     if (cloudUrls == null) {
       throw ImageUploadException("No Url from server");
@@ -43,14 +63,12 @@ class ImageServiceImplementation implements ImageService {
   }
 
   @override
-  Future<ImageReference> uploadImageReference({
-    String fileNameTrunc,
-    ImageReference imageReference,
-    int imageWidth,
-    int lowResWidth,
-    VoidCallback onImageUploaded
-
-  }) async {
+  Future<ImageReference> uploadImageReference(
+      {String fileNameTrunc,
+      ImageReference imageReference,
+      int imageWidth,
+      int lowResWidth,
+      VoidCallback onImageUploaded}) async {
     // if there is already an existing image url extract file name
     String fileName;
     String fileNameLowRes;
@@ -63,7 +81,6 @@ class ImageServiceImplementation implements ImageService {
       }
     }
 
-
     if (imageReference.lowresUrl != null) {
       var start = imageReference.lowresUrl.indexOf(fileNameTrunc);
       if (start >= 0) {
@@ -72,7 +89,6 @@ class ImageServiceImplementation implements ImageService {
         fileNameLowRes = imageReference.lowresUrl.substring(start, end);
       }
     }
-
 
     if (fileName == null) // no previous or valid file name in url
     {
@@ -89,11 +105,9 @@ class ImageServiceImplementation implements ImageService {
           encodeJpg(imageReducedSize, quality: 90),
         );
 
-    if (onImageUploaded !=null)
-    {
+    if (onImageUploaded != null) {
       onImageUploaded();
     }
-
 
     String lowResUrl;
     if (lowResWidth != null) {
@@ -103,11 +117,10 @@ class ImageServiceImplementation implements ImageService {
             encodeJpg(imageLowRes, quality: 60),
           );
     }
-    if (onImageUploaded !=null)
-    {
+    if (onImageUploaded != null) {
       onImageUploaded();
     }
-    return imageReference.copyWith(imageUrl: imageUrl,imageLowResUrl: lowResUrl);
+    return imageReference.copyWith(imageUrl: imageUrl, imageLowResUrl: lowResUrl);
   }
 
   @override

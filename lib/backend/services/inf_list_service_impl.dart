@@ -8,6 +8,7 @@ import 'package:inf_api_client/inf_api_client.dart';
 class InfListServiceImplementation implements InfListService {
   @override
   Stream<List<InfItem>> listItems(Stream<Filter> filterStream) {
+    try {
     return backend
         .get<InfApiClientsService>()
         .listClient
@@ -20,6 +21,11 @@ class InfListServiceImplementation implements InfListService {
               (item) => InfItem.fromDto(item),
             )
             .toList());
+      
+    } catch (e) {
+      print(e);
+      rethrow;
+    }
   }
 
   @override

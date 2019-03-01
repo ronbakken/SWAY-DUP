@@ -5,6 +5,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 import 'package:rxdart/rxdart.dart';
+import 'package:sentry/sentry.dart' as sentry;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthenticationServiceImplementation implements AuthenticationService {
@@ -55,6 +56,24 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   @override
+  Future<void> refreshAccessToken() async {
+    var response = await backend
+        .get<InfApiClientsService>()
+        .authClient
+        .getAccessToken(GetAccessTokenRequest()..refreshToken = refreshToken);
+    if (response != null) {
+      updateAccessToken(response.accessToken);
+      print('Updated Access Token');
+    } else {
+      await backend.get<ErrorReporter>().logEvent(
+        'refreshAccessToken failed',
+        sentry.SeverityLevel.fatal,
+        {'username': currentUser.email, 'refreshtoken': refreshToken},
+      );
+    }
+  }
+
+  @override
   Future<bool> loginUserWithLoginToken(String loginToken) async {
     var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
           LoginWithLoginTokenRequest()..loginToken = loginToken,
@@ -93,10 +112,27 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> updateUser(User user) async {
     var dto = user.toDto();
-    var response = await backend
-        .get<InfApiClientsService>()
-        .usersClient
-        .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
+    UpdateUserResponse response;
+    try {
+      response = await backend
+          .get<InfApiClientsService>()
+          .usersClient
+          .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
+    } on GrpcError catch (e) {
+      if (e.code == 7) // permission denied
+      {
+        // retry with new access token
+        await backend.get<AuthenticationService>().refreshAccessToken();
+        response = await backend
+            .get<InfApiClientsService>()
+            .usersClient
+            .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
+      } else {
+        await backend.get<ErrorReporter>().logException(e, message: 'updateUser');
+        print(e);
+        rethrow;
+      }
+    }
     if (response != null) {
       _currentUser = User.fromDto(response.user);
       currentUserUpdatesSubject.add(_currentUser);
@@ -124,11 +160,28 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> activateUser(User user, String loginToken) async {
     assert(refreshToken != null);
-    var response = await backend.get<InfApiClientsService>().authClient.activateUser(
-        ActivateUserRequest()
-          ..user = user.toDto()
-          ..loginToken = loginToken,
-        options: callOptions);
+    ActivateUserResponse response;
+    try {
+      response = await backend.get<InfApiClientsService>().authClient.activateUser(
+          ActivateUserRequest()
+            ..user = user.toDto()
+            ..loginToken = loginToken,
+          options: callOptions);
+    } on GrpcError catch (e) {
+      if (e.code == 7) // permission denied
+      {
+        // retry with new access token
+        await backend.get<AuthenticationService>().refreshAccessToken();
+        response = await backend.get<InfApiClientsService>().authClient.activateUser(
+            ActivateUserRequest()
+              ..user = user.toDto()
+              ..loginToken = loginToken,
+            options: callOptions);
+      } else {
+        await backend.get<ErrorReporter>().logException(e, message: 'activateUser');
+        rethrow;
+      }
+    }
     if (response.user != null) {
       _currentUser = User.fromDto(response.user);
       await storeLoginProfile(refreshToken, _currentUser);
@@ -207,20 +260,15 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     loginProfiles.lastUsedProfileEmail = newProfile.email;
     await saveLoginProfiles();
     await loginUserWithRefreshToken();
-
   }
 
   @override
-  Future<void> updateLoginProfile(User user) async
-  {
-    if (loginProfiles.profiles.containsKey(user.email))
-    {
+  Future<void> updateLoginProfile(User user) async {
+    if (loginProfiles.profiles.containsKey(user.email)) {
       // Update stored user data
-      loginProfiles.profiles[user.email].userName =user.name;
-      loginProfiles.profiles[user.email].avatarUrl =user.avatarThumbnail.imageUrl;
+      loginProfiles.profiles[user.email].userName = user.name;
+      loginProfiles.profiles[user.email].avatarUrl = user.avatarThumbnail.imageUrl;
       await saveLoginProfiles();
-
     }
-  } 
-
+  }
 }

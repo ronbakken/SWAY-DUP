@@ -25,14 +25,14 @@ class ListManagerImplementation implements ListManager {
   final userCreateOfferFilter = Filter(offeringBusinessId: backend.get<UserManager>().currentUser.id);
 
   ListManagerImplementation() {
-    backend.get<InfApiClientsService>().connectionChanged.listen((connected) {
+    backend.get<InfApiClientsService>().connectionChanged.listen((connected) async {
       if (connected) {
-        updateListeners();
+        await updateListeners();
       } else {
-        listAllOffersSubscription?.cancel();
-        listenAllOffersSubscription?.cancel();
-        listCreatedOffersSubscription?.cancel();
-        listenCreatedOffersSubscription?.cancel();
+        await listAllOffersSubscription?.cancel();
+        await listenAllOffersSubscription?.cancel();
+        await listCreatedOffersSubscription?.cancel();
+        await listenCreatedOffersSubscription?.cancel();
       }
     });
 
@@ -43,11 +43,14 @@ class ListManagerImplementation implements ListManager {
   }
 
   @override
-  void updateListeners() {
-    listAllOffersSubscription?.cancel();
-    listenAllOffersSubscription?.cancel();
-    listCreatedOffersSubscription?.cancel();
-    listenCreatedOffersSubscription?.cancel();
+  Future updateListeners() async{
+    // make sure we have a valid access token
+    await backend.get<AuthenticationService>().refreshAccessToken();
+    
+    await listAllOffersSubscription?.cancel();
+    await listenAllOffersSubscription?.cancel();
+    await listCreatedOffersSubscription?.cancel();
+    await listenCreatedOffersSubscription?.cancel();
 
     listAllOffersSubscription = backend.get<InfListService>().listItems(filterSubject).listen(
       (items) {
