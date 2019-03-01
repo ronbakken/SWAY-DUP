@@ -45,7 +45,7 @@ class _DeliverySelectorState extends State<DeliverySelector> {
     return OverflowRow(
       height: 96.0,
       childrenWidth: 64.0,
-      children: backend.get<ConfigService>().deliverableIcons.map((icon) {
+      children: backend<ConfigService>().deliverableIcons.map((icon) {
         return CategoryButton(
           onTap: widget.readOnly ? null : () => _toggleType(icon.deliverableType),
           radius: 64.0,

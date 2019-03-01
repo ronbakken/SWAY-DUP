@@ -28,7 +28,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
   @override
   void initState() {
     super.initState();
-    updateUserListener = RxCommandListener(backend.get<UserManager>().updateUserCommand,
+    updateUserListener = RxCommandListener(backend<UserManager>().updateUserCommand,
         onIsBusy: () => InfLoader.show(context),
         onNotBusy: () => InfLoader.hide(),
         onError: (error) async {
@@ -37,7 +37,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               context, 'Update Problem', 'Sorry we had a problem update your user\'s settings. Please try again later');
         });
 
-    logOutUserListener = RxCommandListener(backend.get<UserManager>().logOutUserCommand, onValue: (_) {
+    logOutUserListener = RxCommandListener(backend<UserManager>().logOutUserCommand, onValue: (_) {
       return Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (_) => false);
     }, onError: (error) async {
       print(error);
@@ -56,7 +56,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-    final userManager = backend.get<UserManager>();
+    final userManager = backend<UserManager>();
 
     List<Widget> buildColumnEntries(User currentUser) {
       List<Widget> entries = <Widget>[]..addAll([
@@ -215,7 +215,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
   }
 
   void switchProfile() async {
-    var profiles = backend.get<UserManager>().getLoginProfiles();
+    var profiles = backend<UserManager>().getLoginProfiles();
     var selectedProfile = await showDialog<LoginProfile>(
         context: context,
         builder: (context) => SwitchUserDialog(
@@ -227,9 +227,9 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
     }
     if (selectedProfile.email == 'LOGOUT')
     {
-      backend.get<UserManager>().logOutUserCommand();
+      backend<UserManager>().logOutUserCommand();
     }
-    backend.get<UserManager>().switchUserCommand(selectedProfile);
+    backend<UserManager>().switchUserCommand(selectedProfile);
   }
 }
 

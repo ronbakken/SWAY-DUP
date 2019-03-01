@@ -13,18 +13,18 @@ class InfOfferServiceImplementation implements InfOfferService {
       response = await backend
           .get<InfApiClientsService>()
           .offerClient
-          .getOffer(GetOfferRequest()..id = id, options: backend.get<AuthenticationService>().callOptions);
+          .getOffer(GetOfferRequest()..id = id, options: backend<AuthenticationService>().callOptions);
     } on GrpcError catch (e) {
       if (e.code == 7) // permission denied
       {
         // retry with new access token
-        await backend.get<AuthenticationService>().refreshAccessToken();
+        await backend<AuthenticationService>().refreshAccessToken();
         response = await backend
             .get<InfApiClientsService>()
             .offerClient
-            .getOffer(GetOfferRequest()..id = id, options: backend.get<AuthenticationService>().callOptions);
+            .getOffer(GetOfferRequest()..id = id, options: backend<AuthenticationService>().callOptions);
       } else {
-        await backend.get<ErrorReporter>().logException(e, message: 'getOffer');
+        await backend<ErrorReporter>().logException(e, message: 'getOffer');
         print(e);
         rethrow;
       }
@@ -36,19 +36,19 @@ class InfOfferServiceImplementation implements InfOfferService {
   Future<BusinessOffer> updateOffer(OfferBuilder offerBuilder) async {
     UpdateOfferResponse response;
     try {
-      response = await backend.get<InfApiClientsService>().offerClient.updateOffer(
+      response = await backend<InfApiClientsService>().offerClient.updateOffer(
           UpdateOfferRequest()..offer = offerBuilder.toDto(),
-          options: backend.get<AuthenticationService>().callOptions);
+          options: backend<AuthenticationService>().callOptions);
     } on GrpcError catch (e) {
       if (e.code == 7) // permission denied
       {
         // retry with new access token
-        await backend.get<AuthenticationService>().refreshAccessToken();
-        response = await backend.get<InfApiClientsService>().offerClient.updateOffer(
+        await backend<AuthenticationService>().refreshAccessToken();
+        response = await backend<InfApiClientsService>().offerClient.updateOffer(
             UpdateOfferRequest()..offer = offerBuilder.toDto(),
-            options: backend.get<AuthenticationService>().callOptions);
+            options: backend<AuthenticationService>().callOptions);
       } else {
-        await backend.get<ErrorReporter>().logException(e, message: 'updateOffer');
+        await backend<ErrorReporter>().logException(e, message: 'updateOffer');
         print(e);
         rethrow;
       }

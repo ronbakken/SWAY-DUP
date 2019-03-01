@@ -183,7 +183,7 @@ class _ImageSelectorState extends State<ImageSelector> {
       }
     }
     var imageFile =
-        camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
+        camera ? await backend<ImageService>().takePicture() : await backend<ImageService>().pickImage();
     if (imageFile != null) {
       imageReferences.add(ImageReference(imageFile: imageFile));
       setState(() {

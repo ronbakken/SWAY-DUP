@@ -19,7 +19,7 @@ class SwayAppState extends State<SwayApp> with WidgetsBindingObserver {
   @override
   void initState() {
     super.initState();
-    _systemService = backend.get<SystemService>();
+    _systemService = backend<SystemService>();
 
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
       systemNavigationBarColor: null,

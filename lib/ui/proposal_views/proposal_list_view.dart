@@ -88,7 +88,7 @@ class ProposalListTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String avatarUrl;
-    var currentUser = backend.get<UserManager>().currentUser;
+    var currentUser = backend<UserManager>().currentUser;
 
     TextSpan fromTo;
     if (proposal.sentFrom == currentUser.userType) {

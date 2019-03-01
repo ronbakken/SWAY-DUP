@@ -138,7 +138,7 @@ class CategoryRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topLevelCategories = backend.get<ConfigService>().topLevelCategories;
+    final topLevelCategories = backend<ConfigService>().topLevelCategories;
     return OverflowRow(
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),

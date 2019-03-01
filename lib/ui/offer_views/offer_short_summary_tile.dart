@@ -66,7 +66,7 @@ class OfferShortSummaryTile extends StatelessWidget {
       channelsAndDleiverables.addAll([
         SizedBox(width: 10.0),
         InfMemoryImage(
-          backend.get<ConfigService>().getDeliveryIconFromType(deliverableType).iconData,
+          backend<ConfigService>().getDeliveryIconFromType(deliverableType).iconData,
           width: 20.0,
         ),
       ]);

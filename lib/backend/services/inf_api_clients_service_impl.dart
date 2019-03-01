@@ -47,17 +47,17 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   @override
   void init(String host, port) {
     _networkStateSubscription =
-        backend.get<SystemService>().connectionStateChanges.debounce(Duration(seconds: 2)).listen((state) async {
+        backend<SystemService>().connectionStateChanges.debounce(Duration(seconds: 2)).listen((state) async {
       // if we have a network connection check if the server is online
       if (state != NetworkConnectionState.none) {
-        if (await backend.get<InfApiClientsService>().isServerAlive()) {
+        if (await backend<InfApiClientsService>().isServerAlive()) {
           _connectionChangedSubject.add(true);
           return;
         }
         await _serverPeriodicCheckSubscription?.cancel();
         _serverPeriodicCheckSubscription = Observable.periodic(Duration(seconds: 10)).startWith(0).listen((_) async {
           // try to reach the server
-          if (await backend.get<InfApiClientsService>().isServerAlive()) {
+          if (await backend<InfApiClientsService>().isServerAlive()) {
             _connectionChangedSubject.add(true);
             await _serverPeriodicCheckSubscription?.cancel();
           } else {

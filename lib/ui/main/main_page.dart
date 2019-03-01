@@ -61,11 +61,11 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     _browseAnim = Tween(begin: 1.0, end: 0.0).animate(_sectionController);
     _activitiesAnim = Tween(begin: 0.0, end: 1.0).animate(_sectionController);
 
-    final userManager = backend.get<UserManager>();
+    final userManager = backend<UserManager>();
     assert(userManager.currentUser != null);
 
     userType = userManager.currentUser.userType;
-    backend.get<ListManager>().setFilter(Filter());
+    backend<ListManager>().setFilter(Filter());
     if (userType == UserType.influencer) {
       _setMode(MainPageMode.browse);
     } else {
@@ -99,13 +99,13 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
   }
 
   void onUserSwitched(void _) {
-    setState(() => userType = backend.get<UserManager>().currentUser.userType);
+    setState(() => userType = backend<UserManager>().currentUser.userType);
     if (userType == UserType.influencer) {
       _setMode(MainPageMode.browse);
     } else {
       _setMode(MainPageMode.activities);
     }
-    backend.get<ListManager>().setFilter(Filter());
+    backend<ListManager>().setFilter(Filter());
   }
 
   @override

@@ -216,7 +216,7 @@ class _BackFilterPanel extends StatelessWidget {
                 return CategoryRow(
                   selectedSubCategories: _selectedCategories,
                   onCategoryPressed: (category) {
-                    final categories = backend.get<ConfigService>().categories;
+                    final categories = backend<ConfigService>().categories;
                     final subCats = categories
                       .where((cat) => cat.parentId == category.id)
                       .toList(growable: false);

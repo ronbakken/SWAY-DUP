@@ -71,7 +71,7 @@ class _TopLevelCategories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final topLevelCategories = backend.get<ConfigService>().topLevelCategories;
+    final topLevelCategories = backend<ConfigService>().topLevelCategories;
     return GridView.builder(
       padding: padding + const EdgeInsets.only(top: 12.0),
       itemCount: topLevelCategories.length,

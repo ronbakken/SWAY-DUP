@@ -164,7 +164,7 @@ packages:
       name: get_it
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.2"
+    version: "1.0.3"
   globbing:
     dependency: transitive
     description:
@@ -228,7 +228,7 @@ packages:
     description:
       path: "src/inf_api_client"
       ref: alpha
-      resolved-ref: b5b32188bdb3ed728fb85b6d43631611fd9b7c06
+      resolved-ref: d6ae0b8be18270b98ec86513a42b89c913210c39
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"

@@ -47,7 +47,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
   @override
   void initState() {
     super.initState();
-    imageUrlStream = backend.get<ConfigService>().getWelcomePageProfileImages();
+    imageUrlStream = backend<ConfigService>().getWelcomePageProfileImages();
 
     // Listen for deep link calls with a login-token
     deepLinkSubscription = getUriLinksStream().listen(onDeepLinkCall);
@@ -59,7 +59,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
       // setup listener for success of the login attempt with the token
       loginCommandListener?.dispose();
       loginCommandListener = RxCommandListener(
-        backend.get<UserManager>().logInUserCommand,
+        backend<UserManager>().logInUserCommand,
         onValue: (success) async {
           if (success) {
             loginCommandListener?.dispose();
@@ -80,7 +80,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
         onError: (error) async {
           await showMessageDialog(context, 'Login problem',
               'Sorry the link you used seems not to be valid. Please signup again ${error.toString()}');
-          await backend.get<ErrorReporter>().logException(error);
+          await backend<ErrorReporter>().logException(error);
         },
       );
       print(uri.queryParameters['token']);
@@ -88,7 +88,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
       try {
         loginToken = LoginToken.fromJwt(uri.queryParameters['token']);
 
-        backend.get<UserManager>().logInUserCommand(loginToken);
+        backend<UserManager>().logInUserCommand(loginToken);
       } catch (ex) {
         await showMessageDialog(
             context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');

@@ -41,7 +41,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
       if (refreshToken != null) {
         var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = refreshToken;
-        var authResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+        var authResult = await backend<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
         if (authResult.accessToken.isNotEmpty) {
           updateAccessToken(authResult.accessToken);
           _currentUser = User.fromDto(authResult.user);
@@ -65,7 +65,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       updateAccessToken(response.accessToken);
       print('Updated Access Token');
     } else {
-      await backend.get<ErrorReporter>().logEvent(
+      await backend<ErrorReporter>().logEvent(
         'refreshAccessToken failed',
         sentry.SeverityLevel.fatal,
         {'username': currentUser.email, 'refreshtoken': refreshToken},
@@ -75,7 +75,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<bool> loginUserWithLoginToken(String loginToken) async {
-    var authResult = await backend.get<InfApiClientsService>().authClient.loginWithLoginToken(
+    var authResult = await backend<InfApiClientsService>().authClient.loginWithLoginToken(
           LoginWithLoginTokenRequest()..loginToken = loginToken,
         );
     await loadLoginProfiles();
@@ -92,7 +92,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       }
 
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
-      var accessTokenResult = await backend.get<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
+      var accessTokenResult = await backend<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
       updateAccessToken(accessTokenResult.accessToken);
 
       currentUserUpdatesSubject.add(_currentUser);
@@ -104,7 +104,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<void> logOut() async {
-    //await backend.get<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
+    //await backend<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
     loginProfiles.lastUsedProfileEmail = '';
     await saveLoginProfiles();
   }
@@ -122,13 +122,13 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       if (e.code == 7) // permission denied
       {
         // retry with new access token
-        await backend.get<AuthenticationService>().refreshAccessToken();
+        await backend<AuthenticationService>().refreshAccessToken();
         response = await backend
             .get<InfApiClientsService>()
             .usersClient
             .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
       } else {
-        await backend.get<ErrorReporter>().logException(e, message: 'updateUser');
+        await backend<ErrorReporter>().logException(e, message: 'updateUser');
         print(e);
         rethrow;
       }
@@ -151,7 +151,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<void> sendLoginEmail(UserType userType, String email, String invitationCode) async {
-    await backend.get<InfApiClientsService>().authClient.sendLoginEmail(SendLoginEmailRequest()
+    await backend<InfApiClientsService>().authClient.sendLoginEmail(SendLoginEmailRequest()
       ..email = email
       ..userType = userType
       ..invitationCode = invitationCode);
@@ -162,7 +162,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     assert(refreshToken != null);
     ActivateUserResponse response;
     try {
-      response = await backend.get<InfApiClientsService>().authClient.activateUser(
+      response = await backend<InfApiClientsService>().authClient.activateUser(
           ActivateUserRequest()
             ..user = user.toDto()
             ..loginToken = loginToken,
@@ -171,14 +171,14 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       if (e.code == 7) // permission denied
       {
         // retry with new access token
-        await backend.get<AuthenticationService>().refreshAccessToken();
-        response = await backend.get<InfApiClientsService>().authClient.activateUser(
+        await backend<AuthenticationService>().refreshAccessToken();
+        response = await backend<InfApiClientsService>().authClient.activateUser(
             ActivateUserRequest()
               ..user = user.toDto()
               ..loginToken = loginToken,
             options: callOptions);
       } else {
-        await backend.get<ErrorReporter>().logException(e, message: 'activateUser');
+        await backend<ErrorReporter>().logException(e, message: 'activateUser');
         rethrow;
       }
     }

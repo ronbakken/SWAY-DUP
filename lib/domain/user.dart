@@ -107,7 +107,7 @@ class User {
       location: Location.fromDto(dto.full.location),
       avatarThumbnail: ImageReference.fromImageDto(dto.full.avatarThumbnail),
       avatarImage: ImageReference.fromImageDto(dto.full.avatar),
-      categories: backend.get<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
+      categories: backend<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
       minimalFee: Money.fromDto(dto.full.minimalFee),
       socialMediaAccounts:
           dto.full.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),

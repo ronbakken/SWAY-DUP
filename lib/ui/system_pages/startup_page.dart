@@ -40,7 +40,7 @@ class _StartupPageState extends PageState<StartupPage> {
   @override
   void initState() {
     super.initState();
-    var loginCommand = backend.get<UserManager>().logInUserCommand;
+    var loginCommand = backend<UserManager>().logInUserCommand;
 
     _loginCommandListener = RxCommandListener<LoginToken, bool>(
       loginCommand,
@@ -86,7 +86,7 @@ class _StartupPageState extends PageState<StartupPage> {
 
         }
         else {
-          await backend.get<ErrorReporter>().logException(error);
+          await backend<ErrorReporter>().logException(error);
         }
       },
     );

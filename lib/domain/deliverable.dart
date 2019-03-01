@@ -41,7 +41,7 @@ class Deliverable {
       description: dto.description,
       types: dto.deliverableTypes,
       channels: dto.socialNetworkProviderIds
-          .map<SocialNetworkProvider>((id) => backend.get<ConfigService>().getSocialNetworkProviderById(id))
+          .map<SocialNetworkProvider>((id) => backend<ConfigService>().getSocialNetworkProviderById(id))
           .toList(),
     );
   }

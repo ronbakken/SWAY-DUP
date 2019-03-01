@@ -125,9 +125,9 @@ void configureDevLogger() {
 }
 
 Future<void> initBackend() async {
-  backend.get<InfApiClientsService>().init(appEnvironment.host, appEnvironment.port);
+  backend<InfApiClientsService>().init(appEnvironment.host, appEnvironment.port);
   // TODO handle case that App must be updated
-  await backend.get<ConfigService>().init();
+  await backend<ConfigService>().init();
 }
 
 void registerImplementations([String testRefreshToken]) {

@@ -120,8 +120,8 @@ class InfApiServiceMock implements InfApiService {
               description: 'Tell people how good our service is',
               types: [DeliverableType.post, DeliverableType.video],
               channels: [
-                backend.get<ConfigService>().socialNetworkProviders[0],
-                backend.get<ConfigService>().socialNetworkProviders[1]
+                backend<ConfigService>().socialNetworkProviders[0],
+                backend<ConfigService>().socialNetworkProviders[1]
               ],
             ),
             reward: Reward(
@@ -160,7 +160,7 @@ class InfApiServiceMock implements InfApiService {
           deliverable: Deliverable(
             description: 'Tell people how good our tea is',
             types: [DeliverableType.post],
-            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            channels: [backend<ConfigService>().socialNetworkProviders[0]],
           ),
           reward: Reward(
             description: 'One ice tea for you and a friend',
@@ -198,7 +198,7 @@ class InfApiServiceMock implements InfApiService {
           deliverable: Deliverable(
             description: 'Tell people how good our tea is',
             types: [DeliverableType.post, DeliverableType.mention],
-            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            channels: [backend<ConfigService>().socialNetworkProviders[0]],
           ),
           reward: Reward(
             description: 'One ice tea for you and a friend',
@@ -255,8 +255,8 @@ class InfApiServiceMock implements InfApiService {
             description: 'Tell people how good our service is',
             types: [DeliverableType.post, DeliverableType.video],
             channels: [
-              backend.get<ConfigService>().socialNetworkProviders[0],
-              backend.get<ConfigService>().socialNetworkProviders[1]
+              backend<ConfigService>().socialNetworkProviders[0],
+              backend<ConfigService>().socialNetworkProviders[1]
             ],
           ),
           reward: Reward(
@@ -313,7 +313,7 @@ class InfApiServiceMock implements InfApiService {
           deliverable: Deliverable(
             description: 'Tell people how good our tea is',
             types: [DeliverableType.post],
-            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            channels: [backend<ConfigService>().socialNetworkProviders[0]],
           ),
           reward: Reward(
             description: 'One ice tea for you and a friend',
@@ -369,7 +369,7 @@ class InfApiServiceMock implements InfApiService {
           deliverable: Deliverable(
             description: 'Tell people how good our tea is',
             types: [DeliverableType.post],
-            channels: [backend.get<ConfigService>().socialNetworkProviders[0]],
+            channels: [backend<ConfigService>().socialNetworkProviders[0]],
           ),
           reward: Reward(
             description: 'One ice tea for you and a friend',

@@ -28,7 +28,7 @@ class ProfilePrivatePage extends StatefulWidget {
 class ProfilePrivatePageState extends State<ProfilePrivatePage> {
   @override
   Widget build(BuildContext context) {
-    final userManager = backend.get<UserManager>();
+    final userManager = backend<UserManager>();
 
     return Material(
       color: AppTheme.blackTwo,

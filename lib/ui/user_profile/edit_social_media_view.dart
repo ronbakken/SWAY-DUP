@@ -41,7 +41,7 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
 
   @override
   void initState() {
-    configService = backend.get<ConfigService>();
+    configService = backend<ConfigService>();
 
     _socialMediaRows.clear();
     for (var provider in configService.socialNetworkProviders) {

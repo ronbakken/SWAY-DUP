@@ -44,7 +44,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
             ? ''
             : widget.offerBuilder.numberOffered != null ? widget.offerBuilder.numberOffered.toString() : '');
 
-    var updateOfferCommand = backend.get<OfferManager>().updateOfferCommand;
+    var updateOfferCommand = backend<OfferManager>().updateOfferCommand;
 
     updateOfferListener = RxCommandListener(
       updateOfferCommand,
@@ -262,6 +262,6 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
           context, 'End date cannot be before start date', 'Please select an end date that is after the start date.');
       return;
     }
-    backend.get<OfferManager>().updateOfferCommand(widget.offerBuilder);
+    backend<OfferManager>().updateOfferCommand(widget.offerBuilder);
   }
 }

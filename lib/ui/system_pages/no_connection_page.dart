@@ -26,7 +26,7 @@ class _NoConnectionPageState extends State<NoConnectionPage> {
 
   @override
   void initState() {
-    var systemService = backend.get<SystemService>();
+    var systemService = backend<SystemService>();
 
     _networkStateSubscription = systemService.connectionStateChanges.listen((state) {
       // if we have a network connection check if the server is online
@@ -34,7 +34,7 @@ class _NoConnectionPageState extends State<NoConnectionPage> {
         _serverPeriodicCheckSubscription?.cancel();
         _serverPeriodicCheckSubscription = Observable.periodic(Duration(seconds: 10)).startWith(0).listen((_) async {
           // try to reach the server
-          if (await backend.get<InfApiClientsService>().isServerAlive()) {
+          if (await backend<InfApiClientsService>().isServerAlive()) {
             Navigator.of(context).pop();
           } else {
             setState(() {

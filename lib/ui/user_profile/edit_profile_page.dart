@@ -42,7 +42,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   void initState() {
     userUpdateListener = RxCommandListener(
-      backend.get<UserManager>().updateUserCommand,
+      backend<UserManager>().updateUserCommand,
       onIsBusy: () => InfLoader.show(context),
       onNotBusy: () => InfLoader.hide(),
       onError: (error) async {
@@ -63,8 +63,8 @@ class _EditProfilePageState extends State<EditProfilePage> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<User>(
-      initialData: backend.get<UserManager>().currentUser,
-      stream: backend.get<UserManager>().currentUserUpdates,
+      initialData: backend<UserManager>().currentUser,
+      stream: backend<UserManager>().currentUserUpdates,
       builder: (context, snapshot) {
         var user = snapshot.data;
         return Scaffold(
@@ -286,7 +286,7 @@ class _UserDataViewState extends State<UserDataView> {
 
   void onSelectImage(bool camera) async {
     selectedImageFile =
-        camera ? await backend.get<ImageService>().takePicture() : await backend.get<ImageService>().pickImage();
+        camera ? await backend<ImageService>().takePicture() : await backend<ImageService>().pickImage();
     if (selectedImageFile != null) {
       setState(() {
         hasChanged = true;
@@ -332,7 +332,7 @@ class _UserDataViewState extends State<UserDataView> {
         ),
         profilePicture: selectedImageFile,
       );
-      backend.get<UserManager>().updateUserCommand(userData);
+      backend<UserManager>().updateUserCommand(userData);
     } else {
       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
     }

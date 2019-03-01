@@ -34,7 +34,7 @@ class _ProposalDetailsPageState extends State<ProposalDetailsPage> {
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = backend.get<UserManager>().currentUser;
+    var currentUser = backend<UserManager>().currentUser;
     String opositeAvatarUrl;
     String opositeName;
     if (currentUser.userType == UserType.business) {

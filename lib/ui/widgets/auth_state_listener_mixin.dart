@@ -14,7 +14,7 @@
 //   void initState() {
 //     super.initState();
 //     // _loginStateChangedSubscription =
-//     //     backend.get<UserManager>().logInStateChanged.listen(onAuthStateChanged);
+//     //     backend<UserManager>().logInStateChanged.listen(onAuthStateChanged);
 //   }
 
 //   void onAuthStateChanged(AuthenticationResult authResult) {

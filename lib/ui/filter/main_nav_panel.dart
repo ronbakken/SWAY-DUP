@@ -56,7 +56,7 @@ class _MainNavPanelState extends State<MainNavPanel> {
     final activitiesButton = Expanded(
       child: StreamBuilder<int>(
         initialData: 0,
-        stream: Observable.just(0), // TODO backend.get<OfferManager>().newOfferMessages,
+        stream: Observable.just(0), // TODO backend<OfferManager>().newOfferMessages,
         builder: (BuildContext context, AsyncSnapshot snapshot) {
           var notificationCount = snapshot.hasData ? snapshot.data : 0;
           return _BottomNavButton(

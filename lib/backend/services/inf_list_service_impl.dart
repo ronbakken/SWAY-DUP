@@ -14,7 +14,7 @@ class InfListServiceImplementation implements InfListService {
         .listClient
         .list(
           filterStream.map<ListRequest>(mapFilterToListRequest),
-          options: backend.get<AuthenticationService>().callOptions,
+          options: backend<AuthenticationService>().callOptions,
         )
         .map<List<InfItem>>((items) => items.items
             .map(
@@ -36,7 +36,7 @@ class InfListServiceImplementation implements InfListService {
         .listenClient
         .listen(
           filterStream.map<ListenRequest>(mapFilterToListenRequest),
-          options: backend.get<AuthenticationService>().callOptions,
+          options: backend<AuthenticationService>().callOptions,
         )
         .map<List<InfItem>>((items) => items.items
             .map(
@@ -64,7 +64,7 @@ class InfListServiceImplementation implements InfListService {
     ItemFilterDto_UserFilterDto userFilter;
 
     var itemTypes = <ItemFilterDto_ItemType>[];
-    var userType = backend.get<UserManager>().currentUser.userType;
+    var userType = backend<UserManager>().currentUser.userType;
 
     if (filter.freeText != null && filter.freeText.isNotEmpty && userType == UserType.influencer) {
       // if influencers search with free text they get businesses and offers back

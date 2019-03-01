@@ -55,7 +55,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
 
     _controller.addListener(() => FocusScope.of(context).requestFocus(new FocusNode()));
 
-    searchLocation.value = widget.location ?? backend.get<LocationService>().lastLocation;
+    searchLocation.value = widget.location ?? backend<LocationService>().lastLocation;
 
     super.initState();
   }
@@ -167,7 +167,7 @@ class __NearbyViewState extends State<_NearbyView> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<GeoCodingResult>>(
-      future: backend.get<LocationService>().lookUpCoordinates(position: widget.searchLocation.value),
+      future: backend<LocationService>().lookUpCoordinates(position: widget.searchLocation.value),
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           // TODO add Spinner
@@ -213,7 +213,7 @@ class __SearchViewState extends State<_SearchView> {
     searchPlaceCommand = RxCommand.createAsync((s) {
       return backend
           .get<LocationService>()
-          .lookUpPlaces(nearby: backend.get<LocationService>().lastLocation, searchText: s);
+          .lookUpPlaces(nearby: backend<LocationService>().lastLocation, searchText: s);
     });
 
     searchTextChangedCommand
@@ -282,13 +282,13 @@ class __MapViewState extends State<_MapView> {
 
   @override
   void initState() {
-    urlTemplate = backend.get<ConfigService>().getMapUrlTemplate();
-    mapApiKey = backend.get<ConfigService>().getMapApiKey();
+    urlTemplate = backend<ConfigService>().getMapUrlTemplate();
+    mapApiKey = backend<ConfigService>().getMapApiKey();
 
     positionChangedCommand = RxCommand.createSync((pos) => Coordinate(pos.center.latitude, pos.center.longitude));
 
     searchPlaceCommand = RxCommand.createAsync((pos) {
-      return backend.get<LocationService>().lookUpCoordinates(position: pos);
+      return backend<LocationService>().lookUpCoordinates(position: pos);
     }, emitLastResult: true);
 
     positionChangedCommand.debounce(Duration(milliseconds: 1000)).listen(searchPlaceCommand);

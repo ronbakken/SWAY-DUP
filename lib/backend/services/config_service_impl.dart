@@ -51,7 +51,7 @@ class ConfigServiceImplementation implements ConfigService {
     // }
 
     // Get curren Config and API version from server
-    var versionInformationFromServer = await backend.get<InfApiClientsService>().configClient.getVersions(
+    var versionInformationFromServer = await backend<InfApiClientsService>().configClient.getVersions(
           Empty(),
           options: CallOptions(
             timeout: Duration(seconds: 5),
@@ -76,7 +76,7 @@ class ConfigServiceImplementation implements ConfigService {
 
     // local config does not exists or is outdated update from server
     if (configData == null || configData.configVersion < versionInformationFromServer.versionInfo.configVersion) {
-      configData = (await backend.get<InfApiClientsService>().configClient.getAppConfig(Empty())).appConfigData;
+      configData = (await backend<InfApiClientsService>().configClient.getAppConfig(Empty())).appConfigData;
       await prefs.setString('config', configData.writeToJson());
     }
 

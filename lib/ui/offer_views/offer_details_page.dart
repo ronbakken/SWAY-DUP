@@ -51,7 +51,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   bool _canBeEdited(BusinessOffer offer) => true;
   // Fixme
-  // !offer.isPartial && offer.businessAccountId == backend.get<UserManager>().currentUser.id;
+  // !offer.isPartial && offer.businessAccountId == backend<UserManager>().currentUser.id;
 
   @override
   Widget build(BuildContext context) {
@@ -140,7 +140,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         (type) => Padding(
               padding: const EdgeInsets.only(left: 8),
               child: InfMemoryImage(
-                backend.get<ConfigService>().getDeliveryIconFromType(type).iconData,
+                backend<ConfigService>().getDeliveryIconFromType(type).iconData,
                 width: 20.0,
               ),
             ),

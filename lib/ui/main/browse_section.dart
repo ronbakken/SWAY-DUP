@@ -157,7 +157,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<BusinessOffer>>(
-      stream: backend.get<OfferManager>().featuredBusinessOffers,
+      stream: backend<OfferManager>().featuredBusinessOffers,
       builder: (BuildContext context, AsyncSnapshot<List<BusinessOffer>> snapshot) {
         if (snapshot.hasData) {
           return Align(
@@ -207,7 +207,7 @@ class _BrowseListView extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return StreamBuilder<List<InfItem>>(
-      stream: backend.get<ListManager>().filteredListItems,
+      stream: backend<ListManager>().filteredListItems,
       builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
         if (!snapShot.hasData) {
           // TODO
@@ -258,7 +258,7 @@ void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag
     unawaited(
       Navigator.of(context).push(
         OfferDetailsPage.route(
-          streamFromValueAndFuture<BusinessOffer>(partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+          streamFromValueAndFuture<BusinessOffer>(partialOffer, backend<OfferManager>().getFullOffer(partialOffer.id)),
           tag,
         ),
       ),

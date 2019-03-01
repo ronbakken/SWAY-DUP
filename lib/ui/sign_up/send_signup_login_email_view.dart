@@ -32,7 +32,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
 
   @override
   void initState() {
-    sendLoginListener = RxCommandListener(backend.get<UserManager>().sendLoginEmailCommand,
+    sendLoginListener = RxCommandListener(backend<UserManager>().sendLoginEmailCommand,
         onValue: (_) {
           setState(() {
             currentStep = _steps.emailSent;
@@ -204,7 +204,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         });
         break;
       case _steps.confirmEmail:
-        backend.get<UserManager>().sendLoginEmailCommand(
+        backend<UserManager>().sendLoginEmailCommand(
               LoginEmailInfo(
                 email: _emailAddress,
                 invitationCode: _invitationCode ?? '',

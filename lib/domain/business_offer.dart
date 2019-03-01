@@ -168,7 +168,7 @@ class BusinessOffer {
         businessAvatarThumbnailUrl: dto.full.businessAvatarThumbnailUrl,
         businessDescription: dto.full.businessDescription,
         businessName: dto.full.businessName,
-        categories: backend.get<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
+        categories: backend<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
         created: fromTimeStamp(dto.full.created),
         startDate: fromTimeStamp(dto.full.start),
         endDate: fromTimeStamp(dto.full.end),

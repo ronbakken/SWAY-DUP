@@ -27,12 +27,12 @@ class _MainMapViewState extends State<MainMapView> {
 
   @override
   void initState() {
-    urlTemplate = backend.get<ConfigService>().getMapUrlTemplate();
-    mapApiKey = backend.get<ConfigService>().getMapApiKey();
+    urlTemplate = backend<ConfigService>().getMapUrlTemplate();
+    mapApiKey = backend<ConfigService>().getMapApiKey();
 
     mapController = new MapController();
 
-    backend.get<LocationService>().onLocationChanged.listen((newPos) {
+    backend<LocationService>().onLocationChanged.listen((newPos) {
       mapController.move(LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
     });
     super.initState();
@@ -41,13 +41,13 @@ class _MainMapViewState extends State<MainMapView> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<InfItem>>(
-      stream: backend.get<ListManager>().filteredListItems,
+      stream: backend<ListManager>().filteredListItems,
       builder: (context, snapshot) {
         List<Marker> markers;
         if (snapshot.hasData) {
           markers = buildMarkers(snapshot.data);
         }
-        var initialCenter = backend.get<LocationService>().lastLocation;
+        var initialCenter = backend<LocationService>().lastLocation;
         return FlutterMap(
           mapController: mapController,
           options: MapOptions(
@@ -132,12 +132,12 @@ class _MainMapViewState extends State<MainMapView> {
 
   void onMarkerClicked(InfItem item) {
     Navigator.of(context)
-        .push(OfferDetailsPage.route(Stream.fromFuture(backend.get<OfferManager>().getFullOffer(item.id))));
+        .push(OfferDetailsPage.route(Stream.fromFuture(backend<OfferManager>().getFullOffer(item.id))));
   }
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {
     mapPosition = position;
-    backend.get<InfApiService>().setMapBoundary(position.bounds.northWest.latitude, position.bounds.northWest.longitude,
+    backend<InfApiService>().setMapBoundary(position.bounds.northWest.latitude, position.bounds.northWest.longitude,
         position.bounds.southEast.latitude, position.bounds.southEast.longitude, position.zoom);
   }
 }

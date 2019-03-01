@@ -71,7 +71,7 @@ class SocialMediaAccount {
 
   static SocialMediaAccount fromDto(SocialMediaAccountDto dto) {
     return SocialMediaAccount(
-      socialNetWorkProvider: backend.get<ConfigService>().getSocialNetworkProviderById(
+      socialNetWorkProvider: backend<ConfigService>().getSocialNetworkProviderById(
             dto.socialNetworkProviderId,
           ),
       displayName: dto.displayName,

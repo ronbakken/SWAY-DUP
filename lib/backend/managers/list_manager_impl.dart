@@ -22,10 +22,10 @@ class ListManagerImplementation implements ListManager {
   StreamSubscription listCreatedOffersSubscription;
   StreamSubscription listenCreatedOffersSubscription;
 
-  final userCreateOfferFilter = Filter(offeringBusinessId: backend.get<UserManager>().currentUser.id);
+  final userCreateOfferFilter = Filter(offeringBusinessId: backend<UserManager>().currentUser.id);
 
   ListManagerImplementation() {
-    backend.get<InfApiClientsService>().connectionChanged.listen((connected) async {
+    backend<InfApiClientsService>().connectionChanged.listen((connected) async {
       if (connected) {
         await updateListeners();
       } else {
@@ -45,21 +45,21 @@ class ListManagerImplementation implements ListManager {
   @override
   Future updateListeners() async{
     // make sure we have a valid access token
-    await backend.get<AuthenticationService>().refreshAccessToken();
+    await backend<AuthenticationService>().refreshAccessToken();
     
     await listAllOffersSubscription?.cancel();
     await listenAllOffersSubscription?.cancel();
     await listCreatedOffersSubscription?.cancel();
     await listenCreatedOffersSubscription?.cancel();
 
-    listAllOffersSubscription = backend.get<InfListService>().listItems(filterSubject).listen(
+    listAllOffersSubscription = backend<InfListService>().listItems(filterSubject).listen(
       (items) {
         allOffersCache.addInfItems(items);
       },
       onError: (error) => print('Error in listAllOffersSubscription $error'),
     );
 
-    listenAllOffersSubscription = backend.get<InfListService>().listenItemChanges(filterSubject).listen(
+    listenAllOffersSubscription = backend<InfListService>().listenItemChanges(filterSubject).listen(
       (items) {
         allOffersCache.addInfItems(items);
         print("Listen update ${items.length} items");
@@ -68,7 +68,7 @@ class ListManagerImplementation implements ListManager {
     );
 
     listCreatedOffersSubscription =
-        backend.get<InfListService>().listItems(filterCreatedOffersSubject).listen(
+        backend<InfListService>().listItems(filterCreatedOffersSubject).listen(
       (items) {
         userCreatedOffers.addInfItems(items);
       },
@@ -76,7 +76,7 @@ class ListManagerImplementation implements ListManager {
     );
 
     listenCreatedOffersSubscription =
-        backend.get<InfListService>().listenItemChanges(filterCreatedOffersSubject).listen(
+        backend<InfListService>().listenItemChanges(filterCreatedOffersSubject).listen(
       (items) {
         print("Listen my offers update ${items.length} items");
         userCreatedOffers.addInfItems(items);

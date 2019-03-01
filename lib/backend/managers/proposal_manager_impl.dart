@@ -10,10 +10,10 @@ class ProposalManagerImplementation implements ProposalManager {
   StreamSubscription proposalSubscription;
 
   ProposalManagerImplementation() {
-    backend.get<InfApiClientsService>().connectionChanged.listen((connected) {
+    backend<InfApiClientsService>().connectionChanged.listen((connected) {
       if (connected) {
         proposalSubscription =
-            backend.get<InfApiService>().getProposals(backend.get<UserManager>().currentUser.id).listen((proposals) {
+            backend<InfApiService>().getProposals(backend<UserManager>().currentUser.id).listen((proposals) {
           _appliedProposalSubject.add(
               proposals.where((p) => p.state == ProposalState.proposal || p.state == ProposalState.haggling).toList());
           _activeDealsSubject

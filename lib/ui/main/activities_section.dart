@@ -49,7 +49,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
-    final proposalManager = backend.get<ProposalManager>();
+    final proposalManager = backend<ProposalManager>();
     return Column(
       children: [
         Container(
@@ -219,7 +219,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
   @override
   void initState() {
     super.initState();
-    dataSource = backend.get<ListManager>().userCreatedItems;
+    dataSource = backend<ListManager>().userCreatedItems;
   }
 
   @override
@@ -265,7 +265,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
         Navigator.of(context).push(
           OfferDetailsPage.route(
             streamFromValueAndFuture<BusinessOffer>(
-                partialOffer, backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+                partialOffer, backend<OfferManager>().getFullOffer(partialOffer.id)),
             tag,
           ),
         ),

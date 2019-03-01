@@ -56,7 +56,7 @@ class OfferManagerImplementation implements OfferManager {
 
   @override
   OfferBuilder createOfferBuilder() {
-    var currentUser = backend.get<UserManager>().currentUser;
+    var currentUser = backend<UserManager>().currentUser;
     return OfferBuilder(
       businessAccountId: currentUser.id,
       businessAvatarThumbnailUrl: currentUser.avatarThumbnail.imageUrl,
@@ -79,7 +79,7 @@ class OfferManagerImplementation implements OfferManager {
 
       // we have an imagefile attached we upload it
       if (offerBuilder.images[i].imageFile != null) {
-        offerBuilder.images[i] = await backend.get<ImageService>().uploadImageReference(
+        offerBuilder.images[i] = await backend<ImageService>().uploadImageReference(
               fileNameTrunc: 'offer',
               imageReference: offerBuilder.images[i],
               imageWidth: 800,
@@ -94,7 +94,7 @@ class OfferManagerImplementation implements OfferManager {
     // Upload Thumbnail
     if (offerBuilder.images[0].imageFile != null) // first image changed
     {
-      offerBuilder.offerThumbnail = await backend.get<ImageService>().uploadImageReference(
+      offerBuilder.offerThumbnail = await backend<ImageService>().uploadImageReference(
             fileNameTrunc: 'offer_thumbnail',
             imageReference: offerBuilder.images[0],
             imageWidth: 100,
@@ -102,22 +102,22 @@ class OfferManagerImplementation implements OfferManager {
           );
     }
 
-    var updatedOffer = await backend.get<InfOfferService>().updateOffer(offerBuilder);
+    var updatedOffer = await backend<InfOfferService>().updateOffer(offerBuilder);
     // signal all done
     yield 1.0;
   }
 
   @override
   Future<BusinessOffer> getFullOffer(String id) {
-    return backend.get<InfOfferService>().getOffer(id);
+    return backend<InfOfferService>().getOffer(id);
   }
 
   void initConnection() {
     myOffers.listen((x) => print(x.length));
-    backend.get<SystemService>().connectionStateChanges.listen((state) async {
-      await _myOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
-      await _featuredBusinessOffers.addStream(backend.get<InfApiService>().getBusinessOffers(null));
-      await _filteredOffersSubject.addStream(backend.get<InfApiService>().getBusinessOffers(null));
+    backend<SystemService>().connectionStateChanges.listen((state) async {
+      await _myOffersSubject.addStream(backend<InfApiService>().getBusinessOffers(null));
+      await _featuredBusinessOffers.addStream(backend<InfApiService>().getBusinessOffers(null));
+      await _filteredOffersSubject.addStream(backend<InfApiService>().getBusinessOffers(null));
     });
   }
 }

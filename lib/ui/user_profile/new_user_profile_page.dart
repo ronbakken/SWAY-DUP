@@ -31,7 +31,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
   @override
   void initState() {
     userUpdateListener = RxCommandListener(
-      backend.get<UserManager>().updateUserCommand,
+      backend<UserManager>().updateUserCommand,
       onValue: (_) {
         Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (_) => false);
       },
@@ -64,7 +64,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
       ),
       backgroundColor: AppTheme.listViewAndMenuBackground,
       body: UserDataView(
-        user: backend.get<UserManager>().currentUser
+        user: backend<UserManager>().currentUser
       ),
     );
   }

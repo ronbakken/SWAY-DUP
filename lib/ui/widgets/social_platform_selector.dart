@@ -77,7 +77,7 @@ class SocialNetworkRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final socialNetworkProviders = backend.get<ConfigService>().socialNetworkProviders;
+    final socialNetworkProviders = backend<ConfigService>().socialNetworkProviders;
     return OverflowRow(
       padding: padding,
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),

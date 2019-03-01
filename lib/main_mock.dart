@@ -11,5 +11,5 @@ Future<void> main() async {
   /// token: 'BUSINESS' a business user
   await setupBackend(mode: AppMode.mock, testRefreshToken: 'BUSINESS');
 
-  runCapturedApp(SwayApp(), backend.get<ErrorReporter>());
+  runCapturedApp(SwayApp(), backend<ErrorReporter>());
 }

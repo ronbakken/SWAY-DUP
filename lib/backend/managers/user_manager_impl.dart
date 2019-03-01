@@ -14,7 +14,7 @@ class UserManagerImplementation implements UserManager {
   LoginToken loginToken;
 
   @override
-  User get currentUser => backend.get<AuthenticationService>().currentUser;
+  User get currentUser => backend<AuthenticationService>().currentUser;
 
   @override
   RxCommand<LoginToken, bool> logInUserCommand;
@@ -41,19 +41,19 @@ class UserManagerImplementation implements UserManager {
 
     updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
 
-    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend.get<AuthenticationService>().logOut,
+    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend<AuthenticationService>().logOut,
         emitsLastValueToNewSubscriptions: true);
 
     switchUserCommand =RxCommand.createAsyncNoResult(switchUser);    
   }
 
   @override
-  Observable<User> get currentUserUpdates => backend.get<AuthenticationService>().currentUserUpdates;
+  Observable<User> get currentUserUpdates => backend<AuthenticationService>().currentUserUpdates;
 
   Future<void> sendLoginEmail(LoginEmailInfo loginInfo) async {
     // Check if a new user tries to signup with an invitationcode
     if (loginInfo.invitationCode != null && loginInfo.invitationCode.isNotEmpty) {
-      var status = await backend.get<AuthenticationService>().checkInvitationCode(loginInfo.invitationCode);
+      var status = await backend<AuthenticationService>().checkInvitationCode(loginInfo.invitationCode);
       if (status != GetInvitationCodeStatusResponse_InvitationCodeStatus.PENDING_USE) {
         throw InvalidInvitationCodeException(status);
       }
@@ -82,9 +82,9 @@ class UserManagerImplementation implements UserManager {
       // var thumbNail = copyResize(profileImage, 100);
       // var thumbNailLowRes = copyResize(thumbNail, 20);
 
-      var avatarImage = await backend.get<ImageService>().uploadImageReference(
+      var avatarImage = await backend<ImageService>().uploadImageReference(
           fileNameTrunc: 'profilePicture', imageReference: imageReference, imageWidth: 800, lowResWidth: 100);
-      var thumbnailImage = await backend.get<ImageService>().uploadImageReference(
+      var thumbnailImage = await backend<ImageService>().uploadImageReference(
           fileNameTrunc: 'profileThumbnail', imageReference: thumbNailReference, imageWidth: 100, lowResWidth: 20);
 
       userToSend = userData.user.copyWith(
@@ -95,7 +95,7 @@ class UserManagerImplementation implements UserManager {
       userToSend = userData.user;
     }
     if (userData.user.accountState == UserDto_Status.waitingForActivation) {
-      await backend.get<AuthenticationService>().activateUser(
+      await backend<AuthenticationService>().activateUser(
             userToSend.copyWith(
               email: loginToken.email,
               // TODO add categories
@@ -104,13 +104,13 @@ class UserManagerImplementation implements UserManager {
             loginToken.token,
           );
     } else {
-      await backend.get<AuthenticationService>().updateUser(userToSend);
+      await backend<AuthenticationService>().updateUser(userToSend);
     }
   }
 
   Future<bool> loginUser(LoginToken token) async {
     loginToken = token;
-    var authenticationService = backend.get<AuthenticationService>();
+    var authenticationService = backend<AuthenticationService>();
     if (token == null) {
       // Try to login with stored refresh token
       return await authenticationService.loginUserWithRefreshToken();
@@ -121,7 +121,7 @@ class UserManagerImplementation implements UserManager {
   }
 
   @override
-  List<LoginProfile> getLoginProfiles() => backend.get<AuthenticationService>().getLoginProfiles();
+  List<LoginProfile> getLoginProfiles() => backend<AuthenticationService>().getLoginProfiles();
 
   Future<void> switchUser(LoginProfile profile) async
   {
@@ -130,9 +130,9 @@ class UserManagerImplementation implements UserManager {
       {
         return;
       }
-      await backend.get<AuthenticationService>().switchUser(profile);
-      backend.get<ListManager>().flushCaches();
-      backend.get<ListManager>().updateListeners();
+      await backend<AuthenticationService>().switchUser(profile);
+      backend<ListManager>().flushCaches();
+      backend<ListManager>().updateListeners();
 
 
   }

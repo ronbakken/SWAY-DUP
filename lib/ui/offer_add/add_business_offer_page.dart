@@ -31,7 +31,7 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
   @override
   void initState() {
     super.initState();
-    _offerBuilder = backend.get<OfferManager>().createOfferBuilder();
+    _offerBuilder = backend<OfferManager>().createOfferBuilder();
   }
 
   @override

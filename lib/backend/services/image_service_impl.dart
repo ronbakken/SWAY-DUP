@@ -24,23 +24,23 @@ class ImageServiceImplementation implements ImageService {
   Future<String> uploadImageFromBytes(String fileName, List<int> value) async {
     GetUploadUrlResponse cloudUrls;
     try {
-      cloudUrls = await backend.get<InfApiClientsService>().blobStorageClient.getUploadUrl(
+      cloudUrls = await backend<InfApiClientsService>().blobStorageClient.getUploadUrl(
             GetUploadUrlRequest()..fileName = fileName,
-            options: backend.get<AuthenticationService>().callOptions,
+            options: backend<AuthenticationService>().callOptions,
           );
     } on GrpcError catch (e) {
       if (e.code == 7) // permission denied
       {
         // retry with new access token
-        await backend.get<AuthenticationService>().refreshAccessToken();
-        cloudUrls = await backend.get<InfApiClientsService>().blobStorageClient.getUploadUrl(
+        await backend<AuthenticationService>().refreshAccessToken();
+        cloudUrls = await backend<InfApiClientsService>().blobStorageClient.getUploadUrl(
               GetUploadUrlRequest()..fileName = fileName,
-              options: backend.get<AuthenticationService>().callOptions,
+              options: backend<AuthenticationService>().callOptions,
             );
       }
       else
       {
-        await backend.get<ErrorReporter>().logException(e, message: 'uploadImageFromBytes');
+        await backend<ErrorReporter>().logException(e, message: 'uploadImageFromBytes');
         print(e);
         rethrow;
 
@@ -100,7 +100,7 @@ class ImageServiceImplementation implements ImageService {
 
     var image = decodeImage(imageBytes);
     var imageReducedSize = copyResize(image, imageWidth);
-    var imageUrl = await backend.get<ImageService>().uploadImageFromBytes(
+    var imageUrl = await backend<ImageService>().uploadImageFromBytes(
           fileName,
           encodeJpg(imageReducedSize, quality: 90),
         );
@@ -112,7 +112,7 @@ class ImageServiceImplementation implements ImageService {
     String lowResUrl;
     if (lowResWidth != null) {
       var imageLowRes = copyResize(image, lowResWidth);
-      lowResUrl = await backend.get<ImageService>().uploadImageFromBytes(
+      lowResUrl = await backend<ImageService>().uploadImageFromBytes(
             fileNameLowRes,
             encodeJpg(imageLowRes, quality: 60),
           );
