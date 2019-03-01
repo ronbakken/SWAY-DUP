@@ -66,6 +66,10 @@ using Newtonsoft.Json.Linq;
 var gitBranch = GitBranchCurrent(".");
 
 // Parameters.
+var bitriseBuildNumber = int.Parse(EnvironmentVariable("BITRISE_BUILD_NUMBER") ?? "-1");
+var executingOnBitrise = bitriseBuildNumber != -1;
+var deployLocally = bool.Parse(EnvironmentVariable("DEPLOY_LOCALLY") ?? "false");
+var localDeployDir = Directory(EnvironmentVariable("LOCAL_DEPLOY_DIR") ?? ".");
 var region = EnvironmentVariable("REGION");
 var environment = EnvironmentVariable("ENVIRONMENT");
 var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
@@ -108,6 +112,25 @@ Setup(
         Information($"Region '{region}', environment '{environment}'{(isEphemeral ? "(an ephemeral environment)" : "")}, resource group name '{resourceGroupName}', subscription ID '{subscriptionId}', client ID '{clientId}', tenant ID '{tenantId}'.");
     });
 
+Setup<DeploymentData>(
+    context => new DeploymentData());
+
+Teardown(
+    context =>
+    {
+        if (isEphemeral)
+        {
+            Warning($"Cleaning up resource group '{resourceGroupName}' for ephemeral build.");
+            var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
+            var azure = CreateAuthenticatedAzureClient(context, credentials);
+
+            // Cake teardown does not support asynchronous code, so we use synchronous deletion here.
+            azure
+                .ResourceGroups
+                .DeleteByName(resourceGroupName);
+        }
+    });
+
 Task("Clean")
     .Does(() => CleanDirectories(pkgDir));
 
@@ -119,168 +142,154 @@ Task("Deploy")
             var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
             var azure = CreateAuthenticatedAzureClient(context, credentials);
 
+            // 1. Deploy the ARM infrastructure template.
+            var resourceManagementClient = CreateResourceManagementClient(credentials, subscriptionId);
+            var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
+            var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
+            var selfSignedCertificatePassword = GenerateRandomString(16);
+            var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
+            var certificateBundle = await EnsureCertificate(
+                context,
+                azure,
+                keyVault,
+                selfSignedCertificate,
+                certificateName,
+                selfSignedCertificatePassword);
+
+            var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
+            var rdpPassword = GenerateRandomString(16, seed: passwordSeed);
+            context.Information($"RDP password is '{rdpPassword}'.");
+            var escapedRdpPassword = rdpPassword
+                .Replace("\\", "\\\\")
+                .Replace("\"", "\\\"");
+
+            var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
+            var infrastructureDeployment = await DeployARMTemplate(
+                context,
+                resourceManagementClient,
+                certificateBundle,
+                resourceGroupName,
+                resourceNamePrefix,
+                infrastructureTemplateFile,
+                new Dictionary<string, object>
+                {
+                    { "resourcePrefix", resourceNamePrefix },
+                    { "certificateThumbprint", certificateThumbprint },
+                    { "automationCertificateThumbprint", automationCertificate.Thumbprint },
+                    { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
+                    { "sourceVaultResourceId", keyVault.Id },
+                    { "rdpPassword", escapedRdpPassword },
+                    { "vmInstanceCount", vmInstanceCount },
+                });
+
+            var outputs = ((JObject)infrastructureDeployment.Properties.Outputs);
+
+            context.Data.Get<DeploymentData>().DeploymentOutputs = outputs;
+
+            // 2. Build and upload the Service Fabric application.
+            Information("Restoring packages.");
+            DotNetCoreRestore(solutionFile);
+
+            void PublishService(string serviceName)
+            {
+                Information($"Publishing {serviceName} service.");
+                var serviceDir = srcDir + Directory(serviceName);
+                var servicePkgDir = pkgDir + Directory($"{serviceName}Pkg");
+                DotNetCorePublish(
+                    serviceDir,
+                    new DotNetCorePublishSettings
+                    {
+                        Configuration = configuration,
+                        NoRestore = true,
+                        OutputDirectory = servicePkgDir + Directory("Code"),
+                        SelfContained = false,
+                    });
+                CopyFiles(GetFiles((serviceDir + Directory("PackageRoot")).ToString() + "/**/*"), servicePkgDir, preserveFolderStructure: true);
+            }
+
+            Information("Publishing services.");
+            PublishService("API");
+            PublishService("InvitationCodes");
+            PublishService("Mapping");
+            PublishService("Offers");
+            PublishService("Users");
+
+            var sourceApplicationManifest = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
+            var destinationApplicationManifest =  pkgDir + File("ApplicationManifest.xml");
+            var applicationParameters = srcDir + Directory("server/ApplicationParameters") + File($"{environment}.xml");
+            var updatedApplicationManifestDocument = SubstituteApplicationParameters(
+                sourceApplicationManifest,
+                applicationParameters,
+                new Dictionary<string, string>
+                {
+                    { "SEQ_SERVER_URL", seqServerUrl },
+                    { "SEQ_API_KEY", seqApiKey },
+                    { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["userStorageAccountConnectionString"]["value"] },
+                    { "DATABASE_ACCOUNT_CONNECTION_STRING", (string)outputs["databaseAccountConnectionString"]["value"] },
+                    { "SERVICE_BUS_CONNECTION_STRING", (string)outputs["serviceBusConnectionString"]["value"] },
+                });
+
+            Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());
+            updatedApplicationManifestDocument.Save(destinationApplicationManifest);
+
+            Information("Zipping deployment package.");
+            Zip(pkgDir, zippedPackageFile);
+
+            Information("Uploading deployment package to Azure storage.");
+
+            if (!CloudStorageAccount.TryParse(deploymentsStorageAccountConnectionString, out var deploymentsStorageAccount))
+            {
+                throw new Exception($"Azure storage account connection string '{deploymentsStorageAccountConnectionString}' is not valid.");
+            }
+
+            var cloudBlobClient = deploymentsStorageAccount.CreateCloudBlobClient();
+
+            var storageContainerName = $"{resourceNamePrefix}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{GenerateRandomString(4, includeSpecial: false, includeUpper: false)}";
+            Information($"Creating storage container with name '{storageContainerName}'.");
+            var cloudBlobContainer = cloudBlobClient.GetContainerReference(storageContainerName);
+            await cloudBlobContainer.CreateAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions(), new OperationContext());
+            Uri packageUri;
+
             try
             {
-                // 1. Deploy the ARM infrastructure template.
-                var resourceManagementClient = CreateResourceManagementClient(credentials, subscriptionId);
-                var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
-                var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
-                var selfSignedCertificatePassword = GenerateRandomString(16);
-                var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
-                var certificateBundle = await EnsureCertificate(
-                    context,
-                    azure,
-                    keyVault,
-                    selfSignedCertificate,
-                    certificateName,
-                    selfSignedCertificatePassword);
+                Information("Uploading package as blob...");
+                var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(System.IO.Path.GetFileName(zippedPackageFile));
+                await cloudBlockBlob.UploadFromFileAsync(zippedPackageFile);
+                packageUri = cloudBlockBlob.Uri;
+                Information($"Uploaded, available at URI '{packageUri}'.");
 
-                var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
-                var rdpPassword = GenerateRandomString(16, seed: passwordSeed);
-                context.Information($"RDP password is '{rdpPassword}'.");
-                var escapedRdpPassword = rdpPassword
-                    .Replace("\\", "\\\\")
-                    .Replace("\"", "\\\"");
+                // 3. Deploy the application ARM template.
+                var applicationManifestFile = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
+                var applicationVersion = XmlPeek(
+                    applicationManifestFile,
+                    "/fabric:ApplicationManifest/@ApplicationTypeVersion",
+                    new XmlPeekSettings
+                    {
+                        Namespaces = new Dictionary<string, string>
+                        {
+                            { "fabric", "http://schemas.microsoft.com/2011/01/fabric" },
+                        },
+                    });
+                Information($"Determined application version to be '{applicationVersion}'");
 
-                var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
-                var infrastructureDeployment = await DeployARMTemplate(
+                var applicationDeployment = await DeployARMTemplate(
                     context,
                     resourceManagementClient,
                     certificateBundle,
                     resourceGroupName,
                     resourceNamePrefix,
-                    infrastructureTemplateFile,
+                    applicationTemplateFile,
                     new Dictionary<string, object>
                     {
                         { "resourcePrefix", resourceNamePrefix },
-                        { "certificateThumbprint", certificateThumbprint },
-                        { "automationCertificateThumbprint", automationCertificate.Thumbprint },
-                        { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
-                        { "sourceVaultResourceId", keyVault.Id },
-                        { "rdpPassword", escapedRdpPassword },
-                        { "vmInstanceCount", vmInstanceCount },
+                        { "appVersion", applicationVersion },
+                        { "appPackageUri", packageUri },
                     });
-
-                var outputs = ((JObject)infrastructureDeployment.Properties.Outputs);
-                var clusterManagementEndpoint = (string)outputs["clusterProperties"]["value"]["managementEndpoint"];
-                var clusterManagementUri = new Uri(clusterManagementEndpoint);
-
-                // 2. Build and upload the Service Fabric application.
-                Information("Restoring packages.");
-                DotNetCoreRestore(solutionFile);
-
-                void PublishService(string serviceName)
-                {
-                    Information($"Publishing {serviceName} service.");
-                    var serviceDir = srcDir + Directory(serviceName);
-                    var servicePkgDir = pkgDir + Directory($"{serviceName}Pkg");
-                    DotNetCorePublish(
-                        serviceDir,
-                        new DotNetCorePublishSettings
-                        {
-                            Configuration = configuration,
-                            NoRestore = true,
-                            OutputDirectory = servicePkgDir + Directory("Code"),
-                            SelfContained = false,
-                        });
-                    CopyFiles(GetFiles((serviceDir + Directory("PackageRoot")).ToString() + "/**/*"), servicePkgDir, preserveFolderStructure: true);
-                }
-
-                Information("Publishing services.");
-                PublishService("API");
-                PublishService("InvitationCodes");
-                PublishService("Mapping");
-                PublishService("Offers");
-                PublishService("Users");
-
-                var sourceApplicationManifest = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
-                var destinationApplicationManifest =  pkgDir + File("ApplicationManifest.xml");
-                var applicationParameters = srcDir + Directory("server/ApplicationParameters") + File($"{environment}.xml");
-                var updatedApplicationManifestDocument = SubstituteApplicationParameters(
-                    sourceApplicationManifest,
-                    applicationParameters,
-                    new Dictionary<string, string>
-                    {
-                        { "SEQ_SERVER_URL", seqServerUrl },
-                        { "SEQ_API_KEY", seqApiKey },
-                        { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["userStorageAccountConnectionString"]["value"] },
-                        { "DATABASE_ACCOUNT_CONNECTION_STRING", (string)outputs["databaseAccountConnectionString"]["value"] },
-                        { "SERVICE_BUS_CONNECTION_STRING", (string)outputs["serviceBusConnectionString"]["value"] },
-                    });
-
-                Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());
-                updatedApplicationManifestDocument.Save(destinationApplicationManifest);
-
-                Information("Zipping deployment package.");
-                Zip(pkgDir, zippedPackageFile);
-
-                Information("Uploading deployment package to Azure storage.");
-
-                if (!CloudStorageAccount.TryParse(deploymentsStorageAccountConnectionString, out var deploymentsStorageAccount))
-                {
-                    throw new Exception($"Azure storage account connection string '{deploymentsStorageAccountConnectionString}' is not valid.");
-                }
-
-                var cloudBlobClient = deploymentsStorageAccount.CreateCloudBlobClient();
-
-                var storageContainerName = $"{resourceNamePrefix}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{GenerateRandomString(4, includeSpecial: false, includeUpper: false)}";
-                Information($"Creating storage container with name '{storageContainerName}'.");
-                var cloudBlobContainer = cloudBlobClient.GetContainerReference(storageContainerName);
-                await cloudBlobContainer.CreateAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions(), new OperationContext());
-                Uri packageUri;
-
-                try
-                {
-                    Information("Uploading package as blob...");
-                    var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(System.IO.Path.GetFileName(zippedPackageFile));
-                    await cloudBlockBlob.UploadFromFileAsync(zippedPackageFile);
-                    packageUri = cloudBlockBlob.Uri;
-                    Information($"Uploaded, available at URI '{packageUri}'.");
-
-                    // 3. Deploy the application ARM template.
-                    var applicationManifestFile = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
-                    var applicationVersion = XmlPeek(
-                        applicationManifestFile,
-                        "/fabric:ApplicationManifest/@ApplicationTypeVersion",
-                        new XmlPeekSettings
-                        {
-                            Namespaces = new Dictionary<string, string>
-                            {
-                                { "fabric", "http://schemas.microsoft.com/2011/01/fabric" },
-                            },
-                        });
-                    Information($"Determined application version to be '{applicationVersion}'");
-
-                    var applicationDeployment = await DeployARMTemplate(
-                        context,
-                        resourceManagementClient,
-                        certificateBundle,
-                        resourceGroupName,
-                        resourceNamePrefix,
-                        applicationTemplateFile,
-                        new Dictionary<string, object>
-                        {
-                            { "resourcePrefix", resourceNamePrefix },
-                            { "appVersion", applicationVersion },
-                            { "appPackageUri", packageUri },
-                        });
-                }
-                finally
-                {
-                    Information($"Deleting storage container with name '{storageContainerName}'.");
-                    await cloudBlobContainer.DeleteAsync();
-                }
             }
             finally
             {
-                if (isEphemeral)
-                {
-                    Warning($"Cleaning up resource group '{resourceGroupName}' for ephemeral build.");
-
-                    await azure
-                        .ResourceGroups
-                        .DeleteByNameAsync(resourceGroupName);
-                }
+                Information($"Deleting storage container with name '{storageContainerName}'.");
+                await cloudBlobContainer.DeleteAsync();
             }
 
             Information($"Done");
@@ -298,8 +307,58 @@ Task("Deploy")
 //             DotNetCoreTest(srcDir + Directory("Utility") + File("Utility.csproj"), settings);
 //         });
 
-Task("Build")
-    .IsDependentOn("Deploy");
+Task("Build-Integration-Tests")
+    .Does(
+        () =>
+        {
+            var integrationTestsDir = srcDir + Directory("IntegrationTests");
+            var settings = new DotNetCoreBuildSettings
+            {
+                Configuration = "Release",
+            };
+
+            DotNetCoreBuild(integrationTestsDir, settings);
+        });
+
+Task("Run-Integration-Tests")
+    .IsDependentOn("Build-Integration-Tests")
+    .IsDependentOn("Deploy")
+    // This is critical - we do NOT want to run integration tests anywhere other than ephemeral environments!
+    .WithCriteria(isEphemeral)
+    .Does(
+        context =>
+        {
+            // Just to be extra cautious.
+            if (!isEphemeral)
+            {
+                Error("CRITICAL!! Should not be running for non-ephemeral environments.");
+                return;
+            }
+
+            var deploymentData = context.Data.Get<DeploymentData>();
+
+            if (deploymentData == null)
+            {
+                Error("No deployment data found.");
+            }
+
+            Information("Running integration tests.");
+            Information($"Server URL is '{deploymentData.ServerUrl}', database connection string is '{deploymentData.DatabaseConnectionString}'.");
+
+            var integrationTestAssembly = srcDir + Directory("IntegrationTests/bin/Release/netcoreapp2.1/") + File("IntegrationTests.dll");
+            var arguments = new ProcessArgumentBuilder();
+            arguments
+                .Append(deploymentData.ServerUrl)
+                .Append(deploymentData.DatabaseConnectionString);
+
+            DotNetCoreExecute(
+                integrationTestAssembly,
+                arguments);
+        })
+    .Finally(() => DeployLocally(File("integration-tests.log")));
+
+Task("Root")
+    .IsDependentOn("Run-Integration-Tests");
 
 Task("Start-Docker")
     .Does(
@@ -807,6 +866,74 @@ private static XDocument SubstituteApplicationParameters(
     return applicationManifest;
 }
 
+private void DeployLocally(ConvertableFilePath sourceFile, ConvertableFilePath targetFile = null)
+{
+    if (deployLocally && executingOnBitrise)
+    {
+        targetFile = (targetFile ?? sourceFile);
+        var targetFileName = targetFile.Path.GetFilename();
+        var targetPath = localDeployDir + targetFileName;
+        Information("Copying file '{0}' to '{1}'.", sourceFile, targetPath);
+        CopyFile(sourceFile, targetPath);
+    }
+}
+
+private sealed class DeploymentData
+{
+    public JObject DeploymentOutputs
+    {
+        get;
+        set;
+    }
+
+    public JToken ClusterProperties
+    {
+        get
+        {
+            var clusterProperties = DeploymentOutputs["clusterProperties"];
+
+            if (clusterProperties == null)
+            {
+                throw new InvalidOperationException("No clusterProperties property found in deployment outputs.");
+            }
+
+            return clusterProperties["value"];
+        }
+    }
+
+    public Uri ClusterManagementEndpoint
+    {
+        get
+        {
+            var managementEndpoint = ClusterProperties["managementEndpoint"];
+
+            if (managementEndpoint == null)
+            {
+                throw new InvalidOperationException("No managementEndpoint property found in cluster properties.");
+            }
+
+            return new Uri(managementEndpoint.Value<string>());
+        }
+    }
+
+    public string ServerUrl => ClusterManagementEndpoint.Host + ":9026";
+
+    public string DatabaseConnectionString
+    {
+        get
+        {
+            var userStorageAccountConnectionString = DeploymentOutputs["databaseAccountConnectionString"];
+
+            if (userStorageAccountConnectionString == null)
+            {
+                throw new InvalidOperationException("No databaseAccountConnectionString property found in deployment outputs.");
+            }
+
+            return (string)userStorageAccountConnectionString["value"];
+        }
+    }
+}
+
 public sealed class DeploymentFailedException : Exception
 {
     public DeploymentFailedException()
@@ -815,4 +942,4 @@ public sealed class DeploymentFailedException : Exception
     }
 }
 
-RunTarget(Argument("target", "Build"));
+RunTarget(Argument("target", "Root"));

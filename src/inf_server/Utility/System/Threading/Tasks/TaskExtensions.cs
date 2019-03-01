@@ -28,5 +28,15 @@ namespace System.Threading.Tasks
             Ensure.ArgumentNotNull(@this, nameof(@this));
             return @this.ConfigureAwait(continueOnCapturedContext: true);
         }
+
+        public static void Ignore(this Task @this)
+        {
+            Ensure.ArgumentNotNull(@this, nameof(@this));
+        }
+
+        public static void Ignore<T>(this Task<T> @this)
+        {
+            Ensure.ArgumentNotNull(@this, nameof(@this));
+        }
     }
 }

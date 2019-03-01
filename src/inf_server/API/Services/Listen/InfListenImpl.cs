@@ -138,7 +138,7 @@ namespace API.Services.Listen
                                 logger.Debug("Sending offer {Offer} to client with ID {ClientId}", offer, clientId);
 
                                 var response = new ListenResponse();
-                                response.Items.Add(offer.ToItemDto());
+                                response.Items.Add(offer.ToItemDto(OfferDto.DataOneofCase.Full));
                                 return response;
                             })
                         .SelectMany(
@@ -163,7 +163,7 @@ namespace API.Services.Listen
                                 logger.Debug("Sending user {User} to client with ID {ClientId}", user, clientId);
 
                                 var response = new ListenResponse();
-                                response.Items.Add(user.ToItemDto());
+                                response.Items.Add(user.ToItemDto(UserDto.DataOneofCase.Full));
                                 return response;
                             })
                         .SelectMany(

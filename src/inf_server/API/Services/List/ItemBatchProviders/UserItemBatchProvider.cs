@@ -43,7 +43,7 @@ namespace API.Services.List.ItemBatchProviders
                 .ListUsersAsync(request);
             var items = response
                 .Users
-                .Select(user => user.ToItemDto())
+                .Select(user => user.ToItemDto(UserDto.DataOneofCase.List))
                 .ToList();
             var result = new ItemBatch(
                 items,

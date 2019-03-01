@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="AutoFixture" />
+        <PackageReference Include="Genesis.Ensure" />
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
+        <PackageReference Include="Microsoft.Azure.Cosmos" />
+        <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="Serilog" />
+        <PackageReference Include="Serilog.Enrichers.Memory" />
+        <PackageReference Include="Serilog.Enrichers.Process" />
+        <PackageReference Include="Serilog.Enrichers.Thread" />
+        <PackageReference Include="Serilog.Sinks.Debug" />
+        <PackageReference Include="Serilog.Sinks.File" />
+        <PackageReference Include="System.Collections.Immutable" />
+        <PackageReference Include="xunit.assert" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
+        <ProjectReference Include="..\Utility\Utility.csproj" />
+    </ItemGroup>
+
+</Project>

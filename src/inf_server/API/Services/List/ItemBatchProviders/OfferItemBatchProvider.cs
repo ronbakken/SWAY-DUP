@@ -40,7 +40,7 @@ namespace API.Services.List.ItemBatchProviders
                 .ListOffersAsync(request);
             var items = response
                 .Offers
-                .Select(offer => offer.ToItemDto())
+                .Select(offer => offer.ToItemDto(OfferDto.DataOneofCase.List))
                 .ToList();
             var result = new ItemBatch(
                 items,

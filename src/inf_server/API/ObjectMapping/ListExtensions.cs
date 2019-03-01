@@ -23,7 +23,7 @@ namespace API.ObjectMapping
             return result;
         }
 
-        public static ItemDto ToItemDto(this offers.Offer @this)
+        public static ItemDto ToItemDto(this offers.Offer @this, OfferDto.DataOneofCase dataDenomination)
         {
             if (@this == null)
             {
@@ -32,13 +32,13 @@ namespace API.ObjectMapping
 
             var result = new ItemDto
             {
-                Offer = @this.ToOfferDto(OfferDto.DataOneofCase.Full),
+                Offer = @this.ToOfferDto(dataDenomination),
             };
 
             return result;
         }
 
-        public static ItemDto ToItemDto(this users.User @this)
+        public static ItemDto ToItemDto(this users.User @this, UserDto.DataOneofCase dataDenomination)
         {
             if (@this == null)
             {
@@ -47,7 +47,7 @@ namespace API.ObjectMapping
 
             var result = new ItemDto
             {
-                User = @this.ToUserDto(UserDto.DataOneofCase.Full),
+                User = @this.ToUserDto(dataDenomination),
             };
 
             return result;
