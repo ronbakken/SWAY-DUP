@@ -92,7 +92,7 @@ var solutionFile = srcDir + File("server.sln");
 
 // Variables.
 var isEphemeral = environment == "ephemeral";
-var resourceGroupName = $"inf-{(isEphemeral ? "eph-" + GenerateRandomString(2, includeSpecial: false, includeUpper: false) : "") : environment)}";
+var resourceGroupName = $"inf-{(isEphemeral ? "eph-" + GenerateRandomString(2, includeSpecial: false, includeUpper: false) : environment)}";
 var keyVaultName = $"{resourceGroupName}-KeyVault";
 var certificateName = $"{resourceGroupName}-Certificate";
 

@@ -164,5 +164,5 @@ app:
     - AZURE_STORAGE_ACCOUNT_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=infdeployments;AccountKey=tQm1Lhs0Wwindvct2mRHtbEa0QrKn8D5HDnaN26yhWuhU7lzF+96vxy5fnF3GNH0vHK0ZgM0wv4KcoyuDy/iSg==;EndpointSuffix=core.windows.net"
     # How many VMs to create in the cluster.
     - VM_INSTANCE_COUNT: "1"
-    - SEQ_SERVER_URL: "http://52.151.37.246/"
+    - SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
     - SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
