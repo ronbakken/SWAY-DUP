@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Fabric;
+using System.Linq;
 using Microsoft.Azure.Cosmos;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Serilog;
@@ -13,16 +14,18 @@ namespace Utility
     {
         private const string configurationPackageObjectName = "Config";
         private const string sectionName = "Logging";
-        private const string seqServerUrlStringName = "SeqServerUrl";
-        private const string seqApiKeyStringName = "SeqApiKey";
+        private const string environmentParameterName = "Environment";
+        private const string resourceGroupParameterName = "ResourceGroup";
+        private const string seqServerUrlParameterName = "SeqServerUrl";
+        private const string seqApiKeyParameterName = "SeqApiKey";
 
         public static ILogger GetLogger<T>(T context = default)
         {
             var loggerConfiguration = new LoggerConfiguration();
-            var seqConfiguration = GetSeqConfiguration();
+            var loggingConfiguration = GetLoggingConfiguration();
 
             loggerConfiguration = loggerConfiguration
-                .WriteTo.Seq(seqConfiguration.seqServerUrl, apiKey: seqConfiguration.seqApiKey)
+                .WriteTo.Seq(loggingConfiguration.SeqServerUrl, apiKey: loggingConfiguration.SeqApiKey)
 #if DEBUG
                 .MinimumLevel.Verbose()
 #else
@@ -57,12 +60,14 @@ namespace Utility
 
             var logger = loggerConfiguration
                 .CreateLogger()
+                .ForContext("Environment", loggingConfiguration.Environment)
+                .ForContext("ResourceGroup", loggingConfiguration.ResourceGroup)
                 .ForContext<T>();
 
             return logger;
         }
 
-        private static (string seqServerUrl, string seqApiKey) GetSeqConfiguration()
+        private static LoggingConfiguration GetLoggingConfiguration()
         {
             var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject(configurationPackageObjectName);
 
@@ -77,20 +82,51 @@ namespace Utility
             }
 
             var section = configurationPackage.Settings.Sections[sectionName];
-
-            if (!section.Parameters.Contains(seqServerUrlStringName))
+            var parameterNames = new[]
             {
-                throw new InvalidOperationException($"No '{seqServerUrlStringName}' parameter found in the '{sectionName}' configuration section.");
+                environmentParameterName,
+                resourceGroupParameterName,
+                seqServerUrlParameterName,
+                seqApiKeyParameterName,
+            };
+
+            foreach (var parameterName in parameterNames)
+            {
+                if (!section.Parameters.Contains(parameterName))
+                {
+                    throw new InvalidOperationException($"No '{parameterName}' parameter found in the '{sectionName}' configuration section.");
+                }
             }
 
-            if (!section.Parameters.Contains(seqApiKeyStringName))
-            {
-                throw new InvalidOperationException($"No '{seqApiKeyStringName}' parameter found in the '{sectionName}' configuration section.");
-            }
+            var parameterValues = parameterNames
+                .Select(parameterName => section.Parameters[parameterName].Value)
+                .ToList();
 
-            var result = (section.Parameters[seqServerUrlStringName].Value, section.Parameters[seqApiKeyStringName].Value);
-
+            var result = new LoggingConfiguration(parameterValues[0], parameterValues[1], parameterValues[2], parameterValues[3]);
             return result;
+        }
+
+        private sealed class LoggingConfiguration
+        {
+            public LoggingConfiguration(
+                string environment,
+                string resourceGroup,
+                string seqServerUrl,
+                string seqApiKey)
+            {
+                this.Environment = environment;
+                this.ResourceGroup = resourceGroup;
+                this.SeqServerUrl = seqServerUrl;
+                this.SeqApiKey = seqApiKey;
+            }
+
+            public string Environment { get; }
+
+            public string ResourceGroup { get; }
+
+            public string SeqServerUrl { get; }
+
+            public string SeqApiKey { get; }
         }
 
         private sealed class StatelessServiceEnricher : ILogEventEnricher

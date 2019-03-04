@@ -7,6 +7,8 @@
     <Parameter Name="UserStorageAccountConnectionString" DefaultValue="" />
     <Parameter Name="DatabaseAccountConnectionString" DefaultValue="" />
     <Parameter Name="ServiceBusConnectionString" DefaultValue="" />
+    <Parameter Name="Environment" DefaultValue="" />
+    <Parameter Name="ResourceGroup" DefaultValue="" />
     <Parameter Name="SeqServerUrl" DefaultValue="" />
     <Parameter Name="SeqApiKey" DefaultValue="" />
   </Parameters>
@@ -25,6 +27,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
+            <Parameter Name="Environment" Value="[Environment]" />
+            <Parameter Name="ResourceGroup" Value="[ResourceGroup]" />
             <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
             <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
@@ -44,6 +48,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
+            <Parameter Name="Environment" Value="[Environment]" />
+            <Parameter Name="ResourceGroup" Value="[ResourceGroup]" />
             <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
             <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
@@ -63,6 +69,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
+            <Parameter Name="Environment" Value="[Environment]" />
+            <Parameter Name="ResourceGroup" Value="[ResourceGroup]" />
             <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
             <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
@@ -79,6 +87,8 @@
             <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
           </Section>
           <Section Name="Logging">
+            <Parameter Name="Environment" Value="[Environment]" />
+            <Parameter Name="ResourceGroup" Value="[ResourceGroup]" />
             <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
             <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>
@@ -98,6 +108,8 @@
             <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
           </Section>
           <Section Name="Logging">
+            <Parameter Name="Environment" Value="[Environment]" />
+            <Parameter Name="ResourceGroup" Value="[ResourceGroup]" />
             <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
             <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
           </Section>

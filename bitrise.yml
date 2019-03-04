@@ -101,7 +101,6 @@ workflows:
     envs:
     - ENVIRONMENT: "ephemeral"
     - REGION: "West US 2"
-    - SEQ_API_KEY: "Vq2LdmE8oou7oofdRu7E"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -112,7 +111,6 @@ workflows:
     - ENVIRONMENT: "dev"
     - REGION: "West US 2"
     - VM_INSTANCE_COUNT: "1"
-    - SEQ_API_KEY: "YsgRrpzdVZo78muClDKT"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -123,7 +121,6 @@ workflows:
     - ENVIRONMENT: "alpha"
     - REGION: "West US 2"
     - VM_INSTANCE_COUNT: "1"
-    - SEQ_API_KEY: "EmK33v2uxcnnPvWw1MgF"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -134,7 +131,6 @@ workflows:
     - ENVIRONMENT: "test"
     - REGION: "West US 2"
     - VM_INSTANCE_COUNT: "3"
-    - SEQ_API_KEY: "SX8w1F4ZP51dRl0qsxWH"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -169,3 +165,4 @@ app:
     # How many VMs to create in the cluster.
     - VM_INSTANCE_COUNT: "1"
     - SEQ_SERVER_URL: "http://52.151.37.246/"
+    - SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"

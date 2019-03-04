@@ -92,10 +92,9 @@ var solutionFile = srcDir + File("server.sln");
 
 // Variables.
 var isEphemeral = environment == "ephemeral";
-var resourceNamePrefix = $"inf-{environment}";
-var resourceGroupName = $"{resourceNamePrefix}{(isEphemeral ? "-" + GenerateRandomString(8, includeSpecial: false, includeUpper: false) : "")}";
-var keyVaultName = $"{resourceNamePrefix}-KeyVault";
-var certificateName = $"{resourceNamePrefix}-Certificate";
+var resourceGroupName = $"inf-{(isEphemeral ? "eph-" + GenerateRandomString(2, includeSpecial: false, includeUpper: false) : "") : environment)}";
+var keyVaultName = $"{resourceGroupName}-KeyVault";
+var certificateName = $"{resourceGroupName}-Certificate";
 
 if (!FileExists(pfxFile))
 {
@@ -169,11 +168,10 @@ Task("Deploy")
                 resourceManagementClient,
                 certificateBundle,
                 resourceGroupName,
-                resourceNamePrefix,
                 infrastructureTemplateFile,
                 new Dictionary<string, object>
                 {
-                    { "resourcePrefix", resourceNamePrefix },
+                    { "resourcePrefix", resourceGroupName },
                     { "certificateThumbprint", certificateThumbprint },
                     { "automationCertificateThumbprint", automationCertificate.Thumbprint },
                     { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
@@ -222,6 +220,8 @@ Task("Deploy")
                 applicationParameters,
                 new Dictionary<string, string>
                 {
+                    { "ENVIRONMENT", environment },
+                    { "RESOURCE_GROUP", resourceGroupName },
                     { "SEQ_SERVER_URL", seqServerUrl },
                     { "SEQ_API_KEY", seqApiKey },
                     { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["userStorageAccountConnectionString"]["value"] },
@@ -244,7 +244,7 @@ Task("Deploy")
 
             var cloudBlobClient = deploymentsStorageAccount.CreateCloudBlobClient();
 
-            var storageContainerName = $"{resourceNamePrefix}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{GenerateRandomString(4, includeSpecial: false, includeUpper: false)}";
+            var storageContainerName = $"{resourceGroupName}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{GenerateRandomString(4, includeSpecial: false, includeUpper: false)}";
             Information($"Creating storage container with name '{storageContainerName}'.");
             var cloudBlobContainer = cloudBlobClient.GetContainerReference(storageContainerName);
             await cloudBlobContainer.CreateAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions(), new OperationContext());
@@ -277,11 +277,10 @@ Task("Deploy")
                     resourceManagementClient,
                     certificateBundle,
                     resourceGroupName,
-                    resourceNamePrefix,
                     applicationTemplateFile,
                     new Dictionary<string, object>
                     {
-                        { "resourcePrefix", resourceNamePrefix },
+                        { "resourcePrefix", resourceGroupName },
                         { "appVersion", applicationVersion },
                         { "appPackageUri", packageUri },
                     });
@@ -584,11 +583,10 @@ private static async Task<DeploymentExtendedInner> DeployARMTemplate(
     ResourceManagementClient resourceManagementClient,
     CertificateBundle certificateBundle,
     string resourceGroupName,
-    string resourceNamePrefix,
     ConvertableFilePath templateFile,
     IDictionary<string, object> templateParameters)
 {
-    var deploymentName = $"{resourceNamePrefix}-{System.IO.Path.GetFileNameWithoutExtension(templateFile)}";
+    var deploymentName = $"{resourceGroupName}-{System.IO.Path.GetFileNameWithoutExtension(templateFile)}";
     context.Information($"Deploying ARM template '{templateFile}' using deployment name '{deploymentName}'.");
 
     var templateContents = System.IO.File.ReadAllText(templateFile);

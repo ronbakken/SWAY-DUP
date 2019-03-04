@@ -4,6 +4,8 @@
         <Parameter Name="ConnectionString" Value="" />
     </Section>
     <Section Name="Logging">
+        <Parameter Name="Environment" Value="" />
+        <Parameter Name="ResourceGroup" Value="" />
         <Parameter Name="SeqServerUrl" Value="" />
         <Parameter Name="SeqApiKey" Value="" />
     </Section>
