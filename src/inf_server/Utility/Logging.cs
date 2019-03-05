@@ -27,6 +27,7 @@ namespace Utility
             loggerConfiguration = loggerConfiguration
                 .WriteTo.Seq(loggingConfiguration.SeqServerUrl, apiKey: loggingConfiguration.SeqApiKey)
 #if DEBUG
+                .WriteTo.Debug()
                 .MinimumLevel.Verbose()
 #else
                 .MinimumLevel.Debug()

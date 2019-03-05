@@ -23,9 +23,8 @@ namespace Users
 {
     public sealed class UsersServiceImpl : UsersServiceBase
     {
-        private const string databaseId = "users";
         private const string usersCollectionId = "users";
-        private const string sessionsCollectionId = "sessions";
+        private const string userSessionsCollectionId = "userSessions";
 
         private readonly ILogger logger;
         private readonly TopicClient userUpdatedTopicClient;
@@ -49,7 +48,7 @@ namespace Users
 
             var databaseResult = await cosmosClient
                 .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .CreateDatabaseFromConfigurationIfNotExistsAsync()
                 .ContinueOnAnyContext();
             var database = databaseResult.Database;
             var usersContainerResult = await database
@@ -59,7 +58,7 @@ namespace Users
             this.usersContainer = usersContainerResult.Container;
             var sessionsContainerResult = await database
                 .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(sessionsCollectionId, "/userId")
+                .CreateContainerFromConfigurationIfNotExistsAsync(userSessionsCollectionId, "/userId")
                 .ContinueOnAnyContext();
             this.sessionsContainer = sessionsContainerResult.Container;
 

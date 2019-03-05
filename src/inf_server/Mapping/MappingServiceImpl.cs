@@ -23,7 +23,6 @@ namespace Mapping
 {
     public sealed class MappingServiceImpl : MappingServiceBase
     {
-        private const string databaseId = "mapping";
         private const string collectionId = "mapItems";
         private const int maxMapLevel = 21;
 
@@ -66,7 +65,7 @@ namespace Mapping
 
             var databaseResult = await cosmosClient
                 .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .CreateDatabaseFromConfigurationIfNotExistsAsync()
                 .ContinueOnAnyContext();
             var database = databaseResult.Database;
             var mapItemsContainerResult = await database

@@ -17,8 +17,7 @@ namespace InvitationCodes
 {
     public sealed class InvitationCodesServiceImpl : InvitationCodeServiceBase
     {
-        private const string databaseId = "invitation_codes";
-        private const string codesCollectionId = "codes";
+        private const string invitationCodesCollectionId = "invitationCodes";
 
         private readonly ILogger logger;
         private CosmosContainer codesContainer;
@@ -37,12 +36,12 @@ namespace InvitationCodes
 
             var databaseResult = await cosmosClient
                 .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .CreateDatabaseFromConfigurationIfNotExistsAsync()
                 .ContinueOnAnyContext();
             var database = databaseResult.Database;
             var containerResult = await database
                 .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(codesCollectionId, "/id")
+                .CreateContainerFromConfigurationIfNotExistsAsync(invitationCodesCollectionId, "/id")
                 .ContinueOnAnyContext();
             this.codesContainer = containerResult.Container;
 

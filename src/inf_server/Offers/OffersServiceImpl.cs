@@ -22,7 +22,6 @@ namespace Offers
 {
     public sealed class OffersServiceImpl : OffersServiceBase
     {
-        private const string databaseId = "offers";
         private const string offersCollectionId = "offers";
 
         private readonly ILogger logger;
@@ -46,7 +45,7 @@ namespace Offers
 
             var databaseResult = await cosmosClient
                 .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
+                .CreateDatabaseFromConfigurationIfNotExistsAsync()
                 .ContinueOnAnyContext();
             var database = databaseResult.Database;
             var offersContainerResult = await database

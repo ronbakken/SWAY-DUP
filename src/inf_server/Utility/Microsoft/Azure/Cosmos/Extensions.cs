@@ -13,6 +13,7 @@ namespace Microsoft.Azure.Cosmos
         private const string configurationPackageObjectName = "Config";
         private const string databaseSectionName = "Database";
         private const string connectionStringParameterName = "ConnectionString";
+        private const string databaseThroughputParameterName = "DatabaseThroughput";
         private const string throughputParameterName = "Throughput";
 
         public static CosmosClient GetCosmosClient(this ICodePackageActivationContext @this)
@@ -45,14 +46,45 @@ namespace Microsoft.Azure.Cosmos
             return cosmosClient;
         }
 
+        public static Task<CosmosDatabaseResponse> CreateDatabaseFromConfigurationIfNotExistsAsync(this CosmosDatabases @this)
+        {
+            Ensure.ArgumentNotNull(@this, nameof(@this));
+
+            // Default to minimum.
+            var throughput = 400;
+
+            var activationContext = FabricRuntime.GetActivationContext();
+            var configurationPackage = activationContext.GetConfigurationPackageObject(configurationPackageObjectName);
+
+            if (configurationPackage != null)
+            {
+                if (configurationPackage.Settings.Sections.Contains(databaseSectionName))
+                {
+                    var databaseSection = configurationPackage.Settings.Sections[databaseSectionName];
+
+                    if (databaseSection.Parameters.Contains(databaseThroughputParameterName))
+                    {
+                        var offerParameter = databaseSection.Parameters[databaseThroughputParameterName];
+
+                        if (!int.TryParse(offerParameter.Value, out throughput))
+                        {
+                            throw new InvalidOperationException($"Offer parameter value '{offerParameter.Value}' is not a valid integer.");
+                        }
+                    }
+                }
+            }
+
+            return @this.CreateDatabaseIfNotExistsAsync("inf", throughput: throughput);
+        }
+
         public static Task<CosmosContainerResponse> CreateContainerFromConfigurationIfNotExistsAsync(this CosmosContainers @this, string id, string partitionKeyPath)
         {
             Ensure.ArgumentNotNull(@this, nameof(@this));
             Ensure.ArgumentNotNull(id, nameof(id));
             Ensure.ArgumentNotNull(partitionKeyPath, nameof(partitionKeyPath));
 
-            // Default to minimum
-            var throughput = 400;
+            // Default to inherit from database.
+            int? throughput = null;
 
             var activationContext = FabricRuntime.GetActivationContext();
             var configurationPackage = activationContext.GetConfigurationPackageObject(configurationPackageObjectName);
@@ -67,10 +99,12 @@ namespace Microsoft.Azure.Cosmos
                     {
                         var throughputParameter = databaseSection.Parameters[throughputParameterName];
 
-                        if (!int.TryParse(throughputParameter.Value, out throughput))
+                        if (!int.TryParse(throughputParameter.Value, out var parsedThroughput))
                         {
                             throw new InvalidOperationException($"Throughput parameter value '{throughputParameter.Value}' is not a valid integer.");
                         }
+
+                        throughput = parsedThroughput;
                     }
                 }
             }
