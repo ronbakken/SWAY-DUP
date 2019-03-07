@@ -8,10 +8,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
-import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 import 'package:latlong/latlong.dart';
 
 class MainMapView extends StatefulWidget {
@@ -105,7 +102,7 @@ class _MainMapViewState extends State<MainMapView> {
               return Material(
                 type: MaterialType.canvas,
                 color: AppTheme.lightBlue,
-                shape: CircleBorder(
+                shape: const CircleBorder(
                   side: BorderSide(color: Colors.white),
                 ),
                 clipBehavior: Clip.antiAlias,
@@ -118,7 +115,7 @@ class _MainMapViewState extends State<MainMapView> {
                             width: 16,
                             height: 16,
                           )
-                        : Icon(Icons.close),
+                        : const Icon(Icons.close),
                   ),
                 ),
               );

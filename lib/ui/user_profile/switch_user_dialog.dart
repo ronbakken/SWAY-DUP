@@ -4,6 +4,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class SwitchUserDialog extends StatelessWidget {
   final List<LoginProfile> profiles;
@@ -16,7 +17,7 @@ class SwitchUserDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 60),
       child: Material(
         child: Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
-          CurvedBox(
+          const CurvedBox(
             bottom: true,
             top: false,
             child: Padding(
@@ -24,9 +25,7 @@ class SwitchUserDialog extends StatelessWidget {
               child: Center(child: const Text('Switch to...')),
             ),
           ),
-          SizedBox(
-            height: 16,
-          ),
+          verticalMargin16,
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -39,10 +38,13 @@ class SwitchUserDialog extends StatelessWidget {
                     height: 48,
                     child: FlatButton(
                       onPressed: () => Navigator.of(context).pop<LoginProfile>(profiles[index]),
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          WhiteBorderCircleAvatar(radius: 20,
-                          child: Image.network(profiles[index].avatarUrl),),
+                          WhiteBorderCircleAvatar(
+                            radius: 20,
+                            child: Image.network(profiles[index].avatarUrl),
+                          ),
                           Text(
                             profiles[index].userName,
                             textAlign: TextAlign.center,

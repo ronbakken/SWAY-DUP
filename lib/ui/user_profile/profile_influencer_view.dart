@@ -5,6 +5,7 @@ import 'package:inf/domain/money.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class ProfileInfluencerView extends StatelessWidget {
   final User user;
@@ -23,12 +24,12 @@ class ProfileInfluencerView extends StatelessWidget {
               account.socialNetWorkProvider.logoMonochromeData,
               height: 32.0,
             ),
-            SizedBox(height: 8),
-            Text(
+            verticalMargin8,
+            const Text(
               'FOLLOWERS',
               style: const TextStyle(color: AppTheme.white50),
             ),
-            SizedBox(height: 8),
+            verticalMargin8,
             Text(account.audienceSizeAsString()),
           ],
         ),
@@ -63,45 +64,31 @@ class ProfileInfluencerView extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: AppTheme.formFieldLabelStyle,
               ),
-              SizedBox(
-                height: 8.0,
-              ),
+              verticalMargin8,
               Text(user.description),
-              SizedBox(
-                height: 16.0,
-              ),
+              verticalMargin16,
               Container(
                 height: 1,
                 color: AppTheme.white12,
               ),
-              SizedBox(
-                height: 16.0,
-              ),
-              Text(
+              verticalMargin16,
+              const Text(
                 'MIN FEE',
                 textAlign: TextAlign.start,
                 style: AppTheme.formFieldLabelStyle,
               ),
-              SizedBox(
-                height: 8.0,
-              ),
-              Text(user.minimalFee > Money.fromInt(0) ? '\$${ user.minimalFee.toString()}'  : ''),
-              SizedBox(
-                height: 16.0,
-              ),
+              verticalMargin8,
+              Text(user.minimalFee > Money.fromInt(0) ? '\$${user.minimalFee.toString()}' : ''),
+              verticalMargin16,
               Container(
                 height: 1,
                 color: AppTheme.white12,
               ),
-              SizedBox(
-                height: 32.0,
-              ),
+              verticalMargin32,
             ],
           ),
         ),
       ],
     );
   }
-
-
 }

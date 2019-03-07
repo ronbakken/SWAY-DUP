@@ -1,9 +1,10 @@
 import 'dart:io';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-
+import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/sign_up/activation_success_page.dart';
 import 'package:inf/ui/system_pages/no_connection_page.dart';
@@ -11,12 +12,10 @@ import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf/backend/backend.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:uni_links/uni_links.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 
 final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
 
@@ -48,8 +47,7 @@ class _StartupPageState extends PageState<StartupPage> {
         Route nextPage;
         if (loginSuccess) {
           // we got started with an login token with a new user we jump to a different startup page
-          if ((_loginToken != null) &&
-              _loginToken.accountState == UserDto_Status.waitingForActivation) {
+          if ((_loginToken != null) && _loginToken.accountState == UserDto_Status.waitingForActivation) {
             Navigator.of(context).pushReplacement(WelcomeRoute());
             Navigator.of(context).push(ActivationSuccessPage.route(_loginToken.userType));
             return;
@@ -61,7 +59,7 @@ class _StartupPageState extends PageState<StartupPage> {
           nextPage = WelcomeRoute();
         }
         _firebaseMessaging.requestNotificationPermissions();
-        _firebaseMessaging.getToken().then((token){
+        _firebaseMessaging.getToken().then((token) {
           print('Push Token: $token');
         });
         _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
@@ -74,18 +72,13 @@ class _StartupPageState extends PageState<StartupPage> {
           // Wait till we have a connection again
           await Navigator.of(context).push(NoConnectionPage.route());
           loginCommand.execute(_loginToken);
-        }
-        else if (error is GrpcError)
-        {
-           if (_loginToken != null)
-           {
-             await showMessageDialog(
-                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please use the latest link you got or signup again'); 
-           }
-           unawaited(Navigator.of(context).pushReplacement(WelcomeRoute()));
-
-        }
-        else {
+        } else if (error is GrpcError) {
+          if (_loginToken != null) {
+            await showMessageDialog(context, 'Login problem',
+                'Sorry the link you used seems not to be valid. Please use the latest link you got or signup again');
+          }
+          unawaited(Navigator.of(context).pushReplacement(WelcomeRoute()));
+        } else {
           await backend<ErrorReporter>().logException(error);
         }
       },
@@ -125,7 +118,7 @@ class _StartupPageState extends PageState<StartupPage> {
   Widget build(BuildContext context) {
     return Material(
       color: theme.backgroundColor,
-      child: Center(
+      child: const Center(
         child: CircularProgressIndicator(),
       ),
     );
@@ -152,60 +145,60 @@ class _StartupPageState extends PageState<StartupPage> {
     // });
   }
 
-  // Widget displayPermissionStatus() {
-  //   if (_locationPermissionStatus == PermissionStatus.denied ||
-  //       _locationPermissionStatus == PermissionStatus.restricted) {
-  //     return Material(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           Text(
-  //             'It seems you have denied this App the permission to access your current location.'
-  //                 'INF needs this permission to do its job. Please grant the permission to continue.',
-  //             textAlign: TextAlign.center,
-  //           ),
-  //           SizedBox(height: 40.0),
-  //           RaisedButton(
-  //             child: Center(
-  //                 child: Text(
-  //               'Grant Permission',
-  //             )),
-  //             onPressed: () => PermissionHandler().openAppSettings(),
-  //           ),
-  //           SizedBox(height: 30.0),
-  //           RaisedButton(
-  //             child: Center(
-  //                 child: Text('Retry'),
-  //             ),
-  //             onPressed: () => checkPermissionStatus(),
-  //           )
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //   if (_locationPermissionStatus == PermissionStatus.disabled) {
-  //     return Material(
-  //       child: Column(
-  //         mainAxisAlignment: MainAxisAlignment.center,
-  //         crossAxisAlignment: CrossAxisAlignment.center,
-  //         children: [
-  //           Text(
-  //             'It seems you have disabled your location service '
-  //                 'INF needs to know your location. Please enable it to continue.',
-  //             textAlign: TextAlign.center,
-  //           ),
-  //           SizedBox(height: 40.0),
-  //           RaisedButton(
-  //             child: Center(
-  //               child: Text('Retry'),
-  //             ),
-  //             onPressed: () => checkPermissionStatus(),
-  //           )
-  //         ],
-  //       ),
-  //     );
-  //   }
-  //   return null;
-  // }
+// Widget displayPermissionStatus() {
+//   if (_locationPermissionStatus == PermissionStatus.denied ||
+//       _locationPermissionStatus == PermissionStatus.restricted) {
+//     return Material(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           Text(
+//             'It seems you have denied this App the permission to access your current location.'
+//                 'INF needs this permission to do its job. Please grant the permission to continue.',
+//             textAlign: TextAlign.center,
+//           ),
+//           SizedBox(height: 40.0),
+//           RaisedButton(
+//             child: Center(
+//                 child: Text(
+//               'Grant Permission',
+//             )),
+//             onPressed: () => PermissionHandler().openAppSettings(),
+//           ),
+//           SizedBox(height: 30.0),
+//           RaisedButton(
+//             child: Center(
+//                 child: Text('Retry'),
+//             ),
+//             onPressed: () => checkPermissionStatus(),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+//   if (_locationPermissionStatus == PermissionStatus.disabled) {
+//     return Material(
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.center,
+//         crossAxisAlignment: CrossAxisAlignment.center,
+//         children: [
+//           Text(
+//             'It seems you have disabled your location service '
+//                 'INF needs to know your location. Please enable it to continue.',
+//             textAlign: TextAlign.center,
+//           ),
+//           SizedBox(height: 40.0),
+//           RaisedButton(
+//             child: Center(
+//               child: Text('Retry'),
+//             ),
+//             onPressed: () => checkPermissionStatus(),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+//   return null;
+// }
 }

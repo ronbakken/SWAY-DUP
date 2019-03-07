@@ -10,6 +10,7 @@ import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/onboarding_pager.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 const _kOnBoardingAssets = const <AppAsset>[
@@ -79,7 +80,7 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
                 child: OnBoardingPager(
                   controller: pageController,
                   padding: EdgeInsets.fromLTRB(screenSpacingHorz, 16.0 + screenSpacingVert, screenSpacingHorz, 0.0),
-                  radius: Radius.circular(8.0),
+                  radius: const Radius.circular(8.0),
                   inset: 8.0,
                   children: pages,
                 ),
@@ -157,7 +158,7 @@ class OnBoardingCard extends StatelessWidget {
               fit: StackFit.expand,
               alignment: Alignment.bottomCenter,
               children: <Widget>[
-                Align(
+                const Align(
                   alignment: Alignment.bottomCenter,
                   child: CustomAnimatedCurves(),
                 ),
@@ -167,7 +168,7 @@ class OnBoardingCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: <Widget>[
-                      Spacer(flex: 1),
+                      const Spacer(flex: 1),
                       Text(
                         title,
                         textAlign: TextAlign.center,
@@ -176,7 +177,7 @@ class OnBoardingCard extends StatelessWidget {
                           color: Colors.white,
                         ),
                       ),
-                      SizedBox(height: 16.0),
+                      verticalMargin16,
                       Text(
                         content,
                         textAlign: TextAlign.center,
@@ -184,13 +185,13 @@ class OnBoardingCard extends StatelessWidget {
                           height: 1.25,
                         ),
                       ),
-                      Spacer(flex: 2),
+                      const Spacer(flex: 2),
                       InfStadiumButton(
                         color: Colors.white,
                         text: 'NEXT',
                         onPressed: onNextPressed,
                       ),
-                      SizedBox(height: 24.0),
+                      verticalMargin24,
                     ],
                   ),
                 ),

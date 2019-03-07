@@ -5,7 +5,7 @@ import 'package:flutter/services.dart' show MethodChannel;
 class BuildConfig {
   const BuildConfig();
 
-  static final MethodChannel _channel = MethodChannel('build/config');
+  static final MethodChannel _channel = const MethodChannel('build/config');
 
   static const instance = const BuildConfig();
 

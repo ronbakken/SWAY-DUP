@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:grpc/grpc.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
-import 'package:inf/backend/backend.dart';
 
 class InfApiClientsServiceImplementation implements InfApiClientsService {
   @override
@@ -47,7 +47,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   @override
   void init(String host, port) {
     _networkStateSubscription =
-        backend<SystemService>().connectionStateChanges.debounce(Duration(seconds: 2)).listen((state) async {
+        backend<SystemService>().connectionStateChanges.debounce(const Duration(seconds: 2)).listen((state) async {
       // if we have a network connection check if the server is online
       if (state != NetworkConnectionState.none) {
         if (await backend<InfApiClientsService>().isServerAlive()) {
@@ -55,7 +55,8 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
           return;
         }
         await _serverPeriodicCheckSubscription?.cancel();
-        _serverPeriodicCheckSubscription = Observable.periodic(Duration(seconds: 10)).startWith(0).listen((_) async {
+        _serverPeriodicCheckSubscription =
+            Observable.periodic(const Duration(seconds: 10)).startWith(0).listen((_) async {
           // try to reach the server
           if (await backend<InfApiClientsService>().isServerAlive()) {
             _connectionChangedSubject.add(true);

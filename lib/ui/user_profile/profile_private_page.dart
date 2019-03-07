@@ -10,6 +10,7 @@ import 'package:inf/ui/user_profile/profile_influencer_view.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class ProfilePrivatePage extends StatefulWidget {
@@ -39,15 +40,15 @@ class ProfilePrivatePageState extends State<ProfilePrivatePage> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               IconButton(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 iconSize: 32.0,
                 icon: const BackButtonIcon(),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
               IconButton(
-                padding: EdgeInsets.all(16.0),
+                padding: const EdgeInsets.all(16.0),
                 iconSize: 32.0,
-                icon: InfAssetImage(AppIcons.edit),
+                icon: const InfAssetImage(AppIcons.edit),
                 onPressed: () => Navigator.of(context).push(EditProfilePage.route()),
               ),
             ],
@@ -58,7 +59,7 @@ class ProfilePrivatePageState extends State<ProfilePrivatePage> {
           stream: userManager.currentUserUpdates,
           builder: (BuildContext context, AsyncSnapshot snapshot) {
             if (!snapshot.hasData) {
-              return SizedBox();
+              return emptyWidget;
             }
             User user = snapshot.data;
             if (user.userType == UserType.influencer) {

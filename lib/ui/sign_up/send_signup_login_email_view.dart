@@ -8,6 +8,7 @@ import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
@@ -16,6 +17,7 @@ class SendSignupLoginEmailView extends StatefulWidget {
   final UserType userType;
 
   const SendSignupLoginEmailView({Key key, this.newUser, this.userType}) : super(key: key);
+
   @override
   _SendSignupLoginEmailViewState createState() => _SendSignupLoginEmailViewState();
 }
@@ -72,8 +74,9 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
     super.dispose();
   }
 
-  bool _testSubmitEnabled() => (widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty &&
-                  _emailAddress.isNotEmpty) || (!widget.newUser && _emailAddress.isNotEmpty);
+  bool _testSubmitEnabled() =>
+      (widget.newUser && _invitationCode != null && _invitationCode.isNotEmpty && _emailAddress.isNotEmpty) ||
+      (!widget.newUser && _emailAddress.isNotEmpty);
 
   @override
   Widget build(BuildContext context) {
@@ -87,17 +90,17 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         }
         columnItems = <Widget>[
           Text(_text),
-          SizedBox(height: 32),
-          Text(
+          verticalMargin32,
+          const Text(
             'YOUR EMAIL ADDRESS',
             textAlign: TextAlign.left,
             style: AppTheme.formFieldLabelStyle,
           ),
-          SizedBox(height: 8),
+          verticalMargin8,
           TextField(
             textInputAction: TextInputAction.go,
             keyboardType: TextInputType.emailAddress,
-            onChanged: (s) => setState(()=> _emailAddress = s.toLowerCase()),
+            onChanged: (s) => setState(() => _emailAddress = s.toLowerCase()),
             onSubmitted: (s) => _testSubmitEnabled() ? onButtonPressed() : null,
             keyboardAppearance: Brightness.dark,
           ),
@@ -106,21 +109,21 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    SizedBox(height: 16),
-                    Text(
+                    verticalMargin16,
+                    const Text(
                       'YOUR INVITATION CODE',
                       style: AppTheme.formFieldLabelStyle,
                       textAlign: TextAlign.left,
                     ),
-                    SizedBox(height: 8),
+                    verticalMargin8,
                     TextField(
-                      onChanged: (s) => setState(()=> _invitationCode = s),
+                      onChanged: (s) => setState(() => _invitationCode = s),
                       keyboardAppearance: Brightness.dark,
                     ),
                   ],
                 )
-              : SizedBox(),
-          SizedBox(height: 32),
+              : emptyWidget,
+          verticalMargin32,
           InfStadiumButton(
             text: 'SUBMIT',
             onPressed: _testSubmitEnabled() ? onButtonPressed : null,
@@ -128,23 +131,21 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         ];
         break;
       case _steps.confirmEmail:
-        TextSpan _text = TextSpan(text: 'We are about to send you a ', children: []);
-        if (widget.newUser) {
-          _text.children.add(TextSpan(text: 'sign-up email to \n'));
-        } else {
-          _text.children.add(TextSpan(text: 'login email to \n'));
-        }
-        _text.children.add(TextSpan(text: _emailAddress, style: const TextStyle(fontWeight: FontWeight.bold)));
         columnItems = <Widget>[
           Text.rich(
-            _text,
+            TextSpan(text: 'We are about to send you a ', children: [
+              (widget.newUser)
+                  ? const TextSpan(text: 'sign-up email to \n')
+                  : const TextSpan(text: 'login email to \n'),
+              TextSpan(text: _emailAddress, style: const TextStyle(fontWeight: FontWeight.bold)),
+            ]),
             textAlign: TextAlign.center,
           ),
-          SizedBox(height: 32),
-          Text('Made a mistake?', textAlign: TextAlign.center),
-          SizedBox(height: 8),
+          verticalMargin32,
+          const Text('Made a mistake?', textAlign: TextAlign.center),
+          verticalMargin8,
           InkWell(
-            child: Padding(
+            child: const Padding(
               padding: const EdgeInsets.symmetric(vertical: 8.0),
               child: Text(
                 'Let\'s try this again',
@@ -154,7 +155,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
             ),
             onTap: () => setState(() => currentStep = _steps.queryEmail),
           ),
-          SizedBox(height: 32),
+          verticalMargin32,
           InfStadiumButton(
             text: 'YES, THAT\'S THE CORRECT EMAIL',
             onPressed: onButtonPressed,
@@ -163,7 +164,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         break;
       case _steps.emailSent:
         columnItems = <Widget>[
-          SizedBox(height: 8),
+          verticalMargin8,
           Container(
             padding: const EdgeInsets.all(24),
             height: 80,
@@ -172,12 +173,12 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
               shape: BoxShape.circle,
               color: AppTheme.blue,
             ),
-            child: InfAssetImage(AppIcons.check),
+            child: const InfAssetImage(AppIcons.check),
           ),
-          SizedBox(height: 16),
+          verticalMargin16,
           Text('Your ${widget.newUser ? 'sign-up' : 'login'} link has been\nsent successfully.',
               textAlign: TextAlign.center),
-          SizedBox(height: 32),
+          verticalMargin32,
           InfStadiumButton(
             text: 'OPEN EMAIL NOW',
             onPressed: onButtonPressed,
@@ -205,12 +206,12 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         break;
       case _steps.confirmEmail:
         backend<UserManager>().sendLoginEmailCommand(
-              LoginEmailInfo(
-                email: _emailAddress,
-                invitationCode: _invitationCode ?? '',
-                userType: widget.userType,
-              ),
-            );
+          LoginEmailInfo(
+            email: _emailAddress,
+            invitationCode: _invitationCode ?? '',
+            userType: widget.userType,
+          ),
+        );
         break;
       case _steps.emailSent:
         break;

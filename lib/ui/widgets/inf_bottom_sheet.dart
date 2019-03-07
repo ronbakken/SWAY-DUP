@@ -19,7 +19,7 @@ class InfBottomSheet extends StatelessWidget {
         );
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
+        final slide = Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero).animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -75,14 +75,14 @@ class _InfBottomSheetHeader extends StatelessWidget {
       child: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Spacer(),
+          const Spacer(),
           Text(title, style: const TextStyle(fontSize: 20)),
           Expanded(
             child: Align(
               alignment: Alignment.centerRight,
               child: InkResponse(
                 onTap: () => Navigator.of(context).pop(null),
-                child: InfIcon(AppIcons.close, size: 16.0),
+                child: const InfIcon(AppIcons.close, size: 16.0),
               ),
             ),
           )

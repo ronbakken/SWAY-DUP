@@ -15,11 +15,11 @@ class HelpButton extends StatelessWidget {
     return InkResponse(
       onTap: onTap,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.black,
         ),
-        child: InfIcon(AppIcons.help, size: 24),
+        child: const InfIcon(AppIcons.help, size: 24),
       ),
     );
   }

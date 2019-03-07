@@ -75,11 +75,11 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                   child: TabBar(
                     indicatorWeight: kTabIndicatorWeight,
                     indicatorColor: AppTheme.tabIndicator,
-                    indicatorPadding: EdgeInsets.symmetric(horizontal: 0.5),
+                    indicatorPadding: const EdgeInsets.symmetric(horizontal: 0.5),
                     labelPadding: EdgeInsets.zero,
                     isScrollable: false,
                     controller: controller,
-                    tabs: [
+                    tabs: const [
                       _TabBarItem(text: 'MY OFFERS'),
                       _TabBarItem(text: 'APPLIED'),
                       _TabBarItem(text: 'DEALS'),
@@ -97,7 +97,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
             child: TabBarView(
               controller: controller,
               children: [
-                OfferSummeryListView(name: 'offers-applied'),
+                const OfferSummeryListView(name: 'offers-applied'),
                 ProposalListView(dataSource: proposalManager.appliedProposals),
                 ProposalListView(dataSource: proposalManager.activeDeals),
                 ProposalListView(dataSource: proposalManager.doneProposals),
@@ -178,7 +178,7 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
                     duration: const Duration(milliseconds: 350),
                     alignment: Alignment.centerLeft,
                     child: ifWidget(!snapshot.hasData || snapshot.data == 0,
-                        then: SizedBox(height: 12.0),
+                        then: verticalMargin12,
                         orElse: NotificationMarker(
                           margin: const EdgeInsets.only(top: 2.5, right: 5.0),
                         )),
@@ -235,7 +235,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
         builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
           if (!snapShot.hasData) {
             // TODO
-            return Center(child: Text('Here has to be an Error message'));
+            return const Center(child: Text('Here has to be an Error message'));
           }
           final items = snapShot.data;
           return ListView.builder(

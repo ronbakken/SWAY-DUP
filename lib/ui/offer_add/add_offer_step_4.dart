@@ -13,6 +13,7 @@ import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/inf_time_picker.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
@@ -49,8 +50,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
     updateOfferListener = RxCommandListener(
       updateOfferCommand,
       onValue: (val) {
-        if (val == 1.0)
-        {
+        if (val == 1.0) {
           print(val);
           InfLoader.hide();
           Navigator.of(context).pop();
@@ -62,7 +62,6 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
       },
       onNotBusy: () => InfLoader.hide(),
     );
-
   }
 
   @override
@@ -77,7 +76,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Align(
+        const Align(
           alignment: Alignment.bottomCenter,
           child: CustomAnimatedCurves(),
         ),
@@ -99,12 +98,12 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 24, bottom: 16.0),
                               child: InfDatePicker(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'OFFER START DATE',
                                 ),
                                 initialValue: widget.offerBuilder.startDate,
                                 firstDate: now,
-                                lastDate: now.add(Duration(days: 90)),
+                                lastDate: now.add(const Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
                                 onSaved: (date) => widget.offerBuilder.startDate = date,
                               ),
@@ -114,7 +113,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 24, bottom: 16.0),
                               child: InfTimePicker(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'OFFER START TIME',
                                 ),
                                 initialValue: widget.offerBuilder.startTime,
@@ -131,7 +130,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 24, bottom: 16.0),
                               child: InfDatePicker(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'OFFER END DATE',
                                 ),
                                 initialValue: widget.offerBuilder.endDate == null
@@ -140,7 +139,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                                         ? widget.offerBuilder.startDate ?? now
                                         : widget.offerBuilder.endDate,
                                 firstDate: widget.offerBuilder.startDate ?? now,
-                                lastDate: DateTime.now().add(Duration(days: 90)),
+                                lastDate: DateTime.now().add(const Duration(days: 90)),
                                 validator: (date) => date == null ? 'You have to provide a date' : null,
                                 onSaved: (date) {
                                   return widget.offerBuilder.endDate = date;
@@ -152,7 +151,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                             child: Padding(
                               padding: const EdgeInsets.only(right: 24, bottom: 16.0),
                               child: InfTimePicker(
-                                decoration: InputDecoration(
+                                decoration: const InputDecoration(
                                   labelText: 'OFFER END TIME',
                                 ),
                                 initialValue: widget.offerBuilder.endTime,
@@ -165,7 +164,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                       ),
                     ],
                   ),
-                  SizedBox(height: 32.0),
+                  verticalMargin32,
                   InfTextFormField(
                     controller: amountController,
                     enabled: !widget.offerBuilder.unlimitedAvailable,
@@ -176,7 +175,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                     },
                     validator: (s) =>
                         s.isEmpty && !widget.offerBuilder.unlimitedAvailable ? 'You have so provide value' : null,
-                    keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                    keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
                   Row(
                     children: [
@@ -194,30 +193,30 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                           activeColor: AppTheme.lightBlue,
                         ),
                       ),
-                      SizedBox(width: 8.0),
-                      Expanded(child: Text('There is no limit')),
+                      horizontalMargin8,
+                      const Expanded(child: Text('There is no limit')),
                     ],
                   ),
-                  SizedBox(height: 16.0),
-                  Text(
+                  verticalMargin16,
+                  const Text(
                     'How do you like to deal with proposals?',
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
-                  SizedBox(height: 16.0),
+                  verticalMargin16,
                   InfRadioButton<OfferDto_AcceptancePolicy>(
                     value: OfferDto_AcceptancePolicy.manualReview,
                     groupValue: widget.offerBuilder.acceptancePolicy,
                     label: 'MANUALLY REVIEW PROPOSALS',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
                   ),
-                  SizedBox(height: 8.0),
+                  verticalMargin8,
                   InfRadioButton<OfferDto_AcceptancePolicy>(
                     value: OfferDto_AcceptancePolicy.automaticAcceptMatching,
                     groupValue: widget.offerBuilder.acceptancePolicy,
                     label: 'ACCEPT MATCHING PROPOSALS',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
                   ),
-                  SizedBox(height: 8.0),
+                  verticalMargin8,
                   InfRadioButton<OfferDto_AcceptancePolicy>(
                     value: OfferDto_AcceptancePolicy.allowNegotiation,
                     groupValue: widget.offerBuilder.acceptancePolicy,

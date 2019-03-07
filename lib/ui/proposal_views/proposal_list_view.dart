@@ -7,6 +7,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/bottom_nav.dart';
 import 'package:inf/ui/proposal_views/proposal_details_page.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/date_time_helpers.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
@@ -42,7 +43,7 @@ class _ProposalListViewState extends State<ProposalListView> {
         builder: (BuildContext context, AsyncSnapshot<List<Proposal>> snapShot) {
           if (!snapShot.hasData) {
             // TODO
-            return Center(child: Text('Here has to be an Error message'));
+            return const Center(child: Text('Here has to be an Error message'));
           }
           final proposals = snapShot.data;
           return ListView.builder(
@@ -140,7 +141,7 @@ class ProposalListTile extends StatelessWidget {
 
     TextSpan middleText = TextSpan(style: const TextStyle(fontSize: 16, color: AppTheme.white50), children: [
       fromTo,
-      TextSpan(text: ' on '),
+      const TextSpan(text: ' on '),
       TextSpan(text: proposal.offerTitle, style: const TextStyle(color: Colors.white))
     ]);
 
@@ -161,46 +162,50 @@ class ProposalListTile extends StatelessWidget {
                   children: [
                     WhiteBorderCircleAvatar(
                       radius: null,
-                      child: Image.network(avatarUrl, fit:BoxFit.cover,),
+                      child: Image.network(
+                        avatarUrl,
+                        fit: BoxFit.cover,
+                      ),
                       whiteThickness: 2,
                     ),
-                    SizedBox(width: 8),
+                    horizontalMargin8,
                     Expanded(
-                        child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: <Widget>[
-                        Text.rich(middleText),
-                        SizedBox(height: 8),
-                        Row(
-                          mainAxisSize: MainAxisSize.min,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            Container(
-                              alignment: Alignment.center,
-                              width: 90,
-                              decoration: ShapeDecoration(
-                                color: AppTheme.menuUserNameBackground,
-                                shape: StadiumBorder(),
-                              ),
-                              child: Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 2),
-                                child: Text(
-                                  proposalStateText,
-                                  style: const TextStyle(fontSize: 12),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          Text.rich(middleText),
+                          horizontalMargin8,
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                alignment: Alignment.center,
+                                width: 90,
+                                decoration: const ShapeDecoration(
+                                  color: AppTheme.menuUserNameBackground,
+                                  shape: StadiumBorder(),
+                                ),
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(vertical: 2),
+                                  child: Text(
+                                    proposalStateText,
+                                    style: const TextStyle(fontSize: 12),
+                                  ),
                                 ),
                               ),
-                            ),
-                            SizedBox(width: 16),
-                            Text(
-                              sinceWhen(proposal.lastTimeUpdated),
-                              style: const TextStyle(fontSize: 12),
-                            )
-                          ],
-                        )
-                      ],
-                    )),
-                    SizedBox(width: 8),
+                              horizontalMargin16,
+                              Text(
+                                sinceWhen(proposal.lastTimeUpdated),
+                                style: const TextStyle(fontSize: 12),
+                              )
+                            ],
+                          )
+                        ],
+                      ),
+                    ),
+                    horizontalMargin8,
                     AspectRatio(
                       aspectRatio: 1.0,
                       child: Container(

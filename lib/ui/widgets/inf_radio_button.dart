@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class InfRadioButton<T> extends StatelessWidget {
   final T value;
@@ -21,7 +22,7 @@ class InfRadioButton<T> extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: value == groupValue ? AppTheme.radioButtonBgSelected : AppTheme.radioButtonBgUnselected,
-          borderRadius: BorderRadius.all(const Radius.circular(5.0)),
+          borderRadius: const BorderRadius.all(const Radius.circular(5.0)),
         ),
         child: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -40,14 +41,14 @@ class InfRadioButton<T> extends StatelessWidget {
                   shape: BoxShape.circle,
                   color: value == groupValue ? AppTheme.lightBlue : AppTheme.darkGrey,
                 ),
-                child: value == groupValue ? InfIcon(AppIcons.check, size: 16) : SizedBox(),
+                child: value == groupValue ? const InfIcon(AppIcons.check, size: 16) : emptyWidget,
               ),
               Text(label),
               onHelpButtonTapped != null
                   ? HelpButton(
                       onTap: onHelpButtonTapped,
                     )
-                  : SizedBox(),
+                  : emptyWidget,
             ],
           ),
         ),

@@ -3,9 +3,9 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class InfLockPanel extends StatelessWidget {
-
   const InfLockPanel({
     Key key,
     this.onSignUpPressed,
@@ -20,18 +20,15 @@ class InfLockPanel extends StatelessWidget {
     return Column(
       children: [
         /// We add the title of the Reward group here to have a better teaser
-        Divider(height: 1, color: AppTheme.white30),
+        const Divider(height: 1, color: AppTheme.white30),
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Row(
-            children: [
+            children: const [
               CircleAvatar(
                 backgroundColor: const Color(0x33000000),
                 radius: 15.0,
-                child: InfAssetImage(
-                  AppIcons.gift,
-                  height: 14.0,
-                ),
+                child: InfAssetImage(AppIcons.gift, height: 14.0),
               ),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 10.0),
@@ -66,24 +63,22 @@ class InfLockPanel extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 24.0, bottom: 32.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
+                      children: const <Widget>[
                         Icon(Icons.lock, size: 36.0),
-                        SizedBox(
-                          height: 10.0,
-                        ),
+                        verticalMargin8,
                         Text('THERE IS MUCH MORE TO SEE'),
                       ],
                     ),
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
                   child: Text(
                     'To view the full offer and apply you need to be a member of INF.',
                     textAlign: TextAlign.center,
                   ),
                 ),
-                Padding(
+                const Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 27.0, vertical: 13.0),
                   child: Text(
                     "It's free to sign up and takes only a few seconds",
@@ -98,7 +93,7 @@ class InfLockPanel extends StatelessWidget {
                     child: Container(
                       alignment: Alignment.center,
                       height: 44.0,
-                      child: Text(
+                      child: const Text(
                         'SIGNUP TO SEE ALL',
                         style: const TextStyle(
                           fontWeight: FontWeight.normal,
@@ -112,7 +107,7 @@ class InfLockPanel extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 10.0, left: 26, right: 26.0, bottom: 20.0),
                     child: InkWell(
                       onTap: onLoginPressed,
-                      child: Text(
+                      child: const Text(
                         'ALREADY A MEMBER? LOGIN',
                         textAlign: TextAlign.center,
                       ),

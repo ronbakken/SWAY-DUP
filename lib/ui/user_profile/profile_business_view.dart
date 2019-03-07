@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class ProfileBusinessView extends StatelessWidget {
   final User user;
@@ -10,7 +11,7 @@ class ProfileBusinessView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-     return Column(
+    return Column(
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -29,24 +30,18 @@ class ProfileBusinessView extends StatelessWidget {
                 textAlign: TextAlign.start,
                 style: AppTheme.formFieldLabelStyle,
               ),
-              SizedBox(
-                height: 8.0,
-              ),
+              verticalMargin8,
               Text(user.description),
-              SizedBox(
-                height: 16.0,
-              ),
+              verticalMargin16,
               Container(
                 height: 1,
                 color: AppTheme.white12,
               ),
-
-              SizedBox(
-                height: 32.0,
-              ),
+              verticalMargin32,
             ],
           ),
         ),
       ],
-    );  }
+    );
+  }
 }

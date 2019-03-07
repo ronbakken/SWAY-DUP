@@ -58,7 +58,7 @@ linter:
     - prefer_adjacent_string_concatenation
     - prefer_collection_literals
     - prefer_conditional_assignment
-    #- prefer_const_constructors
+    - prefer_const_constructors
     - prefer_contains
     - prefer_equal_for_default_values
     - prefer_final_fields
@@ -72,7 +72,6 @@ linter:
     - recursive_getters
     - slash_for_doc_comments
     - sort_pub_dependencies
-    - super_goes_last
     - test_types_in_equals
     - throw_in_finally
     - type_init_formals

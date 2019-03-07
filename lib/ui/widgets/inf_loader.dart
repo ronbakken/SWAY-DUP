@@ -60,7 +60,7 @@ class _InfLoaderState extends State<InfLoader> with SingleTickerProviderStateMix
         },
       );
     } else {
-      return Center(
+      return const Center(
         child: CircularProgressIndicator(),
       );
     }

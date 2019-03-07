@@ -18,7 +18,7 @@ class NotificationMarker extends StatelessWidget {
       width: radius * 2,
       height: radius * 2,
       margin: margin,
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         color: AppTheme.notificationDot,
         shape: BoxShape.circle,
       ),

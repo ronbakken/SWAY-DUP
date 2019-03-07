@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class CheckEmailPopUp extends StatelessWidget {
   final UserType userType;
   final String email;
 
-  const CheckEmailPopUp({Key key, this.userType, @required this.email})
-      : super(key: key);
+  const CheckEmailPopUp({Key key, this.userType, @required this.email}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,32 +24,22 @@ class CheckEmailPopUp extends StatelessWidget {
     }
     return Material(
       child: Container(
-        margin: EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
+        margin: const EdgeInsets.symmetric(horizontal: 50.0, vertical: 100.0),
         color: Colors.blue,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            SizedBox(
-              height: 40.0,
-            ),
-            Text('CREATE AN'),
-            SizedBox(
-              height: 10.0,
-            ),
+            verticalMargin36,
+            const Text('CREATE AN'),
+            verticalMargin8,
             Text(headline2),
-            SizedBox(
-              height: 10.0,
-            ),
-            Text('Thanks!'),
-            SizedBox(
-              height: 40.0,
-            ),
-            Text('We send a verification mail to'),
+            verticalMargin8,
+            const Text('Thanks!'),
+            verticalMargin36,
+            const Text('We send a verification mail to'),
             Text('$email, please follow'),
-            Text('the instructions in the mail.'),
-            SizedBox(
-              height: 40.0,
-            ),
+            const Text('the instructions in the mail.'),
+            verticalMargin36,
           ],
         ),
       ),

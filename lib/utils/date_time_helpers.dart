@@ -42,12 +42,12 @@ String getTimeString(BuildContext context, TimeOfDay time) {
 String sinceWhen(DateTime date)
 {
   var delta = DateTime.now().difference(date);
-  if (delta.compareTo(Duration(hours: 1)) < 0)
+  if (delta.compareTo(const Duration(hours: 1)) < 0)
   {
     return '${delta.inMinutes} min. ago';
   }
 
-  if (delta.compareTo(Duration(days: 1)) < 0)
+  if (delta.compareTo(const Duration(days: 1)) < 0)
   {
     if (delta.inHours ==1)
     {
@@ -56,7 +56,7 @@ String sinceWhen(DateTime date)
     return '${delta.inHours} hours ago';
   }
 
-  if (delta.compareTo(Duration(days: 2)) < 0)
+  if (delta.compareTo(const Duration(days: 2)) < 0)
   {
     return 'one day ago';
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class CategorySelector extends StatefulWidget {
   final Category parentCategory;
@@ -54,7 +55,7 @@ class _CategorySelectorState extends State<CategorySelector> {
   @override
   Widget build(BuildContext context) {
     if (widget.parentCategory == null) {
-      return SizedBox();
+      return emptyWidget;
     }
 
     var chips = <Widget>[];

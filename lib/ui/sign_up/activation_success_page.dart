@@ -5,6 +5,7 @@ import 'package:inf/ui/user_profile/new_user_profile_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class ActivationSuccessPage extends StatelessWidget {
@@ -14,10 +15,9 @@ class ActivationSuccessPage extends StatelessWidget {
 
   static Route<dynamic> route(UserType userType) {
     return FadePageRoute(
-      builder: (BuildContext context) =>
-        ActivationSuccessPage(
-          userType: userType,
-        ),
+      builder: (BuildContext context) => ActivationSuccessPage(
+            userType: userType,
+          ),
     );
   }
 
@@ -29,29 +29,19 @@ class ActivationSuccessPage extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            InfAssetImage(
-              AppIcons.thumbUp,
-              width: 72,
-              height: 72,
-            ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
+            const InfAssetImage(AppIcons.thumbUp, width: 72, height: 72),
+            verticalMargin16,
+            const Text(
               'Successfully Activated!',
               style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
             ),
-            SizedBox(
-              height: 16.0,
-            ),
-            Text(
+            verticalMargin16,
+            const Text(
               'Welcome to INF, within a few steps you will\n'
-                'be all set up and ready to get networking',
+                  'be all set up and ready to get networking',
               style: const TextStyle(fontSize: 18),
             ),
-            SizedBox(
-              height: 32.0,
-            ),
+            verticalMargin32,
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 32),
               child: InfStadiumButton(

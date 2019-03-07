@@ -107,7 +107,7 @@ class InfItemCache {
   final itemMap = <String, InfItem>{};
 
   Observable<List<InfItem>> get itemUpdates => _itemUpdateSubject;
-  BehaviorSubject<List<InfItem>> _itemUpdateSubject = BehaviorSubject<List<InfItem>>();
+  final _itemUpdateSubject = BehaviorSubject<List<InfItem>>();
 
   void clear() {
     itemMap.clear();

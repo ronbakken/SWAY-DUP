@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/inf_location_field.dart';
 import 'package:inf/ui/widgets/inf_slider.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class LocationFilterPanel extends StatefulWidget {
   const LocationFilterPanel({
@@ -34,14 +35,14 @@ class _LocationFilterPanelState extends State<LocationFilterPanel> {
               location: _location,
               onChanged: (value) => setState(() => _location = value),
             ),
-            SizedBox(height: 8.0),
-            Text(
+            verticalMargin8,
+            const Text(
               'DISTANCE FROM SEARCHED LOCATION',
               style: const TextStyle(
                 fontSize: 16.0,
               ),
             ),
-            SizedBox(height: 8.0),
+            verticalMargin8,
             Material(
               color: AppTheme.grey,
               shape: const StadiumBorder(),
@@ -61,7 +62,7 @@ class _LocationFilterPanelState extends State<LocationFilterPanel> {
                 ),
               ),
             ),
-            SizedBox(height: 4.0),
+            verticalMargin4,
             InfSlider(
               min: 0.0,
               max: 100.0,

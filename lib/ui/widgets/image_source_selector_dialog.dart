@@ -3,15 +3,14 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class ImageSourceSelectorDialog extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Dialog(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.all(
-          const Radius.circular(5.0),
-        ),
+        borderRadius: const BorderRadius.all(Radius.circular(5.0)),
       ),
       child: Container(
         color: AppTheme.darkGrey,
@@ -23,19 +22,17 @@ class ImageSourceSelectorDialog extends StatelessWidget {
               alignment: Alignment.topRight,
               child: InkResponse(
                 onTap: () => Navigator.of(context).pop(null),
-                child: Padding(
+                child: const Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: InfIcon(AppIcons.close, color: AppTheme.white30),
                 ),
               ),
             ),
-            Text(
+            const Text(
               'UPLOAD A PHOTO',
               textAlign: TextAlign.center,
             ),
-            SizedBox(
-              height: 16.0,
-            ),
+            verticalMargin16,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
@@ -47,10 +44,8 @@ class ImageSourceSelectorDialog extends StatelessWidget {
                       asset: AppIcons.photo,
                       onTap: () => Navigator.of(context).pop(false),
                     ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Text('Library')
+                    verticalMargin8,
+                    const Text('Library')
                   ],
                 ),
                 Column(
@@ -61,10 +56,8 @@ class ImageSourceSelectorDialog extends StatelessWidget {
                       asset: AppIcons.camera,
                       onTap: () => Navigator.of(context).pop(true),
                     ),
-                    SizedBox(
-                      height: 8.0,
-                    ),
-                    Text('Camera')
+                    verticalMargin8,
+                    const Text('Camera')
                   ],
                 ),
               ],

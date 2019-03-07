@@ -32,7 +32,8 @@ class _NoConnectionPageState extends State<NoConnectionPage> {
       // if we have a network connection check if the server is online
       if (state != NetworkConnectionState.none) {
         _serverPeriodicCheckSubscription?.cancel();
-        _serverPeriodicCheckSubscription = Observable.periodic(Duration(seconds: 10)).startWith(0).listen((_) async {
+        _serverPeriodicCheckSubscription =
+            Observable.periodic(const Duration(seconds: 10)).startWith(0).listen((_) async {
           // try to reach the server
           if (await backend<InfApiClientsService>().isServerAlive()) {
             Navigator.of(context).pop();

@@ -23,7 +23,7 @@ class MultiPageWizard extends StatefulWidget {
   MultiPageWizardState createState() => MultiPageWizardState();
 
   static MultiPageWizardState of(BuildContext context) {
-    return context.ancestorStateOfType(TypeMatcher<MultiPageWizardState>());
+    return context.ancestorStateOfType(const TypeMatcher<MultiPageWizardState>());
   }
 }
 
@@ -62,7 +62,7 @@ class MultiPageWizardState extends State<MultiPageWizard> {
                   pageCount: widget.pageCount,
                   color: widget.indicatorColor,
                 ),
-                size: Size(double.infinity, kTextTabBarHeight),
+                size: const Size(double.infinity, kTextTabBarHeight),
               ),
             ),
           ),

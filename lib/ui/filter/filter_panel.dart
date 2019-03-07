@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
-import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/0_search_panel.dart';
 import 'package:inf/ui/filter/1_category_panel.dart';
@@ -67,7 +66,7 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
       children: <Widget>[
         AnimatedPanel(
           height: backPanelAnim,
-          child: _BackFilterPanel(),
+          child: const _BackFilterPanel(),
         ),
         AnimatedPanel(
           height: frontPanelAnim,
@@ -118,11 +117,11 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
             child: RawMaterialButton(
               onPressed: widget.closePanel,
               fillColor: AppTheme.lightBlue,
-              constraints: BoxConstraints(minWidth: 32.0, minHeight: 32.0),
+              constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               shape: const CircleBorder(),
               padding: const EdgeInsets.only(top: 2.0),
-              child: InfIcon(AppIcons.arrowDown, size: 14.0),
+              child: const InfIcon(AppIcons.arrowDown, size: 14.0),
             ),
           ),
         ),
@@ -140,11 +139,11 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
           onButtonPressed: _onFilterButtonPressed,
         );
       case FilterButton.Category:
-        return CategoryFilterPanel(
+        return const CategoryFilterPanel(
           padding: const EdgeInsets.only(bottom: 124.0),
         );
       case FilterButton.Value:
-        return ValueFilterPanel(
+        return const ValueFilterPanel(
           padding: const EdgeInsets.only(bottom: 124.0),
         );
       case FilterButton.Deliverable:
@@ -152,7 +151,7 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
           padding: const EdgeInsets.only(bottom: 124.0),
         );
       case FilterButton.Location:
-        return LocationFilterPanel(
+        return const LocationFilterPanel(
           padding: const EdgeInsets.only(bottom: 124.0),
         );
       default:
@@ -177,21 +176,21 @@ class _BackFilterPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final FilterPanelState _state = context.ancestorStateOfType(TypeMatcher<FilterPanelState>());
+    final FilterPanelState _state = context.ancestorStateOfType(const TypeMatcher<FilterPanelState>());
     return Column(
       children: <Widget>[
         RawMaterialButton(
           onPressed: _state.deselectFilterPanel,
           fillColor: const Color(0xFF222226),
-          constraints: BoxConstraints(minWidth: double.infinity, minHeight: 0.0),
+          constraints: const BoxConstraints(minWidth: double.infinity, minHeight: 0.0),
           materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
           shape: const Border(),
           padding: const EdgeInsets.all(4.0),
-          child: InfIcon(AppIcons.arrowDown, size: 18.0),
+          child: const InfIcon(AppIcons.arrowDown, size: 18.0),
         ),
         Expanded(
           child: Container(
-            padding: EdgeInsets.only(top: 8.0),
+            padding: const EdgeInsets.only(top: 8.0),
             alignment: Alignment.topCenter,
             color: const Color(0xFF17161A),
             child: Container(

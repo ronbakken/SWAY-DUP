@@ -16,7 +16,7 @@ class WhiteBorderCircleAvatar extends StatelessWidget {
       width: radius != null ? radius * 2 : null,
       height: radius != null ? radius * 2 : null,
       child: Container(
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           color: AppTheme.black12,
           shape: BoxShape.circle,
         ),

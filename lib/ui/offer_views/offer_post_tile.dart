@@ -7,6 +7,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class OfferPostTile extends StatelessWidget {
   const OfferPostTile({
@@ -58,22 +59,20 @@ class OfferPostTile extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: Text(
                 offer.description ?? "",
-                style: TextStyle(color: Colors.white, fontSize: 14.5, height: 1.25),
+                style: const TextStyle(color: Colors.white, fontSize: 14.5, height: 1.25),
               ),
             ),
             InkResponse(
               onTap: onPressed,
-              child: CurvedBox(
+              child: const CurvedBox(
                 bottom: false,
                 top: true,
                 color: AppTheme.blue,
                 curveFactor: 2.0,
                 child: Center(
-                  child: Padding(
+                  child: const Padding(
                     padding: const EdgeInsets.symmetric(vertical: 14),
-                    child: Text(
-                      'READ MORE',
-                    ),
+                    child: Text('READ MORE'),
                   ),
                 ),
               ),
@@ -104,16 +103,14 @@ class _OfferDetailsRow extends StatelessWidget {
             ),
             radius: 32,
           ),
-          SizedBox(width: 8.0),
+          horizontalMargin8,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 Text(offer.businessName),
-                SizedBox(
-                  height: 4.0,
-                ),
+                verticalMargin4,
                 Text(
                   offer.location.name ?? '',
                   style: const TextStyle(
@@ -124,54 +121,44 @@ class _OfferDetailsRow extends StatelessWidget {
               ],
             ),
           ),
-          SizedBox(
-            width: 8.0,
-          ),
+          horizontalMargin8,
           Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: offer.terms.deliverable.channels
-                    .map<Widget>(
-                      (channel) => Padding(
-                            padding: const EdgeInsets.only(left: 4),
-                            child: CircleAvatar(
-                              radius: 14,
-                              backgroundColor: channel.logoBackGroundColor != null
-                                  ? Color(channel.logoBackGroundColor)
-                                  : Colors.transparent,
-                              backgroundImage:
-                                  channel.logoBackgroundData != null ? MemoryImage(channel.logoBackgroundData) : null,
-                              child: Padding(
-                                padding: const EdgeInsets.all(6.0),
-                                child: InfMemoryImage(
-                                  channel.logoMonochromeData,
-                                ),
-                              ),
-                            ),
-                          ),
-                    )
-                    .toList(growable: false),
+                children: mapChildren(offer.terms.deliverable.channels, (channel) {
+                  return Padding(
+                    padding: const EdgeInsets.only(left: 4),
+                    child: CircleAvatar(
+                      radius: 14,
+                      backgroundColor:
+                          channel.logoBackGroundColor != null ? Color(channel.logoBackGroundColor) : Colors.transparent,
+                      backgroundImage:
+                          channel.logoBackgroundData != null ? MemoryImage(channel.logoBackgroundData) : null,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6.0),
+                        child: InfMemoryImage(
+                          channel.logoMonochromeData,
+                        ),
+                      ),
+                    ),
+                  );
+                }),
               ),
-              SizedBox(height: 8),
+              verticalMargin8,
               SizedBox(
-                height: 32,
+                height: 32.0,
                 child: Material(
                   color: AppTheme.black12,
-                  shape: StadiumBorder(),
+                  shape: const StadiumBorder(),
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     child: Row(
                       children: [
-                        InfAssetImage(
-                          AppIcons.value,
-                          width: 20.0,
-                        ),
-                        SizedBox(
-                          width: 8.0,
-                        ),
+                        const InfAssetImage(AppIcons.value, width: 20.0),
+                        horizontalMargin8,
                         Text(
                           '${offer.terms.reward.getTotalValueAsString(0)}',
                           style: const TextStyle(fontSize: 14.5),

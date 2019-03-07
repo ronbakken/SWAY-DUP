@@ -4,6 +4,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
@@ -34,7 +35,7 @@ class _DeliverySelectorState extends State<DeliverySelector> {
             textAlign: TextAlign.left,
             style: AppTheme.formFieldLabelStyle,
           ),
-          SizedBox(height: 24),
+          verticalMargin24,
           buildDeliverableTypeRow(),
         ],
       ),
@@ -45,7 +46,7 @@ class _DeliverySelectorState extends State<DeliverySelector> {
     return OverflowRow(
       height: 96.0,
       childrenWidth: 64.0,
-      children: backend<ConfigService>().deliverableIcons.map((icon) {
+      children: mapChildren(backend<ConfigService>().deliverableIcons, (icon) {
         return CategoryButton(
           onTap: widget.readOnly ? null : () => _toggleType(icon.deliverableType),
           radius: 64.0,
@@ -58,7 +59,7 @@ class _DeliverySelectorState extends State<DeliverySelector> {
             height: 32.0,
           ),
         );
-      }).toList(growable: false),
+      }),
     );
   }
 

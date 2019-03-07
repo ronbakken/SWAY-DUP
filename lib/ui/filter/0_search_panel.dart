@@ -6,6 +6,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/ui/filter/expand_transition.dart';
 import 'package:inf/ui/filter/filter_button.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/animation_choreographer.dart';
 import 'package:inf/utils/trim_path.dart';
 
@@ -106,12 +107,12 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
               distance: _expandAnim,
               startAngle: 210.0,
               tickAngle: 40.0,
-              children: FilterButton.searchPanel.map((button) {
+              children: mapChildren(FilterButton.searchPanel, (button) {
                 return FilterPanelButton(
                   button: button,
                   onTap: widget.onButtonPressed,
                 );
-              }).toList(growable: false),
+              }),
             ),
           ),
         ),
@@ -123,7 +124,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
               decoration: _backgroundAnim,
               child: InkWell(
                 onTap: _hideSearch,
-                child: SizedBox.expand(),
+                child: const SizedBox.expand(),
               ),
             ),
           ),
@@ -141,7 +142,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
                 controller: _searchController,
                 focusNode: _searchFocus,
                 decoration: InputDecoration(
-                  prefixIcon: InfIcon(AppIcons.search, size: 16.0),
+                  prefixIcon: const InfIcon(AppIcons.search, size: 16.0),
                   contentPadding: const EdgeInsets.fromLTRB(0.0, 12.0, 24.0, 12.0),
                   border: InputBorder.none,
                   hintText: 'Keyword search',
@@ -164,11 +165,11 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
               child: RawMaterialButton(
                 onPressed: _hideSearch,
                 fillColor: AppTheme.lightBlue,
-                constraints: BoxConstraints(minWidth: 20.0, minHeight: 20.0),
+                constraints: const BoxConstraints(minWidth: 20.0, minHeight: 20.0),
                 materialTapTargetSize: MaterialTapTargetSize.padded,
                 shape: const CircleBorder(),
                 padding: const EdgeInsets.all(2.0),
-                child: Icon(Icons.close, size: 16.0),
+                child: const Icon(Icons.close, size: 16.0),
               ),
             ),
           ),
@@ -263,7 +264,7 @@ class FilterPanelButton extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 8.0),
+        verticalMargin8,
         Text(button.title),
       ],
     );

@@ -92,7 +92,7 @@ class BrowseCarouselItem extends StatelessWidget {
               type: MaterialType.transparency,
               child: InkWell(
                 onTap: onPressed,
-                child: SizedBox.expand(),
+                child: const SizedBox.expand(),
               ),
             ),
           ],

@@ -10,6 +10,7 @@ import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class CategorySelectorView extends StatefulWidget {
   const CategorySelectorView({
@@ -47,7 +48,7 @@ class _CategorySelectorState extends State<CategorySelectorView> {
                 textAlign: TextAlign.left,
                 style: AppTheme.formFieldLabelStyle,
               ),
-              Padding(
+              const Padding(
                 padding: const EdgeInsets.only(right: 24.0),
                 child: HelpButton(),
               ),
@@ -76,7 +77,7 @@ class _CategorySelectorState extends State<CategorySelectorView> {
             );
           },
           duration: const Duration(milliseconds: 500),
-          child: activeTopLevelCategory.value == null ? ColumnSeparator() : buildCategorySelector(),
+          child: activeTopLevelCategory.value == null ? const ColumnSeparator() : buildCategorySelector(),
         ),
       ],
     );
@@ -112,7 +113,7 @@ class _CategorySelectorState extends State<CategorySelectorView> {
               child: Center(
                 child: InkWell(
                   onTap: () => setState(() => activeTopLevelCategory.value = null),
-                  child: Padding(
+                  child: const Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0),
                     child: Text('Close'),
                   ),
@@ -144,7 +145,7 @@ class CategoryRow extends StatelessWidget {
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
       height: 96.0,
       childrenWidth: 64.0,
-      children: topLevelCategories.map((topLevelCategory) {
+      children: mapChildren(topLevelCategories, (topLevelCategory) {
         return CategoryButton(
           onTap: onCategoryPressed != null ? () => onCategoryPressed(topLevelCategory) : null,
           selectedSubCategories: selectedSubCategories.onlyWithParent(topLevelCategory).length,
@@ -157,7 +158,7 @@ class CategoryRow extends StatelessWidget {
             height: 32.0,
           ),
         );
-      }).toList(growable: false),
+      }),
     );
   }
 }

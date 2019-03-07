@@ -46,10 +46,10 @@ class BottomNavPanelState extends State<BottomNavPanel> with SingleTickerProvide
 
     _controller = AnimationController(duration: const Duration(milliseconds: 350), vsync: this);
 
-    _panel1 = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(0.0, 1.0))
+    _panel1 = Tween<Offset>(begin: const Offset(0.0, 0.0), end: const Offset(0.0, 1.0))
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeIn));
 
-    _panel2 = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset(0.0, 0.0))
+    _panel2 = Tween<Offset>(begin: const Offset(0.0, 1.0), end: const Offset(0.0, 0.0))
         .animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
 
     _bottomNavFocus = FocusNode();

@@ -10,6 +10,7 @@ import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:latlong/latlong.dart';
 import 'package:rx_command/rx_command.dart';
 
@@ -26,7 +27,7 @@ class LocationSelectorPage extends StatefulWidget {
         );
       },
       transitionsBuilder: (BuildContext context, Animation<double> animation, _, Widget child) {
-        final slide = Tween<Offset>(begin: Offset(0.0, 1.0), end: Offset.zero).animate(animation);
+        final slide = Tween<Offset>(begin: const Offset(0.0, 1.0), end: Offset.zero).animate(animation);
         return SlideTransition(
           position: slide,
           child: child,
@@ -66,7 +67,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
       resizeToAvoidBottomPadding: false,
       backgroundColor: AppTheme.listViewAndMenuBackground,
       appBar: AppBar(
-        title: Text('SELECT YOUR LOCATION'),
+        title: const Text('SELECT YOUR LOCATION'),
         backgroundColor: AppTheme.lightBlue,
         centerTitle: true,
       ),
@@ -75,7 +76,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
           fit: StackFit.passthrough,
           alignment: Alignment.bottomCenter,
           children: [
-            Align(
+            const Align(
               alignment: Alignment.bottomCenter,
               child: CustomAnimatedCurves(),
             ),
@@ -86,7 +87,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
                     controller: _controller,
                     indicatorColor: AppTheme.lightBlue,
                     isScrollable: false,
-                    tabs: [
+                    tabs: const <Widget>[
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 16.0),
                         child: Text('NEARBY'),
@@ -104,7 +105,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
                   Expanded(
                     child: TabBarView(
                       controller: _controller,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       children: [
                         _NearbyView(
                           searchLocation: searchLocation,
@@ -171,11 +172,11 @@ class __NearbyViewState extends State<_NearbyView> {
       builder: (context, snapshot) {
         if (snapshot.connectionState != ConnectionState.done) {
           // TODO add Spinner
-          return SizedBox();
+          return emptyWidget;
         }
         if (snapshot.hasError || !snapshot.hasData) {
           // TODO handle Error
-          return SizedBox();
+          return emptyWidget;
         }
 
         return _LocationList(
@@ -208,6 +209,8 @@ class __SearchViewState extends State<_SearchView> {
 
   @override
   void initState() {
+    super.initState();
+
     searchTextChangedCommand = RxCommand.createSync((s) => s);
 
     searchPlaceCommand = RxCommand.createAsync((s) {
@@ -218,10 +221,8 @@ class __SearchViewState extends State<_SearchView> {
 
     searchTextChangedCommand
         .where((s) => s.isNotEmpty)
-        .debounce(Duration(milliseconds: 500))
+        .debounce(const Duration(milliseconds: 500))
         .listen(searchPlaceCommand);
-
-    super.initState();
   }
 
   @override
@@ -236,12 +237,9 @@ class __SearchViewState extends State<_SearchView> {
             decoration: const ShapeDecoration(shape: StadiumBorder(), color: AppTheme.white12),
             child: TextField(
               onChanged: searchTextChangedCommand,
-              decoration: InputDecoration(
+              decoration: const InputDecoration(
                 border: InputBorder.none,
-                icon: InfAssetImage(
-                  AppIcons.search,
-                  height: 24.0,
-                ),
+                icon: const InfAssetImage(AppIcons.search, height: 24.0),
               ),
               keyboardAppearance: Brightness.dark,
             ),
@@ -282,6 +280,8 @@ class __MapViewState extends State<_MapView> {
 
   @override
   void initState() {
+    super.initState();
+
     urlTemplate = backend<ConfigService>().getMapUrlTemplate();
     mapApiKey = backend<ConfigService>().getMapApiKey();
 
@@ -291,11 +291,9 @@ class __MapViewState extends State<_MapView> {
       return backend<LocationService>().lookUpCoordinates(position: pos);
     }, emitLastResult: true);
 
-    positionChangedCommand.debounce(Duration(milliseconds: 1000)).listen(searchPlaceCommand);
+    positionChangedCommand.debounce(const Duration(milliseconds: 1000)).listen(searchPlaceCommand);
 
     mapController = new MapController();
-
-    super.initState();
   }
 
   void onMapPositionChanged(MapPosition position, bool hasGesture) {
@@ -378,10 +376,14 @@ class _SearchResultListener extends StatelessWidget {
       builder: (context, snapshot) {
         if (snapshot.hasError) {
           // TODO make beautiful
-          return Center(child: Text('Sorry there is a problem with our location search service'));
+          return const Center(
+            child: Text(
+              'Sorry there is a problem with our location search service',
+            ),
+          );
         }
         if (!snapshot.hasData) {
-          return SizedBox();
+          return emptyWidget;
         }
         return _LocationList(
           locations: snapshot.data,
@@ -430,14 +432,14 @@ class _LocationListState extends State<_LocationList> {
               Text(
                 fullName.substring(0, firstCommaPos + 1),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.white),
+                style: const TextStyle(color: Colors.white),
               ),
             )
             ..add(
               Text(
                 fullName.substring(firstCommaPos + 2),
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: AppTheme.white30),
+                style: const TextStyle(color: AppTheme.white30),
               ),
             );
         } else {
@@ -463,11 +465,11 @@ class _LocationListState extends State<_LocationList> {
                   alignment: Alignment.centerRight,
                   child: Container(
                     padding: const EdgeInsets.all(12.0),
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                       shape: BoxShape.circle,
                       color: AppTheme.white12,
                     ),
-                    child: InfAssetImage(
+                    child: const InfAssetImage(
                       AppIcons.location,
                       color: Colors.white,
                       width: 24.0,
@@ -475,9 +477,7 @@ class _LocationListState extends State<_LocationList> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  width: 16.0,
-                ),
+                horizontalMargin16,
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -485,20 +485,18 @@ class _LocationListState extends State<_LocationList> {
                     children: textLines,
                   ),
                 ),
-                SizedBox(
-                  width: 8,
-                ),
+                horizontalMargin8,
                 widget.locations[index] == selectedResult
                     ? Container(
                         width: 35.0,
                         padding: const EdgeInsets.all(4.0),
-                        decoration: BoxDecoration(
+                        decoration: const BoxDecoration(
                           shape: BoxShape.circle,
                           color: AppTheme.lightBlue,
                         ),
-                        child: InfIcon(AppIcons.check),
+                        child: const InfIcon(AppIcons.check),
                       )
-                    : SizedBox(),
+                    : emptyWidget,
               ],
             ),
           ),

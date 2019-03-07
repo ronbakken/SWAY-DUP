@@ -8,6 +8,7 @@ import 'package:inf/ui/user_profile/social_media_connector.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class _SocialMediaRow {
   _SocialMediaRow({this.provider, this.account});
@@ -93,9 +94,9 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
                   ),
                 ),
               ),
-              SizedBox(width: 16.0),
+              horizontalMargin16,
               Text(row.provider.name),
-              Spacer(),
+              const Spacer(),
               InfSwitch(
                 value: row.connected,
                 activeColor: AppTheme.blue,

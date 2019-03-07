@@ -15,6 +15,7 @@ import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 
@@ -173,7 +174,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
               centerTitle: true,
             ),
           )
-        : Center(child: CircularProgressIndicator());
+        : const Center(child: const CircularProgressIndicator());
   }
 
   void _onUrlChanged(String url) async {
@@ -397,17 +398,15 @@ class _FacebookPageSelectorDialog extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 128),
       child: Material(
         child: Column(crossAxisAlignment: CrossAxisAlignment.center, children: [
-          CurvedBox(
+          const CurvedBox(
             bottom: true,
             top: false,
-            child: Padding(
+            child: const Padding(
               padding: const EdgeInsets.symmetric(vertical: 48, horizontal: 32),
               child: const Text('Please select you facebook page you want to connect'),
             ),
           ),
-          SizedBox(
-            height: 16,
-          ),
+          verticalMargin16,
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -465,34 +464,31 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 16.0),
+        verticalMargin16,
         buildConnectionIconRow(),
-        SizedBox(height: 16.0),
+        verticalMargin16,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: getText(),
         ),
-        SizedBox(height: 32.0),
+        verticalMargin32,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 48),
           child: connectionState == _connectionState.notConnected
               ? Row(
                   mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(
-                      Icons.lock,
-                      size: 16,
-                    ),
-                    SizedBox(width: 8),
+                  children: const [
+                    Icon(Icons.lock, size: 16),
+                    horizontalMargin8,
                     Text(
                       'This does not let the app post anything\n under your account',
                       textAlign: TextAlign.center,
                     ),
                   ],
                 )
-              : SizedBox(),
+              : emptyWidget,
         ),
-        SizedBox(height: 16.0),
+        verticalMargin16,
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: InfStadiumButton(
@@ -518,7 +514,7 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
   Widget getText() {
     switch (connectionState) {
       case _connectionState.notConnected:
-        return Text(
+        return const Text(
           'INF will receive the following info: your public profile and email adress',
           textAlign: TextAlign.center,
           style: const TextStyle(fontSize: 20),
@@ -531,12 +527,12 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
             return Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: 'We have connected your account and verified you have '),
+                  const TextSpan(text: 'We have connected your account and verified you have '),
                   TextSpan(
                     text: account.audienceSizeAsString(),
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  TextSpan(text: ' likes on your page.'),
+                  const TextSpan(text: ' likes on your page.'),
                 ],
               ),
             );
@@ -545,7 +541,7 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
             return Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: 'We have connected your account with the user name '),
+                  const TextSpan(text: 'We have connected your account with the user name '),
                   TextSpan(text: account.displayName ?? 'no name', style: const TextStyle(fontWeight: FontWeight.bold)),
                 ],
               ),
@@ -555,19 +551,19 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
             return Text.rich(
               TextSpan(
                 children: [
-                  TextSpan(text: 'We have connected your account and verified you have '),
+                  const TextSpan(text: 'We have connected your account and verified you have '),
                   TextSpan(text: account.audienceSizeAsString(), style: const TextStyle(fontWeight: FontWeight.bold)),
-                  TextSpan(text: ' followers.')
+                  const TextSpan(text: ' followers.')
                 ],
               ),
             );
         }
         break;
       case _connectionState.failed:
-        return Text('Sorry there was a problem connecting your account please try again later');
+        return const Text('Sorry there was a problem connecting your account please try again later');
         break;
     }
-    return Text('getText unknown State');
+    return const Text('getText unknown State');
   }
 
   Widget buildConnectionIconRow() {
@@ -575,24 +571,19 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
 
     switch (connectionState) {
       case _connectionState.notConnected:
-        connectionStateIcon = InfAssetImage(
-          AppIcons.connect,
-          width: 24.0,
-        );
+        connectionStateIcon = const InfAssetImage(AppIcons.connect, width: 24.0);
         break;
       case _connectionState.connected:
         connectionStateIcon = Container(
           padding: const EdgeInsets.all(4),
-          decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.lightBlue),
+          decoration: const BoxDecoration(shape: BoxShape.circle, color: AppTheme.lightBlue),
           width: 24,
           height: 24,
-          child: InfAssetImage(
-            AppIcons.check,
-          ),
+          child: const InfAssetImage(AppIcons.check),
         );
         break;
       case _connectionState.failed:
-        connectionStateIcon = InfIcon(
+        connectionStateIcon = const InfIcon(
           AppIcons.close,
           size: 32,
           color: Colors.red,
@@ -604,21 +595,21 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
       mainAxisSize: MainAxisSize.min,
       children: [
         Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+          decoration: const BoxDecoration(
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
             color: AppTheme.blue,
           ),
           height: 48,
           width: 48,
-          child: Center(child: InfAssetImage(AppLogo.infLogo, height: 24, width: 24)),
+          child: const Center(child: const InfAssetImage(AppLogo.infLogo, height: 24, width: 24)),
         ),
-        SizedBox(width: 8),
+        horizontalMargin8,
         connectionStateIcon,
-        SizedBox(width: 8),
+        horizontalMargin8,
         Container(
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(8)),
+            borderRadius: const BorderRadius.all(Radius.circular(8)),
             color: widget.connectTo.logoBackGroundColor != null
                 ? Color(widget.connectTo.logoBackGroundColor)
                 : Colors.transparent,

@@ -54,7 +54,7 @@ class ConfigServiceImplementation implements ConfigService {
     var versionInformationFromServer = await backend<InfApiClientsService>().configClient.getVersions(
           Empty(),
           options: CallOptions(
-            timeout: Duration(seconds: 5),
+            timeout: const Duration(seconds: 5),
           ),
         );
 
@@ -93,11 +93,8 @@ class ConfigServiceImplementation implements ConfigService {
   }
 
   @override
-  List<Category> getCategoriesFromIds(List<String> ids) => categories
-      .where(
-        (category) => ids.contains(category.id),
-      )
-      .toList();
+  List<Category> getCategoriesFromIds(List<String> ids) =>
+      categories.where((category) => ids.contains(category.id)).toList();
 
   @override
   DeliverableIcon getDeliveryIconFromType(DeliverableType type) =>

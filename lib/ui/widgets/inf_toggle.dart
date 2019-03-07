@@ -14,14 +14,7 @@ class InfToggle<T> extends StatelessWidget {
   final AppAsset right;
   final ValueChanged<T> onChanged;
 
-  const InfToggle(
-      {Key key,
-      this.currentState,
-      this.leftState,
-      this.rightState,
-      this.left,
-      this.right,
-      this.onChanged})
+  const InfToggle({Key key, this.currentState, this.leftState, this.rightState, this.left, this.right, this.onChanged})
       : super(key: key);
 
   @override
@@ -47,11 +40,10 @@ class InfToggle<T> extends StatelessWidget {
       color: AppTheme.toggleBackground,
       clipBehavior: Clip.antiAlias,
       child: InkResponse(
-        onTap: () =>
-            onChanged(currentState == leftState ? rightState : leftState),
+        onTap: () => onChanged(currentState == leftState ? rightState : leftState),
         child: SizedBox(
-          width: 64,
-          height: 32,
+          width: 64.0,
+          height: 32.0,
           child: Padding(
             padding: const EdgeInsets.all(1.0),
             child: Row(

@@ -7,6 +7,7 @@ import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class AddOfferStep1 extends MultiPageWizardPageWidget {
   const AddOfferStep1({
@@ -30,7 +31,7 @@ class _AddOfferStep1State extends MultiPageWizardPageState<AddOfferStep1> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Align(
+        const Align(
           alignment: Alignment.bottomCenter,
           child: CustomAnimatedCurves(),
         ),
@@ -58,7 +59,7 @@ class _AddOfferStep1State extends MultiPageWizardPageState<AddOfferStep1> {
                           onSaved: (s) => widget.offerBuilder.title = s,
                           validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
                         ),
-                        SizedBox(height: 32.0),
+                        verticalMargin32,
                         InfTextFormField(
                           initialValue: widget.offerBuilder.deliverableDescription,
                           decoration: const InputDecoration(

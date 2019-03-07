@@ -5,6 +5,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 /// Shows the profile picture with a black gradient and optional user data and
 /// connected social media accounts
@@ -74,7 +75,7 @@ class ProfileSummary extends StatelessWidget {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                   colors: [Colors.transparent, AppTheme.blackTwo],
-                  begin: Alignment(0, 0.2),
+                  begin: const Alignment(0, 0.2),
                   end: Alignment.bottomCenter,
                   stops: [0.0, gradientStop]),
             ),
@@ -92,18 +93,18 @@ class ProfileSummary extends StatelessWidget {
                         user.name,
                         style: const TextStyle(fontSize: 24.0),
                       ),
-                      SizedBox(height: 4.0),
+                      verticalMargin4,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Text(user.locationAsString),
                       ),
-                      SizedBox(height: 8.0),
+                      verticalMargin8,
                       showSocialMedia
                           ? Row(
                               mainAxisSize: MainAxisSize.min,
                               children: rowItems,
                             )
-                          : SizedBox(),
+                          : emptyWidget,
                       showDescription
                           ? Container(
                               width: double.infinity,
@@ -114,12 +115,12 @@ class ProfileSummary extends StatelessWidget {
                                 overflow: TextOverflow.ellipsis,
                               ),
                             )
-                          : SizedBox(),
-                      SizedBox(height: 8.0)
+                          : emptyWidget,
+                      verticalMargin8,
                     ],
                   ),
                 )
-              : SizedBox()
+              : emptyWidget,
         ],
       ),
     );

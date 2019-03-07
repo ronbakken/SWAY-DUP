@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/main/main_page.dart';
 import 'package:inf/ui/user_profile/edit_profile_page.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
@@ -58,7 +57,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        title: Text('ACCOUNT SETUP'),
+        title: const Text('ACCOUNT SETUP'),
         centerTitle: true,
         backgroundColor: AppTheme.blackTwo,
       ),

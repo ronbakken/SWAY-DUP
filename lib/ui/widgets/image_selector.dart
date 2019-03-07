@@ -1,22 +1,19 @@
-
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class ImageSelector extends StatefulWidget {
   final List<ImageReference> imageReferences;
   final double imageAspecRatio;
   final ValueChanged<List<ImageReference>> onImageChanged;
 
-  const ImageSelector({
-    Key key,
-    @required this.imageReferences,
-    @required this.imageAspecRatio,
-    this.onImageChanged
-  }) : super(key: key);
+  const ImageSelector({Key key, @required this.imageReferences, @required this.imageAspecRatio, this.onImageChanged})
+      : super(key: key);
+
   @override
   _ImageSelectorState createState() => _ImageSelectorState();
 }
@@ -28,15 +25,15 @@ class _ImageSelectorState extends State<ImageSelector> {
   @override
   void initState() {
     super.initState();
-    imageReferences = widget.imageReferences.map( (x) => x.copyWith()).toList();
+    imageReferences = widget.imageReferences.map((x) => x.copyWith()).toList();
   }
 
   @override
   void didUpdateWidget(ImageSelector oldWidget) {
     super.didUpdateWidget(oldWidget);
-    imageReferences = widget.imageReferences.map( (x) => x.copyWith()).toList();
+    imageReferences = widget.imageReferences.map((x) => x.copyWith()).toList();
   }
- 
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -52,9 +49,8 @@ class _ImageSelectorState extends State<ImageSelector> {
   }
 
   Widget buildSelectedImageRow() {
-    
     if (imageReferences.isEmpty) {
-      return SizedBox();
+      return emptyWidget;
     }
     var images = <Widget>[];
     for (var i = 0; i < imageReferences.length; i++) {
@@ -88,11 +84,9 @@ class _ImageSelectorState extends State<ImageSelector> {
             padding: const EdgeInsets.symmetric(horizontal: 2, vertical: 4),
             child: Container(
               color: AppTheme.grey,
-              child: Center(
-                  child: Icon(
-                Icons.add,
-                color: AppTheme.white30,
-              )),
+              child: const Center(
+                child: Icon(Icons.add, color: AppTheme.white30),
+              ),
             ),
           ),
         ),
@@ -122,9 +116,7 @@ class _ImageSelectorState extends State<ImageSelector> {
                 backgroundColor: AppTheme.darkGrey,
                 onTap: () => _onAddPicture(camera: false),
               ),
-              SizedBox(
-                width: 48.0,
-              ),
+              horizontalMargin36,
               AssetImageCircleBackgroundButton(
                 asset: AppIcons.camera,
                 radius: 40.0,
@@ -155,8 +147,8 @@ class _ImageSelectorState extends State<ImageSelector> {
               child: Container(
                 width: 40.0,
                 height: 40.0,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.red),
-                child: Icon(Icons.close),
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: AppTheme.red),
+                child: const Icon(Icons.close),
               ),
             ),
           ),
@@ -182,8 +174,7 @@ class _ImageSelectorState extends State<ImageSelector> {
         return;
       }
     }
-    var imageFile =
-        camera ? await backend<ImageService>().takePicture() : await backend<ImageService>().pickImage();
+    var imageFile = camera ? await backend<ImageService>().takePicture() : await backend<ImageService>().pickImage();
     if (imageFile != null) {
       imageReferences.add(ImageReference(imageFile: imageFile));
       setState(() {

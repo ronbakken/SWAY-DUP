@@ -22,6 +22,7 @@ import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/social_platform_selector.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class OfferEditPage extends PageWidget {
@@ -58,9 +59,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
       resizeToAvoidBottomPadding: false,
       appBar: AppBar(
         centerTitle: true,
-        title: Text(
-          'Edit Offer',
-        ),
+        title: const Text('Edit Offer'),
       ),
       body: _buildBody(),
     );
@@ -70,7 +69,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Align(
+        const Align(
           alignment: Alignment.bottomCenter,
           child: CustomAnimatedCurves(),
         ),
@@ -98,7 +97,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                           initialValue: offerBuilder.title,
                           decoration: const InputDecoration(labelText: 'TITLE'),
                           onSaved: (s) => offerBuilder.title = s,
-                          validator: (s) => s.isEmpty ? 'You have so provide a title' : null,
+                          validator: (s) => s.isEmpty ? 'You have to provide a title' : null,
                         ),
                       ),
                       Padding(
@@ -109,7 +108,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                             labelText: 'DESCRIPTION',
                           ),
                           onSaved: (s) => offerBuilder.description = s,
-                          validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                          validator: (s) => s.isEmpty ? 'You have to provide a description' : null,
                           maxLines: null,
                           keyboardType: TextInputType.multiline,
                         ),
@@ -131,7 +130,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                           left: 24,
                         ),
                       ),
-                      ColumnSeparator(),
+                      const ColumnSeparator(),
                       Padding(
                         padding: const EdgeInsets.only(left: 24, bottom: 16),
                         child: DeliverySelector(
@@ -140,7 +139,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                           deliverableTypes: offerBuilder.deliverableTypes,
                         ),
                       ),
-                      ColumnSeparator(),
+                      const ColumnSeparator(),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
                         child: Column(
@@ -151,61 +150,61 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                               initialValue: offerBuilder.deliverableDescription,
                               decoration: const InputDecoration(labelText: 'DELIVERABLE DESCRIPTION'),
                               onSaved: (s) => offerBuilder.deliverableDescription = s,
-                              validator: (s) => s.isEmpty ? 'You have so provide a description' : null,
+                              validator: (s) => s.isEmpty ? 'You have to provide a description' : null,
                               maxLines: null,
                               keyboardType: TextInputType.multiline,
                             ),
-                            SizedBox(height: 32.0),
+                            verticalMargin32,
                             InfTextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'CASH REWARD VALUE',
                                 icon: Text('\$'),
                               ),
                               initialValue: offerBuilder.cashValue.toString(),
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               onSaved: (s) => offerBuilder.cashValue = Money.tryParse(s),
-                              validator: (s) => s.isEmpty ? 'You have so provide value' : null,
-                              keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                              validator: (s) => s.isEmpty ? 'You have to provide value' : null,
+                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                               onHelpPressed: () {},
                             ),
-                            SizedBox(height: 32.0),
+                            verticalMargin32,
                             InfTextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'REWARD ITEM OR SERVICE DESCRIPTION',
                               ),
                               initialValue: offerBuilder.rewardDescription.toString(),
                               onSaved: (s) => offerBuilder.rewardDescription = s,
-                              validator: (s) => s.isEmpty ? 'You have so provide value' : null,
+                              validator: (s) => s.isEmpty ? 'You have to provide value' : null,
                               maxLines: null,
                               keyboardType: TextInputType.multiline,
                             ),
-                            SizedBox(height: 32.0),
+                            verticalMargin32,
                             InfTextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'ITEM OR SERVICE VALUE',
                                 icon: Text('\$'),
                               ),
                               initialValue: offerBuilder.barterValue.toString(),
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               onSaved: (s) => offerBuilder.barterValue = Money.tryParse(s),
-                              validator: (s) => s.isEmpty ? 'You have so provide value' : null,
-                              keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                              validator: (s) => s.isEmpty ? 'You have to provide value' : null,
+                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                             ),
-                            SizedBox(height: 32.0),
+                            verticalMargin32,
                             InfTextFormField(
-                              decoration: InputDecoration(
+                              decoration: const InputDecoration(
                                 labelText: 'MINIMUM FOLLOWERS',
                               ),
                               initialValue: offerBuilder.minFollowers?.toString() ?? '',
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               onSaved: (s) => offerBuilder.minFollowers = int.tryParse(s),
-                              keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                               onHelpPressed: () {},
                             ),
-                            SizedBox(height: 32.0),
+                            verticalMargin32,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
+                              children: const [
                                 Text(
                                   'CHOOSE LOCATION',
                                   textAlign: TextAlign.left,
@@ -214,19 +213,14 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                 HelpButton(),
                               ],
                             ),
-                            SizedBox(height: 16),
+                            verticalMargin16,
                             InkWell(
                               child: Row(
                                 children: [
-                                  InfAssetImage(
-                                    AppIcons.location,
-                                    height: 24,
-                                  ),
-                                  SizedBox(
-                                    width: 8.0,
-                                  ),
+                                  const InfAssetImage(AppIcons.location, height: 24),
+                                  horizontalMargin8,
                                   Text(offerBuilder.location.name ?? ''),
-                                  Expanded(
+                                  const Expanded(
                                     child: Align(
                                       alignment: Alignment.centerRight,
                                       child: Padding(
@@ -242,9 +236,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                 offerBuilder.location = location;
                               },
                             ),
-                            ColumnSeparator(
-                              horizontalMargin: 0,
-                            ),
+                            const ColumnSeparator(horizontalMargin: 0),
                             Table(
                               children: [
                                 TableRow(
@@ -253,12 +245,12 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(right: 24, bottom: 16.0),
                                         child: InfDatePicker(
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             labelText: 'OFFER START DATE',
                                           ),
                                           initialValue: offerBuilder.startDate,
                                           firstDate: DateTime.now(),
-                                          lastDate: DateTime.now().add(Duration(days: 90)),
+                                          lastDate: DateTime.now().add(const Duration(days: 90)),
                                           validator: (date) => date == null ? 'You have to provide a date' : null,
                                           onSaved: (date) => offerBuilder.startDate,
                                         ),
@@ -268,7 +260,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(bottom: 16.0),
                                         child: InfTimePicker(
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             labelText: 'OFFER START TIME',
                                           ),
                                           initialValue: offerBuilder.startTime,
@@ -285,12 +277,12 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(right: 24, bottom: 16.0),
                                         child: InfDatePicker(
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             labelText: 'OFFER END DATE',
                                           ),
                                           initialValue: offerBuilder.endDate,
                                           firstDate: DateTime.now(),
-                                          lastDate: DateTime.now().add(Duration(days: 90)),
+                                          lastDate: DateTime.now().add(const Duration(days: 90)),
                                           validator: (date) => date == null ? 'You have to provide a date' : null,
                                           onSaved: (date) => offerBuilder.endDate,
                                         ),
@@ -300,7 +292,7 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                       child: Padding(
                                         padding: const EdgeInsets.only(bottom: 16.0),
                                         child: InfTimePicker(
-                                          decoration: InputDecoration(
+                                          decoration: const InputDecoration(
                                             labelText: 'OFFER END TIME',
                                           ),
                                           initialValue: offerBuilder.endTime,
@@ -313,13 +305,13 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                 ),
                               ],
                             ),
-                            SizedBox(height: 32.0),
+                            verticalMargin32,
                             InfTextFormField(
                               decoration: const InputDecoration(labelText: 'AMOUNT AVAILABLE'),
                               inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
                               onSaved: (s) => offerBuilder.numberOffered = int.tryParse(s),
-                              validator: (s) => s.isEmpty ? 'You have so provide value' : null,
-                              keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+                              validator: (s) => s.isEmpty ? 'You have to provide value' : null,
+                              keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                               initialValue:
                                   offerBuilder.numberOffered != null ? offerBuilder.numberOffered.toString() : '',
                             ),
@@ -333,30 +325,30 @@ class OfferEditPageState extends PageState<OfferEditPage> {
                                     activeColor: AppTheme.lightBlue,
                                   ),
                                 ),
-                                SizedBox(width: 8.0),
-                                Expanded(child: Text('There is no limit')),
+                                horizontalMargin8,
+                                const Expanded(child: Text('There is no limit')),
                               ],
                             ),
-                            SizedBox(height: 16.0),
-                            Text(
+                            verticalMargin16,
+                            const Text(
                               'How do you like to deal with proposals?',
                               style: TextStyle(fontSize: 18.0, color: Colors.white),
                             ),
-                            SizedBox(height: 16.0),
+                            verticalMargin16,
                             InfRadioButton<OfferDto_AcceptancePolicy>(
                               value: OfferDto_AcceptancePolicy.manualReview,
                               groupValue: offerBuilder.acceptancePolicy,
                               label: 'MANUALLY REVIEW PROPOSALS',
                               onChanged: (val) => setState(() => offerBuilder.acceptancePolicy = val),
                             ),
-                            SizedBox(height: 8.0),
+                            verticalMargin8,
                             InfRadioButton<OfferDto_AcceptancePolicy>(
                               value: OfferDto_AcceptancePolicy.automaticAcceptMatching,
                               groupValue: offerBuilder.acceptancePolicy,
                               label: 'ACCEPT MATCHING PROPOSALS',
                               onChanged: (val) => setState(() => offerBuilder.acceptancePolicy = val),
                             ),
-                            SizedBox(height: 8.0),
+                            verticalMargin8,
                             InfRadioButton<OfferDto_AcceptancePolicy>(
                               value: OfferDto_AcceptancePolicy.allowNegotiation,
                               groupValue: offerBuilder.acceptancePolicy,

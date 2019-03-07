@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 /// This widget is used to display Toplevel categories or Content Types.
 class CategoryButton extends StatelessWidget {
@@ -40,14 +41,14 @@ class CategoryButton extends StatelessWidget {
         ),
         child: Text(
           selectedSubCategories.toString(),
-          strutStyle: StrutStyle(
+          strutStyle: const StrutStyle(
             height: 1,
             forceStrutHeight: true,
           ),
         ),
       );
     } else {
-      count = const SizedBox();
+      count = emptyWidget;
     }
 
     return Column(
@@ -96,7 +97,7 @@ class CategoryButton extends StatelessWidget {
                 padding: const EdgeInsets.only(top: 4),
                 child: Text(label),
               )
-            : SizedBox(),
+            : emptyWidget,
       ],
     );
   }

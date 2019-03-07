@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class InfStadiumButton extends StatelessWidget {
   const InfStadiumButton({
@@ -37,7 +38,7 @@ class InfStadiumButton extends StatelessWidget {
             this.icon != null ? Padding(
               padding: const EdgeInsets.only(right: 8.0),
               child: this.icon,
-            ) : const SizedBox(),
+            ) : emptyWidget,
             Text.rich(
               textSpan ?? TextSpan(text: text),
               style: const TextStyle(

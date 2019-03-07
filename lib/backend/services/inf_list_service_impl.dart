@@ -18,10 +18,9 @@ class InfListServiceImplementation implements InfListService {
         )
         .map<List<InfItem>>((items) => items.items
             .map(
-              (item) => InfItem.fromDto(item),
-            )
+              (item) => InfItem.fromDto(item))
             .toList());
-      
+
     } catch (e) {
       print(e);
       rethrow;

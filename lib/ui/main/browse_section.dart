@@ -11,6 +11,7 @@ import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/offer_views/offer_post_tile.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -42,16 +43,16 @@ class _MainBrowseSectionState extends State<MainBrowseSection> with SingleTicker
       duration: const Duration(milliseconds: 750),
       vsync: this,
     );
-    _carouselAnim = Tween<Offset>(begin: Offset(0.0, 0.0), end: Offset(1.0, 0.0)).animate(
+    _carouselAnim = Tween<Offset>(begin: const Offset(0.0, 0.0), end: const Offset(1.0, 0.0)).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(0.0, 0.7, curve: Curves.easeInOut),
+        curve: const Interval(0.0, 0.7, curve: Curves.easeInOut),
       ),
     );
     _listAnim = Tween<double>(begin: 0.0, end: 1.0).animate(
       CurvedAnimation(
         parent: _controller,
-        curve: Interval(0.3, 1.0, curve: Curves.easeOut),
+        curve: const Interval(0.3, 1.0, curve: Curves.easeOut),
       ),
     );
     _animate();
@@ -166,7 +167,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
               builder: (BuildContext context, BoxConstraints constraints) {
                 assert(constraints.hasBoundedHeight);
                 return Container(
-                  margin: widget.padding + EdgeInsets.only(bottom: 32.0),
+                  margin: widget.padding + const EdgeInsets.only(bottom: 32.0),
                   height: constraints.maxHeight / 5.0,
                   child: ListView.builder(
                     padding: const EdgeInsets.symmetric(horizontal: 4.0, vertical: 4.0),
@@ -195,7 +196,7 @@ class _BrowseCarouselViewState extends State<_BrowseCarouselView> {
             ),
           );
         } else {
-          return SizedBox();
+          return emptyWidget;
         }
       },
     );
@@ -211,7 +212,7 @@ class _BrowseListView extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
         if (!snapShot.hasData) {
           // TODO
-          return Center(child: Text('Sorry no offer matches your criteria'));
+          return const Center(child: Text('Sorry no offer matches your criteria'));
         }
         final items = snapShot.data;
         return Stack(

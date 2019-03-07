@@ -6,6 +6,7 @@ import 'package:inf/ui/filter/bottom_nav.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -76,14 +77,14 @@ class _MainNavPanelState extends State<MainNavPanel> {
     if (widget.userType == UserType.influencer) {
       firstButton = browseButton;
       secondButton = activitiesButton;
-      fabIcon = InfIcon(AppIcons.search, key: ObjectKey(AppIcons.search));
+      fabIcon = const InfIcon(AppIcons.search, key: ObjectKey(AppIcons.search));
     } else {
       firstButton = activitiesButton;
       secondButton = browseButton;
       if (_selected == MainPageMode.activities) {
-        fabIcon = InfIcon(AppIcons.add, key: ObjectKey(AppIcons.add));
+        fabIcon = const InfIcon(AppIcons.add, key: ObjectKey(AppIcons.add));
       } else {
-        fabIcon = InfIcon(AppIcons.search, key: ObjectKey(AppIcons.search));
+        fabIcon = const InfIcon(AppIcons.search, key: ObjectKey(AppIcons.search));
       }
     }
 
@@ -91,13 +92,13 @@ class _MainNavPanelState extends State<MainNavPanel> {
       children: <Widget>[
         ClipPath(
           clipper: BottomNavBackgroundClipper(
-            inset: Offset(0.0, 4.0),
+            inset: const Offset(0.0, 4.0),
           ),
           child: CustomPaint(
             painter: BottomNavBackgroundPainter(
               fillColor: AppTheme.darkGrey,
               strokeColor: AppTheme.white12,
-              inset: Offset(0.0, 4.0),
+              inset: const Offset(0.0, 4.0),
             ),
             child: Container(
               //margin: const EdgeInsets.only(top: 12.0),
@@ -208,11 +209,11 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
             alignment: Alignment.center,
             transform: Matrix4.translationValues(0.0, -8.0, 0.0) * Matrix4.diagonal3Values(1.5, 1.5, 1.0),
             child: DecoratedBox(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: AppTheme.black12,
                 shape: BoxShape.circle,
               ),
-              child: SizedBox.expand(),
+              child: const SizedBox.expand(),
             ),
           ),
         ),
@@ -224,9 +225,9 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.notificationCount > 0 ? NotificationMarker() : SizedBox(),
+                widget.notificationCount > 0 ? NotificationMarker() : emptyWidget,
                 InfAssetImage(widget.mode.icon, width: 24.0),
-                SizedBox(height: 4.0),
+                verticalMargin4,
                 Text(
                   widget.mode.text,
                   style: const TextStyle(

@@ -6,6 +6,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
+import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
@@ -16,18 +17,20 @@ import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:pedantic/pedantic.dart';
 
 class OfferDetailsPage extends PageWidget {
   static Route<dynamic> route(Stream<BusinessOffer> offerStream, [String tag]) {
     return FadePageRoute(
-      builder: (BuildContext context) => OfferDetailsPage(
-            cachedOfferStream: offerStream,
-            tag: tag,
-          ),
+      builder: (BuildContext context) {
+        return OfferDetailsPage(
+          cachedOfferStream: offerStream,
+          tag: tag,
+        );
+      },
     );
   }
 
@@ -50,6 +53,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   BusinessOffer offer;
 
   bool _canBeEdited(BusinessOffer offer) => true;
+
   // Fixme
   // !offer.isPartial && offer.businessAccountId == backend<UserManager>().currentUser.id;
 
@@ -71,12 +75,9 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 actions: _canBeEdited(offer)
                     ? [
                         InkResponse(
-                          child: Padding(
+                          child: const Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: InfAssetImage(
-                              AppIcons.edit,
-                              height: 24,
-                            ),
+                            child: InfAssetImage(AppIcons.edit, height: 24),
                           ),
                           onTap: onEdit,
                         ),
@@ -87,7 +88,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             );
           }
           // TODO what do we show while waiting
-          return SizedBox();
+          return emptyWidget;
         },
       ),
     );
@@ -110,7 +111,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             animation: animation,
             builder: (BuildContext context, Widget child) {
               return ClipRRect(
-                borderRadius: BorderRadius.lerp(BorderRadius.circular(8.0), BorderRadius.only(), animation.value),
+                borderRadius: BorderRadius.lerp(BorderRadius.circular(8.0), const BorderRadius.only(), animation.value),
                 child: child,
               );
             },
@@ -164,13 +165,13 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 _DetailEntry(
-                  icon: InfAssetImage(AppIcons.description),
+                  icon: const InfAssetImage(AppIcons.description),
                   title: 'DESCRIPTION',
                   text: offer.description,
                 ),
-                Divider(height: 1, color: AppTheme.white30),
+                const Divider(height: 1, color: AppTheme.white30),
                 _DetailEntry(
-                  icon: InfAssetImage(AppIcons.deliverable),
+                  icon: const InfAssetImage(AppIcons.deliverable),
                   title: 'DELIVERABLES',
                   rightSideIcons: deliverableIcons,
                   text: offer.terms.deliverable.description,
@@ -178,15 +179,15 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Divider(height: 1, color: AppTheme.white30),
+                    const Divider(height: 1, color: AppTheme.white30),
                     buildRewardsRow(),
-                    Divider(height: 1, color: AppTheme.white30),
+                    const Divider(height: 1, color: AppTheme.white30),
                     _DetailEntry(
-                      icon: InfAssetImage(AppIcons.location),
+                      icon: const InfAssetImage(AppIcons.location),
                       title: 'LOCATION',
                       text: offer.location.name ?? '',
                     ),
-                    Divider(height: 1, color: AppTheme.white30),
+                    const Divider(height: 1, color: AppTheme.white30),
                     buildCategories(),
                   ],
                 ),
@@ -215,22 +216,20 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   _DetailEntry buildRewardsRow() {
     final reward = offer.terms.reward;
     return _DetailEntry(
-      icon: InfAssetImage(AppIcons.gift),
+      icon: const InfAssetImage(AppIcons.gift),
       title: 'REWARDS',
       content: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text('Total Value of ${reward.getTotalValueAsString()}'),
-          SizedBox(
-            height: 12.0,
-          ),
+          verticalMargin12,
           reward.cashValue != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       backgroundColor: AppTheme.blue,
                       radius: 15.0,
                       child: InfAssetImage(
@@ -239,22 +238,18 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
+                    horizontalMargin8,
                     Text('${reward.cashValueAsString}'),
                   ],
                 )
-              : SizedBox(),
-          SizedBox(
-            height: 12.0,
-          ),
+              : emptyWidget,
+          verticalMargin12,
           reward.description != null
               ? Row(
                   mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    CircleAvatar(
+                    const CircleAvatar(
                       backgroundColor: AppTheme.blue,
                       radius: 15.0,
                       child: InfAssetImage(
@@ -263,13 +258,11 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                         color: Colors.white,
                       ),
                     ),
-                    SizedBox(
-                      width: 10.0,
-                    ),
+                    horizontalMargin8,
                     Text('${reward.description ?? ''}'),
                   ],
                 )
-              : SizedBox(),
+              : emptyWidget,
         ],
       ),
     );
@@ -284,34 +277,27 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               spacing: 10.0,
               runSpacing: 10.0,
               alignment: WrapAlignment.start,
-              children: offer.categories.map<Widget>(
-                (category) {
-                  return Container(
-                    decoration: ShapeDecoration(
-                      shape: const StadiumBorder(),
-                      color: AppTheme.blue,
+              children: mapChildren(offer.categories, (category) {
+                return Container(
+                  decoration: const ShapeDecoration(
+                    shape: const StadiumBorder(),
+                    color: AppTheme.blue,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: <Widget>[
+                        Text(category.name),
+                        horizontalMargin8,
+                        const Icon(Icons.check, size: 12.0),
+                      ],
                     ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          Text(category.name),
-                          SizedBox(
-                            width: 10.0,
-                          ),
-                          Icon(
-                            Icons.check,
-                            size: 12.0,
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ).toList(),
+                  ),
+                );
+              }),
             )
-          : SizedBox(),
+          : emptyWidget,
     );
   }
 
@@ -321,8 +307,13 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       color: Colors.black,
       child: Row(
         children: <Widget>[
-          WhiteBorderCircleAvatar(child: Image.network(offer.businessAvatarThumbnailUrl,fit: BoxFit.cover,),),
-          SizedBox(width: 12.0),
+          WhiteBorderCircleAvatar(
+            child: Image.network(
+              offer.businessAvatarThumbnailUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          horizontalMargin12,
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -361,7 +352,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     'Ends ${DateFormat('MM/dd/yy').format(offer.endDate.toLocal())}',
                     textAlign: TextAlign.end,
                   )
-                : SizedBox(),
+                : emptyWidget,
           )
         ],
       ),
@@ -375,8 +366,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         InfImage(
           imageUrl: offer.images[i].imageUrl,
           lowResUrl: offer.images[i].lowresUrl,
-        
-        fit: BoxFit.fitHeight,),
+          fit: BoxFit.fitHeight,
+        ),
       );
     }
     return Stack(
@@ -456,7 +447,7 @@ class _DetailEntry extends StatelessWidget {
           Row(
             children: titleRow,
           ),
-          SizedBox(height: 8.0),
+          verticalMargin8,
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 4.0),
             child: text != null ? Text(text) : content,
@@ -486,7 +477,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
               child: Container(
                 width: double.infinity,
                 padding: const EdgeInsets.only(top: 35.0, bottom: 45.0),
-                child: Text(
+                child: const Text(
                   'Tell us what you can offer',
                   textAlign: TextAlign.center,
                   textScaleFactor: 1.2,
@@ -527,7 +518,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                       child: Container(
                         alignment: Alignment.center,
                         height: 44.0,
-                        child: Text(
+                        child: const Text(
                           'MAKE PROPOSAL',
                           style: const TextStyle(
                             fontWeight: FontWeight.normal,
@@ -546,7 +537,7 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 type: MaterialType.transparency,
                 child: InkResponse(
                   onTap: () => Navigator.of(context).pop(),
-                  child: Padding(
+                  child: const Padding(
                     padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
                     child: InfIcon(AppIcons.close),
                   ),

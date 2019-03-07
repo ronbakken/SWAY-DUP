@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class ProposalDetailsPage extends StatefulWidget {
@@ -26,6 +26,7 @@ class ProposalDetailsPage extends StatefulWidget {
 
 class _ProposalDetailsPageState extends State<ProposalDetailsPage> {
   Proposal proposal;
+
   @override
   void initState() {
     proposal = widget.proposal;
@@ -57,9 +58,7 @@ class _ProposalDetailsPageState extends State<ProposalDetailsPage> {
               whiteThickness: 2,
               child: Image.network(opositeAvatarUrl),
             ),
-            SizedBox(
-              width: 8,
-            ),
+            horizontalMargin8,
             Text(opositeName)
           ],
         ),
@@ -67,10 +66,10 @@ class _ProposalDetailsPageState extends State<ProposalDetailsPage> {
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-
-         // OfferShortSummaryTile(),
-          Spacer()
-      ],),
+          // OfferShortSummaryTile(),
+          const Spacer()
+        ],
+      ),
     );
   }
 }

@@ -4,6 +4,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_slider.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:intl/intl.dart';
 
 class ValueFilterPanel extends StatefulWidget {
@@ -38,7 +39,7 @@ class _ValueFilterPanelState extends State<ValueFilterPanel> {
               children: <Widget>[
                 Expanded(
                   child: InfStadiumButton(
-                    icon: Icon(Icons.shopping_cart),
+                    icon: const Icon(Icons.shopping_cart),
                     text: 'PRODUCTS',
                     color: _toggle ? AppTheme.blue : AppTheme.grey,
                     onPressed: () {
@@ -46,10 +47,10 @@ class _ValueFilterPanelState extends State<ValueFilterPanel> {
                     },
                   ),
                 ),
-                SizedBox(width: 16.0),
+                horizontalMargin16,
                 Expanded(
                   child: InfStadiumButton(
-                    icon: InfIcon(AppIcons.value),
+                    icon: const InfIcon(AppIcons.value),
                     text: 'CASH',
                     color: _toggle ? AppTheme.grey : AppTheme.blue,
                     onPressed: () {

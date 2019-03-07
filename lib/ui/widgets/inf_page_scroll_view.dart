@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class InfPageScrollView extends StatefulWidget {
   const InfPageScrollView({
@@ -34,7 +35,7 @@ class _InfPageScrollViewState extends State<InfPageScrollView> {
             ),
           );
         } else {
-          top = SizedBox();
+          top = emptyWidget;
         }
 
         Widget bottom;
@@ -45,7 +46,7 @@ class _InfPageScrollViewState extends State<InfPageScrollView> {
           );
           scrollViewBottomInset += widget.bottom.preferredSize.height;
         } else {
-          bottom = SizedBox();
+          bottom = emptyWidget;
         }
 
         return Padding(

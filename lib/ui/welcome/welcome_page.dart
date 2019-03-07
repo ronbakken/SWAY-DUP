@@ -18,6 +18,7 @@ import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rx_command/rx_command_listener.dart';
@@ -73,8 +74,8 @@ class _WelcomePageState extends PageState<WelcomePage> {
               unawaited(Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false));
             }
           } else {
-            await showMessageDialog(
-                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please use the latest link you got or please signup again');
+            await showMessageDialog(context, 'Login problem',
+                'Sorry the link you used seems not to be valid. Please use the latest link you got or please signup again');
           }
         },
         onError: (error) async {
@@ -117,7 +118,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
               StreamBuilder<List<String>>(
                 stream: imageUrlStream,
                 builder: (BuildContext context, AsyncSnapshot<List<String>> snapshot) {
-                  return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : SizedBox();
+                  return snapshot.hasData ? _WelcomeWall(data: snapshot.data) : emptyWidget;
                 },
               ),
               /*FadeTransition(
@@ -139,28 +140,26 @@ class _WelcomePageState extends PageState<WelcomePage> {
                     padding: const EdgeInsets.fromLTRB(54.0, 0.0, 54.0, 24.0),
                     child: Column(
                       children: <Widget>[
-                        Expanded(
+                        const Expanded(
                           child: Center(
-                            child: InfAssetImage(
-                              AppLogo.swayLogo,
-                            ),
+                            child: InfAssetImage(AppLogo.swayLogo),
                           ),
                         ),
-                        SizedBox(height: 12.0),
+                        verticalMargin12,
                         InfStadiumButton(
                           text: 'I AM AN INFLUENCER',
                           color: AppTheme.blue,
                           onPressed: () =>
                               Navigator.of(context).push(OnBoardingPage.route(userType: UserType.influencer)),
                         ),
-                        SizedBox(height: 12.0),
+                        verticalMargin12,
                         InfStadiumButton(
                           text: 'I NEED AN INFLUENCER',
                           color: AppTheme.red,
                           onPressed: () =>
                               Navigator.of(context).push(OnBoardingPage.route(userType: UserType.business)),
                         ),
-                        SizedBox(height: 12.0),
+                        verticalMargin12,
                         InfStadiumButton(
                           textSpan: const TextSpan(
                             children: <TextSpan>[
@@ -175,7 +174,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                           onPressed: () => Navigator.of(context).push(
                                 InfBottomSheet.route(
                                   title: 'Welcome to INF',
-                                  child: SendSignupLoginEmailView(
+                                  child: const SendSignupLoginEmailView(
                                     newUser: false,
                                     userType: UserType.unknownType,
                                   ),
@@ -218,8 +217,8 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: Duration(milliseconds: 450), vsync: this);
-    _animation = AlwaysStoppedAnimation<Offset>(Offset.zero);
+    _controller = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
+    _animation = const AlwaysStoppedAnimation<Offset>(Offset.zero);
     // FIXME: remove this post frame callback and work out size a better way
     WidgetsBinding.instance.addPostFrameCallback((_) {
       final childSize = _buttonKey.currentState.context.size;
@@ -270,13 +269,10 @@ class _WelcomeHelpPopOutState extends State<_WelcomeHelpPopOut> with SingleTicke
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: <Widget>[
-              InfAssetImage(
-                AppIcons.help,
-                width: 36.0,
-              ),
-              SizedBox(width: 12.0),
+              const InfAssetImage(AppIcons.help, width: 36.0),
+              horizontalMargin12,
               widget.content,
-              SizedBox(width: 36.0),
+              horizontalMargin36,
             ],
           ),
         ),
@@ -334,7 +330,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               maxHeight: size.height,
               child: _WelcomeWallBackground(
                 speed: 24.0,
-                children: widget.data.map<Widget>((url) => _buildWallTile(url)).toList(growable: false),
+                children: mapChildren(widget.data, (url) => _buildWallTile(url)),
               ),
             ),
           ),
@@ -342,7 +338,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
             alignment: Alignment.bottomCenter,
             heightFactor: 0.5,
             child: DecoratedBox(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 gradient: const LinearGradient(
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
@@ -368,7 +364,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   Widget _buildWallTile(String url) {
     return AnimatedSwitcher(
       transitionBuilder: _tileTransitionBuilder,
-      duration: Duration(seconds: 1),
+      duration: const Duration(seconds: 1),
       child: SizedBox.expand(
         key: ValueKey<String>(url),
         child: Padding(

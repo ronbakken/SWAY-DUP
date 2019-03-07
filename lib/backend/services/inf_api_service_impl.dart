@@ -58,12 +58,10 @@ class InfApiServiceImplementation implements InfApiService {
   }
 
   @override
-  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(
-      double longitude, double latitude) {
+  Observable<List<BusinessOffer>> getFeaturedBusinessOffers(double longitude, double latitude) {
     // TODO: implement getFeaturedBusinessOffers
     throw Exception('Not implemented yet');
   }
-
 
   @override
   Observable<List<MapMarker>> getMapMarkers() {
@@ -71,16 +69,10 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
- 
-
   @override
-  void setMapBoundary(
-      double topLeftLatitude,
-      double topLeftLongitude,
-      double bottomRightLatitude,
-      double bottomRightLongitude,
-      double zoomLevel) {
-    // TODO: implement setMapBoundery
+  void setMapBoundary(double topLeftLatitude, double topLeftLongitude, double bottomRightLatitude,
+      double bottomRightLongitude, double zoomLevel) {
+    // TODO: implement setMapBoundary
     throw Exception('Not implemented yet');
   }
 
@@ -90,11 +82,8 @@ class InfApiServiceImplementation implements InfApiService {
     throw Exception('Not implemented yet');
   }
 
-
-  Observable<List<Proposal>> getProposals(String userId)
-  {
-    
+  @override
+  Observable<List<Proposal>> getProposals(String userId) {
+    throw Exception('Not implemented yet');
   }
-
-
 }

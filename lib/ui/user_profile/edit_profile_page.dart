@@ -22,6 +22,7 @@ import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/location_selector_page.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
@@ -133,74 +134,75 @@ class _UserDataViewState extends State<UserDataView> {
   Widget build(BuildContext context) {
     List<Widget> columnItems = <Widget>[
       InfTextFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'YOUR NAME',
         ),
         initialValue: user.name,
         validator: (s) => s.isEmpty ? 'You have to provide a Name' : null,
         onSaved: (s) => name = s,
       ),
-      SizedBox(height: 16),
+      verticalMargin16,
       InfTextFormField(
-        decoration: InputDecoration(
+        decoration: const InputDecoration(
           labelText: 'ABOUT YOU',
         ),
         initialValue: user.description,
         validator: (s) => s.isEmpty ? 'You have some information about you' : null,
         onSaved: (s) => aboutYou = s,
       ),
-      SizedBox(height: 16),
+      verticalMargin16,
     ];
 
     if (user.userType == UserType.influencer) {
       columnItems.addAll([
         Text("${newUser ? 'CONNECT' : 'MANAGE'} YOUR SOCIAL ACCOUNTS",
             textAlign: TextAlign.left, style: AppTheme.formFieldLabelStyle),
-        SizedBox(height: 8),
+        verticalMargin8,
         EditSocialMediaView(
           key: socialMediaKey,
           socialMediaAccounts: user.socialMediaAccounts,
           onChanged: () => setState(() => hasChanged = true),
         ),
-        ColumnSeparator(),
+        const ColumnSeparator(),
         InfTextFormField(
-          decoration: InputDecoration(labelText: 'MIN FEE (optional)', icon: Text('\$')),
+          decoration: const InputDecoration(labelText: 'MIN FEE (optional)', icon: Text('\$')),
           inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-          keyboardType: TextInputType.numberWithOptions(decimal: false, signed: false),
+          keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
           initialValue: user.minimalFee != null ? user.minimalFee.toString() : null,
           onSaved: (s) => minFee = int.tryParse(s),
         ),
-        SizedBox(height: 16),
+        verticalMargin16,
       ]);
     }
 
     columnItems.addAll([
       InkWell(
-          child: InfInputDecorator(
-        decoration: InputDecoration(labelText: 'LOCATION'),
-        child: Row(
-          children: [
-            Expanded(child: Text(location?.name ?? '')),
-            Align(
-              alignment: Alignment.centerRight,
-              child: Padding(
-                padding: const EdgeInsets.only(right: 24, top: 8.0),
-                child: InfIcon(AppIcons.search),
+        child: InfInputDecorator(
+          decoration: const InputDecoration(labelText: 'LOCATION'),
+          child: Row(
+            children: [
+              Expanded(child: Text(location?.name ?? '')),
+              const Align(
+                alignment: Alignment.centerRight,
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 24, top: 8.0),
+                  child: InfIcon(AppIcons.search),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
+          onTap: () async {
+            var result = await Navigator.of(context).push(LocationSelectorPage.route());
+            if (result != null) {
+              setState(() {
+                hasChanged = true;
+                location = result;
+              });
+            }
+          },
         ),
-        onTap: () async {
-          var result = await Navigator.of(context).push(LocationSelectorPage.route());
-          if (result != null) {
-            setState(() {
-              hasChanged = true;
-              location = result;
-            });
-          }
-        },
-      )),
-      SizedBox(height: 16)
+      ),
+      verticalMargin16,
     ]);
 
     return WillPopScope(
@@ -246,10 +248,10 @@ class _UserDataViewState extends State<UserDataView> {
                         top: 32,
                         child: InkResponse(
                           onTap: onEditImage,
-                          child: InfIcon(AppIcons.edit, size: 32),
+                          child: const InfIcon(AppIcons.edit, size: 32),
                         ),
                       )
-                    : SizedBox(),
+                    : emptyWidget,
               ],
             ),
             Form(
@@ -327,7 +329,7 @@ class _UserDataViewState extends State<UserDataView> {
           name: name,
           description: aboutYou,
           location: location,
-          minimalFee: Money.fromInt( minFee ?? 0),
+          minimalFee: Money.fromInt(minFee ?? 0),
           socialMediaAccounts: socialAccounts ?? [],
         ),
         profilePicture: selectedImageFile,

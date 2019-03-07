@@ -12,6 +12,7 @@ import 'package:inf/ui/main/page_mode.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
@@ -20,7 +21,9 @@ const kMenuIconSize = kToolbarHeight;
 class MainPage extends PageWidget {
   static Route<dynamic> route() {
     return FadePageRoute(
-      builder: (BuildContext context) => MainPage(),
+      builder: (BuildContext context) {
+        return const MainPage();
+      },
     );
   }
 
@@ -54,7 +57,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     _drawerController = AnimationController(duration: const Duration(milliseconds: 450), vsync: this);
     // TODO: Add curves
     _drawerAnim = Tween(begin: 0.0, end: 1.0).animate(_drawerController);
-    _drawerSlideAnim = Tween<Offset>(begin: Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
+    _drawerSlideAnim = Tween<Offset>(begin: const Offset(-1.0, 0.0), end: Offset.zero).animate(_drawerController);
     _sectionController = AnimationController(duration: const Duration(milliseconds: 1000), vsync: this);
 
     // TODO: Add curves
@@ -163,7 +166,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
               builder: (BuildContext context, Widget navigationDrawer) {
                 final value = _drawerAnim.value;
                 if (value <= 0.0) {
-                  return SizedBox();
+                  return emptyWidget;
                 } else {
                   final value = _drawerAnim.value;
                   final blur = 12.0 * value;

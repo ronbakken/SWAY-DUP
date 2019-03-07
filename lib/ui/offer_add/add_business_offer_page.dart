@@ -43,7 +43,7 @@ class _AddBusinessOfferPageState extends PageState<AddBusinessOfferPage> {
         elevation: 0.0,
         backgroundColor: AppTheme.darkGrey,
         centerTitle: true,
-        title: Text('MAKE AN OFFER'),
+        title: const Text('MAKE AN OFFER'),
       ),
       body: MultiPageWizard(
         indicatorBackgroundColor: AppTheme.blue,

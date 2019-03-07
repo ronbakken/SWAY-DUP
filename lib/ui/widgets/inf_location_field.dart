@@ -23,9 +23,9 @@ class InfLocationField extends StatelessWidget {
         final value = await Navigator.of(context).push(LocationSelectorPage.route());
         onChanged?.call(value);
       },
-      decoration: InputDecoration(
-        prefixIcon: InfIcon(AppIcons.location, size: 20),
-        suffixIcon: InfIcon(AppIcons.search, size: 20),
+      decoration: const InputDecoration(
+        prefixIcon: const InfIcon(AppIcons.location, size: 20),
+        suffixIcon: const InfIcon(AppIcons.search, size: 20),
       ),
       child: Text(
         location != null ? location.name : 'Location',

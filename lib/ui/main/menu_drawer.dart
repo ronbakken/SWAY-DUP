@@ -12,6 +12,7 @@ import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:rx_command/rx_command.dart';
 
 class MainNavigationDrawer extends StatefulWidget {
@@ -60,17 +61,14 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
 
     List<Widget> buildColumnEntries(User currentUser) {
       List<Widget> entries = <Widget>[]..addAll([
-          Text(
+          const Text(
             'VISIBILITY',
             textAlign: TextAlign.left,
             style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
           ),
-          SizedBox(height: 8),
+          verticalMargin8,
           _MainNavigationItem(
-            icon: InfAssetImage(
-              AppIcons.directOffers,
-              color: Colors.white,
-            ),
+            icon: const InfAssetImage(AppIcons.directOffers, color: Colors.white),
             text: 'Allow direct offers',
             trailing: InfSwitch(
               value: currentUser.acceptsDirectOffers,
@@ -83,10 +81,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
             ),
           ),
           _MainNavigationItem(
-            icon: InfAssetImage(
-              AppIcons.location,
-              color: Colors.white,
-            ),
+            icon: const InfAssetImage(AppIcons.location, color: Colors.white),
             text: 'Show my location',
             trailing: InfSwitch(
               value: currentUser.showLocation,
@@ -98,38 +93,32 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               activeColor: AppTheme.blue,
             ),
           ),
-          SizedBox(height: 16),
-          Text(
+          verticalMargin16,
+          const Text(
             'PAYMENT',
             textAlign: TextAlign.left,
             style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
           ),
-          SizedBox(height: 8),
+          verticalMargin8,
           _MainNavigationItem(
-            icon: InfAssetImage(
-              AppIcons.value,
-              color: Colors.white,
-            ),
+            icon: const InfAssetImage(AppIcons.value, color: Colors.white),
             text: 'Payment settings',
             onTap: () {},
           ),
           _MainNavigationItem(
-            icon: InfAssetImage(
-              AppIcons.earnings,
-              color: Colors.white,
-            ),
+            icon: const InfAssetImage(AppIcons.earnings, color: Colors.white),
             text: 'Earnings',
             onTap: () {},
           ),
-          SizedBox(height: 16),
-          Text(
+          verticalMargin16,
+          const Text(
             'SETTINGS',
             textAlign: TextAlign.left,
             style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
           ),
-          SizedBox(height: 8),
+          verticalMargin8,
           _MainNavigationItem(
-            icon: InfAssetImage(
+            icon: const InfAssetImage(
               AppIcons.switchUser,
               color: Colors.white,
             ),
@@ -146,7 +135,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
       child: Stack(
         fit: StackFit.passthrough,
         children: <Widget>[
-          Align(
+          const Align(
             alignment: Alignment.bottomCenter,
             child: CustomAnimatedCurves(),
           ),
@@ -155,7 +144,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               stream: userManager.currentUserUpdates,
               builder: (context, snapshot) {
                 if (!snapshot.hasData) {
-                  return SizedBox();
+                  return emptyWidget;
                 }
                 var user = snapshot.data;
                 return ListView(
@@ -169,9 +158,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
                       showDescription: true,
                       showSocialMedia: true,
                     ),
-                    SizedBox(
-                      height: 16.0,
-                    ),
+                    verticalMargin16,
                     Padding(
                       padding: const EdgeInsets.only(top: 20, left: 24.0, right: 12.0),
                       child: Column(
@@ -189,7 +176,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
             right: 0.0,
             top: 50.0,
             child: Container(
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 borderRadius: BorderRadiusDirectional.only(
                   topStart: Radius.circular(16.0),
                   bottomStart: Radius.circular(16.0),
@@ -198,11 +185,11 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               ),
               alignment: Alignment.centerRight,
               child: FlatButton(
-                padding: EdgeInsets.only(left: 8.0, right: 8.0),
+                padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 onPressed: () {
                   Navigator.of(context).push(ProfilePrivatePage.route());
                 },
-                child: Text(
+                child: const Text(
                   'View profile',
                   style: const TextStyle(fontSize: 16.0),
                 ),
@@ -221,12 +208,10 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
         builder: (context) => SwitchUserDialog(
               profiles: profiles,
             ));
-    if (selectedProfile == null)
-    {
+    if (selectedProfile == null) {
       return;
     }
-    if (selectedProfile.email == 'LOGOUT')
-    {
+    if (selectedProfile.email == 'LOGOUT') {
       backend<UserManager>().logOutUserCommand();
     }
     backend<UserManager>().switchUserCommand(selectedProfile);
@@ -261,18 +246,18 @@ class _MainNavigationItem extends StatelessWidget {
                 padding: const EdgeInsets.all(6.0),
                 height: 32.0,
                 width: 32.0,
-                decoration: BoxDecoration(shape: BoxShape.circle, color: AppTheme.white12),
+                decoration: const BoxDecoration(shape: BoxShape.circle, color: AppTheme.white12),
                 child: Center(
                   child: icon,
                 ),
               ),
-              SizedBox(width: 10.0),
+              horizontalMargin8,
               Text(
                 text,
                 style: const TextStyle(fontSize: 18.0),
               ),
-              Spacer(),
-              trailing != null ? trailing : SizedBox(),
+              const Spacer(),
+              trailing != null ? trailing : emptyWidget,
             ],
           ),
         ),

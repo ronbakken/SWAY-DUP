@@ -16,7 +16,7 @@ class FilterConfirmationButton extends StatefulWidget {
   final Widget child;
 
   static FilterConfirmationButtonState of(BuildContext context) {
-    return context.ancestorStateOfType(TypeMatcher<FilterConfirmationButtonState>());
+    return context.ancestorStateOfType(const TypeMatcher<FilterConfirmationButtonState>());
   }
 
   @override
@@ -52,7 +52,7 @@ class FilterConfirmationButtonState extends State<FilterConfirmationButton> {
               onPressed: () {},
               // FIXME: _deselectFilterPanel
               fillColor: AppTheme.lightBlue,
-              constraints: BoxConstraints(minWidth: 64.0, minHeight: 64.0),
+              constraints: const BoxConstraints(minWidth: 64.0, minHeight: 64.0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
               shape: const CircleBorder(),
               padding: const EdgeInsets.only(top: 4.0),

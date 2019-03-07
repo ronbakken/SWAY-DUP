@@ -34,7 +34,7 @@ class _AddOfferStep2State extends MultiPageWizardPageState<AddOfferStep2> {
     return Stack(
       fit: StackFit.expand,
       children: <Widget>[
-        Align(
+        const Align(
           alignment: Alignment.bottomCenter,
           child: CustomAnimatedCurves(),
         ),
@@ -53,13 +53,13 @@ class _AddOfferStep2State extends MultiPageWizardPageState<AddOfferStep2> {
                 channels: widget.offerBuilder.channels,
                 padding: const EdgeInsets.only(left: 24.0, bottom: 16.0),
               ),
-              ColumnSeparator(),
+              const ColumnSeparator(),
               DeliverySelector(
                 padding: const EdgeInsets.only(left: 24.0, right: 24),
                 label: 'CONTENT TYPE',
                 deliverableTypes: widget.offerBuilder.deliverableTypes,
               ),
-              ColumnSeparator(),
+              const ColumnSeparator(),
               Form(
                 key: _form,
                 child: Padding(

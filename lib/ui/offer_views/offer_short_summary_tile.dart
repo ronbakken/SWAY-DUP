@@ -6,6 +6,7 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class OfferShortSummaryTile extends StatelessWidget {
   const OfferShortSummaryTile({
@@ -41,9 +42,9 @@ class OfferShortSummaryTile extends StatelessWidget {
       );
     }
 
-    var channelsAndDleiverables = <Widget>[];
+    var channelsAndDeliverables = <Widget>[];
     for (var channel in offer.terms.deliverable.channels) {
-      channelsAndDleiverables.add(
+      channelsAndDeliverables.add(
         Padding(
           padding: const EdgeInsets.only(left: 4),
           child: CircleAvatar(
@@ -63,8 +64,8 @@ class OfferShortSummaryTile extends StatelessWidget {
     }
 
     for (var deliverableType in offer.terms.deliverable.types) {
-      channelsAndDleiverables.addAll([
-        SizedBox(width: 10.0),
+      channelsAndDeliverables.addAll([
+        horizontalMargin8,
         InfMemoryImage(
           backend<ConfigService>().getDeliveryIconFromType(deliverableType).iconData,
           width: 20.0,
@@ -74,17 +75,17 @@ class OfferShortSummaryTile extends StatelessWidget {
 
     var topRowItems = <Widget>[
       Expanded(
-              child: Text(
+        child: Text(
           offer.title,
           textScaleFactor: 1.2,
-          style: TextStyle(color: Colors.white),
+          style: const TextStyle(color: Colors.white),
           overflow: TextOverflow.ellipsis,
           maxLines: 1,
         ),
       ),
       Row(
         mainAxisSize: MainAxisSize.min,
-        children: channelsAndDleiverables,
+        children: channelsAndDeliverables,
       )
     ];
 
@@ -113,7 +114,7 @@ class OfferShortSummaryTile extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(width: 16.0),
+              horizontalMargin16,
               Expanded(
                 flex: 10,
                 child: Column(
@@ -123,32 +124,25 @@ class OfferShortSummaryTile extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: topRowItems,
                     ),
-                    SizedBox(height: 4.0),
+                    verticalMargin4,
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        InfAssetImage(
-                          AppIcons.value,
-                          height: 16,
-                        ),
-                        SizedBox(
-                          width: 8,
-                        ),
+                        const InfAssetImage(AppIcons.value, height: 16),
+                        horizontalMargin8,
                         Text(
                           offer.terms.reward.getTotalValueAsString(),
                           textScaleFactor: 1.2,
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 4,
-                    ),
+                    verticalMargin4,
                     Text(
                       offer.description ?? "",
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(color: AppTheme.white30),
+                      style: const TextStyle(color: AppTheme.white30),
                     ),
                   ],
                 ),

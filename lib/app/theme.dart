@@ -35,7 +35,7 @@ class AppTheme {
   );
 
   static ThemeData themeTopLevel() {
-    final textTheme = TextTheme(
+    final textTheme = const TextTheme(
       title: TextStyle(
         fontWeight: FontWeight.normal,
         fontSize: 16.0,
@@ -48,7 +48,7 @@ class AppTheme {
       primaryColor: AppTheme.blue,
       accentColor: Colors.lightBlue,
       fontFamily: AppFonts.mavenPro,
-      iconTheme: IconThemeData(
+      iconTheme: const IconThemeData(
         color: Colors.white,
       ),
       cursorColor: AppTheme.lightBlue,

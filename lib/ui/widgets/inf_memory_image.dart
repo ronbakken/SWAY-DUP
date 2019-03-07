@@ -31,7 +31,7 @@ class InfMemoryImage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (data == null || data.isEmpty) {
-      return Icon(Icons.close);
+      return const Icon(Icons.close);
     }
     if (isVector(data)) {
       return SvgPicture.memory(
