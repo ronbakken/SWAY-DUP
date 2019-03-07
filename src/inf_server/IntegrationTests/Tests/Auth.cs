@@ -34,8 +34,8 @@ namespace IntegrationTests.Tests
             var invitationCode = JToken.Parse(invitationCodeJson);
 
             await databaseClient
-                .Databases["invitation_codes"]
-                .Containers["codes"]
+                .Databases["inf"]
+                .Containers["invitationCodes"]
                 .Items
                 .UpsertItemAsync(code, invitationCode);
 
@@ -46,10 +46,10 @@ namespace IntegrationTests.Tests
             await client.SendLoginEmailAsync(new SendLoginEmailRequest { Email = userEmail, InvitationCode = code, UserType = userType });
 
             logger.Debug("Reading user's login token");
-            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.type = @UserType");
-            userLoginTokenQuery.UseParameter("@UserType", userType.ToString().ToCamelCase());
+            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.email = @UserEmail");
+            userLoginTokenQuery.UseParameter("@UserEmail", userEmail);
             var resultsIterator = databaseClient
-                .Databases["users"]
+                .Databases["inf"]
                 .Containers["users"]
                 .Items
                 .CreateItemQuery<string>(userLoginTokenQuery, 2, maxItemCount: 2);
@@ -131,10 +131,10 @@ namespace IntegrationTests.Tests
 
             logger.Debug("Reading user's login token");
             var databaseClient = context.GetDatabaseClient();
-            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.type = @UserType");
-            userLoginTokenQuery.UseParameter("@UserType", userType.ToString().ToCamelCase());
+            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.email = @UserEmail");
+            userLoginTokenQuery.UseParameter("@UserEmail", userEmail);
             var resultsIterator = databaseClient
-                .Databases["users"]
+                .Databases["inf"]
                 .Containers["users"]
                 .Items
                 .CreateItemQuery<string>(userLoginTokenQuery, 2, maxItemCount: 2);

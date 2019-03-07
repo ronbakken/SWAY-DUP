@@ -28,6 +28,7 @@ namespace IntegrationTests
                 .Enrich.WithMemoryUsage()
                 .Enrich.FromLogContext()
                 .MinimumLevel.Debug()
+                .WriteTo.Console()
                 .WriteTo.Debug()
                 .WriteTo.File(logFileName)
                 .CreateLogger();

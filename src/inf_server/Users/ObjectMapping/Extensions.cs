@@ -38,6 +38,7 @@ namespace Users.ObjectMapping
 
             result.CategoryIds.AddRange(@this.CategoryIds);
             result.Keywords.AddRange(@this.Keywords);
+            result.LocationsOfInfluence.AddRange(@this.LocationsOfInfluence.Select(x => x.ToEntity()));
             result.RegistrationTokens.AddRange(@this.RegistrationTokens);
             result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToEntity()));
 
@@ -76,8 +77,9 @@ namespace Users.ObjectMapping
 
             result.CategoryIds.AddRange(@this.CategoryIds);
             result.Keywords.AddRange(@this.Keywords);
+            result.LocationsOfInfluence.AddRange(@this.LocationsOfInfluence.Select(x => x.ToServiceDto()));
             result.RegistrationTokens.AddRange(@this.RegistrationTokens);
-            result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToEntity()));
+            result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToServiceDto()));
 
             return result;
         }
@@ -239,7 +241,7 @@ namespace Users.ObjectMapping
             return result;
         }
 
-        public static SocialMediaAccount ToEntity(this SocialMediaAccountEntity @this)
+        public static SocialMediaAccount ToServiceDto(this SocialMediaAccountEntity @this)
         {
             if (@this == null)
             {

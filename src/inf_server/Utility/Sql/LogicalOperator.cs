@@ -1,6 +1,6 @@
 ﻿namespace Utility.Sql
 {
-    public enum FilterLogicalOperator
+    public enum LogicalOperator
     {
         Or,
         And

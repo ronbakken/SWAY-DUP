@@ -319,11 +319,39 @@ namespace Users
 
                     this.logger.Debug("Retrieving offers users using page size {PageSize}, continuation token {ContinutationToken}, filter {@Filter}", pageSize, continuationToken, filter);
 
-                    var clause = new FilterClauseBuilder("u");
+                    /**
+                     * TODO: HACK: this is incredibly frustrating, but I've had to hack around several Cosmos problems as described here. This came about when
+                     * adding support for locations of influence. Before that, things were working fine as is.
+                     *
+                     * First of all, the query I want to write is this:
+                     *
+                     * SELECT DISTINCT VALUE u
+                     * FROM u JOIN loi IN u.locationsOfInfluence
+                     * WHERE
+                     *   (
+                     *     (ST_WITHIN({'type':'Point','coordinates':[u.location.geoPoint.longitude,u.location.geoPoint.latitude]},{'type':'Polygon','coordinates':[[[-108,-43],[-108,-40],[-110,-40],[-110,-43],[-108,-43]]]}))
+                     *     OR
+                     *     (ST_WITHIN({'type':'Point','coordinates':[loi.geoPoint.longitude,loi.geoPoint.latitude]},{'type':'Polygon','coordinates':[[[-108,-43],[-108,-40],[-110,-40],[-110,-43],[-108,-43]]]}))
+                     *   )
+                     * ORDER BY u.created
+                     *
+                     * The join on the locations of influence is key. It prompted the need for DISTINCT, since otherwise the same user could be included in the
+                     * results twice. The DISTINCT prompted the need for ORDER BY, which then allows the query to execute again. However, the DISTINCT is then
+                     * not applied (see https://stackoverflow.com/questions/55016239/).
+                     *
+                     * OK, fun. So how do I get around that? Well, my plan was to execute that query anyway and then manually de-duplicate client-side using a
+                     * simple hash of the ID. Sounded so simple, except that the query above runs in the portal *but not via the .NET client*. I have reported
+                     * this here: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/65
+                     *
+                     * So where does this leave me? The only alternative I can think of is to manually check each location of influence up to some maximum (3).
+                     * Hence, the query is terrible and more limited, but until these bugs are fixed my hands are tied.
+                     */
+
+                    var queryBuilder = new CosmosSqlQueryDefinitionBuilder("u");
 
                     if (filter != null)
                     {
-                        clause
+                        queryBuilder
                             .AppendScalarFieldOneOfClause(
                                 "type",
                                 filter.UserTypes,
@@ -332,23 +360,54 @@ namespace Users
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
-                                FilterLogicalOperator.And)
+                                LogicalOperator.And)
                             .AppendArrayFieldClause(
                                 "socialMediaAccounts",
                                 filter.SocialMediaNetworkIds,
                                 value => value,
-                                logicalOperator: FilterLogicalOperator.And,
+                                logicalOperator: LogicalOperator.And,
                                 subFieldName: "socialNetworkProviderId")
                             .AppendMoneyAtLeastClause(
                                 "minimumValue",
-                                new Utility.Money(filter.MinimumValue?.CurrencyCode, filter.MinimumValue?.Units ?? 0, filter.MinimumValue?.Nanos ?? 0))
-                            .AppendBoundingBoxClause(
-                                "location.geoPoint.longitude",
-                                "location.geoPoint.latitude",
-                                filter.NorthWest?.Latitude,
-                                filter.NorthWest?.Longitude,
-                                filter.SouthEast?.Latitude,
-                                filter.SouthEast?.Longitude);
+                                new Utility.Money(filter.MinimumValue?.CurrencyCode, filter.MinimumValue?.Units ?? 0, filter.MinimumValue?.Nanos ?? 0));
+
+                        if (filter.NorthWest != null && filter.SouthEast != null)
+                        {
+                            queryBuilder
+                                .AppendOpenParenthesis()
+                                .AppendBoundingBoxClause(
+                                    "location.geoPoint.longitude",
+                                    "location.geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendOrIfNecessary()
+                                .AppendBoundingBoxClause(
+                                    "locationsOfInfluence[0].geoPoint.longitude",
+                                    "locationsOfInfluence[0].geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendOrIfNecessary()
+                                .AppendBoundingBoxClause(
+                                    "locationsOfInfluence[1].geoPoint.longitude",
+                                    "locationsOfInfluence[1].geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendOrIfNecessary()
+                                .AppendBoundingBoxClause(
+                                    "locationsOfInfluence[2].geoPoint.longitude",
+                                    "locationsOfInfluence[2].geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendCloseParenthesis();
+                        }
 
                         if (!string.IsNullOrEmpty(filter.Phrase))
                         {
@@ -357,12 +416,12 @@ namespace Users
                                 .Take(10)
                                 .ToList();
 
-                            clause
+                            queryBuilder
                                 .AppendArrayFieldClause(
                                     "keywords",
                                     keywordsToFind,
                                     value => value,
-                                    FilterLogicalOperator.And);
+                                    LogicalOperator.And);
                         }
 
                         //if (filter.MinimumValue > 0)
@@ -379,22 +438,8 @@ namespace Users
                         //}
                     }
 
-                    var sql = new StringBuilder("SELECT * FROM u");
-
-                    if (!clause.IsEmpty)
-                    {
-                        sql
-                            .Append(" WHERE ")
-                            .Append(clause);
-                    }
-
-                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
-                    var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
-
-                    foreach (var parameter in clause.Parameters)
-                    {
-                        queryDefinition.UseParameter(parameter.Key, parameter.Value);
-                    }
+                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", queryBuilder, queryBuilder.Parameters);
+                    var queryDefinition = queryBuilder.Build();
 
                     // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = usersContainer

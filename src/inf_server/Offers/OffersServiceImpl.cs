@@ -196,11 +196,11 @@ namespace Offers
 
                     this.logger.Debug("Retrieving offers using page size {PageSize}, continuation token {ContinutationToken}, filter {@Filter}", pageSize, continuationToken, filter);
 
-                    var clause = new FilterClauseBuilder("o");
+                    var queryBuilder = new CosmosSqlQueryDefinitionBuilder("o");
 
                     if (filter != null)
                     {
-                        clause
+                        queryBuilder
                             .AppendScalarFieldClause(
                                 "businessAccountId",
                                 filter.BusinessAccountId.ValueOr(null),
@@ -225,7 +225,7 @@ namespace Offers
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
-                                FilterLogicalOperator.And)
+                                LogicalOperator.And)
                             .AppendMoneyAtLeastClause(
                                 "terms.reward.cashValue",
                                 new Utility.Money(filter.MinimumReward?.CurrencyCode, filter.MinimumReward?.Units ?? 0, filter.MinimumReward?.Nanos ?? 0))
@@ -244,31 +244,17 @@ namespace Offers
                                 .Take(10)
                                 .ToList();
 
-                            clause
+                            queryBuilder
                                 .AppendArrayFieldClause(
                                     "keywords",
                                     keywordsToFind,
                                     value => value,
-                                    FilterLogicalOperator.And);
+                                    LogicalOperator.And);
                         }
                     }
 
-                    var sql = new StringBuilder("SELECT * FROM o");
-
-                    if (!clause.IsEmpty)
-                    {
-                        sql
-                            .Append(" WHERE ")
-                            .Append(clause);
-                    }
-
-                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
-                    var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
-
-                    foreach (var parameter in clause.Parameters)
-                    {
-                        queryDefinition.UseParameter(parameter.Key, parameter.Value);
-                    }
+                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", queryBuilder, queryBuilder.Parameters);
+                    var queryDefinition = queryBuilder.Build();
 
                     // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = this

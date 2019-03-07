@@ -87,6 +87,7 @@ message User {
     Image avatar = 11;
     Image avatarThumbnail = 12;
     Location location = 13;
+    repeated Location locationsOfInfluence = 26;
     bool showLocation = 14;
     bool isVerified = 15;
     string websiteUrl = 16;

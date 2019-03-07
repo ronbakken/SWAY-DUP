@@ -67,6 +67,7 @@ message UserDto {
         bool showLocation = 8;
         int32 accountCompletionInPercent = 9;
         LocationDto location = 10;
+        repeated LocationDto locationsOfInfluence = 17;
         ImageDto avatar = 11;
         ImageDto avatarThumbnail = 12;
         repeated string categoryIds = 13;

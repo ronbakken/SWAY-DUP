@@ -1,37 +1,120 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Microsoft.Azure.Cosmos;
 
 namespace Utility.Sql
 {
-    public sealed class FilterClauseBuilder
+    public sealed class CosmosSqlQueryDefinitionBuilder
     {
         private readonly string tableAlias;
+        private readonly bool distinct;
+        private readonly bool value;
         private readonly StringBuilder filterClause;
         private readonly Dictionary<string, object> parameters;
+        private readonly List<Join> joins;
+        private readonly List<FieldName> orderBy;
         private bool logicalOperatorRequired;
 
-        public FilterClauseBuilder(string tableAlias)
+        public CosmosSqlQueryDefinitionBuilder(
+            string tableAlias,
+            bool distinct = false,
+            bool value = false)
         {
             this.tableAlias = tableAlias;
+            this.distinct = distinct;
+            this.value = value;
             this.filterClause = new StringBuilder();
             this.parameters = new Dictionary<string, object>();
+            this.joins = new List<Join>();
+            this.orderBy = new List<FieldName>();
         }
 
         public string TableAlias => this.tableAlias;
 
+        public bool Distinct => this.distinct;
+
+        public bool Value => this.value;
+
         public Dictionary<string, object> Parameters => this.parameters;
 
-        public int Length => this.filterClause.Length;
+        public List<FieldName> OrderBy => this.orderBy;
 
-        public bool IsEmpty => this.Length == 0;
+        public override string ToString()
+        {
+            var result = new StringBuilder();
 
-        public override string ToString() =>
-            this.filterClause.ToString();
+            result.Append("SELECT ");
+
+            if (distinct)
+            {
+                result.Append("DISTINCT ");
+            }
+
+            if (value)
+            {
+                result
+                    .Append("VALUE ")
+                    .Append(this.tableAlias);
+            }
+            else
+            {
+                result.Append("*");
+            }
+
+            result
+                .Append(" FROM ")
+                .Append(this.tableAlias);
+
+            foreach (var join in this.joins)
+            {
+                result
+                    .Append(" JOIN ")
+                    .Append(join.Alias)
+                    .Append(" IN ")
+                    .Append(join.Path);
+            }
+
+            if (this.filterClause.Length > 0)
+            {
+                result
+                    .Append(" WHERE ")
+                    .Append(this.filterClause.ToString());
+            }
+
+            if (this.orderBy.Count > 0)
+            {
+                result.Append(" ORDER BY ");
+
+                for (var i = 0; i < this.orderBy.Count; ++i)
+                {
+                    if (i > 0)
+                    {
+                        result.Append(",");
+                    }
+
+                    result.Append(this.orderBy[i].ToString(this.tableAlias));
+                }
+            }
+
+            return result.ToString();
+        }
+
+        public CosmosSqlQueryDefinition Build()
+        {
+            var queryDefinition = new CosmosSqlQueryDefinition(this.ToString());
+
+            foreach (var parameter in this.parameters)
+            {
+                queryDefinition.UseParameter(parameter.Key, parameter.Value);
+            }
+
+            return queryDefinition;
+        }
 
         // Appends an equality clause against the specified field such that it must equal the provided value.
-        public FilterClauseBuilder AppendScalarFieldClause<T>(
-            string fieldName,
+        public CosmosSqlQueryDefinitionBuilder AppendScalarFieldClause<T>(
+            FieldName fieldName,
             T value,
             Func<T, object> parameterSelector)
         {
@@ -45,7 +128,7 @@ namespace Utility.Sql
                 .AppendOpenParenthesis();
 
             this
-                .AppendQualifiedFieldName(fieldName)
+                .AppendFieldName(fieldName)
                 .Append("=")
                 .AppendParameter(parameterSelector(value));
 
@@ -54,8 +137,8 @@ namespace Utility.Sql
         }
 
         // Appends an equality clause against the specified field such that it must be one of the provided values.
-        public FilterClauseBuilder AppendScalarFieldOneOfClause<T>(
-            string fieldName,
+        public CosmosSqlQueryDefinitionBuilder AppendScalarFieldOneOfClause<T>(
+            FieldName fieldName,
             IList<T> values,
             Func<T, object> parameterSelector)
         {
@@ -87,13 +170,13 @@ namespace Utility.Sql
                     // Default enum values need special treatment because they're not actually written to the JSON.
                     this
                         .Append("NOT is_defined(")
-                        .AppendQualifiedFieldName(fieldName)
+                        .AppendFieldName(fieldName)
                         .Append(")");
                 }
                 else
                 {
                     this
-                        .AppendQualifiedFieldName(fieldName)
+                        .AppendFieldName(fieldName)
                         .Append("=")
                         .AppendParameter(parameterSelector(value));
                 }
@@ -106,11 +189,11 @@ namespace Utility.Sql
         }
 
         // Appends an "array contains" clause for the specified array field such that it must contain the provided values.
-        public FilterClauseBuilder AppendArrayFieldClause<T>(
-            string fieldName,
+        public CosmosSqlQueryDefinitionBuilder AppendArrayFieldClause<T>(
+            FieldName fieldName,
             IList<T> values,
             Func<T, object> parameterSelector,
-            FilterLogicalOperator logicalOperator = FilterLogicalOperator.Or,
+            LogicalOperator logicalOperator = LogicalOperator.Or,
             string subFieldName = null)
         {
             if (values == null || values.Count == 0)
@@ -130,7 +213,7 @@ namespace Utility.Sql
 
                 this
                     .Append("ARRAY_CONTAINS(")
-                    .AppendQualifiedFieldName(fieldName)
+                    .AppendFieldName(fieldName)
                     .Append(",");
 
                 if (subFieldName == null)
@@ -155,11 +238,23 @@ namespace Utility.Sql
         }
 
         // Appends a bounding-box constraint on the specified lat/long fields.
-        public FilterClauseBuilder AppendBoundingBoxClause(string longitudeFieldName, string latitudeFieldName, double? northWestLatitude, double? northWestLongitude, double? southEastLatitude, double? southEastLongitude)
+        public CosmosSqlQueryDefinitionBuilder AppendBoundingBoxClause(
+            FieldName longitudeFieldName,
+            FieldName latitudeFieldName,
+            double? northWestLatitude,
+            double? northWestLongitude,
+            double? southEastLatitude,
+            double? southEastLongitude,
+            Join requisiteJoin = null)
         {
             if (northWestLatitude == null || northWestLongitude == null || southEastLatitude == null || southEastLongitude == null)
             {
                 return this;
+            }
+
+            if (requisiteJoin != null)
+            {
+                this.joins.Add(requisiteJoin);
             }
 
             this
@@ -178,9 +273,9 @@ namespace Utility.Sql
 
             this
                 .Append("ST_WITHIN({'type':'Point','coordinates':[")
-                .AppendQualifiedFieldName(longitudeFieldName)
+                .AppendFieldName(longitudeFieldName)
                 .Append(",")
-                .AppendQualifiedFieldName(latitudeFieldName)
+                .AppendFieldName(latitudeFieldName)
                 .Append("]},{'type':'Polygon','coordinates':[[");
 
             for (var i = 0; i < boundingBoxCoordinates.Length; ++i)
@@ -208,8 +303,8 @@ namespace Utility.Sql
         }
 
         // Appends a clause that ensures a monetary value is at least the specified amount.
-        public FilterClauseBuilder AppendMoneyAtLeastClause(
-            string fieldName,
+        public CosmosSqlQueryDefinitionBuilder AppendMoneyAtLeastClause(
+            FieldName fieldName,
             Money value)
         {
             if (value == Money.Empty)
@@ -220,13 +315,13 @@ namespace Utility.Sql
             this
                 .AppendAndIfNecessary()
                 .AppendOpenParenthesis()
-                .AppendQualifiedFieldName(fieldName + ".currencyCode")
+                .AppendFieldName(fieldName + ".currencyCode")
                 .Append("=")
                 .AppendParameter(value.CurrencyCode)
                 .AppendAndIfNecessary()
                 .AppendOpenParenthesis()
                 .AppendOpenParenthesis()
-                .AppendQualifiedFieldName(fieldName + ".units")
+                .AppendFieldName(fieldName + ".units")
                 .Append("??0")
                 .AppendCloseParenthesis()
                 .Append(">")
@@ -234,14 +329,14 @@ namespace Utility.Sql
                 .AppendOrIfNecessary()
                 .AppendOpenParenthesis()
                 .AppendOpenParenthesis()
-                .AppendQualifiedFieldName(fieldName + ".units")
+                .AppendFieldName(fieldName + ".units")
                 .Append("??0")
                 .AppendCloseParenthesis()
                 .Append("=")
                 .AppendParameter(value.Units)
                 .AppendAndIfNecessary()
                 .AppendOpenParenthesis()
-                .AppendQualifiedFieldName(fieldName + ".nanos")
+                .AppendFieldName(fieldName + ".nanos")
                 .Append("??0")
                 .AppendCloseParenthesis()
                 .Append(">=")
@@ -253,19 +348,17 @@ namespace Utility.Sql
             return this;
         }
 
-        public FilterClauseBuilder AppendQualifiedFieldName(string fieldName)
+        public CosmosSqlQueryDefinitionBuilder AppendFieldName(FieldName fieldName)
         {
             this
                 .filterClause
-                .Append(this.tableAlias)
-                .Append(".")
-                .Append(fieldName);
-            this.logicalOperatorRequired = true;
+                .Append(fieldName.ToString(this.tableAlias));
 
+            this.logicalOperatorRequired = true;
             return this;
         }
 
-        public FilterClauseBuilder Append(string value)
+        public CosmosSqlQueryDefinitionBuilder Append(string value)
         {
             this
                 .filterClause
@@ -275,7 +368,7 @@ namespace Utility.Sql
             return this;
         }
 
-        public FilterClauseBuilder AppendOpenParenthesis()
+        public CosmosSqlQueryDefinitionBuilder AppendOpenParenthesis()
         {
             this.AppendAndIfNecessary();
 
@@ -287,7 +380,7 @@ namespace Utility.Sql
             return this;
         }
 
-        public FilterClauseBuilder AppendCloseParenthesis()
+        public CosmosSqlQueryDefinitionBuilder AppendCloseParenthesis()
         {
             this
                 .filterClause
@@ -297,25 +390,9 @@ namespace Utility.Sql
             return this;
         }
 
-        private FilterClauseBuilder Append(int value)
+        public CosmosSqlQueryDefinitionBuilder AppendLogicalOperatorIfNecessary(LogicalOperator logicalOperator)
         {
-            this
-                .filterClause
-                .Append(value);
-            return this;
-        }
-
-        private FilterClauseBuilder Append(double value)
-        {
-            this
-                .filterClause
-                .Append(value);
-            return this;
-        }
-
-        private FilterClauseBuilder AppendLogicalOperatorIfNecessary(FilterLogicalOperator logicalOperator)
-        {
-            if (logicalOperator == FilterLogicalOperator.And)
+            if (logicalOperator == LogicalOperator.And)
             {
                 return this.AppendAndIfNecessary();
             }
@@ -325,7 +402,7 @@ namespace Utility.Sql
             }
         }
 
-        private FilterClauseBuilder AppendOrIfNecessary()
+        public CosmosSqlQueryDefinitionBuilder AppendOrIfNecessary()
         {
             if (this.logicalOperatorRequired)
             {
@@ -336,7 +413,7 @@ namespace Utility.Sql
             return this;
         }
 
-        private FilterClauseBuilder AppendAndIfNecessary()
+        public CosmosSqlQueryDefinitionBuilder AppendAndIfNecessary()
         {
             if (this.logicalOperatorRequired)
             {
@@ -347,7 +424,23 @@ namespace Utility.Sql
             return this;
         }
 
-        private FilterClauseBuilder AppendParameter(object value)
+        private CosmosSqlQueryDefinitionBuilder Append(int value)
+        {
+            this
+                .filterClause
+                .Append(value);
+            return this;
+        }
+
+        private CosmosSqlQueryDefinitionBuilder Append(double value)
+        {
+            this
+                .filterClause
+                .Append(value);
+            return this;
+        }
+
+        private CosmosSqlQueryDefinitionBuilder AppendParameter(object value)
         {
             var parameterName = "@p" + this.parameters.Count;
             this.parameters.Add(parameterName, value);

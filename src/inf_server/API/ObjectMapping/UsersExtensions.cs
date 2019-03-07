@@ -72,6 +72,7 @@ namespace API.ObjectMapping
             };
 
             result.CategoryIds.AddRange(@this.Full.CategoryIds);
+            result.LocationsOfInfluence.AddRange(@this.Full.LocationsOfInfluence.Select(x => x.ToUsersLocation()));
             result.RegistrationTokens.AddRange(@this.Full.RegistrationTokens);
             result.SocialMediaAccounts.AddRange(@this.Full.SocialMediaAccounts.Select(x => x.ToSocialMediaAccount()));
 
@@ -103,6 +104,7 @@ namespace API.ObjectMapping
             };
 
             result.CategoryIds.AddRange(@this.CategoryIds);
+            result.LocationsOfInfluence.AddRange(@this.LocationsOfInfluence.Select(x => x.ToLocationDto()));
             result.RegistrationTokens.AddRange(@this.RegistrationTokens);
             result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToSocialMediaAccount()));
 

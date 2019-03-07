@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
@@ -115,20 +114,20 @@ namespace Mapping
 
         private static CosmosSqlQueryDefinition GetSqlQueryDefinition(ILogger logger, ListMapItemsRequest.Types.Filter filter)
         {
-            var clause = new FilterClauseBuilder("m");
+            var queryBuilder = new CosmosSqlQueryDefinitionBuilder("m");
 
             if (filter.ItemTypes.Count > 0)
             {
-                clause.Append("(");
+                queryBuilder.Append("(");
 
                 for (var i = 0; i < filter.ItemTypes.Count; ++i)
                 {
                     if (i > 0)
                     {
-                        clause.Append(" OR ");
+                        queryBuilder.Append(" OR ");
                     }
 
-                    clause
+                    queryBuilder
                         .Append("is_defined(");
 
                     var itemType = filter.ItemTypes[i];
@@ -136,30 +135,30 @@ namespace Mapping
                     switch (itemType)
                     {
                         case ListMapItemsRequest.Types.Filter.Types.ItemType.Offers:
-                            clause
-                                .AppendQualifiedFieldName("offer");
+                            queryBuilder
+                                .AppendFieldName("offer");
                             break;
                         case ListMapItemsRequest.Types.Filter.Types.ItemType.Users:
-                            clause
-                                .AppendQualifiedFieldName("user");
+                            queryBuilder
+                                .AppendFieldName("user");
                             break;
                         default:
                             throw new NotSupportedException();
                     }
 
-                    clause
+                    queryBuilder
                         .Append(")");
                 }
 
-                clause.Append(")");
+                queryBuilder.Append(")");
             }
 
-            clause
+            queryBuilder
                 .AppendArrayFieldClause(
                     "categoryIds",
                     filter.CategoryIds,
                     value => value,
-                    FilterLogicalOperator.And);
+                    LogicalOperator.And);
 
             if (!string.IsNullOrEmpty(filter.Phrase))
             {
@@ -168,21 +167,21 @@ namespace Mapping
                     .Take(10)
                     .ToList();
 
-                clause
+                queryBuilder
                     .AppendArrayFieldClause(
                         "keywords",
                         keywordsToFind,
                         value => value,
-                        FilterLogicalOperator.And);
+                        LogicalOperator.And);
             }
 
             if (filter.OfferFilter != null)
             {
                 // Apply offer filter to offer items only
-                clause
+                queryBuilder
                     .AppendOpenParenthesis()
                     .Append("is_defined(")
-                    .AppendQualifiedFieldName("offer")
+                    .AppendFieldName("offer")
                     .Append(")")
                     .AppendScalarFieldOneOfClause(
                         "offer.acceptancePolicy",
@@ -210,10 +209,10 @@ namespace Mapping
             if (filter.UserFilter != null)
             {
                 // Apply user filter to user items only
-                clause
+                queryBuilder
                     .AppendOpenParenthesis()
                     .Append("is_defined(")
-                    .AppendQualifiedFieldName("user")
+                    .AppendFieldName("user")
                     .Append(")")
                     .AppendScalarFieldOneOfClause(
                         "user.type",
@@ -223,28 +222,14 @@ namespace Mapping
                         "user.socialMediaNetworkIds",
                         filter.UserFilter.SocialMediaNetworkIds,
                         value => value,
-                        logicalOperator: FilterLogicalOperator.And)
+                        logicalOperator: LogicalOperator.And)
                     .AppendCloseParenthesis();
             }
 
             // TODO: filter out deleted items with a status timestamp > some period (1 day? 1 week? 1 month?)
 
-            var sql = new StringBuilder("SELECT * FROM m");
-
-            if (!clause.IsEmpty)
-            {
-                sql
-                    .Append(" WHERE ")
-                    .Append(clause);
-            }
-
-            logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
-            var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
-
-            foreach (var parameter in clause.Parameters)
-            {
-                queryDefinition.UseParameter(parameter.Key, parameter.Value);
-            }
+            logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", queryBuilder, queryBuilder.Parameters);
+            var queryDefinition = queryBuilder.Build();
 
             return queryDefinition;
         }

@@ -72,6 +72,7 @@ message UserEntity {
     ImageEntity avatar = 11;
     ImageEntity avatarThumbnail = 12;
     LocationEntity location = 13;
+    repeated LocationEntity locationsOfInfluence = 25;
     bool showLocation = 14;
     bool isVerified = 15;
     string websiteUrl = 16;
