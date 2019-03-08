@@ -50,7 +50,7 @@ class ConfigServiceImplementation implements ConfigService {
     //   configData = AppConfigDto.fromJson(configJson);
     // }
 
-    // Get curren Config and API version from server
+    // Get current Config and API version from server
     var versionInformationFromServer = await backend<InfApiClientsService>().configClient.getVersions(
           Empty(),
           options: CallOptions(

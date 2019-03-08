@@ -84,7 +84,8 @@ class _StartupPageState extends PageState<StartupPage> {
       },
     );
 
-    initBackend().catchError((error) async {
+    initBackend().catchError((e, st) async {
+      print('$e\n$st');
       await Navigator.of(context).push(NoConnectionPage.route());
       await initBackend();
     }).then((_) async {

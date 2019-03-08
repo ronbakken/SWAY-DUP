@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:grpc/grpc.dart';
 import 'package:inf/backend/backend.dart';
@@ -45,7 +47,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   InfApiClientsServiceImplementation();
 
   @override
-  void init(String host, port) {
+  void init(String host, int port, [ByteData certificates, String certificateAuthority]) {
     _networkStateSubscription =
         backend<SystemService>().connectionStateChanges.debounce(const Duration(seconds: 2)).listen((state) async {
       // if we have a network connection check if the server is online
@@ -71,11 +73,25 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
     });
     this.host = host;
 
+    ChannelCredentials channelCredentials;
+    if (certificates != null) {
+      channelCredentials = ChannelCredentials.secure(
+        certificates: certificates.buffer.asUint8List(),
+        authority: certificateAuthority,
+        onBadCertificate: (X509Certificate certificate, String host) {
+          print('bad cert: $host\n\tsubject: ${certificate.subject}\n\tissuer: ${certificate.issuer}');
+          return false;
+        },
+      );
+    } else {
+      channelCredentials = const ChannelCredentials.insecure();
+    }
+
     channel = new ClientChannel(
       host,
       port: port,
-      options: const ChannelOptions(
-        credentials: const ChannelCredentials.insecure(),
+      options: ChannelOptions(
+        credentials: channelCredentials,
       ),
     );
 
@@ -97,7 +113,8 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
       if (result is AliveMessage) {
         return true;
       }
-    } catch (e) {
+    } catch (e, st) {
+      print('$e\n$st');
       return false;
     }
     return false;

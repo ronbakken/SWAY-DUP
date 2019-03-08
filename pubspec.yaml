@@ -42,11 +42,11 @@ dependencies:
     sdk: flutter
 
   inf_api_client:
-#    path: ../inf_server/src/inf_api_client
+    #    path: ../inf_server/src/inf_api_client
     git:
-       url: https://github.com/infmarketplace/inf_server.git
-       ref: alpha
-       path: src/inf_api_client
+      url: https://github.com/infmarketplace/inf_server.git
+      ref: alpha
+      path: src/inf_api_client
 
 dev_dependencies:
   flutter_test:
@@ -56,17 +56,18 @@ flutter:
   uses-material-design: true
 
   assets:
-  - assets/images/
-  - assets/mockdata/
-  - assets/mockdata/category_icons/
-  - assets/mockdata/delivery_type_icons/
-  - assets/mockdata/social_media_icons/
+    - assets/root.crt
+    - assets/images/
+    - assets/mockdata/
+    - assets/mockdata/category_icons/
+    - assets/mockdata/delivery_type_icons/
+    - assets/mockdata/social_media_icons/
 
   fonts:
-  - family: MavenPro
-    fonts:
-    - asset: assets/fonts/mavenpro-regular.ttf
-    - asset: assets/fonts/mavenpro-medium.ttf
-      weight: 500
-    - asset: assets/fonts/mavenpro-bold.ttf
-      weight: 700
+    - family: MavenPro
+      fonts:
+        - asset: assets/fonts/mavenpro-regular.ttf
+        - asset: assets/fonts/mavenpro-medium.ttf
+          weight: 500
+        - asset: assets/fonts/mavenpro-bold.ttf
+          weight: 700
