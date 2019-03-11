@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:developer' show log;
 import 'dart:typed_data';
 
 import 'package:get_it/get_it.dart';
@@ -119,19 +120,26 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken, AssetLoader as
 }
 
 void configureDevLogger() {
-  // Set up logging options
   hierarchicalLoggingEnabled = true;
   Logger.root.level = Level.ALL;
-  Logger.root.onRecord.listen((LogRecord rec) {
-    print('${rec.loggerName}: ${rec.level.name}: ${rec.time}: ${rec.message}');
+  Logger.root.onRecord.listen((LogRecord record) {
+    String message = record.message;
+    message += record.object?.toString() ?? '';
+    message += record.error?.toString() ?? '';
+    message += record.stackTrace?.toString() ?? '';
+    for (String line in message.trim().split('\n')) {
+      log(
+        line,
+        time: record.time,
+        sequenceNumber: record.sequenceNumber,
+        level: record.level.value,
+        name: record.loggerName,
+        zone: record.zone,
+        error: record.error,
+        stackTrace: record.stackTrace,
+      );
+    }
   });
-  new Logger('Inf').level = Level.ALL;
-  new Logger('Inf.Network').level = Level.ALL;
-  new Logger('Inf.Config').level = Level.ALL;
-  new Logger('Switchboard').level = Level.ALL;
-  new Logger('Switchboard.Mux').level = Level.ALL;
-  new Logger('Switchboard.Talk').level = Level.ALL;
-  new Logger('Switchboard.Router').level = Level.ALL;
 }
 
 Future<void> initBackend() async {

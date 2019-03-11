@@ -6,9 +6,12 @@ import 'package:inf/domain/category.dart';
 import 'package:inf/domain/deliverable.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:logging/logging.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ConfigServiceImplementation implements ConfigService {
+  final logger = Logger('ConfigService');
+
   @override
   List<Category> categories;
 
@@ -84,7 +87,8 @@ class ConfigServiceImplementation implements ConfigService {
         configData.socialNetworkProviders.map<SocialNetworkProvider>((dto) => SocialNetworkProvider(dto)).toList();
     deliverableIcons = configData.deliverableIcons.map<DeliverableIcon>((dto) => DeliverableIcon(dto)).toList();
     categories = configData.categories.map<Category>((dto) => Category(dto)).toList();
-    print(versionInformationFromServer);
+
+    logger.log(Level.INFO, versionInformationFromServer.toString());
   }
 
   @override
