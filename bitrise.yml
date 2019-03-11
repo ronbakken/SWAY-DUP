@@ -12,6 +12,11 @@ workflows:
         inputs:
         - source: "$BITRISEIO_CI_PFX_URL"
         - destination: "$BITRISE_SOURCE_DIR/Azure.pfx"
+    - file-downloader:
+        title: Download SSL Certificates
+        inputs:
+        - source: "$BITRISEIO_SSL_CERTS_URL"
+        - destination: "$BITRISE_SOURCE_DIR/SSLCertificates.zip"
   _cloudPostSteps:
     steps:
     - deploy-to-bitrise-io:

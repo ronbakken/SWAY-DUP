@@ -1,4 +1,6 @@
-﻿using System.Fabric;
+﻿using System.Collections.Generic;
+using System.Fabric;
+using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
@@ -6,22 +8,25 @@ using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Serilog;
 
-namespace Utility
+namespace Utility.gRPC
 {
-    public sealed class gRPCCommunicationListener : ICommunicationListener
+    public sealed class CommunicationListener : ICommunicationListener
     {
         private readonly ILogger logger;
+        private readonly bool useSsl;
         private readonly ServerServiceDefinition[] services;
         Server server;
 
-        public gRPCCommunicationListener(
+        public CommunicationListener(
             ILogger logger,
+            bool useSsl,
             params ServerServiceDefinition[] services)
         {
-            this.logger = logger.ForContext<gRPCCommunicationListener>();
+            this.logger = logger.ForContext<CommunicationListener>();
+            this.useSsl = useSsl;
             this.services = services;
 
-            this.logger.Information("Constructed gRPCCommunicationListener.");
+            this.logger.Information("Constructed CommunicationListener.");
         }
 
         public async void Abort()
@@ -56,11 +61,29 @@ namespace Utility
             var address = $"{endpoint.IpAddressOrFqdn}:{endpoint.Port}";
             this.logger.Information("Address is {Address}", address);
 
+            ServerCredentials serverCredentials = ServerCredentials.Insecure;
+
+            if (this.useSsl)
+            {
+                var sslConfiguration = SslConfiguration.Instance;
+
+                if (sslConfiguration != null)
+                {
+                    this.logger.Debug("Applying SSL configuration to connection");
+                    var keyPair = new KeyCertificatePair(sslConfiguration.ServerCertificate, sslConfiguration.ServerKey);
+                    serverCredentials = new SslServerCredentials(new List<KeyCertificatePair>() { keyPair });
+                }
+                else
+                {
+                    this.logger.Warning("SSL configuration could not be determined. This is fine if you're running locally or in unofficial deployed environments, but is unexpected elsewhere");
+                }
+            }
+
             server = new Server
             {
                 Ports =
                 {
-                    new ServerPort(endpoint.IpAddressOrFqdn, endpoint.Port, ServerCredentials.Insecure),
+                    new ServerPort("0.0.0.0", endpoint.Port, serverCredentials),
                 },
             };
 
@@ -73,6 +96,15 @@ namespace Utility
             this.logger.Information("Server started");
 
             return Task.FromResult(address);
+        }
+
+        private async Task<string> ReadResource(string name)
+        {
+            using (var stream = this.GetType().Assembly.GetManifestResourceStream($"Utility.{name}"))
+            using (var streamReader = new StreamReader(stream))
+            {
+                return await streamReader.ReadToEndAsync();
+            }
         }
     }
 }

@@ -9,6 +9,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using Serilog;
 using Users.Interfaces;
 using Utility;
+using Utility.gRPC;
 
 namespace Users
 {
@@ -37,8 +38,9 @@ namespace Users
             {
                 new ServiceInstanceListener(
                     initParams =>
-                        new gRPCCommunicationListener(
+                        new CommunicationListener(
                             this.logger,
+                            useSsl: false,
                             UsersService.BindService(this.implementation))),
             };
     }

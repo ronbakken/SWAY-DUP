@@ -86,6 +86,7 @@ var srcDir = Directory("src/inf_server");
 var pkgDir = Directory("pkg") + Directory(configuration);
 var zippedPackageFile = Directory("pkg") + File("package.sfpkg");
 var pfxFile = File("Azure.pfx");
+var sslCertificatesFile = File("SSLCertificates.zip");
 var infrastructureTemplateFile = srcDir + File("arm_infrastructure.json");
 var applicationTemplateFile = srcDir + File("arm_service_fabric_app.json");
 var solutionFile = srcDir + File("server.sln");
@@ -133,8 +134,42 @@ Teardown(
 Task("Clean")
     .Does(() => CleanDirectories(pkgDir));
 
+Task("Pre-Deploy")
+    .Does(
+        () =>
+        {
+            if (FileExists(sslCertificatesFile))
+            {
+                var targetDirectory = srcDir + Directory("Utility/gRPC");
+                Information($"Unzipping SSL certificates to '{targetDirectory}'.");
+                Unzip(sslCertificatesFile, targetDirectory);
+
+                var serverCrtFile = targetDirectory + File($"server_{environment}.crt");
+                var serverKeyFile = targetDirectory + File($"server_{environment}.key");
+
+                if (FileExists(serverCrtFile))
+                {
+                    var targetFile = targetDirectory + File("server.crt");
+                    Information($"Moving '{serverCrtFile}' to '{targetFile}'.");
+                    MoveFile(serverCrtFile, targetFile);
+
+                    var integrationTestsDir = srcDir + Directory("IntegrationTests");
+                    Information($"Copying '{targetFile}' to '{integrationTestsDir}'.");
+                    CopyFile(targetFile, integrationTestsDir + File("server.crt"));
+                }
+
+                if (FileExists(serverKeyFile))
+                {
+                    var targetFile = targetDirectory + File("server.key");
+                    Information($"Moving '{serverKeyFile}' to '{targetFile}'.");
+                    MoveFile(serverKeyFile, targetFile);
+                }
+            }
+        });
+
 Task("Deploy")
     .IsDependentOn("Clean")
+    .IsDependentOn("Pre-Deploy")
     .Does(
         async (context) =>
         {

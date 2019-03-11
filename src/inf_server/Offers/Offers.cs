@@ -9,6 +9,7 @@ using Microsoft.ServiceFabric.Services.Runtime;
 using Offers.Interfaces;
 using Serilog;
 using Utility;
+using Utility.gRPC;
 
 namespace Offers
 {
@@ -37,8 +38,9 @@ namespace Offers
             {
                 new ServiceInstanceListener(
                     initParams =>
-                        new gRPCCommunicationListener(
+                        new CommunicationListener(
                             this.logger,
+                            useSsl: false,
                             OffersService.BindService(this.implementation))),
             };
     }

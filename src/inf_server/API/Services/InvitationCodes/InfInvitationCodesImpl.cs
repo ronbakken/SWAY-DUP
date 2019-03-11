@@ -5,6 +5,7 @@ using Grpc.Core;
 using InvitationCodes.Interfaces;
 using Serilog;
 using Utility;
+using Utility.gRPC;
 using static API.Interfaces.InfInvitationCodes;
 using static InvitationCodes.Interfaces.InvitationCodeService;
 

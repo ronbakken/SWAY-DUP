@@ -52,7 +52,15 @@ namespace IntegrationTests
                 var fixture = new Fixture()
                     .Customize(new GetOnlyCollectionsCustomization());
 
-                var channel = new Channel(serverAddress, ChannelCredentials.Insecure);
+                ChannelCredentials channelCredentials = ChannelCredentials.Insecure;
+                var sslConfiguration = SslConfiguration.Instance;
+
+                if (sslConfiguration != null)
+                {
+                    channelCredentials = new SslCredentials(sslConfiguration.ServerCertificate);
+                }
+
+                var channel = new Channel(serverAddress, channelCredentials);
                 var executionContext = new ExecutionContext(logger, fixture)
                     .WithServerAddress(serverAddress)
                     .WithServerChannel(channel)

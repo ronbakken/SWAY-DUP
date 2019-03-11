@@ -29,4 +29,12 @@
         <ProjectReference Include="..\Utility\Utility.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+        <None Remove="*.crt" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="*.crt" />
+    </ItemGroup>
+
 </Project>

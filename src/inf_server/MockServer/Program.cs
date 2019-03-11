@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using API.Interfaces;
 using Grpc.Core;
@@ -11,7 +12,11 @@ namespace MockServer
 
         public static async Task Main(string[] args)
         {
-            var server = new Server
+			var sslConfig = SslConfiguration.Instance;
+			var keyPair = new KeyCertificatePair(sslConfig.ServerCertificate, sslConfig.ServerKey);
+			var serverCredentials = new SslServerCredentials(new List<KeyCertificatePair>() { keyPair });
+
+			var server = new Server
             {
                 Services =
                 {
@@ -27,7 +32,7 @@ namespace MockServer
                 },
                 Ports =
                 {
-                    new ServerPort("0.0.0.0", port, ServerCredentials.Insecure)
+                    new ServerPort("0.0.0.0", port, serverCredentials)
                 },
             };
             server.Start();

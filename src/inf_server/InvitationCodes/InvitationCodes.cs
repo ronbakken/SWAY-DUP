@@ -8,6 +8,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Serilog;
 using Utility;
+using Utility.gRPC;
 
 namespace InvitationCodes
 {
@@ -35,8 +36,9 @@ namespace InvitationCodes
             {
                 new ServiceInstanceListener(
                     initParams =>
-                        new gRPCCommunicationListener(
+                        new CommunicationListener(
                             this.logger,
+                            useSsl: false,
                             InvitationCodeService.BindService(this.implementation))),
             };
     }

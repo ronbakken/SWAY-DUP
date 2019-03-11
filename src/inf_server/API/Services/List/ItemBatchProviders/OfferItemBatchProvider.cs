@@ -4,7 +4,7 @@ using API.Interfaces;
 using API.ObjectMapping;
 using Offers.Interfaces;
 using Serilog;
-using Utility;
+using Utility.gRPC;
 using static Offers.Interfaces.OffersService;
 
 namespace API.Services.List.ItemBatchProviders

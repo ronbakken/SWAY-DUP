@@ -5,6 +5,7 @@ using Grpc.Core;
 using Serilog;
 using Users.Interfaces;
 using Utility;
+using Utility.gRPC;
 using static API.Interfaces.InfUsers;
 using static Users.Interfaces.UsersService;
 using api = API.Interfaces;

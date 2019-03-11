@@ -7,7 +7,7 @@ using Grpc.Core;
 using Grpc.Core.Interceptors;
 using Microsoft.ServiceFabric.Services.Client;
 
-namespace Utility
+namespace Utility.gRPC
 {
     public static class APIClientResolver
     {
@@ -32,7 +32,17 @@ namespace Utility
             var address = endpoint.Address.Substring(endpoint.Address.IndexOf("\"\":\"") + 4);
             address = address.Substring(0, address.IndexOf("\""));
 
-            var channel = new Channel(address, ChannelCredentials.Insecure);
+            ChannelCredentials channelCredentials = ChannelCredentials.Insecure;
+            var sslConfiguration = SslConfiguration.Instance;
+
+            // TODO: do we want to use SSL for intra-service comms? If so, it'll need to be a separate certificate that wildcards appropriately
+            // based on the cluster host names. We'd need to log to see what the pattern is for those names.
+            //if (sslConfiguration != null)
+            //{
+            //    channelCredentials = new SslCredentials(sslConfiguration.ServerCertificate);
+            //}
+
+            var channel = new Channel(address, channelCredentials);
             var callInvoker = channel.Intercept(LogContextInterceptor.Instance);
 
             var client = Activator.CreateInstance(typeof(T), callInvoker);

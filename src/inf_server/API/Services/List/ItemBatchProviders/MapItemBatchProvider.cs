@@ -4,7 +4,7 @@ using API.Interfaces;
 using API.ObjectMapping;
 using Mapping.Interfaces;
 using Serilog;
-using Utility;
+using Utility.gRPC;
 using Utility.Mapping;
 using static Mapping.Interfaces.MappingService;
 

@@ -7,6 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="gRPC\*.crt" />
+        <None Remove="gRPC\*.key" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="gRPC\*.crt" />
+        <EmbeddedResource Include="gRPC\*.key" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Genesis.Ensure" />
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />

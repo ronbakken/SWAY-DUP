@@ -8,6 +8,7 @@ using InvitationCodes.Interfaces;
 using Serilog;
 using Users.Interfaces;
 using Utility;
+using Utility.gRPC;
 using Utility.Tokens;
 using static API.Interfaces.InfAuth;
 using static InvitationCodes.Interfaces.InvitationCodeService;

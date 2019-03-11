@@ -5,6 +5,7 @@ using Grpc.Core;
 using Offers.Interfaces;
 using Serilog;
 using Utility;
+using Utility.gRPC;
 using static API.Interfaces.InfOffers;
 using static Offers.Interfaces.OffersService;
 using api = API.Interfaces;

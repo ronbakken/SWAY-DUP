@@ -16,6 +16,7 @@ using Microsoft.ServiceFabric.Services.Communication.Runtime;
 using Microsoft.ServiceFabric.Services.Runtime;
 using Serilog;
 using Utility;
+using Utility.gRPC;
 
 namespace API
 {
@@ -37,8 +38,9 @@ namespace API
         {
             var authorizationInterceptor = new AuthorizationInterceptor(this.logger);
 
-            var gRPCCommunicationListener = new gRPCCommunicationListener(
+            var communicationListener = new CommunicationListener(
                 this.logger,
+                useSsl: true,
                 InfApi.BindService(new Services.Mocks.InfApiImpl()).Intercept(authorizationInterceptor),
                 InfAuth.BindService(new InfAuthImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfBlobStorage.BindService(new InfBlobStorageImpl(this.logger)).Intercept(authorizationInterceptor),
@@ -53,7 +55,7 @@ namespace API
 
             return new[]
             {
-                new ServiceInstanceListener(initParams => gRPCCommunicationListener),
+                new ServiceInstanceListener(initParams => communicationListener),
             };
         }
     }
