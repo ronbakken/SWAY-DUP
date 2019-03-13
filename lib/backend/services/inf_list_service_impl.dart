@@ -9,18 +9,14 @@ class InfListServiceImplementation implements InfListService {
   @override
   Stream<List<InfItem>> listItems(Stream<Filter> filterStream) {
     try {
-    return backend
-        .get<InfApiClientsService>()
-        .listClient
-        .list(
-          filterStream.map<ListRequest>(mapFilterToListRequest),
-          options: backend<AuthenticationService>().callOptions,
-        )
-        .map<List<InfItem>>((items) => items.items
-            .map(
-              (item) => InfItem.fromDto(item))
-            .toList());
-
+      return backend
+          .get<InfApiClientsService>()
+          .listClient
+          .list(
+            filterStream.map<ListRequest>(mapFilterToListRequest),
+            options: backend<AuthenticationService>().callOptions,
+          )
+          .map<List<InfItem>>((items) => items.items.map((item) => InfItem.fromDto(item)).toList());
     } catch (e) {
       print(e);
       rethrow;
@@ -28,8 +24,7 @@ class InfListServiceImplementation implements InfListService {
   }
 
   @override
-  Stream<List<InfItem>> listenItemChanges(Stream<Filter> filterStream)
-  {
+  Stream<List<InfItem>> listenItemChanges(Stream<Filter> filterStream) {
     return backend
         .get<InfApiClientsService>()
         .listenClient
@@ -42,18 +37,17 @@ class InfListServiceImplementation implements InfListService {
               (item) => InfItem.fromDto(item),
             )
             .toList());
-
   }
 
   ListRequest mapFilterToListRequest(Filter filter) {
-      return ListRequest()
+    return ListRequest()
       ..state = ListRequest_State.resumed
       ..filter = mapFilter(filter);
   }
 
   ListenRequest mapFilterToListenRequest(Filter filter) {
-      return ListenRequest()
-      ..action =ListenRequest_Action.register
+    return ListenRequest()
+      ..action = ListenRequest_Action.register
       ..filter = mapFilter(filter);
   }
 
@@ -62,36 +56,24 @@ class InfListServiceImplementation implements InfListService {
     ItemFilterDto_OfferFilterDto offerFilter;
     ItemFilterDto_UserFilterDto userFilter;
 
-    var itemTypes = <ItemFilterDto_ItemType>[];
     var userType = backend<UserManager>().currentUser.userType;
-
     if (filter.freeText != null && filter.freeText.isNotEmpty && userType == UserType.influencer) {
-      // if influencers search with free text they get businesses and offers back
-      itemTypes.add(ItemFilterDto_ItemType.offers);
+      // if Influencers search with free text they get businesses and offers back
       userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.business);
-
       // TODO continue
     }
     if (userType == UserType.influencer) {
-      itemTypes.add(ItemFilterDto_ItemType.offers);
       offerFilter = ItemFilterDto_OfferFilterDto();
     } else if (userType == UserType.business) {
       userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.influencer);
-      if (filter.offeringBusinessId != null && filter.offeringBusinessId.isNotEmpty)
-      {
-        itemTypes=[ItemFilterDto_ItemType.offers];
+      if (filter.offeringBusinessId != null && filter.offeringBusinessId.isNotEmpty) {
         offerFilter = ItemFilterDto_OfferFilterDto();
         //offerFilter.businessAccountId = filter.offeringBusinessId;
-      }
-      else
-      {
-        itemTypes.add(ItemFilterDto_ItemType.users);
       }
     } else {
       throw Exception('Unsupported user type');
     }
 
-    filterDto.itemTypes.addAll(itemTypes);
     if (offerFilter != null) {
       filterDto.offerFilter = offerFilter;
     }

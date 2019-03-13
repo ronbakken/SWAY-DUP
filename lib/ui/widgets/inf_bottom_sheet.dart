@@ -82,7 +82,7 @@ class _InfBottomSheetHeader extends StatelessWidget {
               alignment: Alignment.centerRight,
               child: InkResponse(
                 onTap: () => Navigator.of(context).pop(null),
-                child: const InfIcon(AppIcons.close, size: 16.0),
+                child: const Center(child: InfIcon(AppIcons.close, size: 16.0)),
               ),
             ),
           )

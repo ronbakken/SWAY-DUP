@@ -97,7 +97,7 @@ class OfferBuilder {
     barterValue = offer.terms.reward.barterValue;
     rewardDescription = offer.terms.reward.description ?? '';
     rewardType = offer.terms.reward.type;
-    minFollowers = offer.minFolllowers ?? 0;
+    minFollowers = offer.minFollowers ?? 0;
     location = offer.location.copyWidth();
     numberOffered = offer.numberOffered;
     unlimitedAvailable = offer.unlimitedAvailable;

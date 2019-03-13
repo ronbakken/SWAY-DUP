@@ -87,16 +87,18 @@ class _MainMapViewState extends State<MainMapView> {
             point: LatLng(item.latitude, item.longitude),
             builder: (BuildContext context) {
               Uint8List iconData;
-              if (item.offer.categories[0].parentId.isEmpty) {
-                iconData = item.offer.categories[0].iconData;
-              } else {
-                // fixme: link topcategories directly to subcategories at startup in ConfigService
-                var topLevelCategory = backend
-                    .get<ConfigService>()
-                    .topLevelCategories
-                    .firstWhere((x) => x.id == item.offer.categories[0].parentId, orElse: null);
-                if (topLevelCategory != null) {
-                  iconData = topLevelCategory.iconData;
+              if (item.offer.categories?.isNotEmpty ?? false) {
+                if (item.offer.categories[0].parentId.isEmpty) {
+                  iconData = item.offer.categories[0].iconData;
+                } else {
+                  // fixme: link top categories directly to subcategories at startup in ConfigService
+                  var topLevelCategory = backend
+                      .get<ConfigService>()
+                      .topLevelCategories
+                      .firstWhere((x) => x.id == item.offer.categories[0].parentId, orElse: null);
+                  if (topLevelCategory != null) {
+                    iconData = topLevelCategory.iconData;
+                  }
                 }
               }
               return Material(

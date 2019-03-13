@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
@@ -259,8 +260,9 @@ void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag
     unawaited(
       Navigator.of(context).push(
         OfferDetailsPage.route(
-          streamFromValueAndFuture<BusinessOffer>(partialOffer, backend<OfferManager>().getFullOffer(partialOffer.id)),
-          tag,
+          Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+          initialOffer: partialOffer,
+          tag: tag,
         ),
       ),
     );

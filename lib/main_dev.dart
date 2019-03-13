@@ -9,5 +9,5 @@ import 'package:flutter/services.dart' show rootBundle;
 Future<void> main() async {
   await setupBackend(mode: AppMode.dev, assetLoader: rootBundle.load);
 
-  runCapturedApp(SwayApp(), backend<ErrorReporter>());
+  runCapturedApp(const SwayApp(), backend<ErrorReporter>());
 }

@@ -8,12 +8,18 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/system_pages/startup_page.dart';
 
 class SwayApp extends StatefulWidget {
+  const SwayApp({
+    Key key,
+    this.child,
+  }) : super(key: key);
+
+  final Widget child;
+
   @override
   SwayAppState createState() => SwayAppState();
 }
 
 class SwayAppState extends State<SwayApp> with WidgetsBindingObserver {
-
   SystemService _systemService;
 
   @override
@@ -41,15 +47,13 @@ class SwayAppState extends State<SwayApp> with WidgetsBindingObserver {
 
   @override
   void didChangeAppLifecycleState(ui.AppLifecycleState state) {
-    if(state == AppLifecycleState.paused) {
+    if (state == AppLifecycleState.paused) {
       _systemService.setLifecycleState(LifecycleState.paused);
-    }
-    else if (state == AppLifecycleState.resumed) {
+    } else if (state == AppLifecycleState.resumed) {
       _systemService.setLifecycleState(LifecycleState.resumed);
-    }
-    else{
+    } else {
       print(state);
-    }    
+    }
   }
 
   @override
@@ -59,7 +63,7 @@ class SwayAppState extends State<SwayApp> with WidgetsBindingObserver {
       //debugShowMaterialGrid: true,
       title: 'Sway Marketplace',
       theme: AppTheme.themeTopLevel(),
-      home: StartupPage(),
+      home: widget.child ?? StartupPage(),
       builder: _supportTransparentNavOnAndroid,
     );
   }

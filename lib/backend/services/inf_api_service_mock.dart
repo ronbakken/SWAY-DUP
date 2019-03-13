@@ -105,7 +105,6 @@ class InfApiServiceMock implements InfApiService {
           id: '1',
           isPartial: true,
           numberOffered: 5,
-          proposalStatus: OfferDto_ProposalStatus.none,
           businessName: 'CarWash Tom',
           businessAvatarThumbnailUrl:
               'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -148,7 +147,6 @@ class InfApiServiceMock implements InfApiService {
       BusinessOffer(
         id: '2',
         isPartial: true,
-        proposalStatus: OfferDto_ProposalStatus.atLeastOne,
         businessName: 'Scent of Asia',
         businessAvatarThumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -186,7 +184,6 @@ class InfApiServiceMock implements InfApiService {
       ),
       BusinessOffer(
         id: '3',
-        proposalStatus: OfferDto_ProposalStatus.none,
         businessName: 'Scent of Asia',
         businessAvatarThumbnailUrl:
             'https://firebasestorage.googleapis.com/v0/b/inf-development.appspot.com/o/mock_data%2Fimages%2Fprofile-small.jpg?alt=media&token=8a59a097-b7a0-4ebc-8679-8255551af741',
@@ -232,7 +229,6 @@ class InfApiServiceMock implements InfApiService {
         startDate: DateTime(2019, 1, 1),
         endDate: DateTime(2019, 3, 1),
         acceptancePolicy: OfferDto_AcceptancePolicy.allowNegotiation,
-        proposalStatus: OfferDto_ProposalStatus.atLeastOne,
         businessAccountId: '1',
         businessName: 'CarWash Tom',
         businessDescription: 'We wash anything',
@@ -291,7 +287,6 @@ class InfApiServiceMock implements InfApiService {
         id: '2',
         startDate: DateTime(2019, 1, 1),
         endDate: DateTime(2019, 3, 1),
-        proposalStatus: OfferDto_ProposalStatus.none,
         businessAccountId: "1",
         businessName: 'Scent of Asia',
         businessDescription: 'Best flavoured teas in town',
@@ -345,7 +340,6 @@ class InfApiServiceMock implements InfApiService {
       ),
       BusinessOffer(
         id: '3',
-        proposalStatus: OfferDto_ProposalStatus.none,
         businessAccountId: "1",
         businessName: 'Scent of Asia',
         businessDescription: 'Best flavoured teas in town',

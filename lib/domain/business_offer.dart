@@ -24,7 +24,7 @@ class BusinessOffer {
   final DateTime created;
   final DateTime startDate;
   final DateTime endDate;
-  final int minFolllowers;
+  final int minFollowers;
 
   final int numberOffered;
   final int numberRemaining;
@@ -35,8 +35,6 @@ class BusinessOffer {
   final DealTerms terms;
 
   final OfferDto_AcceptancePolicy acceptancePolicy;
-
-  final OfferDto_ProposalStatus proposalStatus;
 
   // Detail info
   final List<ImageReference> images;
@@ -62,10 +60,9 @@ class BusinessOffer {
       this.startDate,
       this.endDate,
       this.created,
-      this.minFolllowers,
+      this.minFollowers,
       this.numberOffered = 0,
       this.numberRemaining,
-      this.proposalStatus,
       this.thumbnailImage,
       this.terms,
       this.location,
@@ -150,10 +147,9 @@ class BusinessOffer {
         images: [ ImageReference.fromImageDto(dto.list.featuredImage)],
         isPartial: true,
         location: Location.fromDto(dto.location),
-        minFolllowers: null,
+        minFollowers: null,
         numberOffered: dto.list.numberOffered,
         numberRemaining: dto.list.numberRemaining,
-        proposalStatus: dto.list.proposalStatus,
         revision: dto.revision,
         status: dto.status,
         statusReason: dto.statusReason,
@@ -177,10 +173,9 @@ class BusinessOffer {
         images: dto.full.images.map<ImageReference>((x) => ImageReference.fromImageDto(x)).toList(),
         isPartial: false,
         location: Location.fromDto(dto.location),
-        minFolllowers: dto.full.minFollowers,
+        minFollowers: dto.full.minFollowers,
         numberOffered: dto.full.numberOffered,
         numberRemaining: dto.full.numberRemaining,
-        proposalStatus: dto.full.proposalStatus,
         revision: dto.revision,
         status: dto.status,
         statusReason: dto.statusReason,

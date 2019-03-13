@@ -23,11 +23,16 @@ import 'package:intl/intl.dart';
 import 'package:pedantic/pedantic.dart';
 
 class OfferDetailsPage extends PageWidget {
-  static Route<dynamic> route(Stream<BusinessOffer> offerStream, [String tag]) {
+  static Route<dynamic> route(
+    Stream<BusinessOffer> offerStream, {
+    BusinessOffer initialOffer,
+    String tag,
+  }) {
     return FadePageRoute(
       builder: (BuildContext context) {
         return OfferDetailsPage(
-          cachedOfferStream: offerStream,
+          offerStream: offerStream,
+          initialOffer: initialOffer,
           tag: tag,
         );
       },
@@ -36,11 +41,13 @@ class OfferDetailsPage extends PageWidget {
 
   OfferDetailsPage({
     Key key,
-    @required this.cachedOfferStream,
+    @required this.offerStream,
+    this.initialOffer,
     this.tag,
   }) : super(key: key);
 
-  final Stream<BusinessOffer> cachedOfferStream;
+  final Stream<BusinessOffer> offerStream;
+  final BusinessOffer initialOffer;
   final String tag;
 
   @override
@@ -61,7 +68,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   Widget build(BuildContext context) {
     return Container(
       child: StreamBuilder<BusinessOffer>(
-        stream: widget.cachedOfferStream,
+        initialData: widget.initialOffer,
+        stream: widget.offerStream,
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             offer = snapshot.data;
@@ -538,8 +546,8 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 child: InkResponse(
                   onTap: () => Navigator.of(context).pop(),
                   child: const Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 12.0),
-                    child: InfIcon(AppIcons.close),
+                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                    child: InfIcon(AppIcons.close, size: 16.0),
                   ),
                 ),
               ),

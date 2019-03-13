@@ -12,7 +12,6 @@ import 'package:inf/ui/proposal_views/proposal_list_view.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
 
 class MainActivitiesSection extends StatefulWidget {
@@ -242,7 +241,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
             padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
             itemCount: items.length,
             itemBuilder: (BuildContext context, int index) {
-              assert(items[index].type ==InfItemType.offer);
+              assert(items[index].type == InfItemType.offer);
               final offer = items[index].offer;
               final tag = '${widget.name}-${offer.id}';
               return Padding(
@@ -264,9 +263,9 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
       unawaited(
         Navigator.of(context).push(
           OfferDetailsPage.route(
-            streamFromValueAndFuture<BusinessOffer>(
-                partialOffer, backend<OfferManager>().getFullOffer(partialOffer.id)),
-            tag,
+            Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+            initialOffer: partialOffer,
+            tag: tag,
           ),
         ),
       );
