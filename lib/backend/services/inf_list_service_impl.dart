@@ -8,35 +8,47 @@ import 'package:inf_api_client/inf_api_client.dart';
 class InfListServiceImplementation implements InfListService {
   @override
   Stream<List<InfItem>> listItems(Stream<Filter> filterStream) {
-    try {
-      return backend
-          .get<InfApiClientsService>()
-          .listClient
-          .list(
-            filterStream.map<ListRequest>(mapFilterToListRequest),
-            options: backend<AuthenticationService>().callOptions,
-          )
-          .map<List<InfItem>>((items) => items.items.map((item) => InfItem.fromDto(item)).toList());
-    } catch (e) {
-      print(e);
-      rethrow;
-    }
+    final listClient = backend.get<InfApiClientsService>().listClient;
+    return listClient
+        .list(filterStream.map<ListRequest>(mapFilterToListRequest))
+        .map((response) => mapItemList(response.items));
+    //.transform(streamTransformer);
   }
 
   @override
-  Stream<List<InfItem>> listenItemChanges(Stream<Filter> filterStream) {
-    return backend
-        .get<InfApiClientsService>()
-        .listenClient
-        .listen(
-          filterStream.map<ListenRequest>(mapFilterToListenRequest),
-          options: backend<AuthenticationService>().callOptions,
-        )
-        .map<List<InfItem>>((items) => items.items
-            .map(
-              (item) => InfItem.fromDto(item),
-            )
-            .toList());
+  Stream<List<InfItem>> listenForOfferChanges(Stream<Filter> filterStream) {
+    final listenClient = backend.get<InfApiClientsService>().listenClient;
+    return listenClient
+        .listen(filterStream.map<ListenRequest>(mapFilterToListenRequest))
+        .map((response) => mapItemList(response.items));
+  }
+
+  List<InfItem> mapItemList(List<ItemDto> items) {
+    return items.map((item) => InfItem.fromDto(item)).toList();
+  }
+
+  ItemFilterDto mapFilter(Filter filter) {
+    final filterDto = ItemFilterDto();
+
+    final userType = backend<UserManager>().currentUser.userType;
+    if (userType == UserType.influencer) {
+      // if Influencers search with free text they get businesses and offers back
+      if (filter.freeText != null && filter.freeText.isNotEmpty) {
+        filterDto.userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.business);
+      }
+    } else if (userType == UserType.business) {
+      filterDto.userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.influencer);
+      /*
+      if (filter.offeringBusinessId != null && filter.offeringBusinessId.isNotEmpty) {
+        filterDto.offerFilter = ItemFilterDto_OfferFilterDto();
+        filterDto.offerFilter.businessAccountId = filter.offeringBusinessId;
+      }
+      */
+    } else {
+      throw Exception('Unsupported user type');
+    }
+
+    return filterDto;
   }
 
   ListRequest mapFilterToListRequest(Filter filter) {
@@ -49,37 +61,5 @@ class InfListServiceImplementation implements InfListService {
     return ListenRequest()
       ..action = ListenRequest_Action.register
       ..filter = mapFilter(filter);
-  }
-
-  ItemFilterDto mapFilter(Filter filter) {
-    var filterDto = ItemFilterDto();
-    ItemFilterDto_OfferFilterDto offerFilter;
-    ItemFilterDto_UserFilterDto userFilter;
-
-    var userType = backend<UserManager>().currentUser.userType;
-    if (filter.freeText != null && filter.freeText.isNotEmpty && userType == UserType.influencer) {
-      // if Influencers search with free text they get businesses and offers back
-      userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.business);
-      // TODO continue
-    }
-    if (userType == UserType.influencer) {
-      offerFilter = ItemFilterDto_OfferFilterDto();
-    } else if (userType == UserType.business) {
-      userFilter = ItemFilterDto_UserFilterDto()..userTypes.add(UserType.influencer);
-      if (filter.offeringBusinessId != null && filter.offeringBusinessId.isNotEmpty) {
-        offerFilter = ItemFilterDto_OfferFilterDto();
-        //offerFilter.businessAccountId = filter.offeringBusinessId;
-      }
-    } else {
-      throw Exception('Unsupported user type');
-    }
-
-    if (offerFilter != null) {
-      filterDto.offerFilter = offerFilter;
-    }
-    if (userFilter != null) {
-      filterDto.userFilter = userFilter;
-    }
-    return filterDto;
   }
 }

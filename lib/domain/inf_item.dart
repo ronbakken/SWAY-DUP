@@ -3,6 +3,7 @@ import 'package:inf_api_client/inf_api_client.dart';
 
 enum InfItemType { user, offer, map }
 
+// FIXME: Should be removed?
 class InfItem {
   final String id;
   final int revision;

@@ -2,12 +2,12 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/image_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:http/http.dart' as http;
 
 class ImageServiceImplementation implements ImageService {
   @override
@@ -24,26 +24,21 @@ class ImageServiceImplementation implements ImageService {
   Future<String> uploadImageFromBytes(String fileName, List<int> value) async {
     GetUploadUrlResponse cloudUrls;
     try {
-      cloudUrls = await backend<InfApiClientsService>().blobStorageClient.getUploadUrl(
-            GetUploadUrlRequest()..fileName = fileName,
-            options: backend<AuthenticationService>().callOptions,
-          );
+      cloudUrls = await backend<InfApiClientsService>()
+          .blobStorageClient
+          .getUploadUrl(GetUploadUrlRequest()..fileName = fileName);
     } on GrpcError catch (e) {
       if (e.code == 7) // permission denied
       {
         // retry with new access token
         await backend<AuthenticationService>().refreshAccessToken();
-        cloudUrls = await backend<InfApiClientsService>().blobStorageClient.getUploadUrl(
-              GetUploadUrlRequest()..fileName = fileName,
-              options: backend<AuthenticationService>().callOptions,
-            );
-      }
-      else
-      {
+        cloudUrls = await backend<InfApiClientsService>()
+            .blobStorageClient
+            .getUploadUrl(GetUploadUrlRequest()..fileName = fileName);
+      } else {
         await backend<ErrorReporter>().logException(e, message: 'uploadImageFromBytes');
         print(e);
         rethrow;
-
       }
     }
 
@@ -101,9 +96,9 @@ class ImageServiceImplementation implements ImageService {
     var image = decodeImage(imageBytes);
     var imageReducedSize = copyResize(image, imageWidth);
     var imageUrl = await backend<ImageService>().uploadImageFromBytes(
-          fileName,
-          encodeJpg(imageReducedSize, quality: 90),
-        );
+      fileName,
+      encodeJpg(imageReducedSize, quality: 90),
+    );
 
     if (onImageUploaded != null) {
       onImageUploaded();
@@ -113,9 +108,9 @@ class ImageServiceImplementation implements ImageService {
     if (lowResWidth != null) {
       var imageLowRes = copyResize(image, lowResWidth);
       lowResUrl = await backend<ImageService>().uploadImageFromBytes(
-            fileNameLowRes,
-            encodeJpg(imageLowRes, quality: 60),
-          );
+        fileNameLowRes,
+        encodeJpg(imageLowRes, quality: 60),
+      );
     }
     if (onImageUploaded != null) {
       onImageUploaded();

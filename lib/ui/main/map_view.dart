@@ -72,61 +72,50 @@ class _MainMapViewState extends State<MainMapView> {
 
   List<Marker> buildMarkers(List<InfItem> items) {
     // TODO implement fading of markers with Simon
-    var markerList = <Marker>[];
-    for (var item in items) {
-      AppAsset markerAsset;
-      Widget markerWidget;
-
-      if (item.type == InfItemType.offer) {
-        markerAsset = AppIcons.mapMarker;
-
-        markerList.add(
-          Marker(
-            width: 38.0,
-            height: 38.0,
-            point: LatLng(item.latitude, item.longitude),
-            builder: (BuildContext context) {
-              Uint8List iconData;
-              if (item.offer.categories?.isNotEmpty ?? false) {
-                if (item.offer.categories[0].parentId.isEmpty) {
-                  iconData = item.offer.categories[0].iconData;
-                } else {
-                  // fixme: link top categories directly to subcategories at startup in ConfigService
-                  var topLevelCategory = backend
-                      .get<ConfigService>()
-                      .topLevelCategories
-                      .firstWhere((x) => x.id == item.offer.categories[0].parentId, orElse: null);
-                  if (topLevelCategory != null) {
-                    iconData = topLevelCategory.iconData;
-                  }
-                }
+    return items.where((item) => item.type == InfItemType.offer).map<Marker>((item) {
+      return Marker(
+        width: 38.0,
+        height: 38.0,
+        point: LatLng(item.latitude, item.longitude),
+        builder: (BuildContext context) {
+          Uint8List iconData;
+          if (item.offer.categories?.isNotEmpty ?? false) {
+            if (item.offer.categories[0].parentId.isEmpty) {
+              iconData = item.offer.categories[0].iconData;
+            } else {
+              // fixme: link top categories directly to subcategories at startup in ConfigService
+              var topLevelCategory = backend
+                  .get<ConfigService>()
+                  .topLevelCategories
+                  .firstWhere((x) => x.id == item.offer.categories[0].parentId, orElse: null);
+              if (topLevelCategory != null) {
+                iconData = topLevelCategory.iconData;
               }
-              return Material(
-                type: MaterialType.canvas,
-                color: AppTheme.lightBlue,
-                shape: const CircleBorder(
-                  side: BorderSide(color: Colors.white),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: InkResponse(
-                  onTap: () => onMarkerClicked(item),
-                  child: Center(
-                    child: iconData != null
-                        ? InfMemoryImage(
-                            iconData,
-                            width: 16,
-                            height: 16,
-                          )
-                        : const Icon(Icons.close),
-                  ),
-                ),
-              );
-            },
-          ),
-        );
-      }
-    }
-    return markerList;
+            }
+          }
+          return Material(
+            type: MaterialType.canvas,
+            color: AppTheme.lightBlue,
+            shape: const CircleBorder(
+              side: BorderSide(color: Colors.white),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: InkResponse(
+              onTap: () => onMarkerClicked(item),
+              child: Center(
+                child: iconData != null
+                    ? InfMemoryImage(
+                        iconData,
+                        width: 16,
+                        height: 16,
+                      )
+                    : const Icon(Icons.close),
+              ),
+            ),
+          );
+        },
+      );
+    });
   }
 
   void onMarkerClicked(InfItem item) {

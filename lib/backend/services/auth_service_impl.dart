@@ -11,8 +11,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthenticationServiceImplementation implements AuthenticationService {
   AuthenticationServiceImplementation({this.userTestToken});
 
-  @override
-  CallOptions callOptions;
+  String _authToken;
   String refreshToken;
   LoginProfiles loginProfiles;
 
@@ -29,12 +28,17 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   BehaviorSubject<User> currentUserUpdatesSubject = BehaviorSubject<User>();
 
   @override
+  FutureOr<void> metadataProvider(Map<String, String> metadata, String uri) async {
+    metadata['Authorization'] = 'Bearer $_authToken';
+  }
+
+  @override
   Future<bool> loginUserWithRefreshToken() async {
     try {
       await loadLoginProfiles();
       refreshToken = getLastUsedRefreshToken();
 
-      /// just when using the mock implmentation
+      /// just when using the mock implementation
       if (userTestToken != null) {
         refreshToken = userTestToken;
       }
@@ -43,7 +47,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = refreshToken;
         var authResult = await backend<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
         if (authResult.accessToken.isNotEmpty) {
-          updateAccessToken(authResult.accessToken);
+          _authToken = authResult.accessToken;
           _currentUser = User.fromDto(authResult.user);
           currentUserUpdatesSubject.add(_currentUser);
           return true;
@@ -62,7 +66,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         .authClient
         .getAccessToken(GetAccessTokenRequest()..refreshToken = refreshToken);
     if (response != null) {
-      updateAccessToken(response.accessToken);
+      _authToken = response.accessToken;
       print('Updated Access Token');
     } else {
       await backend<ErrorReporter>().logEvent(
@@ -84,16 +88,16 @@ class AuthenticationServiceImplementation implements AuthenticationService {
     if (authResult.refreshToken.isNotEmpty) {
       _currentUser = User.fromDto(authResult.user);
 
-      /// store reecived token in secure storage
+      /// store received token in secure storage
       /// We only store it for an active user
-      /// new user store the token after sucessfull activation
+      /// new user store the token after successful activation
       if (authResult.user.status == UserDto_Status.active) {
         await storeLoginProfile(refreshToken, _currentUser);
       }
 
       var tokenMessage = LoginWithRefreshTokenRequest()..refreshToken = authResult.refreshToken;
       var accessTokenResult = await backend<InfApiClientsService>().authClient.loginWithRefreshToken(tokenMessage);
-      updateAccessToken(accessTokenResult.accessToken);
+      _authToken = accessTokenResult.accessToken;
 
       currentUserUpdatesSubject.add(_currentUser);
       return true;
@@ -117,7 +121,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       response = await backend
           .get<InfApiClientsService>()
           .usersClient
-          .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
+          .updateUser(UpdateUserRequest()..user = dto);
     } on GrpcError catch (e) {
       if (e.code == 7) // permission denied
       {
@@ -126,7 +130,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         response = await backend
             .get<InfApiClientsService>()
             .usersClient
-            .updateUser(UpdateUserRequest()..user = dto, options: callOptions);
+            .updateUser(UpdateUserRequest()..user = dto);
       } else {
         await backend<ErrorReporter>().logException(e, message: 'updateUser');
         print(e);
@@ -165,8 +169,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       response = await backend<InfApiClientsService>().authClient.activateUser(
           ActivateUserRequest()
             ..user = user.toDto()
-            ..loginToken = loginToken,
-          options: callOptions);
+            ..loginToken = loginToken);
     } on GrpcError catch (e) {
       if (e.code == 7) // permission denied
       {
@@ -175,8 +178,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
         response = await backend<InfApiClientsService>().authClient.activateUser(
             ActivateUserRequest()
               ..user = user.toDto()
-              ..loginToken = loginToken,
-            options: callOptions);
+              ..loginToken = loginToken);
       } else {
         await backend<ErrorReporter>().logException(e, message: 'activateUser');
         rethrow;
@@ -187,10 +189,6 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       await storeLoginProfile(refreshToken, _currentUser);
       currentUserUpdatesSubject.add(_currentUser);
     }
-  }
-
-  void updateAccessToken(String token) {
-    callOptions = CallOptions(metadata: {'Authorization': 'Bearer $token'});
   }
 
   Future<void> storeLoginProfile(String token, User user) async {

@@ -81,7 +81,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
   final _flutterWebviewPlugin = FlutterWebviewPlugin();
   String _authUrl;
   String _callbackUrl;
-  final Set<String> _whitelistHosts = Set<String>();
+  final _whitelistHosts = <String>{};
 
   SocialNetworkProvider provider;
 

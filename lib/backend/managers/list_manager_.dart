@@ -13,7 +13,7 @@ abstract class ListManager {
 
   void updateListeners();
 
-  // clears chaches and pushes an empty list to the UI
+  // clears caches and pushes an empty list to the UI
   void flushCaches();
 
 }

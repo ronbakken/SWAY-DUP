@@ -27,12 +27,11 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   InfListClient listClient;
   @override
   InfListenClient listenClient;
-
   @override
   InfOffersClient offerClient;
 
   ClientChannel channel;
-
+  CallOptions callOptions;
   String host;
   int port;
 
@@ -95,15 +94,19 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
       ),
     );
 
-    configClient = InfConfigClient(channel);
-    authClient = InfAuthClient(channel);
-    systemClient = InfSystemClient(channel);
-    blobStorageClient = InfBlobStorageClient(channel);
-    invitationCodeClient = InfInvitationCodesClient(channel);
-    usersClient = InfUsersClient(channel);
-    listClient = InfListClient(channel);
-    listenClient = InfListenClient(channel);
-    offerClient = InfOffersClient(channel);
+    callOptions = CallOptions(providers: [
+      backend<AuthenticationService>().metadataProvider,
+    ]);
+
+    configClient = InfConfigClient(channel, options: callOptions);
+    authClient = InfAuthClient(channel, options: callOptions);
+    systemClient = InfSystemClient(channel, options: callOptions);
+    blobStorageClient = InfBlobStorageClient(channel, options: callOptions);
+    invitationCodeClient = InfInvitationCodesClient(channel, options: callOptions);
+    usersClient = InfUsersClient(channel, options: callOptions);
+    listClient = InfListClient(channel, options: callOptions);
+    listenClient = InfListenClient(channel, options: callOptions);
+    offerClient = InfOffersClient(channel, options: callOptions);
   }
 
   @override

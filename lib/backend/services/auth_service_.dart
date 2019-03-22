@@ -33,7 +33,7 @@ class AuthenticationException implements Exception {
 abstract class AuthenticationService {
   User get currentUser;
 
-  CallOptions callOptions;
+  FutureOr<void> metadataProvider(Map<String, String> metadata, String uri);
 
   Observable<User> get currentUserUpdates;
 

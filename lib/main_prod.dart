@@ -12,5 +12,5 @@ void main() {
   ErrorWidget.builder = (FlutterErrorDetails details) => const Center(child: Text('An error occurred'));
 
   /// runCapturedApp ensures that exceptions will be reported to Sentry in release mode
-  runCapturedApp(SwayApp(), backend<ErrorReporter>());
+  runCapturedApp(const SwayApp(), backend<ErrorReporter>());
 }

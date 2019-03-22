@@ -15,6 +15,7 @@ import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
+import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
@@ -77,9 +78,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               resizeToAvoidBottomPadding: false,
               appBar: AppBar(
                 centerTitle: true,
-                title: Text(
-                  offer.title,
-                ),
+                title: Text(offer.title),
                 actions: _canBeEdited(offer)
                     ? [
                         InkResponse(
@@ -132,7 +131,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       );
     }
 
-    var deliverableIcons = <Widget>[Spacer()]..addAll(
+    var deliverableIcons = <Widget>[const Spacer()]..addAll(
         offer.terms.deliverable.channels.map<Widget>(
           (channel) => Padding(
                 padding: const EdgeInsets.only(left: 8),
@@ -162,7 +161,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: <Widget>[
           AspectRatio(
-            aspectRatio: (16.0 / 9.0),
+            aspectRatio: (16.0 / 12.0),
             child: imageArea,
           ),
           _buildBusinessRow(),
@@ -500,14 +499,13 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 children: [
                   LayoutBuilder(
                     builder: (BuildContext context, BoxConstraints constraints) {
-                      final textStyle = DefaultTextStyle.of(context);
                       return Padding(
                         padding: const EdgeInsets.symmetric(vertical: 8.0),
                         child: InputDecorator(
                           decoration: const InputDecoration(),
                           isFocused: false,
-                          child: SizedBox(
-                            height: textStyle.style.fontSize * 8,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 16.0),
                             child: TextField(
                               decoration: null,
                               maxLines: null,
@@ -519,20 +517,17 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                     },
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 26.0, vertical: 12.0),
-                    child: RaisedButton(
-                      onPressed: () {},
-                      shape: const StadiumBorder(),
-                      child: Container(
-                        alignment: Alignment.center,
-                        height: 44.0,
-                        child: const Text(
-                          'MAKE PROPOSAL',
-                          style: const TextStyle(
-                            fontWeight: FontWeight.normal,
-                          ),
-                        ),
-                      ),
+                    padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
+                    child: InfStadiumButton(
+                      onPressed: _onApplyPressed,
+                      text: 'APPLY',
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 24.0),
+                    child: InfStadiumButton(
+                      onPressed: _onNegotiatePressed,
+                      text: 'NEGOTIATE',
                     ),
                   ),
                 ],
@@ -556,5 +551,11 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
         ),
       ),
     );
+  }
+
+  void _onApplyPressed() {
+  }
+
+  void _onNegotiatePressed() {
   }
 }

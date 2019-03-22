@@ -59,7 +59,7 @@ class ListManagerImplementation implements ListManager {
       onError: (error) => print('Error in listAllOffersSubscription $error'),
     );
 
-    listenAllOffersSubscription = backend<InfListService>().listenItemChanges(filterSubject).listen(
+    listenAllOffersSubscription = backend<InfListService>().listenForOfferChanges(filterSubject).listen(
       (items) {
         allOffersCache.addInfItems(items);
         print("Listen update ${items.length} items");
@@ -76,7 +76,7 @@ class ListManagerImplementation implements ListManager {
     );
 
     listenCreatedOffersSubscription =
-        backend<InfListService>().listenItemChanges(filterCreatedOffersSubject).listen(
+        backend<InfListService>().listenForOfferChanges(filterCreatedOffersSubject).listen(
       (items) {
         print("Listen my offers update ${items.length} items");
         userCreatedOffers.addInfItems(items);

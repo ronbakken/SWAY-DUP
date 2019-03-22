@@ -13,7 +13,6 @@ import 'package:inf/ui/offer_views/offer_post_tile.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:inf/utils/stream_from_value_and_future.dart';
 import 'package:pedantic/pedantic.dart';
 
 enum BrowseMode { map, list }

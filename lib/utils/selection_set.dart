@@ -2,7 +2,7 @@ import 'package:collection/collection.dart';
 import 'package:flutter/foundation.dart' show ChangeNotifier;
 
 class SelectionSet<T> extends DelegatingSet<T> with ChangeNotifier {
-  SelectionSet() : super(Set<T>());
+  SelectionSet() : super({});
 
   SelectionSet.fromIterable(Iterable<T> iterable) : super(Set<T>.from(iterable));
 

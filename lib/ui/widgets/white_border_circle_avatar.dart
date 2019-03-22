@@ -2,8 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 
 class WhiteBorderCircleAvatar extends StatelessWidget {
-  const WhiteBorderCircleAvatar({Key key, @required this.child, this.radius = 24, this.whiteThickness = 0.7})
-      : super(key: key);
+  const WhiteBorderCircleAvatar({
+    Key key,
+    @required this.child,
+    this.radius = 24.0,
+    this.whiteThickness = 0.7,
+  }) : super(key: key);
 
   final Widget child;
   final double radius;
