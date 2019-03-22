@@ -5,11 +5,13 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/messaging/conversation_screen.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
+import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
@@ -18,7 +20,6 @@ import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
-import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:intl/intl.dart';
 import 'package:pedantic/pedantic.dart';
@@ -164,7 +165,14 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             aspectRatio: (16.0 / 12.0),
             child: imageArea,
           ),
-          _buildBusinessRow(),
+          InfBusinessRow(
+            leading: Image.network(
+              offer.businessAvatarThumbnailUrl,
+              fit: BoxFit.cover,
+            ),
+            title: offer.businessName,
+            subtitle: offer.businessDescription,
+          ),
           _buildAvailability(),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
@@ -305,39 +313,6 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               }),
             )
           : emptyWidget,
-    );
-  }
-
-  Widget _buildBusinessRow() {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 20.0),
-      color: Colors.black,
-      child: Row(
-        children: <Widget>[
-          WhiteBorderCircleAvatar(
-            child: Image.network(
-              offer.businessAvatarThumbnailUrl,
-              fit: BoxFit.cover,
-            ),
-          ),
-          horizontalMargin12,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(offer.businessName ?? ''),
-                Text(
-                  offer.businessDescription ?? '',
-                  style: const TextStyle(
-                    color: Colors.white54,
-                  ),
-                ),
-              ],
-            ),
-          )
-        ],
-      ),
     );
   }
 
@@ -554,8 +529,10 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
   }
 
   void _onApplyPressed() {
+    Navigator.of(context).push(ConversationScreen.routeExisting());
   }
 
   void _onNegotiatePressed() {
+    Navigator.of(context).push(ConversationScreen.routeExisting());
   }
 }

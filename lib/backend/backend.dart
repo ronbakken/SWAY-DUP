@@ -24,6 +24,8 @@ import 'package:inf/backend/services/inf_api_service_.dart';
 import 'package:inf/backend/services/inf_api_service_mock.dart';
 import 'package:inf/backend/services/inf_list_service_.dart';
 import 'package:inf/backend/services/inf_list_service_impl.dart';
+import 'package:inf/backend/services/inf_messaging_service_.dart';
+import 'package:inf/backend/services/inf_messaging_service_impl.dart';
 import 'package:inf/backend/services/inf_offer_service_.dart';
 import 'package:inf/backend/services/inf_offer_service_impl.dart';
 import 'package:inf/backend/services/location_service_.dart';
@@ -45,9 +47,11 @@ export 'package:inf/backend/services/image_service_.dart';
 export 'package:inf/backend/services/inf_api_clients_service_.dart';
 export 'package:inf/backend/services/inf_api_service_.dart';
 export 'package:inf/backend/services/inf_list_service_.dart';
+export 'package:inf/backend/services/inf_messaging_service_.dart';
 export 'package:inf/backend/services/inf_offer_service_.dart';
 export 'package:inf/backend/services/location_service_.dart';
 export 'package:inf/backend/services/system_service_.dart';
+export 'package:inf/domain/domain.dart';
 export 'package:inf/utils/error_capture.dart' show ErrorReporter;
 
 typedef AssetLoader = Future<ByteData> Function(String key);
@@ -167,6 +171,7 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerLazySingleton<InfListService>(() => InfListServiceImplementation());
   backend.registerLazySingleton<InfOfferService>(() => InfOfferServiceImplementation());
+  backend.registerLazySingleton<InfMessagingService>(() => InfMessagingServiceImplementation());
   backend.registerLazySingleton<AuthenticationService>(
 
       /// By passing a userTestToken the server returns one of two test users

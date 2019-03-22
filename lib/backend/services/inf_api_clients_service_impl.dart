@@ -29,6 +29,8 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
   InfListenClient listenClient;
   @override
   InfOffersClient offerClient;
+  @override
+  InfMessagingClient messagingClient;
 
   ClientChannel channel;
   CallOptions callOptions;
@@ -107,6 +109,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
     listClient = InfListClient(channel, options: callOptions);
     listenClient = InfListenClient(channel, options: callOptions);
     offerClient = InfOffersClient(channel, options: callOptions);
+    messagingClient = InfMessagingClient(channel, options: callOptions);
   }
 
   @override

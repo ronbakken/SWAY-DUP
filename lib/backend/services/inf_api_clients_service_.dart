@@ -15,6 +15,7 @@ abstract class InfApiClientsService {
   InfListClient listClient;
   InfListenClient listenClient;
   InfOffersClient offerClient;
+  InfMessagingClient messagingClient;
 
   Observable<bool> get connectionChanged;
 
