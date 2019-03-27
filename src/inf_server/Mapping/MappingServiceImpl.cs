@@ -22,11 +22,11 @@ namespace Mapping
 {
     public sealed class MappingServiceImpl : MappingServiceBase
     {
-        private const string collectionId = "mapItems";
+        private const string schemaType = "mapItem";
         private const int maxMapLevel = 21;
 
         private readonly ILogger logger;
-        private CosmosContainer mapItemsContainer;
+        private CosmosContainer defaultContainer;
 
         public MappingServiceImpl(
             ILogger logger,
@@ -62,16 +62,7 @@ namespace Mapping
         {
             logger.Debug("Creating database if required");
 
-            var databaseResult = await cosmosClient
-                .Databases
-                .CreateDatabaseFromConfigurationIfNotExistsAsync()
-                .ContinueOnAnyContext();
-            var database = databaseResult.Database;
-            var mapItemsContainerResult = await database
-                .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(collectionId, "/quadKey")
-                .ContinueOnAnyContext();
-            this.mapItemsContainer = mapItemsContainerResult.Container;
+            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
 
             logger.Debug("Database creation complete");
         }
@@ -93,7 +84,7 @@ namespace Mapping
                         var queryDefinition = GetSqlQueryDefinition(logger, filter);
                         var mapItemResultTasks = filter
                             .QuadKeys
-                            .Select(quadKey => GetMapItemsMatching(logger, this.mapItemsContainer, queryDefinition, quadKey))
+                            .Select(quadKey => GetMapItemsMatching(logger, this.defaultContainer, queryDefinition, quadKey))
                             .ToList();
                         var mapItemResults = await Task
                             .WhenAll(mapItemResultTasks)
@@ -116,21 +107,22 @@ namespace Mapping
         {
             var queryBuilder = new CosmosSqlQueryDefinitionBuilder("m");
 
+            queryBuilder
+                .AppendScalarFieldClause(
+                    "schemaType",
+                    schemaType,
+                    value => value);
+
             if (filter.ItemTypes.Count > 0)
             {
-                queryBuilder.Append("(");
+                queryBuilder.AppendOpenParenthesis();
 
-                for (var i = 0; i < filter.ItemTypes.Count; ++i)
+                foreach (var itemType in filter.ItemTypes)
                 {
-                    if (i > 0)
-                    {
-                        queryBuilder.Append(" OR ");
-                    }
+                    queryBuilder.AppendOrIfNecessary();
 
                     queryBuilder
                         .Append("is_defined(");
-
-                    var itemType = filter.ItemTypes[i];
 
                     switch (itemType)
                     {
@@ -150,7 +142,7 @@ namespace Mapping
                         .Append(")");
                 }
 
-                queryBuilder.Append(")");
+                queryBuilder.AppendCloseParenthesis();
             }
 
             queryBuilder
@@ -252,7 +244,7 @@ namespace Mapping
                     .FetchNextSetAsync()
                     .ContinueOnAnyContext();
 
-                foreach (var mapItem in currentResultSet.Select(InfCosmosConfiguration.Transform<MapItemEntity>))
+                foreach (var mapItem in currentResultSet.Select(Utility.Microsoft.Azure.Cosmos.ProtobufJsonSerializer.Transform<MapItemEntity>))
                 {
                     results.Add(mapItem);
                 }
@@ -282,14 +274,14 @@ namespace Mapping
                 while (mapLevel > 0)
                 {
                     var quadKey = QuadKey.From(offer.Location.GeoPoint.Latitude, offer.Location.GeoPoint.Longitude, mapLevel);
-                    offerMapItemEntity.QuadKey = quadKey.ToString();
+                    offerMapItemEntity.PartitionKey = quadKey.ToString();
                     logger.Debug("Determined level {MapLevel} quad key for offer to be {QuadKey}", mapLevel, quadKey);
 
                     logger.Debug("Saving offer map item {@OfferMapItem}", offerMapItemEntity);
                     await this
-                        .mapItemsContainer
+                        .defaultContainer
                         .Items
-                        .UpsertItemAsync(quadKey.ToString(), offerMapItemEntity)
+                        .UpsertItemAsync(offerMapItemEntity.PartitionKey, offerMapItemEntity)
                         .ContinueOnAnyContext();
                     logger.Debug("Offer map item saved: {@OfferMapItem}", offerMapItemEntity);
 
@@ -318,14 +310,14 @@ namespace Mapping
                 while (mapLevel > 0)
                 {
                     var quadKey = QuadKey.From(user.Location.GeoPoint.Latitude, user.Location.GeoPoint.Longitude, mapLevel);
-                    userMapItemEntity.QuadKey = quadKey.ToString();
+                    userMapItemEntity.PartitionKey = quadKey.ToString();
                     logger.Debug("Determined level {MapLevel} quad key for user to be {QuadKey}", mapLevel, quadKey);
 
                     logger.Debug("Saving user map item {@OfferMapItem}", userMapItemEntity);
                     await this
-                        .mapItemsContainer
+                        .defaultContainer
                         .Items
-                        .UpsertItemAsync(quadKey.ToString(), userMapItemEntity)
+                        .UpsertItemAsync(userMapItemEntity.PartitionKey, userMapItemEntity)
                         .ContinueOnAnyContext();
                     logger.Debug("User map item saved: {@OfferMapItem}", userMapItemEntity);
 

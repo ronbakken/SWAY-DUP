@@ -54,7 +54,9 @@ namespace API
             { "/api.InfListen/Listen", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 
             // InfMessaging
-            { "/api.InfMessaging/Notify", AuthenticatedUserTypes.Anonymous },
+            { "/api.InfMessaging/CreateConversation", AuthenticatedUserTypes.Influencer },
+            { "/api.InfMessaging/CreateMessage", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
+            { "/api.InfMessaging/CloseConversation", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },
 
             // InfOffers
             { "/api.InfOffers/UpdateOffer", AuthenticatedUserTypes.Influencer | AuthenticatedUserTypes.Business },

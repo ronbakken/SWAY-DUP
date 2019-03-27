@@ -9,10 +9,10 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'location.pb.dart' as $4;
-import 'google/protobuf/timestamp.pb.dart' as $5;
-import 'image.pb.dart' as $6;
-import 'deal_terms.pb.dart' as $7;
+import 'location.pb.dart' as $2;
+import 'google/protobuf/timestamp.pb.dart' as $6;
+import 'image.pb.dart' as $1;
+import 'deal_terms.pb.dart' as $10;
 
 import 'offer.pbenum.dart';
 
@@ -26,15 +26,14 @@ class OfferDto_ListDataDto extends $pb.GeneratedMessage {
     ..aOS(4, 'businessAvatarThumbnailUrl')
     ..aOS(5, 'title')
     ..aOS(6, 'description')
-    ..a<$5.Timestamp>(7, 'created', $pb.PbFieldType.OM, $5.Timestamp.getDefault, $5.Timestamp.create)
-    ..a<$5.Timestamp>(8, 'start', $pb.PbFieldType.OM, $5.Timestamp.getDefault, $5.Timestamp.create)
-    ..a<$5.Timestamp>(9, 'end', $pb.PbFieldType.OM, $5.Timestamp.getDefault, $5.Timestamp.create)
+    ..a<$6.Timestamp>(7, 'created', $pb.PbFieldType.OM, $6.Timestamp.getDefault, $6.Timestamp.create)
+    ..a<$6.Timestamp>(8, 'start', $pb.PbFieldType.OM, $6.Timestamp.getDefault, $6.Timestamp.create)
+    ..a<$6.Timestamp>(9, 'end', $pb.PbFieldType.OM, $6.Timestamp.getDefault, $6.Timestamp.create)
     ..a<int>(10, 'numberOffered', $pb.PbFieldType.O3)
     ..a<int>(11, 'numberRemaining', $pb.PbFieldType.O3)
-    ..a<$6.ImageDto>(12, 'thumbnail', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
-    ..a<$6.ImageDto>(13, 'featuredImage', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
-    ..a<$7.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $7.DealTermsDto.getDefault, $7.DealTermsDto.create)
-    ..e<OfferDto_ProposalStatus>(15, 'proposalStatus', $pb.PbFieldType.OE, OfferDto_ProposalStatus.none, OfferDto_ProposalStatus.valueOf, OfferDto_ProposalStatus.values)
+    ..a<$1.ImageDto>(12, 'thumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
+    ..a<$1.ImageDto>(13, 'featuredImage', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
+    ..a<$10.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $10.DealTermsDto.getDefault, $10.DealTermsDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -83,18 +82,18 @@ class OfferDto_ListDataDto extends $pb.GeneratedMessage {
   bool hasDescription() => $_has(5);
   void clearDescription() => clearField(6);
 
-  $5.Timestamp get created => $_getN(6);
-  set created($5.Timestamp v) { setField(7, v); }
+  $6.Timestamp get created => $_getN(6);
+  set created($6.Timestamp v) { setField(7, v); }
   bool hasCreated() => $_has(6);
   void clearCreated() => clearField(7);
 
-  $5.Timestamp get start => $_getN(7);
-  set start($5.Timestamp v) { setField(8, v); }
+  $6.Timestamp get start => $_getN(7);
+  set start($6.Timestamp v) { setField(8, v); }
   bool hasStart() => $_has(7);
   void clearStart() => clearField(8);
 
-  $5.Timestamp get end => $_getN(8);
-  set end($5.Timestamp v) { setField(9, v); }
+  $6.Timestamp get end => $_getN(8);
+  set end($6.Timestamp v) { setField(9, v); }
   bool hasEnd() => $_has(8);
   void clearEnd() => clearField(9);
 
@@ -108,25 +107,20 @@ class OfferDto_ListDataDto extends $pb.GeneratedMessage {
   bool hasNumberRemaining() => $_has(10);
   void clearNumberRemaining() => clearField(11);
 
-  $6.ImageDto get thumbnail => $_getN(11);
-  set thumbnail($6.ImageDto v) { setField(12, v); }
+  $1.ImageDto get thumbnail => $_getN(11);
+  set thumbnail($1.ImageDto v) { setField(12, v); }
   bool hasThumbnail() => $_has(11);
   void clearThumbnail() => clearField(12);
 
-  $6.ImageDto get featuredImage => $_getN(12);
-  set featuredImage($6.ImageDto v) { setField(13, v); }
+  $1.ImageDto get featuredImage => $_getN(12);
+  set featuredImage($1.ImageDto v) { setField(13, v); }
   bool hasFeaturedImage() => $_has(12);
   void clearFeaturedImage() => clearField(13);
 
-  $7.DealTermsDto get terms => $_getN(13);
-  set terms($7.DealTermsDto v) { setField(14, v); }
+  $10.DealTermsDto get terms => $_getN(13);
+  set terms($10.DealTermsDto v) { setField(14, v); }
   bool hasTerms() => $_has(13);
   void clearTerms() => clearField(14);
-
-  OfferDto_ProposalStatus get proposalStatus => $_getN(14);
-  set proposalStatus(OfferDto_ProposalStatus v) { setField(15, v); }
-  bool hasProposalStatus() => $_has(14);
-  void clearProposalStatus() => clearField(15);
 }
 
 class OfferDto_FullDataDto extends $pb.GeneratedMessage {
@@ -137,17 +131,16 @@ class OfferDto_FullDataDto extends $pb.GeneratedMessage {
     ..aOS(4, 'businessAvatarThumbnailUrl')
     ..aOS(5, 'title')
     ..aOS(6, 'description')
-    ..a<$5.Timestamp>(7, 'created', $pb.PbFieldType.OM, $5.Timestamp.getDefault, $5.Timestamp.create)
-    ..a<$5.Timestamp>(8, 'start', $pb.PbFieldType.OM, $5.Timestamp.getDefault, $5.Timestamp.create)
-    ..a<$5.Timestamp>(9, 'end', $pb.PbFieldType.OM, $5.Timestamp.getDefault, $5.Timestamp.create)
+    ..a<$6.Timestamp>(7, 'created', $pb.PbFieldType.OM, $6.Timestamp.getDefault, $6.Timestamp.create)
+    ..a<$6.Timestamp>(8, 'start', $pb.PbFieldType.OM, $6.Timestamp.getDefault, $6.Timestamp.create)
+    ..a<$6.Timestamp>(9, 'end', $pb.PbFieldType.OM, $6.Timestamp.getDefault, $6.Timestamp.create)
     ..a<int>(10, 'minFollowers', $pb.PbFieldType.O3)
     ..a<int>(11, 'numberOffered', $pb.PbFieldType.O3)
     ..a<int>(12, 'numberRemaining', $pb.PbFieldType.O3)
-    ..a<$6.ImageDto>(13, 'thumbnail', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
-    ..a<$7.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $7.DealTermsDto.getDefault, $7.DealTermsDto.create)
+    ..a<$1.ImageDto>(13, 'thumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
+    ..a<$10.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $10.DealTermsDto.getDefault, $10.DealTermsDto.create)
     ..e<OfferDto_AcceptancePolicy>(15, 'acceptancePolicy', $pb.PbFieldType.OE, OfferDto_AcceptancePolicy.manualReview, OfferDto_AcceptancePolicy.valueOf, OfferDto_AcceptancePolicy.values)
-    ..e<OfferDto_ProposalStatus>(16, 'proposalStatus', $pb.PbFieldType.OE, OfferDto_ProposalStatus.none, OfferDto_ProposalStatus.valueOf, OfferDto_ProposalStatus.values)
-    ..pp<$6.ImageDto>(17, 'images', $pb.PbFieldType.PM, $6.ImageDto.$checkItem, $6.ImageDto.create)
+    ..pp<$1.ImageDto>(17, 'images', $pb.PbFieldType.PM, $1.ImageDto.$checkItem, $1.ImageDto.create)
     ..pPS(18, 'categoryIds')
     ..hasRequiredFields = false
   ;
@@ -197,18 +190,18 @@ class OfferDto_FullDataDto extends $pb.GeneratedMessage {
   bool hasDescription() => $_has(5);
   void clearDescription() => clearField(6);
 
-  $5.Timestamp get created => $_getN(6);
-  set created($5.Timestamp v) { setField(7, v); }
+  $6.Timestamp get created => $_getN(6);
+  set created($6.Timestamp v) { setField(7, v); }
   bool hasCreated() => $_has(6);
   void clearCreated() => clearField(7);
 
-  $5.Timestamp get start => $_getN(7);
-  set start($5.Timestamp v) { setField(8, v); }
+  $6.Timestamp get start => $_getN(7);
+  set start($6.Timestamp v) { setField(8, v); }
   bool hasStart() => $_has(7);
   void clearStart() => clearField(8);
 
-  $5.Timestamp get end => $_getN(8);
-  set end($5.Timestamp v) { setField(9, v); }
+  $6.Timestamp get end => $_getN(8);
+  set end($6.Timestamp v) { setField(9, v); }
   bool hasEnd() => $_has(8);
   void clearEnd() => clearField(9);
 
@@ -227,13 +220,13 @@ class OfferDto_FullDataDto extends $pb.GeneratedMessage {
   bool hasNumberRemaining() => $_has(11);
   void clearNumberRemaining() => clearField(12);
 
-  $6.ImageDto get thumbnail => $_getN(12);
-  set thumbnail($6.ImageDto v) { setField(13, v); }
+  $1.ImageDto get thumbnail => $_getN(12);
+  set thumbnail($1.ImageDto v) { setField(13, v); }
   bool hasThumbnail() => $_has(12);
   void clearThumbnail() => clearField(13);
 
-  $7.DealTermsDto get terms => $_getN(13);
-  set terms($7.DealTermsDto v) { setField(14, v); }
+  $10.DealTermsDto get terms => $_getN(13);
+  set terms($10.DealTermsDto v) { setField(14, v); }
   bool hasTerms() => $_has(13);
   void clearTerms() => clearField(14);
 
@@ -242,14 +235,9 @@ class OfferDto_FullDataDto extends $pb.GeneratedMessage {
   bool hasAcceptancePolicy() => $_has(14);
   void clearAcceptancePolicy() => clearField(15);
 
-  OfferDto_ProposalStatus get proposalStatus => $_getN(15);
-  set proposalStatus(OfferDto_ProposalStatus v) { setField(16, v); }
-  bool hasProposalStatus() => $_has(15);
-  void clearProposalStatus() => clearField(16);
+  List<$1.ImageDto> get images => $_getList(15);
 
-  List<$6.ImageDto> get images => $_getList(16);
-
-  List<String> get categoryIds => $_getList(17);
+  List<String> get categoryIds => $_getList(16);
 }
 
 enum OfferDto_Data {
@@ -269,7 +257,7 @@ class OfferDto extends $pb.GeneratedMessage {
     ..a<int>(2, 'revision', $pb.PbFieldType.OU3)
     ..e<OfferDto_Status>(4, 'status', $pb.PbFieldType.OE, OfferDto_Status.unknown, OfferDto_Status.valueOf, OfferDto_Status.values)
     ..e<OfferDto_StatusReason>(5, 'statusReason', $pb.PbFieldType.OE, OfferDto_StatusReason.open, OfferDto_StatusReason.valueOf, OfferDto_StatusReason.values)
-    ..a<$4.LocationDto>(6, 'location', $pb.PbFieldType.OM, $4.LocationDto.getDefault, $4.LocationDto.create)
+    ..a<$2.LocationDto>(6, 'location', $pb.PbFieldType.OM, $2.LocationDto.getDefault, $2.LocationDto.create)
     ..a<OfferDto_ListDataDto>(7, 'list', $pb.PbFieldType.OM, OfferDto_ListDataDto.getDefault, OfferDto_ListDataDto.create)
     ..a<OfferDto_FullDataDto>(8, 'full', $pb.PbFieldType.OM, OfferDto_FullDataDto.getDefault, OfferDto_FullDataDto.create)
     ..oo(0, [7, 8])
@@ -314,8 +302,8 @@ class OfferDto extends $pb.GeneratedMessage {
   bool hasStatusReason() => $_has(3);
   void clearStatusReason() => clearField(5);
 
-  $4.LocationDto get location => $_getN(4);
-  set location($4.LocationDto v) { setField(6, v); }
+  $2.LocationDto get location => $_getN(4);
+  set location($2.LocationDto v) { setField(6, v); }
   bool hasLocation() => $_has(4);
   void clearLocation() => clearField(6);
 

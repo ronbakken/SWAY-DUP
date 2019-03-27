@@ -69,12 +69,15 @@ namespace IntegrationTests
 
                 var executionPlan = ExecutionPlan
                     .Default
+
                     // System
                     .AddTest(new Test(nameof(Tests.System.Ping), Tests.System.Ping))
+
                     // Config
                     .AddTest(new Test(nameof(Config.GetVersions), Config.GetVersions))
                     .AddTest(new Test(nameof(Config.GetAppConfig), Config.GetAppConfig))
                     .AddTest(new Test(nameof(Config.GetWelcomeImages), Config.GetWelcomeImages))
+
                     // Auth
                     .AddTest(new Test(nameof(Auth.LoginNewInfluencer), Auth.LoginNewInfluencer))
                     .AddTest(new Test(nameof(Auth.LoginNewBusiness), Auth.LoginNewBusiness))
@@ -82,23 +85,36 @@ namespace IntegrationTests
                     .AddTest(new Test(nameof(Auth.ActivateBusiness), Auth.ActivateBusiness))
                     .AddTest(new Test(nameof(Auth.LoginExistingInfluencer), Auth.LoginExistingInfluencer))
                     .AddTest(new Test(nameof(Auth.LoginExistingBusiness), Auth.LoginExistingBusiness))
+
                     // Users
                     .AddTest(new Test(nameof(Users.UpdateInfluencer), Users.UpdateInfluencer))
                     .AddTest(new Test(nameof(Users.UpdateBusiness), Users.UpdateBusiness))
+                    .AddTest(new Test(nameof(Users.ListUsersAsAnInfluencer), Users.ListUsersAsAnInfluencer))
+                    .AddTest(new Test(nameof(Users.ListUsersAsABusiness), Users.ListUsersAsABusiness))
+                    .AddTest(new Test(nameof(Users.ListenForSingleUser), Users.ListenForSingleUser))
+
                     // Offers
                     .AddTest(new Test(nameof(Offers.UpdateOffer), Offers.UpdateOffer))
+                    .AddTest(new Test(nameof(Offers.ListOffers), Offers.ListOffers))
+                    .AddTest(new Test(nameof(Offers.ListenForOffers), Offers.ListenForOffers))
+
                     // BlobStorage
                     .AddTest(new Test(nameof(BlobStorage.Upload), BlobStorage.Upload))
-                    // List
-                    .AddTest(new Test(nameof(List.ListUsersAsAnInfluencer), List.ListUsersAsAnInfluencer))
-                    .AddTest(new Test(nameof(List.ListUsersAsABusiness), List.ListUsersAsABusiness))
-                    .AddTest(new Test(nameof(List.ListOffers), List.ListOffers))
-                    // Listen
-                    .AddTest(new Test(nameof(Listen.ListenForSingleUser), Listen.ListenForSingleUser))
-                    .AddTest(new Test(nameof(Listen.ListenForOffers), Listen.ListenForOffers))
+
+                    // Messaging
+                    .AddTest(new Test(nameof(Messaging.CreateConversation), Messaging.CreateConversation))
+                    .AddTest(new Test(nameof(Messaging.CreateMessage), Messaging.CreateMessage))
+                    .AddTest(new Test(nameof(Messaging.ListConversations), Messaging.ListConversations))
+                    .AddTest(new Test(nameof(Messaging.ListMessages), Messaging.ListMessages))
+                    .AddTest(new Test(nameof(Messaging.ListenForConversations), Messaging.ListenForConversations))
+                    .AddTest(new Test(nameof(Messaging.ListenForMessages), Messaging.ListenForMessages))
+                    .AddTest(new Test(nameof(Messaging.CloseConversation), Messaging.CloseConversation))
+
                     // Auth
                     .AddTest(new Test(nameof(Auth.LogoutInfluencer), Auth.LogoutInfluencer))
-                    .AddTest(new Test(nameof(Auth.LogoutBusiness), Auth.LogoutBusiness));
+                    .AddTest(new Test(nameof(Auth.LogoutBusiness), Auth.LogoutBusiness))
+
+                    ;
 
                 try
                 {

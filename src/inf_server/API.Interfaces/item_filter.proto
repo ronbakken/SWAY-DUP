@@ -3,6 +3,7 @@
 package api;
 option csharp_namespace = "API.Interfaces";
 
+import "conversation.proto";
 import "deliverable.proto";
 import "location.proto";
 import "money.proto";
@@ -13,6 +14,15 @@ import "user.proto";
 message ItemFilterDto {
     // Offer-specific filters
     message OfferFilterDto {
+        // By assigning a value to this filter field, you're requesting map pins for offers rather than the offers themselves
+        int32 mapLevel = 7;
+
+        GeoPointDto northWest = 8;
+        GeoPointDto southEast = 9;
+
+        repeated string categoryIds = 10;
+        string phrase = 11;
+
         string businessAccountId = 1;
         repeated OfferDto.Status offerStatuses = 2;
         repeated DeliverableType deliverableTypes = 3;
@@ -23,25 +33,34 @@ message ItemFilterDto {
 
     // User-specific filter
     message UserFilterDto {
+        // By assigning a value to this filter field, you're requesting map pins for users rather than the users themselves
+        int32 mapLevel = 7;
+
+        GeoPointDto northWest = 8;
+        GeoPointDto southEast = 9;
+
+        repeated string categoryIds = 10;
+        string phrase = 11;
+
         repeated UserType userTypes = 1;
         repeated string socialMediaNetworkIds = 2;
     }
 
-    enum ItemType {
-        offers = 0;
-        users = 1;
+    // Conversation-specific filter
+    message ConversationFilterDto {
+        string participatingUserId = 1;
+        string topicId = 2;
+        repeated ConversationDto.Status conversationStatuses = 3;
     }
 
-    repeated ItemType itemTypes = 1;
-    GeoPointDto northWest = 2;
-    GeoPointDto southEast = 3;
+    // Message-specific filter
+    message MessageFilterDto {
+        string conversationId = 1;
+    }
 
-    // By assigning a value to this filter field, the client is effectively saying it wants map pins, not the items themselves.
-    int32 mapLevel = 4;
-
-    repeated string categoryIds = 5;
-    string phrase = 6;
-
+    // For each item type you want to receive, set these filters.
     OfferFilterDto offerFilter = 10;
     UserFilterDto userFilter = 11;
+    ConversationFilterDto conversationFilter = 12;
+    MessageFilterDto messageFilter = 13;
 }

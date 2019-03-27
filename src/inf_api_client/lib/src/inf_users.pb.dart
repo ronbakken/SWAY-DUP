@@ -9,7 +9,7 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'user.pb.dart' as $10;
+import 'user.pb.dart' as $5;
 
 class GetUserRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetUserRequest', package: const $pb.PackageName('api'))
@@ -40,7 +40,7 @@ class GetUserRequest extends $pb.GeneratedMessage {
 
 class GetUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetUserResponse', package: const $pb.PackageName('api'))
-    ..a<$10.UserDto>(1, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(1, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -59,15 +59,15 @@ class GetUserResponse extends $pb.GeneratedMessage {
     if (v is! GetUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $10.UserDto get user => $_getN(0);
-  set user($10.UserDto v) { setField(1, v); }
+  $5.UserDto get user => $_getN(0);
+  set user($5.UserDto v) { setField(1, v); }
   bool hasUser() => $_has(0);
   void clearUser() => clearField(1);
 }
 
 class UpdateUserRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateUserRequest', package: const $pb.PackageName('api'))
-    ..a<$10.UserDto>(1, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(1, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -86,15 +86,15 @@ class UpdateUserRequest extends $pb.GeneratedMessage {
     if (v is! UpdateUserRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $10.UserDto get user => $_getN(0);
-  set user($10.UserDto v) { setField(1, v); }
+  $5.UserDto get user => $_getN(0);
+  set user($5.UserDto v) { setField(1, v); }
   bool hasUser() => $_has(0);
   void clearUser() => clearField(1);
 }
 
 class UpdateUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateUserResponse', package: const $pb.PackageName('api'))
-    ..a<$10.UserDto>(1, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(1, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -113,8 +113,8 @@ class UpdateUserResponse extends $pb.GeneratedMessage {
     if (v is! UpdateUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $10.UserDto get user => $_getN(0);
-  set user($10.UserDto v) { setField(1, v); }
+  $5.UserDto get user => $_getN(0);
+  set user($5.UserDto v) { setField(1, v); }
   bool hasUser() => $_has(0);
   void clearUser() => clearField(1);
 }

@@ -4,7 +4,7 @@ using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Genesis.Ensure;
-using Utility;
+using Utility.Microsoft.Azure.Cosmos;
 
 namespace Microsoft.Azure.Cosmos
 {
@@ -40,10 +40,27 @@ namespace Microsoft.Azure.Cosmos
             }
 
             var connectionString = databaseSection.Parameters[connectionStringParameterName].Value;
-            var cosmosConfiguration = new InfCosmosConfiguration(connectionString);
-            var cosmosClient = new CosmosClient(cosmosConfiguration);
+            var cosmosClient = new CosmosClientBuilder(connectionString)
+                .UseCustomJsonSerializer(ProtobufJsonSerializer.Instance)
+                .AddCustomHandlers(LoggingHandler.Instance)
+                .Build();
 
             return cosmosClient;
+        }
+
+        // Creates a default container in the database. Should be used wherever possible.
+        public static async Task<CosmosContainer> CreateDefaultContainerIfNotExistsAsync(this CosmosClient @this)
+        {
+            var databaseResult = await @this
+                .Databases
+                .CreateDatabaseFromConfigurationIfNotExistsAsync()
+                .ContinueOnAnyContext();
+            var database = databaseResult.Database;
+            var dataContainerResult = await database
+                .Containers
+                .CreateContainerFromConfigurationIfNotExistsAsync("default", "/partitionKey")
+                .ContinueOnAnyContext();
+            return dataContainerResult.Container;
         }
 
         public static Task<CosmosDatabaseResponse> CreateDatabaseFromConfigurationIfNotExistsAsync(this CosmosDatabases @this)
@@ -139,7 +156,7 @@ namespace Microsoft.Azure.Cosmos
                         .ContinueOnAnyContext();
                     var createSprocResult = await @this
                         .StoredProcedures
-                        .CreateStoredProceducreAsync(id, sprocCode)
+                        .CreateStoredProcedureAsync(id, sprocCode)
                         .ContinueOnAnyContext();
 
                     return createSprocResult;

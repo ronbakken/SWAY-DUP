@@ -9,13 +9,13 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'deliverable.pb.dart' as $2;
-import 'reward.pb.dart' as $3;
+import 'deliverable.pb.dart' as $8;
+import 'reward.pb.dart' as $9;
 
 class DealTermsDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('DealTermsDto', package: const $pb.PackageName('api'))
-    ..a<$2.DeliverableDto>(1, 'deliverable', $pb.PbFieldType.OM, $2.DeliverableDto.getDefault, $2.DeliverableDto.create)
-    ..a<$3.RewardDto>(2, 'reward', $pb.PbFieldType.OM, $3.RewardDto.getDefault, $3.RewardDto.create)
+    ..a<$8.DeliverableDto>(1, 'deliverable', $pb.PbFieldType.OM, $8.DeliverableDto.getDefault, $8.DeliverableDto.create)
+    ..a<$9.RewardDto>(2, 'reward', $pb.PbFieldType.OM, $9.RewardDto.getDefault, $9.RewardDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -34,13 +34,13 @@ class DealTermsDto extends $pb.GeneratedMessage {
     if (v is! DealTermsDto) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $2.DeliverableDto get deliverable => $_getN(0);
-  set deliverable($2.DeliverableDto v) { setField(1, v); }
+  $8.DeliverableDto get deliverable => $_getN(0);
+  set deliverable($8.DeliverableDto v) { setField(1, v); }
   bool hasDeliverable() => $_has(0);
   void clearDeliverable() => clearField(1);
 
-  $3.RewardDto get reward => $_getN(1);
-  set reward($3.RewardDto v) { setField(2, v); }
+  $9.RewardDto get reward => $_getN(1);
+  set reward($9.RewardDto v) { setField(2, v); }
   bool hasReward() => $_has(1);
   void clearReward() => clearField(2);
 }

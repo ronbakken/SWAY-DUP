@@ -2,7 +2,6 @@
 using System.Linq;
 using System.Threading.Tasks;
 using API.Interfaces;
-using AutoFixture;
 using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json.Linq;
 using Xunit;
@@ -27,7 +26,9 @@ namespace IntegrationTests.Tests
             var expiry = DateTime.UtcNow.AddDays(1).ToString("yyyy-MM-ddTHH:mm:ss.fffZ");
             var invitationCodeJson = $@"
 {{
+    'schemaType': 'invitationCode',
     'schemaVersion': 1,
+    'partitionKey': 'invitationCode',
     'id': '{code}',
     'expiryTimestamp': '{expiry}',
 }}";
@@ -35,9 +36,9 @@ namespace IntegrationTests.Tests
 
             await databaseClient
                 .Databases["inf"]
-                .Containers["invitationCodes"]
+                .Containers["default"]
                 .Items
-                .UpsertItemAsync(code, invitationCode);
+                .UpsertItemAsync("invitationCode", invitationCode);
 
             var client = new InfAuth.InfAuthClient(context.GetServerChannel());
             var userEmail = $"{Guid.NewGuid()}@somewhere.com";
@@ -46,11 +47,12 @@ namespace IntegrationTests.Tests
             await client.SendLoginEmailAsync(new SendLoginEmailRequest { Email = userEmail, InvitationCode = code, UserType = userType });
 
             logger.Debug("Reading user's login token");
-            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.email = @UserEmail");
+            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.schemaType = @SchemaType AND u.email = @UserEmail");
+            userLoginTokenQuery.UseParameter("@SchemaType", "user");
             userLoginTokenQuery.UseParameter("@UserEmail", userEmail);
             var resultsIterator = databaseClient
                 .Databases["inf"]
-                .Containers["users"]
+                .Containers["default"]
                 .Items
                 .CreateItemQuery<string>(userLoginTokenQuery, 2, maxItemCount: 2);
             string loginToken = null;
@@ -131,11 +133,12 @@ namespace IntegrationTests.Tests
 
             logger.Debug("Reading user's login token");
             var databaseClient = context.GetDatabaseClient();
-            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.email = @UserEmail");
+            var userLoginTokenQuery = new CosmosSqlQueryDefinition("SELECT VALUE u.loginToken FROM u WHERE u.schemaType = @SchemaType AND u.email = @UserEmail");
+            userLoginTokenQuery.UseParameter("@SchemaType", "user");
             userLoginTokenQuery.UseParameter("@UserEmail", userEmail);
             var resultsIterator = databaseClient
                 .Databases["inf"]
-                .Containers["users"]
+                .Containers["default"]
                 .Items
                 .CreateItemQuery<string>(userLoginTokenQuery, 2, maxItemCount: 2);
             string loginToken = null;

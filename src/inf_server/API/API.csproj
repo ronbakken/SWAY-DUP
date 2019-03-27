@@ -41,6 +41,7 @@
         <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
         <ProjectReference Include="..\InvitationCodes.Interfaces\InvitationCodes.Interfaces.csproj" />
         <ProjectReference Include="..\Mapping.Interfaces\Mapping.Interfaces.csproj" />
+        <ProjectReference Include="..\Messaging.Interfaces\Messaging.Interfaces.csproj" />
         <ProjectReference Include="..\Offers.Interfaces\Offers.Interfaces.csproj" />
         <ProjectReference Include="..\Users.Interfaces\Users.Interfaces.csproj" />
         <ProjectReference Include="..\Utility\Utility.csproj" />

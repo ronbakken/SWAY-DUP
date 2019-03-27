@@ -512,7 +512,6 @@ namespace MockServer
                       StatusReason = OfferDto.Types.StatusReason.Open,
                       Location= new LocationDto{ GeoPoint = new GeoPointDto{ Latitude= 34.032395, Longitude= -118.301019} },
                       Full = new OfferDto.Types.FullDataDto{
-                          ProposalStatus = OfferDto.Types.ProposalStatus.AtLeastOne,
                           Created = Timestamp.FromDateTime(DateTime.UtcNow),
                           Start = Timestamp.FromDateTime(new DateTime(2019, 1, 1,0,0,0,DateTimeKind.Utc)),
                           End= Timestamp.FromDateTime(new DateTime(2019, 3, 1,0,0,0,DateTimeKind.Utc)),
@@ -574,7 +573,6 @@ namespace MockServer
                       StatusReason = OfferDto.Types.StatusReason.Open,
                       Location= new LocationDto{ GeoPoint = new GeoPointDto{ Latitude= 34.040031, Longitude= -118.257318} },
                       Full = new OfferDto.Types.FullDataDto{
-                          ProposalStatus = OfferDto.Types.ProposalStatus.None,
                           Created = Timestamp.FromDateTime(DateTime.UtcNow),
                           Start = Timestamp.FromDateTime(new DateTime (2019, 1, 1,0,0,0,DateTimeKind.Utc)),
                           End= Timestamp.FromDateTime(new DateTime(2019, 3, 1,0,0,0,DateTimeKind.Utc)),
@@ -633,7 +631,6 @@ namespace MockServer
                       StatusReason = OfferDto.Types.StatusReason.Open,
                       Location= new LocationDto{ GeoPoint = new GeoPointDto{ Latitude= 34.040031, Longitude= -118.257318} },
                       Full = new OfferDto.Types.FullDataDto{
-                          ProposalStatus = OfferDto.Types.ProposalStatus.None,
                           Created = Timestamp.FromDateTime(DateTime.UtcNow),
                           Start = Timestamp.FromDateTime(new DateTime (2019, 1, 1,0,0,0,DateTimeKind.Utc)),
                           End= Timestamp.FromDateTime(new DateTime(2019, 3, 1,0,0,0,DateTimeKind.Utc)),
@@ -786,7 +783,6 @@ namespace MockServer
                            FeaturedImage = x.Full.Images[0],
                            NumberOffered = x.Full.NumberOffered,
                            NumberRemaining = x.Full.NumberRemaining,
-                           ProposalStatus = x.Full.ProposalStatus,
                            Start = x.Full.Start,
                            Terms = x.Full.Terms,
                            Thumbnail = x.Full.Thumbnail,

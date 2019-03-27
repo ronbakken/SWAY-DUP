@@ -3,7 +3,9 @@
 package api;
 option csharp_namespace = "API.Interfaces";
 
+import "conversation.proto";
 import "map_item.proto";
+import "message.proto";
 import "offer.proto";
 import "user.proto";
 
@@ -12,7 +14,7 @@ message ItemDto {
         OfferDto offer = 1;
         UserDto user = 2;
         MapItemDto mapItem = 3;
-
-        // Other item types to be added here.
+        ConversationDto conversation = 4;
+        MessageDto message = 5;
     }
 }

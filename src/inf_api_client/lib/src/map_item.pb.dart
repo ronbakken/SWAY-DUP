@@ -9,7 +9,7 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'location.pb.dart' as $4;
+import 'location.pb.dart' as $2;
 
 import 'map_item.pbenum.dart';
 
@@ -28,7 +28,7 @@ class MapItemDto extends $pb.GeneratedMessage {
     0 : MapItemDto_Payload.notSet
   };
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('MapItemDto', package: const $pb.PackageName('api'))
-    ..a<$4.GeoPointDto>(1, 'geoPoint', $pb.PbFieldType.OM, $4.GeoPointDto.getDefault, $4.GeoPointDto.create)
+    ..a<$2.GeoPointDto>(1, 'geoPoint', $pb.PbFieldType.OM, $2.GeoPointDto.getDefault, $2.GeoPointDto.create)
     ..e<MapItemDto_MapItemStatus>(2, 'status', $pb.PbFieldType.OE, MapItemDto_MapItemStatus.inactive, MapItemDto_MapItemStatus.valueOf, MapItemDto_MapItemStatus.values)
     ..a<OfferMapItemDto>(4, 'offer', $pb.PbFieldType.OM, OfferMapItemDto.getDefault, OfferMapItemDto.create)
     ..a<UserMapItemDto>(5, 'user', $pb.PbFieldType.OM, UserMapItemDto.getDefault, UserMapItemDto.create)
@@ -54,8 +54,8 @@ class MapItemDto extends $pb.GeneratedMessage {
   MapItemDto_Payload whichPayload() => _MapItemDto_PayloadByTag[$_whichOneof(0)];
   void clearPayload() => clearField($_whichOneof(0));
 
-  $4.GeoPointDto get geoPoint => $_getN(0);
-  set geoPoint($4.GeoPointDto v) { setField(1, v); }
+  $2.GeoPointDto get geoPoint => $_getN(0);
+  set geoPoint($2.GeoPointDto v) { setField(1, v); }
   bool hasGeoPoint() => $_has(0);
   void clearGeoPoint() => clearField(1);
 

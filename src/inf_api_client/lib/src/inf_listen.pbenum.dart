@@ -11,10 +11,14 @@ import 'package:protobuf/protobuf.dart' as $pb;
 class SingleItemFilterDto_Type extends $pb.ProtobufEnum {
   static const SingleItemFilterDto_Type offer = const SingleItemFilterDto_Type._(0, 'offer');
   static const SingleItemFilterDto_Type user = const SingleItemFilterDto_Type._(1, 'user');
+  static const SingleItemFilterDto_Type conversation = const SingleItemFilterDto_Type._(2, 'conversation');
+  static const SingleItemFilterDto_Type message = const SingleItemFilterDto_Type._(3, 'message');
 
   static const List<SingleItemFilterDto_Type> values = const <SingleItemFilterDto_Type> [
     offer,
     user,
+    conversation,
+    message,
   ];
 
   static final Map<int, SingleItemFilterDto_Type> _byValue = $pb.ProtobufEnum.initByValue(values);

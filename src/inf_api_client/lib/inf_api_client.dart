@@ -5,6 +5,9 @@ export 'package:inf_api_client/src/google/protobuf/timestamp.pbenum.dart';
 export 'package:inf_api_client/src/category.pb.dart';
 export 'package:inf_api_client/src/category.pbenum.dart';
 
+export 'package:inf_api_client/src/conversation.pb.dart';
+export 'package:inf_api_client/src/conversation.pbenum.dart';
+
 export 'package:inf_api_client/src/deal_terms.pb.dart';
 export 'package:inf_api_client/src/deal_terms.pbenum.dart';
 
@@ -37,10 +40,6 @@ export 'package:inf_api_client/src/inf_invitation_codes.pb.dart';
 export 'package:inf_api_client/src/inf_invitation_codes.pbenum.dart';
 export 'package:inf_api_client/src/inf_invitation_codes.pbgrpc.dart';
 
-export 'package:inf_api_client/src/inf_system.pb.dart';
-export 'package:inf_api_client/src/inf_system.pbenum.dart';
-export 'package:inf_api_client/src/inf_system.pbgrpc.dart';
-
 export 'package:inf_api_client/src/inf_list.pb.dart';
 export 'package:inf_api_client/src/inf_list.pbenum.dart';
 export 'package:inf_api_client/src/inf_list.pbgrpc.dart';
@@ -49,16 +48,21 @@ export 'package:inf_api_client/src/inf_listen.pb.dart';
 export 'package:inf_api_client/src/inf_listen.pbenum.dart';
 export 'package:inf_api_client/src/inf_listen.pbgrpc.dart';
 
+export 'package:inf_api_client/src/inf_messaging.pb.dart';
+export 'package:inf_api_client/src/inf_messaging.pbenum.dart';
+export 'package:inf_api_client/src/inf_messaging.pbgrpc.dart';
+
 export 'package:inf_api_client/src/inf_offers.pb.dart';
 export 'package:inf_api_client/src/inf_offers.pbenum.dart';
 export 'package:inf_api_client/src/inf_offers.pbgrpc.dart';
 
+export 'package:inf_api_client/src/inf_system.pb.dart';
+export 'package:inf_api_client/src/inf_system.pbenum.dart';
+export 'package:inf_api_client/src/inf_system.pbgrpc.dart';
+
 export 'package:inf_api_client/src/inf_users.pb.dart';
 export 'package:inf_api_client/src/inf_users.pbenum.dart';
 export 'package:inf_api_client/src/inf_users.pbgrpc.dart';
-
-export 'package:inf_api_client/src/inf_invitation_codes.pb.dart';
-export 'package:inf_api_client/src/inf_invitation_codes.pbenum.dart';
 
 export 'package:inf_api_client/src/item.pb.dart';
 export 'package:inf_api_client/src/item.pbenum.dart';
@@ -66,14 +70,17 @@ export 'package:inf_api_client/src/item.pbenum.dart';
 export 'package:inf_api_client/src/item_filter.pb.dart';
 export 'package:inf_api_client/src/item_filter.pbenum.dart';
 
+export 'package:inf_api_client/src/location.pb.dart';
+export 'package:inf_api_client/src/location.pbenum.dart';
+
 export 'package:inf_api_client/src/map_item.pb.dart';
 export 'package:inf_api_client/src/map_item.pbenum.dart';
 
+export 'package:inf_api_client/src/message.pb.dart';
+export 'package:inf_api_client/src/message.pbenum.dart';
+
 export 'package:inf_api_client/src/money.pb.dart';
 export 'package:inf_api_client/src/money.pbenum.dart';
-
-export 'package:inf_api_client/src/location.pb.dart';
-export 'package:inf_api_client/src/location.pbenum.dart';
 
 export 'package:inf_api_client/src/offer.pb.dart';
 export 'package:inf_api_client/src/offer.pbenum.dart';

@@ -14,6 +14,10 @@ namespace Offers.ObjectMapping
 
             var result = new OfferEntity
             {
+                SchemaType = "offer",
+                SchemaVersion = 1,
+                PartitionKey = @this.Id,
+
                 AcceptancePolicy = @this.AcceptancePolicy.ToEntity(),
                 BusinessAccountId = @this.BusinessAccountId,
                 BusinessAvatarThumbnailUrl = @this.BusinessAvatarThumbnailUrl,
@@ -28,7 +32,6 @@ namespace Offers.ObjectMapping
                 NumberOffered = @this.NumberOffered,
                 NumberRemaining = @this.NumberRemaining,
                 Revision = @this.Revision,
-                SchemaVersion = 1,
                 Start = @this.Start,
                 Status = @this.Status.ToEntity(),
                 StatusReason = @this.StatusReason.ToEntity(),

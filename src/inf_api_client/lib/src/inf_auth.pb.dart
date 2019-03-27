@@ -9,14 +9,14 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'user.pb.dart' as $10;
+import 'user.pb.dart' as $5;
 
-import 'user.pbenum.dart' as $10;
+import 'user.pbenum.dart' as $5;
 
 class SendLoginEmailRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('SendLoginEmailRequest', package: const $pb.PackageName('api'))
     ..aOS(1, 'email')
-    ..e<$10.UserType>(2, 'userType', $pb.PbFieldType.OE, $10.UserType.unknownType, $10.UserType.valueOf, $10.UserType.values)
+    ..e<$5.UserType>(2, 'userType', $pb.PbFieldType.OE, $5.UserType.unknownType, $5.UserType.valueOf, $5.UserType.values)
     ..aOS(3, 'invitationCode')
     ..hasRequiredFields = false
   ;
@@ -41,8 +41,8 @@ class SendLoginEmailRequest extends $pb.GeneratedMessage {
   bool hasEmail() => $_has(0);
   void clearEmail() => clearField(1);
 
-  $10.UserType get userType => $_getN(1);
-  set userType($10.UserType v) { setField(2, v); }
+  $5.UserType get userType => $_getN(1);
+  set userType($5.UserType v) { setField(2, v); }
   bool hasUserType() => $_has(1);
   void clearUserType() => clearField(2);
 
@@ -55,7 +55,7 @@ class SendLoginEmailRequest extends $pb.GeneratedMessage {
 class ActivateUserRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ActivateUserRequest', package: const $pb.PackageName('api'))
     ..aOS(1, 'loginToken')
-    ..a<$10.UserDto>(2, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(2, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -79,15 +79,15 @@ class ActivateUserRequest extends $pb.GeneratedMessage {
   bool hasLoginToken() => $_has(0);
   void clearLoginToken() => clearField(1);
 
-  $10.UserDto get user => $_getN(1);
-  set user($10.UserDto v) { setField(2, v); }
+  $5.UserDto get user => $_getN(1);
+  set user($5.UserDto v) { setField(2, v); }
   bool hasUser() => $_has(1);
   void clearUser() => clearField(2);
 }
 
 class ActivateUserResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ActivateUserResponse', package: const $pb.PackageName('api'))
-    ..a<$10.UserDto>(2, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(2, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -106,8 +106,8 @@ class ActivateUserResponse extends $pb.GeneratedMessage {
     if (v is! ActivateUserResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $10.UserDto get user => $_getN(0);
-  set user($10.UserDto v) { setField(2, v); }
+  $5.UserDto get user => $_getN(0);
+  set user($5.UserDto v) { setField(2, v); }
   bool hasUser() => $_has(0);
   void clearUser() => clearField(2);
 }
@@ -142,7 +142,7 @@ class LoginWithLoginTokenRequest extends $pb.GeneratedMessage {
 class LoginWithLoginTokenResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('LoginWithLoginTokenResponse', package: const $pb.PackageName('api'))
     ..aOS(1, 'refreshToken')
-    ..a<$10.UserDto>(2, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(2, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -166,8 +166,8 @@ class LoginWithLoginTokenResponse extends $pb.GeneratedMessage {
   bool hasRefreshToken() => $_has(0);
   void clearRefreshToken() => clearField(1);
 
-  $10.UserDto get user => $_getN(1);
-  set user($10.UserDto v) { setField(2, v); }
+  $5.UserDto get user => $_getN(1);
+  set user($5.UserDto v) { setField(2, v); }
   bool hasUser() => $_has(1);
   void clearUser() => clearField(2);
 }
@@ -256,7 +256,7 @@ class LoginWithRefreshTokenRequest extends $pb.GeneratedMessage {
 class LoginWithRefreshTokenResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('LoginWithRefreshTokenResponse', package: const $pb.PackageName('api'))
     ..aOS(1, 'accessToken')
-    ..a<$10.UserDto>(2, 'user', $pb.PbFieldType.OM, $10.UserDto.getDefault, $10.UserDto.create)
+    ..a<$5.UserDto>(2, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -280,8 +280,8 @@ class LoginWithRefreshTokenResponse extends $pb.GeneratedMessage {
   bool hasAccessToken() => $_has(0);
   void clearAccessToken() => clearField(1);
 
-  $10.UserDto get user => $_getN(1);
-  set user($10.UserDto v) { setField(2, v); }
+  $5.UserDto get user => $_getN(1);
+  set user($5.UserDto v) { setField(2, v); }
   bool hasUser() => $_has(1);
   void clearUser() => clearField(2);
 }

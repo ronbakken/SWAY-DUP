@@ -17,10 +17,9 @@ namespace InvitationCodes
 {
     public sealed class InvitationCodesServiceImpl : InvitationCodeServiceBase
     {
-        private const string invitationCodesCollectionId = "invitationCodes";
-
+        private const string schemaType = "invitationCode";
         private readonly ILogger logger;
-        private CosmosContainer codesContainer;
+        private CosmosContainer defaultContainer;
 
         public InvitationCodesServiceImpl(
             ILogger logger)
@@ -34,16 +33,7 @@ namespace InvitationCodes
         {
             logger.Debug("Creating database if required");
 
-            var databaseResult = await cosmosClient
-                .Databases
-                .CreateDatabaseFromConfigurationIfNotExistsAsync()
-                .ContinueOnAnyContext();
-            var database = databaseResult.Database;
-            var containerResult = await database
-                .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(invitationCodesCollectionId, "/id")
-                .ContinueOnAnyContext();
-            this.codesContainer = containerResult.Container;
+            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
 
             logger.Debug("Database creation complete");
         }
@@ -61,7 +51,7 @@ namespace InvitationCodes
                         logger.Debug("Generated random invitation code {InvitationCode}", code);
 
                         var existingInvitationCodeResponse = await this
-                            .codesContainer
+                            .defaultContainer
                             .Items
                             .ReadItemAsync<InvitationCodeEntity>(code, code)
                             .ContinueOnAnyContext();
@@ -84,13 +74,15 @@ namespace InvitationCodes
                         .InUtc();
                     var entity = new InvitationCodeEntity
                     {
+                        SchemaType = schemaType,
                         SchemaVersion = 1,
+                        PartitionKey = schemaType,
                         Id = code,
                         ExpiryTimestamp = Timestamp.FromDateTime(expiryTimestamp.ToDateTimeUtc()),
                     };
 
                     await this
-                        .codesContainer
+                        .defaultContainer
                         .Items
                         .CreateItemAsync(code, entity)
                         .ContinueOnAnyContext();
@@ -111,9 +103,9 @@ namespace InvitationCodes
                     var code = request.Code;
 
                     var existingInvitationCodeResponse = await this
-                        .codesContainer
+                        .defaultContainer
                         .Items
-                        .ReadItemAsync<InvitationCodeEntity>(code, code)
+                        .ReadItemAsync<InvitationCodeEntity>(schemaType, code)
                         .ContinueOnAnyContext();
 
                     if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
@@ -163,9 +155,9 @@ namespace InvitationCodes
                     var code = request.Code;
 
                     var existingInvitationCodeResponse = await this
-                        .codesContainer
+                        .defaultContainer
                         .Items
-                        .ReadItemAsync<InvitationCodeEntity>(code, code)
+                        .ReadItemAsync<InvitationCodeEntity>(schemaType, code)
                         .ContinueOnAnyContext();
 
                     if (existingInvitationCodeResponse.StatusCode == HttpStatusCode.NotFound)
@@ -204,9 +196,9 @@ namespace InvitationCodes
 
                     existingInvitationCode.IsHonored = true;
                     await this
-                        .codesContainer
+                        .defaultContainer
                         .Items
-                        .UpsertItemAsync(code, existingInvitationCode)
+                        .UpsertItemAsync(schemaType, existingInvitationCode)
                         .ContinueOnAnyContext();
                     logger.Information("Invitation code {InvitationCode} is has been honored", code);
 

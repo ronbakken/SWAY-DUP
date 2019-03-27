@@ -1,0 +1,106 @@
+﻿syntax = "proto3";
+
+package messaging;
+option csharp_namespace = "Messaging";
+
+import "google/protobuf/timestamp.proto";
+
+message ImageEntity {
+    string url = 1;
+    string lowResUrl = 2;
+}
+
+message UserEntity {
+    enum Status {
+        unknown = 0;
+        disabled = 1;
+        active = 2;
+        waitingForActivation = 3;
+        waitingForApproval = 4;
+        rejected = 5;
+    }
+
+    string id = 1;
+    uint32 revision = 2;
+    Status status = 3;
+    string name = 4;
+    ImageEntity avatarThumbnail = 5;
+    repeated string registrationTokens = 6;
+}
+
+message MessageAttachmentEntity {
+    string contentType = 1;
+    bytes data = 2;
+    map<string, string> metadata = 3;
+}
+
+message MessageEntity {
+    // "message"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // conversation ID
+    string partitionKey = 3;
+    // message ID
+    string id = 4;
+    google.protobuf.Timestamp created = 5;
+    UserEntity user = 6;
+    string action = 7;
+    string text = 8;
+    repeated MessageAttachmentEntity attachments = 9;
+}
+
+message ConversationEntity {
+    enum Status {
+        closed = 0;
+        open = 1;
+    }
+
+    // "conversation"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // user ID
+    string partitionKey = 3;
+    // conversation ID
+    string id = 4;
+    Status status = 5;
+    // related entity ID (e.g. the ID of the offer that the conversation is about)
+    string topicId = 6;
+    MessageEntity latestMessage = 7;
+}
+
+message ConversationParticipantEntity {
+    // "conversationParticipant"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // conversation ID
+    string partitionKey = 3;
+    // user ID
+    string id = 4;
+    repeated string registrationTokens = 5;
+
+    // is the user actively listening for messages related to this conversation (if so, no need to notify them)
+    bool isListening = 6;
+}
+
+message CreateConversationArgs {
+    string id = 1;
+    string topicId = 2;
+    string userId = 3;
+    MessageEntity firstMessage = 4;
+}
+
+message CreateMessageArgs {
+    string conversationId = 1;
+    MessageEntity message = 2;
+}
+
+message SetConversationParticipantListeningArgs {
+    string conversationId = 1;
+    string userId = 2;
+    bool isListening = 3;
+}
+
+message CloseConversationArgs {
+    string id = 1;
+    string userId = 2;
+}

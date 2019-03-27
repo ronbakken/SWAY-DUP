@@ -9,10 +9,10 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'location.pb.dart' as $4;
-import 'image.pb.dart' as $6;
-import 'money.pb.dart' as $1;
-import 'social_media_account.pb.dart' as $8;
+import 'image.pb.dart' as $1;
+import 'location.pb.dart' as $2;
+import 'money.pb.dart' as $3;
+import 'social_media_account.pb.dart' as $4;
 
 import 'user.pbenum.dart';
 
@@ -21,6 +21,7 @@ export 'user.pbenum.dart';
 class UserDto_HandleDataDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UserDto.HandleDataDto', package: const $pb.PackageName('api'))
     ..aOS(1, 'name')
+    ..a<$1.ImageDto>(2, 'avatarThumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -43,6 +44,11 @@ class UserDto_HandleDataDto extends $pb.GeneratedMessage {
   set name(String v) { $_setString(0, v); }
   bool hasName() => $_has(0);
   void clearName() => clearField(1);
+
+  $1.ImageDto get avatarThumbnail => $_getN(1);
+  set avatarThumbnail($1.ImageDto v) { setField(2, v); }
+  bool hasAvatarThumbnail() => $_has(1);
+  void clearAvatarThumbnail() => clearField(2);
 }
 
 class UserDto_ListDataDto extends $pb.GeneratedMessage {
@@ -51,9 +57,9 @@ class UserDto_ListDataDto extends $pb.GeneratedMessage {
     ..e<UserType>(2, 'type', $pb.PbFieldType.OE, UserType.unknownType, UserType.valueOf, UserType.values)
     ..aOS(4, 'description')
     ..aOB(8, 'showLocation')
-    ..a<$4.LocationDto>(10, 'location', $pb.PbFieldType.OM, $4.LocationDto.getDefault, $4.LocationDto.create)
-    ..a<$6.ImageDto>(11, 'avatar', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
-    ..a<$6.ImageDto>(12, 'avatarThumbnail', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
+    ..a<$2.LocationDto>(10, 'location', $pb.PbFieldType.OM, $2.LocationDto.getDefault, $2.LocationDto.create)
+    ..a<$1.ImageDto>(11, 'avatar', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
+    ..a<$1.ImageDto>(12, 'avatarThumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
     ..pPS(13, 'categoryIds')
     ..pPS(14, 'socialMediaProviderIds')
     ..hasRequiredFields = false
@@ -94,18 +100,18 @@ class UserDto_ListDataDto extends $pb.GeneratedMessage {
   bool hasShowLocation() => $_has(3);
   void clearShowLocation() => clearField(8);
 
-  $4.LocationDto get location => $_getN(4);
-  set location($4.LocationDto v) { setField(10, v); }
+  $2.LocationDto get location => $_getN(4);
+  set location($2.LocationDto v) { setField(10, v); }
   bool hasLocation() => $_has(4);
   void clearLocation() => clearField(10);
 
-  $6.ImageDto get avatar => $_getN(5);
-  set avatar($6.ImageDto v) { setField(11, v); }
+  $1.ImageDto get avatar => $_getN(5);
+  set avatar($1.ImageDto v) { setField(11, v); }
   bool hasAvatar() => $_has(5);
   void clearAvatar() => clearField(11);
 
-  $6.ImageDto get avatarThumbnail => $_getN(6);
-  set avatarThumbnail($6.ImageDto v) { setField(12, v); }
+  $1.ImageDto get avatarThumbnail => $_getN(6);
+  set avatarThumbnail($1.ImageDto v) { setField(12, v); }
   bool hasAvatarThumbnail() => $_has(6);
   void clearAvatarThumbnail() => clearField(12);
 
@@ -125,13 +131,14 @@ class UserDto_FullDataDto extends $pb.GeneratedMessage {
     ..aOB(7, 'acceptsDirectOffers')
     ..aOB(8, 'showLocation')
     ..a<int>(9, 'accountCompletionInPercent', $pb.PbFieldType.O3)
-    ..a<$4.LocationDto>(10, 'location', $pb.PbFieldType.OM, $4.LocationDto.getDefault, $4.LocationDto.create)
-    ..a<$6.ImageDto>(11, 'avatar', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
-    ..a<$6.ImageDto>(12, 'avatarThumbnail', $pb.PbFieldType.OM, $6.ImageDto.getDefault, $6.ImageDto.create)
+    ..a<$2.LocationDto>(10, 'location', $pb.PbFieldType.OM, $2.LocationDto.getDefault, $2.LocationDto.create)
+    ..a<$1.ImageDto>(11, 'avatar', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
+    ..a<$1.ImageDto>(12, 'avatarThumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
     ..pPS(13, 'categoryIds')
-    ..a<$1.MoneyDto>(14, 'minimalFee', $pb.PbFieldType.OM, $1.MoneyDto.getDefault, $1.MoneyDto.create)
-    ..pp<$8.SocialMediaAccountDto>(15, 'socialMediaAccounts', $pb.PbFieldType.PM, $8.SocialMediaAccountDto.$checkItem, $8.SocialMediaAccountDto.create)
+    ..a<$3.MoneyDto>(14, 'minimalFee', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..pp<$4.SocialMediaAccountDto>(15, 'socialMediaAccounts', $pb.PbFieldType.PM, $4.SocialMediaAccountDto.$checkItem, $4.SocialMediaAccountDto.create)
     ..pPS(16, 'registrationTokens')
+    ..pp<$2.LocationDto>(17, 'locationsOfInfluence', $pb.PbFieldType.PM, $2.LocationDto.$checkItem, $2.LocationDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -195,31 +202,33 @@ class UserDto_FullDataDto extends $pb.GeneratedMessage {
   bool hasAccountCompletionInPercent() => $_has(8);
   void clearAccountCompletionInPercent() => clearField(9);
 
-  $4.LocationDto get location => $_getN(9);
-  set location($4.LocationDto v) { setField(10, v); }
+  $2.LocationDto get location => $_getN(9);
+  set location($2.LocationDto v) { setField(10, v); }
   bool hasLocation() => $_has(9);
   void clearLocation() => clearField(10);
 
-  $6.ImageDto get avatar => $_getN(10);
-  set avatar($6.ImageDto v) { setField(11, v); }
+  $1.ImageDto get avatar => $_getN(10);
+  set avatar($1.ImageDto v) { setField(11, v); }
   bool hasAvatar() => $_has(10);
   void clearAvatar() => clearField(11);
 
-  $6.ImageDto get avatarThumbnail => $_getN(11);
-  set avatarThumbnail($6.ImageDto v) { setField(12, v); }
+  $1.ImageDto get avatarThumbnail => $_getN(11);
+  set avatarThumbnail($1.ImageDto v) { setField(12, v); }
   bool hasAvatarThumbnail() => $_has(11);
   void clearAvatarThumbnail() => clearField(12);
 
   List<String> get categoryIds => $_getList(12);
 
-  $1.MoneyDto get minimalFee => $_getN(13);
-  set minimalFee($1.MoneyDto v) { setField(14, v); }
+  $3.MoneyDto get minimalFee => $_getN(13);
+  set minimalFee($3.MoneyDto v) { setField(14, v); }
   bool hasMinimalFee() => $_has(13);
   void clearMinimalFee() => clearField(14);
 
-  List<$8.SocialMediaAccountDto> get socialMediaAccounts => $_getList(14);
+  List<$4.SocialMediaAccountDto> get socialMediaAccounts => $_getList(14);
 
   List<String> get registrationTokens => $_getList(15);
+
+  List<$2.LocationDto> get locationsOfInfluence => $_getList(16);
 }
 
 enum UserDto_Data {

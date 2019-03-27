@@ -174,40 +174,54 @@ namespace API.Services.List
 
             private static List<ItemBatchProvider> GetItemBatchProvidersFor(ItemFilterDto filter)
             {
-                if (filter == null || filter.ItemTypes.Count == 0)
+                if (filter == null)
                 {
                     return null;
                 }
 
-                if (filter.MapLevel > 0)
+                var itemBatchProviders = new List<ItemBatchProvider>();
+
+                if (filter.ConversationFilter != null)
                 {
-                    return new List<ItemBatchProvider>
-                    {
-                        MapItemBatchProvider.Instance,
-                    };
+                    itemBatchProviders.Add(ConversationItemBatchProvider.Instance);
                 }
 
-                var itemBatchProviders = filter
-                    .ItemTypes
-                    .Select(GetItemBatchProviderFor)
-                    .ToList();
+                if (filter.MessageFilter != null)
+                {
+                    itemBatchProviders.Add(MessageItemBatchProvider.Instance);
+                }
+
+                if (filter.OfferFilter != null)
+                {
+                    if (filter.OfferFilter.MapLevel > 0)
+                    {
+                        itemBatchProviders.Add(new MapItemBatchProvider(SourceFilter.Offers));
+                    }
+                    else
+                    {
+                        itemBatchProviders.Add(OfferItemBatchProvider.Instance);
+                    }
+                }
+
+                if (filter.UserFilter != null)
+                {
+                    if (filter.UserFilter.MapLevel > 0)
+                    {
+                        itemBatchProviders.Add(new MapItemBatchProvider(SourceFilter.Users));
+                    }
+                    else
+                    {
+                        itemBatchProviders.Add(UserItemBatchProvider.Instance);
+                    }
+                }
+
+                if (itemBatchProviders.Count == 0)
+                {
+                    return null;
+                }
 
                 return itemBatchProviders;
             }
-
-            private static ItemBatchProvider GetItemBatchProviderFor(ItemFilterDto.Types.ItemType itemType)
-            {
-                switch (itemType)
-                {
-                    case ItemFilterDto.Types.ItemType.Offers:
-                        return OfferItemBatchProvider.Instance;
-                    case ItemFilterDto.Types.ItemType.Users:
-                        return UserItemBatchProvider.Instance;
-                    default:
-                        throw new NotSupportedException($"Unsupported item type: {itemType}");
-                }
-            }
         }
-
     }
 }

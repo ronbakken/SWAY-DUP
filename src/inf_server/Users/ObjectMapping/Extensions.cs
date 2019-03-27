@@ -14,6 +14,10 @@ namespace Users.ObjectMapping
 
             var result = new UserEntity
             {
+                SchemaType = UsersServiceImpl.userSchemaType,
+                SchemaVersion = 1,
+                PartitionKey = @this.Id,
+
                 AcceptsDirectOffers = @this.AcceptsDirectOffers,
                 AccountCompletionInPercent = @this.AccountCompletionInPercent,
                 Avatar = @this.Avatar.ToEntity(),
@@ -28,7 +32,6 @@ namespace Users.ObjectMapping
                 MinimalFee = @this.MinimalFee.ToEntity(),
                 Name = @this.Name,
                 Revision = @this.Revision,
-                SchemaVersion = 1,
                 ShowLocation = @this.ShowLocation,
                 Status = @this.Status.ToEntity(),
                 StatusTimestamp = @this.StatusTimestamp,
@@ -289,8 +292,10 @@ namespace Users.ObjectMapping
 
             var result = new UserSessionEntity
             {
-                RefreshToken = @this.RefreshToken,
+                SchemaType = UsersServiceImpl.userSessionSchemaType,
                 SchemaVersion = 1,
+
+                RefreshToken = @this.RefreshToken,
             };
 
             return result;

@@ -9,11 +9,11 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'offer.pb.dart' as $9;
+import 'offer.pb.dart' as $11;
 
 class UpdateOfferRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateOfferRequest', package: const $pb.PackageName('api'))
-    ..a<$9.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $9.OfferDto.getDefault, $9.OfferDto.create)
+    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -32,15 +32,15 @@ class UpdateOfferRequest extends $pb.GeneratedMessage {
     if (v is! UpdateOfferRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $9.OfferDto get offer => $_getN(0);
-  set offer($9.OfferDto v) { setField(1, v); }
+  $11.OfferDto get offer => $_getN(0);
+  set offer($11.OfferDto v) { setField(1, v); }
   bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }
 
 class UpdateOfferResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('UpdateOfferResponse', package: const $pb.PackageName('api'))
-    ..a<$9.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $9.OfferDto.getDefault, $9.OfferDto.create)
+    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -59,8 +59,8 @@ class UpdateOfferResponse extends $pb.GeneratedMessage {
     if (v is! UpdateOfferResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $9.OfferDto get offer => $_getN(0);
-  set offer($9.OfferDto v) { setField(1, v); }
+  $11.OfferDto get offer => $_getN(0);
+  set offer($11.OfferDto v) { setField(1, v); }
   bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }
@@ -94,7 +94,7 @@ class GetOfferRequest extends $pb.GeneratedMessage {
 
 class GetOfferResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetOfferResponse', package: const $pb.PackageName('api'))
-    ..a<$9.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $9.OfferDto.getDefault, $9.OfferDto.create)
+    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -113,8 +113,8 @@ class GetOfferResponse extends $pb.GeneratedMessage {
     if (v is! GetOfferResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  $9.OfferDto get offer => $_getN(0);
-  set offer($9.OfferDto v) { setField(1, v); }
+  $11.OfferDto get offer => $_getN(0);
+  set offer($11.OfferDto v) { setField(1, v); }
   bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }

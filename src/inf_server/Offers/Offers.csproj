@@ -35,11 +35,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Remove="CosmosServerSideCode\saveOffer.js" />
+        <None Remove="CosmosServerSideCode\*.js" />
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Include="CosmosServerSideCode\saveOffer.js" />
+        <EmbeddedResource Include="CosmosServerSideCode\*.js" />
     </ItemGroup>
 
 </Project>

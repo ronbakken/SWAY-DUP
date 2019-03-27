@@ -697,6 +697,46 @@
                      "properties": {}
                   }
                ]
+            },
+            {
+               "apiVersion": "2017-04-01",
+               "name": "ConversationUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "ConversationUpdated"
+                     ],
+                     "properties": {}
+                  }
+               ]
+            },
+            {
+               "apiVersion": "2017-04-01",
+               "name": "MessageUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "MessageUpdated"
+                     ],
+                     "properties": {}
+                  }
+               ]
             }
          ]
       }

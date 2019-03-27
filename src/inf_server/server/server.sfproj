@@ -40,6 +40,7 @@
     <ProjectReference Include="..\API\API.csproj" />
     <ProjectReference Include="..\InvitationCodes\InvitationCodes.csproj" />
     <ProjectReference Include="..\Mapping\Mapping.csproj" />
+    <ProjectReference Include="..\Messaging\Messaging.csproj" />
     <ProjectReference Include="..\Offers\Offers.csproj" />
     <ProjectReference Include="..\Users\Users.csproj" />
   </ItemGroup>

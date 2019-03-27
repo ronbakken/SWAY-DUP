@@ -58,26 +58,6 @@ class OfferDto_StatusReason extends $pb.ProtobufEnum {
   const OfferDto_StatusReason._(int v, String n) : super(v, n);
 }
 
-class OfferDto_ProposalStatus extends $pb.ProtobufEnum {
-  static const OfferDto_ProposalStatus none = const OfferDto_ProposalStatus._(0, 'none');
-  static const OfferDto_ProposalStatus atLeastOne = const OfferDto_ProposalStatus._(1, 'atLeastOne');
-  static const OfferDto_ProposalStatus atLeastOneIncludingCurrentUser = const OfferDto_ProposalStatus._(2, 'atLeastOneIncludingCurrentUser');
-
-  static const List<OfferDto_ProposalStatus> values = const <OfferDto_ProposalStatus> [
-    none,
-    atLeastOne,
-    atLeastOneIncludingCurrentUser,
-  ];
-
-  static final Map<int, OfferDto_ProposalStatus> _byValue = $pb.ProtobufEnum.initByValue(values);
-  static OfferDto_ProposalStatus valueOf(int value) => _byValue[value];
-  static void $checkItem(OfferDto_ProposalStatus v) {
-    if (v is! OfferDto_ProposalStatus) $pb.checkItemFailed(v, 'OfferDto_ProposalStatus');
-  }
-
-  const OfferDto_ProposalStatus._(int v, String n) : super(v, n);
-}
-
 class OfferDto_AcceptancePolicy extends $pb.ProtobufEnum {
   static const OfferDto_AcceptancePolicy manualReview = const OfferDto_AcceptancePolicy._(0, 'manualReview');
   static const OfferDto_AcceptancePolicy automaticAcceptMatching = const OfferDto_AcceptancePolicy._(1, 'automaticAcceptMatching');

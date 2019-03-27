@@ -58,17 +58,13 @@ namespace API.Services.List.ItemBatchProviders
         {
             var usersFilter = new ListUsersRequest.Types.Filter();
 
-            usersFilter.CategoryIds.AddRange(itemFilter.CategoryIds);
-            usersFilter.NorthWest = itemFilter.NorthWest.ToUsersGeoPoint();
-            usersFilter.SouthEast = itemFilter.SouthEast.ToUsersGeoPoint();
-            usersFilter.Phrase = itemFilter.Phrase;
-
-            if (itemFilter.UserFilter != null)
-            {
-                //usersFilter.MinimumValue = itemFilter.UserFilter.MinimumValue;
-                usersFilter.SocialMediaNetworkIds.AddRange(itemFilter.UserFilter.SocialMediaNetworkIds);
-                usersFilter.UserTypes.AddRange(itemFilter.UserFilter.UserTypes.Select(x => x.ToUserType()));
-            }
+            usersFilter.CategoryIds.AddRange(itemFilter.UserFilter.CategoryIds);
+            usersFilter.NorthWest = itemFilter.UserFilter.NorthWest.ToUsersGeoPoint();
+            usersFilter.SouthEast = itemFilter.UserFilter.SouthEast.ToUsersGeoPoint();
+            usersFilter.Phrase = itemFilter.UserFilter.Phrase;
+            //usersFilter.MinimumValue = itemFilter.UserFilter.MinimumValue;
+            usersFilter.SocialMediaNetworkIds.AddRange(itemFilter.UserFilter.SocialMediaNetworkIds);
+            usersFilter.UserTypes.AddRange(itemFilter.UserFilter.UserTypes.Select(x => x.ToUserType()));
 
             // Apply a safety net to ensure influencers cannot see other influencers, and businesses cannot see other businesses
             if (userType == AuthenticatedUserType.Influencer)

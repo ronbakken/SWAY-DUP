@@ -37,6 +37,27 @@
     </ConfigOverrides>
   </ServiceManifestImport>
   <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="MessagingPkg" ServiceManifestVersion="1.0.1" />
+    <ConfigOverrides>
+      <ConfigOverride Name="Config">
+        <Settings>
+          <Section Name="Database">
+            <Parameter Name="ConnectionString" Value="[DatabaseAccountConnectionString]" />
+          </Section>
+          <Section Name="ServiceBus">
+            <Parameter Name="ConnectionString" Value="[ServiceBusConnectionString]" />
+          </Section>
+          <Section Name="Logging">
+            <Parameter Name="Environment" Value="[Environment]" />
+            <Parameter Name="ResourceGroup" Value="[ResourceGroup]" />
+            <Parameter Name="SeqServerUrl" Value="[SeqServerUrl]" />
+            <Parameter Name="SeqApiKey" Value="[SeqApiKey]" />
+          </Section>
+        </Settings>
+      </ConfigOverride>
+    </ConfigOverrides>
+  </ServiceManifestImport>
+  <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="OffersPkg" ServiceManifestVersion="1.0.1" />
     <ConfigOverrides>
       <ConfigOverride Name="Config">
@@ -125,6 +146,11 @@
          The attribute ServiceTypeName below must match the name defined in the imported ServiceManifest.xml file. -->
     <Service Name="Mapping" ServicePackageActivationMode="ExclusiveProcess">
       <StatelessService ServiceTypeName="MappingType" InstanceCount="-1">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="Messaging" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="MessagingType" InstanceCount="-1">
         <SingletonPartition />
       </StatelessService>
     </Service>

@@ -1,0 +1,164 @@
+﻿syntax = "proto3";
+
+package messaging;
+option csharp_namespace = "Messaging.Interfaces";
+
+import "google/protobuf/timestamp.proto";
+
+service MessagingService {
+    rpc CreateConversation (CreateConversationRequest) returns (CreateConversationResponse) {}
+
+    rpc CloseConversation (CloseConversationRequest) returns (CloseConversationResponse) {}
+
+    rpc GetConversation (GetConversationRequest) returns (GetConversationResponse) {}
+
+    rpc ListConversations (ListConversationsRequest) returns (ListConversationsResponse) {}
+
+    rpc RegisterConversationListener (RegisterConversationListenerRequest) returns (Empty);
+
+    rpc DeregisterConversationListener (DeregisterConversationListenerRequest) returns (Empty);
+
+    rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse) {}
+
+    rpc ListMessages (ListMessagesRequest) returns (ListMessagesResponse) {}
+}
+
+message Empty {
+}
+
+message Conversation {
+    enum Status {
+        closed = 0;
+        open = 1;
+    }
+
+    string id = 1;
+    string userId = 2;
+    string topicId = 3;
+    Status status = 4;
+    Message latestMessage = 5;
+}
+
+message Image {
+    string url = 1;
+    string lowResUrl = 2;
+}
+
+message User {
+    enum Status {
+        unknown = 0;
+        disabled = 1;
+        active = 2;
+        waitingForActivation = 3;
+        waitingForApproval = 4;
+        rejected = 5;
+    }
+
+    string id = 1;
+    uint32 revision = 2;
+    Status status = 3;
+    string name = 4;
+    Image avatarThumbnail = 5;
+}
+
+message Message {
+    string id = 1;
+    string conversationId = 2;
+    User user = 3;
+    google.protobuf.Timestamp timestamp = 4;
+    string action = 5;
+    string text = 6;
+    repeated MessageAttachment attachments = 7;
+}
+
+message MessageAttachment {
+    string contentType = 1;
+    bytes data = 2;
+    map<string, string> metadata = 3;
+}
+
+message CreateConversationRequest {
+    repeated string participantIds = 1;
+    string topicId = 2;
+    Message firstMessage = 3;
+}
+
+message CreateConversationResponse {
+    Conversation conversation = 1;
+}
+
+message CloseConversationRequest {
+    string conversationId = 1;
+}
+
+message CloseConversationResponse {
+    Conversation conversation = 1;
+}
+
+message GetConversationRequest {
+    string userId = 1;
+    string conversationId = 2;
+}
+
+message GetConversationResponse {
+    Conversation conversation = 1;
+}
+
+message ListConversationsRequest {
+    message Filter {
+        string userId = 1;
+        string topicId = 2;
+        repeated Conversation.Status conversationStatuses = 3;
+    }
+
+    int32 pageSize = 1;
+    string continuationToken = 2;
+    Filter filter = 3;
+}
+
+message ListConversationsResponse {
+    repeated Conversation conversations = 1;
+    string continuationToken = 2;
+}
+
+message RegisterConversationListenerRequest {
+    string conversationId = 1;
+    string userId = 2;
+}
+
+message DeregisterConversationListenerRequest {
+    string conversationId = 1;
+    string userId = 2;
+}
+
+message CreateMessageRequest {
+    string conversationId = 1;
+    Message message = 2;
+}
+
+message CreateMessageResponse {
+    Message message = 1;
+}
+
+message GetMessageRequest {
+    string id = 1;
+}
+
+message GetMessageResponse {
+    Message message = 1;
+}
+
+message ListMessagesRequest {
+    message Filter {
+        string conversationId = 1;
+    }
+
+    int32 pageSize = 1;
+    string continuationToken = 2;
+    Filter filter = 3;
+}
+
+message ListMessagesResponse {
+    repeated Message messages = 1;
+    string continuationToken = 2;
+}

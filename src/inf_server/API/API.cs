@@ -23,6 +23,8 @@ namespace API
     internal sealed class API : StatelessService
     {
         private readonly ILogger logger;
+        private readonly SubscriptionClient conversationUpdatedSubscriptionClient;
+        private readonly SubscriptionClient messageUpdatedSubscriptionClient;
         private readonly SubscriptionClient offerUpdatedSubscriptionClient;
         private readonly SubscriptionClient userUpdatedSubscriptionClient;
 
@@ -30,6 +32,8 @@ namespace API
             : base(context)
         {
             this.logger = Logging.GetLogger(this);
+            this.conversationUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "ConversationUpdated", "listen_api", ReceiveMode.ReceiveAndDelete);
+            this.messageUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "MessageUpdated", "listen_api", ReceiveMode.ReceiveAndDelete);
             this.offerUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "OfferUpdated", "listen_api", ReceiveMode.ReceiveAndDelete);
             this.userUpdatedSubscriptionClient = this.Context.CodePackageActivationContext.GetServiceBusSubscriptionClient(this.logger, "UserUpdated", "listen_api", ReceiveMode.ReceiveAndDelete);
         }
@@ -47,7 +51,15 @@ namespace API
                 InfConfig.BindService(new Services.Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
                 InfInvitationCodes.BindService(new InfInvitationCodesImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfList.BindService(new InfListImpl(this.logger)).Intercept(authorizationInterceptor),
-                InfListen.BindService(new InfListenImpl(this.logger, this.offerUpdatedSubscriptionClient, this.userUpdatedSubscriptionClient)).Intercept(authorizationInterceptor),
+                InfListen
+                    .BindService(
+                        new InfListenImpl(
+                            this.logger,
+                            this.conversationUpdatedSubscriptionClient,
+                            this.messageUpdatedSubscriptionClient,
+                            this.offerUpdatedSubscriptionClient,
+                            this.userUpdatedSubscriptionClient))
+                    .Intercept(authorizationInterceptor),
                 InfMessaging.BindService(new InfMessagingImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfOffers.BindService(new InfOffersImpl(this.logger)).Intercept(authorizationInterceptor),
                 InfSystem.BindService(new InfSystemImpl(this.logger)).Intercept(authorizationInterceptor),

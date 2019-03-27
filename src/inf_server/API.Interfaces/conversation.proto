@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "message.proto";
+
+message ConversationDto {
+    enum Status {
+        closed = 0;
+        open = 1;
+    }
+
+    string id = 1;
+    string topicId = 2;
+    Status status = 3;
+    MessageDto latestMessage = 4;
+}

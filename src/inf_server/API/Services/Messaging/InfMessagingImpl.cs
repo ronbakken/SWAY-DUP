@@ -1,14 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http;
-using System.Net.Http.Headers;
-using System.Text;
 using System.Threading.Tasks;
 using API.Interfaces;
+using API.ObjectMapping;
 using Grpc.Core;
 using Serilog;
+using Utility;
+using Utility.gRPC;
 using static API.Interfaces.InfMessaging;
+using static Messaging.Interfaces.MessagingService;
+using static Users.Interfaces.UsersService;
 
 namespace API.Services.Messaging
 {
@@ -21,42 +21,116 @@ namespace API.Services.Messaging
             this.logger = logger.ForContext<InfMessagingImpl>();
         }
 
-        public override async Task<NotifyResponse> Notify(NotifyRequest request, ServerCallContext context)
-        {
-            using (var client = new HttpClient())
-            {
-                var json = $@"{{
-  ""to"": ""{request.RegistrationToken}"",
-  ""notification"": {{
-    ""body"": ""{request.Body}"",
-    ""title"": ""{request.Title}""
-  }},
-  ""priority"": ""high"",
-  ""data"": {{
-    ""click_action"": ""FLUTTER_NOTIFICATION_CLICK"",
-    ""id"": ""1"",
-    ""status"": ""done""
-  }}
-}}";
-
-                var httpRequest = new HttpRequestMessage
+        public override Task<CreateConversationResponse> CreateConversation(CreateConversationRequest request, ServerCallContext context) =>
+            APISanitizer.Sanitize(
+                this.logger,
+                async (logger) =>
                 {
-                    Method = HttpMethod.Post,
-                    RequestUri = new Uri("https://fcm.googleapis.com/fcm/send"),
-                };
-                httpRequest.Headers.TryAddWithoutValidation("Authorization", $"key={request.Token}");
+                    var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
+                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var userId = context.GetAuthenticatedUserId();
+                    logger.Debug("Creating conversation on behalf of user {UserId} for participants with IDs {ParticipantIDs}", userId, request.ParticipantIds);
 
-                var content = new StringContent(json, Encoding.UTF8, "application/json");
-                httpRequest.Content = content;
+                    if (request.ParticipantIds.Count == 0)
+                    {
+                        logger.Warning("No participant IDs provided");
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"At least one participant ID must be provided."));
+                    }
 
-                var result = await client
-                    .SendAsync(httpRequest)
-                    .ContinueOnAnyContext();
+                    if (!string.Equals(request.ParticipantIds[0], userId, StringComparison.Ordinal))
+                    {
+                        logger.Warning("Expected the first participant ID to be {UserId}, but received {FirstParticipantId}", userId, request.ParticipantIds[0]);
+                        throw new RpcException(new Status(StatusCode.FailedPrecondition, $"User '{userId}' must be first in the participant IDs."));
+                    }
 
-                result.EnsureSuccessStatusCode();
+                    var getUserResponse = await usersService.GetUserAsync(new global::Users.Interfaces.GetUserRequest { Id = userId });
+                    var user = getUserResponse.User;
 
-                return new NotifyResponse();
-            }
-        }
+                    logger.Debug("Resolved to user {@User}", user);
+
+                    var createConversationRequest = new global::Messaging.Interfaces.CreateConversationRequest
+                    {
+                        TopicId = request.TopicId,
+                        FirstMessage = request.FirstMessage.ToMessage(user),
+                    };
+
+                    createConversationRequest.ParticipantIds.AddRange(request.ParticipantIds);
+
+                    var createConversationResponse = await messagingService.CreateConversationAsync(createConversationRequest);
+                    var conversation = createConversationResponse.Conversation;
+                    logger.Debug("Created conversation for user {UserId}: {@Conversation}", userId, conversation);
+
+                    var response = new CreateConversationResponse
+                    {
+                        Conversation = conversation.ToConversationDto(),
+                    };
+
+                    return response;
+                });
+
+        public override Task<CloseConversationResponse> CloseConversation(CloseConversationRequest request, ServerCallContext context) =>
+            APISanitizer.Sanitize(
+                this.logger,
+                async (logger) =>
+                {
+                    var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
+                    var userId = context.GetAuthenticatedUserId();
+                    logger.Debug("Closing conversation with ID {ConversationId} on behalf of user {UserId}", request.ConversationId, userId);
+
+                    var closeConversationRequest = new global::Messaging.Interfaces.CloseConversationRequest
+                    {
+                        ConversationId = request.ConversationId,
+                    };
+
+                    var closeConversationResponse = await messagingService.CloseConversationAsync(closeConversationRequest);
+                    var conversation = closeConversationResponse.Conversation;
+                    logger.Debug("Closed conversation for user {UserId}: {@Conversation}", userId, conversation);
+
+                    var response = new CloseConversationResponse
+                    {
+                        Conversation = conversation.ToConversationDto(),
+                    };
+
+                    return response;
+                });
+
+        public override Task<CreateMessageResponse> CreateMessage(CreateMessageRequest request, ServerCallContext context) =>
+            APISanitizer.Sanitize(
+                this.logger,
+                async (logger) =>
+                {
+                    var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
+                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var userId = context.GetAuthenticatedUserId();
+                    logger.Debug("Creating message on behalf of user {UserId}: {@Message}", userId, request.Message);
+
+                    var getUserResponse = await usersService.GetUserAsync(new global::Users.Interfaces.GetUserRequest { Id = userId });
+                    var user = getUserResponse.User;
+
+                    logger.Debug("Resolved to user {@User}", user);
+
+                    var createMessageRequest = new global::Messaging.Interfaces.CreateMessageRequest
+                    {
+                        ConversationId = request.ConversationId,
+                        Message = request.Message.ToMessage(user),
+                    };
+
+                    var createMessageResponse = await messagingService.CreateMessageAsync(createMessageRequest);
+                    var message = createMessageResponse.Message;
+                    logger.Debug("Created message for user {UserId}: {@Message}", userId, message);
+
+                    var response = new CreateMessageResponse
+                    {
+                        Message = message.ToMessageDto(),
+                    };
+
+                    return response;
+                });
+
+        private static Task<MessagingServiceClient> GetMessagingServiceClient() =>
+            APIClientResolver.Resolve<MessagingServiceClient>("Messaging");
+
+        private static Task<UsersServiceClient> GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("Users");
     }
 }

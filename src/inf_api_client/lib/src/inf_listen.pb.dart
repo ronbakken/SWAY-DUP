@@ -9,8 +9,8 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'item_filter.pb.dart' as $14;
-import 'item.pb.dart' as $15;
+import 'item_filter.pb.dart' as $16;
+import 'item.pb.dart' as $17;
 
 import 'inf_listen.pbenum.dart';
 
@@ -64,7 +64,7 @@ class ListenRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ListenRequest', package: const $pb.PackageName('api'))
     ..e<ListenRequest_Action>(1, 'action', $pb.PbFieldType.OE, ListenRequest_Action.register, ListenRequest_Action.valueOf, ListenRequest_Action.values)
     ..a<SingleItemFilterDto>(2, 'singleItemFilter', $pb.PbFieldType.OM, SingleItemFilterDto.getDefault, SingleItemFilterDto.create)
-    ..a<$14.ItemFilterDto>(3, 'filter', $pb.PbFieldType.OM, $14.ItemFilterDto.getDefault, $14.ItemFilterDto.create)
+    ..a<$16.ItemFilterDto>(3, 'filter', $pb.PbFieldType.OM, $16.ItemFilterDto.getDefault, $16.ItemFilterDto.create)
     ..oo(0, [2, 3])
     ..hasRequiredFields = false
   ;
@@ -97,15 +97,15 @@ class ListenRequest extends $pb.GeneratedMessage {
   bool hasSingleItemFilter() => $_has(1);
   void clearSingleItemFilter() => clearField(2);
 
-  $14.ItemFilterDto get filter => $_getN(2);
-  set filter($14.ItemFilterDto v) { setField(3, v); }
+  $16.ItemFilterDto get filter => $_getN(2);
+  set filter($16.ItemFilterDto v) { setField(3, v); }
   bool hasFilter() => $_has(2);
   void clearFilter() => clearField(3);
 }
 
 class ListenResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('ListenResponse', package: const $pb.PackageName('api'))
-    ..pp<$15.ItemDto>(1, 'items', $pb.PbFieldType.PM, $15.ItemDto.$checkItem, $15.ItemDto.create)
+    ..pp<$17.ItemDto>(1, 'items', $pb.PbFieldType.PM, $17.ItemDto.$checkItem, $17.ItemDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -124,6 +124,6 @@ class ListenResponse extends $pb.GeneratedMessage {
     if (v is! ListenResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
   }
 
-  List<$15.ItemDto> get items => $_getList(0);
+  List<$17.ItemDto> get items => $_getList(0);
 }
 

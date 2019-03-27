@@ -7,6 +7,6 @@
     <Parameter Name="Environment" Value="Local" />
     <Parameter Name="ResourceGroup" Value="N/A" />
     <Parameter Name="SeqServerUrl" Value="http://localhost:5341/" />
-    <Parameter Name="SeqApiKey" Value="5kW1URCI49zWHTXP78P4" />
+    <Parameter Name="SeqApiKey" Value="" />
   </Parameters>
 </Application>

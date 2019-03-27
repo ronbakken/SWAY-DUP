@@ -32,21 +32,11 @@ message OfferDto {
         expired = 5;
     }
 
-    enum ProposalStatus {
-        // No proposal has been submitted for the offer.
-        none = 0;
-        // At least one proposal exists for the offer, but not from the current user.
-        atLeastOne = 1;
-        // At least one proposal exists for the offer, and one of the proposals is from the current user.
-        atLeastOneIncludingCurrentUser = 2;
-    }
-
     enum AcceptancePolicy {
         manualReview = 0;
         automaticAcceptMatching = 1;
         allowNegotiation = 2;
     }
-
 
     // Data that is always sent for an offer.
     string id = 1;
@@ -78,7 +68,12 @@ message OfferDto {
 
         DealTermsDto terms = 14;
 
-        ProposalStatus proposalStatus = 15;
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// QUESTIONS/DISCUSSION
+//
+// This will answer the question: "is the calling user discussing this offer?" but won't answer the question "is any other user discussing this offer?"
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//        string conversationId = 16;
     }
 
     // Data sent when full offer information is required.
@@ -105,7 +100,7 @@ message OfferDto {
 
         AcceptancePolicy acceptancePolicy = 15;
 
-        ProposalStatus proposalStatus = 16;
+//        string conversationId = 19;
 
         repeated ImageDto images = 17;
         repeated string categoryIds = 18;

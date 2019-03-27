@@ -1,6 +1,7 @@
 ﻿using System;
 using API.Interfaces;
 using mapping = Mapping.Interfaces;
+using messaging = Messaging.Interfaces;
 using offers = Offers.Interfaces;
 using users = Users.Interfaces;
 
@@ -18,6 +19,36 @@ namespace API.ObjectMapping
             var result = new ItemDto
             {
                 MapItem = @this.ToMapItemDto(),
+            };
+
+            return result;
+        }
+
+        public static ItemDto ToItemDto(this messaging.Conversation @this)
+        {
+            if (@this == null)
+            {
+                return null;
+            }
+
+            var result = new ItemDto
+            {
+                Conversation = @this.ToConversationDto(),
+            };
+
+            return result;
+        }
+
+        public static ItemDto ToItemDto(this messaging.Message @this)
+        {
+            if (@this == null)
+            {
+                return null;
+            }
+
+            var result = new ItemDto
+            {
+                Message = @this.ToMessageDto(),
             };
 
             return result;
@@ -179,9 +210,6 @@ namespace API.ObjectMapping
 
         public static MapItemDto.Types.MapItemStatus ToMapItemStatus(this mapping.MapItem.Types.Status @this) =>
             (MapItemDto.Types.MapItemStatus)(int)@this;
-
-        public static mapping.ListMapItemsRequest.Types.Filter.Types.ItemType ToItemType(this ItemFilterDto.Types.ItemType @this) =>
-            (mapping.ListMapItemsRequest.Types.Filter.Types.ItemType)(int)@this;
 
         public static mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.AcceptancePolicy ToAcceptancePolicy(this OfferDto.Types.AcceptancePolicy @this) =>
             (mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.AcceptancePolicy)(int)@this;

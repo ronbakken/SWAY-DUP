@@ -88,38 +88,42 @@ message OfferEntity {
         allowNegotiation = 2;
     }
 
+    // "offer"
+    string schemaType = 1;
     // Data that is always sent for an offer.
-    uint32 schemaVersion = 1;
-    string id = 2;
-    uint32 revision = 3;
-    Status status = 5;
-    google.protobuf.Timestamp statusTimestamp = 6;
-    StatusReason statusReason = 7;
-    LocationEntity location = 8;
-    string businessAccountId = 9;
-    string businessName = 10;
-    string businessDescription = 11;
-    string businessAvatarThumbnailUrl = 12;
+    uint32 schemaVersion = 2;
+    // same as ID
+    string partitionKey = 3;
+    string id = 4;
+    uint32 revision = 5;
+    Status status = 6;
+    google.protobuf.Timestamp statusTimestamp = 7;
+    StatusReason statusReason = 8;
+    LocationEntity location = 9;
+    string businessAccountId = 10;
+    string businessName = 11;
+    string businessDescription = 12;
+    string businessAvatarThumbnailUrl = 13;
 
-    string title = 13;
-    string description = 14;
-    google.protobuf.Timestamp created = 15;
-    google.protobuf.Timestamp start = 16;
-    google.protobuf.Timestamp end = 17;
-    int32 minFollowers = 18;
+    string title = 14;
+    string description = 15;
+    google.protobuf.Timestamp created = 16;
+    google.protobuf.Timestamp start = 17;
+    google.protobuf.Timestamp end = 18;
+    int32 minFollowers = 19;
 
     // If zero, an unlimited number are available.
-    int32 numberOffered = 19;
-    int32 numberRemaining = 20;
+    int32 numberOffered = 20;
+    int32 numberRemaining = 21;
 
-    ImageEntity thumbnail = 21;
+    ImageEntity thumbnail = 22;
 
-    DealTermsEntity terms = 22;
+    DealTermsEntity terms = 23;
 
-    AcceptancePolicy acceptancePolicy = 23;
+    AcceptancePolicy acceptancePolicy = 24;
 
-    repeated ImageEntity images = 24;
-    repeated string categoryIds = 25;
+    repeated ImageEntity images = 25;
+    repeated string categoryIds = 26;
 
-    repeated string keywords = 26;
+    repeated string keywords = 27;
 }

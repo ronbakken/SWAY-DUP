@@ -3,6 +3,7 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
+        <PlatformTarget>x64</PlatformTarget>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -35,6 +36,14 @@
 
     <ItemGroup>
         <EmbeddedResource Include="*.crt" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <None Remove="server.crt.ignore" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="server.crt.ignore" />
     </ItemGroup>
 
 </Project>

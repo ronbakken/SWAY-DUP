@@ -9,9 +9,9 @@ import 'dart:core' show int, bool, double, String, List, Map, override;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'category.pb.dart' as $12;
-import 'social_network_provider.pb.dart' as $13;
-import 'deliverable.pb.dart' as $2;
+import 'category.pb.dart' as $14;
+import 'social_network_provider.pb.dart' as $15;
+import 'deliverable.pb.dart' as $8;
 
 class GetVersionsResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('GetVersionsResponse', package: const $pb.PackageName('api'))
@@ -104,9 +104,9 @@ class AppConfigDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = new $pb.BuilderInfo('AppConfigDto', package: const $pb.PackageName('api'))
     ..a<int>(1, 'configVersion', $pb.PbFieldType.O3)
     ..a<ServiceConfigDto>(5, 'serviceConfig', $pb.PbFieldType.OM, ServiceConfigDto.getDefault, ServiceConfigDto.create)
-    ..pp<$12.CategoryDto>(6, 'categories', $pb.PbFieldType.PM, $12.CategoryDto.$checkItem, $12.CategoryDto.create)
-    ..pp<$13.SocialNetworkProviderDto>(7, 'socialNetworkProviders', $pb.PbFieldType.PM, $13.SocialNetworkProviderDto.$checkItem, $13.SocialNetworkProviderDto.create)
-    ..pp<$2.DeliverableIconDto>(8, 'deliverableIcons', $pb.PbFieldType.PM, $2.DeliverableIconDto.$checkItem, $2.DeliverableIconDto.create)
+    ..pp<$14.CategoryDto>(6, 'categories', $pb.PbFieldType.PM, $14.CategoryDto.$checkItem, $14.CategoryDto.create)
+    ..pp<$15.SocialNetworkProviderDto>(7, 'socialNetworkProviders', $pb.PbFieldType.PM, $15.SocialNetworkProviderDto.$checkItem, $15.SocialNetworkProviderDto.create)
+    ..pp<$8.DeliverableIconDto>(8, 'deliverableIcons', $pb.PbFieldType.PM, $8.DeliverableIconDto.$checkItem, $8.DeliverableIconDto.create)
     ..aOS(10, 'termsOfServiceUrl')
     ..aOS(11, 'privacyPolicyUrl')
     ..aOB(12, 'userNeedInvitationToSignUp')
@@ -138,11 +138,11 @@ class AppConfigDto extends $pb.GeneratedMessage {
   bool hasServiceConfig() => $_has(1);
   void clearServiceConfig() => clearField(5);
 
-  List<$12.CategoryDto> get categories => $_getList(2);
+  List<$14.CategoryDto> get categories => $_getList(2);
 
-  List<$13.SocialNetworkProviderDto> get socialNetworkProviders => $_getList(3);
+  List<$15.SocialNetworkProviderDto> get socialNetworkProviders => $_getList(3);
 
-  List<$2.DeliverableIconDto> get deliverableIcons => $_getList(4);
+  List<$8.DeliverableIconDto> get deliverableIcons => $_getList(4);
 
   String get termsOfServiceUrl => $_getS(5, '');
   set termsOfServiceUrl(String v) { $_setString(5, v); }

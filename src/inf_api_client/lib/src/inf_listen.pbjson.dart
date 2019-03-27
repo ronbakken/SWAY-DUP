@@ -18,6 +18,8 @@ const SingleItemFilterDto_Type$json = const {
   '2': const [
     const {'1': 'offer', '2': 0},
     const {'1': 'user', '2': 1},
+    const {'1': 'conversation', '2': 2},
+    const {'1': 'message', '2': 3},
   ],
 };
 

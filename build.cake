@@ -134,25 +134,28 @@ Teardown(
 Task("Clean")
     .Does(() => CleanDirectories(pkgDir));
 
-Task("Pre-Deploy")
+Task("Pre-Build")
     .Does(
         () =>
         {
             if (FileExists(sslCertificatesFile))
             {
-                var targetDirectory = srcDir + Directory("Utility/gRPC");
+                var targetDirectory = Directory(System.IO.Path.GetTempPath()) + Directory("ssl_certs");
                 Information($"Unzipping SSL certificates to '{targetDirectory}'.");
                 Unzip(sslCertificatesFile, targetDirectory);
 
                 var serverCrtFile = targetDirectory + File($"server_{environment}.crt");
                 var serverKeyFile = targetDirectory + File($"server_{environment}.key");
 
+                var gRPCDirectory = srcDir + Directory("Utility/gRPC");
+
                 if (FileExists(serverCrtFile))
                 {
-                    var targetFile = targetDirectory + File("server.crt");
+                    var targetFile = gRPCDirectory + File("server.crt");
                     Information($"Moving '{serverCrtFile}' to '{targetFile}'.");
                     MoveFile(serverCrtFile, targetFile);
 
+                    // TODO: might actually need to use ca.cert from integration tests, should we ever use SSL there
                     var integrationTestsDir = srcDir + Directory("IntegrationTests");
                     Information($"Copying '{targetFile}' to '{integrationTestsDir}'.");
                     CopyFile(targetFile, integrationTestsDir + File("server.crt"));
@@ -160,7 +163,7 @@ Task("Pre-Deploy")
 
                 if (FileExists(serverKeyFile))
                 {
-                    var targetFile = targetDirectory + File("server.key");
+                    var targetFile = gRPCDirectory + File("server.key");
                     Information($"Moving '{serverKeyFile}' to '{targetFile}'.");
                     MoveFile(serverKeyFile, targetFile);
                 }
@@ -169,7 +172,7 @@ Task("Pre-Deploy")
 
 Task("Deploy")
     .IsDependentOn("Clean")
-    .IsDependentOn("Pre-Deploy")
+    .IsDependentOn("Pre-Build")
     .Does(
         async (context) =>
         {
@@ -241,9 +244,11 @@ Task("Deploy")
             }
 
             Information("Publishing services.");
+
             PublishService("API");
             PublishService("InvitationCodes");
             PublishService("Mapping");
+            PublishService("Messaging");
             PublishService("Offers");
             PublishService("Users");
 
@@ -342,6 +347,7 @@ Task("Deploy")
 //         });
 
 Task("Build-Integration-Tests")
+    .IsDependentOn("Pre-Build")
     .Does(
         () =>
         {
