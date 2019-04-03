@@ -115,7 +115,7 @@ class _MainMapViewState extends State<MainMapView> {
           );
         },
       );
-    });
+    }).toList();
   }
 
   void onMarkerClicked(InfItem item) {

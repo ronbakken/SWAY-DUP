@@ -61,6 +61,7 @@ class ListManagerImplementation implements ListManager {
 
     listenAllOffersSubscription = backend<InfListService>().listenForOfferChanges(filterSubject).listen(
       (items) {
+        items = items.where((item) => item.type == InfItemType.offer).toList();
         allOffersCache.addInfItems(items);
         print("Listen update ${items.length} items");
       },
@@ -70,6 +71,7 @@ class ListManagerImplementation implements ListManager {
     listCreatedOffersSubscription =
         backend<InfListService>().listItems(filterCreatedOffersSubject).listen(
       (items) {
+        items = items.where((item) => item.type == InfItemType.offer).toList();
         userCreatedOffers.addInfItems(items);
       },
       onError: (error) => print('Error in listCreatedOffersSubscription $error'),
@@ -78,6 +80,7 @@ class ListManagerImplementation implements ListManager {
     listenCreatedOffersSubscription =
         backend<InfListService>().listenForOfferChanges(filterCreatedOffersSubject).listen(
       (items) {
+        items = items.where((item) => item.type == InfItemType.offer).toList();
         print("Listen my offers update ${items.length} items");
         userCreatedOffers.addInfItems(items);
       },

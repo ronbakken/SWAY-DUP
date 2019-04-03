@@ -67,5 +67,4 @@ abstract class UserManager {
   List<LoginProfile> getLoginProfiles();
 
   RxCommand<LoginProfile, void> switchUserCommand;
-
 }

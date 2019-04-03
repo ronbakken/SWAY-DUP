@@ -55,6 +55,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
   }
 
   void onDeepLinkCall(Uri uri) async {
+    // FIXME: this should test for path as well as query parameter
     //print('Deeplink URI $uri');
     if (uri.queryParameters.containsKey('token')) {
       // setup listener for success of the login attempt with the token
