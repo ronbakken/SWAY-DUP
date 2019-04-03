@@ -61,6 +61,7 @@ class _StartupPageState extends PageState<StartupPage> {
         _firebaseMessaging.requestNotificationPermissions();
         _firebaseMessaging.getToken().then((token) {
           print('Push Token: $token');
+          backend<AuthenticationService>().updatePushToken(token);
         });
         _firebaseMessaging.configure(onMessage: (Map<String, dynamic> message) {
           print('Push Received: $message');

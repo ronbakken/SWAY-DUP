@@ -58,6 +58,8 @@ abstract class AuthenticationService {
   Future<void> updateLoginProfile(User user); 
 
   Future<void> refreshAccessToken();
+
+  Future<void> updatePushToken(String token);
 }
 
 class LoginToken {

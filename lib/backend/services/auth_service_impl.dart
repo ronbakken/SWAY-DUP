@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:grpc/grpc.dart' show StatusCode;
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -11,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AuthenticationServiceImplementation implements AuthenticationService {
   AuthenticationServiceImplementation({this.userTestToken});
 
+  String _pushToken;
   String _authToken;
   String refreshToken;
   LoginProfiles loginProfiles;
@@ -50,6 +52,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
           _authToken = authResult.accessToken;
           _currentUser = User.fromDto(authResult.user);
           currentUserUpdatesSubject.add(_currentUser);
+          await addPushTokenToUser();
           return true;
         }
       }
@@ -100,6 +103,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       _authToken = accessTokenResult.accessToken;
 
       currentUserUpdatesSubject.add(_currentUser);
+      await addPushTokenToUser();
       return true;
     } else {
       return false;
@@ -110,6 +114,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   Future<void> logOut() async {
     //await backend<InfApiClientsService>().authClient.logout(LogoutRequest(), options: callOptions);
     loginProfiles.lastUsedProfileEmail = '';
+    await removePushTokenFromUser();
     await saveLoginProfiles();
   }
 
@@ -123,7 +128,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
           .usersClient
           .updateUser(UpdateUserRequest()..user = dto);
     } on GrpcError catch (e) {
-      if (e.code == 7) // permission denied
+      if (e.code == StatusCode.permissionDenied) // permission denied
       {
         // retry with new access token
         await backend<AuthenticationService>().refreshAccessToken();
@@ -188,6 +193,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       _currentUser = User.fromDto(response.user);
       await storeLoginProfile(refreshToken, _currentUser);
       currentUserUpdatesSubject.add(_currentUser);
+      await addPushTokenToUser();
     }
   }
 
@@ -256,6 +262,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   @override
   Future<void> switchUser(LoginProfile newProfile) async {
     loginProfiles.lastUsedProfileEmail = newProfile.email;
+    await removePushTokenFromUser();
     await saveLoginProfiles();
     await loginUserWithRefreshToken();
   }
@@ -267,6 +274,28 @@ class AuthenticationServiceImplementation implements AuthenticationService {
       loginProfiles.profiles[user.email].userName = user.name;
       loginProfiles.profiles[user.email].avatarUrl = user.avatarThumbnail.imageUrl;
       await saveLoginProfiles();
+    }
+  }
+
+  @override
+  Future<void> updatePushToken(String token) async {
+    _pushToken = token;
+    await addPushTokenToUser();
+  }
+
+  Future<void> addPushTokenToUser() async {
+    final user = currentUser;
+    if(user != null){
+      final tokens = Set.of(user.registrationTokens)..add(_pushToken);
+      await updateUser(user.copyWith(registrationTokens: tokens));
+    }
+  }
+
+  Future<void> removePushTokenFromUser() async {
+    final user = currentUser;
+    if(user != null){
+      final tokens = Set.of(user.registrationTokens)..remove(_pushToken);
+      await updateUser(user.copyWith(registrationTokens: tokens));
     }
   }
 }

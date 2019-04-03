@@ -24,12 +24,13 @@ class User {
   final List<Category> categories;
   final Money minimalFee;
   final List<SocialMediaAccount> socialMediaAccounts;
+  final Set<String> registrationTokens;
 
   String get locationAsString => location.name;
 
   User({
     this.id = '',
-    this.revision =0,
+    this.revision = 0,
     this.verified,
     this.accountState,
     this.userType,
@@ -46,6 +47,7 @@ class User {
     this.categories,
     this.minimalFee,
     this.socialMediaAccounts,
+    this.registrationTokens,
   });
 
   User copyWith({
@@ -67,6 +69,7 @@ class User {
     List<Category> categories,
     Money minimalFee,
     List<SocialMediaAccount> socialMediaAccounts,
+    Set<String> registrationTokens,
   }) {
     return User(
       id: id ?? this.id,
@@ -87,6 +90,7 @@ class User {
       categories: categories ?? this.categories,
       minimalFee: minimalFee ?? this.minimalFee,
       socialMediaAccounts: socialMediaAccounts ?? this.socialMediaAccounts,
+      registrationTokens: registrationTokens ?? this.registrationTokens,
     );
   }
 
@@ -111,6 +115,7 @@ class User {
       minimalFee: Money.fromDto(dto.full.minimalFee),
       socialMediaAccounts:
           dto.full.socialMediaAccounts.map<SocialMediaAccount>((dto) => SocialMediaAccount.fromDto(dto)).toList(),
+      registrationTokens: Set.from(dto.full.registrationTokens.where((token) => token != null)),
     );
   }
 
@@ -125,11 +130,12 @@ class User {
     assert(avatarImage != null);
     assert(categories != null);
     assert(socialMediaAccounts != null);
+    assert(registrationTokens != null);
 
     var dto = UserDto()
       ..id = id ?? ""
-        ..status = accountState
-        ..revision =revision
+      ..status = accountState
+      ..revision = revision
       ..full = (UserDto_FullDataDto()
         ..isVerified = verified ?? false
         ..type = userType
@@ -147,7 +153,8 @@ class User {
         ..websiteUrl = websiteUrl ?? ''
         ..socialMediaAccounts.addAll(
           socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()),
-        ));
+        )
+        ..registrationTokens.addAll(registrationTokens));
 
     return dto;
   }
