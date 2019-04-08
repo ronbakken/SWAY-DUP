@@ -104,6 +104,11 @@ class ListManagerImplementation implements ListManager {
       userCreatedOffers.clear();
       userCreatedOffers.updateOutput();
   }
+
+  @override
+  void setMapBoundary(double nwLatitude, double nwLongitude, double seLatitude, double seLongitude, double zoomLevel) {
+    // TODO: implement setMapBoundary
+  }
 }
 
 class InfItemCache {

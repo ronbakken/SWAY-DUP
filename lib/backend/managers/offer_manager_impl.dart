@@ -80,11 +80,11 @@ class OfferManagerImplementation implements OfferManager {
       // we have an imagefile attached we upload it
       if (offerBuilder.images[i].imageFile != null) {
         offerBuilder.images[i] = await backend<ImageService>().uploadImageReference(
-              fileNameTrunc: 'offer',
-              imageReference: offerBuilder.images[i],
-              imageWidth: 800,
-              lowResWidth: 64,
-            );
+          fileNameTrunc: 'offer',
+          imageReference: offerBuilder.images[i],
+          imageWidth: 800,
+          lowResWidth: 64,
+        );
       }
     }
 
@@ -95,14 +95,14 @@ class OfferManagerImplementation implements OfferManager {
     if (offerBuilder.images[0].imageFile != null) // first image changed
     {
       offerBuilder.offerThumbnail = await backend<ImageService>().uploadImageReference(
-            fileNameTrunc: 'offer_thumbnail',
-            imageReference: offerBuilder.images[0],
-            imageWidth: 100,
-            lowResWidth: 20,
-          );
+        fileNameTrunc: 'offer_thumbnail',
+        imageReference: offerBuilder.images[0],
+        imageWidth: 100,
+        lowResWidth: 20,
+      );
     }
 
-    var updatedOffer = await backend<InfOfferService>().updateOffer(offerBuilder);
+    await backend<InfOfferService>().updateOffer(offerBuilder);
     // signal all done
     yield 1.0;
   }
@@ -115,9 +115,12 @@ class OfferManagerImplementation implements OfferManager {
   void initConnection() {
     myOffers.listen((x) => print(x.length));
     backend<SystemService>().connectionStateChanges.listen((state) async {
+      // FIXME: InfApiService
+      /*
       await _myOffersSubject.addStream(backend<InfApiService>().getBusinessOffers(null));
       await _featuredBusinessOffers.addStream(backend<InfApiService>().getBusinessOffers(null));
       await _filteredOffersSubject.addStream(backend<InfApiService>().getBusinessOffers(null));
+      */
     });
   }
 }

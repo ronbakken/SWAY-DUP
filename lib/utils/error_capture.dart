@@ -107,7 +107,7 @@ class ErrorReporter {
 
   Future<void> logException(Object error,
       {String message, StackTrace stackTrace}) async {
-    print('Caught error: $error');
+    print('Caught error: $error\n$stackTrace');
 
     if (_isInDebugMode) {
       print(stackTrace);

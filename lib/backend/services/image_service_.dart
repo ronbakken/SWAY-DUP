@@ -59,7 +59,7 @@ abstract class ImageService {
 
   Future<String> uploadImageFromBytes(String fileName, List<int> value);
 
-  /// resizes and updloads images. if [lowResWidth != null] it also uploads a lowres version
+  /// resize's and upload's images. if [lowResWidth != null] it also uploads a lowres version
   /// if [imageUrl] of [imageReference != null] it uploads with the same fileName  
   Future<ImageReference> uploadImageReference({
     String fileNameTrunc,

@@ -20,8 +20,6 @@ import 'package:inf/backend/services/image_service_.dart';
 import 'package:inf/backend/services/image_service_impl.dart';
 import 'package:inf/backend/services/inf_api_clients_service_.dart';
 import 'package:inf/backend/services/inf_api_clients_service_impl.dart';
-import 'package:inf/backend/services/inf_api_service_.dart';
-import 'package:inf/backend/services/inf_api_service_mock.dart';
 import 'package:inf/backend/services/inf_list_service_.dart';
 import 'package:inf/backend/services/inf_list_service_impl.dart';
 import 'package:inf/backend/services/inf_messaging_service_.dart';
@@ -45,7 +43,6 @@ export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/services/config_service_.dart';
 export 'package:inf/backend/services/image_service_.dart';
 export 'package:inf/backend/services/inf_api_clients_service_.dart';
-export 'package:inf/backend/services/inf_api_service_.dart';
 export 'package:inf/backend/services/inf_list_service_.dart';
 export 'package:inf/backend/services/inf_messaging_service_.dart';
 export 'package:inf/backend/services/inf_offer_service_.dart';
@@ -111,7 +108,7 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken, AssetLoader as
     case AppMode.mock:
       _appEnvironment = AppEnvironment(
         mode: AppMode.mock,
-        host: await BuildConfig.instance['API_HOST'],
+        host: await BuildConfig['API_HOST'],
         port: 8080,
         certificateAuthority: 'localhost',
       );
@@ -171,9 +168,9 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerLazySingleton<LocationService>(() => LocationServiceMock());
   backend.registerLazySingleton<InfListService>(() => InfListServiceImplementation());
   backend.registerLazySingleton<InfOfferService>(() => InfOfferServiceImplementation());
+  backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
   backend.registerLazySingleton<InfMessagingService>(() => InfMessagingServiceImplementation());
   backend.registerLazySingleton<AuthenticationService>(
-
       /// By passing a userTestToken the server returns one of two test users
       /// when 'loginWithToken' is called so that we can test without the need for a real user token
       /// token: 'INF' and influencer
@@ -182,11 +179,7 @@ void registerImplementations([String testRefreshToken]) {
             userTestToken: testRefreshToken,
           ));
 
-  backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
-  backend.registerLazySingleton<InfApiService>(() => InfApiServiceMock());
-
   // Managers
-
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
   backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
   backend.registerLazySingleton<ProposalManager>(() => ProposalManagerImplementation());

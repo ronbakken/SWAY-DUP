@@ -42,18 +42,19 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
 
   final BehaviorSubject<bool> _connectionChangedSubject = BehaviorSubject<bool>();
 
-  StreamSubscription _networkStateSubscription;
-  StreamSubscription _serverPeriodicCheckSubscription;
+  //StreamSubscription _networkStateSubscription;
+  //StreamSubscription _serverPeriodicCheckSubscription;
 
   InfApiClientsServiceImplementation();
 
   @override
   void init(String host, int port, [ByteData certificates, String certificateAuthority]) {
-    _networkStateSubscription =
+    /*
+      _networkStateSubscription =
         backend<SystemService>().connectionStateChanges.debounce(const Duration(seconds: 2)).listen((state) async {
       // if we have a network connection check if the server is online
       if (state != NetworkConnectionState.none) {
-        if (await backend<InfApiClientsService>().isServerAlive()) {
+        if (await isServerAlive()) {
           _connectionChangedSubject.add(true);
           return;
         }
@@ -61,7 +62,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
         _serverPeriodicCheckSubscription =
             Observable.periodic(const Duration(seconds: 10)).startWith(0).listen((_) async {
           // try to reach the server
-          if (await backend<InfApiClientsService>().isServerAlive()) {
+          if (await isServerAlive()) {
             _connectionChangedSubject.add(true);
             await _serverPeriodicCheckSubscription?.cancel();
           } else {
@@ -72,6 +73,8 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
         _connectionChangedSubject.add(false);
       }
     });
+    */
+
     this.host = host;
 
     ChannelCredentials channelCredentials;

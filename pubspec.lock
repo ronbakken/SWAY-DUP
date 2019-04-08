@@ -56,7 +56,7 @@ packages:
       name: connectivity
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
+    version: "0.4.2+2"
   console_log_handler:
     dependency: transitive
     description:
@@ -145,7 +145,7 @@ packages:
       name: flutter_svg
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0"
+    version: "0.12.3"
   flutter_test:
     dependency: "direct dev"
     description: flutter
@@ -157,7 +157,7 @@ packages:
       name: flutter_webview_plugin
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.0+2"
+    version: "0.3.3"
   get_it:
     dependency: "direct main"
     description:
@@ -194,7 +194,7 @@ packages:
       name: http
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.0+1"
+    version: "0.12.0+2"
   http2:
     dependency: transitive
     description:
@@ -222,7 +222,7 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.0+6"
+    version: "0.5.2"
   inf_api_client:
     dependency: "direct main"
     description:
@@ -238,7 +238,7 @@ packages:
       name: intl
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.15.7"
+    version: "0.15.8"
   latlong:
     dependency: transitive
     description:
@@ -282,7 +282,7 @@ packages:
       name: oauth1
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.0.3"
+    version: "1.0.4"
   package_info:
     dependency: "direct main"
     description:
@@ -331,7 +331,7 @@ packages:
       name: petitparser
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.1"
+    version: "2.2.1"
   platform:
     dependency: transitive
     description:
@@ -373,14 +373,14 @@ packages:
       name: rational
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.3.1"
+    version: "0.3.3"
   rx_command:
     dependency: "direct main"
     description:
       name: rx_command
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.2.0"
+    version: "4.3.0"
   rxdart:
     dependency: "direct main"
     description:
@@ -401,7 +401,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.1+1"
+    version: "0.5.1+2"
   sky_engine:
     dependency: transitive
     description: flutter
@@ -498,13 +498,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "3.4.1"
-  uuid:
-    dependency: transitive
-    description:
-      name: uuid
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.3"
   validate:
     dependency: transitive
     description:
@@ -525,7 +518,7 @@ packages:
       name: xml
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "3.3.1"
+    version: "3.4.1"
 sdks:
-  dart: ">=2.1.1-dev.0.0 <3.0.0"
-  flutter: ">=0.7.3 <2.0.0"
+  dart: ">=2.2.0 <3.0.0"
+  flutter: ">=1.2.0 <2.0.0"

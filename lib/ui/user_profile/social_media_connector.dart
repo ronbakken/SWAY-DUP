@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:crypto/crypto.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 import 'package:http/http.dart' as http;
@@ -118,11 +119,18 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
       _whitelistHosts.add('https://twitter.com/account/begin_password_reset');
 
       platform = new oauth1.Platform(
-          'https://api.twitter.com/oauth/request_token', // temporary credentials request
-          'https://api.twitter.com/oauth/authorize', // resource owner authorization
-          'https://api.twitter.com/oauth/access_token', // token credentials request
-          oauth1.SignatureMethods.HMAC_SHA1 // signature method
-          );
+        'https://api.twitter.com/oauth/request_token', // temporary credentials request
+        'https://api.twitter.com/oauth/authorize', // resource owner authorization
+        'https://api.twitter.com/oauth/access_token', // token credentials request
+        oauth1.SignatureMethod("HMAC-SHA1", (key, text) {
+          Hmac hmac = new Hmac(sha1, key.codeUnits);
+          List<int> bytes = hmac.convert(text.codeUnits).bytes;
+          // The output of the HMAC signing function is a binary
+          // string. This needs to be base64 encoded to produce
+          // the signature string.
+          return base64.encode(bytes);
+        }),
+      );
 
       // define client credentials (consumer keys)
       final String apiKey = provider.apiKey;

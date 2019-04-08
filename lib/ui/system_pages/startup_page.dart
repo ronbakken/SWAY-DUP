@@ -80,6 +80,7 @@ class _StartupPageState extends PageState<StartupPage> {
           }
           unawaited(Navigator.of(context).pushReplacement(WelcomeRoute()));
         } else {
+          print('Login Exception: $error');
           await backend<ErrorReporter>().logException(error);
         }
       },

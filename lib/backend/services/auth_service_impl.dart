@@ -52,7 +52,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
           _authToken = authResult.accessToken;
           _currentUser = User.fromDto(authResult.user);
           currentUserUpdatesSubject.add(_currentUser);
-          await addPushTokenToUser();
+          //await addPushTokenToUser(); // FIXME should not be commented.. but fails with error
           return true;
         }
       }

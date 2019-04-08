@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
-import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/0_search_panel.dart';
 import 'package:inf/ui/filter/1_category_panel.dart';
 import 'package:inf/ui/filter/2_value_panel.dart';
@@ -27,7 +26,6 @@ class FilterPanel extends StatefulWidget {
 }
 
 class FilterPanelState extends State<FilterPanel> with SingleTickerProviderStateMixin {
-  Filter _filter = Filter();
   static const _frontHeight = 242.0;
   static const _backHeight = _frontHeight + 208.0;
 
@@ -43,7 +41,7 @@ class FilterPanelState extends State<FilterPanel> with SingleTickerProviderState
   @override
   void initState() {
     super.initState();
-    _controller = AnimationController(duration: Duration(milliseconds: 250), vsync: this);
+    _controller = AnimationController(duration: const Duration(milliseconds: 250), vsync: this);
     curveAmount = Tween<double>(begin: 0.8, end: 2.0).animate(_controller);
     frontPanelCloseAnim = Tween<double>(begin: 1.0, end: 0.0).animate(_controller);
     backPanelLeaveAnim = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);

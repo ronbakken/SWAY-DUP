@@ -96,7 +96,7 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
             child: TabBarView(
               controller: controller,
               children: [
-                const OfferSummeryListView(name: 'offers-applied'),
+                const OfferSummaryListView(name: 'offers-applied'),
                 ProposalListView(dataSource: proposalManager.appliedProposals),
                 ProposalListView(dataSource: proposalManager.activeDeals),
                 ProposalListView(dataSource: proposalManager.doneProposals),
@@ -200,19 +200,19 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
   }
 }
 
-class OfferSummeryListView extends StatefulWidget {
+class OfferSummaryListView extends StatefulWidget {
   final String name;
 
-  const OfferSummeryListView({
+  const OfferSummaryListView({
     @required this.name,
     Key key,
   }) : super(key: key);
 
   @override
-  _OfferSummeryListViewState createState() => _OfferSummeryListViewState();
+  _OfferSummaryListViewState createState() => _OfferSummaryListViewState();
 }
 
-class _OfferSummeryListViewState extends State<OfferSummeryListView> {
+class _OfferSummaryListViewState extends State<OfferSummaryListView> {
   Stream<List<InfItem>> dataSource;
 
   @override
@@ -234,6 +234,7 @@ class _OfferSummeryListViewState extends State<OfferSummeryListView> {
         builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
           if (!snapShot.hasData) {
             // TODO
+            print('Offer Summary Error: ${snapShot.error}');
             return const Center(child: Text('Here has to be an Error message'));
           }
           final items = snapShot.data;

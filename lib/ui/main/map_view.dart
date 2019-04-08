@@ -123,58 +123,9 @@ class _MainMapViewState extends State<MainMapView> {
         .push(OfferDetailsPage.route(Stream.fromFuture(backend<OfferManager>().getFullOffer(item.id))));
   }
 
-  void onMapPositionChanged(MapPosition position, bool hasGesture) {
-    mapPosition = position;
-    backend<InfApiService>().setMapBoundary(position.bounds.northWest.latitude, position.bounds.northWest.longitude,
-        position.bounds.southEast.latitude, position.bounds.southEast.longitude, position.zoom);
-  }
-}
-
-class _ClusterMarker extends StatelessWidget {
-  const _ClusterMarker({
-    Key key,
-    @required this.mapMarker,
-  }) : super(key: key);
-
-  final MapMarker mapMarker;
-
-  @override
-  Widget build(BuildContext context) {
-    return Stack(
-      children: <Widget>[
-        Container(
-          margin: const EdgeInsets.only(left: 7.5, top: 5.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 1.0),
-            color: AppTheme.blue,
-            shape: BoxShape.circle,
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(right: 3.75, left: 3.75, top: 2.5, bottom: 2.5),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 1.0),
-            color: AppTheme.blue,
-            shape: BoxShape.circle,
-          ),
-        ),
-        Container(
-          margin: const EdgeInsets.only(right: 7.5, bottom: 5.0),
-          decoration: BoxDecoration(
-            border: Border.all(color: Colors.white, width: 1.0),
-            color: AppTheme.blue,
-            shape: BoxShape.circle,
-          ),
-          child: ClipOval(
-            child: Center(
-              child: Text(
-                mapMarker.clusterCount.toString(),
-                style: const TextStyle(color: Colors.white, fontSize: 18.0),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
+  void onMapPositionChanged(MapPosition pos, bool hasGesture) {
+    mapPosition = pos;
+    backend<ListManager>().setMapBoundary(pos.bounds.northWest.latitude, pos.bounds.northWest.longitude,
+        pos.bounds.southEast.latitude, pos.bounds.southEast.longitude, pos.zoom);
   }
 }

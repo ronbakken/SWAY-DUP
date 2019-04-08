@@ -2,14 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/services.dart' show MethodChannel;
 
-class BuildConfig {
-  const BuildConfig();
+const BuildConfig = _BuildConfig();
+
+class _BuildConfig {
+  const _BuildConfig();
 
   static final MethodChannel _channel = const MethodChannel('build/config');
 
-  static const instance = const BuildConfig();
-
-  Future<String> operator [](String key) async => get(key);
+  Future<String> operator [](String key) => get(key);
 
   static Future<String> get(String name) async {
     try {
