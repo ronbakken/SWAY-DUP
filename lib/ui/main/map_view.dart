@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
@@ -8,6 +7,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:latlong/latlong.dart';
 
@@ -17,6 +17,8 @@ class MainMapView extends StatefulWidget {
 }
 
 class _MainMapViewState extends State<MainMapView> {
+  ListManager _listManager;
+  StreamSubscription _subLocation;
   String urlTemplate;
   String mapApiKey;
   MapController mapController;
@@ -24,21 +26,28 @@ class _MainMapViewState extends State<MainMapView> {
 
   @override
   void initState() {
+    super.initState();
+    _listManager = backend<ListManager>();
+    _listManager.resetFilter();
+
     urlTemplate = backend<ConfigService>().getMapUrlTemplate();
     mapApiKey = backend<ConfigService>().getMapApiKey();
-
-    mapController = new MapController();
-
-    backend<LocationService>().onLocationChanged.listen((newPos) {
+    mapController = MapController();
+    _subLocation = backend<LocationService>().onLocationChanged.listen((newPos) {
       mapController.move(LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
     });
-    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _subLocation?.cancel();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<List<InfItem>>(
-      stream: backend<ListManager>().filteredListItems,
+      stream: _listManager.listItems,
       builder: (context, snapshot) {
         List<Marker> markers;
         if (snapshot.hasData) {
@@ -71,61 +80,124 @@ class _MainMapViewState extends State<MainMapView> {
   }
 
   List<Marker> buildMarkers(List<InfItem> items) {
-    // TODO implement fading of markers with Simon
-    return items.where((item) => item.type == InfItemType.offer).map<Marker>((item) {
-      return Marker(
-        width: 38.0,
-        height: 38.0,
-        point: LatLng(item.latitude, item.longitude),
-        builder: (BuildContext context) {
-          Uint8List iconData;
-          if (item.offer.categories?.isNotEmpty ?? false) {
-            if (item.offer.categories[0].parentId.isEmpty) {
-              iconData = item.offer.categories[0].iconData;
-            } else {
-              // fixme: link top categories directly to subcategories at startup in ConfigService
-              var topLevelCategory = backend
-                  .get<ConfigService>()
-                  .topLevelCategories
-                  .firstWhere((x) => x.id == item.offer.categories[0].parentId, orElse: null);
-              if (topLevelCategory != null) {
-                iconData = topLevelCategory.iconData;
-              }
-            }
+    return items
+        .map<Marker>((item) {
+          assert(item.latitude != null && item.longitude != null);
+          switch (item.type) {
+            case InfItemType.offer:
+              return Marker(
+                width: 38.0,
+                height: 38.0,
+                point: LatLng(item.latitude, item.longitude),
+                builder: (BuildContext context) {
+                  return _OfferMarker(
+                    offer: item.offer,
+                    onPressed: () => onOfferClicked(item.offer),
+                  );
+                },
+              );
+            case InfItemType.user:
+              return Marker(
+                width: 38.0,
+                height: 38.0,
+                point: LatLng(item.latitude, item.longitude),
+                builder: (BuildContext context) {
+                  return _UserMarker(
+                    user: item.user,
+                    onPressed: () => onUserClicked(item.user),
+                  );
+                },
+              );
+            default:
+              return null;
           }
-          return Material(
-            type: MaterialType.canvas,
-            color: AppTheme.lightBlue,
-            shape: const CircleBorder(
-              side: BorderSide(color: Colors.white),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: InkResponse(
-              onTap: () => onMarkerClicked(item),
-              child: Center(
-                child: iconData != null
-                    ? InfMemoryImage(
-                        iconData,
-                        width: 16,
-                        height: 16,
-                      )
-                    : const Icon(Icons.close),
-              ),
-            ),
-          );
-        },
-      );
-    }).toList();
+        })
+        .where((marker) => marker != null)
+        .toList();
   }
 
-  void onMarkerClicked(InfItem item) {
-    Navigator.of(context)
-        .push(OfferDetailsPage.route(Stream.fromFuture(backend<OfferManager>().getFullOffer(item.id))));
+  void onOfferClicked(BusinessOffer offer) {
+    final offerStream = Stream.fromFuture(backend<OfferManager>().getFullOffer(offer.id));
+    Navigator.of(context).push(OfferDetailsPage.route(offerStream));
+  }
+
+  void onUserClicked(User user) {
+    Navigator.of(context).push(ViewProfilePage.route(user));
   }
 
   void onMapPositionChanged(MapPosition pos, bool hasGesture) {
     mapPosition = pos;
-    backend<ListManager>().setMapBoundary(pos.bounds.northWest.latitude, pos.bounds.northWest.longitude,
-        pos.bounds.southEast.latitude, pos.bounds.southEast.longitude, pos.zoom);
+    _listManager.setMapBoundary(
+      pos.bounds.northWest.latitude,
+      pos.bounds.northWest.longitude,
+      pos.bounds.southEast.latitude,
+      pos.bounds.southEast.longitude,
+      pos.zoom.toInt(),
+    );
+  }
+}
+
+class _OfferMarker extends StatelessWidget {
+  const _OfferMarker({
+    Key key,
+    @required this.offer,
+    this.onPressed,
+  }) : super(key: key);
+
+  final BusinessOffer offer;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    final iconData = offer.categoryIconData;
+    return Material(
+      type: MaterialType.canvas,
+      color: AppTheme.lightBlue,
+      shape: const CircleBorder(
+        side: BorderSide(color: Colors.white),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkResponse(
+        onTap: onPressed,
+        child: Center(
+          child: iconData != null
+              ? InfMemoryImage(
+                  iconData,
+                  width: 16,
+                  height: 16,
+                )
+              : const Icon(Icons.not_listed_location),
+        ),
+      ),
+    );
+  }
+}
+
+class _UserMarker extends StatelessWidget {
+  const _UserMarker({
+    Key key,
+    @required this.user,
+    this.onPressed,
+  }) : super(key: key);
+
+  final User user;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Material(
+      type: MaterialType.canvas,
+      color: AppTheme.lightBlue,
+      shape: const CircleBorder(
+        side: BorderSide(color: Colors.white),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: InkResponse(
+        onTap: onPressed,
+        child: const Center(
+          child: Icon(Icons.person),
+        ),
+      ),
+    );
   }
 }

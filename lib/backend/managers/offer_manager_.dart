@@ -8,7 +8,6 @@ import 'package:inf/domain/money.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:rxdart/rxdart.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:inf/utils/date_time_helpers.dart';
 
@@ -16,15 +15,10 @@ abstract class OfferManager {
   RxCommand<OfferBuilder, double> updateOfferCommand;
 
   // All this streams return partial BusinessOffers
-  Observable<List<BusinessOffer>> get myOffers;
-  Observable<List<BusinessOffer>> get filteredOffers;
-  Observable<List<BusinessOffer>> get featuredBusinessOffers;
+  Stream<List<BusinessOffer>> get myOffers;
+  Stream<List<BusinessOffer>> get featuredOffers;
 
   Future<BusinessOffer> getFullOffer(String id);
-
-  Future<void> addOfferFilter(Filter filter);
-  Future<void> clearOfferFilter(Filter filter);
-  Future<Filter> getOfferFilter(Filter filter);
 
   OfferBuilder createOfferBuilder();
 }

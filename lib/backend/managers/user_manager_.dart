@@ -1,11 +1,12 @@
+import 'dart:async';
 import 'dart:io';
 
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
-import 'package:rxdart/rxdart.dart';
 
+export 'package:inf/domain/user.dart';
 
 /// Get's thrown from [sendLoginEmailCommand] if the passed invitation code was wrong.
 class InvalidInvitationCodeException implements Exception {
@@ -48,8 +49,9 @@ abstract class UserManager {
   LoginToken loginToken;
 
   User get currentUser;
-  Observable<User> get currentUserUpdates;
+  Stream<User> get currentUserUpdates;
 
+  Future<User> getUser(String userId);
 
   // If a token is passed as parameter it will be treated as a login-token to acquire a longtime token
   RxCommand<LoginToken, bool> logInUserCommand;

@@ -3,7 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/user_profile/profile_private_page.dart';
+import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/user_profile/switch_user_dialog.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
@@ -187,7 +187,7 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
               child: FlatButton(
                 padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                 onPressed: () {
-                  Navigator.of(context).push(ProfilePrivatePage.route());
+                  Navigator.of(context).push(ViewProfilePage.route(userManager.currentUser));
                 },
                 child: const Text(
                   'View profile',

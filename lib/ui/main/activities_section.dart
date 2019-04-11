@@ -218,45 +218,42 @@ class _OfferSummaryListViewState extends State<OfferSummaryListView> {
   @override
   void initState() {
     super.initState();
-    dataSource = backend<ListManager>().userCreatedItems;
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
+    dataSource = backend<InfListService>().listMyOffers();
   }
 
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     return StreamBuilder<List<InfItem>>(
-        stream: dataSource,
-        builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
-          if (!snapShot.hasData) {
-            // TODO
-            print('Offer Summary Error: ${snapShot.error}');
-            return const Center(child: Text('Here has to be an Error message'));
-          }
-          final items = snapShot.data;
-          return ListView.builder(
-            padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
-            itemCount: items.length,
-            itemBuilder: (BuildContext context, int index) {
-              assert(items[index].type == InfItemType.offer);
-              final offer = items[index].offer;
-              final tag = '${widget.name}-${offer.id}';
-              return Padding(
-                padding: const EdgeInsets.symmetric(vertical: 4.0),
-                child: OfferShortSummaryTile(
-                  backGroundColor: AppTheme.listViewItemBackground,
-                  offer: offer,
-                  onPressed: () => _onShowDetails(context, offer, tag),
-                  tag: tag,
-                ),
-              );
-            },
-          );
-        });
+      stream: dataSource,
+      builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
+        if (snapShot.hasError) {
+          // TODO
+          return const Center(child: Text('Here has to be an Error message'));
+        } else if (!snapShot.hasData) {
+          return emptyWidget;
+        }
+        final items = snapShot.data;
+        return ListView.builder(
+          padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
+          itemCount: items.length,
+          itemBuilder: (BuildContext context, int index) {
+            assert(items[index].type == InfItemType.offer);
+            final offer = items[index].offer;
+            final tag = '${widget.name}-${offer.id}';
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4.0),
+              child: OfferShortSummaryTile(
+                backGroundColor: AppTheme.listViewItemBackground,
+                offer: offer,
+                onPressed: () => _onShowDetails(context, offer, tag),
+                tag: tag,
+              ),
+            );
+          },
+        );
+      },
+    );
   }
 
   void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag) async {

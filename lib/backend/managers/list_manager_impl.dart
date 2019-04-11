@@ -3,137 +3,63 @@ import 'dart:async';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/managers/list_manager_.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:latlong/latlong.dart';
 import 'package:rxdart/rxdart.dart';
+import 'package:rxdart/subjects.dart';
 
 class ListManagerImplementation implements ListManager {
-  final InfItemCache allOffersCache = InfItemCache();
-  final InfItemCache userCreatedOffers = InfItemCache();
+  final _filterSubject = BehaviorSubject<Filter>();
+  StreamSubscription<List<InfItem>> _subListItems;
+  BehaviorSubject<List<InfItem>> _listItems;
 
-  @override
-  Observable<List<InfItem>> get filteredListItems => allOffersCache.itemUpdates;
-  @override
-  Observable<List<InfItem>> get userCreatedItems => userCreatedOffers.itemUpdates;
-
-  BehaviorSubject<Filter> filterSubject = BehaviorSubject<Filter>();
-  BehaviorSubject<Filter> filterCreatedOffersSubject = BehaviorSubject<Filter>();
-
-  StreamSubscription listAllOffersSubscription;
-  StreamSubscription listenAllOffersSubscription;
-  StreamSubscription listCreatedOffersSubscription;
-  StreamSubscription listenCreatedOffersSubscription;
-
-  final userCreateOfferFilter = Filter(offeringBusinessId: backend<UserManager>().currentUser.id);
+  LatLng _northWest;
+  LatLng _southEast;
+  int _zoomLevel;
 
   ListManagerImplementation() {
-    backend<InfApiClientsService>().connectionChanged.listen((connected) async {
-      if (connected) {
-        await updateListeners();
-      } else {
-        await listAllOffersSubscription?.cancel();
-        await listenAllOffersSubscription?.cancel();
-        await listCreatedOffersSubscription?.cancel();
-        await listenCreatedOffersSubscription?.cancel();
-      }
-    });
-
-    // for filter debug
-    filterSubject.listen((f) {
-      print(f);
-    });
+    _listItems = BehaviorSubject<List<InfItem>>(
+      onListen: () async {
+        await backend<AuthenticationService>().refreshAccessToken();
+        _subListItems = backend<InfListService>().listItems(_filterSubject).listen((data) {
+          _listItems.add(data);
+        });
+      },
+      onCancel: () {
+        _subListItems?.cancel();
+      },
+    );
+    _filterSubject.listen((data) => print('Filter Changed: $data'));
   }
 
   @override
-  Future updateListeners() async{
-    // make sure we have a valid access token
-    await backend<AuthenticationService>().refreshAccessToken();
-    
-    await listAllOffersSubscription?.cancel();
-    await listenAllOffersSubscription?.cancel();
-    await listCreatedOffersSubscription?.cancel();
-    await listenCreatedOffersSubscription?.cancel();
-
-    listAllOffersSubscription = backend<InfListService>().listItems(filterSubject).listen(
-      (items) {
-        allOffersCache.addInfItems(items);
-      },
-      onError: (error) => print('Error in listAllOffersSubscription $error'),
-    );
-
-    listenAllOffersSubscription = backend<InfListService>().listenForOfferChanges(filterSubject).listen(
-      (items) {
-        items = items.where((item) => item.type == InfItemType.offer).toList();
-        allOffersCache.addInfItems(items);
-        print("Listen update ${items.length} items");
-      },
-      onError: (error) => print('Error in listenAllOffersSubscription $error'),
-    );
-
-    listCreatedOffersSubscription =
-        backend<InfListService>().listItems(filterCreatedOffersSubject).listen(
-      (items) {
-        items = items.where((item) => item.type == InfItemType.offer).toList();
-        userCreatedOffers.addInfItems(items);
-      },
-      onError: (error) => print('Error in listCreatedOffersSubscription $error'),
-    );
-
-    listenCreatedOffersSubscription =
-        backend<InfListService>().listenForOfferChanges(filterCreatedOffersSubject).listen(
-      (items) {
-        items = items.where((item) => item.type == InfItemType.offer).toList();
-        print("Listen my offers update ${items.length} items");
-        userCreatedOffers.addInfItems(items);
-      },
-      onError: (error) => print('Error in listenCreatedOffersSubscription $error'),
-    );
-
-     filterCreatedOffersSubject.add(userCreateOfferFilter);
-  }
+  Stream<List<InfItem>> get listItems => _listItems.stream;
 
   @override
-  void setFilter(Filter filter) {
-    allOffersCache.clear();
-    filterSubject.add(filter);
-  }
-
-  @override
-  void flushCaches()
-  {
-      allOffersCache.clear();
-      allOffersCache.updateOutput();
-      userCreatedOffers.clear();
-      userCreatedOffers.updateOutput();
-  }
-
-  @override
-  void setMapBoundary(double nwLatitude, double nwLongitude, double seLatitude, double seLongitude, double zoomLevel) {
-    // TODO: implement setMapBoundary
-  }
-}
-
-class InfItemCache {
-  final itemMap = <String, InfItem>{};
-
-  Observable<List<InfItem>> get itemUpdates => _itemUpdateSubject;
-  final _itemUpdateSubject = BehaviorSubject<List<InfItem>>();
-
-  void clear() {
-    itemMap.clear();
-  }
-
-  void addInfItems(List<InfItem> items) {
-    for (var item in items) {
-      var cacheItem = itemMap[item.id];
-      // if the item in the cache is newer than the one we received do nothing
-      if (cacheItem != null && cacheItem.revision > item.revision) {
-        continue;
-      }
-      itemMap[item.id] = item;
+  void resetFilter() {
+    if (backend<UserManager>().currentUser.userType == UserType.influencer) {
+      _filterSubject.add(const OfferFilter());
+    } else {
+      _filterSubject.add(const UserFilter());
     }
-    updateOutput();
   }
 
-  void updateOutput() {
-    _itemUpdateSubject.add(itemMap.values.toList(growable: false));
+  @override
+  void setFilter(LocationFilter filter) {
+    if (_northWest != null && _southEast != null) {
+      filter = filter.withNewLocation(
+        northWest: _northWest,
+        southEast: _southEast,
+        zoomLevel: _zoomLevel,
+      );
+    }
+    _filterSubject.add(filter);
+  }
+
+  @override
+  void setMapBoundary(double nwLatitude, double nwLongitude, double seLatitude, double seLongitude, int zoomLevel) {
+    _northWest = LatLng(nwLatitude, nwLongitude);
+    _southEast = LatLng(seLatitude, seLongitude);
+    _zoomLevel = zoomLevel;
+    setFilter(_filterSubject.value);
   }
 }

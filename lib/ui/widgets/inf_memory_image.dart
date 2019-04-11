@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:inf/app/assets.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 
 class InfMemoryImage extends StatelessWidget {
   const InfMemoryImage(
@@ -33,39 +34,15 @@ class InfMemoryImage extends StatelessWidget {
     if (data == null || data.isEmpty) {
       return const Icon(Icons.close);
     }
-    if (isVector(data)) {
-      return SvgPicture.memory(
-        data,
-        matchTextDirection: matchTextDirection,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        color: color,
-        colorBlendMode: colorBlendMode,
-        allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
-      );
-    } else {
-      return Image.memory(
-        data,
-        matchTextDirection: matchTextDirection,
-        width: width,
-        height: height,
-        fit: fit,
-        alignment: alignment,
-        color: color,
-        colorBlendMode: colorBlendMode,
-      );
-    }
-  }
-
-  bool isVector(Uint8List data) {
-    final header = <int>[0x3C, 0x73, 0x76, 0x67];
-    for (int i = 0; i < header.length; i++) {
-      if (data[i] != header[i]) {
-        return false;
-      }
-    }
-    return true;
+    return InfAssetImage(
+      AppAsset.raw(data, matchTextDirection: matchTextDirection),
+      width: width,
+      height: height,
+      fit: fit,
+      alignment: alignment,
+      color: color,
+      colorBlendMode: colorBlendMode,
+      allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+    );
   }
 }

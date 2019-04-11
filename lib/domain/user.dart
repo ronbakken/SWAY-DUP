@@ -5,6 +5,8 @@ import 'package:inf/domain/money.dart';
 import 'package:inf/domain/socialmedia_account.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
+export 'package:inf_api_client/inf_api_client.dart' show UserDto_Status, UserType;
+
 class User {
   final String id;
   final bool verified;

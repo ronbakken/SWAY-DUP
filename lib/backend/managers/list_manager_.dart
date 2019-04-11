@@ -1,17 +1,13 @@
+import 'dart:async';
+
 import 'package:inf/domain/domain.dart';
-import 'package:rxdart/rxdart.dart';
 
 abstract class ListManager {
-  Observable<List<InfItem>> get filteredListItems;
+  Stream<List<InfItem>> get listItems;
 
-  Observable<List<InfItem>> get userCreatedItems;
+  void resetFilter();
 
-  void setFilter(Filter filter);
+  void setFilter(LocationFilter filter);
 
-  void updateListeners();
-
-  // clears caches and pushes an empty list to the UI
-  void flushCaches();
-
-  void setMapBoundary(double nwLatitude, double nwLongitude, double seLatitude, double seLongitude, double zoomLevel);
+  void setMapBoundary(double nwLatitude, double nwLongitude, double seLatitude, double seLongitude, int zoomLevel);
 }

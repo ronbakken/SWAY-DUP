@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:inf/app/assets.dart';
@@ -52,7 +54,42 @@ class InfAssetImage extends StatelessWidget {
           color: color,
           colorBlendMode: colorBlendMode,
         );
+      case AppAssetType.Raw:
+        if (isSvgData(asset.data)) {
+          return SvgPicture.memory(
+            asset.data,
+            matchTextDirection: matchTextDirection,
+            width: width,
+            height: height,
+            fit: fit,
+            alignment: alignment,
+            color: color,
+            colorBlendMode: colorBlendMode,
+            allowDrawingOutsideViewBox: allowDrawingOutsideViewBox,
+          );
+        } else {
+          return Image.memory(
+            asset.data,
+            matchTextDirection: matchTextDirection,
+            width: width,
+            height: height,
+            fit: fit,
+            alignment: alignment,
+            color: color,
+            colorBlendMode: colorBlendMode,
+          );
+        }
     }
     throw StateError("Invalid AppAssetType ${asset.type}");
+  }
+
+  static bool isSvgData(Uint8List data) {
+    final header = <int>[0x3C, 0x73, 0x76, 0x67];
+    for (int i = 0; i < header.length; i++) {
+      if (data[i] != header[i]) {
+        return false;
+      }
+    }
+    return true;
   }
 }

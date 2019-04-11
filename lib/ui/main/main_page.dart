@@ -2,7 +2,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/bottom_nav.dart';
 
 import 'package:inf/ui/main/activities_section.dart';
@@ -68,7 +67,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     assert(userManager.currentUser != null);
 
     userType = userManager.currentUser.userType;
-    backend<ListManager>().setFilter(Filter());
+    backend<ListManager>().resetFilter();
     if (userType == UserType.influencer) {
       _setMode(MainPageMode.browse);
     } else {
@@ -108,7 +107,7 @@ class _MainPageState extends PageState<MainPage> with TickerProviderStateMixin {
     } else {
       _setMode(MainPageMode.activities);
     }
-    backend<ListManager>().setFilter(Filter());
+    backend<ListManager>().resetFilter();
   }
 
   @override

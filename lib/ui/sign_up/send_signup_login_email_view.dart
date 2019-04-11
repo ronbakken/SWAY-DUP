@@ -11,6 +11,7 @@ import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
+import 'package:email_launcher/email_launcher.dart';
 
 class SendSignupLoginEmailView extends StatefulWidget {
   final bool newUser;
@@ -214,6 +215,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         );
         break;
       case _steps.emailSent:
+        EmailLauncher().openEmailApplication();
         break;
     }
   }

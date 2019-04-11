@@ -17,6 +17,14 @@ class UserManagerImplementation implements UserManager {
   User get currentUser => backend<AuthenticationService>().currentUser;
 
   @override
+  Future<User> getUser(String userId) {
+    return backend<InfApiClientsService>()
+        .usersClient
+        .getUser(GetUserRequest()..userId = userId)
+        .then((GetUserResponse response) => User.fromDto(response.user));
+  }
+
+  @override
   RxCommand<LoginToken, bool> logInUserCommand;
   @override
   RxCommand<LoginEmailInfo, void> sendLoginEmailCommand;
@@ -33,7 +41,6 @@ class UserManagerImplementation implements UserManager {
   @override
   RxCommand<LoginProfile, void> switchUserCommand;
 
-
   UserManagerImplementation() {
     logInUserCommand = RxCommand.createAsync(loginUser);
 
@@ -42,7 +49,7 @@ class UserManagerImplementation implements UserManager {
     updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
 
     logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend<AuthenticationService>().logOut,
-      emitsLastValueToNewSubscriptions: true);
+        emitsLastValueToNewSubscriptions: true);
 
     switchUserCommand = RxCommand.createAsyncNoResult(switchUser);
   }
@@ -59,8 +66,8 @@ class UserManagerImplementation implements UserManager {
       }
     }
     await backend
-      .get<AuthenticationService>()
-      .sendLoginEmail(loginInfo.userType, loginInfo.email, loginInfo.invitationCode);
+        .get<AuthenticationService>()
+        .sendLoginEmail(loginInfo.userType, loginInfo.email, loginInfo.invitationCode);
   }
 
   Future<void> updateUserData(UserUpdateData userData) async {
@@ -70,11 +77,11 @@ class UserManagerImplementation implements UserManager {
     // and upload them
     if (userData.profilePicture != null) {
       var imageReference = userData.user.avatarImage != null
-        ? userData.user.avatarImage.copyWith(imageFile: userData.profilePicture)
-        : ImageReference(imageFile: userData.profilePicture);
+          ? userData.user.avatarImage.copyWith(imageFile: userData.profilePicture)
+          : ImageReference(imageFile: userData.profilePicture);
       var thumbNailReference = userData.user.avatarThumbnail != null
-        ? userData.user.avatarThumbnail.copyWith(imageFile: userData.profilePicture)
-        : ImageReference(imageFile: userData.profilePicture);
+          ? userData.user.avatarThumbnail.copyWith(imageFile: userData.profilePicture)
+          : ImageReference(imageFile: userData.profilePicture);
 
       // var image = decodeImage(imageBytes);
       // var profileImage = copyResize(image, 800);
@@ -83,9 +90,9 @@ class UserManagerImplementation implements UserManager {
       // var thumbNailLowRes = copyResize(thumbNail, 20);
 
       var avatarImage = await backend<ImageService>().uploadImageReference(
-        fileNameTrunc: 'profilePicture', imageReference: imageReference, imageWidth: 800, lowResWidth: 100);
+          fileNameTrunc: 'profilePicture', imageReference: imageReference, imageWidth: 800, lowResWidth: 100);
       var thumbnailImage = await backend<ImageService>().uploadImageReference(
-        fileNameTrunc: 'profileThumbnail', imageReference: thumbNailReference, imageWidth: 100, lowResWidth: 20);
+          fileNameTrunc: 'profileThumbnail', imageReference: thumbNailReference, imageWidth: 100, lowResWidth: 20);
 
       userToSend = userData.user.copyWith(
         avatarImage: avatarImage,
@@ -123,14 +130,11 @@ class UserManagerImplementation implements UserManager {
   @override
   List<LoginProfile> getLoginProfiles() => backend<AuthenticationService>().getLoginProfiles();
 
-  Future<void> switchUser(LoginProfile profile) async
-  {
+  Future<void> switchUser(LoginProfile profile) async {
     // the user hasn't really changed don't do anything
     if (profile.email == currentUser.email) {
       return;
     }
     await backend<AuthenticationService>().switchUser(profile);
-    backend<ListManager>().flushCaches();
-    backend<ListManager>().updateListeners();
   }
 }

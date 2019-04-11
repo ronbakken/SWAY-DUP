@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
@@ -10,6 +11,7 @@ class BusinessOffer {
   final int revision;
   final bool isPartial;
   final Location location;
+
   // State
   final OfferDto_Status status;
   final OfferDto_StatusReason statusReason;
@@ -28,6 +30,7 @@ class BusinessOffer {
 
   final int numberOffered;
   final int numberRemaining;
+
   bool get unlimitedAvailable => numberOffered == 0;
 
   final ImageReference thumbnailImage;
@@ -38,7 +41,7 @@ class BusinessOffer {
 
   // Detail info
   final List<ImageReference> images;
- 
+
   final List<Category> categories;
 
   // For later: Info for business
@@ -47,104 +50,62 @@ class BusinessOffer {
   // final int proposalsCountCompleted;
   // final int proposalsCountRefused;
 
-  BusinessOffer(
-      {this.id,
-      this.revision,
-      this.isPartial = false,
-      this.businessAccountId,
-      this.businessName,
-      this.businessDescription,
-      this.businessAvatarThumbnailUrl,
-      this.title,
-      this.description,
-      this.startDate,
-      this.endDate,
-      this.created,
-      this.minFollowers,
-      this.numberOffered = 0,
-      this.numberRemaining,
-      this.thumbnailImage,
-      this.terms,
-      this.location,
-      this.images,
-      this.categories,
-      this.status,
-      this.statusReason,
-      this.acceptancePolicy});
+  Uint8List get categoryIconData {
+    if (categories?.isEmpty ?? true) {
+      return null;
+    }
+    if (categories[0].parentId.isEmpty) {
+      return categories[0].iconData;
+    } else {
+      var parentCategory = backend<ConfigService>()
+          .topLevelCategories
+          .firstWhere((category) => category.id == categories[0].parentId, orElse: null);
+      return parentCategory?.iconData;
+    }
+  }
 
-  // BusinessOffer copyWith({
-  //   int id,
-  //   bool isPartial,
-  //   int businessAccountId,
-  //   String businessName,
-  //   String businessDescription,
-  //   String businessAvatarThumbnailUrl,
-  //   bool isDirectOffer,
-  //   String title,
-  //   String description,
-  //   DateTime created,
-  //   DateTime startDate,
-  //   DateTime endDate,
-  //   int minFollowers,
-  //   int numberOffered,
-  //   bool unlimitedAvailable,
-  //   int numberRemaining,
-  //   String thumbnailUrl,
-  //   Uint8List thumbnailLowRes,
-  //   DealTerms terms,
-  //   Location location,
-  //   List<String> imageUrls,
-  //   List<Uint8List> imagesLowRes,
-  //   List<Category> categories,
-  //   BusinessOfferState state,
-  //   BusinessOfferStateReason stateReason,
-  //   int newChatMessages,
-  //   int influencerProposalId,
-  // }) {
-  //   return BusinessOffer(
-  //     id: id ?? this.id,
-  //     isPartial: isPartial ?? this.isPartial,
-  //     businessAccountId: businessAccountId ?? this.businessAccountId,
-  //     businessName: businessName ?? this.businessName,
-  //     businessDescription: businessDescription ?? this.businessDescription,
-  //     businessAvatarThumbnailUrl: businessAvatarThumbnailUrl ?? this.businessAvatarThumbnailUrl,
-  //     title: title ?? this.title,
-  //     description: description ?? this.description,
-  //     startDate: startDate ?? this.startDate,
-  //     endDate: endDate ?? this.endDate,
-  //     minFolllowers: minFollowers ?? this.minFolllowers,
-  //     created: created ?? this.created,
-  //     isDirectOffer: isDirectOffer ?? this.isDirectOffer,
-  //     numberOffered: numberOffered ?? this.numberOffered,
-
-  //     unlimitedAvailable: unlimitedAvailable ?? this.unlimitedAvailable,
-  //     thumbnailUrl: thumbnailUrl ?? this.thumbnailUrl,
-  //     thumbnailLowRes: thumbnailLowRes ?? this.thumbnailLowRes,
-  //     terms: terms ?? this.terms,
-  //     location: location ?? this.location,
-  //     imageUrls: imageUrls ??  this.imageUrls,
-  //     imagesLowRes: imagesLowRes ?? this.imagesLowRes,
-  //     categories: categories ?? this.categories,
-  //     state: state ?? this.state,
-  //     stateReason: stateReason ?? this.stateReason,
-  //   );
-  // }
+  BusinessOffer({
+    this.id,
+    this.revision,
+    this.isPartial = false,
+    this.businessAccountId,
+    this.businessName,
+    this.businessDescription,
+    this.businessAvatarThumbnailUrl,
+    this.title,
+    this.description,
+    this.startDate,
+    this.endDate,
+    this.created,
+    this.minFollowers,
+    this.numberOffered = 0,
+    this.numberRemaining,
+    this.thumbnailImage,
+    this.terms,
+    this.location,
+    this.images,
+    this.categories,
+    this.status,
+    this.statusReason,
+    this.acceptancePolicy,
+  });
 
   static BusinessOffer fromDto(OfferDto dto) {
     if (dto.hasList()) {
+      // FIXME: extract featuredCategoryId and resolve with ConfigService.
       return BusinessOffer(
         acceptancePolicy: null,
         businessAccountId: dto.list.businessAccountId,
         businessAvatarThumbnailUrl: dto.list.businessAvatarThumbnailUrl,
         businessDescription: dto.list.businessDescription,
         businessName: dto.list.businessName,
-        categories: null,
+        categories: null, // backend<ConfigService>().getCategoriesFromIds(dto.list.featuredCategoryId)
         created: fromTimeStamp(dto.list.created),
         startDate: fromTimeStamp(dto.list.start),
         endDate: fromTimeStamp(dto.list.end),
         description: dto.list.description,
         id: dto.id,
-        images: [ ImageReference.fromImageDto(dto.list.featuredImage)],
+        images: [ImageReference.fromImageDto(dto.list.featuredImage)],
         isPartial: true,
         location: Location.fromDto(dto.location),
         minFollowers: null,

@@ -41,6 +41,9 @@ dependencies:
   flutter:
     sdk: flutter
 
+  email_launcher:
+    git: https://github.com/infmarketplace/plugin_email_launcher
+
   inf_api_client:
     git:
       url: https://github.com/infmarketplace/inf_server.git

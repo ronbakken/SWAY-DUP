@@ -24,7 +24,7 @@ class InfItem {
     this.user,
     this.mapMarker,
     this.latitude,
-    this.longitude
+    this.longitude,
   });
 
   static InfItem fromDto(ItemDto dto) {
@@ -37,17 +37,20 @@ class InfItem {
         latitude: dto.offer.location.geoPoint.latitude,
         longitude: dto.offer.location.geoPoint.longitude,
       );
-    }
-    if (dto.hasUser()) {
+    } else if (dto.hasUser()) {
       return InfItem(
         type: InfItemType.user,
         user: User.fromDto(dto.user),
         id: dto.user.id,
         revision: dto.user.revision,
+        latitude: dto.user.list.location.geoPoint.latitude,
+        longitude: dto.user.list.location.geoPoint.longitude,
       );
-    }
-    if (dto.hasMapItem()) {
-      return InfItem(type: InfItemType.map, mapMarker: null);
+    } else if (dto.hasMapItem()) {
+      return InfItem(
+        type: InfItemType.map,
+        mapMarker: null,
+      );
     }
     assert(false, 'Should never get here');
     return null;

@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 class AppFonts {
   const AppFonts();
 
@@ -74,14 +76,23 @@ class AppAsset {
   const AppAsset.bitmap(
     this.path, {
     this.matchTextDirection = false,
-  }) : this.type = AppAssetType.Bitmap;
+  })  : this.data = null,
+        this.type = AppAssetType.Bitmap;
 
   const AppAsset.vector(
     this.path, {
     this.matchTextDirection = false,
-  }) : this.type = AppAssetType.Vector;
+  })  : this.data = null,
+        this.type = AppAssetType.Vector;
+
+  const AppAsset.raw(
+    this.data, {
+    this.matchTextDirection = false,
+  })  : this.path = null,
+        this.type = AppAssetType.Raw;
 
   final String path;
+  final Uint8List data;
   final AppAssetType type;
   final bool matchTextDirection;
 
@@ -104,4 +115,5 @@ class AppAsset {
 enum AppAssetType {
   Bitmap,
   Vector,
+  Raw,
 }
