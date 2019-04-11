@@ -1,6 +1,4 @@
-import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 import 'package:intl/intl.dart';
 
 DateTime updateTimeOfDay(DateTime currentDate, TimeOfDay time) {
@@ -39,37 +37,22 @@ String getTimeString(BuildContext context, TimeOfDay time) {
   return time.format(context);
 }
 
-String sinceWhen(DateTime date)
-{
+String sinceWhen(DateTime date) {
   var delta = DateTime.now().difference(date);
-  if (delta.compareTo(const Duration(hours: 1)) < 0)
-  {
+  if (delta.compareTo(const Duration(hours: 1)) < 0) {
     return '${delta.inMinutes} min. ago';
   }
 
-  if (delta.compareTo(const Duration(days: 1)) < 0)
-  {
-    if (delta.inHours ==1)
-    {
+  if (delta.compareTo(const Duration(days: 1)) < 0) {
+    if (delta.inHours == 1) {
       return '1 hour ago';
     }
     return '${delta.inHours} hours ago';
   }
 
-  if (delta.compareTo(const Duration(days: 2)) < 0)
-  {
+  if (delta.compareTo(const Duration(days: 2)) < 0) {
     return 'one day ago';
   }
 
   return DateFormat('mm/dd/yyyy').format(date);
-}
-
-DateTime fromTimeStamp(Timestamp t)
-{
-  return DateTime.fromMillisecondsSinceEpoch(t.seconds.toInt()*1000);
-}
-
-Timestamp toTimeStamp(DateTime date)
-{
-  return Timestamp()..seconds = Int64(date.millisecondsSinceEpoch ~/ 1000);
 }

@@ -123,8 +123,8 @@ class OfferBuilder {
         ..businessAvatarThumbnailUrl = businessAvatarThumbnailUrl
         ..title = title
         ..description = description
-        ..start = toTimeStamp(startDate)
-        ..end = toTimeStamp(endDate)
+        ..start = Timestamp.fromDateTime(startDate)
+        ..end = Timestamp.fromDateTime(endDate)
         ..minFollowers = minFollowers ?? 0
         ..numberOffered = unlimitedAvailable ? 0 : numberOffered
         ..terms = (DealTermsDto()

@@ -234,7 +234,7 @@ class _BrowseListView extends StatelessWidget {
                     ),
                   );
                 }
-                else
+                else if (items[index].type == InfItemType.user)
                 {
                   return Text(items[index].user.name);
                 }

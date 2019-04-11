@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
@@ -30,29 +33,39 @@ class InfItem {
   static InfItem fromDto(ItemDto dto) {
     if (dto.hasOffer()) {
       return InfItem(
+        id: dto.offer.id,
         type: InfItemType.offer,
         offer: BusinessOffer.fromDto(dto.offer),
-        id: dto.offer.id,
         revision: dto.offer.revision,
         latitude: dto.offer.location.geoPoint.latitude,
         longitude: dto.offer.location.geoPoint.longitude,
       );
     } else if (dto.hasUser()) {
       return InfItem(
+        id: dto.user.id,
         type: InfItemType.user,
         user: User.fromDto(dto.user),
-        id: dto.user.id,
         revision: dto.user.revision,
         latitude: dto.user.list.location.geoPoint.latitude,
         longitude: dto.user.list.location.geoPoint.longitude,
       );
     } else if (dto.hasMapItem()) {
+      String id;
+      if (dto.mapItem.hasUser()) {
+        id = dto.mapItem.user.userId;
+      } else if (dto.mapItem.hasOffer()) {
+        id = dto.mapItem.offer.offerId;
+      } else {
+        throw StateError('Invalid MapItem id');
+      }
       return InfItem(
+        id: id,
         type: InfItemType.map,
-        mapMarker: null,
+        mapMarker: MapMarker.fromDto(dto.mapItem),
+        latitude: dto.mapItem.geoPoint.latitude,
+        longitude: dto.mapItem.geoPoint.longitude,
       );
     }
-    assert(false, 'Should never get here');
-    return null;
+    throw StateError('Should never get here');
   }
 }

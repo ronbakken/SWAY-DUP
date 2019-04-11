@@ -121,7 +121,7 @@ packages:
       name: firebase_messaging
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "4.0.0+1"
+    version: "4.0.0+2"
   fixnum:
     dependency: transitive
     description:
@@ -200,10 +200,10 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: "5ac2e871f67f003b89d12d81699ae00aba12a624"
+      resolved-ref: b798fe8acbd3f8090146cf42ddf20bcb8b99d128
       url: "https://github.com/slightfoot/grpc-dart.git"
     source: git
-    version: "1.0.0"
+    version: "1.0.2"
   http:
     dependency: "direct main"
     description:
@@ -217,7 +217,7 @@ packages:
       name: http2
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.1.9"
+    version: "1.0.0"
   http_parser:
     dependency: transitive
     description:
@@ -238,13 +238,13 @@ packages:
       name: image_picker
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.2"
+    version: "0.5.3"
   inf_api_client:
     dependency: "direct main"
     description:
       path: "src/inf_api_client"
-      ref: "feature/messaging"
-      resolved-ref: "2496e27b359e679594a74021c666dd4b65ab9bdd"
+      ref: architecture
+      resolved-ref: "2e42f8ba1b845018e241aefe9d15b97cdd1b3698"
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"
@@ -305,7 +305,7 @@ packages:
       name: package_info
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.0+2"
+    version: "0.4.0+3"
   path:
     dependency: transitive
     description:
@@ -368,7 +368,7 @@ packages:
       name: protobuf
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.11.0"
+    version: "0.13.9"
   quiver:
     dependency: "direct main"
     description:
@@ -417,7 +417,7 @@ packages:
       name: shared_preferences
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.5.1+2"
+    version: "0.5.2"
   sky_engine:
     dependency: transitive
     description: flutter

@@ -18,29 +18,25 @@ class MainMapView extends StatefulWidget {
 
 class _MainMapViewState extends State<MainMapView> {
   ListManager _listManager;
+  MapController _mapController;
   StreamSubscription _subLocation;
-  String urlTemplate;
-  String mapApiKey;
-  MapController mapController;
-  MapPosition mapPosition;
+  Timer _mapPosDebounce;
 
   @override
   void initState() {
     super.initState();
     _listManager = backend<ListManager>();
     _listManager.resetFilter();
-
-    urlTemplate = backend<ConfigService>().getMapUrlTemplate();
-    mapApiKey = backend<ConfigService>().getMapApiKey();
-    mapController = MapController();
+    _mapController = MapController();
     _subLocation = backend<LocationService>().onLocationChanged.listen((newPos) {
-      mapController.move(LatLng(newPos.latitude, newPos.longitude), mapController.zoom);
+      _mapController.move(LatLng(newPos.latitude, newPos.longitude), _mapController.zoom);
     });
   }
 
   @override
   void dispose() {
     _subLocation?.cancel();
+    _mapPosDebounce?.cancel();
     super.dispose();
   }
 
@@ -55,7 +51,7 @@ class _MainMapViewState extends State<MainMapView> {
         }
         var initialCenter = backend<LocationService>().lastLocation;
         return FlutterMap(
-          mapController: mapController,
+          mapController: _mapController,
           options: MapOptions(
             center: LatLng(initialCenter.latitude, initialCenter.longitude),
             onPositionChanged: onMapPositionChanged,
@@ -63,9 +59,9 @@ class _MainMapViewState extends State<MainMapView> {
           ),
           layers: [
             TileLayerOptions(
-              urlTemplate: urlTemplate,
+              urlTemplate: backend<ConfigService>().getMapUrlTemplate(),
               additionalOptions: {
-                'accessToken': mapApiKey,
+                'accessToken': backend<ConfigService>().getMapApiKey(),
               },
               backgroundColor: AppTheme.grey,
               placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),
@@ -108,6 +104,25 @@ class _MainMapViewState extends State<MainMapView> {
                   );
                 },
               );
+            case InfItemType.map:
+              return Marker(
+                width: 38.0,
+                height: 38.0,
+                point: LatLng(item.latitude, item.longitude),
+                builder: (BuildContext context) {
+                  if (item.user != null) {
+                    return _UserMarker(
+                      user: item.user,
+                      onPressed: () => onUserClicked(item.user),
+                    );
+                  } else if (item.offer != null) {
+                    return _OfferMarker(
+                      offer: item.offer,
+                      onPressed: () => onOfferClicked(item.offer),
+                    );
+                  }
+                },
+              );
             default:
               return null;
           }
@@ -126,14 +141,16 @@ class _MainMapViewState extends State<MainMapView> {
   }
 
   void onMapPositionChanged(MapPosition pos, bool hasGesture) {
-    mapPosition = pos;
-    _listManager.setMapBoundary(
-      pos.bounds.northWest.latitude,
-      pos.bounds.northWest.longitude,
-      pos.bounds.southEast.latitude,
-      pos.bounds.southEast.longitude,
-      pos.zoom.toInt(),
-    );
+    _mapPosDebounce?.cancel();
+    _mapPosDebounce = Timer(const Duration(milliseconds: 500), () {
+      _listManager.setMapBoundary(
+        pos.bounds.northWest.latitude,
+        pos.bounds.northWest.longitude,
+        pos.bounds.southEast.latitude,
+        pos.bounds.southEast.longitude,
+        pos.zoom.toInt(),
+      );
+    });
   }
 }
 

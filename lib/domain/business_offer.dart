@@ -3,7 +3,6 @@ import 'dart:typed_data';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/utils/date_time_helpers.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class BusinessOffer {
@@ -99,10 +98,10 @@ class BusinessOffer {
         businessAvatarThumbnailUrl: dto.list.businessAvatarThumbnailUrl,
         businessDescription: dto.list.businessDescription,
         businessName: dto.list.businessName,
-        categories: null, // backend<ConfigService>().getCategoriesFromIds(dto.list.featuredCategoryId)
-        created: fromTimeStamp(dto.list.created),
-        startDate: fromTimeStamp(dto.list.start),
-        endDate: fromTimeStamp(dto.list.end),
+        categories: backend<ConfigService>().getCategoriesFromIds([dto.list.featuredCategoryId]),
+        created: dto.list.created.toDateTime(),
+        startDate: dto.list.start.toDateTime(),
+        endDate: dto.list.end.toDateTime(),
         description: dto.list.description,
         id: dto.id,
         images: [ImageReference.fromImageDto(dto.list.featuredImage)],
@@ -126,9 +125,9 @@ class BusinessOffer {
         businessDescription: dto.full.businessDescription,
         businessName: dto.full.businessName,
         categories: backend<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
-        created: fromTimeStamp(dto.full.created),
-        startDate: fromTimeStamp(dto.full.start),
-        endDate: fromTimeStamp(dto.full.end),
+        created: dto.full.created.toDateTime(),
+        startDate: dto.full.start.toDateTime(),
+        endDate: dto.full.end.toDateTime(),
         description: dto.full.description,
         id: dto.id,
         images: dto.full.images.map<ImageReference>((x) => ImageReference.fromImageDto(x)).toList(),

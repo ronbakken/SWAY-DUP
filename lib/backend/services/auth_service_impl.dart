@@ -236,6 +236,18 @@ class AuthenticationServiceImplementation implements AuthenticationService {
   }
 
   Future<void> loadLoginProfiles() async {
+    /*
+    loginProfiles = LoginProfiles(
+        lastUsedProfileEmail: "kent.boogaart@gmail.com",
+        profiles: {
+          "kent.boogaart@gmail.com": LoginProfile(
+            refreshToken: "eyJhbGciOiJBMjU2S1ciLCJlbmMiOiJBMjU2Q0JDLUhTNTEyIiwidHlwIjoiSldUIn0.Ta0eNWlOUUq8YLinBMPRRqvXyF1XVhkV5SmC9lMeRLiKXETxpPCks97jziUAuGvI_00TD01cozTZGt8cZgyEPGJKICIqgH9b.EG8heP0QYMxa4nm8lChBDw.v_nFg3njhjI6cY6T8HjSFYQDg0GdJyHIOtzvcMY9vRCq0Va99J_a1Sq07eGbUBUeK5j4fnlXPl3ZcuJ5ZSzzIZK4fpTN1vVooVCujHx7YQDtU4EMUx6VRZVziDZtphIXvatoVrK-b6aCGkKb3gpX3jVUHtXX88pAX_rgRcST6UbdfXX4aaoBKGRzzd6zVyqYGHS-TRhMi9CrDUVkpCMdYzST0cWCBINHt8VLbpAR14wy15tbs0IAgwKXbpa-mWnjhrzXJGWPznZy4rfoSbGe8h_Au7Id1yV39E13hzb8Ol3gmCZYFIEBTSn3JhKfCGSZUTKbkltX3774Q4gXe1tN-mi_VQIOnz4PsABqE0dEOYObyTdf9qWHWMN6O94Af0rigoODIVvTFBo4zGMBmFiBHx1pOBupO0qGaVWXbo5R5PM.DS83W_ixIkBOCNAtBGEBKb4JlCd0bci9LJox_QBmObI",
+            userName: "Kent Boogaart",
+            email: "kent.boogaart@gmail.com",
+            avatarUrl: "https://forums.auscelebs.net/acnet-images/99325/ella-hooper-867087.jpg",
+          ),
+        });
+    */
     SharedPreferences prefs = await SharedPreferences.getInstance();
     var jsonString = prefs.getString('userProfiles');
     if (jsonString == null) {

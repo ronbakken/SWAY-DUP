@@ -1,71 +1,61 @@
-import 'dart:typed_data';
-
 import 'package:inf_api_client/inf_api_client.dart';
 
-enum MapMarkerType { cluster, user, offer }
+enum MapMarkerStatus { inactive, active }
+enum MapMarkerType { user, offer }
 
 class MapMarker {
-  final int id;
+  final MapMarkerStatus status;
   final MapMarkerType type;
-
-  // this will not be set for clusters
-  final Uint8List iconData;
-  final bool isVectorIcon;
-  
   final double latitude;
   final double longitude;
 
-  // only valid for type cluster
-  final int clusterCount;
-  final double clusterBounderyNorthWestLatitude;
-  final double clusterBounderyNorthWestlongitude;
-  final double clusterBounderySouthEasrLatitude;
-  final double clusterBounderySouthEasrlongitude;
-
-  // In case of clustering we need the ids of the clustered markers so that we can animate
-  // From the clusterMarker to the individual markers
-  final List<int> clusteredMapMarkerIds;
- 
   // only valid for type offer
-  final int offerId;
-  final bool isDirectOffer;
+  final String offerId;
 
   // only valid for type user
-  final int userId;
-  final UserType userType;
+  final String userId;
 
   MapMarker({
-    this.id,
+    this.status,
     this.type,
-    this.iconData,
-    this.isVectorIcon,
     this.latitude,
     this.longitude,
-    this.clusterCount,
-    this.clusteredMapMarkerIds,
-    this.clusterBounderyNorthWestLatitude,
-    this.clusterBounderyNorthWestlongitude,
-    this.clusterBounderySouthEasrLatitude,
-    this.clusterBounderySouthEasrlongitude,
     this.offerId,
-    this.isDirectOffer,
     this.userId,
-    this.userType,
-  }) : assert((type == MapMarkerType.cluster &&
-                clusterCount != null &&
-                offerId == null &&
-                isDirectOffer == null &&
-                userId == null &&
-                userType == null) ||
-            (type == MapMarkerType.user &&
-                clusterCount == null &&
-                offerId == null &&
-                isDirectOffer == null &&
-                userId != null &&
-                userType != null) ||
-            (type == MapMarkerType.offer &&
-                clusterCount == null &&
-                offerId != null &&
-                userId == null &&
-                userType == null));
+  }) : assert((type == MapMarkerType.user && offerId == null && userId != null) ||
+            (type == MapMarkerType.offer && offerId != null && userId == null));
+
+  static MapMarker fromDto(MapItemDto dto) {
+    switch (dto.whichPayload()) {
+      case MapItemDto_Payload.user:
+        return MapMarker(
+          status: _markerStatus(dto),
+          type: MapMarkerType.user,
+          latitude: dto.geoPoint.latitude,
+          longitude: dto.geoPoint.longitude,
+          userId: dto.user.userId,
+        );
+      case MapItemDto_Payload.offer:
+        return MapMarker(
+          status: _markerStatus(dto),
+          type: MapMarkerType.offer,
+          latitude: dto.geoPoint.latitude,
+          longitude: dto.geoPoint.longitude,
+          offerId: dto.offer.offerId,
+        );
+      default:
+        throw StateError('Bad MapItem payload type');
+    }
+  }
+
+  static MapMarkerStatus _markerStatus(MapItemDto dto) {
+    switch (dto.status) {
+      case MapItemDto_MapItemStatus.inactive:
+        return MapMarkerStatus.inactive;
+      case MapItemDto_MapItemStatus.active:
+        return MapMarkerStatus.active;
+      default:
+        throw StateError('Bad MapItem status');
+    }
+  }
 }

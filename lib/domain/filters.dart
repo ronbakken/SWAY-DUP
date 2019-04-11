@@ -138,7 +138,6 @@ class OfferFilter extends LocationFilter {
     }
 
     // Location / Map
-    /*
     if (northWest != null && southEast != null) {
       filter.mapLevel = zoomLevel;
       filter.northWest = GeoPointDto()
@@ -148,7 +147,6 @@ class OfferFilter extends LocationFilter {
         ..latitude = southEast.latitude
         ..longitude = southEast.longitude;
     }
-     */
 
     return dto;
   }

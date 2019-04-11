@@ -23,9 +23,7 @@ class InfListServiceImplementation implements InfListService {
       ..filter = (ItemFilterDto()..offerFilter = offerFilter)
       ..state = ListRequest_State.resumed;
     final listClient = backend.get<InfApiClientsService>().listClient;
-    StreamController<ListRequest> controller;
-    controller = StreamController<ListRequest>(onListen: () => controller.add(request));
-    return listClient.list(controller.stream).map((response) => mapItemList(response.items));
+    return listClient.list(Stream.fromIterable(<ListRequest>[request])).map((response) => mapItemList(response.items));
   }
 
   @override
@@ -57,6 +55,6 @@ class InfListServiceImplementation implements InfListService {
   }
 
   List<InfItem> mapItemList(List<ItemDto> items) {
-    return items.map((item) => InfItem.fromDto(item)).toList();
+    return items.map<InfItem>((item) => InfItem.fromDto(item)).toList();
   }
 }
