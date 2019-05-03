@@ -131,29 +131,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       );
     }
 
-    var deliverableIcons = <Widget>[const Spacer()]..addAll(
-        offer.terms.deliverable.channels.map<Widget>(
-          (channel) => Padding(
-                padding: const EdgeInsets.only(left: 8),
-                child: InfMemoryImage(
-                  channel.logoColoredData ?? channel.logoMonochromeData,
-                  width: 24.0,
-                ),
-              ),
-        ),
-      );
-
-    deliverableIcons.addAll(
-      offer.terms.deliverable.types.map<Widget>(
-        (type) => Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: InfMemoryImage(
-                backend<ConfigService>().getDeliveryIconFromType(type).iconData,
-                width: 20.0,
-              ),
-            ),
-      ),
-    );
+    final configService = backend<ConfigService>();
 
     return InfPageScrollView(
       child: Column(
@@ -187,7 +165,34 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 _DetailEntry(
                   icon: const InfAssetImage(AppIcons.deliverable),
                   title: 'DELIVERABLES',
-                  rightSideIcons: deliverableIcons,
+                  rightSideIcons: <Widget>[
+                    ...offer.terms.deliverable.channels.map<Widget>(
+                      (channel) {
+                        return InfAssetImage(
+                          channel.logoRawAsset,
+                          width: 24.0,
+                          height: 24.0,
+                        );
+                      },
+                    ),
+                    ...offer.terms.deliverable.types.map<Widget>(
+                      (type) {
+                        return InfMemoryImage(
+                          configService.getDeliveryIconFromType(type).iconData,
+                          width: 16.0,
+                          height: 16.0,
+                        );
+                      },
+                    ),
+                  ].map<Widget>((widget) {
+                    return Container(
+                      margin: const EdgeInsets.only(left: 8.0, bottom: 8.0),
+                      alignment: Alignment.center,
+                      width: 24.0,
+                      height: 24.0,
+                      child: widget,
+                    );
+                  }).toList(),
                   text: offer.terms.deliverable.description,
                 ),
                 Column(
@@ -399,30 +404,6 @@ class _DetailEntry extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleRow = <Widget>[
-      CircleAvatar(
-        backgroundColor: const Color(0x33000000),
-        radius: 16.0,
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: icon,
-        ),
-      ),
-      Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0),
-        child: Text(
-          title,
-          style: const TextStyle(
-            color: Colors.white54,
-            height: 0.95,
-          ),
-        ),
-      ),
-    ];
-    if (rightSideIcons != null) {
-      titleRow.addAll(rightSideIcons);
-    }
-
     return Padding(
       padding: margin,
       child: Column(
@@ -430,7 +411,33 @@ class _DetailEntry extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Row(
-            children: titleRow,
+            children: <Widget>[
+              CircleAvatar(
+                backgroundColor: const Color(0x33000000),
+                radius: 16.0,
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: icon,
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10.0),
+                child: Text(
+                  title,
+                  style: const TextStyle(
+                    color: Colors.white54,
+                    height: 0.95,
+                  ),
+                ),
+              ),
+              if (rightSideIcons != null)
+                Expanded(
+                  child: Wrap(
+                    alignment: WrapAlignment.end,
+                    children: rightSideIcons,
+                  ),
+                ),
+            ],
           ),
           verticalMargin8,
           Padding(

@@ -40,6 +40,8 @@ class OverflowRow extends StatelessWidget {
             padding: padding,
             itemCount: children.length,
             itemBuilder: (BuildContext context, int index) {
+              /*
+              FIXME: Put up with extra padding for the moment so that children are always the same size.
               EdgeInsets padding = itemPadding;
               if(overflow){
                 if(index == 0) {
@@ -48,10 +50,11 @@ class OverflowRow extends StatelessWidget {
                   padding = itemPadding.copyWith(right: 0.0);
                 }
               }
+              */
               return Container(
                 width: childWidth,
                 alignment: Alignment.center,
-                padding: padding,
+                padding: itemPadding,
                 child: children[index],
               );
             },

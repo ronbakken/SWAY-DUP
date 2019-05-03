@@ -128,24 +128,25 @@ class _OfferDetailsRow extends StatelessWidget {
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: mapChildren(offer.terms.deliverable.channels, (channel) {
-                  return Padding(
-                    padding: const EdgeInsets.only(left: 4),
-                    child: CircleAvatar(
-                      radius: 14,
-                      backgroundColor:
-                          channel.logoBackGroundColor != null ? Color(channel.logoBackGroundColor) : Colors.transparent,
-                      backgroundImage:
-                          channel.logoBackgroundData != null ? MemoryImage(channel.logoBackgroundData) : null,
-                      child: Padding(
-                        padding: const EdgeInsets.all(6.0),
-                        child: InfMemoryImage(
-                          channel.logoMonochromeData,
+                children: mapChildren<SocialNetworkProvider, Widget>(
+                  offer.terms.deliverable.channels,
+                  (channel) {
+                    return Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: CircleAvatar(
+                        radius: 14,
+                        backgroundColor: channel.logoBackgroundColor,
+                        backgroundImage: channel.logoBackgroundImage,
+                        child: Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: InfAssetImage(
+                            channel.logoRawAssetMonochrome,
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                }),
+                    );
+                  },
+                ),
               ),
               verticalMargin8,
               SizedBox(

@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/user.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
 /// Shows the profile picture with a black gradient and optional user data and
@@ -38,22 +39,6 @@ class ProfileSummary extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
-
-    var rowItems = <Widget>[];
-    if (showSocialMedia) {
-      for (var socialMediaAccount in user.socialMediaAccounts) {
-        rowItems.add(
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: InfMemoryImage(
-              socialMediaAccount.socialNetWorkProvider.logoMonochromeData,
-              height: 20.0,
-            ),
-          ),
-        );
-      }
-    }
-
     return SizedBox(
       height: mediaQuery.size.height * heightTotalPercentage + mediaQuery.padding.top,
       child: Stack(
@@ -109,7 +94,22 @@ class ProfileSummary extends StatelessWidget {
                       showSocialMedia
                           ? Row(
                               mainAxisSize: MainAxisSize.min,
-                              children: rowItems,
+                              children: <Widget>[
+                                if (showSocialMedia)
+                                  for (var socialMediaAccount in user.socialMediaAccounts)
+                                    Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: SizedBox(
+                                        width: 20.0,
+                                        height: 20.0,
+                                        child: InfAssetImage(
+                                          socialMediaAccount.socialNetWorkProvider.logoRawAssetMonochrome,
+                                          width: 20.0,
+                                          height: 20.0,
+                                        ),
+                                      ),
+                                    )
+                              ],
                             )
                           : emptyWidget,
                       showDescription

@@ -7,12 +7,12 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/user_profile/view_profile_page.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:inf/utils/date_time_helpers.dart';
 
 class ConversationScreen extends StatefulWidget {
   static Route<dynamic> route(ConversationHolder conversationHolder) {
@@ -130,9 +130,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
                                   ),
                                   width: 28.0,
                                   height: 28.0,
-                                  child: InfIcon(
-                                    AppAsset.raw(channel.logoColoredData ?? channel.logoMonochromeData),
-                                    size: 16.0,
+                                  child: SizedBox(
+                                    width: 16.0,
+                                    height: 16.0,
+                                    child: InfAssetImage(
+                                      channel.logoRawAsset,
+                                      width: 16.0,
+                                      height: 16.0,
+                                    ),
                                   ),
                                 ),
                             ],
@@ -482,7 +487,7 @@ class _NewMessagePanelState extends State<NewMessagePanel> {
             Expanded(
               child: TextField(
                 controller: _messageController,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   hintText: 'Send a message…',
                 ),
                 textInputAction: TextInputAction.send,

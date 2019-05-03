@@ -13,7 +13,6 @@ import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
@@ -618,22 +617,17 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             borderRadius: const BorderRadius.all(Radius.circular(8)),
-            color: widget.connectTo.logoBackGroundColor != null
-                ? Color(widget.connectTo.logoBackGroundColor)
-                : Colors.transparent,
-            image: widget.connectTo.logoBackgroundData != null
+            color: widget.connectTo.logoBackgroundColor,
+            image: widget.connectTo.hasLogoBackgroundImage
                 ? DecorationImage(
-                    image: MemoryImage(
-                      widget.connectTo.logoBackgroundData,
-                    ),
+                    image: widget.connectTo.logoBackgroundImage,
                     fit: BoxFit.contain)
                 : null,
           ),
           height: 48,
           width: 48,
-          child: InfMemoryImage(
-            widget.connectTo.logoMonochromeData,
-            color: Colors.white,
+          child: InfAssetImage(
+            widget.connectTo.logoRawAssetMonochrome,
           ),
         ),
       ],

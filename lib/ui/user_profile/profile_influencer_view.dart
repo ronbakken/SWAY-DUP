@@ -3,7 +3,7 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/money.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
@@ -20,9 +20,14 @@ class ProfileInfluencerView extends StatelessWidget {
         Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            InfMemoryImage(
-              account.socialNetWorkProvider.logoMonochromeData,
+            SizedBox(
+              width: 32.0,
               height: 32.0,
+              child: InfAssetImage(
+                account.socialNetWorkProvider.logoRawAssetMonochrome,
+                width: 32.0,
+                height: 32.0,
+              ),
             ),
             verticalMargin8,
             const Text(

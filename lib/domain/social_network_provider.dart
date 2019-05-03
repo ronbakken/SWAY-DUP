@@ -1,5 +1,7 @@
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart' show Color, Colors, ImageProvider, MemoryImage;
+import 'package:inf/app/assets.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class SocialNetworkProvider {
@@ -19,12 +21,28 @@ class SocialNetworkProvider {
 
   String get name => dto.name;
 
-  Uint8List get logoColoredData => _logoColoredData;
-  Uint8List get logoMonochromeData => _logoMonochromeData;
-  Uint8List get logoBackgroundData => _logoBackgroundData;
-  int get logoBackGroundColor => dto.logoBackGroundColor;
 
   String get apiKey => dto.apiKey;
 
   String get apiKeySecret => dto.apiKeySecret;
+
+  Color get logoBackgroundColor => dto.hasLogoBackGroundColor() ? Color(dto.logoBackGroundColor) : Colors.transparent;
+
+  bool get hasLogoBackgroundImage => dto.hasLogoBackgroundData() && _logoBackgroundData.isNotEmpty;
+
+  ImageProvider get logoBackgroundImage => MemoryImage(_logoBackgroundData);
+
+  AppAsset get logoRawAsset {
+    if(dto.hasLogoColoredData() && _logoColoredData.isNotEmpty){
+      return AppAsset.raw(_logoColoredData);
+    }
+    return logoRawAssetMonochrome;
+  }
+
+  AppAsset get logoRawAssetMonochrome {
+    if(dto.hasLogoMonochromeData() && _logoMonochromeData.isNotEmpty){
+      return AppAsset.raw(_logoMonochromeData);
+    }
+    return null;
+  }
 }

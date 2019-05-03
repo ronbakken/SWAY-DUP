@@ -1,12 +1,10 @@
-import 'dart:typed_data';
-
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/user_profile/social_media_connector.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
@@ -38,21 +36,22 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
   ConfigService configService;
   User user;
 
-  final List<_SocialMediaRow> _socialMediaRows = <_SocialMediaRow>[];
+  List<_SocialMediaRow> _socialMediaRows;
 
   @override
   void initState() {
+    super.initState();
     configService = backend<ConfigService>();
 
-    _socialMediaRows.clear();
-    for (var provider in configService.socialNetworkProviders) {
-      if (provider.logoMonochromeData.isNotEmpty) {
-        var connectedAccount = widget.socialMediaAccounts
-            .firstWhere((account) => account.socialNetWorkProvider.id == provider.id, orElse: () => null);
-        _socialMediaRows.add(_SocialMediaRow(account: connectedAccount, provider: provider));
-      }
-    }
-    super.initState();
+    _socialMediaRows = configService.socialNetworkProviders.map((provider) {
+      return _SocialMediaRow(
+        account: widget.socialMediaAccounts.firstWhere(
+          (account) => account.socialNetWorkProvider.id == provider.id,
+          orElse: () => null,
+        ),
+        provider: provider,
+      );
+    }).toList();
   }
 
   @override
@@ -60,18 +59,18 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
     var entries = <Widget>[];
     for (var row in _socialMediaRows) {
       BoxDecoration logoDecoration;
-      if (row.provider.logoBackgroundData.isNotEmpty) {
+      if (row.provider.hasLogoBackgroundImage) {
         logoDecoration = BoxDecoration(
           shape: BoxShape.circle,
           image: DecorationImage(
-            image: MemoryImage(Uint8List.fromList(row.provider.logoBackgroundData)),
+            image: row.provider.logoBackgroundImage,
             fit: BoxFit.fill,
           ),
         );
       } else {
         logoDecoration = BoxDecoration(
           shape: BoxShape.circle,
-          color: Color(row.provider.logoBackGroundColor),
+          color: row.provider.logoBackgroundColor,
         );
       }
 
@@ -83,14 +82,17 @@ class EditSocialMediaViewState extends State<EditSocialMediaView> {
           child: Row(
             children: [
               Container(
-                width: 32,
-                height: 32,
+                width: 32.0,
+                height: 32.0,
                 decoration: logoDecoration,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InfMemoryImage(
-                    Uint8List.fromList(row.provider.logoMonochromeData),
-                    height: 20,
+                alignment: Alignment.center,
+                child: SizedBox(
+                  width: 20.0,
+                  height: 20.0,
+                  child: InfAssetImage(
+                    row.provider.logoRawAssetMonochrome,
+                    width: 20.0,
+                    height: 20.0,
                   ),
                 ),
               ),

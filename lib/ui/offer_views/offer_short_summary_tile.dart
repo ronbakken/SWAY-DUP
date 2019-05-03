@@ -42,13 +42,12 @@ class OfferShortSummaryTile extends StatelessWidget {
           padding: const EdgeInsets.only(left: 4),
           child: CircleAvatar(
             radius: 12,
-            backgroundColor:
-                channel.logoBackGroundColor != null ? Color(channel.logoBackGroundColor) : Colors.transparent,
-            backgroundImage: channel.logoBackgroundData != null ? MemoryImage(channel.logoBackgroundData) : null,
+            backgroundColor: channel.logoBackgroundColor,
+            backgroundImage: channel.logoBackgroundImage,
             child: Padding(
               padding: const EdgeInsets.all(6.0),
-              child: InfMemoryImage(
-                channel.logoMonochromeData,
+              child: InfAssetImage(
+                channel.logoRawAsset,
               ),
             ),
           ),

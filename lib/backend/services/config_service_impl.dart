@@ -61,7 +61,9 @@ class ConfigServiceImplementation implements ConfigService {
           ),
         );
 
-    // if the API version that the server sendes is newer than the one stored on this device
+    logger.log(Level.INFO, versionInformationFromServer.toString());
+
+    // if the API version that the server sends is newer than the one stored on this device
     // TODO This is not optimal because it the user installls the app and starts it the first time after
     // we rolled a new API version this could lead to problems
     // better would be an in the App itself embedded API version that is set by the CI server
@@ -79,16 +81,38 @@ class ConfigServiceImplementation implements ConfigService {
 
     // local config does not exists or is outdated update from server
     if (configData == null || configData.configVersion < versionInformationFromServer.versionInfo.configVersion) {
-      configData = (await backend<InfApiClientsService>().configClient.getAppConfig(Empty())).appConfigData;
+      final client = backend<InfApiClientsService>();
+      configData = (await client.configClient.getAppConfig(Empty())).appConfigData;
       await prefs.setString('config', configData.writeToJson());
     }
 
-    socialNetworkProviders =
-        configData.socialNetworkProviders.map<SocialNetworkProvider>((dto) => SocialNetworkProvider(dto)).toList();
-    deliverableIcons = configData.deliverableIcons.map<DeliverableIcon>((dto) => DeliverableIcon(dto)).toList();
-    categories = configData.categories.map<Category>((dto) => Category(dto)).toList();
+    logger.log(Level.INFO, '''
+      ConfigData: { 
+        configVersion: ${configData.configVersion},
+        serviceConfig: {
+          mapboxUrlTemplateDark: ${configData.serviceConfig.mapboxUrlTemplateDark},
+          mapboxUrlTemplateLight: ${configData.serviceConfig.mapboxUrlTemplateLight},
+          mapboxToken: ${configData.serviceConfig.mapboxToken},
+        },
+        categories: ${configData.categories.map((cat) => cat.name).toList()}
+        socialNetworkProviders: ${configData.socialNetworkProviders.map((provider) => '${provider.id}: ${provider.name} }').toList()}
+        termsOfServiceUrl: ${configData.termsOfServiceUrl}
+        privacyPolicyUrl: ${configData.privacyPolicyUrl}
+        userNeedInvitationToSignUp: ${configData.userNeedInvitationToSignUp}
+      }
+    ''');
 
-    logger.log(Level.INFO, versionInformationFromServer.toString());
+    socialNetworkProviders = configData.socialNetworkProviders
+        .map<SocialNetworkProvider>(
+          (dto) => SocialNetworkProvider(dto),
+        )
+        .toList();
+    deliverableIcons = configData.deliverableIcons
+        .map<DeliverableIcon>(
+          (dto) => DeliverableIcon(dto),
+        )
+        .toList();
+    categories = configData.categories.map<Category>((dto) => Category(dto)).toList();
   }
 
   @override

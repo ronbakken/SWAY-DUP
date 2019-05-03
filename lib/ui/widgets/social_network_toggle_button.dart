@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/social_network_provider.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+
+import 'inf_asset_image.dart';
 
 class SocialNetworkToggleButton extends StatelessWidget {
   final SocialNetworkProvider provider;
@@ -18,16 +19,16 @@ class SocialNetworkToggleButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     BoxDecoration logoDecoration;
-    if (provider.logoBackgroundData.isNotEmpty) {
+    if (provider.hasLogoBackgroundImage) {
       logoDecoration = BoxDecoration(
         image: DecorationImage(
-          image: MemoryImage(provider.logoBackgroundData),
+          image: provider.logoBackgroundImage,
           fit: BoxFit.fill,
         ),
       );
     } else {
       logoDecoration = BoxDecoration(
-        color: Color(provider.logoBackGroundColor),
+        color: provider.logoBackgroundColor,
       );
     }
     BoxDecoration foregroundDecoration;
@@ -54,8 +55,8 @@ class SocialNetworkToggleButton extends StatelessWidget {
                   child: FractionallySizedBox(
                     widthFactor: 0.6,
                     heightFactor: 0.6,
-                    child: InfMemoryImage(
-                      provider.logoMonochromeData,
+                    child: InfAssetImage(
+                      provider.logoRawAssetMonochrome,
                       fit: BoxFit.contain,
                     ),
                   ),
