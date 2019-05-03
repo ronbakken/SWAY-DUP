@@ -10,6 +10,7 @@ import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/date_time_helpers.dart';
 
@@ -242,8 +243,8 @@ class _MessageTile extends StatelessWidget {
               left: isCurrentUser ? 0.0 : 54.0,
               right: isCurrentUser ? 54.0 : 0.0,
             ),
-            child: Text(
-              sinceWhen(message.timestamp).toUpperCase(),
+            child: InfSinceWhen(
+              message.timestamp,
               textAlign: isCurrentUser ? TextAlign.right : TextAlign.left,
               style: const TextStyle(
                 fontSize: 14.0,

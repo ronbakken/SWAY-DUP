@@ -4,9 +4,9 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
+import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:inf/utils/date_time_helpers.dart';
 
 class ConversationListTile extends StatelessWidget {
   const ConversationListTile({
@@ -22,7 +22,6 @@ class ConversationListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     /*
     var currentUser = backend<UserManager>().currentUser;
 
@@ -168,8 +167,8 @@ class ConversationListTile extends StatelessWidget {
                             ),
                             horizontalMargin8,
                             Expanded(
-                              child: Text(
-                                sinceWhen(message.timestamp),
+                              child: InfSinceWhen(
+                                message.timestamp,
                                 style: const TextStyle(
                                   fontSize: 12.0,
                                   color: AppTheme.white50,
