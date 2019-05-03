@@ -1,10 +1,8 @@
-import 'dart:async';
-
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-enum InfItemType { user, offer, map }
+enum InfItemType { user, offer, map, conversation, message }
 
 // FIXME: Should be removed?
 class InfItem {
@@ -18,6 +16,8 @@ class InfItem {
   final BusinessOffer offer;
   final User user;
   final MapMarker mapMarker;
+  final Conversation conversation;
+  final Message message;
 
   InfItem({
     this.id,
@@ -26,6 +26,8 @@ class InfItem {
     this.offer,
     this.user,
     this.mapMarker,
+    this.conversation,
+    this.message,
     this.latitude,
     this.longitude,
   });
@@ -66,6 +68,27 @@ class InfItem {
         longitude: dto.mapItem.geoPoint.longitude,
       );
     }
+    else if(dto.hasConversation()){
+      return InfItem(
+        id: dto.conversation.id,
+        type: InfItemType.conversation,
+        conversation: Conversation.fromDto(dto.conversation),
+      );
+    }
+    else if(dto.hasMessage()){
+      return InfItem(
+        id: dto.message.id,
+        type: InfItemType.message,
+        message: Message.fromDto(dto.message),
+      );
+    }
     throw StateError('Should never get here');
   }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is InfItem && runtimeType == other.runtimeType && id == other.id;
+
+  @override
+  int get hashCode => id.hashCode;
 }

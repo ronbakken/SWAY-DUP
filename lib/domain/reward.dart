@@ -13,7 +13,7 @@ class Reward {
       return '';
     }
     var formatter = NumberFormat.currency(locale: "en_US", symbol: '\$', decimalDigits: 0);
-    return formatter.format((barterValue ?? Money.fromInt(0) + (cashValue ?? Money.fromInt(0))).toDouble());
+    return formatter.format((barterValue ?? Money.zero + (cashValue ?? Money.zero)).toDouble());
   }
 
   String get cashValueAsString => '\$${cashValue.toString()}';

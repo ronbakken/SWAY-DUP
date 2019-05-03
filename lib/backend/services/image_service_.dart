@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class ImageUploadException implements Exception {
@@ -17,39 +18,48 @@ class ImageUploadException implements Exception {
   }
 }
 
-class ImageReference {
+class ImageReference implements InfImageProvider {
+  const ImageReference({
+    this.lowResUrl,
+    this.imageUrl,
+    this.imageFile,
+  });
+
+  factory ImageReference.fromImageDto(ImageDto dto) {
+    return ImageReference(
+      lowResUrl: dto.lowResUrl,
+      imageUrl: dto.url,
+    );
+  }
+
+  @override
+  final String lowResUrl;
+
+  @override
   final String imageUrl;
-  final String lowresUrl;
+
   final File imageFile;
 
   bool get isFile => imageFile != null;
 
-  ImageReference({this.imageUrl, this.imageFile, this.lowresUrl});
-
   ImageReference copyWith({
-    String imageUrl,
     String imageLowResUrl,
+    String imageUrl,
     File imageFile,
   }) {
     return ImageReference(
+      lowResUrl: imageLowResUrl ?? this.lowResUrl,
       imageFile: imageFile ?? this.imageFile,
       imageUrl: imageUrl ?? this.imageUrl,
-      lowresUrl: imageLowResUrl ?? this.lowresUrl,
     );
   }
 
-  ImageDto toDto() {
+  ImageDto toImageDto() {
     assert(imageUrl != null);
     return ImageDto()
-      ..lowResUrl = lowresUrl ?? ''
+      ..lowResUrl = lowResUrl ?? ''
       ..url = imageUrl;
   }
-
-  static ImageReference fromImageDto(ImageDto dto)
-  {
-    return ImageReference(imageUrl: dto.url,lowresUrl: dto.lowResUrl);
-  }
-
 }
 
 abstract class ImageService {
@@ -60,14 +70,13 @@ abstract class ImageService {
   Future<String> uploadImageFromBytes(String fileName, List<int> value);
 
   /// resize's and upload's images. if [lowResWidth != null] it also uploads a lowres version
-  /// if [imageUrl] of [imageReference != null] it uploads with the same fileName  
-  Future<ImageReference> uploadImageReference({
-    String fileNameTrunc,
-    ImageReference imageReference,
-    int imageWidth,
-    int lowResWidth,
-    VoidCallback onImageUploaded
-  });
+  /// if [imageUrl] of [imageReference != null] it uploads with the same fileName
+  Future<ImageReference> uploadImageReference(
+      {String fileNameTrunc,
+      ImageReference imageReference,
+      int imageWidth,
+      int lowResWidth,
+      VoidCallback onImageUploaded});
 
   Future<File> takePicture();
 

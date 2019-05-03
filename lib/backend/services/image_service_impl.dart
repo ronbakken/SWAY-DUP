@@ -76,12 +76,12 @@ class ImageServiceImplementation implements ImageService {
       }
     }
 
-    if (imageReference.lowresUrl != null) {
-      var start = imageReference.lowresUrl.indexOf(fileNameTrunc);
+    if (imageReference.lowResUrl != null) {
+      var start = imageReference.lowResUrl.indexOf(fileNameTrunc);
       if (start >= 0) {
-        var end = imageReference.lowresUrl.indexOf('jpg') + 3;
+        var end = imageReference.lowResUrl.indexOf('jpg') + 3;
         if (end > start) {}
-        fileNameLowRes = imageReference.lowresUrl.substring(start, end);
+        fileNameLowRes = imageReference.lowResUrl.substring(start, end);
       }
     }
 

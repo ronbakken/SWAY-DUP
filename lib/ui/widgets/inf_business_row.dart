@@ -9,51 +9,50 @@ class InfBusinessRow extends StatelessWidget {
     this.title,
     this.subtitle,
     this.trailing,
+    this.onPressed,
   }) : super(key: key);
 
   final Widget leading;
   final String title;
   final String subtitle;
   final Widget trailing;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
-    final children = <Widget>[];
-
-    if (leading != null) {
-      children.addAll(<Widget>[
-        WhiteBorderCircleAvatar(
-          child: leading,
-        ),
-        horizontalMargin12,
-      ]);
-    }
-
-    children.add(Expanded(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Text(title ?? ''),
-          Text(
-            subtitle ?? '',
-            style: const TextStyle(
-              color: Colors.white54,
-            ),
-          ),
-        ],
-      ),
-    ));
-
-    if(trailing != null){
-      children.add(trailing);
-    }
-
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+    return Material(
       color: Colors.black,
-      child: Row(
-        children: children,
+      child: InkWell(
+        onTap: onPressed,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+          child: Row(
+            children: <Widget>[
+              if (leading != null) ...[
+                WhiteBorderCircle(
+                  child: leading,
+                ),
+                horizontalMargin12,
+              ],
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(title ?? ''),
+                    Text(
+                      subtitle ?? '',
+                      style: const TextStyle(
+                        color: Colors.white54,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              if (trailing != null) trailing
+            ],
+          ),
+        ),
       ),
     );
   }

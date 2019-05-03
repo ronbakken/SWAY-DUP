@@ -6,16 +6,17 @@ import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/money.dart';
 import 'package:inf/domain/social_network_provider.dart';
+import 'package:inf/utils/date_time_helpers.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
-import 'package:inf/utils/date_time_helpers.dart';
 
 abstract class OfferManager {
   RxCommand<OfferBuilder, double> updateOfferCommand;
 
   // All this streams return partial BusinessOffers
   Stream<List<BusinessOffer>> get myOffers;
+
   Stream<List<BusinessOffer>> get featuredOffers;
 
   Future<BusinessOffer> getFullOffer(String id);
@@ -57,27 +58,28 @@ class OfferBuilder {
   TimeOfDay startTime;
   TimeOfDay endTime;
 
-  OfferBuilder(
-      {this.id,
-      this.status,
-      this.statusReason,
-      this.businessAccountId,
-      this.businessName,
-      this.businessDescription,
-      this.businessAvatarThumbnailUrl});
+  OfferBuilder({
+    this.id,
+    this.status,
+    this.statusReason,
+    this.businessAccountId,
+    this.businessName,
+    this.businessDescription,
+    this.businessAvatarThumbnailUrl,
+  });
+
   OfferBuilder.fromOffer(BusinessOffer offer)
-      : id = offer.id,
+      : assert(offer.title != null),
+        assert(offer.description != null),
+        assert(offer.startDate != null),
+        assert(offer.endDate != null),
+        id = offer.id,
         status = offer.status,
         statusReason = offer.statusReason,
         businessAccountId = offer.businessAccountId,
         businessName = offer.businessName,
         businessDescription = offer.businessDescription,
         businessAvatarThumbnailUrl = offer.businessAvatarThumbnailUrl {
-    assert(offer.title != null);
-    assert(offer.description != null);
-    assert(offer.startDate != null);
-    assert(offer.endDate != null);
-
     images = offer.images;
     offerThumbnail = offer.thumbnailImage;
     title = offer.title;
@@ -110,7 +112,7 @@ class OfferBuilder {
     assert(businessAvatarThumbnailUrl != null);
     assert(title != null && title.isNotEmpty);
     assert(description != null && title.isNotEmpty);
-    assert(offerThumbnail !=null);
+    assert(offerThumbnail != null);
     return OfferDto()
       ..id = id ?? ''
       ..status = status ?? OfferDto_Status.active
@@ -133,13 +135,13 @@ class OfferBuilder {
             ..socialNetworkProviderIds.addAll(channels.toList().map<String>((c) => c.id))
             ..description = deliverableDescription)
           ..reward = (RewardDto()
-            ..barterValue = barterValue?.toDto() ?? Money.fromInt(0).toDto()
-            ..barterValue = cashValue?.toDto() ?? Money.fromInt(0).toDto()
+            ..barterValue = barterValue?.toDto() ?? Money.zero.toDto()
+            ..barterValue = cashValue?.toDto() ?? Money.zero.toDto()
             ..description = description ?? ''
             ..type = rewardType))
         ..acceptancePolicy = acceptancePolicy
-        ..images.addAll(images.map<ImageDto>((x) => x.toDto()))
+        ..images.addAll(images.map<ImageDto>((x) => x.toImageDto()))
         ..categoryIds.addAll(categories.toList().map((x) => x.id))
-        ..thumbnail	=  offerThumbnail.toDto());
+        ..thumbnail = offerThumbnail.toImageDto());
   }
 }

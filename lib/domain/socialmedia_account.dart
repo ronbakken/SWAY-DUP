@@ -21,20 +21,21 @@ class SocialMediaAccount {
   final String accessTokenSecret;
   final String refreshToken;
 
-  SocialMediaAccount(
-      {this.socialNetWorkProvider,
-      this.displayName,
-      this.userId,
-      this.pageId,
-      this.profileUrl,
-      this.description,
-      this.email,
-      this.audienceSize,
-      this.postCount,
-      this.verified,
-      this.accessToken,
-      this.accessTokenSecret,
-      this.refreshToken});
+  SocialMediaAccount({
+    this.socialNetWorkProvider,
+    this.displayName,
+    this.userId,
+    this.pageId,
+    this.profileUrl,
+    this.description,
+    this.email,
+    this.audienceSize,
+    this.postCount,
+    this.verified,
+    this.accessToken,
+    this.accessTokenSecret,
+    this.refreshToken,
+  });
 
   SocialMediaAccount copyWith({
     int id,
@@ -72,8 +73,8 @@ class SocialMediaAccount {
   static SocialMediaAccount fromDto(SocialMediaAccountDto dto) {
     return SocialMediaAccount(
       socialNetWorkProvider: backend<ConfigService>().getSocialNetworkProviderById(
-            dto.socialNetworkProviderId,
-          ),
+        dto.socialNetworkProviderId,
+      ),
       displayName: dto.displayName,
       userId: dto.userId,
       pageId: dto.pageId,

@@ -27,7 +27,7 @@ class OfferPostTile extends StatelessWidget {
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context);
     Widget imageArea = InfImage(
-      lowResUrl: offer.images[0].lowresUrl,
+      lowResUrl: offer.images[0].lowResUrl,
       imageUrl: offer.images[0].imageUrl,
       fit: BoxFit.fitWidth,
       height: mediaQuery.size.height * 0.22,
@@ -96,7 +96,7 @@ class _OfferDetailsRow extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> rowContent = <Widget>[]..addAll(
         [
-          WhiteBorderCircleAvatar(
+          WhiteBorderCircle(
             child: Image.network(
               offer.businessAvatarThumbnailUrl,
               fit: BoxFit.cover,

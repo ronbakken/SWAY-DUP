@@ -69,7 +69,7 @@ class ViewProfilePageState extends State<ViewProfilePage> {
           } else if (snapshot.hasError) {
             return Center(child: Text(snapshot.error.toString()));
           } else {
-            return const Center(child: CircularProgressIndicator());
+            return loadingWidget;
           }
         },
       );

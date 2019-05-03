@@ -2,65 +2,60 @@ import 'package:decimal/decimal.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
 class Money {
-  final String currencyCode;
-  final Decimal value;
+  static final zero = Money(Decimal.fromInt(0));
 
-  Money(
-    this.value, {
-    this.currencyCode = 'USD',
-  });
+  const Money(this.value, {this.currencyCode = 'USD'});
+
+  final Decimal value;
+  final String currencyCode;
 
   static Money fromDto(MoneyDto dto) {
-    var units = Decimal.fromInt(dto.units);
-    var nanos = Decimal.fromInt(dto.nanos);
-
-    var value = units + nanos / Decimal.fromInt(10000000);
-
-    return Money(
-      value,
-      currencyCode: dto.currencyCode,
-    );
+    final units = Decimal.fromInt(dto.units);
+    final nanos = Decimal.fromInt(dto.nanos);
+    final value = units + nanos / Decimal.fromInt(10000000);
+    return Money(value, currencyCode: dto.currencyCode);
   }
 
-  MoneyDto toDto() {
-    var units = value.truncate();
-    var nanos = (value - units) * Decimal.fromInt(10000000);
-
-    return MoneyDto()
-      ..currencyCode = currencyCode
-      ..units = units.toInt()
-      ..nanos = nanos.toInt();
+  static Money tryParse(String value, [String currencyCode = 'USD']) {
+    try {
+      return Money.fromDecimal(Decimal.parse(value), currencyCode);
+    } on FormatException {
+      return null;
+    }
   }
 
-  Money.fromDecimal(this.value, {this.currencyCode = 'USD'});
+  factory Money.fromJson(Map<String, dynamic> json) {
+    return Money.tryParse(json['value'], json['currency']);
+  }
 
-  Money.fromInt(int value, {this.currencyCode = 'USD'}) : value = Decimal.fromInt(value);
+  Money.fromDecimal(this.value, [this.currencyCode = 'USD']);
+
+  Money.fromInt(int value, [this.currencyCode = 'USD']) : value = Decimal.fromInt(value);
 
   Money operator +(Money other) {
     assert(currencyCode == other.currencyCode);
-    return Money.fromDecimal(value + other.value, currencyCode: other.currencyCode);
+    return Money.fromDecimal(value + other.value, other.currencyCode);
   }
 
   Money operator -(Money other) {
     assert(currencyCode == other.currencyCode);
-    return Money.fromDecimal(value - other.value, currencyCode: other.currencyCode);
+    return Money.fromDecimal(value - other.value, other.currencyCode);
   }
 
   Money operator *(Money other) {
     assert(currencyCode == other.currencyCode);
-    return Money.fromDecimal(value * other.value, currencyCode: other.currencyCode);
+    return Money.fromDecimal(value * other.value, other.currencyCode);
   }
 
   Money operator %(Money other) {
     assert(currencyCode == other.currencyCode);
-    return Money.fromDecimal(value % other.value, currencyCode: other.currencyCode);
+    return Money.fromDecimal(value % other.value, other.currencyCode);
   }
 
   Money operator /(Money other) {
     assert(currencyCode == other.currencyCode);
-    return Money.fromDecimal(value / other.value, currencyCode: other.currencyCode);
+    return Money.fromDecimal(value / other.value, other.currencyCode);
   }
-
 
   bool operator >(Money other) {
     assert(currencyCode == other.currencyCode);
@@ -74,27 +69,33 @@ class Money {
 
   @override
   bool operator ==(Object other) {
-    return other is Money && other.value ==value && other.currencyCode ==currencyCode;
+    return other is Money && other.value == value && other.currencyCode == currencyCode;
   }
 
   @override
   int get hashCode => value.hashCode;
-
 
   @override
   String toString([int digits = 2]) {
     return value.toStringAsFixed(digits);
   }
 
-  double toDouble() {
-    return value.toDouble();
+  double toDouble() => value.toDouble();
+
+  MoneyDto toDto() {
+    var units = value.truncate();
+    var nanos = (value - units) * Decimal.fromInt(10000000);
+
+    return MoneyDto()
+      ..currencyCode = currencyCode
+      ..units = units.toInt()
+      ..nanos = nanos.toInt();
   }
 
-  static Money tryParse(String value) {
-    try {
-      return Money.fromDecimal(Decimal.parse(value));
-    } on FormatException {
-      return null;
-    }
+  Map<String, dynamic> toJson() {
+    return {
+      'value': value.toString(),
+      'currency': currencyCode,
+    };
   }
 }

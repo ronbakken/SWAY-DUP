@@ -55,7 +55,7 @@ class _MainMapViewState extends State<MainMapView> {
           options: MapOptions(
             center: LatLng(initialCenter.latitude, initialCenter.longitude),
             onPositionChanged: onMapPositionChanged,
-            zoom: 12.0,
+            zoom: 11.0,
           ),
           layers: [
             TileLayerOptions(

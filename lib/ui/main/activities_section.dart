@@ -4,15 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/filter/bottom_nav.dart';
 import 'package:inf/ui/main/main_page.dart';
-import 'package:inf/ui/offer_views/offer_details_page.dart';
-import 'package:inf/ui/offer_views/offer_short_summary_tile.dart';
-import 'package:inf/ui/proposal_views/proposal_list_view.dart';
-import 'package:inf/ui/widgets/dialogs.dart';
+import 'package:inf/ui/messaging/conversation_list_view.dart';
+import 'package:inf/ui/offer_views/offer_summary_list_view.dart';
 import 'package:inf/ui/widgets/notification_marker.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:pedantic/pedantic.dart';
 
 class MainActivitiesSection extends StatefulWidget {
   const MainActivitiesSection({
@@ -28,17 +24,37 @@ class MainActivitiesSection extends StatefulWidget {
 }
 
 class _MainActivitiesSectionState extends State<MainActivitiesSection> with SingleTickerProviderStateMixin {
-  TabController controller;
+  List<Widget> _tabs;
+  List<Widget> _tabViews;
+  TabController _tabController;
 
   @override
   void initState() {
-    controller = new TabController(length: 4, vsync: this);
     super.initState();
+    final userManager = backend<UserManager>();
+    if (userManager.currentUser.userType == UserType.business) {
+      _tabs = const <Widget>[
+        _TabBarItem(text: 'MY OFFERS'),
+        _TabBarItem(text: 'CONVERSATIONS'),
+      ];
+      _tabViews = [
+        const OfferSummaryListView(),
+        const ConversationListView(),
+      ];
+    } else {
+      _tabs = const <Widget>[
+        _TabBarItem(text: 'CONVERSATIONS'),
+      ];
+      _tabViews = [
+        const ConversationListView(),
+      ];
+    }
+    _tabController = TabController(length: _tabs.length, vsync: this);
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -48,7 +64,6 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final mediaQuery = MediaQuery.of(context);
-    final proposalManager = backend<ProposalManager>();
     return Column(
       children: [
         Container(
@@ -69,21 +84,16 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
                     inactiveIndicatorColor: AppTheme.tabIndicatorInactive,
                     indicatorWeight: kTabIndicatorWeight,
                     spacing: 1.0,
-                    tabCount: controller.length,
+                    tabCount: _tabController.length,
                   ),
                   child: TabBar(
+                    controller: _tabController,
                     indicatorWeight: kTabIndicatorWeight,
                     indicatorColor: AppTheme.tabIndicator,
                     indicatorPadding: const EdgeInsets.symmetric(horizontal: 0.5),
                     labelPadding: EdgeInsets.zero,
                     isScrollable: false,
-                    controller: controller,
-                    tabs: const [
-                      _TabBarItem(text: 'MY OFFERS'),
-                      _TabBarItem(text: 'APPLIED'),
-                      _TabBarItem(text: 'DEALS'),
-                      _TabBarItem(text: 'DONE'),
-                    ],
+                    tabs: _tabs,
                   ),
                 ),
               ),
@@ -94,13 +104,8 @@ class _MainActivitiesSectionState extends State<MainActivitiesSection> with Sing
           child: Container(
             color: AppTheme.listViewAndMenuBackground,
             child: TabBarView(
-              controller: controller,
-              children: [
-                const OfferSummaryListView(name: 'offers-applied'),
-                ProposalListView(dataSource: proposalManager.appliedProposals),
-                ProposalListView(dataSource: proposalManager.activeDeals),
-                ProposalListView(dataSource: proposalManager.doneProposals),
-              ],
+              controller: _tabController,
+              children: _tabViews,
             ),
           ),
         ),
@@ -176,11 +181,13 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
                     vsync: this,
                     duration: const Duration(milliseconds: 350),
                     alignment: Alignment.centerLeft,
-                    child: ifWidget(!snapshot.hasData || snapshot.data == 0,
-                        then: verticalMargin12,
-                        orElse: NotificationMarker(
-                          margin: const EdgeInsets.only(top: 2.5, right: 5.0),
-                        )),
+                    child: ifWidget(
+                      !snapshot.hasData || snapshot.data == 0,
+                      then: verticalMargin12,
+                      orElse: NotificationMarker(
+                        margin: const EdgeInsets.only(top: 2.5, right: 5.0),
+                      ),
+                    ),
                   );
                 },
               ),
@@ -197,79 +204,5 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
         ),
       ),
     );
-  }
-}
-
-class OfferSummaryListView extends StatefulWidget {
-  final String name;
-
-  const OfferSummaryListView({
-    @required this.name,
-    Key key,
-  }) : super(key: key);
-
-  @override
-  _OfferSummaryListViewState createState() => _OfferSummaryListViewState();
-}
-
-class _OfferSummaryListViewState extends State<OfferSummaryListView> {
-  Stream<List<InfItem>> dataSource;
-
-  @override
-  void initState() {
-    super.initState();
-    dataSource = backend<InfListService>().listMyOffers();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final mediaQuery = MediaQuery.of(context);
-    return StreamBuilder<List<InfItem>>(
-      stream: dataSource,
-      builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
-        if (snapShot.hasError) {
-          // TODO
-          return const Center(child: Text('Here has to be an Error message'));
-        } else if (!snapShot.hasData) {
-          return emptyWidget;
-        }
-        final items = snapShot.data;
-        return ListView.builder(
-          padding: EdgeInsets.fromLTRB(16.0, 8.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
-          itemCount: items.length,
-          itemBuilder: (BuildContext context, int index) {
-            assert(items[index].type == InfItemType.offer);
-            final offer = items[index].offer;
-            final tag = '${widget.name}-${offer.id}';
-            return Padding(
-              padding: const EdgeInsets.symmetric(vertical: 4.0),
-              child: OfferShortSummaryTile(
-                backGroundColor: AppTheme.listViewItemBackground,
-                offer: offer,
-                onPressed: () => _onShowDetails(context, offer, tag),
-                tag: tag,
-              ),
-            );
-          },
-        );
-      },
-    );
-  }
-
-  void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag) async {
-    try {
-      unawaited(
-        Navigator.of(context).push(
-          OfferDetailsPage.route(
-            Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
-            initialOffer: partialOffer,
-            tag: tag,
-          ),
-        ),
-      );
-    } catch (ex) {
-      // TODO should this be done centralized?
-      await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
-    }
   }
 }

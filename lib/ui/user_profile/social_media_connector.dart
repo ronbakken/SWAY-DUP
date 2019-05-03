@@ -182,7 +182,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
               centerTitle: true,
             ),
           )
-        : const Center(child: const CircularProgressIndicator());
+        : loadingWidget;
   }
 
   void _onUrlChanged(String url) async {

@@ -4,12 +4,12 @@ import 'dart:typed_data';
 
 import 'package:get_it/get_it.dart';
 import 'package:inf/backend/api_keys.dart';
+import 'package:inf/backend/managers/conversation_manager_.dart';
+import 'package:inf/backend/managers/conversation_manager_impl.dart';
 import 'package:inf/backend/managers/list_manager_.dart';
 import 'package:inf/backend/managers/list_manager_impl.dart';
 import 'package:inf/backend/managers/offer_manager_.dart';
 import 'package:inf/backend/managers/offer_manager_impl.dart';
-import 'package:inf/backend/managers/proposal_manager_.dart';
-import 'package:inf/backend/managers/proposal_manager_impl.dart';
 import 'package:inf/backend/managers/user_manager_.dart';
 import 'package:inf/backend/managers/user_manager_impl.dart';
 import 'package:inf/backend/services/auth_service_.dart';
@@ -35,9 +35,9 @@ import 'package:inf/utils/error_capture.dart';
 import 'package:logging/logging.dart';
 
 export 'package:grpc/grpc.dart' show GrpcError, CallOptions;
+export 'package:inf/backend/managers/conversation_manager_.dart';
 export 'package:inf/backend/managers/list_manager_.dart';
 export 'package:inf/backend/managers/offer_manager_.dart';
-export 'package:inf/backend/managers/proposal_manager_.dart';
 export 'package:inf/backend/managers/user_manager_.dart';
 export 'package:inf/backend/services/auth_service_.dart';
 export 'package:inf/backend/services/config_service_.dart';
@@ -182,8 +182,8 @@ void registerImplementations([String testRefreshToken]) {
   // Managers
   backend.registerLazySingleton<UserManager>(() => UserManagerImplementation());
   backend.registerLazySingleton<OfferManager>(() => OfferManagerImplementation());
-  backend.registerLazySingleton<ProposalManager>(() => ProposalManagerImplementation());
   backend.registerLazySingleton<ListManager>(() => ListManagerImplementation());
+  backend.registerLazySingleton<ConversationManager>(() => ConversationManagerImplementation());
 
   // // Services
   // backend.registerLazySingleton<LocationService>(() => LocationServiceImplementation());

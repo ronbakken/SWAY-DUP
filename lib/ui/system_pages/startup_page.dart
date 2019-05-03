@@ -12,6 +12,7 @@ import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:rx_command/rx_command.dart';
@@ -121,9 +122,7 @@ class _StartupPageState extends PageState<StartupPage> {
   Widget build(BuildContext context) {
     return Material(
       color: theme.backgroundColor,
-      child: const Center(
-        child: CircularProgressIndicator(),
-      ),
+      child: loadingWidget,
     );
   }
 

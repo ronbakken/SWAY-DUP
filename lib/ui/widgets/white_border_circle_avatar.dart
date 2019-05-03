@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 
-class WhiteBorderCircleAvatar extends StatelessWidget {
-  const WhiteBorderCircleAvatar({
+class WhiteBorderCircle extends StatelessWidget {
+  const WhiteBorderCircle({
     Key key,
     @required this.child,
     this.radius = 24.0,

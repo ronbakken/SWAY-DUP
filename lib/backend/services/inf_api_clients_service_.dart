@@ -4,6 +4,8 @@ import 'dart:typed_data';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rxdart/rxdart.dart';
 
+export 'package:inf_api_client/inf_api_client.dart';
+
 abstract class InfApiClientsService {
   bool isConnected;
   InfConfigClient configClient;

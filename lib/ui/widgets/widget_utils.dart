@@ -20,6 +20,8 @@ Widget ifWidget(
 
 const Widget emptyWidget = SizedBox();
 
+const Widget loadingWidget = Center(child: CircularProgressIndicator());
+
 const Widget verticalMargin4 = const SizedBox(height: 4.0);
 const Widget verticalMargin8 = const SizedBox(height: 8.0);
 const Widget verticalMargin12 = const SizedBox(height: 12.0);

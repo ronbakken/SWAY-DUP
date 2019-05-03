@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class InfLoader extends StatefulWidget {
   static OverlayEntry currentLoader;
@@ -60,9 +61,7 @@ class _InfLoaderState extends State<InfLoader> with SingleTickerProviderStateMix
         },
       );
     } else {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+      return loadingWidget;
     }
   }
 }

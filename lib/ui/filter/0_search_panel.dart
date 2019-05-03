@@ -46,7 +46,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
     });
 
     _backgroundAnim = DecorationTween(
-      begin: BoxDecoration(
+      begin: const BoxDecoration(
         color: Colors.transparent,
       ),
       end: BoxDecoration(

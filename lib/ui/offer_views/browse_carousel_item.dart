@@ -19,7 +19,7 @@ class BrowseCarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowResUrl: offer.images[0].lowresUrl,
+      lowResUrl: offer.images[0].lowResUrl,
       imageUrl: offer.images[0].imageUrl,
       fit: BoxFit.cover,
     );
@@ -54,7 +54,7 @@ class BrowseCarouselItem extends StatelessWidget {
                       alignment: Alignment.bottomLeft,
                       child: Padding(
                         padding: const EdgeInsets.only(left: 4.0, bottom: 4.0),
-                        child: WhiteBorderCircleAvatar(
+                        child: WhiteBorderCircle(
                           child:
                               Image.network(offer.businessAvatarThumbnailUrl),
                           radius: 24.0,

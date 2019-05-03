@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
+import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/filter/bottom_nav.dart';
@@ -10,8 +11,11 @@ import 'package:inf/ui/main/map_view.dart';
 import 'package:inf/ui/offer_views/browse_carousel_item.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/offer_views/offer_post_tile.dart';
+import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
+import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
+import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:pedantic/pedantic.dart';
 
@@ -104,6 +108,7 @@ class _MainBrowseSectionState extends State<MainBrowseSection> with SingleTicker
           ),
         ),
         SafeArea(
+          bottom: false,
           child: Container(
             alignment: Alignment.centerRight,
             height: 48.0,
@@ -209,45 +214,106 @@ class _BrowseListView extends StatelessWidget {
     final mediaQuery = MediaQuery.of(context);
     return StreamBuilder<List<InfItem>>(
       stream: backend<ListManager>().listItems,
-      builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapShot) {
-        if (!snapShot.hasData) {
+      builder: (BuildContext context, AsyncSnapshot<List<InfItem>> snapshot) {
+        if (!snapshot.hasData) {
           // TODO
           return const Center(child: Text('Sorry no offer matches your criteria'));
         }
-        final items = snapShot.data;
-        return Stack(
-          children: <Widget>[
-            ListView.builder(
-              padding: EdgeInsets.fromLTRB(
-                  16.0, mediaQuery.padding.top + 54.0, 16.0, mediaQuery.padding.bottom + kBottomNavHeight),
-              itemCount: items.length,
-              itemBuilder: (BuildContext context, int index) {
-                if (items[index].type == InfItemType.offer) {
-                  final offer = items[index].offer;
-                  final tag = 'browse-offer-list-${offer.id}';
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 8.0),
-                    child: OfferPostTile(
-                      offer: offer,
-                      onPressed: () => _onShowDetails(context, offer, tag),
-                      tag: tag,
-                    ),
-                  );
-                }
-                else if (items[index].type == InfItemType.user)
-                {
-                  return Text(items[index].user.name);
-                }
-              },
-            ),
-            SafeArea(
-              child: Container(
-                height: 48.0,
-                alignment: Alignment.center,
-                child: Text('${items.length} OFFERS NEAR YOU'),
+        final users =
+            snapshot.data.where((item) => item.type == InfItemType.user).map<User>((item) => item.user).toList();
+        final offers = snapshot.data
+            .where((item) => item.type == InfItemType.offer)
+            .map<BusinessOffer>((item) => item.offer)
+            .toList();
+        return Material(
+          color: AppTheme.blackTwo,
+          child: Stack(
+            children: <Widget>[
+              ListView.builder(
+                padding: EdgeInsets.only(
+                  top: mediaQuery.padding.top + 54.0,
+                  bottom: mediaQuery.padding.bottom + kBottomNavHeight,
+                ),
+                itemCount: offers.length + (users.isNotEmpty ? 1 : 0),
+                itemBuilder: (BuildContext context, int index) {
+                  if (index == 0 && users.isNotEmpty) {
+                    return Material(
+                      color: AppTheme.grey,
+                      child: SizedBox(
+                        height: 96.0,
+                        child: LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: ConstrainedBox(
+                                constraints: constraints.copyWith(
+                                  minWidth: constraints.maxWidth,
+                                  maxWidth: double.infinity,
+                                ),
+                                child: IntrinsicWidth(
+                                  child: Row(
+                                    children: mapChildren(users, (User user) {
+                                      return Expanded(
+                                        child: InkWell(
+                                          onTap: () => Navigator.of(context).push(ViewProfilePage.route(user)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.only(bottom: 12.0),
+                                            child: AspectRatio(
+                                              aspectRatio: 1.1,
+                                              child: Column(
+                                                mainAxisSize: MainAxisSize.max,
+                                                children: <Widget>[
+                                                  Expanded(
+                                                    child: WhiteBorderCircle(
+                                                      child: InfImage(
+                                                        lowResUrl: user.avatarThumbnail.lowResUrl,
+                                                        imageUrl: user.avatarThumbnail.imageUrl,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                  Text(user.name),
+                                                ],
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }),
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                      ),
+                    );
+                  } else {
+                    if (users.isNotEmpty) {
+                      index--;
+                    }
+                    final offer = offers[index];
+                    final tag = 'browse-offer-list-${offer.id}';
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                      child: OfferPostTile(
+                        offer: offer,
+                        onPressed: () => _onShowDetails(context, offer, tag),
+                        tag: tag,
+                      ),
+                    );
+                  }
+                },
               ),
-            ),
-          ],
+              SafeArea(
+                bottom: false,
+                child: Container(
+                  height: 48.0,
+                  alignment: Alignment.center,
+                  child: Text('${offers.length} OFFERS NEAR YOU'),
+                ),
+              ),
+            ],
+          ),
         );
       },
     );

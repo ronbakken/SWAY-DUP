@@ -4,11 +4,12 @@ description: INFluencers
 version: 1.0.0+2
 
 environment:
-  sdk: ">=2.0.0 <3.0.0"
+  sdk: ">=2.2.2 <3.0.0"
 
 # Dependencies are ordered alphabetically or grouped if it makes sense
 
 dependencies:
+  logging: any
   connectivity: any
   decimal: any
   firebase_messaging: any
@@ -32,6 +33,7 @@ dependencies:
   url_launcher: any
   quiver: any
   shared_preferences: any
+  mime: any
 
   sentry: any
   device_info: any

@@ -78,7 +78,7 @@ class ProfileInfluencerView extends StatelessWidget {
                 style: AppTheme.formFieldLabelStyle,
               ),
               verticalMargin8,
-              Text(user.minimalFee > Money.fromInt(0) ? '\$${user.minimalFee.toString()}' : ''),
+              Text(user.minimalFee > Money.zero ? '\$${user.minimalFee.toString()}' : ''),
               verticalMargin16,
               Container(
                 height: 1,

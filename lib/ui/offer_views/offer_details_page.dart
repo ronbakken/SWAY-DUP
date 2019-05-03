@@ -5,7 +5,6 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/messaging/conversation_screen.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
 import 'package:inf/ui/widgets/curved_box.dart';
@@ -125,7 +124,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
             },
             child: InfImage(
               imageUrl: offer.images[0].imageUrl,
-              lowResUrl: offer.images[0].lowresUrl,
+              lowResUrl: offer.images[0].lowResUrl,
             ),
           );
         },
@@ -222,7 +221,11 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   void _onMakeOffer() {
     inf_bottom_sheet.showModalBottomSheet(
       context: context,
-      builder: (BuildContext context) => _ProposalBottomSheet(),
+      builder: (BuildContext context) {
+        return _ProposalBottomSheet(
+          offer: offer,
+        );
+      },
       dismissOnTap: false,
       resizeToAvoidBottomPadding: true,
     );
@@ -347,7 +350,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       imageArray.add(
         InfImage(
           imageUrl: offer.images[i].imageUrl,
-          lowResUrl: offer.images[i].lowresUrl,
+          lowResUrl: offer.images[i].lowResUrl,
           fit: BoxFit.fitHeight,
         ),
       );
@@ -441,11 +444,22 @@ class _DetailEntry extends StatelessWidget {
 }
 
 class _ProposalBottomSheet extends StatefulWidget {
+  const _ProposalBottomSheet({
+    Key key,
+    @required this.offer,
+  }) : super(key: key);
+
+  final BusinessOffer offer;
+
   @override
   _ProposalBottomSheetState createState() => _ProposalBottomSheetState();
 }
 
 class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
+  final _initialOffer = TextEditingController();
+
+  Future _conversation;
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -468,44 +482,58 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(12.0, 90.0, 12.0, 12.0),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  LayoutBuilder(
-                    builder: (BuildContext context, BoxConstraints constraints) {
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 8.0),
-                        child: InputDecorator(
-                          decoration: const InputDecoration(),
-                          isFocused: false,
-                          child: Padding(
-                            padding: const EdgeInsets.only(top: 16.0),
-                            child: TextField(
-                              decoration: null,
-                              maxLines: null,
-                              keyboardAppearance: Brightness.dark,
-                            ),
+              child: FutureBuilder(
+                future: _conversation,
+                builder: (BuildContext context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.none) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        LayoutBuilder(
+                          builder: (BuildContext context, BoxConstraints constraints) {
+                            return Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 8.0),
+                              child: InputDecorator(
+                                decoration: const InputDecoration(),
+                                isFocused: false,
+                                child: Padding(
+                                  padding: const EdgeInsets.only(top: 16.0),
+                                  child: TextField(
+                                    controller: _initialOffer,
+                                    decoration: null,
+                                    maxLines: null,
+                                    keyboardAppearance: Brightness.dark,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
+                          child: InfStadiumButton(
+                            onPressed: _onApplyPressed,
+                            text: 'APPLY',
                           ),
                         ),
-                      );
-                    },
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
-                    child: InfStadiumButton(
-                      onPressed: _onApplyPressed,
-                      text: 'APPLY',
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24.0),
-                    child: InfStadiumButton(
-                      onPressed: _onNegotiatePressed,
-                      text: 'NEGOTIATE',
-                    ),
-                  ),
-                ],
+                        Padding(
+                          padding: const EdgeInsets.only(bottom: 24.0),
+                          child: InfStadiumButton(
+                            onPressed: _onNegotiatePressed,
+                            text: 'NEGOTIATE',
+                          ),
+                        ),
+                      ],
+                    );
+                  } else if (snapshot.hasError) {
+                    return Center(
+                      child: Text(snapshot.error.toString()),
+                    );
+                  } else {
+                    return loadingWidget;
+                  }
+                },
               ),
             ),
             Positioned(
@@ -529,10 +557,32 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
   }
 
   void _onApplyPressed() {
-    Navigator.of(context).push(ConversationScreen.routeExisting());
+    setState(() {
+      _conversation = backend<ConversationManager>()
+          .createConversationForOffer(widget.offer, _initialOffer.text)
+          .then((conversation) {
+        if (mounted) {
+          print('conversation created: $conversation');
+          /*
+          unawaited(Navigator.of(context).push(
+            ConversationScreen.route(conversation.id),
+          ));
+          */
+        }
+      });
+    });
   }
 
-  void _onNegotiatePressed() {
-    Navigator.of(context).push(ConversationScreen.routeExisting());
+  void _onNegotiatePressed() async {
+    // FIXME missing topicId/conversationId
+    final currentUser = backend<UserManager>().currentUser;
+    final message = await backend<InfMessagingService>()
+        .sendMessage('0a6c652c-a106-4ae4-81e6-b7c6af453483', Message.forText(currentUser, 'Second message'));
+    print('send message: $message');
+    /*
+    unawaited(Navigator.of(context).push(
+      ConversationScreen.route('0a6c652c-a106-4ae4-81e6-b7c6af453483'),
+    ));
+    */
   }
 }

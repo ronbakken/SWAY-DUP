@@ -12,20 +12,18 @@ class OfferShortSummaryTile extends StatelessWidget {
   const OfferShortSummaryTile({
     Key key,
     @required this.offer,
-    @required this.onPressed,
     this.tag,
-    this.backGroundColor = AppTheme.grey,
+    @required this.onPressed,
   }) : super(key: key);
 
   final BusinessOffer offer;
-  final VoidCallback onPressed;
   final String tag;
-  final Color backGroundColor;
+  final VoidCallback onPressed;
 
   @override
   Widget build(BuildContext context) {
     Widget imageArea = InfImage(
-      lowResUrl: offer.thumbnailImage.lowresUrl,
+      lowResUrl: offer.thumbnailImage.lowResUrl,
       imageUrl: offer.thumbnailImage.imageUrl,
       fit: BoxFit.cover,
     );
@@ -69,7 +67,7 @@ class OfferShortSummaryTile extends StatelessWidget {
     }
 
     return Material(
-      color: backGroundColor,
+      color: AppTheme.listViewItemBackground,
       elevation: 2.0,
       borderRadius: BorderRadius.circular(5.0),
       child: InkWell(

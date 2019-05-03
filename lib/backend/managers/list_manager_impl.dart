@@ -20,9 +20,9 @@ class ListManagerImplementation implements ListManager {
     _listItems = BehaviorSubject<List<InfItem>>(
       onListen: () async {
         await backend<AuthenticationService>().refreshAccessToken();
-        _subListItems = backend<InfListService>().listItems(_filterSubject).asyncMap(_fetchMapItems).listen((data) {
-          _listItems.add(data);
-        });
+        _subListItems = backend<InfListService>().listItems(_filterSubject).asyncMap(_fetchMapItems).listen(
+          (data) => _listItems.add(data),
+        );
       },
       onCancel: () {
         _subListItems?.cancel();

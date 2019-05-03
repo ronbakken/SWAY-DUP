@@ -7,7 +7,10 @@ import 'package:inf/ui/widgets/widget_utils.dart';
 class ProfileBusinessView extends StatelessWidget {
   final User user;
 
-  const ProfileBusinessView({Key key, this.user}) : super(key: key);
+  const ProfileBusinessView({
+    Key key,
+    @required this.user,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +34,7 @@ class ProfileBusinessView extends StatelessWidget {
                 style: AppTheme.formFieldLabelStyle,
               ),
               verticalMargin8,
-              Text(user.description),
+              Text(user.description ?? ''),
               verticalMargin16,
               Container(
                 height: 1,

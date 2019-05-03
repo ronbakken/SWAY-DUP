@@ -11,12 +11,7 @@ class OfferManagerImplementation implements OfferManager {
   OfferManagerImplementation() {
     updateOfferCommand = RxCommand.createFromStream(updateOffer, emitLastResult: true);
     final listService = backend<InfListService>();
-    listService.listMyOffers().listen((items) {
-      assert(!items.any((item) => item.type != InfItemType.offer));
-      _myOffersSubject.add(
-        items.map<BusinessOffer>((item) => item.offer).toList(),
-      );
-    });
+    listService.listMyOffers().listen((offers) => _myOffersSubject.add(offers));
   }
 
   @override

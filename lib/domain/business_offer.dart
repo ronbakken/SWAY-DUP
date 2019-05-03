@@ -63,6 +63,8 @@ class BusinessOffer {
     }
   }
 
+  String get topicId => 'offer-$id';
+
   BusinessOffer({
     this.id,
     this.revision,
@@ -91,7 +93,6 @@ class BusinessOffer {
 
   static BusinessOffer fromDto(OfferDto dto) {
     if (dto.hasList()) {
-      // FIXME: extract featuredCategoryId and resolve with ConfigService.
       return BusinessOffer(
         acceptancePolicy: null,
         businessAccountId: dto.list.businessAccountId,
@@ -140,7 +141,7 @@ class BusinessOffer {
         status: dto.status,
         statusReason: dto.statusReason,
         terms: DealTerms.fromDto(dto.full.terms),
-        thumbnailImage: ImageReference.fromImageDto(dto.list.thumbnail),
+        thumbnailImage: ImageReference.fromImageDto(dto.full.thumbnail),
         title: dto.full.title,
       );
     }

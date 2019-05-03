@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
+import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/user.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_memory_image.dart';
@@ -64,11 +65,17 @@ class ProfileSummary extends StatelessWidget {
             right: 0.0,
             height: mediaQuery.size.height * heightTotalPercentage * heightImagePercentage + mediaQuery.padding.top,
             child: imageFile == null
-                ? InfImage(
-                    fit: BoxFit.fitHeight,
-                    lowResUrl: user.avatarImage.lowresUrl,
-                    imageUrl: user.avatarImage.imageUrl,
-                  )
+                ? (user.dataType == UserDto_Data.handle
+                    ? InfImage(
+                        fit: BoxFit.fitHeight,
+                        lowResUrl: user.avatarThumbnail.lowResUrl,
+                        imageUrl: user.avatarThumbnail.imageUrl,
+                      )
+                    : InfImage(
+                        fit: BoxFit.fitHeight,
+                        lowResUrl: user.avatarImage.lowResUrl,
+                        imageUrl: user.avatarImage.imageUrl,
+                      ))
                 : Image.file(imageFile, fit: BoxFit.fitHeight),
           ),
           Container(
@@ -96,7 +103,7 @@ class ProfileSummary extends StatelessWidget {
                       verticalMargin4,
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 24),
-                        child: Text(user.locationAsString),
+                        child: Text(user.locationAsString ?? ''),
                       ),
                       verticalMargin8,
                       showSocialMedia

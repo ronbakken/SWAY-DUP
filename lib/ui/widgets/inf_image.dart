@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
 
+abstract class InfImageProvider {
+  String get lowResUrl;
+
+  String get imageUrl;
+}
+
 class InfImage extends StatefulWidget {
   InfImage({
     Key key,
@@ -16,9 +22,45 @@ class InfImage extends StatefulWidget {
     this.alignment = Alignment.center,
     this.repeat = ImageRepeat.noRepeat,
     this.matchTextDirection = false,
+    this.inkChild,
   })  : placeholder = NetworkImage(lowResUrl, scale: lowResScale),
         image = NetworkImage(imageUrl, scale: imageUrlScale),
         super(key: key);
+
+  factory InfImage.fromProvider(
+    InfImageProvider provider, {
+    Key key,
+    double lowResScale = 1.0,
+    double imageUrlScale = 1.0,
+    Duration duration = const Duration(milliseconds: 450),
+    double width,
+    double height,
+    Color color,
+    BlendMode colorBlendMode,
+    BoxFit fit = BoxFit.cover,
+    Alignment alignment = Alignment.center,
+    ImageRepeat repeat = ImageRepeat.noRepeat,
+    bool matchTextDirection = false,
+    Widget inkChild,
+  }) {
+    return InfImage(
+      key: key,
+      lowResUrl: provider.lowResUrl,
+      imageUrl: provider.imageUrl,
+      lowResScale: lowResScale,
+      imageUrlScale: imageUrlScale,
+      duration: duration,
+      width: width,
+      height: height,
+      color: color,
+      colorBlendMode: colorBlendMode,
+      fit: fit,
+      alignment: alignment,
+      repeat: repeat,
+      matchTextDirection: matchTextDirection,
+      inkChild: inkChild,
+    );
+  }
 
   final ImageProvider placeholder;
   final ImageProvider image;
@@ -31,6 +73,7 @@ class InfImage extends StatefulWidget {
   final AlignmentGeometry alignment;
   final ImageRepeat repeat;
   final bool matchTextDirection;
+  final Widget inkChild;
 
   @override
   _InfImageState createState() => _InfImageState();
@@ -94,18 +137,30 @@ class _InfImageState extends State<InfImage> {
       switchInCurve: Curves.decelerate,
       switchOutCurve: Curves.easeInOut.flipped,
       layoutBuilder: fitLayoutBuilder,
-      child: Image(
-        key: ValueKey<ImageProvider>(provider),
-        image: provider,
-        width: widget.width,
-        height: widget.height,
-        color: widget.color,
-        colorBlendMode: widget.colorBlendMode,
-        fit: widget.fit,
-        alignment: widget.alignment,
-        repeat: widget.repeat,
-        matchTextDirection: widget.matchTextDirection,
-      ),
+      child: (widget.inkChild != null)
+          ? Ink.image(
+              key: ValueKey<ImageProvider>(provider),
+              image: provider,
+              width: widget.width,
+              height: widget.height,
+              fit: widget.fit,
+              alignment: widget.alignment,
+              repeat: widget.repeat,
+              matchTextDirection: widget.matchTextDirection,
+              child: widget.inkChild,
+            )
+          : Image(
+              key: ValueKey<ImageProvider>(provider),
+              image: provider,
+              width: widget.width,
+              height: widget.height,
+              color: widget.color,
+              colorBlendMode: widget.colorBlendMode,
+              fit: widget.fit,
+              alignment: widget.alignment,
+              repeat: widget.repeat,
+              matchTextDirection: widget.matchTextDirection,
+            ),
     );
   }
 

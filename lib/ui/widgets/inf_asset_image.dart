@@ -84,12 +84,6 @@ class InfAssetImage extends StatelessWidget {
   }
 
   static bool isSvgData(Uint8List data) {
-    final header = <int>[0x3C, 0x73, 0x76, 0x67];
-    for (int i = 0; i < header.length; i++) {
-      if (data[i] != header[i]) {
-        return false;
-      }
-    }
-    return true;
+    return (data.length >= 4 && data.buffer.asByteData().getUint32(0) == 0x3C737667); // "<SVG" in ASCII
   }
 }

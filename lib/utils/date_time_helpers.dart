@@ -14,7 +14,7 @@ DateTime updateTimeOfDay(DateTime currentDate, TimeOfDay time) {
 }
 
 DateTime getPureDate(DateTime date) {
-  return new DateTime(date.year, date.month, date.day);
+  return DateTime(date.year, date.month, date.day);
 }
 
 bool isSameDay(DateTime d1, DateTime d2) {
@@ -25,8 +25,7 @@ String getDateString(DateTime date, [bool shortDate = false, bool showDays = tru
   if (date == null) {
     return '';
   }
-
-  final f = new DateFormat("${showDays ? '${shortDate ? 'EE' : 'EEEE'}, ' : ''}d ${shortDate ? 'MMM' : 'MMMM'}  yyyy");
+  final f = DateFormat("${showDays ? '${shortDate ? 'EE' : 'EEEE'}, ' : ''}d ${shortDate ? 'MMM' : 'MMMM'}  yyyy");
   return f.format(date);
 }
 
@@ -39,20 +38,15 @@ String getTimeString(BuildContext context, TimeOfDay time) {
 
 String sinceWhen(DateTime date) {
   var delta = DateTime.now().difference(date);
-  if (delta.compareTo(const Duration(hours: 1)) < 0) {
-    return '${delta.inMinutes} min. ago';
+  if (delta < const Duration(minutes: 1)) {
+    return '${delta.inSeconds} seconds ago';
+  } else if (delta < const Duration(hours: 1)) {
+    return '${delta.inMinutes} minute${delta.inMinutes > 1 ? 's' : ''} ago';
+  } else if (delta < const Duration(days: 1)) {
+    return '${delta.inHours} hour${delta.inHours > 1 ? 's' : ''} ago';
+  } else if (delta < const Duration(days: 2)) {
+    return 'Yesterday';
+  } else {
+    return DateFormat('mm/dd/yyyy hh:mmaa').format(date);
   }
-
-  if (delta.compareTo(const Duration(days: 1)) < 0) {
-    if (delta.inHours == 1) {
-      return '1 hour ago';
-    }
-    return '${delta.inHours} hours ago';
-  }
-
-  if (delta.compareTo(const Duration(days: 2)) < 0) {
-    return 'one day ago';
-  }
-
-  return DateFormat('mm/dd/yyyy').format(date);
 }

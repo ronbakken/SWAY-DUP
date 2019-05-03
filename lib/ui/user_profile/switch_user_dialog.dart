@@ -41,7 +41,7 @@ class SwitchUserDialog extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: <Widget>[
-                          WhiteBorderCircleAvatar(
+                          WhiteBorderCircle(
                             radius: 20,
                             child: Image.network(profiles[index].avatarUrl),
                           ),
