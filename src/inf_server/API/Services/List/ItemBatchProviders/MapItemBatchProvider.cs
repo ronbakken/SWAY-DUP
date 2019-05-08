@@ -39,7 +39,7 @@ namespace API.Services.List.ItemBatchProviders
                 return null;
             }
 
-            var mappingService = await GetMappingServiceClient().ContinueOnAnyContext();
+            var mappingService = GetMappingServiceClient();
 
             var request = new ListMapItemsRequest
             {
@@ -123,8 +123,8 @@ namespace API.Services.List.ItemBatchProviders
             }
         }
 
-        private static Task<MappingServiceClient> GetMappingServiceClient() =>
-            APIClientResolver.Resolve<MappingServiceClient>("Mapping");
+        private static MappingServiceClient GetMappingServiceClient() =>
+            APIClientResolver.Resolve<MappingServiceClient>("mapping", 9028);
 
         private sealed class CommonFilterData
         {

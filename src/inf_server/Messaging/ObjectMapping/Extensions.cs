@@ -19,7 +19,9 @@ namespace Messaging.ObjectMapping
                 Status = @this.Status.ToServiceObject(),
                 TopicId = @this.TopicId,
                 LatestMessage = @this.LatestMessage.ToServiceObject(),
+                LatestMessageWithAction = @this.LatestMessageWithAction.ToServiceObject(),
             };
+            result.Metadata.Add(@this.Metadata);
 
             return result;
         }

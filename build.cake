@@ -1,69 +1,25 @@
 #addin nuget:?package=Cake.Git&version=0.19.0
 #addin nuget:?package=Newtonsoft.Json&version=11.0.2
 
-// TODO: should be able to load dependencies without having to manually specify them, but it isn't currently working.
-// See https://cakebuild.net/docs/fundamentals/preprocessor-directives.
-// As a result, there are far more packages listed here than should be required.
-#addin nuget:?package=Microsoft.Azure.KeyVault&version=3.0.2
-#addin nuget:?package=Microsoft.Azure.Management.AppService.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Batch.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.BatchAI.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Cdn.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Compute.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.ContainerInstance.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.ContainerRegistry.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.ContainerService.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.CosmosDB.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Dns.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.EventHub.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Graph.RBAC.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.KeyVault.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Locks.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Msi.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Monitor.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Network.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Redis.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.ResourceManager.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Search.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.ServiceBus.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Storage.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.Sql.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.Azure.Management.TrafficManager.Fluent&version=1.18.0
-#addin nuget:?package=Microsoft.IdentityModel.Clients.ActiveDirectory&version=4.4.2
-#addin nuget:?package=Microsoft.IdentityModel.Logging&version=5.3.0
-#addin nuget:?package=Microsoft.IdentityModel.Tokens&version=5.3.0
-#addin nuget:?package=Microsoft.Rest.ClientRuntime&version=2.3.18
-#addin nuget:?package=Microsoft.Rest.ClientRuntime.Azure&version=3.3.18
-#addin nuget:?package=Microsoft.Rest.ClientRuntime.Azure.Authentication&version=2.3.6
-#addin nuget:?package=Microsoft.ServiceFabric.Client.Http&version=2.0.0-preview1
-#addin nuget:?package=WindowsAzure.Storage&version=9.3.3
-
 using System;
+using System.Linq;
 using System.Net;
-using System.Security.Cryptography;
-using System.Security.Cryptography.X509Certificates;
 using System.Xml;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using Microsoft.Azure.KeyVault;
-using Microsoft.Azure.KeyVault.Models;
-using Microsoft.Azure.Management.Fluent;
-using Microsoft.Azure.Management.KeyVault.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Authentication;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Core;
-using Microsoft.Azure.Management.ResourceManager.Fluent.Models;
-using Microsoft.ServiceFabric.Client;
-using Microsoft.ServiceFabric.Client.Exceptions;
-using Microsoft.ServiceFabric.Common;
-using Microsoft.ServiceFabric.Common.Security;
-using Microsoft.WindowsAzure.Storage;
-using Microsoft.WindowsAzure.Storage.Blob;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
 var gitBranch = GitBranchCurrent(".");
+
+var environment = EnvironmentVariable("ENVIRONMENT");
+
+// Variables.
+var isEphemeral = environment == "ephemeral";
+var resourceGroupName = $"inf-{(isEphemeral ? "eph-" + GenerateRandomString(2, includeSpecial: false, includeUpper: false) : environment)}";
+var configuration = "Release";
+var acrName = "infcontainerregistry";
+var acrLoginServer = $"{acrName}.azurecr.io";
 
 // Parameters.
 var bitriseBuildNumber = int.Parse(EnvironmentVariable("BITRISE_BUILD_NUMBER") ?? "-1");
@@ -71,39 +27,35 @@ var executingOnBitrise = bitriseBuildNumber != -1;
 var deployLocally = bool.Parse(EnvironmentVariable("DEPLOY_LOCALLY") ?? "false");
 var localDeployDir = Directory(EnvironmentVariable("LOCAL_DEPLOY_DIR") ?? ".");
 var region = EnvironmentVariable("REGION");
-var environment = EnvironmentVariable("ENVIRONMENT");
 var subscriptionId = EnvironmentVariable("AZURE_SUBSCRIPTION_ID");
 var clientId = EnvironmentVariable("AZURE_CLIENT_ID");
 var tenantId = EnvironmentVariable("AZURE_TENANT_ID");
 var deploymentsStorageAccountConnectionString = EnvironmentVariable("AZURE_STORAGE_ACCOUNT_CONNECTION_STRING");
-var vmInstanceCount = int.Parse(EnvironmentVariable("VM_INSTANCE_COUNT") ?? "1");
 var seqServerUrl = EnvironmentVariable("SEQ_SERVER_URL");
 var seqApiKey = EnvironmentVariable("SEQ_API_KEY");
-var configuration = "Release";
+var acrServicePrincipalId = EnvironmentVariable("ACR_SERVICE_PRINCIPAL_ID");
+var acrServicePrincipalObjectId = EnvironmentVariable("ACR_SERVICE_PRINCIPAL_OBJECT_ID");
+var acrServicePrincipalSecret = EnvironmentVariable("ACR_SERVICE_PRINCIPAL_SECRET");
+var clusterDnsPrefix = EnvironmentVariable("CLUSTER_DNS_PREFIX") ?? resourceGroupName;
+var clusterNodeVMSize = EnvironmentVariable("CLUSTER_NODE_VM_SIZE") ?? "Standard_D2_v2";
+var clusterNodeOSDiskSizeGB = int.Parse(EnvironmentVariable("CLUSTER_NODE_OS_DISK_SIZE_GB") ?? "0");
+var clusterNodeCount = int.Parse(EnvironmentVariable("CLUSTER_NODE_COUNT") ?? "1");
+var clusterNodeMaxPods = int.Parse(EnvironmentVariable("CLUSTER_NODE_MAX_PODS") ?? "100");
 
 // Paths.
 var srcDir = Directory("src/inf_server");
+var genDir = Directory("gen");
 var pkgDir = Directory("pkg") + Directory(configuration);
 var zippedPackageFile = Directory("pkg") + File("package.sfpkg");
-var pfxFile = File("Azure.pfx");
+var keyFile = File("Azure.key");
 var sslCertificatesFile = File("SSLCertificates.zip");
 var infrastructureTemplateFile = srcDir + File("arm_infrastructure.json");
-var applicationTemplateFile = srcDir + File("arm_service_fabric_app.json");
 var solutionFile = srcDir + File("server.sln");
 
-// Variables.
-var isEphemeral = environment == "ephemeral";
-var resourceGroupName = $"inf-{(isEphemeral ? "eph-" + GenerateRandomString(2, includeSpecial: false, includeUpper: false) : environment)}";
-var keyVaultName = $"{resourceGroupName}-KeyVault";
-var certificateName = $"{resourceGroupName}-Certificate";
-
-if (!FileExists(pfxFile))
+if (!FileExists(keyFile))
 {
-    throw new Exception($"The PFX file, '{pfxFile}', used to authenticate with Azure could not be found.");
+    throw new Exception($"The key file, '{keyFile}', used to authenticate with Azure could not be found.");
 }
-
-// The certificate used for CI/automation (not to be confused with the certificate generated below and used to secure nodes in the cluster).
-var automationCertificate = new X509Certificate2(pfxFile);
 
 Setup(
     context =>
@@ -121,23 +73,32 @@ Teardown(
         if (isEphemeral)
         {
             Warning($"Cleaning up resource group '{resourceGroupName}' for ephemeral build.");
-            var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
-            var azure = CreateAuthenticatedAzureClient(context, credentials);
 
-            // Cake teardown does not support asynchronous code, so we use synchronous deletion here.
-            azure
-                .ResourceGroups
-                .DeleteByName(resourceGroupName);
+            var exitCode = StartProcess(
+                "az",
+                new ProcessSettings
+                {
+                    Arguments = $"group delete --name {resourceGroupName} --yes",
+                });
+
+            if (exitCode != 0)
+            {
+                Error($"Unexpected exit code from az group delete: {exitCode}");
+                return;
+            }
         }
     });
 
 Task("Clean")
-    .Does(() => CleanDirectories(pkgDir));
+    .Does(() => CleanDirectories(new DirectoryPath[] { pkgDir, genDir }));
 
 Task("Pre-Build")
     .Does(
         () =>
         {
+            CreateDirectory(genDir);
+            CleanDirectories(genDir);
+
             if (FileExists(sslCertificatesFile))
             {
                 var targetDirectory = Directory(System.IO.Path.GetTempPath()) + Directory("ssl_certs");
@@ -168,6 +129,21 @@ Task("Pre-Build")
                     MoveFile(serverKeyFile, targetFile);
                 }
             }
+
+            Information("Logging into Azure with service principal.");
+
+            var exitCode = StartProcess(
+                "az",
+                new ProcessSettings
+                {
+                    Arguments = $@"login -u ""http://CI-Service-Principal"" --tenant {tenantId} --service-principal -p {keyFile}",
+                });
+
+            if (exitCode != 0)
+            {
+                Error($"Unexpected exit code from az login: {exitCode}");
+                return;
+            }
         });
 
 Task("Deploy")
@@ -176,175 +152,118 @@ Task("Deploy")
     .Does(
         async (context) =>
         {
-            var credentials = CreateAzureCredentials(context, clientId, tenantId, automationCertificate);
-            var azure = CreateAuthenticatedAzureClient(context, credentials);
-
             // 1. Deploy the ARM infrastructure template.
-            var resourceManagementClient = CreateResourceManagementClient(credentials, subscriptionId);
-            var resourceGroup = await EnsureResourceGroup(context, azure, resourceGroupName, region);
-            var keyVault = await EnsureKeyVault(context, azure, keyVaultName, resourceGroupName, region);
-            var selfSignedCertificatePassword = GenerateRandomString(16);
-            var selfSignedCertificate = CreateSelfSignedServerCertificate(context, certificateName, selfSignedCertificatePassword);
-            var certificateBundle = await EnsureCertificate(
-                context,
-                azure,
-                keyVault,
-                selfSignedCertificate,
-                certificateName,
-                selfSignedCertificatePassword);
+            EnsureResourceGroup(context, resourceGroupName, region);
 
-            var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
-            var rdpPassword = GenerateRandomString(16, seed: passwordSeed);
-            context.Information($"RDP password is '{rdpPassword}'.");
-            var escapedRdpPassword = rdpPassword
-                .Replace("\\", "\\\\")
-                .Replace("\"", "\\\"");
-
-            var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
-            var infrastructureDeployment = await DeployARMTemplate(
+            var deploymentOutput = await DeployARMTemplate(
                 context,
-                resourceManagementClient,
-                certificateBundle,
                 resourceGroupName,
                 infrastructureTemplateFile,
                 new Dictionary<string, object>
                 {
                     { "resourcePrefix", resourceGroupName },
-                    { "certificateThumbprint", certificateThumbprint },
-                    { "automationCertificateThumbprint", automationCertificate.Thumbprint },
-                    { "certificateUrlValue", certificateBundle.SecretIdentifier.Identifier },
-                    { "sourceVaultResourceId", keyVault.Id },
-                    { "rdpPassword", escapedRdpPassword },
-                    { "vmInstanceCount", vmInstanceCount },
-                });
+                    { "acrServicePrincipalId", acrServicePrincipalId },
+                    { "acrServicePrincipalObjectId", acrServicePrincipalObjectId },
+                    { "acrServicePrincipalSecret", acrServicePrincipalSecret },
+                    { "clusterDnsPrefix", clusterDnsPrefix },
+                    { "clusterNodeVMSize", clusterNodeVMSize },
+                    { "clusterNodeOSDiskSizeGB", clusterNodeOSDiskSizeGB },
+                    { "clusterNodeCount", clusterNodeCount },
+                    { "clusterNodeMaxPods", clusterNodeMaxPods },
+                },
+                genDir);
 
-            var outputs = ((JObject)infrastructureDeployment.Properties.Outputs);
+            var deploymentData = context.Data.Get<DeploymentData>();
+            deploymentData.DeploymentOutputs = (JObject)deploymentOutput["properties"]["outputs"];
 
-            context.Data.Get<DeploymentData>().DeploymentOutputs = outputs;
-
-            // 2. Build and upload the Service Fabric application.
-            Information("Restoring packages.");
-            DotNetCoreRestore(solutionFile);
-
-            void PublishService(string serviceName)
-            {
-                Information($"Publishing {serviceName} service.");
-                var serviceDir = srcDir + Directory(serviceName);
-                var servicePkgDir = pkgDir + Directory($"{serviceName}Pkg");
-                DotNetCorePublish(
-                    serviceDir,
-                    new DotNetCorePublishSettings
-                    {
-                        Configuration = configuration,
-                        NoRestore = true,
-                        OutputDirectory = servicePkgDir + Directory("Code"),
-                        SelfContained = false,
-                    });
-                CopyFiles(GetFiles((serviceDir + Directory("PackageRoot")).ToString() + "/**/*"), servicePkgDir, preserveFolderStructure: true);
-            }
-
-            Information("Publishing services.");
-
-            PublishService("API");
-            PublishService("InvitationCodes");
-            PublishService("Mapping");
-            PublishService("Messaging");
-            PublishService("Offers");
-            PublishService("Users");
-
-            var sourceApplicationManifest = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
-            var destinationApplicationManifest =  pkgDir + File("ApplicationManifest.xml");
-            var applicationParameters = srcDir + Directory("server/ApplicationParameters") + File($"{environment}.xml");
-            var updatedApplicationManifestDocument = SubstituteApplicationParameters(
-                sourceApplicationManifest,
-                applicationParameters,
-                new Dictionary<string, string>
+            // 2. Build and deploy each service.
+            Information("Logging into container registry.");
+            var exitCode = context.StartProcess(
+                "az",
+                new ProcessSettings
                 {
-                    { "ENVIRONMENT", environment },
-                    { "RESOURCE_GROUP", resourceGroupName },
-                    { "SEQ_SERVER_URL", seqServerUrl },
-                    { "SEQ_API_KEY", seqApiKey },
-                    { "USER_STORAGE_ACCOUNT_CONNECTION_STRING", (string)outputs["userStorageAccountConnectionString"]["value"] },
-                    { "DATABASE_ACCOUNT_CONNECTION_STRING", (string)outputs["databaseAccountConnectionString"]["value"] },
-                    { "SERVICE_BUS_CONNECTION_STRING", (string)outputs["serviceBusConnectionString"]["value"] },
+                    Arguments = $"acr login --name {acrName}",
                 });
 
-            Information("Application manifest: {0}", updatedApplicationManifestDocument.ToString());
-            updatedApplicationManifestDocument.Save(destinationApplicationManifest);
-
-            Information("Zipping deployment package.");
-            Zip(pkgDir, zippedPackageFile);
-
-            Information("Uploading deployment package to Azure storage.");
-
-            if (!CloudStorageAccount.TryParse(deploymentsStorageAccountConnectionString, out var deploymentsStorageAccount))
+            if (exitCode != 0)
             {
-                throw new Exception($"Azure storage account connection string '{deploymentsStorageAccountConnectionString}' is not valid.");
+                Error($"Unexpected exit code when logging into container registry: {exitCode}");
+                return;
             }
 
-            var cloudBlobClient = deploymentsStorageAccount.CreateCloudBlobClient();
+            Information("Connecting to Kubernetes cluster.");
+            var clusterName = $"{resourceGroupName}-cluster";
+            exitCode = context.StartProcess(
+                "az",
+                new ProcessSettings
+                {
+                    Arguments = $"aks get-credentials --resource-group {resourceGroupName} --name {clusterName}",
+                });
 
-            var storageContainerName = $"{resourceGroupName}-{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}-{GenerateRandomString(4, includeSpecial: false, includeUpper: false)}";
-            Information($"Creating storage container with name '{storageContainerName}'.");
-            var cloudBlobContainer = cloudBlobClient.GetContainerReference(storageContainerName);
-            await cloudBlobContainer.CreateAsync(BlobContainerPublicAccessType.Blob, new BlobRequestOptions(), new OperationContext());
-            Uri packageUri;
-
-            try
+            if (exitCode != 0)
             {
-                Information("Uploading package as blob...");
-                var cloudBlockBlob = cloudBlobContainer.GetBlockBlobReference(System.IO.Path.GetFileName(zippedPackageFile));
-                await cloudBlockBlob.UploadFromFileAsync(zippedPackageFile);
-                packageUri = cloudBlockBlob.Uri;
-                Information($"Uploaded, available at URI '{packageUri}'.");
+                Error($"Unexpected exit code when connecting to Kubernetes cluster: {exitCode}");
+                return;
+            }
 
-                // 3. Deploy the application ARM template.
-                var applicationManifestFile = srcDir + Directory("server/ApplicationPackageRoot") + File("ApplicationManifest.xml");
-                var applicationVersion = XmlPeek(
-                    applicationManifestFile,
-                    "/fabric:ApplicationManifest/@ApplicationTypeVersion",
-                    new XmlPeekSettings
-                    {
-                        Namespaces = new Dictionary<string, string>
-                        {
-                            { "fabric", "http://schemas.microsoft.com/2011/01/fabric" },
-                        },
-                    });
-                Information($"Determined application version to be '{applicationVersion}'");
+            var commits = GitLog(Directory("."), 1);
+            var commit = commits.First();
+            var sha = commit.Sha;
 
-                var applicationDeployment = await DeployARMTemplate(
+            Information($"SHA is {sha}.");
+
+            var services = new[]
+            {
+                (directory: "API", name: "api", port: 9026),
+                (directory: "InvitationCodes", name: "invitation-codes", port: 9027),
+                (directory: "Mapping", name: "mapping", port: 9028),
+                (directory: "Messaging", name: "messaging", port: 9029),
+                (directory: "Offers", name: "offers", port: 9030),
+                (directory: "Users", name: "users", port: 9031),
+            };
+
+            foreach (var service in services)
+            {
+                var ip = await BuildAndDeployService(
                     context,
-                    resourceManagementClient,
-                    certificateBundle,
+                    acrLoginServer,
+                    service.name,
+                    srcDir,
+                    srcDir + Directory(service.directory) + context.File("Dockerfile"),
+                    genDir + File($"kubernetes_{service.name}.yaml"),
+                    sha,
+                    service.port,
+                    environment,
                     resourceGroupName,
-                    applicationTemplateFile,
-                    new Dictionary<string, object>
-                    {
-                        { "resourcePrefix", resourceGroupName },
-                        { "appVersion", applicationVersion },
-                        { "appPackageUri", packageUri },
-                    });
+                    seqServerUrl,
+                    seqApiKey,
+                    deploymentData.DatabaseConnectionString,
+                    deploymentData.ServiceBusConnectionString,
+                    deploymentData.UserStorageAccountConnectionString);
+
+                if (service.name == "api")
+                {
+                    deploymentData.ApiUrl = $"{ip}:9026";
+                }
             }
-            finally
+
+            // 3. Give the service account the dashboard-admin role so that the Kubernetes dashboard can be accessed. See https://docs.microsoft.com/en-us/azure/aks/kubernetes-dashboard#for-rbac-enabled-clusters
+            Information("Granting access to Kubernetes dashboard to service account.");
+            exitCode = context.StartProcess(
+                "kubectl",
+                new ProcessSettings
+                {
+                    Arguments = "create clusterrolebinding kubernetes-dashboard -n kube-system --clusterrole=cluster-admin --serviceaccount=kube-system:kubernetes-dashboard",
+                });
+
+            if (exitCode < 0)
             {
-                Information($"Deleting storage container with name '{storageContainerName}'.");
-                await cloudBlobContainer.DeleteAsync();
+                Error($"Unexpected exit code when executing kubectl create clusterrolebinding: {exitCode}");
+                return;
             }
 
             Information($"Done");
         });
-
-// Task("UnitTest")
-//     .Does(
-//         () =>
-//         {
-//             // TODO: look into best way to run unit tests
-//             var settings = new DotNetCoreTestSettings
-//             {
-//                 Configuration = configuration,
-//             };
-//             DotNetCoreTest(srcDir + Directory("Utility") + File("Utility.csproj"), settings);
-//         });
 
 Task("Build-Integration-Tests")
     .IsDependentOn("Pre-Build")
@@ -383,12 +302,12 @@ Task("Run-Integration-Tests")
             }
 
             Information("Running integration tests.");
-            Information($"Server URL is '{deploymentData.ServerUrl}', database connection string is '{deploymentData.DatabaseConnectionString}'.");
+            Information($"API URL is '{deploymentData.ApiUrl}', database connection string is '{deploymentData.DatabaseConnectionString}'.");
 
             var integrationTestAssembly = srcDir + Directory("IntegrationTests/bin/Release/netcoreapp2.1/") + File("IntegrationTests.dll");
             var arguments = new ProcessArgumentBuilder();
             arguments
-                .Append(deploymentData.ServerUrl)
+                .Append(deploymentData.ApiUrl)
                 .Append(deploymentData.DatabaseConnectionString);
 
             DotNetCoreExecute(
@@ -427,288 +346,289 @@ Task("Start-Docker")
                 });
         });
 
-private static AzureCredentials CreateAzureCredentials(
-    ICakeContext context,
-    string clientId,
-    string tenantId,
-    X509Certificate2 automationCertificate)
-{
-    context.Information($"Creating Azure credentials for client ID '{clientId}', tenant ID '{tenantId}'.");
-
-    var credentials = SdkContext
-        .AzureCredentialsFactory
-        .FromServicePrincipal(
-            clientId,
-            automationCertificate,
-            tenantId,
-            AzureEnvironment.AzureGlobalCloud);
-
-    context.Information("Credentials created.");
-    return credentials;
-}
-
-private static IAzure CreateAuthenticatedAzureClient(ICakeContext context, AzureCredentials credentials)
-{
-    context.Information($"Creating authenticated Azure client.");
-
-    var authenticated = Azure
-        .Configure()
-        .WithLogLevel(HttpLoggingDelegatingHandler.Level.Basic)
-        .Authenticate(credentials);
-    var azure = authenticated
-        .WithDefaultSubscription();
-
-    // TODO: cannot get this to work (forbidden) because CI SP mustn't have sufficient access, even though I tried with Owner access at Subscription level :/
-    // Apparently this requires the SP have Directory permissions, which is insanely convoluted to set up: https://lnx.azurewebsites.net/directory-roles-for-azure-ad-service-principal/
-    // Also, this might be an alternative approach that bypasses the above altogether: https://docs.microsoft.com/en-us/azure/active-directory/managed-identities-azure-resources/overview
-//    var developerGroup = await authenticated
-//        .ActiveDirectoryGroups
-//        .GetByNameAsync("Developer");
-
-    return azure;
-}
-
-private static ResourceManagementClient CreateResourceManagementClient(AzureCredentials credentials, string subscriptionId)
-{
-    var restClient = RestClient
-        .Configure()
-        .WithEnvironment(AzureEnvironment.AzureGlobalCloud)
-        .WithCredentials(credentials)
-        .WithLogLevel(HttpLoggingDelegatingHandler.Level.Basic)
-        .Build();
-
-    var resourceManagementClient = new ResourceManagementClient(restClient)
-    {
-        SubscriptionId = subscriptionId,
-    };
-
-    return resourceManagementClient;
-}
-
-private static async Task<IResourceGroup> EnsureResourceGroup(ICakeContext context, IAzure azure, string name, string region)
+private static void EnsureResourceGroup(ICakeContext context, string name, string region)
 {
     context.Information($"Ensuring resource group '{name}' exists.");
-    var exists = await azure
-        .ResourceGroups
-        .ContainAsync(name);
-    IResourceGroup result;
+    context.StartProcess(
+        "az",
+        new ProcessSettings
+        {
+            Arguments = $"group exists --name {name}",
+            RedirectStandardOutput = true,
+        },
+        out var redirectedStandardOutput);
+
+    var exists = redirectedStandardOutput.First() == "true";
 
     if (exists)
     {
-        context.Information($"Resource group '{name}' already exists, so retrieving it.");
-        result = await azure
-            .ResourceGroups
-            .GetByNameAsync(name);
+        context.Information($"Resource group '{name}' already exists.");
     }
     else
     {
         context.Information($"Resource group '{name}' does not yet exist, so creating it.");
-        result = await azure
-            .ResourceGroups
-            .Define(name)
-            .WithRegion(region)
-            .CreateAsync();
+        var exitCode = context.StartProcess(
+            "az",
+            new ProcessSettings
+            {
+                Arguments = $@"group create --name {name} --location ""{region}""",
+            });
+
+        if (exitCode != 0)
+        {
+            context.Error($"Unexpected exit code from az group create: {exitCode}");
+            return;
+        }
+
         context.Information($"Resource group '{name}' created in region '{region}'.");
     }
-
-    return result;
 }
 
-private static async Task<IVault> EnsureKeyVault(ICakeContext context, IAzure azure, string name, string resourceGroupName, string region)
-{
-    context.Information($"Ensuring key vault '{name}' exists.");
-    var existing = await azure
-        .Vaults
-        .GetByResourceGroupAsync(resourceGroupName, name);
-    IVault result;
-
-    if (existing == null)
-    {
-        context.Information($"Key vault '{name}' does not yet exist, so creating it.");
-        result = await azure
-            .Vaults
-            .Define(name)
-            .WithRegion(region)
-            .WithExistingResourceGroup(resourceGroupName)
-            .DefineAccessPolicy()
-            // TODO: Would make more sense at the group level if I could do so.
-            //.ForGroup(developerGroup)
-            .ForServicePrincipal("CI-Service-Principal")
-            // TODO: Could be locked down further.
-            .AllowCertificateAllPermissions()
-            .Attach()
-            .WithDeploymentEnabled()
-            .WithTemplateDeploymentEnabled()
-            .CreateAsync();
-        context.Information($"Key vault '{name}' created in region '{region}'.");
-    }
-    else
-    {
-        context.Information($"Key vault '{name}' already exists.");
-        result = existing;
-    }
-
-    return result;
-}
-
-private static X509Certificate2 CreateSelfSignedServerCertificate(ICakeContext context, string name, string password)
-{
-    var builder = new SubjectAlternativeNameBuilder();
-    builder.AddIpAddress(IPAddress.Loopback);
-    builder.AddIpAddress(IPAddress.IPv6Loopback);
-    builder.AddDnsName("localhost");
-    builder.AddDnsName(Environment.MachineName);
-
-    var distinguishedName = new X500DistinguishedName($"CN={name}");
-
-    using (var rsa = RSA.Create(2048))
-    {
-        var request = new CertificateRequest(distinguishedName, rsa, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.DataEncipherment | X509KeyUsageFlags.KeyEncipherment | X509KeyUsageFlags.DigitalSignature, false));
-        request.CertificateExtensions.Add(new X509EnhancedKeyUsageExtension(new OidCollection { new Oid("1.3.6.1.5.5.7.3.1") }, false));
-        request.CertificateExtensions.Add(builder.Build());
-
-        var certificate = request.CreateSelfSigned(new DateTimeOffset(DateTime.UtcNow.AddDays(-1)), new DateTimeOffset(DateTime.UtcNow.AddDays(3650)));
-        // Not supported on Unix. See https://github.com/dotnet/corefx/issues/29061.
-        //certificate.FriendlyName = name;
-
-        var result = new X509Certificate2(certificate.Export(X509ContentType.Pfx, password), password, X509KeyStorageFlags.MachineKeySet | X509KeyStorageFlags.Exportable);
-        return result;
-    }
-}
-
-private static async Task<CertificateBundle> EnsureCertificate(
+private static async Task<JObject> DeployARMTemplate(
     ICakeContext context,
-    IAzure azure,
-    IVault vault,
-    X509Certificate2 certificate,
-    string certificateName,
-    string certificatePassword)
-{
-    context.Information($"Ensuring certificate with name '{certificateName}' exists.");
-
-    CertificateBundle result;
-    CertificateBundle existingCertificate = null;
-
-    try
-    {
-        existingCertificate = await vault
-            .Client
-            .GetCertificateAsync(vault.VaultUri, certificateName);
-    }
-    catch (KeyVaultErrorException ex) when (ex.Response.StatusCode == HttpStatusCode.NotFound)
-    {
-        // Certificate was not found.
-    }
-
-    if (existingCertificate == null)
-    {
-        context.Information($"Certificate with name '{certificateName}', thumbprint '{certificate.Thumbprint}', password '{certificatePassword}' does not yet exist in vault with name '{vault.Name}' - importing it.");
-        var certificates = new X509Certificate2Collection(certificate);
-        result = await vault
-            .Client
-            .ImportCertificateAsync(vault.VaultUri, certificateName, certificates, null);
-        context.Information($"Certificate with name '{certificateName}' was imported into vault with name '{vault.Name}'.");
-    }
-    else
-    {
-        result = existingCertificate;
-        context.Information($"Certificate with name '{certificateName}', thumbprint '{GenerateThumbprintFor(result.X509Thumbprint)}' already exists in vault with name '{vault.Name}'.");
-    }
-
-    return result;
-}
-
-private static async Task<DeploymentExtendedInner> DeployARMTemplate(
-    ICakeContext context,
-    ResourceManagementClient resourceManagementClient,
-    CertificateBundle certificateBundle,
     string resourceGroupName,
     ConvertableFilePath templateFile,
-    IDictionary<string, object> templateParameters)
+    IDictionary<string, object> templateParameters,
+    ConvertableDirectoryPath genDir)
 {
     var deploymentName = $"{resourceGroupName}-{System.IO.Path.GetFileNameWithoutExtension(templateFile)}";
     context.Information($"Deploying ARM template '{templateFile}' using deployment name '{deploymentName}'.");
 
     var templateContents = System.IO.File.ReadAllText(templateFile);
-
-    // The RDP password should never be used in a Service Fabric cluster, but we need to assign one all the same.
-    // We also need to ensure it is the same password if the cluster is being re-deployed, since the admin password cannot be updated.
-    // We do that by seeding the RNG from the thumbprint of the certificate being used in the environment.
-    var passwordSeed = BitConverter.ToInt32(certificateBundle.X509Thumbprint, 0);
-    var rdpPassword = GenerateRandomString(16, seed: passwordSeed);
-    context.Information($"RDP password is '{rdpPassword}'.");
-    var escapedRdpPassword = rdpPassword
-        .Replace("\\", "\\\\")
-        .Replace("\"", "\\\"");
-
-    var certificateThumbprint = GenerateThumbprintFor(certificateBundle.X509Thumbprint);
     var templateParametersJson = ToParameterJson(templateParameters);
     context.Information($"Template parameters JSON: {templateParametersJson}");
+    var parametersFile = genDir + context.File("template_parameters.json");
+    System.IO.File.WriteAllText(parametersFile, templateParametersJson);
 
-    // TODO: have to use JObjects below otherwise it fails.
-    var properties = new DeploymentPropertiesInner
+    context.Information($"Validating template '{templateFile}'.");
+    var exitCode = context.StartProcess(
+        "az",
+        new ProcessSettings
+        {
+            Arguments = $"group deployment validate --resource-group {resourceGroupName} --template-file {templateFile} --parameters @{parametersFile}",
+        });
+
+    if (exitCode != 0)
     {
-        Template = JObject.Load(new JsonTextReader(new StringReader(templateContents))),
-        // TODO: should this be complete so that deprecated resources are cleaned up?
-        Mode = DeploymentMode.Incremental,
-        Parameters = JObject.Load(new JsonTextReader(new StringReader(templateParametersJson))),
-    };
-
-    var validationResults = await resourceManagementClient
-        .Deployments
-        .ValidateAsync(resourceGroupName, deploymentName, properties);
-
-    if (validationResults.Error != null)
-    {
-        var message = DumpError(validationResults.Error);
-        throw new Exception(message);
+        context.Error($"Unexpected exit code when validating deployment: {exitCode}");
+        return null;
     }
 
-    context.Information("Template successfully validated.");
+    context.Information($"Deploying template '{templateFile}'.");
+    exitCode = context.StartProcess(
+        "az",
+        new ProcessSettings
+        {
+            Arguments = $"group deployment create --resource-group {resourceGroupName} --template-file {templateFile} --parameters @{parametersFile}",
+            RedirectStandardOutput = true,
+        },
+        out var redirectedStandardOutput);
 
-    var deploymentInner = await resourceManagementClient
-        .Deployments
-        .BeginCreateOrUpdateAsync(resourceGroupName, deploymentName, properties);
-    context.Information("Deployment instigated.");
+    if (exitCode != 0)
+    {
+        context.Error($"Unexpected exit code when validating deployment: {exitCode}");
+        return null;
+    }
+
+    var json = redirectedStandardOutput
+        .Aggregate(
+            new StringBuilder(),
+            (acc, next) => acc.Append(next),
+            x => x.ToString());
+    context.Information($"JSON output was: {json}");
+    return JObject.Parse(json);
+}
+
+private static async Task<string> BuildAndDeployService(
+    ICakeContext context,
+    string acrLoginServer,
+    string serviceName,
+    DirectoryPath srcDir,
+    ConvertableFilePath dockerfilePath,
+    ConvertableFilePath kubernetesFilePath,
+    string sha,
+    int port,
+    string environment,
+    string resourceGroup,
+    string seqServerUrl,
+    string seqApiKey,
+    string cosmosConnectionString,
+    string serviceBusConnectionString,
+    string storageConnectionString)
+{
+    context.Information($"Building and deploying service '{serviceName}'.");
+
+    // 1. Docker build the service
+    context.Information($"Building Docker image from file '{dockerfilePath}'.");
+    var tag = $"{acrLoginServer}/{serviceName}:{DateTime.UtcNow.ToString("yyyyMMddHHmmss")}_{sha}";
+    var arguments = $"build --file {context.MakeAbsolute(dockerfilePath)} --tag {tag} .";
+    var exitCode = context.StartProcess(
+        "docker",
+        new ProcessSettings
+        {
+            Arguments = arguments,
+            WorkingDirectory = srcDir,
+        });
+
+    if (exitCode != 0)
+    {
+        context.Error($"Unexpected exit code from docker build: {exitCode}");
+        return null;
+    }
+
+    // 2. Push Docker image to ACR
+    context.Information($"Pushing Docker image using tag '{tag}'.");
+    exitCode = context.StartProcess(
+        "docker",
+        new ProcessSettings
+        {
+            Arguments = $"push {tag}",
+        });
+
+    if (exitCode != 0)
+    {
+        context.Error($"Unexpected exit code from docker push: {exitCode}");
+        return null;
+    }
+
+    // 3. Generate kubernetes.yaml (put it in gen dir)
+    context.Information($"Generating Kubernetes configuration to file '{kubernetesFilePath}'.");
+    var kubernetesConfig = GetKubernetesConfig(
+        serviceName,
+        tag,
+        port,
+        environment,
+        resourceGroup,
+        seqServerUrl,
+        seqApiKey,
+        cosmosConnectionString,
+        serviceBusConnectionString,
+        storageConnectionString);
+    System.IO.File.WriteAllText(kubernetesFilePath, kubernetesConfig);
+
+    // 4. Deploy the service to Kubernetes
+    context.Information("Deploying to Kubernetes.");
+    exitCode = context.StartProcess(
+        "kubectl",
+        new ProcessSettings
+        {
+            Arguments = $"apply -f {kubernetesFilePath}",
+        });
+
+    if (exitCode != 0)
+    {
+        context.Error($"Unexpected exit code from kubectl apply: {exitCode}");
+        return null;
+    }
+
+    // 5. Wait for service to become available
+    context.Information($"Waiting for service '{serviceName}' to become available.");
 
     while (true)
     {
-        var exists = await resourceManagementClient
-            .Deployments
-            .CheckExistenceAsync(resourceGroupName, deploymentName);
+        exitCode = context.StartProcess(
+            "kubectl",
+            new ProcessSettings
+            {
+                Arguments = $"get service {serviceName} --output=json",
+                RedirectStandardOutput = true,
+            },
+            out var redirectedStandardOutput);
 
-        if (exists)
+        if (exitCode != 0)
         {
-            context.Debug("Deployment exists.");
-            break;
+            context.Error($"Unexpected exit code from kubectl apply: {exitCode}");
+            return null;
         }
 
-        context.Debug("Deployment does not yet exist - waiting.");
-        await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(2));
-    }
+        var json = redirectedStandardOutput
+            .Aggregate(
+                new StringBuilder(),
+                (acc, next) => acc.Append(next),
+                x => x.ToString());
+        var jobject = JObject.Parse(json);
+        var ip = (string)jobject["status"]?["loadBalancer"]?["ingress"]?[0]?["ip"];
 
-    while (true)
-    {
-        var deployment = await resourceManagementClient
-            .Deployments
-            .GetAsync(resourceGroupName, deploymentName);
-        var state = deployment.Properties.ProvisioningState;
-
-        if (state == "Succeeded")
+        if (ip != null)
         {
-            context.Information("Deployment succeeded.");
-            return deployment;
-        }
-        else if (state == "Failed")
-        {
-            throw new DeploymentFailedException();
+            context.Information($"Service '{serviceName}' is ready and available at {ip}.");
+            return ip;
         }
 
-        context.Debug($"Deployment is in state '{state}' - waiting.");
+        context.Information($"Service '{serviceName}' is not yet ready. Waiting.");
         await System.Threading.Tasks.Task.Delay(TimeSpan.FromSeconds(10));
     }
 }
+
+private static string GetKubernetesConfig(
+        string serviceName,
+        string imageTag,
+        int port,
+        string environment,
+        string resourceGroup,
+        string seqServerUrl,
+        string seqApiKey,
+        string cosmosConnectionString,
+        string serviceBusConnectionString,
+        string storageConnectionString) =>
+    $@"apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: {serviceName}
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+  minReadySeconds: 5
+  template:
+    metadata:
+      labels:
+        app: {serviceName}
+    spec:
+      containers:
+      - name: {serviceName}
+        image: {imageTag}
+        ports:
+        - containerPort: {port}
+        env:
+        - name: ENVIRONMENT
+          value: {environment}
+        - name: RESOURCE_GROUP
+          value: {resourceGroup}
+        - name: SERVICE_NAME
+          value: {serviceName}
+        - name: GRPC_PORT
+          value: ""{port}""
+        - name: SEQ_SERVER_URL
+          value: {seqServerUrl}
+        - name: SEQ_API_KEY
+          value: {seqApiKey}
+        - name: COSMOS_CONNECTION_STRING
+          value: {cosmosConnectionString}
+        - name: SERVICE_BUS_CONNECTION_STRING
+          value: {serviceBusConnectionString}
+        - name: STORAGE_CONNECTION_STRING
+          value: {storageConnectionString}
+        resources:
+          requests:
+            cpu: 100m
+            memory: 64Mi
+          limits:
+            cpu: 500m
+            memory: 1Gi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {serviceName}
+spec:
+  type: LoadBalancer
+  ports:
+  - port: {port}
+  selector:
+    app: {serviceName}";
 
 // Convert a dictionary to the appropriate parameter JSON for input to an ARM template deployment.
 private static string ToParameterJson(IDictionary<string, object> parameters)
@@ -718,11 +638,20 @@ private static string ToParameterJson(IDictionary<string, object> parameters)
     foreach (var parameter in parameters)
     {
         var parameterToken = new JObject();
-        parameterToken.Add("value", JToken.FromObject(parameter.Value));
+
+        if (parameter.Value == null)
+        {
+            parameterToken.Add("value", JValue.CreateNull());
+        }
+        else
+        {
+            parameterToken.Add("value", JToken.FromObject(parameter.Value));
+        }
+
         result.Add(parameter.Key, parameterToken);
     }
 
-    return result.ToString();
+    return result.ToString(Newtonsoft.Json.Formatting.None);
 }
 
 private static string GenerateRandomString(
@@ -826,85 +755,6 @@ private static string GenerateRandomString(
     }
 }
 
-private static string GenerateThumbprintFor(byte[] bytes)
-{
-    var builder = new StringBuilder();
-
-    foreach (var b in bytes)
-    {
-        builder.Append(b.ToString("X2"));
-    }
-
-    return builder.ToString();
-}
-
-private static string DumpError(ResourceManagementErrorWithDetails error)
-{
-    void DumpDetailsRecursive(ResourceManagementErrorWithDetails currentError, int indentLevel, StringBuilder sb)
-    {
-        var indent = new string(' ', indentLevel * 2);
-
-        sb
-            .Append(indent)
-            .Append(currentError.Code)
-            .Append(": ")
-            .Append(currentError.Target)
-            .Append(": ")
-            .Append(currentError.Message)
-            .AppendLine();
-
-        if (currentError.Details != null && currentError.Details.Count > 0)
-        {
-            sb
-                .Append(indent)
-                .Append("Details:")
-                .AppendLine();
-
-            foreach (var childError in currentError.Details)
-            {
-                DumpDetailsRecursive(childError, indentLevel + 1, sb);
-            }
-        }
-    }
-
-    var dumpedError = new StringBuilder();
-    DumpDetailsRecursive(error, 0, dumpedError);
-    return dumpedError.ToString();
-}
-
-private static XDocument SubstituteApplicationParameters(
-    ConvertableFilePath applicationManifestFile,
-    ConvertableFilePath applicationParametersFile,
-    Dictionary<string, string> substitutions)
-{
-    var applicationManifest = XDocument.Load(applicationManifestFile);
-    var applicationParameters = XDocument.Load(applicationParametersFile);
-    var nameTable = new NameTable();
-    var namespaceManager = new XmlNamespaceManager(nameTable);
-    namespaceManager.AddNamespace("sf", "http://schemas.microsoft.com/2011/01/fabric");
-
-    var source = applicationParameters.XPathSelectElement("/sf:Application/sf:Parameters", namespaceManager);
-    var sourceParameters = source.XPathSelectElements("sf:Parameter", namespaceManager);
-    var destination = applicationManifest.XPathSelectElement("/sf:ApplicationManifest/sf:Parameters", namespaceManager);
-
-    foreach (var sourceParameter in sourceParameters)
-    {
-        var valueAttribute = sourceParameter.Attribute("Value");
-        var value = valueAttribute.Value;
-
-        foreach (var substitution in substitutions)
-        {
-            value = value.Replace("$" + substitution.Key, substitution.Value);
-        }
-
-        valueAttribute.Remove();
-        sourceParameter.SetAttributeValue("DefaultValue", value);
-    }
-
-    destination.ReplaceWith(source);
-    return applicationManifest;
-}
-
 private void DeployLocally(ConvertableFilePath sourceFile, ConvertableFilePath targetFile = null)
 {
     if (deployLocally && executingOnBitrise)
@@ -925,51 +775,35 @@ private sealed class DeploymentData
         set;
     }
 
-    public JToken ClusterProperties
+    public string ClusterFQDN => GetStringValueForOutput("clusterFQDN");
+
+    public string ApiUrl
     {
-        get
-        {
-            var clusterProperties = DeploymentOutputs["clusterProperties"];
-
-            if (clusterProperties == null)
-            {
-                throw new InvalidOperationException("No clusterProperties property found in deployment outputs.");
-            }
-
-            return clusterProperties["value"];
-        }
+        get;
+        set;
     }
 
-    public Uri ClusterManagementEndpoint
+    public string DatabaseConnectionString => GetStringValueForOutput("databaseAccountConnectionString");
+
+    public string ServiceBusConnectionString => GetStringValueForOutput("serviceBusConnectionString");
+
+    public string UserStorageAccountConnectionString => GetStringValueForOutput("userStorageAccountConnectionString");
+
+    private string GetStringValueForOutput(string outputName)
     {
-        get
+        if (DeploymentOutputs == null)
         {
-            var managementEndpoint = ClusterProperties["managementEndpoint"];
-
-            if (managementEndpoint == null)
-            {
-                throw new InvalidOperationException("No managementEndpoint property found in cluster properties.");
-            }
-
-            return new Uri(managementEndpoint.Value<string>());
+            throw new InvalidOperationException($"The {nameof(DeploymentOutputs)} property is not yet set, so cannot retrieve value for output named '{outputName}'.");
         }
-    }
 
-    public string ServerUrl => ClusterManagementEndpoint.Host + ":9026";
+        var value = DeploymentOutputs[outputName];
 
-    public string DatabaseConnectionString
-    {
-        get
+        if (value == null)
         {
-            var userStorageAccountConnectionString = DeploymentOutputs["databaseAccountConnectionString"];
-
-            if (userStorageAccountConnectionString == null)
-            {
-                throw new InvalidOperationException("No databaseAccountConnectionString property found in deployment outputs.");
-            }
-
-            return (string)userStorageAccountConnectionString["value"];
+            throw new InvalidOperationException($"No value named '{outputName}' was found in the deployment outputs.");
         }
+
+        return (string)value["value"];
     }
 }
 

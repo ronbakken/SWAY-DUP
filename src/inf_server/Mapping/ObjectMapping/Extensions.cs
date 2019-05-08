@@ -20,9 +20,10 @@ namespace Mapping.ObjectMapping
 
             var result = new MapItemEntity
             {
+                SchemaType = "mapItem",
+                SchemaVersion = 1,
                 GeoPoint = @this.Location?.GeoPoint.ToGeoPointEntity(),
                 Id = @this.Id,
-                SchemaVersion = 1,
                 Status = @this.Status.ToStatus(),
             };
 
@@ -42,9 +43,10 @@ namespace Mapping.ObjectMapping
 
             var result = new MapItemEntity
             {
+                SchemaType = "mapItem",
+                SchemaVersion = 1,
                 GeoPoint = @this.Location?.GeoPoint.ToGeoPointEntity(),
                 Id = @this.Id,
-                SchemaVersion = 1,
                 Status = @this.Status.ToStatus(),
             };
 

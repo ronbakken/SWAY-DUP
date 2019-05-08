@@ -30,7 +30,7 @@ namespace API.Services.List.ItemBatchProviders
             }
 
             logger.Debug("Continuation token is {ContinuationToken}", continuationToken);
-            var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+            var usersService = GetUsersServiceClient();
 
             var request = new ListUsersRequest
             {
@@ -90,7 +90,7 @@ namespace API.Services.List.ItemBatchProviders
             return usersFilter;
         }
 
-        private static Task<UsersServiceClient> GetUsersServiceClient() =>
-            APIClientResolver.Resolve<UsersServiceClient>("Users");
+        private static UsersServiceClient GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("users", 9031);
     }
 }

@@ -39,6 +39,7 @@ namespace Messaging
         private readonly TopicClient messageUpdatedTopicClient;
         private CosmosContainer defaultContainer;
         private CosmosStoredProcedure createConversationSproc;
+        private CosmosStoredProcedure updateConversationSproc;
         private CosmosStoredProcedure setConversationParticipantListeningSproc;
         private CosmosStoredProcedure closeConversationSproc;
         private CosmosStoredProcedure createMessageSproc;
@@ -53,18 +54,23 @@ namespace Messaging
             this.messageUpdatedTopicClient = messageUpdatedTopicClient;
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
+            this.defaultContainer = await cosmosClient
+                .CreateDefaultContainerIfNotExistsAsync()
+                .ContinueOnAnyContext();
 
             var createConversationSprocResult = await defaultContainer
                 .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "createConversation")
                 .ContinueOnAnyContext();
             this.createConversationSproc = createConversationSprocResult.StoredProcedure;
+
+            var updateConversationSprocResult = await defaultContainer
+                .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "updateConversation")
+                .ContinueOnAnyContext();
+            this.updateConversationSproc = updateConversationSprocResult.StoredProcedure;
 
             var setConversationParticipantListeningSprocResult = await defaultContainer
                 .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "setConversationParticipantListening")
@@ -103,28 +109,42 @@ namespace Messaging
                     var topicId = request.TopicId;
                     var participantIds = request.ParticipantIds.ToArray();
                     var firstMessage = request.FirstMessage;
-                    logger.Debug("Saving conversation with ID {ConversationId}, topic ID {TopicId}, participant IDs {ParticipantIds}, first message {@FirstMessage}", id, topicId, participantIds, firstMessage);
+                    logger.Debug("Saving conversation with ID {ConversationId}, topic ID {TopicId}, participant IDs {ParticipantIds}, first message {@FirstMessage}, metadata {Metadata}", id, topicId, participantIds, firstMessage, request.Metadata);
+
+                    // Create the initial message record
+                    var createMessageArgs = new CreateMessageArgs
+                    {
+                        ConversationId = id,
+                        Message = request.FirstMessage.ToEntity(),
+                    };
+
+                    var createMessageResult = await this
+                        .createMessageSproc
+                        .ExecuteWithLoggingAsync<CreateMessageArgs, MessageEntity>(id, createMessageArgs);
+                    var messageEntity = createMessageResult.Resource;
+                    logger.Debug("Created initial message {@InitialMessage}", messageEntity);
 
                     // Create all conversation records, so we can quickly enumerate the conversations that a user is participating in
                     var createConversationTasks = participantIds
                         .Select(
                             async participantId =>
                             {
-                                var args = new CreateConversationArgs
+                                var createConversationArgs = new CreateConversationArgs
                                 {
                                     UserId = participantId,
                                     Id = id,
                                     TopicId = topicId,
                                     FirstMessage = request.FirstMessage.ToEntity(),
                                 };
+                                createConversationArgs.Metadata.Add(request.Metadata);
 
                                 await this
                                     .createConversationSproc
-                                    .ExecuteWithLoggingAsync<CreateConversationArgs, string>(participantId, args);
+                                    .ExecuteWithLoggingAsync<CreateConversationArgs, string>(participantId, createConversationArgs);
                             })
                         .ToList();
 
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
 
                     // Create all conversation participant records, so we can quickly determine who needs to be notified when
                     // a new message is created against the conversation
@@ -165,14 +185,20 @@ namespace Messaging
                         TopicId = topicId,
                         Status = Conversation.Types.Status.Open,
                         LatestMessage = request.FirstMessage,
+                        LatestMessageWithAction = string.IsNullOrEmpty(request.FirstMessage.Action) ? null : request.FirstMessage,
                     };
+                    conversation.Metadata.Add(request.Metadata);
                     var result = new CreateConversationResponse
                     {
                         Conversation = conversation,
                     };
 
                     // Kick off the notifications, but don't wait around - there may be retries or batching involved.
-                    NotifyRecipients(logger, firebaseToken, request.ParticipantIds, request.FirstMessage)
+                    NotifyRecipients(
+                            logger,
+                            firebaseToken,
+                            request.ParticipantIds.Except(new[] { request.FirstMessage.User.Id }),
+                            request.FirstMessage)
                         .Ignore();
 
                     if (this.conversationUpdatedTopicClient != null)
@@ -429,25 +455,83 @@ namespace Messaging
                     var id = Guid.NewGuid().ToString();
                     var message = request.Message;
                     message.Id = id;
+                    var messageEntity = message.ToEntity();
                     var conversationId = request.ConversationId;
                     logger.Debug("Saving message with ID {MessageId}, conversation ID {ConversationId}: {@Message}", id, conversationId, message);
 
-                    var args = new CreateMessageArgs
+                    var createMessageArgs = new CreateMessageArgs
                     {
                         ConversationId = conversationId,
-                        Message = message.ToEntity(),
+                        Message = messageEntity,
                     };
 
-                    var result = await this
+                    var createMessageResult = await this
                         .createMessageSproc
-                        .ExecuteWithLoggingAsync<CreateMessageArgs, MessageEntity>(request.ConversationId, args);
-                    var messageEntity = result.Resource;
+                        .ExecuteWithLoggingAsync<CreateMessageArgs, MessageEntity>(request.ConversationId, createMessageArgs);
+                    messageEntity = createMessageResult.Resource;
                     message = messageEntity.ToServiceObject();
 
+                    // Now update the associated conversation entities (one for each participant)
+                    var sql = new CosmosSqlQueryDefinition("SELECT * FROM c WHERE c.schemaType=@SchemaType AND c.partitionKey=@PartitionKey");
+                    sql.UseParameter("@SchemaType", conversationParticipantSchemaType);
+                    sql.UseParameter("@PartitionKey", conversationId);
+
+                    // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
+                    var conversationParticipantsQuery = this
+                        .defaultContainer
+                        .Items
+                        .CreateItemQuery<JObject>(sql, partitionKey: conversationId);
+
+                    while (conversationParticipantsQuery.HasMoreResults)
+                    {
+                        var currentResultSet = await conversationParticipantsQuery
+                            .FetchNextSetAsync()
+                            .ContinueOnAnyContext();
+                        var results = currentResultSet
+                            .Select(Utility.Microsoft.Azure.Cosmos.ProtobufJsonSerializer.Transform<ConversationParticipantEntity>)
+                            .ToList();
+
+                        logger.Debug("Determined that conversation with ID {ConversationId} has participants {@ConversationParticipants}", conversationId, results);
+
+                        var tasks = results
+                            .Select(
+                                async result =>
+                                {
+                                    var updateConversationArgs = new UpdateConversationArgs
+                                    {
+                                        Id = conversationId,
+                                        LatestMessage = messageEntity,
+                                        LatestMessageWithAction = string.IsNullOrEmpty(messageEntity.Action) ? null : messageEntity,
+                                    };
+
+                                    var updateConversationResult = await this
+                                        .updateConversationSproc
+                                        .ExecuteWithLoggingAsync<UpdateConversationArgs, ConversationEntity>(result.Id, updateConversationArgs);
+                                    var conversation = updateConversationResult.Resource;
+
+                                    if (this.conversationUpdatedTopicClient != null)
+                                    {
+                                        logger.Debug("Publishing conversation {@Conversation} to service bus", conversation);
+                                        var conversationMessage = new Microsoft.Azure.ServiceBus.Message(conversation.ToServiceDto().ToByteArray());
+                                        await this
+                                            .conversationUpdatedTopicClient
+                                            .SendAsync(conversationMessage)
+                                            .ContinueOnAnyContext();
+                                    }
+
+                                })
+                            .ToList();
+
+                        await Task
+                            .WhenAll(tasks)
+                            .ContinueOnAnyContext();
+                    }
+
                     // notify any users that aren't currently "listening" to the conversation
-                    var sql = new CosmosSqlQueryDefinition("SELECT VALUE d.registrationTokens FROM d WHERE d.schemaType=@SchemaType AND d.partitionKey=@ConversationId AND NOT (d.isListening ?? false)");
+                    sql = new CosmosSqlQueryDefinition("SELECT VALUE d.registrationTokens FROM d WHERE d.schemaType=@SchemaType AND d.partitionKey=@ConversationId AND NOT (d.isListening ?? false) AND d.id!=@UserId");
                     sql.UseParameter("@SchemaType", conversationParticipantSchemaType);
                     sql.UseParameter("@ConversationId", conversationId);
+                    sql.UseParameter("@UserId", request.Message.User.Id);
 
                     var itemQuery = this
                         .defaultContainer
@@ -569,7 +653,7 @@ namespace Messaging
             IEnumerable<string> recipientIds,
             Interfaces.Message message)
         {
-            var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+            var usersService = GetUsersServiceClient();
 
             var tasks = recipientIds
                 .Select(recipientId => usersService.GetUserAsync(new Users.Interfaces.GetUserRequest { Id = recipientId }).ResponseAsync)
@@ -674,7 +758,7 @@ namespace Messaging
             }
         }
 
-        private static Task<UsersServiceClient> GetUsersServiceClient() =>
-            APIClientResolver.Resolve<UsersServiceClient>("Users");
+        private static UsersServiceClient GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("users", 9031);
     }
 }

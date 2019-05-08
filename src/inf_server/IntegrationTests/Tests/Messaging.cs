@@ -125,7 +125,7 @@ namespace IntegrationTests.Tests
                     });
 
                 var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(1));
+                cts.CancelAfter(TimeSpan.FromSeconds(10));
                 var items = new List<ItemDto>();
 
                 try
@@ -133,6 +133,11 @@ namespace IntegrationTests.Tests
                     while (await call.ResponseStream.MoveNext(cts.Token))
                     {
                         items.AddRange(call.ResponseStream.Current.Items);
+
+                        if (items.Count > 0)
+                        {
+                            break;
+                        }
                     }
                 }
                 catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
@@ -175,7 +180,7 @@ namespace IntegrationTests.Tests
                     });
 
                 var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(1));
+                cts.CancelAfter(TimeSpan.FromSeconds(10));
                 var items = new List<ItemDto>();
 
                 try
@@ -183,6 +188,11 @@ namespace IntegrationTests.Tests
                     while (await call.ResponseStream.MoveNext(cts.Token))
                     {
                         items.AddRange(call.ResponseStream.Current.Items);
+
+                        if (items.Count > 0)
+                        {
+                            break;
+                        }
                     }
                 }
                 catch (RpcException ex) when (ex.StatusCode == StatusCode.Cancelled)
@@ -253,7 +263,7 @@ namespace IntegrationTests.Tests
                         CreateConversation(messagingClient));
 
                 var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(1));
+                cts.CancelAfter(TimeSpan.FromSeconds(5));
                 var items = new List<ItemDto>();
 
                 try
@@ -326,7 +336,7 @@ namespace IntegrationTests.Tests
                         CreateMessage(messagingClient));
 
                 var cts = new CancellationTokenSource();
-                cts.CancelAfter(TimeSpan.FromSeconds(1));
+                cts.CancelAfter(TimeSpan.FromSeconds(5));
                 var items = new List<ItemDto>();
 
                 try

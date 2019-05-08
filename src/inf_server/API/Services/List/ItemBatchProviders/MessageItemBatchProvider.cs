@@ -28,7 +28,7 @@ namespace API.Services.List.ItemBatchProviders
                 return null;
             }
 
-            var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
+            var messagingService = GetMessagingServiceClient();
 
             var request = new ListMessagesRequest
             {
@@ -61,7 +61,7 @@ namespace API.Services.List.ItemBatchProviders
             return messagesFilter;
         }
 
-        private static Task<MessagingServiceClient> GetMessagingServiceClient() =>
-            APIClientResolver.Resolve<MessagingServiceClient>("Messaging");
+        private static MessagingServiceClient GetMessagingServiceClient() =>
+            APIClientResolver.Resolve<MessagingServiceClient>("messaging", 9029);
     }
 }

@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: social_network_provider.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 const SocialNetworkProviderType$json = const {
   '1': 'SocialNetworkProviderType',

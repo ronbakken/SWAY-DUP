@@ -1,52 +1,14 @@
 ﻿using System;
-using System.Fabric;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Genesis.Ensure;
-using Utility.Microsoft.Azure.Cosmos;
 
 namespace Microsoft.Azure.Cosmos
 {
     public static class Extensions
     {
-        private const string configurationPackageObjectName = "Config";
-        private const string databaseSectionName = "Database";
-        private const string connectionStringParameterName = "ConnectionString";
-        private const string databaseThroughputParameterName = "DatabaseThroughput";
-        private const string throughputParameterName = "Throughput";
-
-        public static CosmosClient GetCosmosClient(this ICodePackageActivationContext @this)
-        {
-            Ensure.ArgumentNotNull(@this, nameof(@this));
-
-            var configurationPackage = @this.GetConfigurationPackageObject(configurationPackageObjectName);
-
-            if (configurationPackage == null)
-            {
-                throw new InvalidOperationException($"No configuration package object named '{configurationPackageObjectName}' could be found.");
-            }
-
-            if (!configurationPackage.Settings.Sections.Contains(databaseSectionName))
-            {
-                throw new InvalidOperationException($"Section '{databaseSectionName}' was not found in the '{configurationPackageObjectName}' configuration package.");
-            }
-
-            var databaseSection = configurationPackage.Settings.Sections[databaseSectionName];
-
-            if (!databaseSection.Parameters.Contains(connectionStringParameterName))
-            {
-                throw new InvalidOperationException($"Parameter '{connectionStringParameterName}' was not found in the '{databaseSectionName}' section.");
-            }
-
-            var connectionString = databaseSection.Parameters[connectionStringParameterName].Value;
-            var cosmosClient = new CosmosClientBuilder(connectionString)
-                .UseCustomJsonSerializer(ProtobufJsonSerializer.Instance)
-                .AddCustomHandlers(LoggingHandler.Instance)
-                .Build();
-
-            return cosmosClient;
-        }
+        private const string throughputEnvironmentVariableName = "COSMOS_THROUGHPUT";
 
         // Creates a default container in the database. Should be used wherever possible.
         public static async Task<CosmosContainer> CreateDefaultContainerIfNotExistsAsync(this CosmosClient @this)
@@ -69,62 +31,24 @@ namespace Microsoft.Azure.Cosmos
 
             // Default to minimum.
             var throughput = 400;
+            var throughputEnvironmentVariable = Environment.GetEnvironmentVariable(throughputEnvironmentVariableName);
 
-            var activationContext = FabricRuntime.GetActivationContext();
-            var configurationPackage = activationContext.GetConfigurationPackageObject(configurationPackageObjectName);
-
-            if (configurationPackage != null)
+            if (throughputEnvironmentVariable != null)
             {
-                if (configurationPackage.Settings.Sections.Contains(databaseSectionName))
+                if (!int.TryParse(throughputEnvironmentVariable, out throughput))
                 {
-                    var databaseSection = configurationPackage.Settings.Sections[databaseSectionName];
-
-                    if (databaseSection.Parameters.Contains(databaseThroughputParameterName))
-                    {
-                        var offerParameter = databaseSection.Parameters[databaseThroughputParameterName];
-
-                        if (!int.TryParse(offerParameter.Value, out throughput))
-                        {
-                            throw new InvalidOperationException($"Offer parameter value '{offerParameter.Value}' is not a valid integer.");
-                        }
-                    }
+                    throw new InvalidOperationException($"Throughput specified in environment variable {throughputEnvironmentVariableName} is '{throughputEnvironmentVariable}', which is not a valid integer.");
                 }
             }
 
             return @this.CreateDatabaseIfNotExistsAsync("inf", throughput: throughput);
         }
 
-        public static Task<CosmosContainerResponse> CreateContainerFromConfigurationIfNotExistsAsync(this CosmosContainers @this, string id, string partitionKeyPath)
+        public static Task<CosmosContainerResponse> CreateContainerFromConfigurationIfNotExistsAsync(this CosmosContainers @this, string id, string partitionKeyPath, int? throughput = null)
         {
             Ensure.ArgumentNotNull(@this, nameof(@this));
             Ensure.ArgumentNotNull(id, nameof(id));
             Ensure.ArgumentNotNull(partitionKeyPath, nameof(partitionKeyPath));
-
-            // Default to inherit from database.
-            int? throughput = null;
-
-            var activationContext = FabricRuntime.GetActivationContext();
-            var configurationPackage = activationContext.GetConfigurationPackageObject(configurationPackageObjectName);
-
-            if (configurationPackage != null)
-            {
-                if (configurationPackage.Settings.Sections.Contains(databaseSectionName))
-                {
-                    var databaseSection = configurationPackage.Settings.Sections[databaseSectionName];
-
-                    if (databaseSection.Parameters.Contains(throughputParameterName))
-                    {
-                        var throughputParameter = databaseSection.Parameters[throughputParameterName];
-
-                        if (!int.TryParse(throughputParameter.Value, out var parsedThroughput))
-                        {
-                            throw new InvalidOperationException($"Throughput parameter value '{throughputParameter.Value}' is not a valid integer.");
-                        }
-
-                        throughput = parsedThroughput;
-                    }
-                }
-            }
 
             return @this.CreateContainerIfNotExistsAsync(id, partitionKeyPath, throughput: throughput);
         }

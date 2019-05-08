@@ -2,76 +2,78 @@
 //  Generated code. Do not modify.
 //  source: inf_api.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'package:grpc/service_api.dart' as $grpc;
+
+import 'dart:core' as $core show int, String, List;
 
 import 'inf_api.pb.dart';
 export 'inf_api.pb.dart';
 
-class InfApiClient extends Client {
-  static final _$sayHello = new ClientMethod<HelloRequest, HelloReply>(
+class InfApiClient extends $grpc.Client {
+  static final _$sayHello = $grpc.ClientMethod<HelloRequest, HelloReply>(
       '/api.InfApi/SayHello',
       (HelloRequest value) => value.writeToBuffer(),
-      (List<int> value) => new HelloReply.fromBuffer(value));
-  static final _$sayHelloAgain = new ClientMethod<HelloRequest, HelloReply>(
+      ($core.List<$core.int> value) => HelloReply.fromBuffer(value));
+  static final _$sayHelloAgain = $grpc.ClientMethod<HelloRequest, HelloReply>(
       '/api.InfApi/SayHelloAgain',
       (HelloRequest value) => value.writeToBuffer(),
-      (List<int> value) => new HelloReply.fromBuffer(value));
+      ($core.List<$core.int> value) => HelloReply.fromBuffer(value));
 
-  InfApiClient(ClientChannel channel, {CallOptions options})
+  InfApiClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<HelloReply> sayHello(HelloRequest request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$sayHello, new $async.Stream.fromIterable([request]),
+  $grpc.ResponseFuture<HelloReply> sayHello(HelloRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$sayHello, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 
-  ResponseFuture<HelloReply> sayHelloAgain(HelloRequest request,
-      {CallOptions options}) {
+  $grpc.ResponseFuture<HelloReply> sayHelloAgain(HelloRequest request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(
-        _$sayHelloAgain, new $async.Stream.fromIterable([request]),
+        _$sayHelloAgain, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 }
 
-abstract class InfApiServiceBase extends Service {
-  String get $name => 'api.InfApi';
+abstract class InfApiServiceBase extends $grpc.Service {
+  $core.String get $name => 'api.InfApi';
 
   InfApiServiceBase() {
-    $addMethod(new ServiceMethod<HelloRequest, HelloReply>(
+    $addMethod($grpc.ServiceMethod<HelloRequest, HelloReply>(
         'SayHello',
         sayHello_Pre,
         false,
         false,
-        (List<int> value) => new HelloRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => HelloRequest.fromBuffer(value),
         (HelloReply value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<HelloRequest, HelloReply>(
+    $addMethod($grpc.ServiceMethod<HelloRequest, HelloReply>(
         'SayHelloAgain',
         sayHelloAgain_Pre,
         false,
         false,
-        (List<int> value) => new HelloRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => HelloRequest.fromBuffer(value),
         (HelloReply value) => value.writeToBuffer()));
   }
 
   $async.Future<HelloReply> sayHello_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return sayHello(call, await request);
   }
 
   $async.Future<HelloReply> sayHelloAgain_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return sayHelloAgain(call, await request);
   }
 
-  $async.Future<HelloReply> sayHello(ServiceCall call, HelloRequest request);
+  $async.Future<HelloReply> sayHello(
+      $grpc.ServiceCall call, HelloRequest request);
   $async.Future<HelloReply> sayHelloAgain(
-      ServiceCall call, HelloRequest request);
+      $grpc.ServiceCall call, HelloRequest request);
 }

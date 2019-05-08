@@ -3,10 +3,6 @@
     <PropertyGroup>
         <OutputType>Exe</OutputType>
         <TargetFramework>netcoreapp2.1</TargetFramework>
-        <IsServiceFabricServiceProject>True</IsServiceFabricServiceProject>
-        <ServerGarbageCollection>True</ServerGarbageCollection>
-        <RuntimeIdentifier>win7-x64</RuntimeIdentifier>
-        <PlatformTarget>x64</PlatformTarget>
         <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
@@ -26,7 +22,6 @@
         <PackageReference Include="Grpc" />
         <PackageReference Include="Grpc.Core.Testing" />
         <PackageReference Include="Microsoft.Azure.ServiceBus" />
-        <PackageReference Include="Microsoft.ServiceFabric.Services" />
         <PackageReference Include="Sendgrid" />
         <PackageReference Include="SerilogAnalyzer" />
         <PackageReference Include="System.Reactive" />

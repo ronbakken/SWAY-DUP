@@ -39,13 +39,13 @@ namespace Users
             this.userUpdatedTopicClient = userUpdatedTopicClient;
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
+            this.defaultContainer = await cosmosClient
+                .CreateDefaultContainerIfNotExistsAsync()
+                .ContinueOnAnyContext();
 
             var createSprocResult = await defaultContainer
                 .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "saveUser")

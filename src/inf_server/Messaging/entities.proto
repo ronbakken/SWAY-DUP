@@ -66,6 +66,8 @@ message ConversationEntity {
     // related entity ID (e.g. the ID of the offer that the conversation is about)
     string topicId = 6;
     MessageEntity latestMessage = 7;
+    MessageEntity latestMessageWithAction = 8;
+    map<string, string> metadata = 9;
 }
 
 message ConversationParticipantEntity {
@@ -87,6 +89,13 @@ message CreateConversationArgs {
     string topicId = 2;
     string userId = 3;
     MessageEntity firstMessage = 4;
+    map<string, string> metadata = 5;
+}
+
+message UpdateConversationArgs {
+    string id = 1;
+    MessageEntity latestMessage = 2;
+    MessageEntity latestMessageWithAction = 3;
 }
 
 message CreateMessageArgs {

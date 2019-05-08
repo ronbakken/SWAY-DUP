@@ -57,7 +57,7 @@ namespace API.Services.Listen.ItemListeners
                     {
                         this.Logger.Debug("Kicking off register conversation listener tasks for conversation IDs {RegisterConversationIds} and deregister conversation listener tasks for conversation IDs {DeregisterConversationIds}", ids.idsAdded, ids.idsRemoved);
 
-                        var messagingClient = await GetMessagingServiceClient().ContinueOnAnyContext();
+                        var messagingClient = GetMessagingServiceClient();
 
                         var registerTasks = ids
                             .idsAdded
@@ -132,7 +132,7 @@ namespace API.Services.Listen.ItemListeners
             return true;
         }
 
-        private static Task<MessagingServiceClient> GetMessagingServiceClient() =>
-            APIClientResolver.Resolve<MessagingServiceClient>("Messaging");
+        private static MessagingServiceClient GetMessagingServiceClient() =>
+            APIClientResolver.Resolve<MessagingServiceClient>("messaging", 9029);
     }
 }

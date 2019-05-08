@@ -1,17 +1,32 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Utility;
+using Utility.gRPC;
+using Utility.Microsoft.Azure.Cosmos;
+using Utility.Microsoft.Azure.ServiceBus;
 
 namespace Offers
 {
-    internal static class Program
+    static class Program
     {
-        private static async Task Main()
+        static async Task Main(string[] args)
         {
-            await ServiceBootstrapper
-                .Bootstrap(
-                    "Offers",
-                    context => new Offers(context))
+            var logger = Logging.GetLogger(typeof(Program));
+            var offerUpdated = ServiceBus.GetServiceBusTopicClient(logger, "OfferUpdated");
+            var offersService = new OffersServiceImpl(logger, offerUpdated);
+            var cosmosClient = Cosmos.GetCosmosClient();
+            await offersService
+                .Initialize(cosmosClient)
                 .ContinueOnAnyContext();
+            var server = ServerFactory.Create(
+                useSsl: false,
+                Interfaces.OffersService.BindService(offersService));
+
+            logger.Debug("Starting server");
+            server.Start();
+            logger.Debug("Server started");
+
+            await Task.Delay(Timeout.Infinite);
         }
     }
 }

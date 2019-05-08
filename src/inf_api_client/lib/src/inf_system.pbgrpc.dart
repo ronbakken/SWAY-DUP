@@ -2,51 +2,54 @@
 //  Generated code. Do not modify.
 //  source: inf_system.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'package:grpc/service_api.dart' as $grpc;
+
+import 'dart:core' as $core show int, String, List;
 
 import 'empty.pb.dart' as $0;
 import 'inf_system.pb.dart';
 export 'inf_system.pb.dart';
 
-class InfSystemClient extends Client {
-  static final _$pingServer = new ClientMethod<$0.Empty, AliveMessage>(
+class InfSystemClient extends $grpc.Client {
+  static final _$pingServer = $grpc.ClientMethod<$0.Empty, AliveMessage>(
       '/api.InfSystem/PingServer',
       ($0.Empty value) => value.writeToBuffer(),
-      (List<int> value) => new AliveMessage.fromBuffer(value));
+      ($core.List<$core.int> value) => AliveMessage.fromBuffer(value));
 
-  InfSystemClient(ClientChannel channel, {CallOptions options})
+  InfSystemClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<AliveMessage> pingServer($0.Empty request,
-      {CallOptions options}) {
+  $grpc.ResponseFuture<AliveMessage> pingServer($0.Empty request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(
-        _$pingServer, new $async.Stream.fromIterable([request]),
+        _$pingServer, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 }
 
-abstract class InfSystemServiceBase extends Service {
-  String get $name => 'api.InfSystem';
+abstract class InfSystemServiceBase extends $grpc.Service {
+  $core.String get $name => 'api.InfSystem';
 
   InfSystemServiceBase() {
-    $addMethod(new ServiceMethod<$0.Empty, AliveMessage>(
+    $addMethod($grpc.ServiceMethod<$0.Empty, AliveMessage>(
         'PingServer',
         pingServer_Pre,
         false,
         false,
-        (List<int> value) => new $0.Empty.fromBuffer(value),
+        ($core.List<$core.int> value) => $0.Empty.fromBuffer(value),
         (AliveMessage value) => value.writeToBuffer()));
   }
 
   $async.Future<AliveMessage> pingServer_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return pingServer(call, await request);
   }
 
-  $async.Future<AliveMessage> pingServer(ServiceCall call, $0.Empty request);
+  $async.Future<AliveMessage> pingServer(
+      $grpc.ServiceCall call, $0.Empty request);
 }

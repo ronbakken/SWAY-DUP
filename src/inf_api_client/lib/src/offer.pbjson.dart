@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: offer.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 const OfferDto$json = const {
   '1': 'OfferDto',
@@ -38,6 +38,7 @@ const OfferDto_ListDataDto$json = const {
     const {'1': 'numberRemaining', '3': 11, '4': 1, '5': 5, '10': 'numberRemaining'},
     const {'1': 'thumbnail', '3': 12, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'thumbnail'},
     const {'1': 'featuredImage', '3': 13, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'featuredImage'},
+    const {'1': 'featuredCategoryId', '3': 15, '4': 1, '5': 9, '10': 'featuredCategoryId'},
     const {'1': 'terms', '3': 14, '4': 1, '5': 11, '6': '.api.DealTermsDto', '10': 'terms'},
   ],
 };

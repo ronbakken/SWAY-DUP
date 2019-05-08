@@ -171,7 +171,10 @@ namespace API.ObjectMapping
                 Status = @this.Status.ToStatus(),
                 TopicId = @this.TopicId,
                 LatestMessage = @this.LatestMessage.ToMessageDto(),
+                LatestMessageWithAction = @this.LatestMessageWithAction.ToMessageDto(),
             };
+
+            result.Metadata.Add(@this.Metadata);
 
             return result;
         }

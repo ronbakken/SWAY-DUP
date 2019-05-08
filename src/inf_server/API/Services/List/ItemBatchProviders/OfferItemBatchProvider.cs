@@ -28,7 +28,7 @@ namespace API.Services.List.ItemBatchProviders
                 return null;
             }
 
-            var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
+            var offersService = GetOffersServiceClient();
 
             var request = new ListOffersRequest
             {
@@ -67,7 +67,7 @@ namespace API.Services.List.ItemBatchProviders
             return offersFilter;
         }
 
-        private static Task<OffersServiceClient> GetOffersServiceClient() =>
-            APIClientResolver.Resolve<OffersServiceClient>("Offers");
+        private static OffersServiceClient GetOffersServiceClient() =>
+            APIClientResolver.Resolve<OffersServiceClient>("offers", 9030);
     }
 }

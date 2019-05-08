@@ -37,6 +37,8 @@ message Conversation {
     string topicId = 3;
     Status status = 4;
     Message latestMessage = 5;
+    Message latestMessageWithAction = 6;
+    map<string, string> metadata = 7;
 }
 
 message Image {
@@ -81,6 +83,7 @@ message CreateConversationRequest {
     repeated string participantIds = 1;
     string topicId = 2;
     Message firstMessage = 3;
+    map<string, string> metadata = 4;
 }
 
 message CreateConversationResponse {

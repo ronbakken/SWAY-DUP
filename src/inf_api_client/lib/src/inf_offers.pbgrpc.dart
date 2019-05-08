@@ -2,78 +2,82 @@
 //  Generated code. Do not modify.
 //  source: inf_offers.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'package:grpc/service_api.dart' as $grpc;
+
+import 'dart:core' as $core show int, String, List;
 
 import 'inf_offers.pb.dart';
 export 'inf_offers.pb.dart';
 
-class InfOffersClient extends Client {
-  static final _$getOffer = new ClientMethod<GetOfferRequest, GetOfferResponse>(
-      '/api.InfOffers/GetOffer',
-      (GetOfferRequest value) => value.writeToBuffer(),
-      (List<int> value) => new GetOfferResponse.fromBuffer(value));
+class InfOffersClient extends $grpc.Client {
+  static final _$getOffer =
+      $grpc.ClientMethod<GetOfferRequest, GetOfferResponse>(
+          '/api.InfOffers/GetOffer',
+          (GetOfferRequest value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => GetOfferResponse.fromBuffer(value));
   static final _$updateOffer =
-      new ClientMethod<UpdateOfferRequest, UpdateOfferResponse>(
+      $grpc.ClientMethod<UpdateOfferRequest, UpdateOfferResponse>(
           '/api.InfOffers/UpdateOffer',
           (UpdateOfferRequest value) => value.writeToBuffer(),
-          (List<int> value) => new UpdateOfferResponse.fromBuffer(value));
+          ($core.List<$core.int> value) =>
+              UpdateOfferResponse.fromBuffer(value));
 
-  InfOffersClient(ClientChannel channel, {CallOptions options})
+  InfOffersClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<GetOfferResponse> getOffer(GetOfferRequest request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$getOffer, new $async.Stream.fromIterable([request]),
+  $grpc.ResponseFuture<GetOfferResponse> getOffer(GetOfferRequest request,
+      {$grpc.CallOptions options}) {
+    final call = $createCall(_$getOffer, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 
-  ResponseFuture<UpdateOfferResponse> updateOffer(UpdateOfferRequest request,
-      {CallOptions options}) {
+  $grpc.ResponseFuture<UpdateOfferResponse> updateOffer(
+      UpdateOfferRequest request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(
-        _$updateOffer, new $async.Stream.fromIterable([request]),
+        _$updateOffer, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 }
 
-abstract class InfOffersServiceBase extends Service {
-  String get $name => 'api.InfOffers';
+abstract class InfOffersServiceBase extends $grpc.Service {
+  $core.String get $name => 'api.InfOffers';
 
   InfOffersServiceBase() {
-    $addMethod(new ServiceMethod<GetOfferRequest, GetOfferResponse>(
+    $addMethod($grpc.ServiceMethod<GetOfferRequest, GetOfferResponse>(
         'GetOffer',
         getOffer_Pre,
         false,
         false,
-        (List<int> value) => new GetOfferRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => GetOfferRequest.fromBuffer(value),
         (GetOfferResponse value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<UpdateOfferRequest, UpdateOfferResponse>(
+    $addMethod($grpc.ServiceMethod<UpdateOfferRequest, UpdateOfferResponse>(
         'UpdateOffer',
         updateOffer_Pre,
         false,
         false,
-        (List<int> value) => new UpdateOfferRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => UpdateOfferRequest.fromBuffer(value),
         (UpdateOfferResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<GetOfferResponse> getOffer_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return getOffer(call, await request);
   }
 
   $async.Future<UpdateOfferResponse> updateOffer_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return updateOffer(call, await request);
   }
 
   $async.Future<GetOfferResponse> getOffer(
-      ServiceCall call, GetOfferRequest request);
+      $grpc.ServiceCall call, GetOfferRequest request);
   $async.Future<UpdateOfferResponse> updateOffer(
-      ServiceCall call, UpdateOfferRequest request);
+      $grpc.ServiceCall call, UpdateOfferRequest request);
 }

@@ -19,6 +19,7 @@ message CreateConversationRequest {
     // What the conversation is about. For example, an offer ID.
     string topicId = 2;
     MessageDto firstMessage = 3;
+    map<string, string> metadata = 4;
 }
 
 message CreateConversationResponse {

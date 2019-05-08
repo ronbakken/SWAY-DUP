@@ -33,14 +33,17 @@ namespace API.Services.List
                     var clientId = Guid.NewGuid();
                     logger.Debug("Generated client ID {ClientId} for new list stream associated with a user of type {UserType}", clientId, userType);
 
-                    var isPaused = new BehaviorSubject<bool>(true);
-                    var filter = new BehaviorSubject<ItemFilterDto>(null);
+                    var isPaused = Subject.Synchronize(new BehaviorSubject<bool>(true));
+                    var filter = Subject.Synchronize(new BehaviorSubject<ItemFilterDto>(null));
                     var activeClient = new ActiveListClient(
                         this.logger,
                         clientId,
                         userType,
-                        isPaused.DistinctUntilChanged(),
-                        filter.DistinctUntilChanged());
+                        isPaused.Throttle(TimeSpan.FromMilliseconds(250)).DistinctUntilChanged(),
+                        filter.Throttle(TimeSpan.FromMilliseconds(250)).DistinctUntilChanged());
+
+                    // HACK: would be nicer to just await the pipeline
+                    var tcs = new TaskCompletionSource<bool>();
 
                     var subscription = activeClient
                         .GetItemBatches()
@@ -64,7 +67,16 @@ namespace API.Services.List
                             })
                         .Subscribe(
                             _ => { },
-                            ex => logger.Error(ex, "Item batches pipeline failed for client {ClientId}", clientId));
+                            ex =>
+                            {
+                                logger.Error(ex, "Item batches pipeline failed for client {ClientId}", clientId);
+                                tcs.TrySetException(ex);
+                            },
+                            () =>
+                            {
+                                logger.Debug("Item batches pipeline completed for client {ClientId}", clientId);
+                                tcs.TrySetResult(true);
+                            });
 
                     using (subscription)
                     {
@@ -75,6 +87,11 @@ namespace API.Services.List
                             isPaused.OnNext(request.State == ListRequest.Types.State.Paused);
                             filter.OnNext(request.Filter);
                         }
+
+                        logger.Debug("Request stream closed for client {ClientId} - completing the filter stream and waiting for data to finish streaming", clientId);
+                        filter.OnCompleted();
+
+                        await tcs.Task;
                     }
                 });
 

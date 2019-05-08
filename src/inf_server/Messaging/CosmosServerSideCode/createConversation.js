@@ -7,6 +7,7 @@
     var topicId = data.topicId;
     var userId = data.userId;
     var firstMessage = data.firstMessage;
+    var metadata = data.metadata;
 
     if (!id) {
         throw new Error("ID not set.");
@@ -28,56 +29,30 @@
 
     console.log("Creating conversation with ID '" + id + "', topic ID '" + topicId + "', user ID '" + userId + "'. It is now " + now);
 
-    var existingQuery =
-    {
-        "query": "SELECT * FROM d WHERE d.schemaType = @SchemaType AND d.topicId = @TopicId",
-        "parameters": [
-            { "name": "@SchemaType", "value": "conversation" },
-            { "name": "@TopicId", "value": topicId }
-        ]
+    var conversation = {
+        schemaType: "conversation",
+        schemaVersion: 1,
+        partitionKey: userId,
+        id: id,
+        status: "open",
+        topicId: topicId,
+        latestMessage: firstMessage,
+        latestMessageWithAction: firstMessage.action ? firstMessage : null,
+        metadata: metadata
     };
 
-    var queryAccepted = container.queryDocuments(
+    var upsertDocumentAccepted = container.upsertDocument(
         container.getSelfLink(),
-        existingQuery,
-        {},
-        function (err, items, responseOptions) {
+        conversation,
+        function (err, _) {
             if (err) {
-                throw new Error("Error querying documents: " + err.message);
+                throw new Error("Error upserting conversation: " + err.message);
             }
 
-            if (items.length > 0) {
-                console.log("A conversation about topic '" + topicId + "' already exists");
-                throw new Error("A conversation about topic '" + topicId + "' already exists");
-            }
-
-            var conversation = {
-                schemaType: "conversation",
-                schemaVersion: 1,
-                partitionKey: userId,
-                id: id,
-                status: "open",
-                topicId: topicId,
-                latestMessage: firstMessage
-            };
-
-            var upsertDocumentAccepted = container.upsertDocument(
-                container.getSelfLink(),
-                conversation,
-                function (err, _) {
-                    if (err) {
-                        throw new Error("Error upserting conversation: " + err.message);
-                    }
-
-                    response.setBody("OK");
-                });
-
-            if (!upsertDocumentAccepted) {
-                throw new Error("Upsert document not accepted.");
-            }
+            response.setBody("OK");
         });
 
-    if (!queryAccepted) {
-        throw new Error("Query not accepted.");
+    if (!upsertDocumentAccepted) {
+        throw new Error("Upsert document not accepted.");
     }
 }

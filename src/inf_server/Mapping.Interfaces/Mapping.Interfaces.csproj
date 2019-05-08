@@ -2,17 +2,12 @@
 
     <PropertyGroup>
         <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
-        <PlatformTarget>x64</PlatformTarget>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Google.Protobuf" />
         <PackageReference Include="Grpc" />
-        <PackageReference Include="Microsoft.ServiceFabric.Services.Remoting" />
-        <PackageReference Include="NodaTime" />
-        <PackageReference Include="Optional" />
-        <PackageReference Include="System.Collections.Immutable" />
 
         <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
     </ItemGroup>

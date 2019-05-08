@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: inf_messaging.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 const CreateConversationRequest$json = const {
   '1': 'CreateConversationRequest',
@@ -10,7 +10,18 @@ const CreateConversationRequest$json = const {
     const {'1': 'participantIds', '3': 1, '4': 3, '5': 9, '10': 'participantIds'},
     const {'1': 'topicId', '3': 2, '4': 1, '5': 9, '10': 'topicId'},
     const {'1': 'firstMessage', '3': 3, '4': 1, '5': 11, '6': '.api.MessageDto', '10': 'firstMessage'},
+    const {'1': 'metadata', '3': 4, '4': 3, '5': 11, '6': '.api.CreateConversationRequest.MetadataEntry', '10': 'metadata'},
   ],
+  '3': const [CreateConversationRequest_MetadataEntry$json],
+};
+
+const CreateConversationRequest_MetadataEntry$json = const {
+  '1': 'MetadataEntry',
+  '2': const [
+    const {'1': 'key', '3': 1, '4': 1, '5': 9, '10': 'key'},
+    const {'1': 'value', '3': 2, '4': 1, '5': 9, '10': 'value'},
+  ],
+  '7': const {'7': true},
 };
 
 const CreateConversationResponse$json = const {

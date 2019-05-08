@@ -56,13 +56,13 @@ namespace Mapping
             }
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
+            this.defaultContainer = await cosmosClient
+                .CreateDefaultContainerIfNotExistsAsync()
+                .ContinueOnAnyContext();
 
             logger.Debug("Database creation complete");
         }
@@ -74,7 +74,8 @@ namespace Mapping
                 {
                     var filter = request.Filter;
 
-                    if (filter.QuadKeys.Count > 10)
+                    // TODO: revisit this limit later. Ideally, it would be significantly lower.
+                    if (filter.QuadKeys.Count > 64)
                     {
                         throw new InvalidOperationException("Too many quad keys requested.");
                     }

@@ -15,4 +15,6 @@ message ConversationDto {
     string topicId = 2;
     Status status = 3;
     MessageDto latestMessage = 4;
+    MessageDto latestMessageWithAction = 5;
+    map<string, string> metadata = 6;
 }

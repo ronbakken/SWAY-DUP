@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Net;
 using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using Google.Protobuf.WellKnownTypes;
 using Grpc.Core;
@@ -27,13 +26,13 @@ namespace InvitationCodes
             this.logger = logger.ForContext<InvitationCodesServiceImpl>();
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
+            this.defaultContainer = await cosmosClient
+                .CreateDefaultContainerIfNotExistsAsync()
+                .ContinueOnAnyContext();
 
             logger.Debug("Database creation complete");
         }

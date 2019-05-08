@@ -25,7 +25,7 @@ namespace API.Services.InvitationCodes
                 logger,
                 async (logger) =>
                 {
-                    var service = await GetInvitationCodeServiceClient().ContinueOnAnyContext();
+                    var service = GetInvitationCodeServiceClient();
                     var generateResponse = await service
                         .GenerateAsync(new GenerateRequest());
                     var code = generateResponse.Code;
@@ -44,7 +44,7 @@ namespace API.Services.InvitationCodes
                 logger,
                 async (logger) =>
                 {
-                    var service = await GetInvitationCodeServiceClient().ContinueOnAnyContext();
+                    var service = GetInvitationCodeServiceClient();
                     var invitationCode = request.InvitationCode;
                     var getStatusResponse = await service
                         .GetStatusAsync(new GetStatusRequest { Code = invitationCode });
@@ -58,7 +58,7 @@ namespace API.Services.InvitationCodes
                     return response;
                 });
 
-        private static Task<InvitationCodeServiceClient> GetInvitationCodeServiceClient() =>
-            APIClientResolver.Resolve<InvitationCodeServiceClient>("InvitationCodes");
+        private static InvitationCodeServiceClient GetInvitationCodeServiceClient() =>
+            APIClientResolver.Resolve<InvitationCodeServiceClient>("invitation-codes", 9027);
     }
 }

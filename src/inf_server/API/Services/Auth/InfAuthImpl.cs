@@ -32,7 +32,7 @@ namespace API.Services.Auth
                 this.logger,
                 async (logger) =>
                 {
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     await SendLoginEmailImpl(
                             logger,
                             request,
@@ -159,7 +159,7 @@ namespace API.Services.Auth
                 {
                     var userId = context.GetAuthenticatedUserId();
 
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     var getUserResponse = await usersService
                         .GetUserAsync(new service.GetUserRequest { Id = userId });
                     var user = getUserResponse.User;
@@ -200,7 +200,7 @@ namespace API.Services.Auth
 
                     var invitationCode = loginTokenValidationResults.InvitationCode;
                     logger.Debug("Honoring invitation code {InvitationCode} for user {UserId}", invitationCode, userId);
-                    var invitationCodesService = await GetInvitationCodeServiceClient().ContinueOnAnyContext();
+                    var invitationCodesService = GetInvitationCodeServiceClient();
                     var honorResult = await invitationCodesService
                         .HonorAsync(new HonorRequest { Code = invitationCode });
 
@@ -248,7 +248,7 @@ namespace API.Services.Auth
                     logger.Debug("Getting user {UserId}", userId);
                     var userType = validationResult.UserType;
                     var userShouldAlreadyBeActive = userType == service.UserType.Unknown.ToString();
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     var getUserResponse = await usersService
                         .GetUserAsync(new service.GetUserRequest { Id = userId });
                     var user = getUserResponse.User;
@@ -328,7 +328,7 @@ namespace API.Services.Auth
 
                     var userId = validationResult.UserId;
                     logger.Debug("Retrieving user {UserId}", userId);
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     var getUserResponse = await usersService
                         .GetUserAsync(new service.GetUserRequest { Id = userId });
                     var user = getUserResponse.User;
@@ -381,7 +381,7 @@ namespace API.Services.Auth
                     var userType = refreshTokenValidationResult.UserType;
 
                     logger.Debug("Validating session for user {UserId} using refresh token {RefreshToken}", userId, refreshToken);
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     var getUserSessionResponse = await usersService
                         .GetUserSessionAsync(new GetUserSessionRequest { RefreshToken = refreshToken });
                     var userSession = getUserSessionResponse.UserSession;
@@ -410,17 +410,17 @@ namespace API.Services.Auth
                 {
                     var refreshToken = request.RefreshToken;
                     logger.Debug("Invalidating refresh token {RefreshToken}", refreshToken);
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     await usersService
                         .InvalidateUserSessionAsync(new InvalidateUserSessionRequest { RefreshToken = refreshToken });
 
                     return Empty.Instance;
                 });
 
-        private static Task<UsersServiceClient> GetUsersServiceClient() =>
-            APIClientResolver.Resolve<UsersServiceClient>("Users");
+        private static UsersServiceClient GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("users", 9031);
 
-        private static Task<InvitationCodeServiceClient> GetInvitationCodeServiceClient() =>
-            APIClientResolver.Resolve<InvitationCodeServiceClient>("InvitationCodes");
+        private static InvitationCodeServiceClient GetInvitationCodeServiceClient() =>
+            APIClientResolver.Resolve<InvitationCodeServiceClient>("invitation-codes", 9027);
     }
 }

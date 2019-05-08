@@ -1,17 +1,30 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Utility;
+using Utility.gRPC;
+using Utility.Microsoft.Azure.Cosmos;
 
 namespace InvitationCodes
 {
-    internal static class Program
+    static class Program
     {
-        private static async Task Main()
+        static async Task Main(string[] args)
         {
-            await ServiceBootstrapper
-                .Bootstrap(
-                    "InvitationCodes",
-                    context => new InvitationCodes(context))
+            var logger = Logging.GetLogger(typeof(Program));
+            var invitationCodesService = new InvitationCodesServiceImpl(logger);
+            var cosmosClient = Cosmos.GetCosmosClient();
+            await invitationCodesService
+                .Initialize(cosmosClient)
                 .ContinueOnAnyContext();
+            var server = ServerFactory.Create(
+                useSsl: false,
+                Interfaces.InvitationCodeService.BindService(invitationCodesService));
+
+            logger.Debug("Starting server");
+            server.Start();
+            logger.Debug("Server started");
+
+            await Task.Delay(Timeout.Infinite);
         }
     }
 }

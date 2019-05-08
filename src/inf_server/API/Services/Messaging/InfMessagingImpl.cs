@@ -26,10 +26,10 @@ namespace API.Services.Messaging
                 this.logger,
                 async (logger) =>
                 {
-                    var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var messagingService = GetMessagingServiceClient();
+                    var usersService = GetUsersServiceClient();
                     var userId = context.GetAuthenticatedUserId();
-                    logger.Debug("Creating conversation on behalf of user {UserId} for participants with IDs {ParticipantIDs}", userId, request.ParticipantIds);
+                    logger.Debug("Creating conversation on behalf of user {UserId} for participants with IDs {ParticipantIDs}, metadata {Metadata}", userId, request.ParticipantIds, request.Metadata);
 
                     if (request.ParticipantIds.Count == 0)
                     {
@@ -55,6 +55,7 @@ namespace API.Services.Messaging
                     };
 
                     createConversationRequest.ParticipantIds.AddRange(request.ParticipantIds);
+                    createConversationRequest.Metadata.Add(request.Metadata);
 
                     var createConversationResponse = await messagingService.CreateConversationAsync(createConversationRequest);
                     var conversation = createConversationResponse.Conversation;
@@ -73,7 +74,7 @@ namespace API.Services.Messaging
                 this.logger,
                 async (logger) =>
                 {
-                    var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
+                    var messagingService = GetMessagingServiceClient();
                     var userId = context.GetAuthenticatedUserId();
                     logger.Debug("Closing conversation with ID {ConversationId} on behalf of user {UserId}", request.ConversationId, userId);
 
@@ -99,8 +100,8 @@ namespace API.Services.Messaging
                 this.logger,
                 async (logger) =>
                 {
-                    var messagingService = await GetMessagingServiceClient().ContinueOnAnyContext();
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var messagingService = GetMessagingServiceClient();
+                    var usersService = GetUsersServiceClient();
                     var userId = context.GetAuthenticatedUserId();
                     logger.Debug("Creating message on behalf of user {UserId}: {@Message}", userId, request.Message);
 
@@ -127,10 +128,10 @@ namespace API.Services.Messaging
                     return response;
                 });
 
-        private static Task<MessagingServiceClient> GetMessagingServiceClient() =>
-            APIClientResolver.Resolve<MessagingServiceClient>("Messaging");
+        private static MessagingServiceClient GetMessagingServiceClient() =>
+            APIClientResolver.Resolve<MessagingServiceClient>("messaging", 9029);
 
-        private static Task<UsersServiceClient> GetUsersServiceClient() =>
-            APIClientResolver.Resolve<UsersServiceClient>("Users");
+        private static UsersServiceClient GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("users", 9031);
     }
 }

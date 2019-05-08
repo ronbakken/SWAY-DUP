@@ -2,44 +2,46 @@
 //  Generated code. Do not modify.
 //  source: inf_list.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'package:grpc/service_api.dart' as $grpc;
+
+import 'dart:core' as $core show int, String, List;
 
 import 'inf_list.pb.dart';
 export 'inf_list.pb.dart';
 
-class InfListClient extends Client {
-  static final _$list = new ClientMethod<ListRequest, ListResponse>(
+class InfListClient extends $grpc.Client {
+  static final _$list = $grpc.ClientMethod<ListRequest, ListResponse>(
       '/api.InfList/List',
       (ListRequest value) => value.writeToBuffer(),
-      (List<int> value) => new ListResponse.fromBuffer(value));
+      ($core.List<$core.int> value) => ListResponse.fromBuffer(value));
 
-  InfListClient(ClientChannel channel, {CallOptions options})
+  InfListClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  ResponseStream<ListResponse> list($async.Stream<ListRequest> request,
-      {CallOptions options}) {
+  $grpc.ResponseStream<ListResponse> list($async.Stream<ListRequest> request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(_$list, request, options: options);
-    return new ResponseStream(call);
+    return $grpc.ResponseStream(call);
   }
 }
 
-abstract class InfListServiceBase extends Service {
-  String get $name => 'api.InfList';
+abstract class InfListServiceBase extends $grpc.Service {
+  $core.String get $name => 'api.InfList';
 
   InfListServiceBase() {
-    $addMethod(new ServiceMethod<ListRequest, ListResponse>(
+    $addMethod($grpc.ServiceMethod<ListRequest, ListResponse>(
         'List',
         list,
         true,
         true,
-        (List<int> value) => new ListRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => ListRequest.fromBuffer(value),
         (ListResponse value) => value.writeToBuffer()));
   }
 
   $async.Stream<ListResponse> list(
-      ServiceCall call, $async.Stream<ListRequest> request);
+      $grpc.ServiceCall call, $async.Stream<ListRequest> request);
 }

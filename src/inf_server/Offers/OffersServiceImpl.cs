@@ -37,9 +37,7 @@ namespace Offers
             this.offerUpdatedTopicClient = offerUpdatedTopicClient;
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 

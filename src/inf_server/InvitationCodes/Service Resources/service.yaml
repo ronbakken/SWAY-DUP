@@ -1,0 +1,31 @@
+﻿## Service definition ##
+application:
+  schemaVersion: 1.0.0-preview2
+  name: inf
+  properties:
+    services:
+      - name: InvitationCodes
+        properties:
+          description: InvitationCodes description.
+          osType: Windows
+          codePackages:
+            - name: InvitationCodes
+              image: invitationcodes:dev
+              environmentVariables:
+                 - name: ENVIRONMENT
+                   value: "[parameters('ENVIRONMENT')]"
+                 - name: RESOURCE_GROUP
+                   value: "[parameters('RESOURCE_GROUP')]"
+                 - name: SEQ_SERVER_URL
+                   value: "[parameters('SEQ_SERVER_URL')]"
+                 - name: SEQ_API_KEY
+                   value: "[parameters('SEQ_API_KEY')]"
+                 - name: GRPC_PORT
+                   value: "[parameters('GRPC_PORT')]"
+              resources:
+                requests:
+                  cpu: 0.5
+                  memoryInGB: 1
+          replicaCount: 1
+          networkRefs:
+            - name: infNetwork

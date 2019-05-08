@@ -132,6 +132,9 @@ namespace API.ObjectMapping
                 NumberRemaining = @this.NumberRemaining,
                 Start = @this.Start,
                 Title = @this.Title,
+                Thumbnail = @this.Thumbnail.ToImageDto(),
+                FeaturedImage = @this.Images.FirstOrDefault().ToImageDto(),
+                FeaturedCategoryId = @this.CategoryIds.FirstOrDefault(),
             };
 
             return result;

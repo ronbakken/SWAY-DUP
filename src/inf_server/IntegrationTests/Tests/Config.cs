@@ -38,7 +38,7 @@ namespace IntegrationTests.Tests
             var client = new InfConfig.InfConfigClient(context.GetServerChannel());
             var welcomeImagesCall = client.GetWelcomeImages(Empty.Instance);
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(TimeSpan.FromSeconds(1));
+            cts.CancelAfter(TimeSpan.FromSeconds(10));
 
             GetWelcomeImagesResponse response = null;
 

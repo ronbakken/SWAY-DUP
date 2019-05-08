@@ -65,6 +65,7 @@ message OfferDto {
         ImageDto thumbnail = 12;
 
         ImageDto featuredImage = 13;
+        string featuredCategoryId = 15;
 
         DealTermsDto terms = 14;
 
