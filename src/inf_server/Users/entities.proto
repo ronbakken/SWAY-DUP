@@ -59,36 +59,44 @@ message UserEntity {
         active = 4;
     }
 
-    uint32 schemaVersion = 1;
-    string id = 2;
-    uint32 revision = 3;
-    google.protobuf.Timestamp created = 4;
-    string email = 5;
-    Type type = 6;
-    Status status = 7;
-    google.protobuf.Timestamp statusTimestamp = 8;
-    string name = 9;
-    string description = 10;
-    ImageEntity avatar = 11;
-    ImageEntity avatarThumbnail = 12;
-    LocationEntity location = 13;
-    bool showLocation = 14;
-    bool isVerified = 15;
-    string websiteUrl = 16;
-    bool acceptsDirectOffers = 17;
-    int32 accountCompletionInPercent = 18;
-    MoneyEntity minimalFee = 19;
-    repeated string categoryIds = 20;
-    repeated SocialMediaAccountEntity socialMediaAccounts = 21;
-    repeated string keywords = 22;
-    repeated string registrationTokens = 23;
+    // "user"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // same as ID
+    string partitionKey = 3;
+    string id = 4;
+    uint32 revision = 5;
+    google.protobuf.Timestamp created = 6;
+    string email = 7;
+    Type type = 8;
+    Status status = 9;
+    google.protobuf.Timestamp statusTimestamp = 10;
+    string name = 11;
+    string description = 12;
+    ImageEntity avatar = 13;
+    ImageEntity avatarThumbnail = 14;
+    LocationEntity location = 15;
+    repeated LocationEntity locationsOfInfluence = 16;
+    bool showLocation = 17;
+    bool isVerified = 18;
+    string websiteUrl = 19;
+    bool acceptsDirectOffers = 20;
+    int32 accountCompletionInPercent = 21;
+    MoneyEntity minimalFee = 22;
+    repeated string categoryIds = 23;
+    repeated SocialMediaAccountEntity socialMediaAccounts = 24;
+    repeated string keywords = 25;
+    repeated string registrationTokens = 26;
 
-    string loginToken = 24;
+    string loginToken = 27;
 }
 
 message UserSessionEntity {
-    uint32 schemaVersion = 1;
-    string id = 2;
-    string userId = 3;
-    string refreshToken = 4;
+    // "userSession"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+     // user ID
+    string partitionKey = 3;
+    string id = 4;
+    string refreshToken = 5;
 }

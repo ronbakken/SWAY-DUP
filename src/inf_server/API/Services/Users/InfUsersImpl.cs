@@ -5,6 +5,7 @@ using Grpc.Core;
 using Serilog;
 using Users.Interfaces;
 using Utility;
+using Utility.gRPC;
 using static API.Interfaces.InfUsers;
 using static Users.Interfaces.UsersService;
 using api = API.Interfaces;
@@ -28,7 +29,7 @@ namespace API.Services.Users
                 {
                     var userId = request.UserId;
                     logger.Debug("Getting user {UserId}", userId);
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     var getUserResponse = await usersService
                         .GetUserAsync(new service.GetUserRequest { Id = userId });
                     var user = getUserResponse.User;
@@ -55,7 +56,7 @@ namespace API.Services.Users
                     }
 
                     logger.Debug("Getting user {UserId}", authenticatedUserId);
-                    var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+                    var usersService = GetUsersServiceClient();
                     var getUserResponse = await usersService
                         .GetUserAsync(new service.GetUserRequest { Id = authenticatedUserId });
                     var user = getUserResponse.User;
@@ -74,7 +75,7 @@ namespace API.Services.Users
                     return response;
                 });
 
-        private static Task<UsersServiceClient> GetUsersServiceClient() =>
-            APIClientResolver.Resolve<UsersServiceClient>("Users");
+        private static UsersServiceClient GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("users", 9031);
     }
 }

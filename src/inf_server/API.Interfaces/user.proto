@@ -33,10 +33,10 @@ message UserDto {
     uint32 revision = 2;
     Status status = 3;
 
-    // What is that?
-    // Data sent only for "handle" users.
+    // Data sent only for user "handles".
     message HandleDataDto {
         string name = 1;
+        ImageDto avatarThumbnail = 2;
     }
 
     // Data sent only for users being used in a list context.
@@ -67,6 +67,7 @@ message UserDto {
         bool showLocation = 8;
         int32 accountCompletionInPercent = 9;
         LocationDto location = 10;
+        repeated LocationDto locationsOfInfluence = 17;
         ImageDto avatar = 11;
         ImageDto avatarThumbnail = 12;
         repeated string categoryIds = 13;

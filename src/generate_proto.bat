@@ -9,6 +9,7 @@ protoc.exe ^
     --dart_out=grpc:inf_api_client/lib/src ^
     -Iinf_server/API.Interfaces ^
     category.proto ^
+    conversation.proto ^
     deliverable.proto ^
     deal_terms.proto ^
     empty.proto ^
@@ -28,6 +29,7 @@ protoc.exe ^
     inf_system.proto ^
     inf_users.proto ^
     map_item.proto ^
+    message.proto ^
     money.proto ^
     offer.proto ^
     reward.proto ^

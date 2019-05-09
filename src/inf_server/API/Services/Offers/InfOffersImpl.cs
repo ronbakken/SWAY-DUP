@@ -5,6 +5,7 @@ using Grpc.Core;
 using Offers.Interfaces;
 using Serilog;
 using Utility;
+using Utility.gRPC;
 using static API.Interfaces.InfOffers;
 using static Offers.Interfaces.OffersService;
 using api = API.Interfaces;
@@ -26,7 +27,7 @@ namespace API.Services.Offers
                 this.logger,
                 async (logger) =>
                 {
-                    var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
+                    var offersService = GetOffersServiceClient();
                     var userId = context.GetAuthenticatedUserId();
                     logger.Debug("Updating offer for user {UserId}: {@Offer}", userId, request.Offer);
 
@@ -52,7 +53,7 @@ namespace API.Services.Offers
                 this.logger,
                 async (logger) =>
                 {
-                    var offersService = await GetOffersServiceClient().ContinueOnAnyContext();
+                    var offersService = GetOffersServiceClient();
                     var getOfferRequest = new offers.GetOfferRequest
                     {
                         Id = request.Id,
@@ -70,7 +71,7 @@ namespace API.Services.Offers
                     return response;
                 });
 
-        private static Task<OffersServiceClient> GetOffersServiceClient() =>
-            APIClientResolver.Resolve<OffersServiceClient>("Offers");
+        private static OffersServiceClient GetOffersServiceClient() =>
+            APIClientResolver.Resolve<OffersServiceClient>("offers", 9030);
     }
 }

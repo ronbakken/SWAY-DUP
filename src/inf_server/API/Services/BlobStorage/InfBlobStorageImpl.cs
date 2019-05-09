@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Fabric;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
@@ -28,8 +27,7 @@ namespace API.Services.BlobStorage
                 logger,
                 async (logger) =>
                 {
-                    var configurationPackage = FabricRuntime.GetActivationContext().GetConfigurationPackageObject("Config");
-                    var storageConnectionString = configurationPackage.Settings.Sections["Storage"].Parameters["ConnectionString"].Value;
+                    var storageConnectionString = Environment.GetEnvironmentVariable("STORAGE_CONNECTION_STRING");
                     logger.Debug("Storaged connection string is {StorageConnectionString}", storageConnectionString);
                     var storageAccount = CloudStorageAccount.Parse(storageConnectionString);
                     var blobClient = storageAccount.CreateCloudBlobClient();

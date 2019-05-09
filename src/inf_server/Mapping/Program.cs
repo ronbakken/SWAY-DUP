@@ -1,21 +1,34 @@
-﻿using System.Linq;
+﻿using System.Threading;
 using System.Threading.Tasks;
-using Mapping.Interfaces;
-using Offers.Interfaces;
-using Users.Interfaces;
+using Microsoft.Azure.ServiceBus;
 using Utility;
+using Utility.gRPC;
+using Utility.Microsoft.Azure.Cosmos;
+using Utility.Microsoft.Azure.ServiceBus;
 
 namespace Mapping
 {
-    internal static class Program
+    static class Program
     {
-        private static async Task Main()
+        static async Task Main(string[] args)
         {
-            await ServiceBootstrapper
-                .Bootstrap(
-                    "Mapping",
-                    context => new Mapping(context))
+            var logger = Logging.GetLogger(typeof(Program));
+            var offerUpdated = ServiceBus.GetServiceBusSubscriptionClient(logger, "OfferUpdated", "mapping_service", ReceiveMode.ReceiveAndDelete);
+            var userUpdated = ServiceBus.GetServiceBusSubscriptionClient(logger, "UserUpdated", "mapping_service", ReceiveMode.ReceiveAndDelete);
+            var mappingService = new MappingServiceImpl(logger, offerUpdated, userUpdated);
+            var cosmosClient = Cosmos.GetCosmosClient();
+            await mappingService
+                .Initialize(cosmosClient)
                 .ContinueOnAnyContext();
+            var server = ServerFactory.Create(
+                useSsl: false,
+                Interfaces.MappingService.BindService(mappingService));
+
+            logger.Debug("Starting server");
+            server.Start();
+            logger.Debug("Server started");
+
+            await Task.Delay(Timeout.Infinite);
         }
     }
 }

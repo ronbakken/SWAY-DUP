@@ -23,14 +23,12 @@ namespace Users
 {
     public sealed class UsersServiceImpl : UsersServiceBase
     {
-        private const string databaseId = "users";
-        private const string usersCollectionId = "users";
-        private const string sessionsCollectionId = "sessions";
+        public const string userSchemaType = "user";
+        public const string userSessionSchemaType = "userSession";
 
         private readonly ILogger logger;
         private readonly TopicClient userUpdatedTopicClient;
-        private CosmosContainer usersContainer;
-        private CosmosContainer sessionsContainer;
+        private CosmosContainer defaultContainer;
         private CosmosStoredProcedure saveUserSproc;
 
         public UsersServiceImpl(
@@ -41,29 +39,15 @@ namespace Users
             this.userUpdatedTopicClient = userUpdatedTopicClient;
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            var databaseResult = await cosmosClient
-                .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
+            this.defaultContainer = await cosmosClient
+                .CreateDefaultContainerIfNotExistsAsync()
                 .ContinueOnAnyContext();
-            var database = databaseResult.Database;
-            var usersContainerResult = await database
-                .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(usersCollectionId, "/id")
-                .ContinueOnAnyContext();
-            this.usersContainer = usersContainerResult.Container;
-            var sessionsContainerResult = await database
-                .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(sessionsCollectionId, "/userId")
-                .ContinueOnAnyContext();
-            this.sessionsContainer = sessionsContainerResult.Container;
 
-            var createSprocResult = await usersContainer
+            var createSprocResult = await defaultContainer
                 .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "saveUser")
                 .ContinueOnAnyContext();
             this.saveUserSproc = createSprocResult.StoredProcedure;
@@ -80,7 +64,7 @@ namespace Users
 
                     logger.Debug("Getting user {UserId}", userId);
                     var userResponse = await this
-                        .usersContainer
+                        .defaultContainer
                         .Items
                         .ReadItemAsync<UserEntity>(userId, userId)
                         .ContinueOnAnyContext();
@@ -110,12 +94,13 @@ namespace Users
 
                     logger.Debug("Getting user with email {Email}", email);
 
-                    var sql = new CosmosSqlQueryDefinition("SELECT * FROM u WHERE u.email = @Email");
+                    var sql = new CosmosSqlQueryDefinition("SELECT * FROM u WHERE u.schemaType = @SchemaType AND u.email = @Email");
+                    sql.UseParameter("@SchemaType", userSchemaType);
                     sql.UseParameter("@Email", email);
 
                     // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = this
-                        .usersContainer
+                        .defaultContainer
                         .Items
                         .CreateItemQuery<JObject>(sql, 2);
 
@@ -129,7 +114,7 @@ namespace Users
                         .FetchNextSetAsync()
                         .ContinueOnAnyContext();
                     var results = currentResultSet
-                        .Select(InfCosmosConfiguration.Transform<UserEntity>)
+                        .Select(Utility.Microsoft.Azure.Cosmos.ProtobufJsonSerializer.Transform<UserEntity>)
                         .Select(currentResult => currentResult.ToServiceDto())
                         .ToList();
 
@@ -218,7 +203,7 @@ namespace Users
 
                     logger.Debug("Getting session for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
                     var userSessionResponse = await this
-                        .sessionsContainer
+                        .defaultContainer
                         .Items
                         .ReadItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken))
                         .ContinueOnAnyContext();
@@ -259,11 +244,11 @@ namespace Users
                     var userId = validationResults.UserId;
                     var userSessionEntity = userSession.ToEntity();
                     userSessionEntity.Id = UserSessionIdHelper.GetIdFrom(userSessionEntity.RefreshToken);
-                    userSessionEntity.UserId = userId;
+                    userSessionEntity.PartitionKey = userId;
 
                     logger.Debug("Saving session for user {UserId}: {UserSession}", userId, userSessionEntity);
                     await this
-                        .sessionsContainer
+                        .defaultContainer
                         .Items
                         .CreateItemAsync(userId, userSessionEntity)
                         .ContinueOnAnyContext();
@@ -295,7 +280,7 @@ namespace Users
 
                     logger.Debug("Deleting session for user {UserId}, refresh token {RefreshToken}", userId, refreshToken);
                     await this
-                        .sessionsContainer
+                        .defaultContainer
                         .Items
                         .DeleteItemAsync<UserSessionEntity>(userId, UserSessionIdHelper.GetIdFrom(refreshToken))
                         .ContinueOnAnyContext();
@@ -320,11 +305,45 @@ namespace Users
 
                     this.logger.Debug("Retrieving offers users using page size {PageSize}, continuation token {ContinutationToken}, filter {@Filter}", pageSize, continuationToken, filter);
 
-                    var clause = new FilterClauseBuilder("u");
+                    /**
+                     * TODO: HACK: this is incredibly frustrating, but I've had to hack around several Cosmos problems as described here. This came about when
+                     * adding support for locations of influence. Before that, things were working fine as is.
+                     *
+                     * First of all, the query I want to write is this:
+                     *
+                     * SELECT DISTINCT VALUE u
+                     * FROM u JOIN loi IN u.locationsOfInfluence
+                     * WHERE
+                     *   (
+                     *     (ST_WITHIN({'type':'Point','coordinates':[u.location.geoPoint.longitude,u.location.geoPoint.latitude]},{'type':'Polygon','coordinates':[[[-108,-43],[-108,-40],[-110,-40],[-110,-43],[-108,-43]]]}))
+                     *     OR
+                     *     (ST_WITHIN({'type':'Point','coordinates':[loi.geoPoint.longitude,loi.geoPoint.latitude]},{'type':'Polygon','coordinates':[[[-108,-43],[-108,-40],[-110,-40],[-110,-43],[-108,-43]]]}))
+                     *   )
+                     * ORDER BY u.created
+                     *
+                     * The join on the locations of influence is key. It prompted the need for DISTINCT, since otherwise the same user could be included in the
+                     * results twice. The DISTINCT prompted the need for ORDER BY, which then allows the query to execute again. However, the DISTINCT is then
+                     * not applied (see https://stackoverflow.com/questions/55016239/).
+                     *
+                     * OK, fun. So how do I get around that? Well, my plan was to execute that query anyway and then manually de-duplicate client-side using a
+                     * simple hash of the ID. Sounded so simple, except that the query above runs in the portal *but not via the .NET client*. I have reported
+                     * this here: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/65
+                     *
+                     * So where does this leave me? The only alternative I can think of is to manually check each location of influence up to some maximum (3).
+                     * Hence, the query is terrible and more limited, but until these bugs are fixed my hands are tied.
+                     */
+
+                    var queryBuilder = new CosmosSqlQueryDefinitionBuilder("u");
+
+                    queryBuilder
+                        .AppendScalarFieldClause(
+                            "schemaType",
+                            userSchemaType,
+                            value => value);
 
                     if (filter != null)
                     {
-                        clause
+                        queryBuilder
                             .AppendScalarFieldOneOfClause(
                                 "type",
                                 filter.UserTypes,
@@ -333,23 +352,54 @@ namespace Users
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
-                                FilterLogicalOperator.And)
+                                LogicalOperator.And)
                             .AppendArrayFieldClause(
                                 "socialMediaAccounts",
                                 filter.SocialMediaNetworkIds,
                                 value => value,
-                                logicalOperator: FilterLogicalOperator.And,
+                                logicalOperator: LogicalOperator.And,
                                 subFieldName: "socialNetworkProviderId")
                             .AppendMoneyAtLeastClause(
                                 "minimumValue",
-                                new Utility.Money(filter.MinimumValue?.CurrencyCode, filter.MinimumValue?.Units ?? 0, filter.MinimumValue?.Nanos ?? 0))
-                            .AppendBoundingBoxClause(
-                                "location.geoPoint.longitude",
-                                "location.geoPoint.latitude",
-                                filter.NorthWest?.Latitude,
-                                filter.NorthWest?.Longitude,
-                                filter.SouthEast?.Latitude,
-                                filter.SouthEast?.Longitude);
+                                new Utility.Money(filter.MinimumValue?.CurrencyCode, filter.MinimumValue?.Units ?? 0, filter.MinimumValue?.Nanos ?? 0));
+
+                        if (filter.NorthWest != null && filter.SouthEast != null)
+                        {
+                            queryBuilder
+                                .AppendOpenParenthesis()
+                                .AppendBoundingBoxClause(
+                                    "location.geoPoint.longitude",
+                                    "location.geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendOrIfNecessary()
+                                .AppendBoundingBoxClause(
+                                    "locationsOfInfluence[0].geoPoint.longitude",
+                                    "locationsOfInfluence[0].geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendOrIfNecessary()
+                                .AppendBoundingBoxClause(
+                                    "locationsOfInfluence[1].geoPoint.longitude",
+                                    "locationsOfInfluence[1].geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendOrIfNecessary()
+                                .AppendBoundingBoxClause(
+                                    "locationsOfInfluence[2].geoPoint.longitude",
+                                    "locationsOfInfluence[2].geoPoint.latitude",
+                                    filter.NorthWest?.Latitude,
+                                    filter.NorthWest?.Longitude,
+                                    filter.SouthEast?.Latitude,
+                                    filter.SouthEast?.Longitude)
+                                .AppendCloseParenthesis();
+                        }
 
                         if (!string.IsNullOrEmpty(filter.Phrase))
                         {
@@ -358,12 +408,12 @@ namespace Users
                                 .Take(10)
                                 .ToList();
 
-                            clause
+                            queryBuilder
                                 .AppendArrayFieldClause(
                                     "keywords",
                                     keywordsToFind,
                                     value => value,
-                                    FilterLogicalOperator.And);
+                                    LogicalOperator.And);
                         }
 
                         //if (filter.MinimumValue > 0)
@@ -380,25 +430,11 @@ namespace Users
                         //}
                     }
 
-                    var sql = new StringBuilder("SELECT * FROM u");
-
-                    if (!clause.IsEmpty)
-                    {
-                        sql
-                            .Append(" WHERE ")
-                            .Append(clause);
-                    }
-
-                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
-                    var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
-
-                    foreach (var parameter in clause.Parameters)
-                    {
-                        queryDefinition.UseParameter(parameter.Key, parameter.Value);
-                    }
+                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", queryBuilder, queryBuilder.Parameters);
+                    var queryDefinition = queryBuilder.Build();
 
                     // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
-                    var itemQuery = usersContainer
+                    var itemQuery = defaultContainer
                         .Items
                         .CreateItemQuery<JObject>(queryDefinition, 2, maxItemCount: pageSize, continuationToken: continuationToken);
                     var items = new List<User>();
@@ -411,7 +447,7 @@ namespace Users
                             .ContinueOnAnyContext();
                         nextContinuationToken = currentResultSet.ContinuationToken;
 
-                        foreach (var user in currentResultSet.Select(InfCosmosConfiguration.Transform<UserEntity>))
+                        foreach (var user in currentResultSet.Select(Utility.Microsoft.Azure.Cosmos.ProtobufJsonSerializer.Transform<UserEntity>))
                         {
                             items.Add(user.ToServiceDto());
                         }

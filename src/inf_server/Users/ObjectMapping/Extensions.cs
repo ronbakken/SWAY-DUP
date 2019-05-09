@@ -14,6 +14,10 @@ namespace Users.ObjectMapping
 
             var result = new UserEntity
             {
+                SchemaType = UsersServiceImpl.userSchemaType,
+                SchemaVersion = 1,
+                PartitionKey = @this.Id,
+
                 AcceptsDirectOffers = @this.AcceptsDirectOffers,
                 AccountCompletionInPercent = @this.AccountCompletionInPercent,
                 Avatar = @this.Avatar.ToEntity(),
@@ -28,7 +32,6 @@ namespace Users.ObjectMapping
                 MinimalFee = @this.MinimalFee.ToEntity(),
                 Name = @this.Name,
                 Revision = @this.Revision,
-                SchemaVersion = 1,
                 ShowLocation = @this.ShowLocation,
                 Status = @this.Status.ToEntity(),
                 StatusTimestamp = @this.StatusTimestamp,
@@ -38,6 +41,7 @@ namespace Users.ObjectMapping
 
             result.CategoryIds.AddRange(@this.CategoryIds);
             result.Keywords.AddRange(@this.Keywords);
+            result.LocationsOfInfluence.AddRange(@this.LocationsOfInfluence.Select(x => x.ToEntity()));
             result.RegistrationTokens.AddRange(@this.RegistrationTokens);
             result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToEntity()));
 
@@ -76,8 +80,9 @@ namespace Users.ObjectMapping
 
             result.CategoryIds.AddRange(@this.CategoryIds);
             result.Keywords.AddRange(@this.Keywords);
+            result.LocationsOfInfluence.AddRange(@this.LocationsOfInfluence.Select(x => x.ToServiceDto()));
             result.RegistrationTokens.AddRange(@this.RegistrationTokens);
-            result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToEntity()));
+            result.SocialMediaAccounts.AddRange(@this.SocialMediaAccounts.Select(x => x.ToServiceDto()));
 
             return result;
         }
@@ -239,7 +244,7 @@ namespace Users.ObjectMapping
             return result;
         }
 
-        public static SocialMediaAccount ToEntity(this SocialMediaAccountEntity @this)
+        public static SocialMediaAccount ToServiceDto(this SocialMediaAccountEntity @this)
         {
             if (@this == null)
             {
@@ -287,8 +292,10 @@ namespace Users.ObjectMapping
 
             var result = new UserSessionEntity
             {
-                RefreshToken = @this.RefreshToken,
+                SchemaType = UsersServiceImpl.userSessionSchemaType,
                 SchemaVersion = 1,
+
+                RefreshToken = @this.RefreshToken,
             };
 
             return result;

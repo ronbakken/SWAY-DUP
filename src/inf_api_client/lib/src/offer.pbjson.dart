@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: offer.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 const OfferDto$json = const {
   '1': 'OfferDto',
@@ -16,7 +16,7 @@ const OfferDto$json = const {
     const {'1': 'full', '3': 8, '4': 1, '5': 11, '6': '.api.OfferDto.FullDataDto', '9': 0, '10': 'full'},
   ],
   '3': const [OfferDto_ListDataDto$json, OfferDto_FullDataDto$json],
-  '4': const [OfferDto_Status$json, OfferDto_StatusReason$json, OfferDto_ProposalStatus$json, OfferDto_AcceptancePolicy$json],
+  '4': const [OfferDto_Status$json, OfferDto_StatusReason$json, OfferDto_AcceptancePolicy$json],
   '8': const [
     const {'1': 'data'},
   ],
@@ -38,8 +38,8 @@ const OfferDto_ListDataDto$json = const {
     const {'1': 'numberRemaining', '3': 11, '4': 1, '5': 5, '10': 'numberRemaining'},
     const {'1': 'thumbnail', '3': 12, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'thumbnail'},
     const {'1': 'featuredImage', '3': 13, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'featuredImage'},
+    const {'1': 'featuredCategoryId', '3': 15, '4': 1, '5': 9, '10': 'featuredCategoryId'},
     const {'1': 'terms', '3': 14, '4': 1, '5': 11, '6': '.api.DealTermsDto', '10': 'terms'},
-    const {'1': 'proposalStatus', '3': 15, '4': 1, '5': 14, '6': '.api.OfferDto.ProposalStatus', '10': 'proposalStatus'},
   ],
 };
 
@@ -61,7 +61,6 @@ const OfferDto_FullDataDto$json = const {
     const {'1': 'thumbnail', '3': 13, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'thumbnail'},
     const {'1': 'terms', '3': 14, '4': 1, '5': 11, '6': '.api.DealTermsDto', '10': 'terms'},
     const {'1': 'acceptancePolicy', '3': 15, '4': 1, '5': 14, '6': '.api.OfferDto.AcceptancePolicy', '10': 'acceptancePolicy'},
-    const {'1': 'proposalStatus', '3': 16, '4': 1, '5': 14, '6': '.api.OfferDto.ProposalStatus', '10': 'proposalStatus'},
     const {'1': 'images', '3': 17, '4': 3, '5': 11, '6': '.api.ImageDto', '10': 'images'},
     const {'1': 'categoryIds', '3': 18, '4': 3, '5': 9, '10': 'categoryIds'},
   ],
@@ -87,15 +86,6 @@ const OfferDto_StatusReason$json = const {
     const {'1': 'tosViolation', '2': 3},
     const {'1': 'completed', '2': 4},
     const {'1': 'expired', '2': 5},
-  ],
-};
-
-const OfferDto_ProposalStatus$json = const {
-  '1': 'ProposalStatus',
-  '2': const [
-    const {'1': 'none', '2': 0},
-    const {'1': 'atLeastOne', '2': 1},
-    const {'1': 'atLeastOneIncludingCurrentUser', '2': 2},
   ],
 };
 

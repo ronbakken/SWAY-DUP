@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Fabric;
-using System.Fabric.Health;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using Genesis.Ensure;
@@ -49,13 +47,6 @@ namespace Utility
                 catch (Exception ex)
                 {
                     logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
-
-                    var codePackageActivationContext = FabricRuntime.GetActivationContext();
-                    SendHealthReport(
-                        codePackageActivationContext,
-                        caller,
-                        ex);
-
                     throw;
                 }
                 finally
@@ -101,13 +92,6 @@ namespace Utility
                 catch (Exception ex)
                 {
                     logger.Error(ex, "Unexpected failure whilst invoking API, caller {Caller}", caller);
-
-                    var codePackageActivationContext = FabricRuntime.GetActivationContext();
-                    SendHealthReport(
-                        codePackageActivationContext,
-                        caller,
-                        ex);
-
                     throw;
                 }
                 finally
@@ -115,23 +99,6 @@ namespace Utility
                     logger.Verbose("Execution complete");
                 }
             }
-        }
-
-        private static void SendHealthReport(
-            ICodePackageActivationContext codePackageActivationContext,
-            string property,
-            Exception exception)
-        {
-            var healthInformation = new HealthInformation("API", property, HealthState.Error)
-            {
-                Description = exception.ToString(),
-            };
-            var sendOptions = new HealthReportSendOptions
-            {
-                Immediate = true,
-            };
-
-            codePackageActivationContext.ReportDeployedServicePackageHealth(healthInformation, sendOptions);
         }
     }
 }

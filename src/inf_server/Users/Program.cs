@@ -1,17 +1,32 @@
-﻿using System.Threading.Tasks;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Utility;
+using Utility.gRPC;
+using Utility.Microsoft.Azure.Cosmos;
+using Utility.Microsoft.Azure.ServiceBus;
 
 namespace Users
 {
-    internal static class Program
+    static class Program
     {
-        private static async Task Main()
+        static async Task Main(string[] args)
         {
-            await ServiceBootstrapper
-                .Bootstrap(
-                    "Users",
-                    context => new Users(context))
+            var logger = Logging.GetLogger(typeof(Program));
+            var userUpdated = ServiceBus.GetServiceBusTopicClient(logger, "UserUpdated");
+            var usersService = new UsersServiceImpl(logger, userUpdated);
+            var cosmosClient = Cosmos.GetCosmosClient();
+            await usersService
+                .Initialize(cosmosClient)
                 .ContinueOnAnyContext();
+            var server = ServerFactory.Create(
+                useSsl: false,
+                Interfaces.UsersService.BindService(usersService));
+
+            logger.Debug("Starting server");
+            server.Start();
+            logger.Debug("Server started");
+
+            await Task.Delay(Timeout.Infinite);
         }
     }
 }

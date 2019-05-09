@@ -1,6 +1,7 @@
 ﻿using System;
 using API.Interfaces;
 using mapping = Mapping.Interfaces;
+using messaging = Messaging.Interfaces;
 using offers = Offers.Interfaces;
 using users = Users.Interfaces;
 
@@ -23,7 +24,7 @@ namespace API.ObjectMapping
             return result;
         }
 
-        public static ItemDto ToItemDto(this offers.Offer @this)
+        public static ItemDto ToItemDto(this messaging.Conversation @this)
         {
             if (@this == null)
             {
@@ -32,13 +33,13 @@ namespace API.ObjectMapping
 
             var result = new ItemDto
             {
-                Offer = @this.ToOfferDto(OfferDto.DataOneofCase.Full),
+                Conversation = @this.ToConversationDto(),
             };
 
             return result;
         }
 
-        public static ItemDto ToItemDto(this users.User @this)
+        public static ItemDto ToItemDto(this messaging.Message @this)
         {
             if (@this == null)
             {
@@ -47,7 +48,37 @@ namespace API.ObjectMapping
 
             var result = new ItemDto
             {
-                User = @this.ToUserDto(UserDto.DataOneofCase.Full),
+                Message = @this.ToMessageDto(),
+            };
+
+            return result;
+        }
+
+        public static ItemDto ToItemDto(this offers.Offer @this, OfferDto.DataOneofCase dataDenomination)
+        {
+            if (@this == null)
+            {
+                return null;
+            }
+
+            var result = new ItemDto
+            {
+                Offer = @this.ToOfferDto(dataDenomination),
+            };
+
+            return result;
+        }
+
+        public static ItemDto ToItemDto(this users.User @this, UserDto.DataOneofCase dataDenomination)
+        {
+            if (@this == null)
+            {
+                return null;
+            }
+
+            var result = new ItemDto
+            {
+                User = @this.ToUserDto(dataDenomination),
             };
 
             return result;
@@ -179,9 +210,6 @@ namespace API.ObjectMapping
 
         public static MapItemDto.Types.MapItemStatus ToMapItemStatus(this mapping.MapItem.Types.Status @this) =>
             (MapItemDto.Types.MapItemStatus)(int)@this;
-
-        public static mapping.ListMapItemsRequest.Types.Filter.Types.ItemType ToItemType(this ItemFilterDto.Types.ItemType @this) =>
-            (mapping.ListMapItemsRequest.Types.Filter.Types.ItemType)(int)@this;
 
         public static mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.AcceptancePolicy ToAcceptancePolicy(this OfferDto.Types.AcceptancePolicy @this) =>
             (mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.AcceptancePolicy)(int)@this;

@@ -27,6 +27,7 @@ bld/
 [Bb]in/
 [Oo]bj/
 [Ll]og/
+gen
 
 # Visual Studio 2015/2017 cache/options directory
 .vs/
@@ -222,6 +223,7 @@ ClientBin/
 *.dbproj.schemaview
 *.jfm
 *.pfx
+*.key
 *.publishsettings
 orleans.codegen.cs
 
@@ -338,5 +340,5 @@ ASALocalRun/
 # Local History for Visual Studio
 .localhistory/
 
-# BeatPulse healthcheck temp database 
+# BeatPulse healthcheck temp database
 healthchecksdb

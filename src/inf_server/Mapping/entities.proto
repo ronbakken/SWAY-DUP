@@ -68,17 +68,20 @@ message MapItemEntity {
         repeated string socialMediaNetworkIds = 2;
     }
 
-    uint32 schemaVersion = 1;
-    string quadKey = 2;
-    string id = 3;
-    Status status = 4;
-    GeoPointEntity geoPoint = 5;
-    repeated string categoryIds = 6;
-    repeated string keywords = 7;
+    // "mapItem"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // the quad key for the map item
+    string partitionKey = 3;
+    string id = 4;
+    Status status = 5;
+    GeoPointEntity geoPoint = 6;
+    repeated string categoryIds = 7;
+    repeated string keywords = 8;
 
     oneof data {
-        OfferEntity offer = 8;
-        UserEntity user = 9;
+        OfferEntity offer = 9;
+        UserEntity user = 10;
     }
 }
 

@@ -1,79 +1,54 @@
 ﻿using System;
-using System.Fabric;
 using System.IO;
 using System.Threading;
 using System.Threading.Tasks;
 using Genesis.Ensure;
-using Utility;
 
 namespace Microsoft.Azure.Cosmos
 {
     public static class Extensions
     {
-        private const string configurationPackageObjectName = "Config";
-        private const string databaseSectionName = "Database";
-        private const string connectionStringParameterName = "ConnectionString";
-        private const string throughputParameterName = "Throughput";
+        private const string throughputEnvironmentVariableName = "COSMOS_THROUGHPUT";
 
-        public static CosmosClient GetCosmosClient(this ICodePackageActivationContext @this)
+        // Creates a default container in the database. Should be used wherever possible.
+        public static async Task<CosmosContainer> CreateDefaultContainerIfNotExistsAsync(this CosmosClient @this)
+        {
+            var databaseResult = await @this
+                .Databases
+                .CreateDatabaseFromConfigurationIfNotExistsAsync()
+                .ContinueOnAnyContext();
+            var database = databaseResult.Database;
+            var dataContainerResult = await database
+                .Containers
+                .CreateContainerFromConfigurationIfNotExistsAsync("default", "/partitionKey")
+                .ContinueOnAnyContext();
+            return dataContainerResult.Container;
+        }
+
+        public static Task<CosmosDatabaseResponse> CreateDatabaseFromConfigurationIfNotExistsAsync(this CosmosDatabases @this)
         {
             Ensure.ArgumentNotNull(@this, nameof(@this));
 
-            var configurationPackage = @this.GetConfigurationPackageObject(configurationPackageObjectName);
+            // Default to minimum.
+            var throughput = 400;
+            var throughputEnvironmentVariable = Environment.GetEnvironmentVariable(throughputEnvironmentVariableName);
 
-            if (configurationPackage == null)
+            if (throughputEnvironmentVariable != null)
             {
-                throw new InvalidOperationException($"No configuration package object named '{configurationPackageObjectName}' could be found.");
+                if (!int.TryParse(throughputEnvironmentVariable, out throughput))
+                {
+                    throw new InvalidOperationException($"Throughput specified in environment variable {throughputEnvironmentVariableName} is '{throughputEnvironmentVariable}', which is not a valid integer.");
+                }
             }
 
-            if (!configurationPackage.Settings.Sections.Contains(databaseSectionName))
-            {
-                throw new InvalidOperationException($"Section '{databaseSectionName}' was not found in the '{configurationPackageObjectName}' configuration package.");
-            }
-
-            var databaseSection = configurationPackage.Settings.Sections[databaseSectionName];
-
-            if (!databaseSection.Parameters.Contains(connectionStringParameterName))
-            {
-                throw new InvalidOperationException($"Parameter '{connectionStringParameterName}' was not found in the '{databaseSectionName}' section.");
-            }
-
-            var connectionString = databaseSection.Parameters[connectionStringParameterName].Value;
-            var cosmosConfiguration = new InfCosmosConfiguration(connectionString);
-            var cosmosClient = new CosmosClient(cosmosConfiguration);
-
-            return cosmosClient;
+            return @this.CreateDatabaseIfNotExistsAsync("inf", throughput: throughput);
         }
 
-        public static Task<CosmosContainerResponse> CreateContainerFromConfigurationIfNotExistsAsync(this CosmosContainers @this, string id, string partitionKeyPath)
+        public static Task<CosmosContainerResponse> CreateContainerFromConfigurationIfNotExistsAsync(this CosmosContainers @this, string id, string partitionKeyPath, int? throughput = null)
         {
             Ensure.ArgumentNotNull(@this, nameof(@this));
             Ensure.ArgumentNotNull(id, nameof(id));
             Ensure.ArgumentNotNull(partitionKeyPath, nameof(partitionKeyPath));
-
-            // Default to minimum
-            var throughput = 400;
-
-            var activationContext = FabricRuntime.GetActivationContext();
-            var configurationPackage = activationContext.GetConfigurationPackageObject(configurationPackageObjectName);
-
-            if (configurationPackage != null)
-            {
-                if (configurationPackage.Settings.Sections.Contains(databaseSectionName))
-                {
-                    var databaseSection = configurationPackage.Settings.Sections[databaseSectionName];
-
-                    if (databaseSection.Parameters.Contains(throughputParameterName))
-                    {
-                        var throughputParameter = databaseSection.Parameters[throughputParameterName];
-
-                        if (!int.TryParse(throughputParameter.Value, out throughput))
-                        {
-                            throw new InvalidOperationException($"Throughput parameter value '{throughputParameter.Value}' is not a valid integer.");
-                        }
-                    }
-                }
-            }
 
             return @this.CreateContainerIfNotExistsAsync(id, partitionKeyPath, throughput: throughput);
         }
@@ -105,7 +80,7 @@ namespace Microsoft.Azure.Cosmos
                         .ContinueOnAnyContext();
                     var createSprocResult = await @this
                         .StoredProcedures
-                        .CreateStoredProceducreAsync(id, sprocCode)
+                        .CreateStoredProcedureAsync(id, sprocCode)
                         .ContinueOnAnyContext();
 
                     return createSprocResult;

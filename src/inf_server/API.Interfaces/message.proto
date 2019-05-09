@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "google/protobuf/timestamp.proto";
+import "user.proto";
+
+message MessageDto {
+    string id = 1;
+    // Always a handle
+    UserDto user = 2;
+    // message, accept, close etc
+    string action = 3;
+    google.protobuf.Timestamp timestamp = 4;
+    string text = 5;
+    repeated MessageAttachmentDto attachments = 6;
+}
+
+message MessageAttachmentDto {
+    // e.g. for a tweet: contentType "sway/tweet", data: JSON blob, metadata: tweet timestamp, author etc.
+    string contentType = 1;
+    bytes data = 2;
+    map<string, string> metadata = 3;
+}

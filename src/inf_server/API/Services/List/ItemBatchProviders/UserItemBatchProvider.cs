@@ -4,7 +4,7 @@ using API.Interfaces;
 using API.ObjectMapping;
 using Serilog;
 using Users.Interfaces;
-using Utility;
+using Utility.gRPC;
 using static Users.Interfaces.UsersService;
 
 namespace API.Services.List.ItemBatchProviders
@@ -30,7 +30,7 @@ namespace API.Services.List.ItemBatchProviders
             }
 
             logger.Debug("Continuation token is {ContinuationToken}", continuationToken);
-            var usersService = await GetUsersServiceClient().ContinueOnAnyContext();
+            var usersService = GetUsersServiceClient();
 
             var request = new ListUsersRequest
             {
@@ -43,7 +43,7 @@ namespace API.Services.List.ItemBatchProviders
                 .ListUsersAsync(request);
             var items = response
                 .Users
-                .Select(user => user.ToItemDto())
+                .Select(user => user.ToItemDto(UserDto.DataOneofCase.List))
                 .ToList();
             var result = new ItemBatch(
                 items,
@@ -58,17 +58,13 @@ namespace API.Services.List.ItemBatchProviders
         {
             var usersFilter = new ListUsersRequest.Types.Filter();
 
-            usersFilter.CategoryIds.AddRange(itemFilter.CategoryIds);
-            usersFilter.NorthWest = itemFilter.NorthWest.ToUsersGeoPoint();
-            usersFilter.SouthEast = itemFilter.SouthEast.ToUsersGeoPoint();
-            usersFilter.Phrase = itemFilter.Phrase;
-
-            if (itemFilter.UserFilter != null)
-            {
-                //usersFilter.MinimumValue = itemFilter.UserFilter.MinimumValue;
-                usersFilter.SocialMediaNetworkIds.AddRange(itemFilter.UserFilter.SocialMediaNetworkIds);
-                usersFilter.UserTypes.AddRange(itemFilter.UserFilter.UserTypes.Select(x => x.ToUserType()));
-            }
+            usersFilter.CategoryIds.AddRange(itemFilter.UserFilter.CategoryIds);
+            usersFilter.NorthWest = itemFilter.UserFilter.NorthWest.ToUsersGeoPoint();
+            usersFilter.SouthEast = itemFilter.UserFilter.SouthEast.ToUsersGeoPoint();
+            usersFilter.Phrase = itemFilter.UserFilter.Phrase;
+            //usersFilter.MinimumValue = itemFilter.UserFilter.MinimumValue;
+            usersFilter.SocialMediaNetworkIds.AddRange(itemFilter.UserFilter.SocialMediaNetworkIds);
+            usersFilter.UserTypes.AddRange(itemFilter.UserFilter.UserTypes.Select(x => x.ToUserType()));
 
             // Apply a safety net to ensure influencers cannot see other influencers, and businesses cannot see other businesses
             if (userType == AuthenticatedUserType.Influencer)
@@ -94,7 +90,7 @@ namespace API.Services.List.ItemBatchProviders
             return usersFilter;
         }
 
-        private static Task<UsersServiceClient> GetUsersServiceClient() =>
-            APIClientResolver.Resolve<UsersServiceClient>("Users");
+        private static UsersServiceClient GetUsersServiceClient() =>
+            APIClientResolver.Resolve<UsersServiceClient>("users", 9031);
     }
 }

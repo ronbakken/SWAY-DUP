@@ -22,12 +22,11 @@ namespace Offers
 {
     public sealed class OffersServiceImpl : OffersServiceBase
     {
-        private const string databaseId = "offers";
-        private const string offersCollectionId = "offers";
+        private const string schemaType = "offer";
 
         private readonly ILogger logger;
         private readonly TopicClient offerUpdatedTopicClient;
-        private CosmosContainer offersContainer;
+        private CosmosContainer defaultContainer;
         private CosmosStoredProcedure saveOfferSproc;
 
         public OffersServiceImpl(
@@ -38,24 +37,13 @@ namespace Offers
             this.offerUpdatedTopicClient = offerUpdatedTopicClient;
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            var databaseResult = await cosmosClient
-                .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
-                .ContinueOnAnyContext();
-            var database = databaseResult.Database;
-            var offersContainerResult = await database
-                .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(offersCollectionId, "/id")
-                .ContinueOnAnyContext();
-            this.offersContainer = offersContainerResult.Container;
+            this.defaultContainer = await cosmosClient.CreateDefaultContainerIfNotExistsAsync();
 
-            var createSprocResult = await offersContainer
+            var createSprocResult = await defaultContainer
                 .CreateStoredProcedureFromResourceIfNotExistsAsync(this.GetType(), "saveOffer")
                 .ContinueOnAnyContext();
             this.saveOfferSproc = createSprocResult.StoredProcedure;
@@ -71,6 +59,7 @@ namespace Offers
                     var offer = request.Offer;
                     var offerEntity = offer.ToEntity();
                     offerEntity.Id = offerEntity.Id.ValueOr(Guid.NewGuid().ToString());
+                    offerEntity.PartitionKey = offerEntity.Id;
 
                     logger.Debug("Determining keywords for offer {@Offer}", offer);
                     var keywords = Keywords
@@ -132,7 +121,7 @@ namespace Offers
 
                     logger.Debug("Removing offer {@Offer}", offerEntity);
                     await this
-                        .offersContainer
+                        .defaultContainer
                         .Items
                         .UpsertItemAsync(partitionKey: offerEntity.Id, offerEntity)
                         .ContinueOnAnyContext();
@@ -162,11 +151,8 @@ namespace Offers
                     var id = request.Id;
                     logger.Debug("Getting offer with ID {Id}", id);
 
-                    var sql = new CosmosSqlQueryDefinition("SELECT * FROM o WHERE o.id = @Id");
-                    sql.UseParameter("@Id", id);
-
                     var result = await this
-                        .offersContainer
+                        .defaultContainer
                         .Items
                         .ReadItemAsync<OfferEntity>(partitionKey: id, id)
                         .ContinueOnAnyContext();
@@ -197,11 +183,17 @@ namespace Offers
 
                     this.logger.Debug("Retrieving offers using page size {PageSize}, continuation token {ContinutationToken}, filter {@Filter}", pageSize, continuationToken, filter);
 
-                    var clause = new FilterClauseBuilder("o");
+                    var queryBuilder = new CosmosSqlQueryDefinitionBuilder("o");
+
+                    queryBuilder
+                        .AppendScalarFieldClause(
+                            "schemaType",
+                            schemaType,
+                            value => value);
 
                     if (filter != null)
                     {
-                        clause
+                        queryBuilder
                             .AppendScalarFieldClause(
                                 "businessAccountId",
                                 filter.BusinessAccountId.ValueOr(null),
@@ -226,7 +218,7 @@ namespace Offers
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
-                                FilterLogicalOperator.And)
+                                LogicalOperator.And)
                             .AppendMoneyAtLeastClause(
                                 "terms.reward.cashValue",
                                 new Utility.Money(filter.MinimumReward?.CurrencyCode, filter.MinimumReward?.Units ?? 0, filter.MinimumReward?.Nanos ?? 0))
@@ -245,35 +237,21 @@ namespace Offers
                                 .Take(10)
                                 .ToList();
 
-                            clause
+                            queryBuilder
                                 .AppendArrayFieldClause(
                                     "keywords",
                                     keywordsToFind,
                                     value => value,
-                                    FilterLogicalOperator.And);
+                                    LogicalOperator.And);
                         }
                     }
 
-                    var sql = new StringBuilder("SELECT * FROM o");
-
-                    if (!clause.IsEmpty)
-                    {
-                        sql
-                            .Append(" WHERE ")
-                            .Append(clause);
-                    }
-
-                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
-                    var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
-
-                    foreach (var parameter in clause.Parameters)
-                    {
-                        queryDefinition.UseParameter(parameter.Key, parameter.Value);
-                    }
+                    logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", queryBuilder, queryBuilder.Parameters);
+                    var queryDefinition = queryBuilder.Build();
 
                     // TODO: HACK: using JObject and manually deserializing to get around this: https://github.com/Azure/azure-cosmos-dotnet-v3/issues/19
                     var itemQuery = this
-                        .offersContainer
+                        .defaultContainer
                         .Items
                         .CreateItemQuery<JObject>(queryDefinition, 2, maxItemCount: pageSize, continuationToken: continuationToken);
                     var items = new List<Offer>();
@@ -286,7 +264,7 @@ namespace Offers
                             .ContinueOnAnyContext();
                         nextContinuationToken = currentResultSet.ContinuationToken;
 
-                        foreach (var offer in currentResultSet.Select(InfCosmosConfiguration.Transform<OfferEntity>))
+                        foreach (var offer in currentResultSet.Select(Utility.Microsoft.Azure.Cosmos.ProtobufJsonSerializer.Transform<OfferEntity>))
                         {
                             items.Add(offer.ToServiceDto());
                         }

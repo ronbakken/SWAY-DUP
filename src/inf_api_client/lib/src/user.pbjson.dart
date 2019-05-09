@@ -2,7 +2,7 @@
 //  Generated code. Do not modify.
 //  source: user.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 const UserType$json = const {
   '1': 'UserType',
@@ -36,6 +36,7 @@ const UserDto_HandleDataDto$json = const {
   '1': 'HandleDataDto',
   '2': const [
     const {'1': 'name', '3': 1, '4': 1, '5': 9, '10': 'name'},
+    const {'1': 'avatarThumbnail', '3': 2, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'avatarThumbnail'},
   ],
 };
 
@@ -67,6 +68,7 @@ const UserDto_FullDataDto$json = const {
     const {'1': 'showLocation', '3': 8, '4': 1, '5': 8, '10': 'showLocation'},
     const {'1': 'accountCompletionInPercent', '3': 9, '4': 1, '5': 5, '10': 'accountCompletionInPercent'},
     const {'1': 'location', '3': 10, '4': 1, '5': 11, '6': '.api.LocationDto', '10': 'location'},
+    const {'1': 'locationsOfInfluence', '3': 17, '4': 3, '5': 11, '6': '.api.LocationDto', '10': 'locationsOfInfluence'},
     const {'1': 'avatar', '3': 11, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'avatar'},
     const {'1': 'avatarThumbnail', '3': 12, '4': 1, '5': 11, '6': '.api.ImageDto', '10': 'avatarThumbnail'},
     const {'1': 'categoryIds', '3': 13, '4': 3, '5': 9, '10': 'categoryIds'},

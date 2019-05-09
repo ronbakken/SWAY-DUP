@@ -7,6 +7,16 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <None Remove="cert\*.crt" />
+        <None Remove="cert\*.key" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="cert\*.crt" />
+        <EmbeddedResource Include="cert\*.key" />
+    </ItemGroup>
+
+    <ItemGroup>
         <EmbeddedResource Include="icons\*.*" />
     </ItemGroup>
 

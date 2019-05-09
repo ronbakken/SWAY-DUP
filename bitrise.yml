@@ -8,10 +8,15 @@ workflows:
         run_if: '{{getenv "SSH_RSA_PRIVATE_KEY" | ne ""}}'
     - git-clone: {}
     - file-downloader:
-        title: Download PFX
+        title: Download CI Key
         inputs:
-        - source: "$BITRISEIO_CI_PFX_URL"
-        - destination: "$BITRISE_SOURCE_DIR/Azure.pfx"
+        - source: "$BITRISEIO_CI_KEY_URL"
+        - destination: "$BITRISE_SOURCE_DIR/Azure.key"
+    - file-downloader:
+        title: Download SSL Certificates
+        inputs:
+        - source: "$BITRISEIO_SSL_CERTS_URL"
+        - destination: "$BITRISE_SOURCE_DIR/SSLCertificates.zip"
   _cloudPostSteps:
     steps:
     - deploy-to-bitrise-io:
@@ -83,6 +88,17 @@ workflows:
               sudo apt-get install azure-cli
             }
     - script:
+        title: Install Kubectl
+        inputs:
+        - content: |-
+            #!/bin/bash
+
+            command -v kubectl >/dev/null 2>&1 || {
+              echo >&2 "Kubectl is not yet installed - installing";
+
+              sudo apt-get install kubectl -y
+            }
+    - script:
         title: Cake Build
         inputs:
         - content: |-
@@ -101,7 +117,6 @@ workflows:
     envs:
     - ENVIRONMENT: "ephemeral"
     - REGION: "West US 2"
-    - SEQ_API_KEY: "Vq2LdmE8oou7oofdRu7E"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -111,8 +126,6 @@ workflows:
     envs:
     - ENVIRONMENT: "dev"
     - REGION: "West US 2"
-    - VM_INSTANCE_COUNT: "1"
-    - SEQ_API_KEY: "YsgRrpzdVZo78muClDKT"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -122,8 +135,6 @@ workflows:
     envs:
     - ENVIRONMENT: "alpha"
     - REGION: "West US 2"
-    - VM_INSTANCE_COUNT: "1"
-    - SEQ_API_KEY: "EmK33v2uxcnnPvWw1MgF"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -133,8 +144,7 @@ workflows:
     envs:
     - ENVIRONMENT: "test"
     - REGION: "West US 2"
-    - VM_INSTANCE_COUNT: "3"
-    - SEQ_API_KEY: "SX8w1F4ZP51dRl0qsxWH"
+    - CLUSTER_NODE_COUNT: "3"
     before_run:
     - _cloudPreSteps
     after_run:
@@ -144,10 +154,14 @@ workflows:
     envs:
     - ENVIRONMENT: "prod"
     - REGION: "West US 2"
-    - VM_INSTANCE_COUNT: "5"
+    - CLUSTER_NODE_COUNT: "5"
     # TODO
     - SEQ_SERVER_URL: ""
     - SEQ_API_KEY: ""
+    - CLUSTER_NODE_VM_SIZE: ""
+    - CLUSTER_NODE_OS_DISK_SIZE_GB: ""
+    - CLUSTER_NODE_COUNT: ""
+    - CLUSTER_NODE_MAX_PODS: ""
     before_run:
     - _cloudPreSteps
     after_run:
@@ -158,6 +172,7 @@ app:
     envs:
     - DEPLOY_LOCALLY: "True"
     - LOCAL_DEPLOY_DIR: "$BITRISE_DEPLOY_DIR"
+    - LOCAL_DEPLOY_DIR: "$BITRISE_DEPLOY_DIR"
     - AZURE_SUBSCRIPTION_ID: "73d340c7-9e04-436d-90cf-cf2f0a353416"
     # This is the app ID obtained when created the service principal.
     - AZURE_CLIENT_ID: "ad15fabb-97a2-4b2a-aa37-b10749b8b2e1"
@@ -166,5 +181,10 @@ app:
     # This is the connection string for the storage account to use when deploying.
     - AZURE_STORAGE_ACCOUNT_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=infdeployments;AccountKey=tQm1Lhs0Wwindvct2mRHtbEa0QrKn8D5HDnaN26yhWuhU7lzF+96vxy5fnF3GNH0vHK0ZgM0wv4KcoyuDy/iSg==;EndpointSuffix=core.windows.net"
     # How many VMs to create in the cluster.
-    - VM_INSTANCE_COUNT: "1"
-    - SEQ_SERVER_URL: "http://52.151.37.246/"
+    - CLUSTER_NODE_COUNT: "1"
+    - SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+    - SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+    # Information about a service principal that is used to manage the Kubernetes cluster.
+    - ACR_SERVICE_PRINCIPAL_ID: "c7d62539-8150-4e8d-b48a-e0bb2ca8b3c9"
+    - ACR_SERVICE_PRINCIPAL_OBJECT_ID: "d7a9b1ad-5dfa-4386-8b59-5da720da1f02"
+    - ACR_SERVICE_PRINCIPAL_SECRET: "2d675983-eb18-4131-9a80-d98a391e0fc4"

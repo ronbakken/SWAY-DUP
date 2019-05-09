@@ -2,76 +2,174 @@
 //  Generated code. Do not modify.
 //  source: inf_messaging.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, override, String;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-class NotifyRequest extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NotifyRequest', package: const $pb.PackageName('api'))
-    ..aOS(1, 'token')
-    ..aOS(2, 'registrationToken')
-    ..aOS(3, 'title')
-    ..aOS(4, 'body')
+import 'message.pb.dart' as $7;
+import 'conversation.pb.dart' as $13;
+
+class CreateConversationRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CreateConversationRequest', package: const $pb.PackageName('api'))
+    ..pPS(1, 'participantIds')
+    ..aOS(2, 'topicId')
+    ..a<$7.MessageDto>(3, 'firstMessage', $pb.PbFieldType.OM, $7.MessageDto.getDefault, $7.MessageDto.create)
+    ..m<$core.String, $core.String>(4, 'metadata', 'CreateConversationRequest.MetadataEntry',$pb.PbFieldType.OS, $pb.PbFieldType.OS, null, null, null , const $pb.PackageName('api'))
     ..hasRequiredFields = false
   ;
 
-  NotifyRequest() : super();
-  NotifyRequest.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NotifyRequest.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NotifyRequest clone() => new NotifyRequest()..mergeFromMessage(this);
-  NotifyRequest copyWith(void Function(NotifyRequest) updates) => super.copyWith((message) => updates(message as NotifyRequest));
+  CreateConversationRequest() : super();
+  CreateConversationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CreateConversationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CreateConversationRequest clone() => CreateConversationRequest()..mergeFromMessage(this);
+  CreateConversationRequest copyWith(void Function(CreateConversationRequest) updates) => super.copyWith((message) => updates(message as CreateConversationRequest));
   $pb.BuilderInfo get info_ => _i;
-  static NotifyRequest create() => new NotifyRequest();
-  NotifyRequest createEmptyInstance() => create();
-  static $pb.PbList<NotifyRequest> createRepeated() => new $pb.PbList<NotifyRequest>();
-  static NotifyRequest getDefault() => _defaultInstance ??= create()..freeze();
-  static NotifyRequest _defaultInstance;
-  static void $checkItem(NotifyRequest v) {
-    if (v is! NotifyRequest) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
+  static CreateConversationRequest create() => CreateConversationRequest();
+  CreateConversationRequest createEmptyInstance() => create();
+  static $pb.PbList<CreateConversationRequest> createRepeated() => $pb.PbList<CreateConversationRequest>();
+  static CreateConversationRequest getDefault() => _defaultInstance ??= create()..freeze();
+  static CreateConversationRequest _defaultInstance;
 
-  String get token => $_getS(0, '');
-  set token(String v) { $_setString(0, v); }
-  bool hasToken() => $_has(0);
-  void clearToken() => clearField(1);
+  $core.List<$core.String> get participantIds => $_getList(0);
 
-  String get registrationToken => $_getS(1, '');
-  set registrationToken(String v) { $_setString(1, v); }
-  bool hasRegistrationToken() => $_has(1);
-  void clearRegistrationToken() => clearField(2);
+  $core.String get topicId => $_getS(1, '');
+  set topicId($core.String v) { $_setString(1, v); }
+  $core.bool hasTopicId() => $_has(1);
+  void clearTopicId() => clearField(2);
 
-  String get title => $_getS(2, '');
-  set title(String v) { $_setString(2, v); }
-  bool hasTitle() => $_has(2);
-  void clearTitle() => clearField(3);
+  $7.MessageDto get firstMessage => $_getN(2);
+  set firstMessage($7.MessageDto v) { setField(3, v); }
+  $core.bool hasFirstMessage() => $_has(2);
+  void clearFirstMessage() => clearField(3);
 
-  String get body => $_getS(3, '');
-  set body(String v) { $_setString(3, v); }
-  bool hasBody() => $_has(3);
-  void clearBody() => clearField(4);
+  $core.Map<$core.String, $core.String> get metadata => $_getMap(3);
 }
 
-class NotifyResponse extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NotifyResponse', package: const $pb.PackageName('api'))
+class CreateConversationResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CreateConversationResponse', package: const $pb.PackageName('api'))
+    ..a<$13.ConversationDto>(1, 'conversation', $pb.PbFieldType.OM, $13.ConversationDto.getDefault, $13.ConversationDto.create)
     ..hasRequiredFields = false
   ;
 
-  NotifyResponse() : super();
-  NotifyResponse.fromBuffer(List<int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
-  NotifyResponse.fromJson(String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
-  NotifyResponse clone() => new NotifyResponse()..mergeFromMessage(this);
-  NotifyResponse copyWith(void Function(NotifyResponse) updates) => super.copyWith((message) => updates(message as NotifyResponse));
+  CreateConversationResponse() : super();
+  CreateConversationResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CreateConversationResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CreateConversationResponse clone() => CreateConversationResponse()..mergeFromMessage(this);
+  CreateConversationResponse copyWith(void Function(CreateConversationResponse) updates) => super.copyWith((message) => updates(message as CreateConversationResponse));
   $pb.BuilderInfo get info_ => _i;
-  static NotifyResponse create() => new NotifyResponse();
-  NotifyResponse createEmptyInstance() => create();
-  static $pb.PbList<NotifyResponse> createRepeated() => new $pb.PbList<NotifyResponse>();
-  static NotifyResponse getDefault() => _defaultInstance ??= create()..freeze();
-  static NotifyResponse _defaultInstance;
-  static void $checkItem(NotifyResponse v) {
-    if (v is! NotifyResponse) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
+  static CreateConversationResponse create() => CreateConversationResponse();
+  CreateConversationResponse createEmptyInstance() => create();
+  static $pb.PbList<CreateConversationResponse> createRepeated() => $pb.PbList<CreateConversationResponse>();
+  static CreateConversationResponse getDefault() => _defaultInstance ??= create()..freeze();
+  static CreateConversationResponse _defaultInstance;
+
+  $13.ConversationDto get conversation => $_getN(0);
+  set conversation($13.ConversationDto v) { setField(1, v); }
+  $core.bool hasConversation() => $_has(0);
+  void clearConversation() => clearField(1);
+}
+
+class CloseConversationRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CloseConversationRequest', package: const $pb.PackageName('api'))
+    ..aOS(1, 'conversationId')
+    ..hasRequiredFields = false
+  ;
+
+  CloseConversationRequest() : super();
+  CloseConversationRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CloseConversationRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CloseConversationRequest clone() => CloseConversationRequest()..mergeFromMessage(this);
+  CloseConversationRequest copyWith(void Function(CloseConversationRequest) updates) => super.copyWith((message) => updates(message as CloseConversationRequest));
+  $pb.BuilderInfo get info_ => _i;
+  static CloseConversationRequest create() => CloseConversationRequest();
+  CloseConversationRequest createEmptyInstance() => create();
+  static $pb.PbList<CloseConversationRequest> createRepeated() => $pb.PbList<CloseConversationRequest>();
+  static CloseConversationRequest getDefault() => _defaultInstance ??= create()..freeze();
+  static CloseConversationRequest _defaultInstance;
+
+  $core.String get conversationId => $_getS(0, '');
+  set conversationId($core.String v) { $_setString(0, v); }
+  $core.bool hasConversationId() => $_has(0);
+  void clearConversationId() => clearField(1);
+}
+
+class CloseConversationResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CloseConversationResponse', package: const $pb.PackageName('api'))
+    ..a<$13.ConversationDto>(1, 'conversation', $pb.PbFieldType.OM, $13.ConversationDto.getDefault, $13.ConversationDto.create)
+    ..hasRequiredFields = false
+  ;
+
+  CloseConversationResponse() : super();
+  CloseConversationResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CloseConversationResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CloseConversationResponse clone() => CloseConversationResponse()..mergeFromMessage(this);
+  CloseConversationResponse copyWith(void Function(CloseConversationResponse) updates) => super.copyWith((message) => updates(message as CloseConversationResponse));
+  $pb.BuilderInfo get info_ => _i;
+  static CloseConversationResponse create() => CloseConversationResponse();
+  CloseConversationResponse createEmptyInstance() => create();
+  static $pb.PbList<CloseConversationResponse> createRepeated() => $pb.PbList<CloseConversationResponse>();
+  static CloseConversationResponse getDefault() => _defaultInstance ??= create()..freeze();
+  static CloseConversationResponse _defaultInstance;
+
+  $13.ConversationDto get conversation => $_getN(0);
+  set conversation($13.ConversationDto v) { setField(1, v); }
+  $core.bool hasConversation() => $_has(0);
+  void clearConversation() => clearField(1);
+}
+
+class CreateMessageRequest extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CreateMessageRequest', package: const $pb.PackageName('api'))
+    ..aOS(1, 'conversationId')
+    ..a<$7.MessageDto>(2, 'message', $pb.PbFieldType.OM, $7.MessageDto.getDefault, $7.MessageDto.create)
+    ..hasRequiredFields = false
+  ;
+
+  CreateMessageRequest() : super();
+  CreateMessageRequest.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CreateMessageRequest.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CreateMessageRequest clone() => CreateMessageRequest()..mergeFromMessage(this);
+  CreateMessageRequest copyWith(void Function(CreateMessageRequest) updates) => super.copyWith((message) => updates(message as CreateMessageRequest));
+  $pb.BuilderInfo get info_ => _i;
+  static CreateMessageRequest create() => CreateMessageRequest();
+  CreateMessageRequest createEmptyInstance() => create();
+  static $pb.PbList<CreateMessageRequest> createRepeated() => $pb.PbList<CreateMessageRequest>();
+  static CreateMessageRequest getDefault() => _defaultInstance ??= create()..freeze();
+  static CreateMessageRequest _defaultInstance;
+
+  $core.String get conversationId => $_getS(0, '');
+  set conversationId($core.String v) { $_setString(0, v); }
+  $core.bool hasConversationId() => $_has(0);
+  void clearConversationId() => clearField(1);
+
+  $7.MessageDto get message => $_getN(1);
+  set message($7.MessageDto v) { setField(2, v); }
+  $core.bool hasMessage() => $_has(1);
+  void clearMessage() => clearField(2);
+}
+
+class CreateMessageResponse extends $pb.GeneratedMessage {
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo('CreateMessageResponse', package: const $pb.PackageName('api'))
+    ..a<$7.MessageDto>(1, 'message', $pb.PbFieldType.OM, $7.MessageDto.getDefault, $7.MessageDto.create)
+    ..hasRequiredFields = false
+  ;
+
+  CreateMessageResponse() : super();
+  CreateMessageResponse.fromBuffer($core.List<$core.int> i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromBuffer(i, r);
+  CreateMessageResponse.fromJson($core.String i, [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) : super.fromJson(i, r);
+  CreateMessageResponse clone() => CreateMessageResponse()..mergeFromMessage(this);
+  CreateMessageResponse copyWith(void Function(CreateMessageResponse) updates) => super.copyWith((message) => updates(message as CreateMessageResponse));
+  $pb.BuilderInfo get info_ => _i;
+  static CreateMessageResponse create() => CreateMessageResponse();
+  CreateMessageResponse createEmptyInstance() => create();
+  static $pb.PbList<CreateMessageResponse> createRepeated() => $pb.PbList<CreateMessageResponse>();
+  static CreateMessageResponse getDefault() => _defaultInstance ??= create()..freeze();
+  static CreateMessageResponse _defaultInstance;
+
+  $7.MessageDto get message => $_getN(0);
+  set message($7.MessageDto v) { setField(1, v); }
+  $core.bool hasMessage() => $_has(0);
+  void clearMessage() => clearField(1);
 }
 

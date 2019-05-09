@@ -2,52 +2,56 @@
 //  Generated code. Do not modify.
 //  source: inf_blob_storage.proto
 ///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+// ignore_for_file: camel_case_types,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'package:grpc/service_api.dart' as $grpc;
+
+import 'dart:core' as $core show int, String, List;
 
 import 'inf_blob_storage.pb.dart';
 export 'inf_blob_storage.pb.dart';
 
-class InfBlobStorageClient extends Client {
+class InfBlobStorageClient extends $grpc.Client {
   static final _$getUploadUrl =
-      new ClientMethod<GetUploadUrlRequest, GetUploadUrlResponse>(
+      $grpc.ClientMethod<GetUploadUrlRequest, GetUploadUrlResponse>(
           '/api.InfBlobStorage/GetUploadUrl',
           (GetUploadUrlRequest value) => value.writeToBuffer(),
-          (List<int> value) => new GetUploadUrlResponse.fromBuffer(value));
+          ($core.List<$core.int> value) =>
+              GetUploadUrlResponse.fromBuffer(value));
 
-  InfBlobStorageClient(ClientChannel channel, {CallOptions options})
+  InfBlobStorageClient($grpc.ClientChannel channel, {$grpc.CallOptions options})
       : super(channel, options: options);
 
-  ResponseFuture<GetUploadUrlResponse> getUploadUrl(GetUploadUrlRequest request,
-      {CallOptions options}) {
+  $grpc.ResponseFuture<GetUploadUrlResponse> getUploadUrl(
+      GetUploadUrlRequest request,
+      {$grpc.CallOptions options}) {
     final call = $createCall(
-        _$getUploadUrl, new $async.Stream.fromIterable([request]),
+        _$getUploadUrl, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseFuture(call);
+    return $grpc.ResponseFuture(call);
   }
 }
 
-abstract class InfBlobStorageServiceBase extends Service {
-  String get $name => 'api.InfBlobStorage';
+abstract class InfBlobStorageServiceBase extends $grpc.Service {
+  $core.String get $name => 'api.InfBlobStorage';
 
   InfBlobStorageServiceBase() {
-    $addMethod(new ServiceMethod<GetUploadUrlRequest, GetUploadUrlResponse>(
+    $addMethod($grpc.ServiceMethod<GetUploadUrlRequest, GetUploadUrlResponse>(
         'GetUploadUrl',
         getUploadUrl_Pre,
         false,
         false,
-        (List<int> value) => new GetUploadUrlRequest.fromBuffer(value),
+        ($core.List<$core.int> value) => GetUploadUrlRequest.fromBuffer(value),
         (GetUploadUrlResponse value) => value.writeToBuffer()));
   }
 
   $async.Future<GetUploadUrlResponse> getUploadUrl_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future request) async {
     return getUploadUrl(call, await request);
   }
 
   $async.Future<GetUploadUrlResponse> getUploadUrl(
-      ServiceCall call, GetUploadUrlRequest request);
+      $grpc.ServiceCall call, GetUploadUrlRequest request);
 }

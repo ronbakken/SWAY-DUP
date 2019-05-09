@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Grpc.Core;
@@ -23,12 +22,11 @@ namespace Mapping
 {
     public sealed class MappingServiceImpl : MappingServiceBase
     {
-        private const string databaseId = "mapping";
-        private const string collectionId = "mapItems";
+        private const string schemaType = "mapItem";
         private const int maxMapLevel = 21;
 
         private readonly ILogger logger;
-        private CosmosContainer mapItemsContainer;
+        private CosmosContainer defaultContainer;
 
         public MappingServiceImpl(
             ILogger logger,
@@ -58,22 +56,13 @@ namespace Mapping
             }
         }
 
-        public async Task Initialize(
-            CosmosClient cosmosClient,
-            CancellationToken cancellationToken)
+        public async Task Initialize(CosmosClient cosmosClient)
         {
             logger.Debug("Creating database if required");
 
-            var databaseResult = await cosmosClient
-                .Databases
-                .CreateDatabaseIfNotExistsAsync(databaseId)
+            this.defaultContainer = await cosmosClient
+                .CreateDefaultContainerIfNotExistsAsync()
                 .ContinueOnAnyContext();
-            var database = databaseResult.Database;
-            var mapItemsContainerResult = await database
-                .Containers
-                .CreateContainerFromConfigurationIfNotExistsAsync(collectionId, "/quadKey")
-                .ContinueOnAnyContext();
-            this.mapItemsContainer = mapItemsContainerResult.Container;
 
             logger.Debug("Database creation complete");
         }
@@ -85,7 +74,8 @@ namespace Mapping
                 {
                     var filter = request.Filter;
 
-                    if (filter.QuadKeys.Count > 10)
+                    // TODO: revisit this limit later. Ideally, it would be significantly lower.
+                    if (filter.QuadKeys.Count > 64)
                     {
                         throw new InvalidOperationException("Too many quad keys requested.");
                     }
@@ -95,7 +85,7 @@ namespace Mapping
                         var queryDefinition = GetSqlQueryDefinition(logger, filter);
                         var mapItemResultTasks = filter
                             .QuadKeys
-                            .Select(quadKey => GetMapItemsMatching(logger, this.mapItemsContainer, queryDefinition, quadKey))
+                            .Select(quadKey => GetMapItemsMatching(logger, this.defaultContainer, queryDefinition, quadKey))
                             .ToList();
                         var mapItemResults = await Task
                             .WhenAll(mapItemResultTasks)
@@ -116,51 +106,52 @@ namespace Mapping
 
         private static CosmosSqlQueryDefinition GetSqlQueryDefinition(ILogger logger, ListMapItemsRequest.Types.Filter filter)
         {
-            var clause = new FilterClauseBuilder("m");
+            var queryBuilder = new CosmosSqlQueryDefinitionBuilder("m");
+
+            queryBuilder
+                .AppendScalarFieldClause(
+                    "schemaType",
+                    schemaType,
+                    value => value);
 
             if (filter.ItemTypes.Count > 0)
             {
-                clause.Append("(");
+                queryBuilder.AppendOpenParenthesis();
 
-                for (var i = 0; i < filter.ItemTypes.Count; ++i)
+                foreach (var itemType in filter.ItemTypes)
                 {
-                    if (i > 0)
-                    {
-                        clause.Append(" OR ");
-                    }
+                    queryBuilder.AppendOrIfNecessary();
 
-                    clause
+                    queryBuilder
                         .Append("is_defined(");
-
-                    var itemType = filter.ItemTypes[i];
 
                     switch (itemType)
                     {
                         case ListMapItemsRequest.Types.Filter.Types.ItemType.Offers:
-                            clause
-                                .AppendQualifiedFieldName("offer");
+                            queryBuilder
+                                .AppendFieldName("offer");
                             break;
                         case ListMapItemsRequest.Types.Filter.Types.ItemType.Users:
-                            clause
-                                .AppendQualifiedFieldName("user");
+                            queryBuilder
+                                .AppendFieldName("user");
                             break;
                         default:
                             throw new NotSupportedException();
                     }
 
-                    clause
+                    queryBuilder
                         .Append(")");
                 }
 
-                clause.Append(")");
+                queryBuilder.AppendCloseParenthesis();
             }
 
-            clause
+            queryBuilder
                 .AppendArrayFieldClause(
                     "categoryIds",
                     filter.CategoryIds,
                     value => value,
-                    FilterLogicalOperator.And);
+                    LogicalOperator.And);
 
             if (!string.IsNullOrEmpty(filter.Phrase))
             {
@@ -169,21 +160,21 @@ namespace Mapping
                     .Take(10)
                     .ToList();
 
-                clause
+                queryBuilder
                     .AppendArrayFieldClause(
                         "keywords",
                         keywordsToFind,
                         value => value,
-                        FilterLogicalOperator.And);
+                        LogicalOperator.And);
             }
 
             if (filter.OfferFilter != null)
             {
                 // Apply offer filter to offer items only
-                clause
+                queryBuilder
                     .AppendOpenParenthesis()
                     .Append("is_defined(")
-                    .AppendQualifiedFieldName("offer")
+                    .AppendFieldName("offer")
                     .Append(")")
                     .AppendScalarFieldOneOfClause(
                         "offer.acceptancePolicy",
@@ -211,10 +202,10 @@ namespace Mapping
             if (filter.UserFilter != null)
             {
                 // Apply user filter to user items only
-                clause
+                queryBuilder
                     .AppendOpenParenthesis()
                     .Append("is_defined(")
-                    .AppendQualifiedFieldName("user")
+                    .AppendFieldName("user")
                     .Append(")")
                     .AppendScalarFieldOneOfClause(
                         "user.type",
@@ -224,28 +215,14 @@ namespace Mapping
                         "user.socialMediaNetworkIds",
                         filter.UserFilter.SocialMediaNetworkIds,
                         value => value,
-                        logicalOperator: FilterLogicalOperator.And)
+                        logicalOperator: LogicalOperator.And)
                     .AppendCloseParenthesis();
             }
 
             // TODO: filter out deleted items with a status timestamp > some period (1 day? 1 week? 1 month?)
 
-            var sql = new StringBuilder("SELECT * FROM m");
-
-            if (!clause.IsEmpty)
-            {
-                sql
-                    .Append(" WHERE ")
-                    .Append(clause);
-            }
-
-            logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", sql, clause.Parameters);
-            var queryDefinition = new CosmosSqlQueryDefinition(sql.ToString());
-
-            foreach (var parameter in clause.Parameters)
-            {
-                queryDefinition.UseParameter(parameter.Key, parameter.Value);
-            }
+            logger.Debug("SQL for search is {SQL}, parameters are {Parameters}", queryBuilder, queryBuilder.Parameters);
+            var queryDefinition = queryBuilder.Build();
 
             return queryDefinition;
         }
@@ -268,7 +245,7 @@ namespace Mapping
                     .FetchNextSetAsync()
                     .ContinueOnAnyContext();
 
-                foreach (var mapItem in currentResultSet.Select(InfCosmosConfiguration.Transform<MapItemEntity>))
+                foreach (var mapItem in currentResultSet.Select(Utility.Microsoft.Azure.Cosmos.ProtobufJsonSerializer.Transform<MapItemEntity>))
                 {
                     results.Add(mapItem);
                 }
@@ -298,14 +275,14 @@ namespace Mapping
                 while (mapLevel > 0)
                 {
                     var quadKey = QuadKey.From(offer.Location.GeoPoint.Latitude, offer.Location.GeoPoint.Longitude, mapLevel);
-                    offerMapItemEntity.QuadKey = quadKey.ToString();
+                    offerMapItemEntity.PartitionKey = quadKey.ToString();
                     logger.Debug("Determined level {MapLevel} quad key for offer to be {QuadKey}", mapLevel, quadKey);
 
                     logger.Debug("Saving offer map item {@OfferMapItem}", offerMapItemEntity);
                     await this
-                        .mapItemsContainer
+                        .defaultContainer
                         .Items
-                        .UpsertItemAsync(quadKey.ToString(), offerMapItemEntity)
+                        .UpsertItemAsync(offerMapItemEntity.PartitionKey, offerMapItemEntity)
                         .ContinueOnAnyContext();
                     logger.Debug("Offer map item saved: {@OfferMapItem}", offerMapItemEntity);
 
@@ -334,14 +311,14 @@ namespace Mapping
                 while (mapLevel > 0)
                 {
                     var quadKey = QuadKey.From(user.Location.GeoPoint.Latitude, user.Location.GeoPoint.Longitude, mapLevel);
-                    userMapItemEntity.QuadKey = quadKey.ToString();
+                    userMapItemEntity.PartitionKey = quadKey.ToString();
                     logger.Debug("Determined level {MapLevel} quad key for user to be {QuadKey}", mapLevel, quadKey);
 
                     logger.Debug("Saving user map item {@OfferMapItem}", userMapItemEntity);
                     await this
-                        .mapItemsContainer
+                        .defaultContainer
                         .Items
-                        .UpsertItemAsync(quadKey.ToString(), userMapItemEntity)
+                        .UpsertItemAsync(userMapItemEntity.PartitionKey, userMapItemEntity)
                         .ContinueOnAnyContext();
                     logger.Debug("User map item saved: {@OfferMapItem}", userMapItemEntity);
 
