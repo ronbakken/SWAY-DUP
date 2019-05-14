@@ -352,12 +352,12 @@ namespace Users
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
-                                LogicalOperator.And)
+                                LogicalOperator.Or)
                             .AppendArrayFieldClause(
                                 "socialMediaAccounts",
                                 filter.SocialMediaNetworkIds,
                                 value => value,
-                                logicalOperator: LogicalOperator.And,
+                                logicalOperator: LogicalOperator.Or,
                                 subFieldName: "socialNetworkProviderId")
                             .AppendMoneyAtLeastClause(
                                 "minimumValue",

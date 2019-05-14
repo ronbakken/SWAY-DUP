@@ -151,7 +151,7 @@ namespace Mapping
                     "categoryIds",
                     filter.CategoryIds,
                     value => value,
-                    LogicalOperator.And);
+                    LogicalOperator.Or);
 
             if (!string.IsNullOrEmpty(filter.Phrase))
             {
@@ -215,7 +215,7 @@ namespace Mapping
                         "user.socialMediaNetworkIds",
                         filter.UserFilter.SocialMediaNetworkIds,
                         value => value,
-                        logicalOperator: LogicalOperator.And)
+                        logicalOperator: LogicalOperator.Or)
                     .AppendCloseParenthesis();
             }
 
