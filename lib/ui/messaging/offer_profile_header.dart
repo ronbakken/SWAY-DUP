@@ -53,7 +53,7 @@ class OfferProfileHeader extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 1.0),
                   child: Text(
-                    offer.terms.reward.getTotalValueAsString(),
+                    offer.terms.getTotalValueAsString(),
                     style: const TextStyle(
                       fontSize: 16.0,
                     ),

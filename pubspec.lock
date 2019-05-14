@@ -259,8 +259,8 @@ packages:
     dependency: "direct main"
     description:
       path: "src/inf_api_client"
-      ref: alpha
-      resolved-ref: "9ee13317956a063bedb567f96377a6a99fd15f97"
+      ref: dev
+      resolved-ref: "07b8c60d73c35c36003410e43b3c73826fab2c52"
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"

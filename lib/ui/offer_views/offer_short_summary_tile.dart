@@ -128,7 +128,7 @@ class OfferShortSummaryTile extends StatelessWidget {
                         const InfAssetImage(AppIcons.value, height: 16),
                         horizontalMargin8,
                         Text(
-                          offer.terms.reward.getTotalValueAsString(),
+                          offer.terms.getTotalValueAsString(),
                           style: const TextStyle(
                             fontSize: 16.0,
                           ),

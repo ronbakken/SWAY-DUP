@@ -217,7 +217,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   _DetailEntry buildRewardsRow() {
-    final reward = offer.terms.reward;
+    final terms = offer.terms;
     return _DetailEntry(
       icon: const InfAssetImage(AppIcons.gift),
       title: 'REWARDS',
@@ -225,9 +225,9 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text('Total Value of ${reward.getTotalValueAsString()}'),
+          Text('Total Value of ${terms.getTotalValueAsString()}'),
           verticalMargin12,
-          if (reward.cashValue != null)
+          if (terms.cashValue != null)
             Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -242,11 +242,11 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   ),
                 ),
                 horizontalMargin8,
-                Text('${reward.cashValueAsString}'),
+                Text('${terms.cashValueAsString}'),
               ],
             ),
           verticalMargin12,
-          if (reward.description != null)
+          if (terms.serviceDescription != null)
             Row(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -261,7 +261,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   ),
                 ),
                 horizontalMargin8,
-                Text('${reward.description ?? ''}'),
+                Text('${terms.serviceDescription ?? ''}'),
               ],
             ),
         ],

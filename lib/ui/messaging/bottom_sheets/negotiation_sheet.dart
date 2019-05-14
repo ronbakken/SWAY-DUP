@@ -60,8 +60,8 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
             verticalMargin16,
             InfTextFormField.money(
               labelText: 'CASH REWARD VALUE',
-              initialValue: widget._proposalBuilder.cashRewardValue,
-              onSaved: (m) => widget._proposalBuilder.cashRewardValue = m,
+              initialValue: widget._proposalBuilder.cashValue,
+              onSaved: (m) => widget._proposalBuilder.cashValue = m,
             ),
             verticalMargin16,
             InfTextFormField(
@@ -103,7 +103,7 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
   String validateDeliverableDescription(String currentValue) {
     return requireIfValueIsNotEmpty(
       currentValue,
-      bindingValue: widget._proposalBuilder.cashRewardValue,
+      bindingValue: widget._proposalBuilder.cashValue,
       errorMessage: "Please provide a deliverable description.",
     );
   }

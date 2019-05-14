@@ -158,7 +158,7 @@ class _OfferDetailsRow extends StatelessWidget {
                         const InfAssetImage(AppIcons.value, width: 20.0),
                         horizontalMargin8,
                         Text(
-                          '${offer.terms.reward.getTotalValueAsString(0)}',
+                          '${offer.terms.getTotalValueAsString(0)}',
                           style: const TextStyle(fontSize: 14.5),
                         )
                       ],

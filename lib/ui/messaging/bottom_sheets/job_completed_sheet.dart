@@ -26,7 +26,7 @@ class JobCompletedSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(_message, style: TextStyle(fontSize: 18)),
+          const Text(_message, style: TextStyle(fontSize: 18)),
           verticalMargin16,
           InfBottomButton(
             text: "JOB IS COMPLETE",

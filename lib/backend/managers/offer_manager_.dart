@@ -44,9 +44,8 @@ class OfferBuilder {
   CategorySet categories = CategorySet();
   String deliverableDescription;
   Money cashValue;
-  Money barterValue;
-  RewardDto_Type rewardType;
-  String rewardDescription;
+  Money serviceValue;
+  String serviceDescription;
   int minFollowers;
   Location location;
   int numberOffered;
@@ -89,10 +88,9 @@ class OfferBuilder {
     channels = SelectionSet.fromIterable(offer.terms.deliverable.channels);
     categories = CategorySet.fromIterable(offer.categories);
     deliverableDescription = offer.terms.deliverable.description;
-    cashValue = offer.terms.reward.cashValue;
-    barterValue = offer.terms.reward.barterValue;
-    rewardDescription = offer.terms.reward.description ?? '';
-    rewardType = offer.terms.reward.type;
+    cashValue = offer.terms.cashValue;
+    serviceValue = offer.terms.serviceValue;
+    serviceDescription = offer.terms.serviceDescription ?? '';
     minFollowers = offer.minFollowers ?? 0;
     location = offer.location.copyWidth();
     numberOffered = offer.numberOffered;
@@ -134,11 +132,9 @@ class OfferBuilder {
             ..deliverableTypes.addAll(deliverableTypes.toList())
             ..socialNetworkProviderIds.addAll(channels.toList().map<String>((c) => c.id))
             ..description = deliverableDescription)
-          ..reward = (RewardDto()
-            ..barterValue = barterValue?.toDto() ?? Money.zero.toDto()
-            ..barterValue = cashValue?.toDto() ?? Money.zero.toDto()
-            ..description = rewardDescription ?? ''
-            ..type = rewardType))
+          ..cashValue = cashValue?.toDto() ?? Money.zero.toDto()
+          ..serviceValue = serviceValue?.toDto() ?? Money.zero.toDto()
+          ..serviceDescription = serviceDescription ?? '')
         ..acceptancePolicy = acceptancePolicy
         ..images.addAll(images.map<ImageDto>((x) => x.toImageDto()))
         ..categoryIds.addAll(categories.toList().map((x) => x.id))

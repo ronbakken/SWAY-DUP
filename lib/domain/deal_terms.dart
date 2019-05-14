@@ -3,42 +3,64 @@ import 'package:inf_api_client/inf_api_client.dart';
 
 class DealTerms {
   final Deliverable deliverable;
-  final Reward reward;
+  final Money cashValue;
+  final Money serviceValue;
+  final String serviceDescription;
 
-  DealTerms({this.deliverable, this.reward});
+  DealTerms({
+    this.deliverable,
+    this.cashValue,
+    this.serviceValue,
+    this.serviceDescription,
+  });
+
+  String getTotalValueAsString([int digits = 2]) {
+    return ((serviceValue ?? Money.zero) + (cashValue ?? Money.zero)).toStringWithCurrencySymbol();
+  }
+
+  String get cashValueAsString => cashValue?.toStringWithCurrencySymbol() ?? '';
+
+  String get serviceValueAsString => serviceValue?.toStringWithCurrencySymbol() ?? '';
 
   DealTerms copyWith({
     Deliverable deliverable,
-    Reward reward,
+    Money cashValue,
+    Money serviceValue,
+    String serviceDescription,
   }) {
     return DealTerms(
       deliverable: deliverable ?? this.deliverable,
-      reward: reward ?? this.reward,
+      cashValue: cashValue ?? this.cashValue,
+      serviceValue: serviceValue ?? this.serviceValue,
+      serviceDescription: serviceDescription ?? this.serviceDescription,
     );
   }
 
   static DealTerms fromDto(DealTermsDto dto) {
     return DealTerms(
       deliverable: Deliverable.fromDto(dto.deliverable),
-      reward: Reward.fromDto(dto.reward),
+      cashValue: Money.fromDto(dto.cashValue),
+      serviceValue: Money.fromDto(dto.serviceValue),
+      serviceDescription: dto.serviceDescription,
     );
   }
 
   DealTermsDto toDto() {
     assert(deliverable != null);
-    assert(reward != null);
-
     return DealTermsDto()
       ..deliverable = deliverable.toDto()
-      ..reward = reward.toDto();
+      ..cashValue = cashValue?.toDto()
+      ..serviceValue = serviceValue?.toDto()
+      ..serviceDescription = serviceDescription;
   }
 
   Proposal toProposal() {
+    assert(deliverable != null);
     return (ProposalBuilder()
           ..deliverableDescription = deliverable.description
-          ..cashRewardValue = reward.cashValue
-          ..serviceDescription = reward.description
-          ..serviceValue = reward.barterValue)
+          ..cashValue = cashValue
+          ..serviceDescription = serviceDescription
+          ..serviceValue = serviceValue)
         .build();
   }
 }

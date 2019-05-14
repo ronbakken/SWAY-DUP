@@ -13,7 +13,6 @@ import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 
 class AddOfferStep3 extends MultiPageWizardPageWidget {
   const AddOfferStep3({
@@ -67,8 +66,8 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                     decoration: const InputDecoration(
                       labelText: 'REWARD ITEM OR SERVICE DESCRIPTION',
                     ),
-                    initialValue: widget.offerBuilder.rewardDescription,
-                    onSaved: (s) => widget.offerBuilder.rewardDescription = s,
+                    initialValue: widget.offerBuilder.serviceDescription,
+                    onSaved: (s) => widget.offerBuilder.serviceDescription = s,
 //                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     maxLines: null,
                     keyboardType: TextInputType.multiline,
@@ -80,9 +79,9 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
                       icon: Text('\$'),
                     ),
                     initialValue:
-                        widget.offerBuilder.barterValue != null ? widget.offerBuilder.barterValue.toString(0) : '',
+                        widget.offerBuilder.serviceValue != null ? widget.offerBuilder.serviceValue.toString(0) : '',
                     inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-                    onSaved: (s) => widget.offerBuilder.barterValue = Money.tryParse(s),
+                    onSaved: (s) => widget.offerBuilder.serviceValue = Money.tryParse(s),
 //                    validator: (s) => s.isEmpty ? 'You have so provide value' : null,
                     keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
                   ),
@@ -141,17 +140,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
     if (_form.currentState.validate()) {
       _form.currentState.save();
 
-      if (widget.offerBuilder.cashValue != null) {
-        if (widget.offerBuilder.barterValue != null) {
-          widget.offerBuilder.rewardType = RewardDto_Type.barterAndCash;
-        } else {
-          widget.offerBuilder.rewardType = RewardDto_Type.cash;
-        }
-      } else if (widget.offerBuilder.barterValue != null) {
-        widget.offerBuilder.rewardType = RewardDto_Type.barter;
-      }
-
-      if (widget.offerBuilder.rewardType == null) {
+      if (widget.offerBuilder.cashValue == null && widget.offerBuilder.serviceValue == null) {
         final response = await showQueryDialog(
           context,
           'No reward?',
@@ -163,7 +152,7 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
         }
       }
 
-      if (widget.offerBuilder.rewardType == RewardDto_Type.barter && widget.offerBuilder.rewardDescription.isEmpty) {
+      if (widget.offerBuilder.serviceValue == null && widget.offerBuilder.serviceDescription.isEmpty) {
         showMessageDialog(
           context,
           'We need a bit more...',

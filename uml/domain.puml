@@ -7,7 +7,7 @@ class MapMarker {
   // this will not be set for clusters
   final Uint8List iconData;
   final bool isVectorIcon;
-  
+
   final double latitude;
   final double longitude;
 
@@ -21,7 +21,7 @@ class MapMarker {
   // In case of clustering we need the ids of the clustered markers so that we can animate
   // From the clusterMarker to the individual markers
   final List<int> clusteredMapMarkerIds;
- 
+
   // only valid for type offer
   final int offerId;
   final bool isDirectOffer;

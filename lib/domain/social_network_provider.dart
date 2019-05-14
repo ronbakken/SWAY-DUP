@@ -21,7 +21,6 @@ class SocialNetworkProvider {
 
   String get name => dto.name;
 
-
   String get apiKey => dto.apiKey;
 
   String get apiKeySecret => dto.apiKeySecret;

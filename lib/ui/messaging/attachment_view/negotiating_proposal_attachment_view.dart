@@ -28,8 +28,8 @@ class NegotiatingProposalAttachmentView extends StatelessWidget {
         const InfDivider(verticalPadding: 9),
         _Comparison(
           title: 'CASH REWARD VALUE',
-          previousValue: previousProposal.cashRewardValue?.toStringWithCurrencySymbol(0),
-          newValue: newProposal.cashRewardValue?.toStringWithCurrencySymbol(0),
+          previousValue: previousProposal.cashValue?.toStringWithCurrencySymbol(0),
+          newValue: newProposal.cashValue?.toStringWithCurrencySymbol(0),
         ),
         const InfDivider(verticalPadding: 9),
         _Comparison(
@@ -69,7 +69,7 @@ class _Comparison extends StatelessWidget {
         verticalMargin8,
         if (newValue != null) Text(newValue),
         if (newValue == null)
-          Text(
+          const Text(
             'No value provided.',
             style: TextStyle(color: AppTheme.white50, fontStyle: FontStyle.italic),
           ),
@@ -98,7 +98,7 @@ class _Comparison extends StatelessWidget {
               verticalMargin8,
               if (text != null) Text(text),
               if (text == null)
-                Text(
+                const Text(
                   'No value provided.',
                   style: TextStyle(color: AppTheme.white50, fontStyle: FontStyle.italic),
                 ),

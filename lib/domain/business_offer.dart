@@ -57,7 +57,7 @@ class BusinessOffer {
     } else {
       var parentCategory = backend<ConfigService>()
           .topLevelCategories
-          .firstWhere((category) => category.id == categories[0].parentId, orElse: null);
+          .firstWhere((category) => category.id == categories[0].parentId, orElse: () => null);
       return parentCategory?.iconAsset;
     }
   }

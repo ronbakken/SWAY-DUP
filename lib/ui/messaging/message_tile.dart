@@ -84,7 +84,7 @@ class MessageTile extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        InfFormLabel("Message"),
+        const InfFormLabel("Message"),
         verticalMargin8,
         Text(message.text),
         verticalMargin8,

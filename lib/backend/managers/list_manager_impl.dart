@@ -76,15 +76,15 @@ class ListManagerImplementation implements ListManager {
   }
 
   @override
-  LocationFilter get filter => _filterSubject.value.clone();
+  MapViewportFilter get filter => _filterSubject.value.clone();
 
   @override
-  set filter(LocationFilter filter) {
+  set filter(MapViewportFilter filter) {
     if (_northWest != null && _southEast != null) {
-      filter = filter.withNewLocation(
-        northWest: _northWest,
-        southEast: _southEast,
-        zoomLevel: _zoomLevel,
+      filter = filter.withNewMapViewport(
+        viewportNorthWest: _northWest,
+        viewportSouthEast: _southEast,
+        viewportZoomLevel: _zoomLevel,
       );
     }
     _filterSubject.add(filter);

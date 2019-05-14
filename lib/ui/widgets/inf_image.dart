@@ -14,6 +14,8 @@ class InfImage extends StatefulWidget {
     double lowResScale = 1.0,
     double imageUrlScale = 1.0,
     this.duration = const Duration(milliseconds: 450),
+    this.semanticLabel,
+    this.excludeFromSemantics = false,
     this.width,
     this.height,
     this.color,
@@ -33,6 +35,8 @@ class InfImage extends StatefulWidget {
     double lowResScale = 1.0,
     double imageUrlScale = 1.0,
     Duration duration = const Duration(milliseconds: 450),
+    String semanticLabel,
+    bool excludeFromSemantics,
     double width,
     double height,
     Color color,
@@ -50,6 +54,8 @@ class InfImage extends StatefulWidget {
       lowResScale: lowResScale,
       imageUrlScale: imageUrlScale,
       duration: duration,
+      semanticLabel: semanticLabel,
+      excludeFromSemantics: excludeFromSemantics,
       width: width,
       height: height,
       color: color,
@@ -73,6 +79,8 @@ class InfImage extends StatefulWidget {
   final AlignmentGeometry alignment;
   final ImageRepeat repeat;
   final bool matchTextDirection;
+  final String semanticLabel;
+  final bool excludeFromSemantics;
   final Widget inkChild;
 
   @override
@@ -81,46 +89,79 @@ class InfImage extends StatefulWidget {
 
 class _InfImageState extends State<InfImage> {
   ImageStream _imageStream;
+  bool _isListeningToStream = false;
   bool _loaded = false;
 
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
     _resolveImage();
+    if (TickerMode.of(context)) {
+      _listenToStream();
+    } else {
+      _stopListeningToStream();
+    }
   }
 
   @override
   void didUpdateWidget(InfImage oldWidget) {
     super.didUpdateWidget(oldWidget);
-    _resolveImage();
+    if (widget.image != oldWidget.image) {
+      _resolveImage();
+    }
   }
 
   @override
   void reassemble() {
     super.reassemble();
-    _resolveImage();
+    _resolveImage(); // in case the image cache was flushed
   }
 
   void _resolveImage() {
-    final ImageConfiguration config = createLocalImageConfiguration(context,
-        size: widget.width != null && widget.height != null ? Size(widget.width, widget.height) : null);
-    final ImageStream oldImageStream = _imageStream;
-    _imageStream = widget.image.resolve(config);
-    if (_imageStream.key != oldImageStream?.key) {
-      oldImageStream?.removeListener(_handleImageChanged);
-      _imageStream.addListener(_handleImageChanged);
-    }
+    final ImageStream newStream = widget.image.resolve(createLocalImageConfiguration(
+      context,
+      size: widget.width != null && widget.height != null ? Size(widget.width, widget.height) : null,
+    ));
+    assert(newStream != null);
+    _updateSourceStream(newStream);
   }
 
   void _handleImageChanged(ImageInfo imageInfo, bool synchronousCall) {
     if (mounted) {
-      setState(() => _loaded = (imageInfo != null));
+      setState(() {
+        _loaded = (imageInfo != null);
+      });
     }
+  }
+
+  // Update _imageStream to newStream, and moves the stream listener
+  // registration from the old stream to the new stream (if a listener was
+  // registered).
+  void _updateSourceStream(ImageStream newStream) {
+    if (_imageStream?.key == newStream?.key) return;
+
+    if (_isListeningToStream) _imageStream.removeListener(_handleImageChanged);
+
+    _imageStream = newStream;
+    if (_isListeningToStream) _imageStream.addListener(_handleImageChanged);
+  }
+
+  void _listenToStream() {
+    if (_isListeningToStream) return;
+    _imageStream.addListener(_handleImageChanged);
+    _isListeningToStream = true;
+  }
+
+  void _stopListeningToStream() {
+    if (!_isListeningToStream) return;
+    _imageStream.removeListener(_handleImageChanged);
+    _isListeningToStream = false;
   }
 
   @override
   void dispose() {
-    _imageStream?.removeListener(_handleImageChanged);
+    assert(_imageStream != null);
+    _stopListeningToStream();
     super.dispose();
   }
 
@@ -152,6 +193,8 @@ class _InfImageState extends State<InfImage> {
           : Image(
               key: ValueKey<ImageProvider>(provider),
               image: provider,
+              semanticLabel: widget.semanticLabel,
+              excludeFromSemantics: widget.excludeFromSemantics,
               width: widget.width,
               height: widget.height,
               color: widget.color,

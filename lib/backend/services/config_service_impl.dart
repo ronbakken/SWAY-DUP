@@ -86,7 +86,7 @@ class ConfigServiceImplementation implements ConfigService {
     }
 
     logger.log(Level.INFO, '''
-      ConfigData: { 
+      ConfigData: {
         configVersion: ${configData.configVersion},
         serviceConfig: {
           mapboxUrlTemplateDark: ${configData.serviceConfig.mapboxUrlTemplateDark},
@@ -122,7 +122,7 @@ class ConfigServiceImplementation implements ConfigService {
   @override
   List<Category> getCategoriesFromIds(List<String> ids) {
     return ids
-        .map((id) => _categories.firstWhere((el) => el.id == id, orElse: null))
+        .map((id) => _categories.firstWhere((el) => el.id == id, orElse: () => null))
         .where((cat) => cat != null)
         .toList();
   }

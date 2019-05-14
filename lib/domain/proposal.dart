@@ -3,14 +3,14 @@ import 'package:meta/meta.dart';
 
 class Proposal {
   final String deliverableDescription;
-  final Money cashRewardValue;
+  final Money cashValue;
   final String serviceDescription;
   final Money serviceValue;
 
   factory Proposal.fromJson(Map<String, dynamic> data) {
     return Proposal._(
       deliverableDescription: data['deliverableDescription'],
-      cashRewardValue: Money.fromJson(data['cashRewardValue']),
+      cashValue: Money.fromJson(data['cashValue']),
       serviceDescription: data['serviceDescription'],
       serviceValue: Money.fromJson(data['serviceValue']),
     );
@@ -18,20 +18,20 @@ class Proposal {
 
   Proposal._({
     @required this.deliverableDescription,
-    @required this.cashRewardValue,
+    @required this.cashValue,
     @required this.serviceDescription,
     @required this.serviceValue,
   });
 
   Proposal copyWith({
     String deliverableDescription,
-    Money cashRewardValue,
+    Money cashValue,
     String serviceDescription,
     Money serviceValue,
   }) {
     return Proposal._(
       deliverableDescription: deliverableDescription ?? this.deliverableDescription,
-      cashRewardValue: cashRewardValue ?? this.cashRewardValue,
+      cashValue: cashValue ?? this.cashValue,
       serviceDescription: serviceDescription ?? this.serviceDescription,
       serviceValue: serviceValue ?? this.serviceValue,
     );
@@ -41,7 +41,7 @@ class Proposal {
   String toString() {
     return 'Proposal{'
         'deliverableDescription: $deliverableDescription, '
-        'cashRewardValue: $cashRewardValue, '
+        'cashValue: $cashValue, '
         'serviceDescription: $serviceDescription, '
         'serviceValue: $serviceValue'
         '}';
@@ -50,9 +50,9 @@ class Proposal {
   Map<String, dynamic> toJson() {
     return {
       'deliverableDescription': deliverableDescription,
-      'cashRewardValue': cashRewardValue.toJson(),
+      'cashValue': cashValue?.toJson(),
       'serviceDescription': serviceDescription,
-      'serviceValue': serviceValue.toJson(),
+      'serviceValue': serviceValue?.toJson(),
     };
   }
 }
@@ -60,22 +60,22 @@ class Proposal {
 class ProposalBuilder {
   ProposalBuilder();
 
-  String deliverableDescription;
-  Money cashRewardValue;
-  String serviceDescription;
-  Money serviceValue;
-
   ProposalBuilder.fromProposal(Proposal proposal) {
     deliverableDescription = proposal.deliverableDescription;
-    cashRewardValue = proposal.cashRewardValue;
+    cashValue = proposal.cashValue;
     serviceDescription = proposal.serviceDescription;
     serviceValue = proposal.serviceValue;
   }
 
+  String deliverableDescription;
+  Money cashValue;
+  String serviceDescription;
+  Money serviceValue;
+
   Proposal build() {
     return Proposal._(
       deliverableDescription: deliverableDescription,
-      cashRewardValue: cashRewardValue,
+      cashValue: cashValue,
       serviceDescription: serviceDescription,
       serviceValue: serviceValue,
     );

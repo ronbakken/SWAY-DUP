@@ -10,6 +10,8 @@ class InfSlider extends StatelessWidget {
     this.onChangeEnd,
     this.min = 0.0,
     this.max = 1.0,
+    this.divisions,
+    this.label,
   }) : super(key: key);
 
   final double value;
@@ -18,6 +20,8 @@ class InfSlider extends StatelessWidget {
   final ValueChanged<double> onChangeEnd;
   final double min;
   final double max;
+  final int divisions;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -39,6 +43,8 @@ class InfSlider extends StatelessWidget {
         onChangeEnd: onChangeEnd,
         min: min,
         max: max,
+        divisions: divisions,
+        label: label,
       ),
     );
   }
