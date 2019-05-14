@@ -12,8 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ConfigServiceImplementation implements ConfigService {
   final logger = Logger('ConfigService');
 
-  @override
-  List<Category> categories;
+  List<Category> _categories;
 
   @override
   List<DeliverableIcon> deliverableIcons;
@@ -112,7 +111,7 @@ class ConfigServiceImplementation implements ConfigService {
           (dto) => DeliverableIcon(dto),
         )
         .toList();
-    categories = configData.categories.map<Category>((dto) => Category(dto)).toList();
+    _categories = configData.categories.map<Category>((dto) => Category(dto)).toList();
   }
 
   @override
@@ -121,13 +120,24 @@ class ConfigServiceImplementation implements ConfigService {
   }
 
   @override
-  List<Category> getCategoriesFromIds(List<String> ids) =>
-      categories.where((category) => ids.contains(category.id)).toList();
+  List<Category> getCategoriesFromIds(List<String> ids) {
+    return ids
+        .map((id) => _categories.firstWhere((el) => el.id == id, orElse: null))
+        .where((cat) => cat != null)
+        .toList();
+  }
 
   @override
   DeliverableIcon getDeliveryIconFromType(DeliverableType type) =>
       deliverableIcons.firstWhere((icon) => icon.deliverableType == type);
 
   @override
-  List<Category> get topLevelCategories => categories.where((item) => item.parentId.isEmpty).toList(growable: false);
+  List<Category> getSubCategories(Category parent) {
+    return _categories.where((item) => item.parentId == parent.id).toList(growable: false);
+  }
+
+  @override
+  List<Category> get topLevelCategories {
+    return _categories.where((item) => item.parentId.isEmpty).toList(growable: false);
+  }
 }

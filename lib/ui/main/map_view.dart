@@ -8,7 +8,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/user_profile/view_profile_page.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:latlong/latlong.dart';
 
 class MainMapView extends StatefulWidget {
@@ -26,7 +26,6 @@ class _MainMapViewState extends State<MainMapView> {
   void initState() {
     super.initState();
     _listManager = backend<ListManager>();
-    _listManager.resetFilter();
     _mapController = MapController();
     _subLocation = backend<LocationService>().onLocationChanged.listen((newPos) {
       _mapController.move(LatLng(newPos.latitude, newPos.longitude), _mapController.zoom);
@@ -166,7 +165,7 @@ class _OfferMarker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final iconData = offer.categoryIconData;
+    final iconAsset = offer.categoryIconAsset;
     return Material(
       type: MaterialType.canvas,
       color: AppTheme.lightBlue,
@@ -177,9 +176,9 @@ class _OfferMarker extends StatelessWidget {
       child: InkResponse(
         onTap: onPressed,
         child: Center(
-          child: iconData != null
-              ? InfMemoryImage(
-                  iconData,
+          child: iconAsset != null
+              ? InfAssetImage(
+                  iconAsset,
                   width: 16,
                   height: 16,
                 )

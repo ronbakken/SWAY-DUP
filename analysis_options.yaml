@@ -86,3 +86,7 @@ linter:
     - unrelated_type_equality_checks
     - use_rethrow_when_possible
     - valid_regexps
+    # Additional Dart 2.3 lints
+    - prefer_spread_collections
+    - prefer_if_elements_to_conditional_expressions
+    - prefer_for_elements_to_map_fromIterable

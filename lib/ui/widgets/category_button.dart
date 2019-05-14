@@ -81,8 +81,8 @@ class CategoryButton extends StatelessWidget {
                 ),
               ),
               Positioned(
-                bottom: -4,
-                right: -12,
+                bottom: -4.0,
+                right: -12.0,
                 child: AnimatedSwitcher(
                   transitionBuilder: _scaleTransitionBuilder,
                   duration: kThemeChangeDuration,
@@ -92,12 +92,11 @@ class CategoryButton extends StatelessWidget {
             ],
           ),
         ),
-        label != null
-            ? Padding(
-                padding: const EdgeInsets.only(top: 4),
-                child: Text(label),
-              )
-            : emptyWidget,
+        if (label != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 4.0, bottom: 4.0),
+            child: Text(label),
+          ),
       ],
     );
   }

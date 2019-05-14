@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/widgets/category_button.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/selection_set.dart';
@@ -46,20 +46,22 @@ class _DeliverySelectorState extends State<DeliverySelector> {
     return OverflowRow(
       height: 96.0,
       childrenWidth: 64.0,
-      children: mapChildren(backend<ConfigService>().deliverableIcons, (icon) {
-        return CategoryButton(
-          onTap: widget.readOnly ? null : () => _toggleType(icon.deliverableType),
-          radius: 64.0,
-          label: icon.name,
-          selected: widget.deliverableTypes.contains(icon.deliverableType),
-          child: InfMemoryImage(
-            icon.iconData,
-            color: Colors.white,
-            width: 32.0,
-            height: 32.0,
-          ),
-        );
-      }),
+      children: <Widget>[
+        ...backend<ConfigService>().deliverableIcons.map((icon) {
+          return CategoryButton(
+            onTap: widget.readOnly ? null : () => _toggleType(icon.deliverableType),
+            radius: 64.0,
+            label: icon.name,
+            selected: widget.deliverableTypes.contains(icon.deliverableType),
+            child: InfAssetImage(
+              icon.iconAsset,
+              color: Colors.white,
+              width: 32.0,
+              height: 32.0,
+            ),
+          );
+        }),
+      ],
     );
   }
 

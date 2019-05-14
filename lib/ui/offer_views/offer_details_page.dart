@@ -13,7 +13,6 @@ import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
 import 'package:inf/ui/widgets/inf_stadium_button.dart';
@@ -177,8 +176,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                     ),
                     ...offer.terms.deliverable.types.map<Widget>(
                       (type) {
-                        return InfMemoryImage(
-                          configService.getDeliveryIconFromType(type).iconData,
+                        return InfAssetImage(
+                          configService.getDeliveryIconFromType(type).iconAsset,
                           width: 16.0,
                           height: 16.0,
                         );

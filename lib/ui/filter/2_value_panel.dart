@@ -11,10 +11,12 @@ class ValueFilterPanel extends StatefulWidget {
   const ValueFilterPanel({
     Key key,
     this.padding = EdgeInsets.zero,
+    this.closePanel,
   })  : assert(padding != null),
         super(key: key);
 
   final EdgeInsets padding;
+  final VoidCallback closePanel;
 
   @override
   _ValueFilterPanelState createState() => _ValueFilterPanelState();

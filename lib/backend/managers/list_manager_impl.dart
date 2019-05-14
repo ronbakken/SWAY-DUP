@@ -69,14 +69,17 @@ class ListManagerImplementation implements ListManager {
   @override
   void resetFilter() {
     if (backend<UserManager>().currentUser.userType == UserType.influencer) {
-      _filterSubject.add(const OfferFilter());
+      _filterSubject.add(OfferFilter());
     } else {
-      _filterSubject.add(const UserFilter());
+      _filterSubject.add(UserFilter());
     }
   }
 
   @override
-  void setFilter(LocationFilter filter) {
+  LocationFilter get filter => _filterSubject.value.clone();
+
+  @override
+  set filter(LocationFilter filter) {
     if (_northWest != null && _southEast != null) {
       filter = filter.withNewLocation(
         northWest: _northWest,
@@ -92,6 +95,6 @@ class ListManagerImplementation implements ListManager {
     _northWest = LatLng(nwLatitude, nwLongitude);
     _southEast = LatLng(seLatitude, seLongitude);
     _zoomLevel = zoomLevel;
-    setFilter(_filterSubject.value);
+    filter = _filterSubject.value;
   }
 }

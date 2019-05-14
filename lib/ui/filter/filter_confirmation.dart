@@ -3,37 +3,37 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 
-class FilterConfirmationButton extends StatefulWidget {
-  const FilterConfirmationButton({
+class FilterConfirmButton extends StatefulWidget {
+  const FilterConfirmButton({
     Key key,
     this.showHideAnimation,
-    @required this.initialIcon,
+    @required this.initialDelegate,
     @required this.child,
   }) : super(key: key);
 
   final Animation<double> showHideAnimation;
-  final AppAsset initialIcon;
+  final FilterConfirmButtonDelegate initialDelegate;
   final Widget child;
 
-  static FilterConfirmationButtonState of(BuildContext context) {
-    return context.ancestorStateOfType(const TypeMatcher<FilterConfirmationButtonState>());
+  static FilterConfirmButtonState of(BuildContext context) {
+    return context.ancestorStateOfType(const TypeMatcher<FilterConfirmButtonState>());
   }
 
   @override
-  FilterConfirmationButtonState createState() => FilterConfirmationButtonState();
+  FilterConfirmButtonState createState() => FilterConfirmButtonState();
 }
 
-class FilterConfirmationButtonState extends State<FilterConfirmationButton> {
-  AppAsset _icon;
+class FilterConfirmButtonState extends State<FilterConfirmButton> {
+  FilterConfirmButtonDelegate _delegate;
 
   @override
   void initState() {
     super.initState();
-    _icon = widget.initialIcon;
+    _delegate = widget.initialDelegate;
   }
 
-  set icon(AppAsset value) {
-    setState(() => _icon = value);
+  set delegate(FilterConfirmButtonDelegate value) {
+    setState(() => _delegate = value);
   }
 
   @override
@@ -49,8 +49,7 @@ class FilterConfirmationButtonState extends State<FilterConfirmationButton> {
           child: ScaleTransition(
             scale: widget.showHideAnimation,
             child: RawMaterialButton(
-              onPressed: () {},
-              // FIXME: _deselectFilterPanel
+              onPressed: _delegate.onPressed,
               fillColor: AppTheme.lightBlue,
               constraints: const BoxConstraints(minWidth: 64.0, minHeight: 64.0),
               materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -68,7 +67,7 @@ class FilterConfirmationButtonState extends State<FilterConfirmationButton> {
                       child: child,
                     );
                   },
-                  child: InfIcon(_icon, size: 28.0, key: ValueKey(_icon)),
+                  child: InfIcon(_delegate.icon, size: 28.0, key: ValueKey(_delegate.icon)),
                 ),
               ),
             ),
@@ -77,4 +76,11 @@ class FilterConfirmationButtonState extends State<FilterConfirmationButton> {
       ],
     );
   }
+}
+
+class FilterConfirmButtonDelegate {
+  final AppAsset icon;
+  final VoidCallback onPressed;
+
+  const FilterConfirmButtonDelegate(this.icon, [this.onPressed]);
 }

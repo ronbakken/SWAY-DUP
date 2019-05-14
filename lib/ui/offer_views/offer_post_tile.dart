@@ -5,7 +5,6 @@ import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 

@@ -8,7 +8,6 @@ import 'package:inf_api_client/inf_api_client.dart';
 class AppMustUpdateException implements Exception {}
 
 abstract class ConfigService {
-  List<Category> categories;
   List<DeliverableIcon> deliverableIcons;
   List<SocialNetworkProvider> socialNetworkProviders;
 
@@ -24,6 +23,8 @@ abstract class ConfigService {
   DeliverableIcon getDeliveryIconFromType(DeliverableType type);
 
   List<Category> getCategoriesFromIds(List<String> ids);
+
+  List<Category> getSubCategories(Category parent);
 
   List<Category> get topLevelCategories;
 }

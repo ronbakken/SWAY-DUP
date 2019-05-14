@@ -1,5 +1,4 @@
-import 'dart:typed_data';
-
+import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/domain/domain.dart';
@@ -49,17 +48,17 @@ class BusinessOffer {
   // final int proposalsCountCompleted;
   // final int proposalsCountRefused;
 
-  Uint8List get categoryIconData {
+  AppAsset get categoryIconAsset {
     if (categories?.isEmpty ?? true) {
       return null;
     }
     if (categories[0].parentId.isEmpty) {
-      return categories[0].iconData;
+      return categories[0].iconAsset;
     } else {
       var parentCategory = backend<ConfigService>()
           .topLevelCategories
           .firstWhere((category) => category.id == categories[0].parentId, orElse: null);
-      return parentCategory?.iconData;
+      return parentCategory?.iconAsset;
     }
   }
 

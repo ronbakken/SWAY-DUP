@@ -221,7 +221,7 @@ class __SearchViewState extends State<_SearchView> {
 
     searchTextChangedCommand
         .where((s) => s.isNotEmpty)
-        .debounce(const Duration(milliseconds: 500))
+        .debounceTime(const Duration(milliseconds: 500))
         .listen(searchPlaceCommand);
   }
 
@@ -291,7 +291,7 @@ class __MapViewState extends State<_MapView> {
       return backend<LocationService>().lookUpCoordinates(position: pos);
     }, emitLastResult: true);
 
-    positionChangedCommand.debounce(const Duration(milliseconds: 1000)).listen(searchPlaceCommand);
+    positionChangedCommand.debounceTime(const Duration(milliseconds: 1000)).listen(searchPlaceCommand);
 
     mapController = new MapController();
   }

@@ -5,7 +5,6 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
 class OfferShortSummaryTile extends StatelessWidget {
@@ -58,8 +57,8 @@ class OfferShortSummaryTile extends StatelessWidget {
     for (var deliverableType in offer.terms.deliverable.types) {
       channelsAndDeliverables.addAll([
         horizontalMargin8,
-        InfMemoryImage(
-          backend<ConfigService>().getDeliveryIconFromType(deliverableType).iconData,
+        InfAssetImage(
+          backend<ConfigService>().getDeliveryIconFromType(deliverableType).iconAsset,
           width: 20.0,
         ),
       ]);

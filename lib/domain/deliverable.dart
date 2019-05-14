@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/social_network_provider.dart';
 import 'package:inf_api_client/inf_api_client.dart';
@@ -8,13 +9,13 @@ class DeliverableIcon {
   final DeliverableIconDto dto;
 
   DeliverableType get deliverableType => dto.deliverableType;
-  Uint8List get iconData => _iconData;
+  AppAsset get iconAsset => _iconAsset;
   String get name => dto.name;
 
-  Uint8List _iconData;
+  AppAsset _iconAsset;
 
   DeliverableIcon(this.dto) {
-    _iconData = Uint8List.fromList(dto.iconData);
+    _iconAsset = AppAsset.raw(Uint8List.fromList(dto.iconData));
   }
 }
 

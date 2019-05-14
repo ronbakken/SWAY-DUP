@@ -22,17 +22,13 @@ class CategorySelector extends StatefulWidget {
 }
 
 class _CategorySelectorState extends State<CategorySelector> {
-  List<Category> subCategories;
+  List<Category> subCategories; // TODO: change to Set
 
   @override
   void initState() {
     super.initState();
     if (widget.parentCategory != null) {
-      subCategories = backend
-          .get<ConfigService>()
-          .categories
-          .where((category) => category.parentId == widget.parentCategory.id)
-          .toList();
+      subCategories = backend.get<ConfigService>().getSubCategories(widget.parentCategory);
     } else {
       subCategories = <Category>[];
     }
@@ -41,11 +37,7 @@ class _CategorySelectorState extends State<CategorySelector> {
   @override
   void didUpdateWidget(CategorySelector oldWidget) {
     if (widget.parentCategory != null) {
-      subCategories = backend
-          .get<ConfigService>()
-          .categories
-          .where((category) => category.parentId == widget.parentCategory.id)
-          .toList();
+      subCategories = backend.get<ConfigService>().getSubCategories(widget.parentCategory);
     } else {
       subCategories = <Category>[];
     }
@@ -82,13 +74,15 @@ class _CategorySelectorState extends State<CategorySelector> {
         ToggleChip(
           onTap: () {
             setState(() {
-              widget.selectedSubCategories.addAll(subCategories.toSet());
+              if (widget.selectedSubCategories.containsAll(subCategories)) {
+                widget.selectedSubCategories.removeAll(subCategories);
+              } else {
+                widget.selectedSubCategories.addAll(subCategories);
+              }
             });
           },
           text: 'Select all',
-          isSelected:
-              widget.selectedSubCategories.where((cat) => cat.parentId == widget.parentCategory.id).length ==
-                  subCategories.length,
+          isSelected: widget.selectedSubCategories.onlyWithParent(widget.parentCategory).length == subCategories.length,
         ),
       );
     }

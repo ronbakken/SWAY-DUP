@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:inf/app/assets.dart';
 import 'package:inf/utils/selection_set.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
@@ -15,12 +16,12 @@ class Category {
 
   String get description => dto.description;
 
-  Uint8List get iconData => _iconData;
+  AppAsset get iconAsset => _appAsset;
 
-  Uint8List _iconData;
+  AppAsset _appAsset;
 
   Category(this.dto) : assert(dto != null) {
-    _iconData = Uint8List.fromList(dto.iconData);
+    _appAsset = AppAsset.raw(Uint8List.fromList(dto.iconData));
   }
 
   @override
@@ -41,4 +42,8 @@ class CategorySet extends SelectionSet<Category> {
 
   List<Category> onlyWithParent(Category parent) =>
       where((category) => category.parentId == parent.id).toList(growable: false);
+
+  List<Category> get topLevelCategories {
+    return where((item) => item.parentId.isEmpty).toList(growable: false);
+  }
 }

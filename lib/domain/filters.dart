@@ -10,6 +10,8 @@ abstract class Filter {
   const Filter();
 
   ItemFilterDto toDto();
+
+  Filter clone();
 }
 
 @immutable
@@ -41,22 +43,26 @@ class OfferFilter extends LocationFilter {
   final List<RewardDto_Type> rewardTypes;
   final Money minimumRewardValue;
 
-  const OfferFilter({
+  OfferFilter({
     int zoomLevel,
     LatLng northWest,
     LatLng southEast,
-    this.categorySet,
+    CategorySet categorySet,
     this.queryText,
     this.offeringBusinessId,
     this.status,
     this.deliverableTypes,
     this.rewardTypes,
     this.minimumRewardValue,
-  }) : super(
+  })  : this.categorySet = categorySet ?? CategorySet(),
+        super(
           zoomLevel: zoomLevel,
           northWest: northWest,
           southEast: southEast,
         );
+
+  @override
+  Filter clone() => copyWith();
 
   OfferFilter copyWith({
     int zoomLevel,
@@ -154,10 +160,10 @@ class OfferFilter extends LocationFilter {
   @override
   String toString() {
     return 'OfferFilter{zoomLevel: $zoomLevel, northWest: $northWest, southEast: $southEast, '
-      'categorySet: $categorySet, queryText: $queryText, '
-      'offeringBusinessId: $offeringBusinessId, status: $status, '
-      'deliverableTypes: $deliverableTypes, rewardTypes: $rewardTypes, '
-      'minimumRewardValue: $minimumRewardValue}';
+        'categorySet: $categorySet, queryText: $queryText, '
+        'offeringBusinessId: $offeringBusinessId, status: $status, '
+        'deliverableTypes: $deliverableTypes, rewardTypes: $rewardTypes, '
+        'minimumRewardValue: $minimumRewardValue}';
   }
 }
 
@@ -168,19 +174,23 @@ class UserFilter extends LocationFilter {
   final UserType userType;
   final List<SocialNetworkProvider> channels;
 
-  const UserFilter({
+  UserFilter({
     int zoomLevel,
     LatLng northWest,
     LatLng southEast,
-    this.categorySet,
+    CategorySet categorySet,
     this.queryText,
     this.userType,
     this.channels,
-  }) : super(
+  })  : this.categorySet = categorySet ?? CategorySet(),
+      super(
           zoomLevel: zoomLevel,
           northWest: northWest,
           southEast: southEast,
         );
+
+  @override
+  Filter clone() => copyWith();
 
   UserFilter copyWith({
     int zoomLevel,
@@ -273,6 +283,9 @@ class ConversationFilter extends Filter {
     this.status,
   });
 
+  @override
+  Filter clone() => copyWith();
+
   ConversationFilter copyWith({
     User participant,
     String topicId,
@@ -321,6 +334,9 @@ class MessageFilter extends Filter {
   const MessageFilter({
     this.conversationId,
   });
+
+  @override
+  Filter clone() => copyWith();
 
   MessageFilter copyWith({
     String conversationId,

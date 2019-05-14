@@ -8,10 +8,12 @@ class LocationFilterPanel extends StatefulWidget {
   const LocationFilterPanel({
     Key key,
     this.padding = EdgeInsets.zero,
+    this.closePanel,
   })  : assert(padding != null),
         super(key: key);
 
   final EdgeInsets padding;
+  final VoidCallback closePanel;
 
   @override
   _LocationFilterPanelState createState() => _LocationFilterPanelState();

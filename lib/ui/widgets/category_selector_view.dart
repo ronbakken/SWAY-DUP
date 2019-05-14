@@ -7,7 +7,7 @@ import 'package:inf/ui/widgets/category_selector.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/help_button.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
@@ -151,8 +151,8 @@ class CategoryRow extends StatelessWidget {
           selectedSubCategories: selectedSubCategories.onlyWithParent(topLevelCategory).length,
           label: topLevelCategory.name,
           radius: 64.0,
-          child: InfMemoryImage(
-            topLevelCategory.iconData,
+          child: InfAssetImage(
+            topLevelCategory.iconAsset,
             color: Colors.white,
             width: 32.0,
             height: 32.0,

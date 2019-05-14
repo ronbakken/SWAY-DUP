@@ -22,6 +22,7 @@ class User {
   final bool showLocation;
   final int accountCompletionInPercent;
   final Location location;
+  final List<Location> locationsOfInfluence;
   final ImageReference avatarThumbnail;
   final ImageReference avatarImage;
   final List<Category> categories;
@@ -46,6 +47,7 @@ class User {
     this.showLocation,
     this.accountCompletionInPercent,
     this.location,
+    this.locationsOfInfluence,
     this.avatarThumbnail,
     this.avatarImage,
     this.categories,
@@ -69,6 +71,7 @@ class User {
     bool showLocation,
     int accountCompletionInPercent,
     Location location,
+    List<Location> locationsOfInfluence,
     ImageReference avatarThumbnail,
     ImageReference avatarImage,
     List<Category> categories,
@@ -91,6 +94,7 @@ class User {
       showLocation: showLocation ?? this.showLocation,
       accountCompletionInPercent: accountCompletionInPercent ?? this.accountCompletionInPercent,
       location: location ?? this.location,
+      locationsOfInfluence: locationsOfInfluence ?? this.locationsOfInfluence,
       avatarThumbnail: avatarThumbnail ?? this.avatarThumbnail,
       avatarImage: avatarImage ?? this.avatarImage,
       categories: categories ?? this.categories,
@@ -144,6 +148,11 @@ class User {
           showLocation: dto.full.showLocation,
           accountCompletionInPercent: dto.full.accountCompletionInPercent,
           location: Location.fromDto(dto.full.location),
+          locationsOfInfluence: dto.full.locationsOfInfluence
+              .map(
+                (dto) => Location.fromDto(dto),
+              )
+              .toList(),
           avatarThumbnail: ImageReference.fromImageDto(dto.full.avatarThumbnail),
           avatarImage: ImageReference.fromImageDto(dto.full.avatar),
           categories: backend<ConfigService>().getCategoriesFromIds(dto.full.categoryIds),
@@ -206,6 +215,7 @@ class User {
           ..email = email
           ..acceptsDirectOffers = acceptsDirectOffers ?? false
           ..location = location.toDto()
+          ..locationsOfInfluence.addAll(locationsOfInfluence.map((location) => location.toDto()))
           ..showLocation = showLocation ?? false
           ..accountCompletionInPercent = accountCompletionInPercent ?? -1
           ..avatarThumbnail = avatarThumbnail.toImageDto()
@@ -213,9 +223,7 @@ class User {
           ..categoryIds.addAll(categories.map<String>((c) => c.id))
           ..minimalFee = minimalFee.toDto() ?? Money.zero
           ..websiteUrl = websiteUrl ?? ''
-          ..socialMediaAccounts.addAll(
-            socialMediaAccounts.map<SocialMediaAccountDto>((a) => a.toDto()),
-          )
+          ..socialMediaAccounts.addAll(socialMediaAccounts.map((account) => account.toDto()))
           ..registrationTokens.addAll(registrationTokens));
         break;
     }
@@ -224,10 +232,7 @@ class User {
 
   @override
   bool operator ==(Object other) =>
-    identical(this, other) ||
-      other is User &&
-        runtimeType == other.runtimeType &&
-        id == other.id;
+      identical(this, other) || other is User && runtimeType == other.runtimeType && id == other.id;
 
   @override
   int get hashCode => id.hashCode;

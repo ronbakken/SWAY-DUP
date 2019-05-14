@@ -3,18 +3,21 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/category.dart';
 import 'package:inf/ui/filter/filter_confirmation.dart';
+import 'package:inf/ui/filter/filter_panel.dart';
 import 'package:inf/ui/widgets/category_button.dart';
 import 'package:inf/ui/widgets/category_selector.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
 
 class CategoryFilterPanel extends StatefulWidget {
   const CategoryFilterPanel({
     Key key,
     this.padding = EdgeInsets.zero,
+    this.closePanel,
   })  : assert(padding != null),
         super(key: key);
 
   final EdgeInsets padding;
+  final VoidCallback closePanel;
 
   @override
   _CategoryFilterPanelState createState() => _CategoryFilterPanelState();
@@ -23,6 +26,65 @@ class CategoryFilterPanel extends StatefulWidget {
 class _CategoryFilterPanelState extends State<CategoryFilterPanel> {
   final _selectedCategories = CategorySet();
   Category _topLevel;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      FilterConfirmButton.of(context).delegate = FilterConfirmButtonDelegate(AppIcons.tick, _onTopLevelConfirmed);
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_selectedCategories.isEmpty) {
+      final filter = FilterPanel.of(context).value;
+      _selectedCategories.clear();
+      if (filter is UserFilter && filter.categorySet != null) {
+        _selectedCategories.addAll(filter.categorySet);
+      } else if (filter is OfferFilter && filter.categorySet != null) {
+        _selectedCategories.addAll(filter.categorySet);
+      }
+      _selectedCategories.addListener(_onCategoriesChanged);
+    }
+  }
+
+  void _onCategoriesChanged() {
+    final filter = FilterPanel.of(context);
+    final value = filter.value;
+    if (value is UserFilter) {
+      filter.value = value.copyWith(categorySet: _selectedCategories);
+    } else if (value is OfferFilter) {
+      filter.value = value.copyWith(categorySet: _selectedCategories);
+    }
+  }
+
+  @override
+  void dispose() {
+    _selectedCategories.removeListener(_onCategoriesChanged);
+    super.dispose();
+  }
+
+  void _onTopLevelConfirmed() {
+    widget.closePanel();
+  }
+
+  void _onSubLevelConfirmed() {
+    setState(() => _topLevel = null);
+    FilterConfirmButton.of(context).delegate = FilterConfirmButtonDelegate(
+      AppIcons.tick,
+      _onTopLevelConfirmed,
+    );
+  }
+
+  void _onTopLevelSelected(Category category) {
+    setState(() => _topLevel = category);
+    FilterConfirmButton.of(context).delegate = FilterConfirmButtonDelegate(
+      AppIcons.tick,
+      _onSubLevelConfirmed,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +97,7 @@ class _CategoryFilterPanelState extends State<CategoryFilterPanel> {
       );
     } else {
       child = Padding(
-        padding: widget.padding + const EdgeInsets.only(top: 24.0),
+        padding: widget.padding + const EdgeInsets.only(top: 24.0, left: 12.0, right: 12.0),
         child: _SubCategoryGrid(
           parentCategory: _topLevel,
           selectedCategories: _selectedCategories,
@@ -46,13 +108,6 @@ class _CategoryFilterPanelState extends State<CategoryFilterPanel> {
       duration: kThemeAnimationDuration,
       child: child,
     );
-  }
-
-  void _onTopLevelSelected(Category category) {
-    setState((){
-      _topLevel = category;
-      FilterConfirmationButton.of(context).icon = AppIcons.close;
-    });
   }
 }
 
@@ -85,8 +140,8 @@ class _TopLevelCategories extends StatelessWidget {
             selectedSubCategories: selectedCategories.onlyWithParent(topLevelCategory).length,
             radius: 32.0,
             label: topLevelCategory.name,
-            child: InfMemoryImage(
-              topLevelCategory.iconData,
+            child: InfAssetImage(
+              topLevelCategory.iconAsset,
               color: Colors.white,
               width: 24.0,
               height: 24.0,

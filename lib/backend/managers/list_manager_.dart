@@ -7,7 +7,9 @@ abstract class ListManager {
 
   void resetFilter();
 
-  void setFilter(LocationFilter filter);
+  LocationFilter get filter;
+
+  set filter(LocationFilter filter);
 
   void setMapBoundary(double nwLatitude, double nwLongitude, double seLatitude, double seLongitude, int zoomLevel);
 }
