@@ -486,17 +486,16 @@ class _LocationListState extends State<_LocationList> {
                   ),
                 ),
                 horizontalMargin8,
-                widget.locations[index] == selectedResult
-                    ? Container(
-                        width: 35.0,
-                        padding: const EdgeInsets.all(4.0),
-                        decoration: const BoxDecoration(
-                          shape: BoxShape.circle,
-                          color: AppTheme.lightBlue,
-                        ),
-                        child: const InfIcon(AppIcons.check),
-                      )
-                    : emptyWidget,
+                if (widget.locations[index] == selectedResult)
+                  Container(
+                    width: 35.0,
+                    padding: const EdgeInsets.all(4.0),
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: AppTheme.lightBlue,
+                    ),
+                    child: const InfIcon(AppIcons.check),
+                  ),
               ],
             ),
           ),

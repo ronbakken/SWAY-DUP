@@ -274,18 +274,18 @@ class _BackFilterPanelState extends State<_BackFilterPanel> {
                                         key: Key(topLevelCats.fold('', (prev, cat) => prev + cat.id)),
                                         mainAxisSize: MainAxisSize.min,
                                         children: <Widget>[
-                                          ...topLevelCats.map<Widget>((topLevelCategory) {
-                                            return Padding(
+                                          for (final topLevelCategory in topLevelCats)
+                                            Padding(
                                               padding: const EdgeInsets.symmetric(horizontal: 8.0),
                                               child: CategoryButton(
                                                 label: topLevelCategory.name,
                                                 radius: 32.0,
                                                 selected: true,
-                                                selectedSubCategories: categorySet.onlyWithParent(topLevelCategory).length,
+                                                selectedSubCategories:
+                                                    categorySet.onlyWithParent(topLevelCategory).length,
                                                 child: InfIcon(topLevelCategory.iconAsset, size: 32.0),
                                               ),
-                                            );
-                                          })
+                                            ),
                                         ],
                                       ),
                                     );

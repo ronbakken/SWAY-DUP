@@ -208,7 +208,7 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
           child: Transform(
             alignment: Alignment.center,
             transform: Matrix4.translationValues(0.0, -8.0, 0.0) * Matrix4.diagonal3Values(1.5, 1.5, 1.0),
-            child: DecoratedBox(
+            child: const DecoratedBox(
               decoration: const BoxDecoration(
                 color: AppTheme.black12,
                 shape: BoxShape.circle,
@@ -225,7 +225,8 @@ class _BottomNavButtonState extends State<_BottomNavButton> with SingleTickerPro
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                widget.notificationCount > 0 ? NotificationMarker() : emptyWidget,
+                if(widget.notificationCount > 0)
+                  NotificationMarker(),
                 InfAssetImage(widget.mode.icon, width: 24.0),
                 verticalMargin4,
                 Text(

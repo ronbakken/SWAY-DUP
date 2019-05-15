@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:email_launcher/email_launcher.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -11,7 +12,6 @@ import 'package:inf/ui/widgets/inf_stadium_button.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
-import 'package:email_launcher/email_launcher.dart';
 
 class SendSignupLoginEmailView extends StatefulWidget {
   final bool newUser;
@@ -105,25 +105,24 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
             onSubmitted: (s) => _testSubmitEnabled() ? onButtonPressed() : null,
             keyboardAppearance: Brightness.dark,
           ),
-          widget.newUser
-              ? Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    verticalMargin16,
-                    const Text(
-                      'YOUR INVITATION CODE',
-                      style: AppTheme.formFieldLabelStyle,
-                      textAlign: TextAlign.left,
-                    ),
-                    verticalMargin8,
-                    TextField(
-                      onChanged: (s) => setState(() => _invitationCode = s),
-                      keyboardAppearance: Brightness.dark,
-                    ),
-                  ],
-                )
-              : emptyWidget,
+          if (widget.newUser)
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                verticalMargin16,
+                const Text(
+                  'YOUR INVITATION CODE',
+                  style: AppTheme.formFieldLabelStyle,
+                  textAlign: TextAlign.left,
+                ),
+                verticalMargin8,
+                TextField(
+                  onChanged: (s) => setState(() => _invitationCode = s),
+                  keyboardAppearance: Brightness.dark,
+                ),
+              ],
+            ),
           verticalMargin32,
           InfStadiumButton(
             text: 'SUBMIT',
@@ -135,9 +134,10 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         columnItems = <Widget>[
           Text.rich(
             TextSpan(text: 'We are about to send you a ', children: [
-              (widget.newUser)
-                  ? const TextSpan(text: 'sign-up email to \n')
-                  : const TextSpan(text: 'login email to \n'),
+              if (widget.newUser)
+                const TextSpan(text: 'sign-up email to \n')
+              else
+                const TextSpan(text: 'login email to \n'),
               TextSpan(text: _emailAddress, style: const TextStyle(fontWeight: FontWeight.bold)),
             ]),
             textAlign: TextAlign.center,

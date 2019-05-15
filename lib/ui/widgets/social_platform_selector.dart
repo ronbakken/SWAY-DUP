@@ -26,25 +26,24 @@ class SocialPlatformSelector extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        label != null
-            ? Padding(
-                padding: padding,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      label,
-                      textAlign: TextAlign.left,
-                      style: AppTheme.formFieldLabelStyle,
-                    ),
-                    const Padding(
-                      padding: const EdgeInsets.only(right: 24.0),
-                      child: HelpButton(),
-                    ),
-                  ],
+        if (label != null)
+          Padding(
+            padding: padding,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  label,
+                  textAlign: TextAlign.left,
+                  style: AppTheme.formFieldLabelStyle,
                 ),
-              )
-            : emptyWidget,
+                const Padding(
+                  padding: const EdgeInsets.only(right: 24.0),
+                  child: HelpButton(),
+                ),
+              ],
+            ),
+          ),
         ListenableBuilder(
           listenable: channels,
           builder: (BuildContext context, Widget child) {

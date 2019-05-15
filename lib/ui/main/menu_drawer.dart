@@ -3,9 +3,9 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
 import 'package:inf/ui/user_profile/switch_user_dialog.dart';
+import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/welcome/welcome_page.dart';
 import 'package:inf/ui/widgets/animated_curves.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
@@ -257,7 +257,8 @@ class _MainNavigationItem extends StatelessWidget {
                 style: const TextStyle(fontSize: 18.0),
               ),
               const Spacer(),
-              trailing != null ? trailing : emptyWidget,
+              if(trailing != null)
+                trailing,
             ],
           ),
         ),

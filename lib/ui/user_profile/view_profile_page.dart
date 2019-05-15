@@ -89,14 +89,13 @@ class ViewProfilePageState extends State<ViewProfilePage> {
                 icon: const BackButtonIcon(),
                 onPressed: () => Navigator.of(context).maybePop(),
               ),
-              widget.user == userManager.currentUser
-                  ? IconButton(
-                      padding: const EdgeInsets.all(16.0),
-                      iconSize: 32.0,
-                      icon: const InfAssetImage(AppIcons.edit),
-                      onPressed: () => Navigator.of(context).push(EditProfilePage.route()),
-                    )
-                  : emptyWidget,
+              if (widget.user == userManager.currentUser)
+                IconButton(
+                  padding: const EdgeInsets.all(16.0),
+                  iconSize: 32.0,
+                  icon: const InfAssetImage(AppIcons.edit),
+                  onPressed: () => Navigator.of(context).push(EditProfilePage.route()),
+                ),
             ],
           ),
         ),

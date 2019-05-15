@@ -130,15 +130,16 @@ class _ImageSelectorState extends State<ImageSelector> {
       return Stack(
         fit: StackFit.passthrough,
         children: [
-          imageReferences[selectedImageIndex].isFile
-              ? Image.file(
-                  imageReferences[selectedImageIndex].imageFile,
-                  fit: BoxFit.cover,
-                )
-              : Image.network(
-                  imageReferences[selectedImageIndex].imageUrl,
-                  fit: BoxFit.cover,
-                ),
+          if (imageReferences[selectedImageIndex].isFile)
+            Image.file(
+              imageReferences[selectedImageIndex].imageFile,
+              fit: BoxFit.cover,
+            )
+          else
+            Image.network(
+              imageReferences[selectedImageIndex].imageUrl,
+              fit: BoxFit.cover,
+            ),
           Positioned(
             right: 8.0,
             top: 10.0,

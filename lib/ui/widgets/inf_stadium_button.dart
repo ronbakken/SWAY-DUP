@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:inf/ui/widgets/widget_utils.dart';
 
 class InfStadiumButton extends StatelessWidget {
   const InfStadiumButton({
@@ -10,9 +9,8 @@ class InfStadiumButton extends StatelessWidget {
     this.color,
     this.onPressed,
     this.height = 44.0,
-  })
-    : assert(text != null || textSpan != null, 'text or textSpan required.'),
-      super(key: key);
+  })  : assert(text != null || textSpan != null, 'text or textSpan required.'),
+        super(key: key);
 
   final String text;
   final TextSpan textSpan;
@@ -35,10 +33,11 @@ class InfStadiumButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            this.icon != null ? Padding(
-              padding: const EdgeInsets.only(right: 8.0),
-              child: this.icon,
-            ) : emptyWidget,
+            if (this.icon != null)
+              Padding(
+                padding: const EdgeInsets.only(right: 8.0),
+                child: this.icon,
+              ),
             Text.rich(
               textSpan ?? TextSpan(text: text),
               style: const TextStyle(

@@ -229,29 +229,29 @@ class _UserDataViewState extends State<UserDataView> {
           children: [
             Stack(
               children: [
-                newUser && selectedImageFile == null
-                    ? _ProfilePicturePlaceHolder(
-                        onCameraTap: () => onSelectImage(true),
-                        onLibraryTap: () => onSelectImage(false),
-                      )
-                    : ProfileSummary(
-                        user: user,
-                        showOnlyImage: true,
-                        heightImagePercentage: 1.0,
-                        gradientStop: 0.9,
-                        imageFile: selectedImageFile,
-                      ),
+                if (newUser && selectedImageFile == null)
+                  _ProfilePicturePlaceHolder(
+                    onCameraTap: () => onSelectImage(true),
+                    onLibraryTap: () => onSelectImage(false),
+                  )
+                else
+                  ProfileSummary(
+                    user: user,
+                    showOnlyImage: true,
+                    heightImagePercentage: 1.0,
+                    gradientStop: 0.9,
+                    imageFile: selectedImageFile,
+                  ),
                 // Only show edit button if there is already an image
-                !newUser || selectedImageFile != null
-                    ? Positioned(
-                        right: 16,
-                        top: 32,
-                        child: InkResponse(
-                          onTap: onEditImage,
-                          child: const InfIcon(AppIcons.edit, size: 32),
-                        ),
-                      )
-                    : emptyWidget,
+                if (!newUser || selectedImageFile != null)
+                  Positioned(
+                    right: 16,
+                    top: 32,
+                    child: InkResponse(
+                      onTap: onEditImage,
+                      child: const InfIcon(AppIcons.edit, size: 32),
+                    ),
+                  ),
               ],
             ),
             Form(

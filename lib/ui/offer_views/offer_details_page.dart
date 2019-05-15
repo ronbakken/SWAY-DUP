@@ -246,45 +246,43 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         children: [
           Text('Total Value of ${reward.getTotalValueAsString()}'),
           verticalMargin12,
-          reward.cashValue != null
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: AppTheme.blue,
-                      radius: 15.0,
-                      child: InfAssetImage(
-                        AppIcons.dollarSign,
-                        height: 18,
-                        color: Colors.white,
-                      ),
-                    ),
-                    horizontalMargin8,
-                    Text('${reward.cashValueAsString}'),
-                  ],
-                )
-              : emptyWidget,
+          if (reward.cashValue != null)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  backgroundColor: AppTheme.blue,
+                  radius: 15.0,
+                  child: InfAssetImage(
+                    AppIcons.dollarSign,
+                    height: 18,
+                    color: Colors.white,
+                  ),
+                ),
+                horizontalMargin8,
+                Text('${reward.cashValueAsString}'),
+              ],
+            ),
           verticalMargin12,
-          reward.description != null
-              ? Row(
-                  mainAxisSize: MainAxisSize.min,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const CircleAvatar(
-                      backgroundColor: AppTheme.blue,
-                      radius: 15.0,
-                      child: InfAssetImage(
-                        AppIcons.gift,
-                        height: 14,
-                        color: Colors.white,
-                      ),
-                    ),
-                    horizontalMargin8,
-                    Text('${reward.description ?? ''}'),
-                  ],
-                )
-              : emptyWidget,
+          if (reward.description != null)
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                const CircleAvatar(
+                  backgroundColor: AppTheme.blue,
+                  radius: 15.0,
+                  child: InfAssetImage(
+                    AppIcons.gift,
+                    height: 14,
+                    color: Colors.white,
+                  ),
+                ),
+                horizontalMargin8,
+                Text('${reward.description ?? ''}'),
+              ],
+            ),
         ],
       ),
     );
