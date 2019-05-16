@@ -218,7 +218,7 @@ namespace Offers
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
-                                LogicalOperator.And)
+                                LogicalOperator.Or)
                             .AppendMoneyAtLeastClause(
                                 "terms.reward.cashValue",
                                 new Utility.Money(filter.MinimumReward?.CurrencyCode, filter.MinimumReward?.Units ?? 0, filter.MinimumReward?.Nanos ?? 0))

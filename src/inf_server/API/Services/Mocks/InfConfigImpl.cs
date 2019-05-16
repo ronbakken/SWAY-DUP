@@ -15,8 +15,8 @@ namespace API.Services.Mocks
             var config = new AppConfigDto
             {
                 ConfigVersion = 1,
-                PrivacyPolicyUrl = "https://google.com",
-                TermsOfServiceUrl = "https://wikipedia.com",
+                PrivacyPolicyUrl = "https://www.swaymarketplace.com/privacy",
+                TermsOfServiceUrl = "https://www.swaymarketplace.com/terms",
                 ServiceConfig = new ServiceConfigDto
                 {
                     MapboxToken =
@@ -110,7 +110,7 @@ namespace API.Services.Mocks
                     {
                         Id = "12",
                         ParentId = "3",
-                        Name = "Coffee shop",
+                        Name = "Coffee Shop",
                     },
                     new CategoryDto
                     {
@@ -237,7 +237,7 @@ namespace API.Services.Mocks
                     },
                     new CategoryDto
                     {
-                        Id = "31",
+                        Id = "36",
                         ParentId = "6",
                         Name = "Taxes",
                     },
