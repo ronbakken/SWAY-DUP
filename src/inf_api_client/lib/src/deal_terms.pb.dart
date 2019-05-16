@@ -9,12 +9,14 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'deliverable.pb.dart' as $8;
-import 'reward.pb.dart' as $9;
+import 'money.pb.dart' as $3;
 
 class DealTermsDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('DealTermsDto', package: const $pb.PackageName('api'))
     ..a<$8.DeliverableDto>(1, 'deliverable', $pb.PbFieldType.OM, $8.DeliverableDto.getDefault, $8.DeliverableDto.create)
-    ..a<$9.RewardDto>(2, 'reward', $pb.PbFieldType.OM, $9.RewardDto.getDefault, $9.RewardDto.create)
+    ..a<$3.MoneyDto>(2, 'cashValue', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..a<$3.MoneyDto>(3, 'serviceValue', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..aOS(4, 'serviceDescription')
     ..hasRequiredFields = false
   ;
 
@@ -35,9 +37,19 @@ class DealTermsDto extends $pb.GeneratedMessage {
   $core.bool hasDeliverable() => $_has(0);
   void clearDeliverable() => clearField(1);
 
-  $9.RewardDto get reward => $_getN(1);
-  set reward($9.RewardDto v) { setField(2, v); }
-  $core.bool hasReward() => $_has(1);
-  void clearReward() => clearField(2);
+  $3.MoneyDto get cashValue => $_getN(1);
+  set cashValue($3.MoneyDto v) { setField(2, v); }
+  $core.bool hasCashValue() => $_has(1);
+  void clearCashValue() => clearField(2);
+
+  $3.MoneyDto get serviceValue => $_getN(2);
+  set serviceValue($3.MoneyDto v) { setField(3, v); }
+  $core.bool hasServiceValue() => $_has(2);
+  void clearServiceValue() => clearField(3);
+
+  $core.String get serviceDescription => $_getS(3, '');
+  set serviceDescription($core.String v) { $_setString(3, v); }
+  $core.bool hasServiceDescription() => $_has(3);
+  void clearServiceDescription() => clearField(4);
 }
 

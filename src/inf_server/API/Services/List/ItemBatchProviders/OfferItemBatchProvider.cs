@@ -59,10 +59,10 @@ namespace API.Services.List.ItemBatchProviders
             offersFilter.Phrase = itemFilter.OfferFilter.Phrase;
             offersFilter.BusinessAccountId = itemFilter.OfferFilter.BusinessAccountId;
             offersFilter.DeliverableTypes.AddRange(itemFilter.OfferFilter.DeliverableTypes.Select(x => x.ToDeliverableType()));
-            offersFilter.MinimumReward = itemFilter.OfferFilter.MinimumReward.ToOffersMoney();
+            offersFilter.MinimumRewardCash = itemFilter.OfferFilter.MinimumRewardCash.ToOffersMoney();
+            offersFilter.MinimumRewardService = itemFilter.OfferFilter.MinimumRewardService.ToOffersMoney();
             offersFilter.OfferAcceptancePolicies.AddRange(itemFilter.OfferFilter.AcceptancePolicies.Select(x => x.ToOfferAcceptancePolicy()));
             offersFilter.OfferStatuses.AddRange(itemFilter.OfferFilter.OfferStatuses.Select(x => x.ToOfferStatus()));
-            offersFilter.RewardTypes.AddRange(itemFilter.OfferFilter.RewardTypes.Select(x => x.ToRewardType()));
 
             return offersFilter;
         }

@@ -32,7 +32,6 @@ protoc.exe ^
     message.proto ^
     money.proto ^
     offer.proto ^
-    reward.proto ^
     location.proto ^
     social_media_account.proto ^
     social_network_provider.proto ^

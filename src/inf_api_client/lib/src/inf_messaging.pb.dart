@@ -9,7 +9,7 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 import 'package:protobuf/protobuf.dart' as $pb;
 
 import 'message.pb.dart' as $7;
-import 'conversation.pb.dart' as $13;
+import 'conversation.pb.dart' as $12;
 
 class CreateConversationRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CreateConversationRequest', package: const $pb.PackageName('api'))
@@ -49,7 +49,7 @@ class CreateConversationRequest extends $pb.GeneratedMessage {
 
 class CreateConversationResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CreateConversationResponse', package: const $pb.PackageName('api'))
-    ..a<$13.ConversationDto>(1, 'conversation', $pb.PbFieldType.OM, $13.ConversationDto.getDefault, $13.ConversationDto.create)
+    ..a<$12.ConversationDto>(1, 'conversation', $pb.PbFieldType.OM, $12.ConversationDto.getDefault, $12.ConversationDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -65,8 +65,8 @@ class CreateConversationResponse extends $pb.GeneratedMessage {
   static CreateConversationResponse getDefault() => _defaultInstance ??= create()..freeze();
   static CreateConversationResponse _defaultInstance;
 
-  $13.ConversationDto get conversation => $_getN(0);
-  set conversation($13.ConversationDto v) { setField(1, v); }
+  $12.ConversationDto get conversation => $_getN(0);
+  set conversation($12.ConversationDto v) { setField(1, v); }
   $core.bool hasConversation() => $_has(0);
   void clearConversation() => clearField(1);
 }
@@ -97,7 +97,7 @@ class CloseConversationRequest extends $pb.GeneratedMessage {
 
 class CloseConversationResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('CloseConversationResponse', package: const $pb.PackageName('api'))
-    ..a<$13.ConversationDto>(1, 'conversation', $pb.PbFieldType.OM, $13.ConversationDto.getDefault, $13.ConversationDto.create)
+    ..a<$12.ConversationDto>(1, 'conversation', $pb.PbFieldType.OM, $12.ConversationDto.getDefault, $12.ConversationDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -113,8 +113,8 @@ class CloseConversationResponse extends $pb.GeneratedMessage {
   static CloseConversationResponse getDefault() => _defaultInstance ??= create()..freeze();
   static CloseConversationResponse _defaultInstance;
 
-  $13.ConversationDto get conversation => $_getN(0);
-  set conversation($13.ConversationDto v) { setField(1, v); }
+  $12.ConversationDto get conversation => $_getN(0);
+  set conversation($12.ConversationDto v) { setField(1, v); }
   $core.bool hasConversation() => $_has(0);
   void clearConversation() => clearField(1);
 }

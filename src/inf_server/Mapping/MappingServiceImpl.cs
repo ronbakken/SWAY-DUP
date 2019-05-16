@@ -192,10 +192,12 @@ namespace Mapping
                         "offer.status",
                         filter.OfferFilter.OfferStatuses,
                         value => value.ToStatus().ToString().ToCamelCase())
-                    .AppendScalarFieldOneOfClause(
-                        "offer.terms.reward.type",
-                        filter.OfferFilter.RewardTypes,
-                        value => value.ToRewardType().ToString().ToCamelCase())
+                    .AppendMoneyAtLeastClause(
+                        "offer.terms.cashValue",
+                        new Utility.Money(filter.OfferFilter.MinimumRewardCash?.CurrencyCode, filter.OfferFilter.MinimumRewardCash?.Units ?? 0, filter.OfferFilter.MinimumRewardCash?.Nanos ?? 0))
+                    .AppendMoneyAtLeastClause(
+                        "offer.terms.serviceValue",
+                        new Utility.Money(filter.OfferFilter.MinimumRewardService?.CurrencyCode, filter.OfferFilter.MinimumRewardService?.Units ?? 0, filter.OfferFilter.MinimumRewardService?.Nanos ?? 0))
                     .AppendCloseParenthesis();
             }
 

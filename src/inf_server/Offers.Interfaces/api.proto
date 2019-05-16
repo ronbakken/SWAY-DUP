@@ -44,7 +44,6 @@ enum DeliverableType {
 }
 
 message Deliverable {
-    int32 id = 1;
     repeated DeliverableType deliverableTypes = 2;
     repeated string socialNetworkProviderIds = 3;
     string description = 4;
@@ -52,20 +51,9 @@ message Deliverable {
 
 message DealTerms {
     Deliverable deliverable = 1;
-    Reward reward = 2;
-}
-
-enum RewardType {
-    barter = 0;
-    cash = 1;
-    barterAndCash =2;
-}
-
-message Reward {
-    RewardType type = 1;
-    Money barterValue = 2;
-    Money cashValue = 3;
-    string description = 4;
+    Money cashValue = 2;
+    Money serviceValue = 3;
+    string serviceDescription = 4;
 }
 
 enum OfferStatus {
@@ -161,10 +149,10 @@ message ListOffersRequest {
         repeated OfferStatus offerStatuses = 1;
         repeated OfferAcceptancePolicy offerAcceptancePolicies = 2;
         repeated DeliverableType deliverableTypes = 3;
-        repeated RewardType rewardTypes = 4;
         repeated string categoryIds = 5;
         string businessAccountId = 6;
-        Money minimumReward = 7;
+        Money minimumRewardCash = 7;
+        Money minimumRewardService = 11;
         GeoPoint northWest = 8;
         GeoPoint southEast = 9;
         string phrase = 10;

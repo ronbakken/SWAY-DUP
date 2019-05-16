@@ -191,7 +191,9 @@ namespace Offers.ObjectMapping
             var result = new DealTermsEntity
             {
                 Deliverable = @this.Deliverable.ToEntity(),
-                Reward = @this.Reward.ToEntity(),
+                ServiceValue = @this.ServiceValue.ToEntity(),
+                CashValue = @this.CashValue.ToEntity(),
+                ServiceDescription = @this.ServiceDescription,
             };
 
             return result;
@@ -207,7 +209,9 @@ namespace Offers.ObjectMapping
             var result = new DealTerms
             {
                 Deliverable = @this.Deliverable.ToServiceDto(),
-                Reward = @this.Reward.ToServiceDto(),
+                ServiceValue = @this.ServiceValue.ToServiceDto(),
+                CashValue = @this.CashValue.ToServiceDto(),
+                ServiceDescription = @this.ServiceDescription,
             };
 
             return result;
@@ -223,7 +227,6 @@ namespace Offers.ObjectMapping
             var result = new DeliverableEntity
             {
                 Description = @this.Description,
-                Id = @this.Id,
             };
 
             result.DeliverableTypes.AddRange(@this.DeliverableTypes.Select(x => x.ToEntity()));
@@ -242,47 +245,10 @@ namespace Offers.ObjectMapping
             var result = new Deliverable
             {
                 Description = @this.Description,
-                Id = @this.Id,
             };
 
             result.DeliverableTypes.AddRange(@this.DeliverableTypes.Select(x => x.ToServiceDto()));
             result.SocialNetworkProviderIds.AddRange(@this.SocialNetworkProviderIds);
-
-            return result;
-        }
-
-        public static RewardEntity ToEntity(this Reward @this)
-        {
-            if (@this == null)
-            {
-                return null;
-            }
-
-            var result = new RewardEntity
-            {
-                BarterValue = @this.BarterValue.ToEntity(),
-                CashValue = @this.CashValue.ToEntity(),
-                Description = @this.Description,
-                Type = @this.Type.ToEntity(),
-            };
-
-            return result;
-        }
-
-        public static Reward ToServiceDto(this RewardEntity @this)
-        {
-            if (@this == null)
-            {
-                return null;
-            }
-
-            var result = new Reward
-            {
-                BarterValue = @this.BarterValue.ToServiceDto(),
-                CashValue = @this.CashValue.ToServiceDto(),
-                Description = @this.Description,
-                Type = @this.Type.ToServiceDto(),
-            };
 
             return result;
         }
@@ -344,11 +310,5 @@ namespace Offers.ObjectMapping
 
         public static DeliverableType ToServiceDto(this DeliverableEntity.Types.Type @this) =>
             (DeliverableType)(int)@this;
-
-        public static RewardEntity.Types.Type ToEntity(this RewardType @this) =>
-            (RewardEntity.Types.Type)(int)@this;
-
-        public static RewardType ToServiceDto(this RewardEntity.Types.Type @this) =>
-            (RewardType)(int)@this;
     }
 }

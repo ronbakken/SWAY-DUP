@@ -11,7 +11,7 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'location.pb.dart' as $2;
 import 'google/protobuf/timestamp.pb.dart' as $6;
 import 'image.pb.dart' as $1;
-import 'deal_terms.pb.dart' as $10;
+import 'deal_terms.pb.dart' as $9;
 
 import 'offer.pbenum.dart';
 
@@ -32,7 +32,7 @@ class OfferDto_ListDataDto extends $pb.GeneratedMessage {
     ..a<$core.int>(11, 'numberRemaining', $pb.PbFieldType.O3)
     ..a<$1.ImageDto>(12, 'thumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
     ..a<$1.ImageDto>(13, 'featuredImage', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
-    ..a<$10.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $10.DealTermsDto.getDefault, $10.DealTermsDto.create)
+    ..a<$9.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $9.DealTermsDto.getDefault, $9.DealTermsDto.create)
     ..aOS(15, 'featuredCategoryId')
     ..hasRequiredFields = false
   ;
@@ -114,8 +114,8 @@ class OfferDto_ListDataDto extends $pb.GeneratedMessage {
   $core.bool hasFeaturedImage() => $_has(12);
   void clearFeaturedImage() => clearField(13);
 
-  $10.DealTermsDto get terms => $_getN(13);
-  set terms($10.DealTermsDto v) { setField(14, v); }
+  $9.DealTermsDto get terms => $_getN(13);
+  set terms($9.DealTermsDto v) { setField(14, v); }
   $core.bool hasTerms() => $_has(13);
   void clearTerms() => clearField(14);
 
@@ -140,7 +140,7 @@ class OfferDto_FullDataDto extends $pb.GeneratedMessage {
     ..a<$core.int>(11, 'numberOffered', $pb.PbFieldType.O3)
     ..a<$core.int>(12, 'numberRemaining', $pb.PbFieldType.O3)
     ..a<$1.ImageDto>(13, 'thumbnail', $pb.PbFieldType.OM, $1.ImageDto.getDefault, $1.ImageDto.create)
-    ..a<$10.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $10.DealTermsDto.getDefault, $10.DealTermsDto.create)
+    ..a<$9.DealTermsDto>(14, 'terms', $pb.PbFieldType.OM, $9.DealTermsDto.getDefault, $9.DealTermsDto.create)
     ..e<OfferDto_AcceptancePolicy>(15, 'acceptancePolicy', $pb.PbFieldType.OE, OfferDto_AcceptancePolicy.manualReview, OfferDto_AcceptancePolicy.valueOf, OfferDto_AcceptancePolicy.values)
     ..pc<$1.ImageDto>(17, 'images', $pb.PbFieldType.PM,$1.ImageDto.create)
     ..pPS(18, 'categoryIds')
@@ -224,8 +224,8 @@ class OfferDto_FullDataDto extends $pb.GeneratedMessage {
   $core.bool hasThumbnail() => $_has(12);
   void clearThumbnail() => clearField(13);
 
-  $10.DealTermsDto get terms => $_getN(13);
-  set terms($10.DealTermsDto v) { setField(14, v); }
+  $9.DealTermsDto get terms => $_getN(13);
+  set terms($9.DealTermsDto v) { setField(14, v); }
   $core.bool hasTerms() => $_has(13);
   void clearTerms() => clearField(14);
 

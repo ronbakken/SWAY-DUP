@@ -96,10 +96,13 @@ namespace Mapping.ObjectMapping
             {
                 AcceptancePolicy = @this.AcceptancePolicy.ToAcceptancePolicy(),
                 BusinessAccountId = @this.BusinessAccountId,
-                Reward = @this.Terms?.Reward?.CashValue?.ToMoneyEntity(),
-                RewardType = @this.Terms?.Reward?.Type.ToRewardType() ?? throw new NotSupportedException(),
+                CashReward = @this.Terms?.CashValue?.ToMoneyEntity(),
+                ServiceReward = @this.Terms?.ServiceValue?.ToMoneyEntity(),
                 Status = @this.Status.ToEntityStatus(),
             };
+
+            // TODO: ??
+            //result.DeliverableTypes.AddRange(@this.Terms.Deliverable.DeliverableTypes.Select(x => x.to);
 
             return result;
         }
@@ -252,12 +255,6 @@ namespace Mapping.ObjectMapping
         public static OfferAcceptancePolicy ToAcceptancePolicy(this MapItemEntity.Types.OfferEntity.Types.AcceptancePolicy @this) =>
             (OfferAcceptancePolicy)(int)@this;
 
-        public static MapItemEntity.Types.OfferEntity.Types.RewardType ToRewardType(this RewardType @this) =>
-            (MapItemEntity.Types.OfferEntity.Types.RewardType)(int)@this;
-
-        public static RewardType ToRewardType(this MapItemEntity.Types.OfferEntity.Types.RewardType @this) =>
-            (RewardType)(int)@this;
-
         public static MapItemEntity.Types.OfferEntity.Types.Status ToEntityStatus(this OfferStatus @this) =>
             (MapItemEntity.Types.OfferEntity.Types.Status)(int)@this;
 
@@ -275,9 +272,6 @@ namespace Mapping.ObjectMapping
 
         public static MapItemEntity.Types.OfferEntity.Types.Status ToStatus(this ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.Status @this) =>
             (MapItemEntity.Types.OfferEntity.Types.Status)(int)@this;
-
-        public static MapItemEntity.Types.OfferEntity.Types.RewardType ToRewardType(this ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.RewardType @this) =>
-            (MapItemEntity.Types.OfferEntity.Types.RewardType)(int)@this;
 
         public static MapItemEntity.Types.UserEntity.Types.UserType ToUserType(this ListMapItemsRequest.Types.Filter.Types.UserFilterDto.Types.Type @this) =>
             (MapItemEntity.Types.UserEntity.Types.UserType)(int)@this;

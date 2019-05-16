@@ -68,18 +68,12 @@ message ListMapItemsRequest {
                 allowNegotiation = 2;
             }
 
-            enum RewardType {
-                barter = 0;
-                cash = 1;
-                barterAndCash =2;
-            }
-
             string businessAccountId = 1;
             repeated Status offerStatuses = 2;
             repeated DeliverableType deliverableTypes = 3;
             repeated AcceptancePolicy acceptancePolicies = 4;
-            repeated RewardType rewardTypes = 5;
-            Money minimumReward = 6;
+            Money minimumRewardCash = 6;
+            Money minimumRewardService = 7;
         }
 
         // User-specific filter

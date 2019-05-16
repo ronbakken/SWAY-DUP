@@ -26,9 +26,10 @@ const ItemFilterDto_OfferFilterDto$json = const {
     const {'1': 'businessAccountId', '3': 1, '4': 1, '5': 9, '10': 'businessAccountId'},
     const {'1': 'offerStatuses', '3': 2, '4': 3, '5': 14, '6': '.api.OfferDto.Status', '10': 'offerStatuses'},
     const {'1': 'deliverableTypes', '3': 3, '4': 3, '5': 14, '6': '.api.DeliverableType', '10': 'deliverableTypes'},
+    const {'1': 'deliverableSocialMediaNetworkIds', '3': 13, '4': 3, '5': 9, '10': 'deliverableSocialMediaNetworkIds'},
     const {'1': 'acceptancePolicies', '3': 4, '4': 3, '5': 14, '6': '.api.OfferDto.AcceptancePolicy', '10': 'acceptancePolicies'},
-    const {'1': 'rewardTypes', '3': 5, '4': 3, '5': 14, '6': '.api.RewardDto.Type', '10': 'rewardTypes'},
-    const {'1': 'minimumReward', '3': 6, '4': 1, '5': 11, '6': '.api.MoneyDto', '10': 'minimumReward'},
+    const {'1': 'minimumRewardCash', '3': 6, '4': 1, '5': 11, '6': '.api.MoneyDto', '10': 'minimumRewardCash'},
+    const {'1': 'minimumRewardService', '3': 12, '4': 1, '5': 11, '6': '.api.MoneyDto', '10': 'minimumRewardService'},
   ],
 };
 

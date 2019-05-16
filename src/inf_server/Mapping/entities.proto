@@ -43,18 +43,12 @@ message MapItemEntity {
             allowNegotiation = 2;
         }
 
-        enum RewardType {
-            barter = 0;
-            cash = 1;
-            barterAndCash =2;
-        }
-
         string businessAccountId = 1;
         Status status = 2;
         repeated DeliverableType deliverableTypes = 3;
         AcceptancePolicy acceptancePolicy = 4;
-        RewardType rewardType = 5;
-        MoneyEntity reward = 6;
+        MoneyEntity cashReward = 6;
+        MoneyEntity serviceReward = 7;
     }
 
     message UserEntity {
