@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:inf/backend/services/location_service_.dart';
 import 'package:location/location.dart' as location;
 
+// TODO populate this version with content from Mock
 class LocationServiceImplementation implements LocationService {
   final location.Location _plugin = location.Location();
   StreamController<Coordinate> _locationData;

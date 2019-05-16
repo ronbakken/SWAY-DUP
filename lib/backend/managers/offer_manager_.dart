@@ -137,7 +137,7 @@ class OfferBuilder {
           ..reward = (RewardDto()
             ..barterValue = barterValue?.toDto() ?? Money.zero.toDto()
             ..barterValue = cashValue?.toDto() ?? Money.zero.toDto()
-            ..description = description ?? ''
+            ..description = rewardDescription ?? ''
             ..type = rewardType))
         ..acceptancePolicy = acceptancePolicy
         ..images.addAll(images.map<ImageDto>((x) => x.toImageDto()))
