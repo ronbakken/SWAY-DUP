@@ -258,6 +258,7 @@ class _BackFilterPanelState extends State<_BackFilterPanel> {
                                   child: InfIcon(_state._button.value.icon, size: 32.0),
                                 ),
                               ),
+                              /*
                               if (_state._button.value == FilterButton.Category)
                                 ListenableBuilder(
                                   listenable: categorySet,
@@ -291,6 +292,7 @@ class _BackFilterPanelState extends State<_BackFilterPanel> {
                                     );
                                   },
                                 ),
+                              */
                             ],
                           ),
                         ),
