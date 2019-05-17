@@ -193,10 +193,10 @@ namespace Mapping
                         filter.OfferFilter.OfferStatuses,
                         value => value.ToStatus().ToString().ToCamelCase())
                     .AppendMoneyAtLeastClause(
-                        "offer.terms.cashValue",
+                        "offer.cashReward",
                         new Utility.Money(filter.OfferFilter.MinimumRewardCash?.CurrencyCode, filter.OfferFilter.MinimumRewardCash?.Units ?? 0, filter.OfferFilter.MinimumRewardCash?.Nanos ?? 0))
                     .AppendMoneyAtLeastClause(
-                        "offer.terms.serviceValue",
+                        "offer.serviceReward",
                         new Utility.Money(filter.OfferFilter.MinimumRewardService?.CurrencyCode, filter.OfferFilter.MinimumRewardService?.Units ?? 0, filter.OfferFilter.MinimumRewardService?.Nanos ?? 0))
                     .AppendCloseParenthesis();
             }

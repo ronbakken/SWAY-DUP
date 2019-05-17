@@ -2,7 +2,7 @@
   "profiles": {
     "IntegrationTests": {
       "commandName": "Project",
-      "commandLineArgs": "52.187.193.162:9026 AccountEndpoint=https://inf-kent.documents.azure.com:443/;AccountKey=zDxBZ26bjChzOyw3IQUUccgGmrT3X4y6kpmOJVplSbjP9BXkiX8EzowS8f1hn2tsjCo2sS0bHLCMj2KUO7woBQ==;"
+      "commandLineArgs": "api.dev.swaymarketplace.com:9026 AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
     }
   }
 }
