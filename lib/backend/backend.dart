@@ -83,7 +83,6 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken, AssetLoader as
         mode: AppMode.alpha,
         host: 'api.alpha.swaymarketplace.com',
         port: 9026,
-        sslRequired: false,
       );
       configureDevLogger();
       registerImplementations(testRefreshToken);
