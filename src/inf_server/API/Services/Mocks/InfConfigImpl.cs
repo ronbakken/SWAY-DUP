@@ -30,13 +30,13 @@ namespace API.Services.Mocks
                     {
                         var id = token["id"].Value<string>();
                         var name = token["name"].Value<string>();
-                        var parentId = token["parentId"]?.Value<string>() ?? "";
+                        var parentId = token["parentId"]?.Value<string>();
 
                         var category = new CategoryDto
                         {
                             Id = id,
                             Name = name,
-                            ParentId = parentId,
+                            ParentId = parentId ?? "",
                         };
 
                         if (parentId == null)
@@ -63,7 +63,7 @@ namespace API.Services.Mocks
 
                     var config = new AppConfigDto
                     {
-                        ConfigVersion = 1,
+                        ConfigVersion = 2,
                         PrivacyPolicyUrl = "https://www.swaymarketplace.com/privacy",
                         TermsOfServiceUrl = "https://www.swaymarketplace.com/terms",
                         ServiceConfig = new ServiceConfigDto
