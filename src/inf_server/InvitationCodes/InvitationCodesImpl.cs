@@ -83,7 +83,7 @@ namespace InvitationCodes
                     await this
                         .defaultContainer
                         .Items
-                        .CreateItemAsync(code, entity)
+                        .CreateItemAsync(schemaType, entity)
                         .ContinueOnAnyContext();
 
                     logger.Information("Invitation code {InvitationCode} with expiry {Expiry} has been allocated", code, expiryTimestamp);

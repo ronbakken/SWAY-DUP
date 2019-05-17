@@ -211,6 +211,10 @@ namespace Offers
                                 filter.DeliverableTypes,
                                 value => value.ToEntity().ToString().ToCamelCase())
                             .AppendArrayFieldClause(
+                                "terms.deliverable.socialNetworkProviderIds",
+                                filter.DeliverableSocialMediaNetworkIds,
+                                value => value)
+                            .AppendArrayFieldClause(
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,

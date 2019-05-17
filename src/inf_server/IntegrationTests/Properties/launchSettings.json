@@ -2,7 +2,7 @@
   "profiles": {
     "IntegrationTests": {
       "commandName": "Project",
-      "commandLineArgs": "20.188.225.239:9026 AccountEndpoint=https://inf-kent.documents.azure.com:443/;AccountKey=g9rjKfxSjcJKwjr7p7V8nteTyGEL8qeG6XcMPxkH8UvxR414eArBeEe1unJxvxFPt5YnvDlaGr4NMwBHwBjnPQ==;"
+      "commandLineArgs": "52.187.193.162:9026 AccountEndpoint=https://inf-kent.documents.azure.com:443/;AccountKey=zDxBZ26bjChzOyw3IQUUccgGmrT3X4y6kpmOJVplSbjP9BXkiX8EzowS8f1hn2tsjCo2sS0bHLCMj2KUO7woBQ==;"
     }
   }
 }

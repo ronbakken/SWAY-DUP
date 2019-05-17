@@ -149,6 +149,7 @@ message ListOffersRequest {
         repeated OfferStatus offerStatuses = 1;
         repeated OfferAcceptancePolicy offerAcceptancePolicies = 2;
         repeated DeliverableType deliverableTypes = 3;
+        repeated string deliverableSocialMediaNetworkIds = 12;
         repeated string categoryIds = 5;
         string businessAccountId = 6;
         Money minimumRewardCash = 7;
