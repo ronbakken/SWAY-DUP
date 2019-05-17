@@ -33,7 +33,7 @@ namespace API
                 InfApi.BindService(new Services.Mocks.InfApiImpl()).Intercept(authorizationInterceptor),
                 InfAuth.BindService(new InfAuthImpl(logger)).Intercept(authorizationInterceptor),
                 InfBlobStorage.BindService(new InfBlobStorageImpl(logger)).Intercept(authorizationInterceptor),
-                InfConfig.BindService(new Services.Mocks.InfConfigImpl()).Intercept(authorizationInterceptor),
+                InfConfig.BindService(new Services.Mocks.InfConfigImpl(logger)).Intercept(authorizationInterceptor),
                 InfInvitationCodes.BindService(new InfInvitationCodesImpl(logger)).Intercept(authorizationInterceptor),
                 InfList.BindService(new InfListImpl(logger)).Intercept(authorizationInterceptor),
                 InfListen
