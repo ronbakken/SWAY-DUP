@@ -101,11 +101,12 @@ namespace Mapping.ObjectMapping
                 Status = @this.Status.ToEntityStatus(),
             };
 
-            // TODO: ??
-            //result.DeliverableTypes.AddRange(@this.Terms.Deliverable.DeliverableTypes.Select(x => x.to);
+            result.DeliverableTypes.AddRange(@this.Terms.Deliverable.DeliverableTypes.Select(x => x.ToDeliverableType()));
+            result.DeliverableSocialNetworkProviderIds.AddRange(@this.Terms.Deliverable.SocialNetworkProviderIds);
 
             return result;
         }
+
 
         public static MapItemEntity.Types.UserEntity ToUserEntity(this User @this)
         {
@@ -275,5 +276,11 @@ namespace Mapping.ObjectMapping
 
         public static MapItemEntity.Types.UserEntity.Types.UserType ToUserType(this ListMapItemsRequest.Types.Filter.Types.UserFilterDto.Types.Type @this) =>
             (MapItemEntity.Types.UserEntity.Types.UserType)(int)@this;
+
+        public static MapItemEntity.Types.OfferEntity.Types.DeliverableType ToDeliverableType(this DeliverableType @this) =>
+            (MapItemEntity.Types.OfferEntity.Types.DeliverableType)(int)@this;
+
+        public static DeliverableType ToDeliverableType(this MapItemEntity.Types.OfferEntity.Types.DeliverableType @this) =>
+            (DeliverableType)(int)@this;
     }
 }

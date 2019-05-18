@@ -149,6 +149,27 @@ namespace API.Services.Listen.ItemListeners
                 }
             }
 
+            if (offerFilter.DeliverableSocialMediaNetworkIds.Count > 0)
+            {
+                var socialNetworkProviderIds = offer
+                    .Terms
+                    ?.Deliverable
+                    ?.SocialNetworkProviderIds
+                    ?.ToList();
+
+                if (socialNetworkProviderIds == null)
+                {
+                    this.Logger.Debug("Filter has deliverable social media network IDs {DeliverableSocialMediaNetworkIds} but offer has no deliverable social media network IDs, so it does not satisfy filter", offerFilter.DeliverableSocialMediaNetworkIds);
+                    return false;
+                }
+
+                if (!socialNetworkProviderIds.Intersect(offerFilter.DeliverableSocialMediaNetworkIds).Any())
+                {
+                    this.Logger.Debug("Filter has deliverable social media network IDs {DeliverableSocialMediaNetworkIds} but offer has deliverable social media network IDs {OfferDeliverableSocialMediaNetworkIds}, so it does not satisfy filter", offerFilter.DeliverableSocialMediaNetworkIds, socialNetworkProviderIds);
+                    return false;
+                }
+            }
+
             if (offer.CategoryIds.Intersect(offerFilter.CategoryIds).Count() != offerFilter.CategoryIds.Count)
             {
                 this.Logger.Debug("Filter has category IDs {CategoryIds} but offer has category IDs {OfferCategoryIds}, so it does not satisfy filter", offerFilter.CategoryIds, offer.CategoryIds);

@@ -46,6 +46,7 @@ message MapItemEntity {
         string businessAccountId = 1;
         Status status = 2;
         repeated DeliverableType deliverableTypes = 3;
+        repeated string deliverableSocialNetworkProviderIds = 8;
         AcceptancePolicy acceptancePolicy = 4;
         MoneyEntity cashReward = 6;
         MoneyEntity serviceReward = 7;

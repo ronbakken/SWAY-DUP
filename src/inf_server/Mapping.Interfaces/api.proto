@@ -71,6 +71,7 @@ message ListMapItemsRequest {
             string businessAccountId = 1;
             repeated Status offerStatuses = 2;
             repeated DeliverableType deliverableTypes = 3;
+            repeated string deliverableSocialNetworkProviderIds = 8;
             repeated AcceptancePolicy acceptancePolicies = 4;
             Money minimumRewardCash = 6;
             Money minimumRewardService = 7;

@@ -84,6 +84,7 @@ namespace API.Services.List.ItemBatchProviders
                 mappingFilter.OfferFilter.AcceptancePolicies.AddRange(itemFilter.OfferFilter.AcceptancePolicies.Select(x => x.ToAcceptancePolicy()));
                 mappingFilter.OfferFilter.BusinessAccountId = itemFilter.OfferFilter.BusinessAccountId;
                 mappingFilter.OfferFilter.DeliverableTypes.AddRange(itemFilter.OfferFilter.DeliverableTypes.Select(x => x.ToListFilterDeliverableType()));
+                mappingFilter.OfferFilter.DeliverableSocialNetworkProviderIds.AddRange(itemFilter.OfferFilter.DeliverableSocialMediaNetworkIds);
                 mappingFilter.OfferFilter.MinimumRewardCash = itemFilter.OfferFilter.MinimumRewardCash.ToMappingMoney();
                 mappingFilter.OfferFilter.MinimumRewardService = itemFilter.OfferFilter.MinimumRewardService.ToMappingMoney();
                 mappingFilter.OfferFilter.OfferStatuses.AddRange(itemFilter.OfferFilter.OfferStatuses.Select(x => x.ToStatus()));

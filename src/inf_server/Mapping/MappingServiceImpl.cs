@@ -188,6 +188,10 @@ namespace Mapping
                         "offer.deliverableTypes",
                         filter.OfferFilter.DeliverableTypes,
                         value => value.ToDeliverableType().ToString().ToCamelCase())
+                    .AppendArrayFieldClause(
+                        "offer.deliverableSocialMediaNetworkIds",
+                        filter.OfferFilter.DeliverableSocialNetworkProviderIds,
+                        value => value)
                     .AppendScalarFieldOneOfClause(
                         "offer.status",
                         filter.OfferFilter.OfferStatuses,
