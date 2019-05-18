@@ -94,7 +94,7 @@ class ImageServiceImplementation implements ImageService {
     var imageBytes = await imageReference.imageFile.readAsBytes();
 
     var image = decodeImage(imageBytes);
-    var imageReducedSize = copyResize(image, imageWidth);
+    var imageReducedSize = copyResize(image, width: imageWidth);
     var imageUrl = await backend<ImageService>().uploadImageFromBytes(
       fileName,
       encodeJpg(imageReducedSize, quality: 90),
@@ -106,7 +106,7 @@ class ImageServiceImplementation implements ImageService {
 
     String lowResUrl;
     if (lowResWidth != null) {
-      var imageLowRes = copyResize(image, lowResWidth);
+      var imageLowRes = copyResize(image, width: lowResWidth);
       lowResUrl = await backend<ImageService>().uploadImageFromBytes(
         fileNameLowRes,
         encodeJpg(imageLowRes, quality: 60),

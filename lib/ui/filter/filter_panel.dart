@@ -229,13 +229,13 @@ class _BackFilterPanelState extends State<_BackFilterPanel> {
               child: ListenableBuilder(
                 listenable: Listenable.merge([_state._button, filterNotifier]),
                 builder: (BuildContext context, Widget child) {
-                  CategorySet categorySet;
+                  /*CategorySet categorySet;
                   final filter = filterNotifier.value;
                   if (filter is UserFilter) {
                     categorySet = filter.categorySet;
                   } else if (filter is OfferFilter) {
                     categorySet = filter.categorySet;
-                  }
+                  }*/
                   return LayoutBuilder(
                     builder: (BuildContext context, BoxConstraints constraints) {
                       return SingleChildScrollView(
@@ -308,6 +308,7 @@ class _BackFilterPanelState extends State<_BackFilterPanel> {
     );
   }
 
+  /*
   Widget _categoryTransitionBuilder(Widget child, Animation<double> animation) {
     AnimationStatusListener listener;
     listener = (status) {
@@ -344,6 +345,7 @@ class _BackFilterPanelState extends State<_BackFilterPanel> {
       alignment: Alignment.centerLeft,
     );
   }
+  */
 }
 
 class AnimatedPanel extends AnimatedBuilder {

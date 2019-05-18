@@ -141,7 +141,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
               child: TextField(
                 controller: _searchController,
                 focusNode: _searchFocus,
-                decoration: InputDecoration(
+                decoration: const InputDecoration(
                   prefixIcon: const InfIcon(AppIcons.search, size: 16.0),
                   contentPadding: const EdgeInsets.fromLTRB(0.0, 12.0, 24.0, 12.0),
                   border: InputBorder.none,
