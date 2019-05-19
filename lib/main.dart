@@ -33,11 +33,11 @@ class MyApp extends StatelessWidget {
 class Home extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final phoneAlignment = const Alignment(0.125, 0.1);
+    final phoneAlignment = Alignment.center; //const Alignment(0.125, 0.1);
     return Material(
       child: OverflowBox(
-        minWidth: 720,
-        minHeight: 480,
+        minWidth: 340,
+        minHeight: 220,
         child: Stack(
           fit: StackFit.expand,
           children: <Widget>[
@@ -52,7 +52,7 @@ class Home extends StatelessWidget {
               child: _Phone(),
             ),
             Align(
-              alignment: const Alignment(-0.75, 0.6),
+              alignment: const Alignment(-0.7, 0.8),
               child: SizedBox(
                 width: 340.0,
                 child: _HomeContent(),
@@ -149,10 +149,10 @@ class _CarouselFlow extends FlowDelegate {
       double time = duration.value.inMicroseconds / Duration.microsecondsPerSecond;
       double angle = (360.0 * (time / 40)) + (index * (360.0 / count)) % 360;
 
-      final x = math.sin(radians(angle)) * size.width * 0.35;
-      final y = math.cos(radians(angle)) * size.height * 2.0;
+      final x = math.sin(radians(angle)) * size.width * 0.35 - 24;
+      final y = math.cos(radians(angle)) * size.height - 24;
       final pos = result.transform3(Vector3(x, y, 1.0));
-      final scale = ((pos.z + 2000) * 0.0005).clamp(0.6, 1.25);
+      final scale = ((pos.z + 2000) * 0.0005).clamp(0.5, 1.25);
 
       result.multiply(Matrix4.identity()..translate(x, y));
       result.multiply(Matrix4.diagonal3Values(scale, scale, scale));
@@ -186,26 +186,28 @@ class _CarouselItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final ratio = MediaQuery.of(context).size.aspectRatio.clamp(0.5, 1.0);
+    final size = 48.0 * ratio;
     return Stack(
       children: <Widget>[
         Container(
-          width: 48.0,
-          height: 48.0,
+          width: size,
+          height: size,
           decoration: BoxDecoration(
-            color: theme.primaryColor.withOpacity(0.7),
+            color: theme.primaryColor.withOpacity(0.6),
             border: Border.all(color: Colors.white, width: 1.8),
-            borderRadius: BorderRadius.circular(6.0),
+            borderRadius: BorderRadius.circular(6.0 * ratio),
           ),
           alignment: Alignment.center,
-          padding: EdgeInsets.all(8.0),
+          padding: EdgeInsets.all(8.0 * ratio),
           child: Image.asset(
             'icons/${model.asset}.png',
             semanticLabel: model.name,
           ),
         ),
         Positioned(
-          top: 48.0,
-          left: 22.5,
+          top: size,
+          left: size / 2.0 - 0.5,
           width: 1.0,
           child: Container(
             width: 1.0,
@@ -303,28 +305,31 @@ class _Phone extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return FittedBox(
-      fit: BoxFit.scaleDown,
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          Container(
-            width: 210,
-            height: 434,
-            decoration: BoxDecoration(
-              color: theme.primaryColor.withOpacity(0.8),
-              borderRadius: BorderRadius.circular(28.0),
-              backgroundBlendMode: BlendMode.modulate,
+    return AspectRatio(
+      aspectRatio: 2.0 / 1.0,
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
+        child: Stack(
+          alignment: Alignment.center,
+          children: <Widget>[
+            Container(
+              width: 210,
+              height: 434,
+              decoration: BoxDecoration(
+                color: theme.primaryColor.withOpacity(0.8),
+                borderRadius: BorderRadius.circular(28.0),
+                backgroundBlendMode: BlendMode.modulate,
+              ),
             ),
-          ),
-          RepaintBoundary(
-            child: Image.asset(
-              'phone.png',
-              width: 220,
-              height: 440,
+            RepaintBoundary(
+              child: Image.asset(
+                'phone.png',
+                width: 220,
+                height: 440,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
