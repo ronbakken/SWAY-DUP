@@ -139,7 +139,7 @@ class _MainMapViewState extends State<MainMapView> {
     Navigator.of(context).push(ViewProfilePage.route(user));
   }
 
-  void onMapPositionChanged(MapPosition pos, bool hasGesture) {
+  void onMapPositionChanged(MapPosition pos, bool hasGesture, bool isUserGesture) {
     _mapPosDebounce?.cancel();
     _mapPosDebounce = Timer(const Duration(milliseconds: 500), () {
       _listManager.setMapBoundary(

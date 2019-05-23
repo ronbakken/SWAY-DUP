@@ -335,7 +335,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               ),
             ),
           ),
-          FractionallySizedBox(
+          const FractionallySizedBox(
             alignment: Alignment.bottomCenter,
             heightFactor: 0.5,
             child: DecoratedBox(
