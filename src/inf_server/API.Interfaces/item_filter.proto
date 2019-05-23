@@ -45,6 +45,9 @@ message ItemFilterDto {
 
         repeated UserType userTypes = 1;
         repeated string socialMediaNetworkIds = 2;
+
+        MoneyDto minimumValue = 12;
+        MoneyDto maximumValue = 13;
     }
 
     // Conversation-specific filter

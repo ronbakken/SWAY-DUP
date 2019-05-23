@@ -348,6 +348,52 @@ namespace Utility.Sql
             return this;
         }
 
+        // Appends a clause that ensures a monetary value is at most the specified amount.
+        public CosmosSqlQueryDefinitionBuilder AppendMoneyAtMostClause(
+            FieldName fieldName,
+            Money value)
+        {
+            if (value == Money.Empty)
+            {
+                return this;
+            }
+
+            this
+                .AppendAndIfNecessary()
+                .AppendOpenParenthesis()
+                .AppendFieldName(fieldName + "currencyCode")
+                .Append("=")
+                .AppendParameter(value.CurrencyCode)
+                .AppendAndIfNecessary()
+                .AppendOpenParenthesis()
+                .AppendOpenParenthesis()
+                .AppendFieldName(fieldName + "units")
+                .Append("??0")
+                .AppendCloseParenthesis()
+                .Append("<")
+                .AppendParameter(value.Units)
+                .AppendOrIfNecessary()
+                .AppendOpenParenthesis()
+                .AppendOpenParenthesis()
+                .AppendFieldName(fieldName + "units")
+                .Append("??0")
+                .AppendCloseParenthesis()
+                .Append("=")
+                .AppendParameter(value.Units)
+                .AppendAndIfNecessary()
+                .AppendOpenParenthesis()
+                .AppendFieldName(fieldName + "nanos")
+                .Append("??0")
+                .AppendCloseParenthesis()
+                .Append("<=")
+                .AppendParameter(value.NanoUnits)
+                .AppendCloseParenthesis()
+                .AppendCloseParenthesis()
+                .AppendCloseParenthesis();
+
+            return this;
+        }
+
         public CosmosSqlQueryDefinitionBuilder AppendFieldName(FieldName fieldName)
         {
             this

@@ -6,6 +6,7 @@ using API.ObjectMapping;
 using Serilog;
 using Users.Interfaces;
 using Utility.Search;
+using Money = Utility.Money;
 
 namespace API.Services.Listen.ItemListeners
 {
@@ -88,6 +89,58 @@ namespace API.Services.Listen.ItemListeners
                     geoPoint.Longitude > userFilter.SouthEast.Longitude)
                 {
                     this.Logger.Debug("Filter has geopoints {@NorthWest}-{@SouthEast} but user has geopoint {@OfferGeoPoint}, so it does not satisfy filter", userFilter.NorthWest, userFilter.SouthEast, user.Location.GeoPoint);
+                    return false;
+                }
+            }
+
+            if (userFilter.MinimumValue != null)
+            {
+                var value = user.MinimalFee;
+
+                if (value == null)
+                {
+                    this.Logger.Debug("Filter has minimum value {@MinimumValue} but user has no minimal fee, so it does not satisfy filter", userFilter.MinimumValue);
+                    return false;
+                }
+
+                if (!string.Equals(userFilter.MinimumValue.CurrencyCode, value.CurrencyCode, StringComparison.Ordinal))
+                {
+                    this.Logger.Debug("Filter has minimum value {@MinimumValue} but user's minimal fee has differing currency code {CurrencyCode}, so it does not satisfy filter", userFilter.MinimumValue, value.CurrencyCode);
+                    return false;
+                }
+
+                var cashValueMoney = new Money(value.CurrencyCode, value.Units, value.Nanos);
+                var minimumValue = new Money(userFilter.MinimumValue.CurrencyCode, userFilter.MinimumValue.Units, userFilter.MinimumValue.Nanos);
+
+                if (cashValueMoney < minimumValue)
+                {
+                    this.Logger.Debug("Filter has minimum value {@MinimumValue} but user's minimal fee is {MinimalFee}, so it does not satisfy filter", userFilter.MinimumValue, value);
+                    return false;
+                }
+            }
+
+            if (userFilter.MaximumValue != null)
+            {
+                var value = user.MinimalFee;
+
+                if (value == null)
+                {
+                    this.Logger.Debug("Filter has maximum value {@MaximumValue} but user has no minimal fee, so it does not satisfy filter", userFilter.MaximumValue);
+                    return false;
+                }
+
+                if (!string.Equals(userFilter.MaximumValue.CurrencyCode, value.CurrencyCode, StringComparison.Ordinal))
+                {
+                    this.Logger.Debug("Filter has maximum value {@MaximumValue} but user's minimal fee has differing currency code {CurrencyCode}, so it does not satisfy filter", userFilter.MaximumValue, value.CurrencyCode);
+                    return false;
+                }
+
+                var cashValueMoney = new Money(value.CurrencyCode, value.Units, value.Nanos);
+                var maximumValue = new Money(userFilter.MaximumValue.CurrencyCode, userFilter.MaximumValue.Units, userFilter.MaximumValue.Nanos);
+
+                if (cashValueMoney > maximumValue)
+                {
+                    this.Logger.Debug("Filter has maximum value {@MaximumValue} but user's minimal fee is {MinimalFee}, so it does not satisfy filter", userFilter.MaximumValue, value);
                     return false;
                 }
             }
