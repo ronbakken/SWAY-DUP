@@ -1,14 +1,22 @@
 [
-  {
-    "family": "ProximaNova",
-    "fonts": [
-      {
-        "asset": "fonts/ProximaNova-Regular.ttf"
-      },
-      {
-        "asset": "fonts/ProximaNova-Semibold.ttf",
-        "weight": 500
-      }
-    ]
-  }
+	{
+		"family": "MaterialIcons",
+		"fonts": [
+			{
+				"asset": "https://fonts.gstatic.com/s/materialicons/v42/flUhRq6tzZclQEJ-Vdg-IuiaDsNcIhQ8tQ.woff2"
+			}
+		]
+	},
+	{
+		"family": "ProximaNova",
+		"fonts": [
+			{
+				"asset": "fonts/ProximaNova-Regular.ttf"
+			},
+			{
+				"asset": "fonts/ProximaNova-Semibold.ttf",
+				"weight": 500
+			}
+		]
+	}
 ]
