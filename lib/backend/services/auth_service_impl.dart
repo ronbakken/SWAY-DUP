@@ -297,7 +297,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   Future<void> addPushTokenToUser() async {
     final user = currentUser;
-    if(user != null){
+    if(user != null && _pushToken != null){
       final tokens = Set.of(user.registrationTokens)..add(_pushToken);
       await updateUser(user.copyWith(registrationTokens: tokens));
     }
@@ -305,7 +305,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   Future<void> removePushTokenFromUser() async {
     final user = currentUser;
-    if(user != null){
+    if(user != null && _pushToken != null){
       final tokens = Set.of(user.registrationTokens)..remove(_pushToken);
       await updateUser(user.copyWith(registrationTokens: tokens));
     }
