@@ -56,7 +56,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
 
     _expandAnim = CurvedAnimation(
       parent: AnimationChoreographer.of(context),
-      curve: Interval(0.4, 1.0),
+      curve: const Interval(0.4, 1.0),
     );
 
     _inputAnim = CurvedAnimation(

@@ -10,7 +10,6 @@ import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
-import 'package:inf/ui/widgets/widget_utils.dart';
 
 class CategorySelectorView extends StatefulWidget {
   const CategorySelectorView({
