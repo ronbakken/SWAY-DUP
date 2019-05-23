@@ -47,6 +47,6 @@ String sinceWhen(DateTime date) {
   } else if (delta < const Duration(days: 2)) {
     return 'Yesterday';
   } else {
-    return DateFormat('mm/dd/yyyy hh:mmaa').format(date);
+    return DateFormat('MM/dd/yyyy hh:mmaa').format(date);
   }
 }

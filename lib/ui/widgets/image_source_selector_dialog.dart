@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
-import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
+import 'package:inf/ui/widgets/asset_image_circle_background.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 

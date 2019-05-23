@@ -5,12 +5,10 @@ import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 
 class InfBottomSheet extends StatelessWidget {
-  final Widget child;
-  final String title;
-
-  const InfBottomSheet({Key key, this.child, this.title}) : super(key: key);
-
-  static Route route<T>({String title, Widget child}) {
+  static Route route<T>({
+    String title,
+    Widget child,
+  }) {
     return PageRouteBuilder<T>(
       pageBuilder: (BuildContext context, _, __) {
         return InfBottomSheet(
@@ -25,10 +23,19 @@ class InfBottomSheet extends StatelessWidget {
           child: child,
         );
       },
-      transitionDuration: const Duration(milliseconds: 650),
+      transitionDuration: const Duration(milliseconds: 350),
       opaque: false,
     );
   }
+
+  const InfBottomSheet({
+    Key key,
+    this.title,
+    this.child,
+  }) : super(key: key);
+
+  final String title;
+  final Widget child;
 
   @override
   Widget build(BuildContext context) {

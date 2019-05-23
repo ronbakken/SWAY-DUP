@@ -140,25 +140,26 @@ class CategoryRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final topLevelCategories = backend<ConfigService>().topLevelCategories;
-    return OverflowRow(
+    return OverflowRow( // ignore: prefer_const_constructors
       padding: const EdgeInsets.symmetric(horizontal: 24.0),
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
       height: 96.0,
       childrenWidth: 64.0,
-      children: mapChildren(topLevelCategories, (topLevelCategory) {
-        return CategoryButton(
-          onTap: onCategoryPressed != null ? () => onCategoryPressed(topLevelCategory) : null,
-          selectedSubCategories: selectedSubCategories.onlyWithParent(topLevelCategory).length,
-          label: topLevelCategory.name,
-          radius: 64.0,
-          child: InfAssetImage(
-            topLevelCategory.iconAsset,
-            color: Colors.white,
-            width: 32.0,
-            height: 32.0,
+      children: <Widget>[
+        for (final topLevelCategory in topLevelCategories)
+          CategoryButton(
+            onTap: onCategoryPressed != null ? () => onCategoryPressed(topLevelCategory) : null,
+            selectedSubCategories: selectedSubCategories.onlyWithParent(topLevelCategory).length,
+            label: topLevelCategory.name,
+            radius: 64.0,
+            child: InfAssetImage(
+              topLevelCategory.iconAsset,
+              color: Colors.white,
+              width: 32.0,
+              height: 32.0,
+            ),
           ),
-        );
-      }),
+      ],
     );
   }
 }

@@ -10,7 +10,7 @@ import 'package:inf/domain/location.dart';
 import 'package:inf/domain/money.dart';
 import 'package:inf/ui/user_profile/edit_social_media_view.dart';
 import 'package:inf/ui/user_profile/profile_summary.dart';
-import 'package:inf/ui/widgets/asset_imageI_circle_background.dart';
+import 'package:inf/ui/widgets/asset_image_circle_background.dart';
 import 'package:inf/ui/widgets/column_separator.dart';
 import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/image_source_selector_dialog.dart';

@@ -9,7 +9,5 @@ abstract class PageWidget extends StatefulWidget {
 }
 
 abstract class PageState<T extends PageWidget> extends State<T> {
-  ThemeData _themeData;
-
-  ThemeData get theme => _themeData ??= Theme.of(context);
+  ThemeData get theme => Theme.of(context);
 }

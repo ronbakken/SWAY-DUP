@@ -127,10 +127,9 @@ class _OfferDetailsRow extends StatelessWidget {
             children: [
               Row(
                 mainAxisSize: MainAxisSize.min,
-                children: mapChildren<SocialNetworkProvider, Widget>(
-                  offer.terms.deliverable.channels,
-                  (channel) {
-                    return Padding(
+                children: <Widget>[
+                  for (final channel in offer.terms.deliverable.channels)
+                    Padding(
                       padding: const EdgeInsets.only(left: 4),
                       child: CircleAvatar(
                         radius: 14,
@@ -143,9 +142,8 @@ class _OfferDetailsRow extends StatelessWidget {
                           ),
                         ),
                       ),
-                    );
-                  },
-                ),
+                    ),
+                ],
               ),
               verticalMargin8,
               SizedBox(

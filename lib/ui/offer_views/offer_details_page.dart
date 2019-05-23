@@ -226,7 +226,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     inf_bottom_sheet.showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
-        return _ProposalBottomSheet(
+        return _ApplyBottomSheet(
           offer: offer,
         );
       },
@@ -297,25 +297,26 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               spacing: 10.0,
               runSpacing: 10.0,
               alignment: WrapAlignment.start,
-              children: mapChildren(offer.categories, (category) {
-                return Container(
-                  decoration: const ShapeDecoration(
-                    shape: const StadiumBorder(),
-                    color: AppTheme.blue,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        Text(category.name),
-                        horizontalMargin8,
-                        const Icon(Icons.check, size: 12.0),
-                      ],
+              children: <Widget>[
+                for (final category in offer.categories)
+                  Container(
+                    decoration: const ShapeDecoration(
+                      shape: const StadiumBorder(),
+                      color: AppTheme.blue,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 5.0),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          Text(category.name),
+                          horizontalMargin8,
+                          const Icon(Icons.check, size: 12.0),
+                        ],
+                      ),
                     ),
                   ),
-                );
-              }),
+              ],
             )
           : emptyWidget,
     );
@@ -376,7 +377,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   void onEdit() async {
-    unawaited(Navigator.push(context, OfferEditPage.route(offer)));
+    unawaited(Navigator.of(context).push(OfferEditPage.route(offer)));
   }
 }
 
@@ -447,8 +448,8 @@ class _DetailEntry extends StatelessWidget {
   }
 }
 
-class _ProposalBottomSheet extends StatefulWidget {
-  const _ProposalBottomSheet({
+class _ApplyBottomSheet extends StatefulWidget {
+  const _ApplyBottomSheet({
     Key key,
     @required this.offer,
   }) : super(key: key);
@@ -456,10 +457,10 @@ class _ProposalBottomSheet extends StatefulWidget {
   final BusinessOffer offer;
 
   @override
-  _ProposalBottomSheetState createState() => _ProposalBottomSheetState();
+  _ApplyBottomSheetState createState() => _ApplyBottomSheetState();
 }
 
-class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
+class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
   final _initialOffer = TextEditingController();
 
   Future _conversation;
@@ -478,9 +479,9 @@ class _ProposalBottomSheetState extends State<_ProposalBottomSheet> {
                 width: double.infinity,
                 padding: const EdgeInsets.only(top: 35.0, bottom: 45.0),
                 child: const Text(
-                  'Tell us what you can offer',
+                  'What can you offer?',
+                  style: const TextStyle(fontSize: 20.0),
                   textAlign: TextAlign.center,
-                  textScaleFactor: 1.2,
                 ),
               ),
             ),

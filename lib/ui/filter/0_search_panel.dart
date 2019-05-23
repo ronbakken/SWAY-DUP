@@ -87,7 +87,7 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
 
   void _hideSearch() {
     FocusScope.of(context).requestFocus(_panelFocus);
-    _controller.reverse().then((_){
+    _controller.reverse().then((_) {
       _searchController.clear();
     });
   }
@@ -107,12 +107,13 @@ class _SearchFilterPanelState extends State<SearchFilterPanel> with SingleTicker
               distance: _expandAnim,
               startAngle: 210.0,
               tickAngle: 40.0,
-              children: mapChildren(FilterButton.searchPanel, (button) {
-                return FilterPanelButton(
-                  button: button,
-                  onTap: widget.onButtonPressed,
-                );
-              }),
+              children: <Widget>[
+                for (final button in FilterButton.searchPanel)
+                  FilterPanelButton(
+                    button: button,
+                    onTap: widget.onButtonPressed,
+                  ),
+              ],
             ),
           ),
         ),

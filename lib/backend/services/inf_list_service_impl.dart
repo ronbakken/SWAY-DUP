@@ -76,28 +76,28 @@ class InfListServiceImplementation implements InfListService {
             )
             .map(mapItemList)
             .listen((listItems) {
-          for (final item in listItems) {
-            if (data.contains(item)) {
-              data.remove(item);
-            }
-            data.add(item);
-          }
-          resultController.add(data.toList());
-        }, onDone: () {
-          _subList = null;
-          _subListen = clients.listenClient
-              .listen(listenRequests.stream)
-              .map((response) => response.items)
-              .map(mapItemList)
-              .listen((listenItems) {
-            for (final item in listenItems) {
-              if (data.contains(item)) {
-                data.remove(item);
+              for (final item in listItems) {
+                if (data.contains(item)) {
+                  data.remove(item);
+                }
+                data.add(item);
               }
-              data.add(item);
-            }
-            resultController.add(data.toList());
-          });
+              resultController.add(data.toList());
+            }, onDone: () {
+              _subList = null;
+              _subListen = clients.listenClient
+                  .listen(listenRequests.stream)
+                  .map((response) => response.items)
+                  .map(mapItemList)
+                  .listen((listenItems) {
+                for (final item in listenItems) {
+                  if (data.contains(item)) {
+                    data.remove(item);
+                  }
+                  data.add(item);
+                }
+                resultController.add(data.toList());
+              });
           listenRequests.add(ListenRequest()
             ..action = ListenRequest_Action.register
             ..filter = itemFilter);

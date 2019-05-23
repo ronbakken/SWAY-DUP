@@ -1,23 +1,5 @@
 import 'package:flutter/material.dart';
 
-List<T> mapChildren<E, T>(Iterable<E> data, T fn(E e)) {
-  return data.map(fn).toList(growable: false);
-}
-
-List<T> nonNullChildren<T>(List<T> children) {
-  return children.where((v) => v != null).toList(growable: false);
-}
-
-typedef IfWidgetBuilder = Widget Function();
-
-Widget ifWidget(
-  bool condition, {
-  @required Widget then,
-  Widget orElse,
-}) {
-  return (condition ? then : orElse);
-}
-
 const Widget emptyWidget = SizedBox();
 
 const Widget loadingWidget = Center(child: CircularProgressIndicator());

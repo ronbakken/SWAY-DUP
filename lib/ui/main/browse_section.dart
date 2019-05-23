@@ -252,33 +252,34 @@ class _BrowseListView extends StatelessWidget {
                                 ),
                                 child: IntrinsicWidth(
                                   child: Row(
-                                    children: mapChildren(users, (User user) {
-                                      return Expanded(
-                                        child: InkWell(
-                                          onTap: () => Navigator.of(context).push(ViewProfilePage.route(user)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(bottom: 12.0),
-                                            child: AspectRatio(
-                                              aspectRatio: 1.1,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.max,
-                                                children: <Widget>[
-                                                  Expanded(
-                                                    child: WhiteBorderCircle(
-                                                      child: InfImage(
-                                                        lowResUrl: user.avatarThumbnail.lowResUrl,
-                                                        imageUrl: user.avatarThumbnail.imageUrl,
+                                    children: <Widget>[
+                                      for (final user in users)
+                                        Expanded(
+                                          child: InkWell(
+                                            onTap: () => Navigator.of(context).push(ViewProfilePage.route(user)),
+                                            child: Padding(
+                                              padding: const EdgeInsets.only(bottom: 12.0),
+                                              child: AspectRatio(
+                                                aspectRatio: 1.1,
+                                                child: Column(
+                                                  mainAxisSize: MainAxisSize.max,
+                                                  children: <Widget>[
+                                                    Expanded(
+                                                      child: WhiteBorderCircle(
+                                                        child: InfImage(
+                                                          lowResUrl: user.avatarThumbnail.lowResUrl,
+                                                          imageUrl: user.avatarThumbnail.imageUrl,
+                                                        ),
                                                       ),
                                                     ),
-                                                  ),
-                                                  Text(user.name),
-                                                ],
+                                                    Text(user.name),
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
                                         ),
-                                      );
-                                    }),
+                                    ],
                                   ),
                                 ),
                               ),

@@ -25,12 +25,12 @@ Future<SocialMediaAccount> connectToSocialMediaAccount(SocialNetworkProvider pro
           provider.type == SocialNetworkProviderType.TWITTER
       // ||provider.type == SocialNetworkProviderType.SNAPCHAT
       ) {
-    return await Navigator.push<SocialMediaAccount>(
-        context,
-        InfBottomSheet.route<SocialMediaAccount>(
-          title: 'Connect your ${provider.name}',
-          child: _SocialNetWorkConnectionStatusView(connectTo: provider),
-        ));
+    return await Navigator.of(context).push<SocialMediaAccount>(
+      InfBottomSheet.route<SocialMediaAccount>(
+        title: 'Connect your ${provider.name}',
+        child: _SocialNetWorkConnectionStatusView(connectTo: provider),
+      ),
+    );
   } else if (provider.type == SocialNetworkProviderType.YOU_TUBE) {}
   return null;
 }
@@ -619,9 +619,7 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
             borderRadius: const BorderRadius.all(Radius.circular(8)),
             color: widget.connectTo.logoBackgroundColor,
             image: widget.connectTo.hasLogoBackgroundImage
-                ? DecorationImage(
-                    image: widget.connectTo.logoBackgroundImage,
-                    fit: BoxFit.contain)
+                ? DecorationImage(image: widget.connectTo.logoBackgroundImage, fit: BoxFit.contain)
                 : null,
           ),
           height: 48,

@@ -70,7 +70,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
             // did we get a link from a new user subscription?
             if (loginToken.accountState == UserDto_Status.waitingForActivation) {
               Navigator.of(context).popUntil((route) => route is WelcomeRoute);
-              unawaited(Navigator.push(context, ActivationSuccessPage.route(loginToken.userType)));
+              unawaited(Navigator.of(context).push(ActivationSuccessPage.route(loginToken.userType)));
             } else {
               unawaited(Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false));
             }
@@ -331,7 +331,9 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               maxHeight: size.height,
               child: _WelcomeWallBackground(
                 speed: 24.0,
-                children: mapChildren(widget.data, (url) => _buildWallTile(url)),
+                children: <Widget>[
+                  for (final url in widget.data) _buildWallTile(url),
+                ],
               ),
             ),
           ),

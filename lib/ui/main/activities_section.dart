@@ -172,7 +172,7 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
           child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: nonNullChildren(<Widget>[
+            children: <Widget>[
               StreamBuilder<int>(
                 initialData: 0,
                 stream: widget.notifications,
@@ -181,13 +181,11 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
                     vsync: this,
                     duration: const Duration(milliseconds: 350),
                     alignment: Alignment.centerLeft,
-                    child: ifWidget(
-                      !snapshot.hasData || snapshot.data == 0,
-                      then: verticalMargin12,
-                      orElse: NotificationMarker(
-                        margin: const EdgeInsets.only(top: 2.5, right: 5.0),
-                      ),
-                    ),
+                    child: (!snapshot.hasData || snapshot.data == 0)
+                        ? verticalMargin12
+                        : const NotificationMarker(
+                            margin: const EdgeInsets.only(top: 2.5, right: 5.0),
+                          ),
                   );
                 },
               ),
@@ -199,7 +197,7 @@ class _TabBarItemState extends State<_TabBarItem> with SingleTickerProviderState
                 ),
                 maxLines: 1,
               ),
-            ]),
+            ],
           ),
         ),
       ),

@@ -6,7 +6,6 @@ import 'package:inf/ui/widgets/help_button.dart';
 import 'package:inf/ui/widgets/listenable_builder.dart';
 import 'package:inf/ui/widgets/overflow_row.dart';
 import 'package:inf/ui/widgets/social_network_toggle_button.dart';
-import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf/utils/selection_set.dart';
 
 class SocialPlatformSelector extends StatelessWidget {
@@ -83,13 +82,14 @@ class SocialNetworkRow extends StatelessWidget {
       itemPadding: const EdgeInsets.symmetric(horizontal: 8.0),
       height: height,
       childrenWidth: this.childrenWidth,
-      children: mapChildren(socialNetworkProviders, (provider) {
-        return SocialNetworkToggleButton(
-          onTap: onProviderPressed != null ? () => onProviderPressed(provider) : null,
-          isSelected: selectedPlatforms.contains(provider),
-          provider: provider,
-        );
-      }),
+      children: <Widget>[
+        for (final provider in socialNetworkProviders)
+          SocialNetworkToggleButton(
+            onTap: onProviderPressed != null ? () => onProviderPressed(provider) : null,
+            isSelected: selectedPlatforms.contains(provider),
+            provider: provider,
+          )
+      ],
     );
   }
 }
