@@ -100,6 +100,8 @@ class ItemFilterDto_UserFilterDto extends $pb.GeneratedMessage {
     ..a<$2.GeoPointDto>(9, 'southEast', $pb.PbFieldType.OM, $2.GeoPointDto.getDefault, $2.GeoPointDto.create)
     ..pPS(10, 'categoryIds')
     ..aOS(11, 'phrase')
+    ..a<$3.MoneyDto>(12, 'minimumValue', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..a<$3.MoneyDto>(13, 'maximumValue', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -140,6 +142,16 @@ class ItemFilterDto_UserFilterDto extends $pb.GeneratedMessage {
   set phrase($core.String v) { $_setString(6, v); }
   $core.bool hasPhrase() => $_has(6);
   void clearPhrase() => clearField(11);
+
+  $3.MoneyDto get minimumValue => $_getN(7);
+  set minimumValue($3.MoneyDto v) { setField(12, v); }
+  $core.bool hasMinimumValue() => $_has(7);
+  void clearMinimumValue() => clearField(12);
+
+  $3.MoneyDto get maximumValue => $_getN(8);
+  set maximumValue($3.MoneyDto v) { setField(13, v); }
+  $core.bool hasMaximumValue() => $_has(8);
+  void clearMaximumValue() => clearField(13);
 }
 
 class ItemFilterDto_ConversationFilterDto extends $pb.GeneratedMessage {

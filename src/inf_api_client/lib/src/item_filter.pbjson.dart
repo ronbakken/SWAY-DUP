@@ -43,6 +43,8 @@ const ItemFilterDto_UserFilterDto$json = const {
     const {'1': 'phrase', '3': 11, '4': 1, '5': 9, '10': 'phrase'},
     const {'1': 'userTypes', '3': 1, '4': 3, '5': 14, '6': '.api.UserType', '10': 'userTypes'},
     const {'1': 'socialMediaNetworkIds', '3': 2, '4': 3, '5': 9, '10': 'socialMediaNetworkIds'},
+    const {'1': 'minimumValue', '3': 12, '4': 1, '5': 11, '6': '.api.MoneyDto', '10': 'minimumValue'},
+    const {'1': 'maximumValue', '3': 13, '4': 1, '5': 11, '6': '.api.MoneyDto', '10': 'maximumValue'},
   ],
 };
 
