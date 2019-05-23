@@ -400,7 +400,7 @@ packages:
     source: hosted
     version: "2.0.1"
   quiver:
-    dependency: "direct main"
+    dependency: transitive
     description:
       name: quiver
       url: "https://pub.dartlang.org"

@@ -1,7 +1,5 @@
 import 'dart:async';
 
-import 'package:quiver/core.dart';
-
 class Coordinate {
   final double latitude;
   final double longitude;
@@ -9,13 +7,18 @@ class Coordinate {
   const Coordinate(this.latitude, this.longitude);
 
   @override
-   bool operator == (other) => other is Coordinate && latitude == other.latitude && longitude == other.longitude;
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Coordinate &&
+          runtimeType == other.runtimeType &&
+          latitude == other.latitude &&
+          longitude == other.longitude;
+
   @override
-  int get hashCode => hash2(latitude.hashCode, longitude.hashCode);
+  int get hashCode => latitude.hashCode ^ longitude.hashCode;
 }
 
-
-class GeoCodingResult{
+class GeoCodingResult {
   final Coordinate coordinate;
   final String name;
 
@@ -28,5 +31,6 @@ abstract class LocationService {
   Coordinate get lastLocation;
 
   Future<List<GeoCodingResult>> lookUpPlaces({Coordinate nearby, String searchText});
+
   Future<List<GeoCodingResult>> lookUpCoordinates({Coordinate position, bool onlyAdresses});
 }
