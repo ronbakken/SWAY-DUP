@@ -15,8 +15,8 @@ namespace API.Services.Mocks
             var config = new AppConfigDto
             {
                 ConfigVersion = 1,
-                PrivacyPolicyUrl = "https://www.swaymarketplace.com/privacy",
-                TermsOfServiceUrl = "https://www.swaymarketplace.com/terms",
+                PrivacyPolicyUrl = "https://www.swaymarketplace.com/#/privacy",
+                TermsOfServiceUrl = "https://www.swaymarketplace.com/#/terms",
                 ServiceConfig = new ServiceConfigDto
                 {
                     MapboxToken =
