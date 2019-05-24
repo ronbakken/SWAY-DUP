@@ -56,3 +56,28 @@ class Proposal {
     };
   }
 }
+
+class ProposalBuilder {
+  ProposalBuilder();
+
+  String deliverableDescription;
+  Money cashRewardValue;
+  String serviceDescription;
+  Money serviceValue;
+
+  ProposalBuilder.fromProposal(Proposal proposal) {
+    deliverableDescription = proposal.deliverableDescription;
+    cashRewardValue = proposal.cashRewardValue;
+    serviceDescription = proposal.serviceDescription;
+    serviceValue = proposal.serviceValue;
+  }
+
+  Proposal build() {
+    return Proposal(
+      deliverableDescription: deliverableDescription,
+      cashRewardValue: cashRewardValue,
+      serviceDescription: serviceDescription,
+      serviceValue: serviceValue,
+    );
+  }
+}
