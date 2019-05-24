@@ -23,6 +23,20 @@ class Proposal {
     @required this.serviceValue,
   });
 
+  Proposal copyWith({
+    String deliverableDescription,
+    Money cashRewardValue,
+    String serviceDescription,
+    Money serviceValue,
+  }) {
+    return Proposal(
+      deliverableDescription: deliverableDescription ?? this.deliverableDescription,
+      cashRewardValue: cashRewardValue ?? this.cashRewardValue,
+      serviceDescription: serviceDescription ?? this.serviceDescription,
+      serviceValue: serviceValue ?? this.serviceValue,
+    );
+  }
+
   @override
   String toString() {
     return 'Proposal{'
