@@ -6,12 +6,10 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
-import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
-import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
+import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
-import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -223,16 +221,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
   }
 
   void _onMakeOffer() {
-    inf_bottom_sheet.showModalBottomSheet(
-      context: context,
-      builder: (BuildContext context) {
-        return _ApplyBottomSheet(
-          offer: offer,
-        );
-      },
-      dismissOnTap: false,
-      resizeToAvoidBottomPadding: true,
-    );
+    Navigator.of(context).push(_ApplyBottomSheet.route(offer));
   }
 
   _DetailEntry buildRewardsRow() {
@@ -449,6 +438,13 @@ class _DetailEntry extends StatelessWidget {
 }
 
 class _ApplyBottomSheet extends StatefulWidget {
+  static Route<dynamic> route(BusinessOffer offer) {
+    return InfBottomSheet.route(
+      title: 'What can you offer?',
+      child: _ApplyBottomSheet(offer: offer),
+    );
+  }
+
   const _ApplyBottomSheet({
     Key key,
     @required this.offer,
@@ -467,97 +463,61 @@ class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Container(
-        child: Stack(
-          children: [
-            CurvedBox(
-              bottom: true,
-              curveFactor: 0.9,
-              color: AppTheme.blue,
-              child: Container(
-                width: double.infinity,
-                padding: const EdgeInsets.only(top: 35.0, bottom: 45.0),
-                child: const Text(
-                  'What can you offer?',
-                  style: const TextStyle(fontSize: 20.0),
-                  textAlign: TextAlign.center,
+    return FutureBuilder(
+      future: _conversation,
+      builder: (BuildContext context, AsyncSnapshot snapshot) {
+        if (snapshot.connectionState == ConnectionState.none) {
+          return Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                LayoutBuilder(
+                  builder: (BuildContext context, BoxConstraints constraints) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 8.0),
+                      child: InputDecorator(
+                        decoration: const InputDecoration(),
+                        isFocused: false,
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 16.0),
+                          child: TextField(
+                            controller: _initialOffer,
+                            decoration: null,
+                            maxLines: null,
+                            keyboardAppearance: Brightness.dark,
+                          ),
+                        ),
+                      ),
+                    );
+                  },
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(12.0, 90.0, 12.0, 12.0),
-              child: FutureBuilder(
-                future: _conversation,
-                builder: (BuildContext context, AsyncSnapshot snapshot) {
-                  if (snapshot.connectionState == ConnectionState.none) {
-                    return Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        LayoutBuilder(
-                          builder: (BuildContext context, BoxConstraints constraints) {
-                            return Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 8.0),
-                              child: InputDecorator(
-                                decoration: const InputDecoration(),
-                                isFocused: false,
-                                child: Padding(
-                                  padding: const EdgeInsets.only(top: 16.0),
-                                  child: TextField(
-                                    controller: _initialOffer,
-                                    decoration: null,
-                                    maxLines: null,
-                                    keyboardAppearance: Brightness.dark,
-                                  ),
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
-                          child: InfStadiumButton(
-                            onPressed: _onApplyPressed,
-                            text: 'APPLY',
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 24.0),
-                          child: InfStadiumButton(
-                            onPressed: _onNegotiatePressed,
-                            text: 'NEGOTIATE',
-                          ),
-                        ),
-                      ],
-                    );
-                  } else if (snapshot.hasError) {
-                    return Center(
-                      child: Text(snapshot.error.toString()),
-                    );
-                  } else {
-                    return loadingWidget;
-                  }
-                },
-              ),
-            ),
-            Positioned(
-              top: 0.0,
-              right: 0.0,
-              child: Material(
-                type: MaterialType.transparency,
-                child: InkResponse(
-                  onTap: () => Navigator.of(context).pop(),
-                  child: const Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
-                    child: InfIcon(AppIcons.close, size: 16.0),
+                Padding(
+                  padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
+                  child: InfStadiumButton(
+                    onPressed: _onApplyPressed,
+                    text: 'APPLY',
                   ),
                 ),
-              ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 24.0),
+                  child: InfStadiumButton(
+                    onPressed: _onNegotiatePressed,
+                    text: 'NEGOTIATE',
+                  ),
+                ),
+              ],
             ),
-          ],
-        ),
-      ),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text(snapshot.error.toString()),
+          );
+        } else {
+          return loadingWidget;
+        }
+      },
     );
   }
 

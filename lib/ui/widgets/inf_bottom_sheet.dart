@@ -8,6 +8,7 @@ class InfBottomSheet extends StatelessWidget {
   static Route route<T>({
     String title,
     Widget child,
+    bool barrierDismissible = true,
   }) {
     return PageRouteBuilder<T>(
       pageBuilder: (BuildContext context, _, __) {
@@ -23,8 +24,11 @@ class InfBottomSheet extends StatelessWidget {
           child: child,
         );
       },
-      transitionDuration: const Duration(milliseconds: 350),
+      transitionDuration: const Duration(milliseconds: 300),
       opaque: false,
+      barrierColor: barrierDismissible ? Colors.black54 : null,
+      barrierDismissible: barrierDismissible,
+      barrierLabel: barrierDismissible ? 'Dismiss' : null,
     );
   }
 
@@ -43,6 +47,7 @@ class InfBottomSheet extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(bottom: mediaQuery.viewInsets.bottom),
       child: SingleChildScrollView(
+        padding: EdgeInsets.only(top: mediaQuery.padding.top),
         reverse: true,
         child: Material(
           child: Padding(
@@ -77,23 +82,37 @@ class _InfBottomSheetHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16.0, 24.0, 16.0, 44.0),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const Spacer(),
-          Text(title, style: const TextStyle(fontSize: 20)),
-          Expanded(
-            child: Align(
+    return Material(
+      type: MaterialType.transparency,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(0.0, 24.0, 0.0, 44.0),
+        child: Stack(
+          alignment: Alignment.center,
+          children: [
+            Positioned(
+              left: 0.0,
+              right: 0.0,
+              child: Padding(
+                padding: const EdgeInsets.only(left: 48.0, right: 48.0),
+                child: Text(
+                  title,
+                  style: const TextStyle(fontSize: 20.0),
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ),
+            Align(
               alignment: Alignment.centerRight,
               child: InkResponse(
                 onTap: () => Navigator.of(context).pop(null),
-                child: const Center(child: InfIcon(AppIcons.close, size: 16.0)),
+                child: const Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+                  child: InfIcon(AppIcons.close, size: 16.0),
+                ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
