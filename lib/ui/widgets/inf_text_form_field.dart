@@ -110,6 +110,24 @@ class InfTextFormField extends FormField<String> {
             );
           },
         );
+  
+  /// Creates a [InfTextFormField] designed for currency input.
+  factory InfTextFormField.money({
+    String labelText,
+    String initialValue,
+    FormFieldSetter<String> onSaved,
+  }) {
+    return InfTextFormField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        prefix: Text('\$ ', style: TextStyle(color: Colors.grey.shade300)),
+      ),
+      initialValue: initialValue,
+      inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
+      onSaved: onSaved,
+      keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
+    );
+  }
 
   /// Controls the text being edited.
   ///
