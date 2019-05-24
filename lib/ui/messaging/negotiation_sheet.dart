@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/domain/proposal.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
@@ -20,85 +21,108 @@ class NegotiationSheet extends StatefulWidget {
     );
   }
 
-  const NegotiationSheet({
+  NegotiationSheet({
     Key key,
-    this.existingProposal,
+    Proposal existingProposal,
     @required this.confirmButtonTitle,
-  }) : super(key: key);
+  })  : _proposalBuilder =
+            existingProposal != null ? ProposalBuilder.fromProposal(existingProposal) : ProposalBuilder(),
+        super(key: key);
 
-  final Proposal existingProposal;
   final String confirmButtonTitle;
+
+  final ProposalBuilder _proposalBuilder;
 
   @override
   _NegotiationSheetState createState() => _NegotiationSheetState();
 }
 
 class _NegotiationSheetState extends State<NegotiationSheet> {
-  Proposal newProposal;
-
-  @override
-  void initState() {
-    super.initState();
-    newProposal = widget.existingProposal /* ?? Proposal()*/; // FIXME: How to construct.
-  }
+  final _form = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
-      child: Column(
-        children: <Widget>[
-          verticalMargin16,
-          InfTextFormField(
-            decoration: const InputDecoration(labelText: 'DELIVERABLE DESCRIPTION'),
-            initialValue:
-                'Lorem excepteur laborum aute incididunt quis sit. Sunt laboris est qui sunt eiusmod ipsum labore exercitation incididunt dolore officia.',
-            onSaved: (val) => newProposal, // FIXME: How to mutate / generate new one.
-            maxLines: null,
-            keyboardType: TextInputType.multiline,
-          ),
-          verticalMargin16,
-          InfTextFormField(
-            decoration: const InputDecoration(
+      child: Form(
+        key: _form,
+        child: Column(
+          children: <Widget>[
+            verticalMargin16,
+            InfTextFormField(
+              decoration: const InputDecoration(labelText: 'DELIVERABLE DESCRIPTION'),
+              initialValue: widget._proposalBuilder.deliverableDescription,
+              onSaved: (s) => widget._proposalBuilder.deliverableDescription = s,
+              maxLines: null,
+              validator: validateDeliverableDescription,
+              keyboardType: TextInputType.multiline,
+            ),
+            verticalMargin16,
+            InfTextFormField.money(
               labelText: 'CASH REWARD VALUE',
-              // FIXME: Should change to
-              //   icon: Text('\$'),
-              // for consistency?
-              icon: Text('\$'),
+              initialValue: widget._proposalBuilder.cashRewardValue,
+              onSaved: (m) => widget._proposalBuilder.cashRewardValue = m,
             ),
-            initialValue: '1000',
-            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-            onSaved: (val) => newProposal, // FIXME: How to mutate / generate new one.
-            keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-          ),
-          verticalMargin16,
-          InfTextFormField(
-            decoration: const InputDecoration(labelText: 'ITEMS OR SERVICE DESCRIPTION'),
-            initialValue: 'Ea esse ea consectetur Lorem ea dolor elit eu.',
-            onSaved: (val) => newProposal, // FIXME: How to mutate / generate new one.
-            keyboardType: TextInputType.text,
-          ),
-          verticalMargin16,
-          InfTextFormField(
-            decoration: const InputDecoration(
+            verticalMargin16,
+            InfTextFormField(
+              decoration: const InputDecoration(labelText: 'ITEMS OR SERVICE DESCRIPTION'),
+              initialValue: widget._proposalBuilder.serviceDescription,
+              onSaved: (s) => widget._proposalBuilder.serviceDescription = s,
+              validator: validateServiceDescription,
+              keyboardType: TextInputType.text,
+            ),
+            verticalMargin16,
+            InfTextFormField.money(
               labelText: 'ITEMS OR SERVICE VALUE',
-              // FIXME: Should change to
-              //   icon: Text('\$'),
-              // for consistency?
-              prefix: Text('\$', style: TextStyle(color: Colors.white)),
+              initialValue: widget._proposalBuilder.serviceValue,
+              onSaved: (m) => widget._proposalBuilder.serviceValue = m,
             ),
-            initialValue: '100',
-            inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-            onSaved: (val) => newProposal, // FIXME: How to mutate / generate new one.
-            keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
-          ),
-          InfBottomButton(
-            color: Colors.white,
-            text: widget.confirmButtonTitle,
-            onPressed: () => Navigator.of(context).pop<Proposal>(newProposal),
-          ),
-        ],
+            InfBottomButton(
+              color: Colors.white,
+              text: widget.confirmButtonTitle,
+              onPressed: onSave,
+            ),
+          ],
+        ),
       ),
     );
+  }
+
+  String requireIfValueIsNotEmpty(
+    String currentValue, {
+    @required Money bindingValue,
+    String errorMessage,
+  }) {
+    if (currentValue.isEmpty && bindingValue != null && bindingValue.toDouble() > 0) {
+      return errorMessage;
+    }
+
+    return null;
+  }
+
+  String validateDeliverableDescription(String currentValue) {
+    return requireIfValueIsNotEmpty(
+      currentValue,
+      bindingValue: widget._proposalBuilder.cashRewardValue,
+      errorMessage: "Please provide a deliverable description.",
+    );
+  }
+
+  String validateServiceDescription(String currentValue) {
+    return requireIfValueIsNotEmpty(
+      currentValue,
+      bindingValue: widget._proposalBuilder.serviceValue,
+      errorMessage: "Please provide an items or service description.",
+    );
+  }
+
+  void onSave() async {
+    _form.currentState.save();
+
+    if (!_form.currentState.validate()) {
+      return;
+    }
+
+    Navigator.of(context).pop<Proposal>(widget._proposalBuilder.build());
   }
 }
