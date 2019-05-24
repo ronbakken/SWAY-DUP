@@ -8,7 +8,7 @@ class Proposal {
   final Money serviceValue;
 
   factory Proposal.fromJson(Map<String, dynamic> data) {
-    return Proposal._(
+    return Proposal(
       deliverableDescription: data['deliverableDescription'],
       cashRewardValue: Money.fromJson(data['cashRewardValue']),
       serviceDescription: data['serviceDescription'],
@@ -16,7 +16,7 @@ class Proposal {
     );
   }
 
-  Proposal._({
+  Proposal({
     @required this.deliverableDescription,
     @required this.cashRewardValue,
     @required this.serviceDescription,
