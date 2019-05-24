@@ -5,6 +5,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/messaging/negotiation_sheet.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
@@ -540,10 +541,16 @@ class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
 
   void _onNegotiatePressed() async {
     // FIXME missing topicId/conversationId
-    final currentUser = backend<UserManager>().currentUser;
-    final message = await backend<InfMessagingService>()
-        .sendMessage('0a6c652c-a106-4ae4-81e6-b7c6af453483', Message.forText(currentUser, 'Second message'));
-    print('send message: $message');
+
+    // final currentUser = backend<UserManager>().currentUser;
+    // final message = await backend<InfMessagingService>()
+    //     .sendMessage('0a6c652c-a106-4ae4-81e6-b7c6af453483', Message.forText(currentUser, 'Second message'));
+    // print('send message: $message');
+
+    final nav = Navigator.of(context);
+    nav.pop();
+    final proposal = await nav.push<Proposal>(NegotiationSheet.route(confirmButtonTitle: "APPLY"));
+
     /*
     unawaited(Navigator.of(context).push(
       ConversationScreen.route('0a6c652c-a106-4ae4-81e6-b7c6af453483'),
