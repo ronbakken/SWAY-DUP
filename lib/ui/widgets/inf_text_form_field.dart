@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_input_decorator.dart';
 
 class InfTextFormField extends FormField<String> {
@@ -115,7 +116,7 @@ class InfTextFormField extends FormField<String> {
   factory InfTextFormField.money({
     String labelText,
     String initialValue,
-    FormFieldSetter<String> onSaved,
+    FormFieldSetter<Money> onSaved,
   }) {
     return InfTextFormField(
       decoration: InputDecoration(
@@ -124,7 +125,7 @@ class InfTextFormField extends FormField<String> {
       ),
       initialValue: initialValue,
       inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
-      onSaved: onSaved,
+      onSaved: (s) => onSaved(Money.fromInt(int.parse(s))),
       keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
     );
   }
