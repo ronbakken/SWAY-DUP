@@ -115,7 +115,7 @@ class InfTextFormField extends FormField<String> {
   /// Creates a [InfTextFormField] designed for currency input.
   factory InfTextFormField.money({
     String labelText,
-    String initialValue,
+    Money initialValue,
     FormFieldSetter<Money> onSaved,
   }) {
     return InfTextFormField(
@@ -123,7 +123,7 @@ class InfTextFormField extends FormField<String> {
         labelText: labelText,
         prefix: Text('\$ ', style: TextStyle(color: Colors.grey.shade300)),
       ),
-      initialValue: initialValue,
+      initialValue: initialValue?.toString(0),
       inputFormatters: [WhitelistingTextInputFormatter.digitsOnly],
       onSaved: (s) => onSaved(Money.fromInt(int.parse(s))),
       keyboardType: const TextInputType.numberWithOptions(decimal: false, signed: false),
