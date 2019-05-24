@@ -213,6 +213,12 @@ namespace Mapping
                     .Append("is_defined(")
                     .AppendFieldName("user")
                     .Append(")")
+                    .AppendMoneyAtLeastClause(
+                        "user.minimalFee",
+                        new Utility.Money(filter.UserFilter?.MinimumValue?.CurrencyCode, filter.UserFilter?.MinimumValue?.Units ?? 0, filter.UserFilter?.MinimumValue?.Nanos ?? 0))
+                    .AppendMoneyAtMostClause(
+                        "user.minimalFee",
+                        new Utility.Money(filter.UserFilter?.MaximumValue?.CurrencyCode, filter.UserFilter?.MaximumValue?.Units ?? 0, filter.UserFilter?.MaximumValue?.Nanos ?? 0))
                     .AppendScalarFieldOneOfClause(
                         "user.type",
                         filter.UserFilter.UserTypes,

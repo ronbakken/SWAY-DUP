@@ -61,6 +61,7 @@ message MapItemEntity {
 
         UserType type = 1;
         repeated string socialMediaNetworkIds = 2;
+        MoneyEntity minimalFee = 3;
     }
 
     // "mapItem"

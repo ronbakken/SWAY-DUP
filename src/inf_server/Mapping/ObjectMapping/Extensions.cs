@@ -118,6 +118,7 @@ namespace Mapping.ObjectMapping
             var result = new MapItemEntity.Types.UserEntity
             {
                 Type = @this.Type.ToUserType(),
+                MinimalFee = @this.MinimalFee.ToMoneyEntity(),
             };
 
             result.SocialMediaNetworkIds.AddRange(@this.SocialMediaAccounts.Select(x => x.SocialNetworkProviderId));
@@ -126,6 +127,23 @@ namespace Mapping.ObjectMapping
         }
 
         public static MoneyEntity ToMoneyEntity(this offers.Money @this)
+        {
+            if (@this == null)
+            {
+                return null;
+            }
+
+            var result = new MoneyEntity
+            {
+                CurrencyCode = @this.CurrencyCode,
+                Nanos = @this.Nanos,
+                Units = @this.Units,
+            };
+
+            return result;
+        }
+
+        public static MoneyEntity ToMoneyEntity(this users.Money @this)
         {
             if (@this == null)
             {

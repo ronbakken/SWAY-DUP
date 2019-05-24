@@ -87,6 +87,8 @@ message ListMapItemsRequest {
 
             repeated Type userTypes = 1;
             repeated string socialMediaNetworkIds = 2;
+            Money minimumValue = 3;
+            Money maximumValue = 4;
         }
 
         enum ItemType {

@@ -360,10 +360,10 @@ namespace Users
                                 logicalOperator: LogicalOperator.Or,
                                 subFieldName: "socialNetworkProviderId")
                             .AppendMoneyAtLeastClause(
-                                "minimumValue",
+                                "minimalFee",
                                 new Utility.Money(filter.MinimumValue?.CurrencyCode, filter.MinimumValue?.Units ?? 0, filter.MinimumValue?.Nanos ?? 0))
                             .AppendMoneyAtMostClause(
-                                "minimumValue",
+                                "minimalFee",
                                 new Utility.Money(filter.MaximumValue?.CurrencyCode, filter.MaximumValue?.Units ?? 0, filter.MaximumValue?.Nanos ?? 0));
 
                         if (filter.NorthWest != null && filter.SouthEast != null)

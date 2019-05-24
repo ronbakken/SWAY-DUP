@@ -94,6 +94,8 @@ namespace API.Services.List.ItemBatchProviders
             {
                 mappingFilter.ItemTypes.Add(ListMapItemsRequest.Types.Filter.Types.ItemType.Users);
                 mappingFilter.UserFilter = new ListMapItemsRequest.Types.Filter.Types.UserFilterDto();
+                mappingFilter.UserFilter.MinimumValue = itemFilter.UserFilter.MinimumValue.ToMappingMoney();
+                mappingFilter.UserFilter.MaximumValue = itemFilter.UserFilter.MaximumValue.ToMappingMoney();
                 mappingFilter.UserFilter.SocialMediaNetworkIds.AddRange(itemFilter.UserFilter.SocialMediaNetworkIds);
                 mappingFilter.UserFilter.UserTypes.AddRange(itemFilter.UserFilter.UserTypes.Select(x => x.ToType()));
             }
