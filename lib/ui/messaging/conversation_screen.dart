@@ -235,7 +235,16 @@ class _MessageTile extends StatelessWidget {
                       color: AppTheme.charcoalGrey,
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                    child: Text(message.text),
+                    // FIXME: only temporary to see what attachments are on a message.
+                    child: Column(
+                      children: <Widget>[
+                        Text(message.text),
+                        if(message.attachments.isNotEmpty)
+                          verticalMargin12,
+                        for(final attachment in message.attachments)
+                          Text(attachment.toString(),),
+                      ],
+                    ),
                   ),
                 ),
               ),
