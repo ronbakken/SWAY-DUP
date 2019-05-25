@@ -130,6 +130,24 @@ class InfTextFormField extends FormField<String> {
     );
   }
 
+  /// Creates a [InfTextFormField] designed for URL input.
+  factory InfTextFormField.url({
+    String labelText,
+    String initialValue,
+    FormFieldSetter<String> onSaved,
+  }) {
+    return InfTextFormField(
+      decoration: InputDecoration(
+        labelText: labelText,
+        hintText: "https://..."
+      ),
+      initialValue: initialValue,
+      onSaved: onSaved,
+      validator: (s) => Uri.tryParse(s) != null ? null : "Please enter a valid URL.",
+      keyboardType: TextInputType.url,
+    );
+  }
+
   /// Controls the text being edited.
   ///
   /// If null, this widget will create its own [TextEditingController] and

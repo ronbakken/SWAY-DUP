@@ -31,17 +31,20 @@ class InfStadiumButton extends StatelessWidget {
         alignment: Alignment.center,
         height: height,
         child: Row(
-          mainAxisSize: MainAxisSize.min,
+          mainAxisSize: MainAxisSize.max,
           children: <Widget>[
             if (this.icon != null)
               Padding(
                 padding: const EdgeInsets.only(right: 8.0),
                 child: this.icon,
               ),
-            Text.rich(
-              textSpan ?? TextSpan(text: text),
-              style: const TextStyle(
-                fontWeight: FontWeight.normal,
+            Expanded(
+              child: Text.rich(
+                textSpan ?? TextSpan(text: text),
+                style: const TextStyle(
+                  fontWeight: FontWeight.normal,
+                ),
+                textAlign: TextAlign.center,
               ),
             ),
           ],
