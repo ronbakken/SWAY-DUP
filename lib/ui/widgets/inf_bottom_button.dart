@@ -28,7 +28,7 @@ class InfBottomButton extends StatelessWidget implements PreferredSizeWidget {
       padding: EdgeInsets.only(bottom: mediaQuery.padding.bottom) + kInfBottomButtonPadding,
       child: InfStadiumButton(
         height: 48.0,
-        color: Colors.white,
+        color: color,
         text: text,
         onPressed: onPressed,
       ),
