@@ -1,27 +1,30 @@
 import 'dart:async';
 
 import 'package:inf/backend/backend.dart';
+import 'package:inf/backend/lru_cache.dart';
 import 'package:inf/backend/managers/conversation_manager_.dart';
 import 'package:inf/domain/conversation.dart';
 import 'package:rxdart/subjects.dart' show BehaviorSubject;
 
 class ConversationManagerImplementation extends ConversationManager {
-  final _appliedSubject = BehaviorSubject<List<Conversation>>();
-  final _dealsSubject = BehaviorSubject<List<Conversation>>();
-  final _doneSubject = BehaviorSubject<List<Conversation>>();
+  final _conversationHolderCache = LruCache<ConversationHolder>(10);
+
+  final _appliedSubject = BehaviorSubject<List<ConversationHolder>>();
+  final _dealsSubject = BehaviorSubject<List<ConversationHolder>>();
+  final _doneSubject = BehaviorSubject<List<ConversationHolder>>();
 
   ConversationManagerImplementation() {
     //
   }
 
   @override
-  Stream<List<Conversation>> get applied => _appliedSubject.stream;
+  Stream<List<ConversationHolder>> get applied => _appliedSubject.stream;
 
   @override
-  Stream<List<Conversation>> get deals => _dealsSubject.stream;
+  Stream<List<ConversationHolder>> get deals => _dealsSubject.stream;
 
   @override
-  Stream<List<Conversation>> get done => _doneSubject.stream;
+  Stream<List<ConversationHolder>> get done => _doneSubject.stream;
 
   @override
   Stream<List<ConversationHolder>> listenForMyConversations() {
@@ -50,12 +53,9 @@ class ConversationManagerImplementation extends ConversationManager {
   }
 
   @override
-  Future<Conversation> createConversationForOffer(BusinessOffer offer, String firstMessageText) async {
-    // 1. check if we already have a conversation.. widget.offer.topicId.
-    // 2. open existing, or create a new conversation?
+  Future<ConversationHolder> createConversationForOffer(BusinessOffer offer, Message firstMessage) async {
     final messagingService = backend<InfMessagingService>();
     final currentUser = backend<UserManager>().currentUser;
-    final firstMessage = Message.forText(currentUser, firstMessageText);
     final conversation = await messagingService.createConversation(
       [currentUser.id, offer.businessAccountId],
       offer.topicId,
@@ -65,7 +65,9 @@ class ConversationManagerImplementation extends ConversationManager {
       },
     );
     print('sent message: ${conversation.latestMessage}');
-    return conversation;
+    final conversationHolder = ConversationHolder(conversation, offer);
+    _conversationHolderCache[offer.topicId] = Optional.of(conversationHolder);
+    return conversationHolder;
   }
 
   @override
@@ -87,5 +89,38 @@ class ConversationManagerImplementation extends ConversationManager {
           .map((item) => item.message)
           .toList(growable: false);
     });
+  }
+
+  @override
+  Optional<ConversationHolder> getConversationHolderFromCache(String topicId) {
+    return _conversationHolderCache[topicId];
+  }
+
+  @override
+  Future<Optional<ConversationHolder>> findConversationHolderWithTopicId(String topicId) async {
+    Optional<ConversationHolder> conversationHolder = _conversationHolderCache[topicId];
+    if (conversationHolder == null) {
+      final currentUser = backend<UserManager>().currentUser;
+      final conversationFilter = ConversationFilter(
+        participant: currentUser,
+        topicId: topicId,
+        status: ConversationDto_Status.open,
+      );
+      final listService = backend<InfListService>();
+      final items = await listService.listItems(Stream.fromIterable([conversationFilter])).first;
+      if (items.isNotEmpty && items[0].type == InfItemType.conversation) {
+        final offer = await backend<OfferManager>().getFullOffer(items[0].conversation.offerId);
+        conversationHolder = Optional.of(ConversationHolder(items[0].conversation, offer));
+      } else {
+        conversationHolder = const Optional.absent();
+      }
+      _conversationHolderCache[topicId] = conversationHolder;
+    }
+    return conversationHolder;
+  }
+
+  @override
+  void clearConversationHolderCache() {
+    _conversationHolderCache.clear();
   }
 }

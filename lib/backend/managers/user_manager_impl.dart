@@ -48,8 +48,7 @@ class UserManagerImplementation implements UserManager {
 
     updateUserCommand = RxCommand.createAsyncNoResult<UserUpdateData>(updateUserData);
 
-    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(backend<AuthenticationService>().logOut,
-        emitsLastValueToNewSubscriptions: true);
+    logOutUserCommand = RxCommand.createAsyncNoParamNoResult(logoutUser, emitsLastValueToNewSubscriptions: true);
 
     switchUserCommand = RxCommand.createAsyncNoResult(switchUser);
   }
@@ -117,6 +116,7 @@ class UserManagerImplementation implements UserManager {
 
   Future<bool> loginUser(LoginToken token) async {
     loginToken = token;
+    backend<ConversationManager>().clearConversationHolderCache();
     var authenticationService = backend<AuthenticationService>();
     if (token == null) {
       // Try to login with stored refresh token
@@ -125,6 +125,11 @@ class UserManagerImplementation implements UserManager {
       print(token);
       return await authenticationService.loginUserWithLoginToken(token.token);
     }
+  }
+
+  Future<void> logoutUser() async {
+    await backend<AuthenticationService>().logOut();
+    backend<ConversationManager>().clearConversationHolderCache();
   }
 
   @override
@@ -136,5 +141,6 @@ class UserManagerImplementation implements UserManager {
       return;
     }
     await backend<AuthenticationService>().switchUser(profile);
+    backend<ConversationManager>().clearConversationHolderCache();
   }
 }

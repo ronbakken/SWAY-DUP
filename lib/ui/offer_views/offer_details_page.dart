@@ -5,6 +5,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/domain.dart';
+import 'package:inf/ui/messaging/conversation_screen.dart';
 import 'package:inf/ui/messaging/negotiation_sheet.dart';
 import 'package:inf/ui/offer_views/offer_edit_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
@@ -213,16 +214,10 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
           ),
         ],
       ),
-      bottom: InfBottomButton(
-        text: 'TELL US WHAT YOU CAN OFFER',
-        onPressed: _onMakeOffer,
-        panelColor: AppTheme.blackTwo,
+      bottom: _DetailsBottomButton(
+        offer: offer,
       ),
     );
-  }
-
-  void _onMakeOffer() {
-    Navigator.of(context).push(_ApplyBottomSheet.route(offer));
   }
 
   _DetailEntry buildRewardsRow() {
@@ -438,6 +433,56 @@ class _DetailEntry extends StatelessWidget {
   }
 }
 
+class _DetailsBottomButton extends StatefulWidget implements PreferredSizeWidget {
+  const _DetailsBottomButton({
+    Key key,
+    @required this.offer,
+  }) : super(key: key);
+
+  final BusinessOffer offer;
+
+  @override
+  Size get preferredSize => Size(double.infinity, 48.0 + 12.0);
+
+  @override
+  _DetailsBottomButtonState createState() => _DetailsBottomButtonState();
+}
+
+class _DetailsBottomButtonState extends State<_DetailsBottomButton> with SingleTickerProviderStateMixin {
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedSize(
+      vsync: this,
+      duration: kThemeChangeDuration,
+      alignment: Alignment.topCenter,
+      curve: Curves.fastOutSlowIn,
+      child: FutureBuilder<Optional<ConversationHolder>>(
+        future: backend<ConversationManager>().findConversationHolderWithTopicId(widget.offer.topicId),
+        initialData: backend<ConversationManager>().getConversationHolderFromCache(widget.offer.topicId),
+        builder: (BuildContext context, AsyncSnapshot<Optional<ConversationHolder>> snapshot) {
+          if ((snapshot.hasData || snapshot.connectionState == ConnectionState.done) && !snapshot.hasError) {
+            return InfBottomButton(
+              text: snapshot.data.isPresent ? 'OPEN CONVERSATION' : 'TELL US WHAT YOU CAN OFFER',
+              onPressed: snapshot.data.isPresent ? () => _openConversation(snapshot.data.value) : _showApplyBottomSheet,
+              panelColor: AppTheme.blackTwo,
+            );
+          } else {
+            return emptyWideWidget;
+          }
+        },
+      ),
+    );
+  }
+
+  void _openConversation(ConversationHolder conversationHolder) {
+    Navigator.of(context).push(ConversationScreen.route(conversationHolder));
+  }
+
+  void _showApplyBottomSheet() {
+    Navigator.of(context).push(_ApplyBottomSheet.route(widget.offer));
+  }
+}
+
 class _ApplyBottomSheet extends StatefulWidget {
   static Route<dynamic> route(BusinessOffer offer) {
     return InfBottomSheet.route(
@@ -460,16 +505,16 @@ class _ApplyBottomSheet extends StatefulWidget {
 class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
   final _initialOffer = TextEditingController();
 
-  Future _conversation;
+  Future<ConversationHolder> _createFuture;
 
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _conversation,
+      future: _createFuture,
       builder: (BuildContext context, AsyncSnapshot snapshot) {
         if (snapshot.connectionState == ConnectionState.none) {
           return Padding(
-            padding: const EdgeInsets.all(16.0),
+            padding: const EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -494,19 +539,15 @@ class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
                     );
                   },
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(top: 12.0, bottom: 8.0),
-                  child: InfStadiumButton(
-                    onPressed: _onApplyPressed,
-                    text: 'APPLY',
-                  ),
+                verticalMargin12,
+                InfStadiumButton(
+                  onPressed: _onApplyPressed,
+                  text: 'APPLY',
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
-                  child: InfStadiumButton(
-                    onPressed: _onNegotiatePressed,
-                    text: 'NEGOTIATE',
-                  ),
+                verticalMargin8,
+                InfStadiumButton(
+                  onPressed: _onNegotiatePressed,
+                  text: 'NEGOTIATE',
                 ),
               ],
             ),
@@ -516,45 +557,47 @@ class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
             child: Text(snapshot.error.toString()),
           );
         } else {
-          return loadingWidget;
+          return Padding(
+            padding: const EdgeInsets.all(32.0),
+            child: loadingWidget,
+          );
         }
       },
     );
   }
 
   void _onApplyPressed() {
-    setState(() {
-      _conversation = backend<ConversationManager>()
-          .createConversationForOffer(widget.offer, _initialOffer.text)
-          .then((conversation) {
-        if (mounted) {
-          print('conversation created: $conversation');
-          /*
-          unawaited(Navigator.of(context).push(
-            ConversationScreen.route(conversation.id),
-          ));
-          */
-        }
-      });
-    });
+    createConversation(_initialOffer.text, widget.offer.terms.toProposal());
   }
 
   void _onNegotiatePressed() async {
-    // FIXME missing topicId/conversationId
+    final proposal = await Navigator.of(context).push<Proposal>(
+      NegotiationSheet.route(
+        existingProposal: widget.offer.terms.toProposal(),
+        confirmButtonTitle: 'APPLY',
+      ),
+    );
+    if (proposal != null) {
+      createConversation(null, proposal);
+    }
+  }
 
-    // final currentUser = backend<UserManager>().currentUser;
-    // final message = await backend<InfMessagingService>()
-    //     .sendMessage('0a6c652c-a106-4ae4-81e6-b7c6af453483', Message.forText(currentUser, 'Second message'));
-    // print('send message: $message');
-
-    final nav = Navigator.of(context);
-    nav.pop();
-    final proposal = await nav.push<Proposal>(NegotiationSheet.route(confirmButtonTitle: "APPLY"));
-
-    /*
-    unawaited(Navigator.of(context).push(
-      ConversationScreen.route('0a6c652c-a106-4ae4-81e6-b7c6af453483'),
-    ));
-    */
+  void createConversation(String text, Proposal proposal) {
+    if (mounted) {
+      final currentUser = backend<UserManager>().currentUser;
+      final message = Message(currentUser, text: text, action: MessageAction.offer, attachments: [
+        MessageAttachment.forObject(proposal),
+      ]);
+      setState(() {
+        _createFuture =
+            backend<ConversationManager>().createConversationForOffer(widget.offer, message).then((conversationHolder) {
+          if (mounted) {
+            final nav = Navigator.of(context);
+            nav.pop();
+            unawaited(nav.push(ConversationScreen.route(conversationHolder)));
+          }
+        });
+      });
+    }
   }
 }

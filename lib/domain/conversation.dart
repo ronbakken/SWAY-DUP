@@ -24,6 +24,7 @@ class ConversationHolder {
   MessageAction get latestAction => MessageAction.accept;
 }
 
+@immutable
 class Conversation implements Comparable<Conversation> {
   const Conversation._({
     @required this.dto,
@@ -143,6 +144,7 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
   }
 }
 
+@immutable
 class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
   Message._({
     this.dto,
@@ -168,17 +170,11 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
     );
   }
 
-  factory Message.forAction(User user, MessageAction action, [List<MessageAttachment> attachments]) {
+  factory Message(User user, {String text, MessageAction action, List<MessageAttachment> attachments}) {
+    assert(text != null || action != null, 'Missing text or action.');
     return Message._(
       user: user.copyWith(dataType: UserDto_Data.handle),
       action: action,
-      attachments: List.unmodifiable(attachments ?? []),
-    );
-  }
-
-  factory Message.forText(User user, String text, [List<MessageAttachment> attachments]) {
-    return Message._(
-      user: user.copyWith(dataType: UserDto_Data.handle),
       text: text,
       attachments: List.unmodifiable(attachments ?? []),
     );
@@ -229,13 +225,14 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
       '}';
 }
 
+@immutable
 class MessageAction {
-  static const text = MessageAction._('text');
+  static const offer = MessageAction._('offer');
   static const accept = MessageAction._('accept');
   static const counter = MessageAction._('counter');
   static const reject = MessageAction._('reject');
   static const completed = MessageAction._('completed');
-  static const values = [text, accept, counter, reject, completed];
+  static const values = [accept, counter, reject, completed];
 
   factory MessageAction.fromString(String value) {
     return values.firstWhere((action) => action.value == value, orElse: () => null);
@@ -251,6 +248,7 @@ class MessageAction {
       '}';
 }
 
+@immutable
 class MessageAttachment {
   const MessageAttachment._({
     this.dto,
@@ -259,7 +257,7 @@ class MessageAttachment {
     this.metadata,
   });
 
-  static Future<MessageAttachment> toJson(dynamic object) async {
+  static MessageAttachment forObject(Object object) {
     return MessageAttachment._(
       contentType: ContentType.json,
       data: utf8.encode(json.encode(object)),

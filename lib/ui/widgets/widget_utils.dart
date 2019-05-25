@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 const Widget emptyWidget = SizedBox();
 
+const Widget emptyWideWidget = SizedBox(width: double.infinity);
+
 const Widget loadingWidget = Center(child: CircularProgressIndicator());
 
 const Widget verticalMargin4 = const SizedBox(height: 4.0);

@@ -511,7 +511,7 @@ class _NewMessagePanelState extends State<NewMessagePanel> {
       final currentUser = backend<UserManager>().currentUser;
       backend<ConversationManager>().sendMessage(
         widget.conversationId,
-        Message.forText(currentUser, text),
+        Message(currentUser, text: text),
       );
     }
   }

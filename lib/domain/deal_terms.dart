@@ -27,9 +27,18 @@ class DealTerms {
   DealTermsDto toDto() {
     assert(deliverable != null);
     assert(reward != null);
-    
+
     return DealTermsDto()
       ..deliverable = deliverable.toDto()
       ..reward = reward.toDto();
+  }
+
+  Proposal toProposal() {
+    return (ProposalBuilder()
+          ..deliverableDescription = deliverable.description
+          ..cashRewardValue = reward.cashValue
+          ..serviceDescription = reward.description
+          ..serviceValue = reward.barterValue)
+        .build();
   }
 }
