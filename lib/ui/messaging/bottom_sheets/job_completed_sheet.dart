@@ -38,5 +38,5 @@ class JobCompletedSheet extends StatelessWidget {
     );
   }
 
-  void onConfirm(BuildContext context) => Navigator.of(context).pop(true);
+  void onConfirm(BuildContext context) => Navigator.of(context).pop<bool>(true);
 }
