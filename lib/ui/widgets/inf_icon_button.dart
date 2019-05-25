@@ -11,20 +11,20 @@ import 'package:inf/ui/widgets/inf_icon.dart';
 const double kMinButtonSize = 48.0;
 
 class InfIconButton extends StatelessWidget {
-  const InfIconButton(
-      {Key key,
-      this.iconSize = 24.0,
-      this.padding = const EdgeInsets.all(8.0),
-      this.alignment = Alignment.center,
-      @required this.icon,
-      this.child,
-      this.color,
-      this.highlightColor,
-      this.splashColor,
-      this.disabledColor,
-      @required this.onPressed,
-      this.tooltip})
-      : assert(iconSize != null),
+  const InfIconButton({
+    Key key,
+    this.iconSize = 24.0,
+    this.padding = const EdgeInsets.all(8.0),
+    this.alignment = Alignment.center,
+    @required this.icon,
+    this.child,
+    this.color,
+    this.highlightColor,
+    this.splashColor,
+    this.disabledColor,
+    @required this.onPressed,
+    this.tooltip,
+  })  : assert(iconSize != null),
         assert(padding != null),
         assert(alignment != null),
         assert(icon != null || child != null),

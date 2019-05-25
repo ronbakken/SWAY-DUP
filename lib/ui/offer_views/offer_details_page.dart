@@ -12,6 +12,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
+import 'package:inf/ui/widgets/inf_icon_button.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -59,10 +60,9 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   BusinessOffer offer;
 
-  bool _canBeEdited(BusinessOffer offer) => true;
-
-  // Fixme
-  // !offer.isPartial && offer.businessAccountId == backend<UserManager>().currentUser.id;
+  bool _canBeEdited(BusinessOffer offer) {
+    return offer.businessAccountId == backend<UserManager>().currentUser.id;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -78,17 +78,13 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
               appBar: AppBar(
                 centerTitle: true,
                 title: Text(offer.title),
-                actions: _canBeEdited(offer)
-                    ? [
-                        InkResponse(
-                          child: const Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: InfAssetImage(AppIcons.edit, height: 24),
-                          ),
-                          onTap: onEdit,
-                        ),
-                      ]
-                    : null,
+                actions: [
+                  if (_canBeEdited(offer))
+                    InfIconButton(
+                      icon: AppIcons.edit,
+                      onPressed: onEdit,
+                    ),
+                ],
               ),
               body: _buildBody(),
             );
@@ -557,7 +553,7 @@ class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
             child: Text(snapshot.error.toString()),
           );
         } else {
-          return Padding(
+          return const Padding(
             padding: const EdgeInsets.all(32.0),
             child: loadingWidget,
           );
