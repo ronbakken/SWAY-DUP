@@ -1,23 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/messaging/attachment_view/attachment_view.dart';
 import 'package:inf/ui/messaging/attachment_view/negotiating_proposal_attachment_view.dart';
 import 'package:inf/ui/messaging/chat_avatar.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_form_label.dart';
 import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-
-Proposal p1 = (ProposalBuilder()
-      ..deliverableDescription = "This text and moneywill change."
-      ..cashRewardValue = Money.fromInt(150)
-      ..serviceDescription = "This text and money stays the same."
-      ..serviceValue = Money.fromInt(50))
-    .build();
-Proposal p2 = p1.copyWith(
-  deliverableDescription: "This text has changed.",
-  cashRewardValue: Money.fromInt(200),
-);
 
 class MessageTile extends StatelessWidget {
   final MessageTextProvider message;
@@ -62,9 +52,7 @@ class MessageTile extends StatelessWidget {
                       color: AppTheme.charcoalGrey,
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                    child:
-                        // TODO: Edit so that this stuff is only displayed when there are attachments. If not, display regular message.
-                        Column(
+                    child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
@@ -72,12 +60,8 @@ class MessageTile extends StatelessWidget {
                         verticalMargin8,
                         Text(message.text),
                         verticalMargin8,
-                        for (final attachment in message.attachments) Text(attachment.toString()),
+                        for (final attachment in message.attachments) AttachmentView(attachment),
                         const InfDivider(verticalPadding: 9),
-                        NegotiatingProposalAttachmentView(
-                          previousProposal: p1,
-                          newProposal: p2,
-                        ),
                       ],
                     ),
                   ),
@@ -106,4 +90,3 @@ class MessageTile extends StatelessWidget {
     );
   }
 }
-

@@ -5,11 +5,13 @@ import 'package:inf/ui/messaging/attachment_view/negotiating_proposal_attachment
 class AttachmentView extends StatelessWidget {
   final MessageAttachment attachment;
 
-  const AttachmentView({@required this.attachment});
+  const AttachmentView(this.attachment);
 
   @override
   Widget build(BuildContext context) {
-    // if (attachment is List<Proposal>) return NegotiatingProposalAttachmentView(previousProposal: attachment[0], newProposal: attachment[1],);
-    return const Placeholder();
+    // TODO: Implement attachment pattern matcher. Something like:
+    //  if (attachment is List<Proposal>) return NegotiatingProposalAttachmentView(previousProposal: attachment[0], newProposal: attachment[1],);
+
+    return Text("Attachment: $attachment");
   }
 }
