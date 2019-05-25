@@ -11,6 +11,7 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
+import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -159,7 +160,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   title: 'DESCRIPTION',
                   text: offer.description,
                 ),
-                const Divider(height: 1, color: AppTheme.white30),
+                const InfDivider(),
                 _DetailEntry(
                   icon: const InfAssetImage(AppIcons.deliverable),
                   title: 'DELIVERABLES',
@@ -196,15 +197,15 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                 Column(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    const Divider(height: 1, color: AppTheme.white30),
+                    const InfDivider(),
                     buildRewardsRow(),
-                    const Divider(height: 1, color: AppTheme.white30),
+                    const InfDivider(),
                     _DetailEntry(
                       icon: const InfAssetImage(AppIcons.location),
                       title: 'LOCATION',
                       text: offer.location.name ?? '',
                     ),
-                    const Divider(height: 1, color: AppTheme.white30),
+                    const InfDivider(),
                     buildCategories(),
                   ],
                 ),
