@@ -92,6 +92,8 @@ abstract class MessageTextProvider {
   DateTime get timestamp;
 
   String get text;
+
+  List<MessageAttachment> get attachments;
 }
 
 class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvider> {
@@ -142,6 +144,16 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
     }
     return providers;
   }
+
+  @override
+  List<MessageAttachment> get attachments =>
+      List.unmodifiable(_messages.map((m) => m.attachments).fold<List<MessageAttachment>>(
+        [],
+        (prev, el) {
+          prev.addAll(el);
+          return prev;
+        },
+      ));
 }
 
 @immutable
@@ -196,6 +208,7 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
   @override
   final String text;
 
+  @override
   final List<MessageAttachment> attachments;
 
   @override
@@ -272,6 +285,9 @@ class MessageAttachment {
     return MessageAttachment._(
       contentType: ContentType.parse(contentType),
       data: await file.readAsBytes(),
+      metadata: const {
+        'type': 'File',
+      },
     );
   }
 
@@ -292,6 +308,8 @@ class MessageAttachment {
 
   final Map<String, String> metadata;
 
+  String get type => metadata['type'];
+
   MessageAttachmentDto toDto() {
     return MessageAttachmentDto()
       ..contentType = '${contentType.primaryType}/${contentType.subType}'
@@ -303,7 +321,7 @@ class MessageAttachment {
   String toString() => 'MessageAttachment{'
       'dto: ${dto != null}, '
       'contentType: $contentType, '
-      'data: $data, '
+      'data: ${data != null}, '
       'metadata: $metadata'
       '}';
 }
