@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/attachment_view/attachment_view.dart';
-import 'package:inf/ui/messaging/attachment_view/negotiating_proposal_attachment_view.dart';
 import 'package:inf/ui/messaging/chat_avatar.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_form_label.dart';
