@@ -80,6 +80,11 @@ class Money {
     return value.toStringAsFixed(digits);
   }
 
+  String toStringWithCurrencySymbol([int digits = 2]) {
+    // TODO: Decide currency symbol based on currency used.
+    return "\$ ${this.toString(digits)}";
+  }
+
   double toDouble() => value.toDouble();
 
   MoneyDto toDto() {
