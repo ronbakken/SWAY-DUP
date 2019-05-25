@@ -5,6 +5,8 @@ import 'package:inf/ui/widgets/curved_box.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
+import 'inf_divider.dart';
+
 class InfLockPanel extends StatelessWidget {
   const InfLockPanel({
     Key key,
@@ -20,7 +22,7 @@ class InfLockPanel extends StatelessWidget {
     return Column(
       children: [
         /// We add the title of the Reward group here to have a better teaser
-        const Divider(height: 1, color: AppTheme.white30),
+        const InfDivider(),
         Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: Row(
