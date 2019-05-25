@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:image/image.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/backend/services/image_service_.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:meta/meta.dart';
 
 class ImageServiceImplementation implements ImageService {
   @override
@@ -16,12 +16,11 @@ class ImageServiceImplementation implements ImageService {
   }
 
   @override
-  Future<String> uploadImageFromFile(String fileName, File imageFile) async {
-    return await uploadImageFromBytes(fileName, await imageFile.readAsBytes());
+  Future<File> takePicture() async {
+    return await ImagePicker.pickImage(source: ImageSource.camera, maxHeight: 800, maxWidth: 800);
   }
 
-  @override
-  Future<String> uploadImageFromBytes(String fileName, List<int> value) async {
+  Future<String> _uploadImageFromBytes(String fileName, List<int> value) async {
     GetUploadUrlResponse cloudUrls;
     try {
       cloudUrls = await backend<InfApiClientsService>()
@@ -58,12 +57,12 @@ class ImageServiceImplementation implements ImageService {
   }
 
   @override
-  Future<ImageReference> uploadImageReference(
-      {String fileNameTrunc,
-      ImageReference imageReference,
-      int imageWidth,
-      int lowResWidth,
-      VoidCallback onImageUploaded}) async {
+  Future<ImageReference> uploadImageReference({
+    @required String fileNameTrunc,
+    @required ImageReference imageReference,
+    @required int imageWidth,
+    @required int lowResWidth,
+  }) async {
     // if there is already an existing image url extract file name
     String fileName;
     String fileNameLowRes;
@@ -71,8 +70,11 @@ class ImageServiceImplementation implements ImageService {
       var start = imageReference.imageUrl.indexOf(fileNameTrunc);
       if (start >= 0) {
         var end = imageReference.imageUrl.indexOf('jpg') + 3;
-        if (end > start) {}
-        fileName = imageReference.imageUrl.substring(start, end);
+        if (end > start) {
+          fileName = imageReference.imageUrl.substring(end, start);
+        } else {
+          fileName = imageReference.imageUrl.substring(start, end);
+        }
       }
     }
 
@@ -80,8 +82,11 @@ class ImageServiceImplementation implements ImageService {
       var start = imageReference.lowResUrl.indexOf(fileNameTrunc);
       if (start >= 0) {
         var end = imageReference.lowResUrl.indexOf('jpg') + 3;
-        if (end > start) {}
-        fileNameLowRes = imageReference.lowResUrl.substring(start, end);
+        if (end > start) {
+          fileNameLowRes = imageReference.lowResUrl.substring(end, start);
+        } else {
+          fileNameLowRes = imageReference.lowResUrl.substring(start, end);
+        }
       }
     }
 
@@ -95,32 +100,21 @@ class ImageServiceImplementation implements ImageService {
 
     var image = decodeImage(imageBytes);
     var imageReducedSize = copyResize(image, width: imageWidth);
-    var imageUrl = await backend<ImageService>().uploadImageFromBytes(
+    var imageUrl = await _uploadImageFromBytes(
       fileName,
       encodeJpg(imageReducedSize, quality: 90),
     );
 
-    if (onImageUploaded != null) {
-      onImageUploaded();
-    }
-
     String lowResUrl;
     if (lowResWidth != null) {
       var imageLowRes = copyResize(image, width: lowResWidth);
-      lowResUrl = await backend<ImageService>().uploadImageFromBytes(
+      lowResUrl = await _uploadImageFromBytes(
         fileNameLowRes,
         encodeJpg(imageLowRes, quality: 60),
       );
     }
-    if (onImageUploaded != null) {
-      onImageUploaded();
-    }
-    return imageReference.copyWith(imageUrl: imageUrl, imageLowResUrl: lowResUrl);
-  }
 
-  @override
-  Future<File> takePicture() async {
-    return await ImagePicker.pickImage(source: ImageSource.camera, maxHeight: 800, maxWidth: 800);
+    return imageReference.copyWith(imageUrl: imageUrl, imageLowResUrl: lowResUrl);
   }
 
   @override

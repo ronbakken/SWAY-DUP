@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf_api_client/inf_api_client.dart';
+import 'package:meta/meta.dart';
 
 class ImageUploadException implements Exception {
   final String message;
@@ -29,6 +29,14 @@ class ImageReference implements InfImageProvider {
     return ImageReference(
       lowResUrl: dto.lowResUrl,
       imageUrl: dto.url,
+    );
+  }
+
+  factory ImageReference.fromJson(Map<String, dynamic> data) {
+    return ImageReference(
+      lowResUrl: data['lowResUrl'],
+      imageUrl: data['imageUrl'],
+      // imageFile: data['imageFile'], // FIXME: see [toJson()]
     );
   }
 
@@ -60,25 +68,31 @@ class ImageReference implements InfImageProvider {
       ..lowResUrl = lowResUrl ?? ''
       ..url = imageUrl;
   }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'lowResUrl': lowResUrl,
+      'imageUrl': imageUrl,
+      // 'imageFile': imageFile, // FIXME: Do we need to convert the imageFile into JSON? And if so; how?
+    };
+  }
 }
 
 abstract class ImageService {
   Future<File> pickImage();
 
-  Future<String> uploadImageFromFile(String fileName, File imageFile);
-
-  Future<String> uploadImageFromBytes(String fileName, List<int> value);
-
-  /// resize's and upload's images. if [lowResWidth != null] it also uploads a lowres version
-  /// if [imageUrl] of [imageReference != null] it uploads with the same fileName
-  Future<ImageReference> uploadImageReference(
-      {String fileNameTrunc,
-      ImageReference imageReference,
-      int imageWidth,
-      int lowResWidth,
-      VoidCallback onImageUploaded});
-
   Future<File> takePicture();
+
+  /// Resizes and uploads images.
+  ///
+  /// If [lowResWidth != null], it also uploads a lower resolution version.
+  /// If [imageUrl] of [imageReference != null] it uploads with the same fileName
+  Future<ImageReference> uploadImageReference({
+    @required String fileNameTrunc,
+    @required ImageReference imageReference,
+    @required int imageWidth,
+    @required int lowResWidth,
+  });
 
   // TODO not sure how we will do that with S3
   Future<void> deleteImage(String url);
