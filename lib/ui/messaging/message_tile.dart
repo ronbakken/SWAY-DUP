@@ -3,6 +3,8 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/attachment_view/negotiating_proposal_attachment_view.dart';
 import 'package:inf/ui/messaging/chat_avatar.dart';
+import 'package:inf/ui/widgets/inf_divider.dart';
+import 'package:inf/ui/widgets/inf_form_label.dart';
 import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
@@ -60,17 +62,16 @@ class MessageTile extends StatelessWidget {
                       color: AppTheme.charcoalGrey,
                     ),
                     padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                    child: 
-                    // TODO: Edit so that this stuff is only displayed when there are attachments. If not, display regular message.
-                    Column(
+                    child:
+                        // TODO: Edit so that this stuff is only displayed when there are attachments. If not, display regular message.
+                        Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       mainAxisSize: MainAxisSize.min,
                       children: <Widget>[
-                        _HeaderText("Message"),
+                        InfFormLabel("Message"),
                         verticalMargin8,
                         Text(message.text),
-                        verticalMargin8,
-                        _Line(), // TODO: Reuse this. Dunno where to put it.
+                        const InfDivider(verticalPadding: 9),
                         NegotiatingProposalAttachmentView(
                           previousProposal: p1,
                           newProposal: p2,
@@ -104,23 +105,3 @@ class MessageTile extends StatelessWidget {
   }
 }
 
-class _HeaderText extends StatelessWidget {
-  final String data;
-
-  _HeaderText(this.data);
-
-  @override
-  Widget build(BuildContext context) {
-    return Text(data.toUpperCase(), style: AppTheme.formFieldLabelStyle);
-  }
-}
-
-class _Line extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 8.0),
-      child: Divider(color: Colors.white.withAlpha(128)),
-    );
-  }
-}
