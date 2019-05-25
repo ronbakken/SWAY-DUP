@@ -5,13 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
+import 'package:inf/ui/messaging/message_tile.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
-import 'package:inf/ui/user_profile/view_profile_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
 class ConversationScreen extends StatefulWidget {
@@ -154,7 +153,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                               sliver: SliverList(
                                 delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                                   final message = messages[index];
-                                  return _MessageTile(
+                                  return MessageTile(
                                     key: Key(message.id),
                                     message: message,
                                   );
@@ -186,125 +185,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
               ],
             );
           },
-        ),
-      ),
-    );
-  }
-}
-
-class _MessageTile extends StatelessWidget {
-  final MessageTextProvider message;
-
-  static const boxCornerRadii = const Radius.circular(12.0);
-
-  const _MessageTile({
-    Key key,
-    @required this.message,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final currentUser = backend<UserManager>().currentUser;
-    final isCurrentUser = (currentUser.id == message.user.id);
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: <Widget>[
-              if (!isCurrentUser) _ChatAvatar(user: message.user),
-              Expanded(
-                child: Align(
-                  alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
-                  child: Container(
-                    margin: EdgeInsets.only(
-                      left: isCurrentUser ? 0.0 : 12.0,
-                      right: isCurrentUser ? 12.0 : 0.0,
-                      bottom: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: boxCornerRadii,
-                        topRight: boxCornerRadii,
-                        bottomLeft: (isCurrentUser) ? boxCornerRadii : Radius.zero,
-                        bottomRight: (!isCurrentUser) ? boxCornerRadii : Radius.zero,
-                      ),
-                      color: AppTheme.charcoalGrey,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                    // FIXME: only temporary to see what attachments are on a message.
-                    child: Column(
-                      children: <Widget>[
-                        Text(message.text),
-                        if(message.attachments.isNotEmpty)
-                          verticalMargin12,
-                        for(final attachment in message.attachments)
-                          Text(attachment.toString(),),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              if (isCurrentUser) _ChatAvatar(user: message.user),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.only(
-              top: 2.0,
-              left: isCurrentUser ? 0.0 : 54.0,
-              right: isCurrentUser ? 54.0 : 0.0,
-            ),
-            child: InfSinceWhen(
-              message.timestamp,
-              textAlign: isCurrentUser ? TextAlign.right : TextAlign.left,
-              style: const TextStyle(
-                fontSize: 14.0,
-                color: Colors.white24,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _ChatAvatar extends StatelessWidget {
-  const _ChatAvatar({
-    Key key,
-    @required this.user,
-  }) : super(key: key);
-
-  final User user;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: const ShapeDecoration(
-        shape: CircleBorder(side: BorderSide(color: AppTheme.charcoalGrey, width: 1.5)),
-      ),
-      child: ClipOval(
-        child: SizedBox(
-          width: 38.0,
-          height: 38.0,
-          child: Stack(
-            fit: StackFit.expand,
-            children: <Widget>[
-              InfImage.fromProvider(
-                user.avatarThumbnail,
-                fit: BoxFit.cover,
-              ),
-              Material(
-                type: MaterialType.transparency,
-                child: InkWell(
-                  onTap: () => Navigator.of(context).push(ViewProfilePage.route(user)),
-                ),
-              ),
-            ],
-          ),
         ),
       ),
     );
