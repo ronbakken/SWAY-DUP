@@ -37,34 +37,22 @@ class MessageTile extends StatelessWidget {
                 child: Align(
                   alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
                   child: Container(
-                    margin: EdgeInsets.only(
-                      left: isCurrentUser ? 0.0 : 12.0,
-                      right: isCurrentUser ? 12.0 : 0.0,
-                      bottom: 4.0,
-                    ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: boxCornerRadii,
-                        topRight: boxCornerRadii,
-                        bottomLeft: (isCurrentUser) ? boxCornerRadii : Radius.zero,
-                        bottomRight: (!isCurrentUser) ? boxCornerRadii : Radius.zero,
+                      margin: EdgeInsets.only(
+                        left: isCurrentUser ? 0.0 : 12.0,
+                        right: isCurrentUser ? 12.0 : 0.0,
+                        bottom: 4.0,
                       ),
-                      color: AppTheme.charcoalGrey,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisSize: MainAxisSize.min,
-                      children: <Widget>[
-                        InfFormLabel("Message"),
-                        verticalMargin8,
-                        Text(message.text),
-                        verticalMargin8,
-                        for (final attachment in message.attachments) AttachmentView(attachment),
-                        const InfDivider(verticalPadding: 9),
-                      ],
-                    ),
-                  ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                          topLeft: boxCornerRadii,
+                          topRight: boxCornerRadii,
+                          bottomLeft: (isCurrentUser) ? boxCornerRadii : Radius.zero,
+                          bottomRight: (!isCurrentUser) ? boxCornerRadii : Radius.zero,
+                        ),
+                        color: AppTheme.charcoalGrey,
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
+                      child: buildMessageContent(message)),
                 ),
               ),
               if (isCurrentUser) ChatAvatar(user: message.user),
@@ -87,6 +75,23 @@ class MessageTile extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+
+  Widget buildMessageContent(MessageTextProvider message) {
+    if (message.attachments.isEmpty) return Text(message.text);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        InfFormLabel("Message"),
+        verticalMargin8,
+        Text(message.text),
+        verticalMargin8,
+        for (final attachment in message.attachments) AttachmentView(attachment),
+        const InfDivider(verticalPadding: 9),
+      ],
     );
   }
 }
