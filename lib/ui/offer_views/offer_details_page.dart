@@ -12,11 +12,8 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
-<<<<<<< HEAD
 import 'package:inf/ui/widgets/inf_icon_button.dart';
-=======
 import 'package:inf/ui/widgets/inf_divider.dart';
->>>>>>> Refactor common Divider into InfDivider.
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
