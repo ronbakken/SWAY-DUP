@@ -325,3 +325,28 @@ class MessageAttachment {
       'metadata: $metadata'
       '}';
 }
+
+class AttachmentLink {
+  const AttachmentLink({this.value});
+
+  factory AttachmentLink.fromJson(Map<String, dynamic> data) {
+    return AttachmentLink(
+      value: data['value'],
+    );
+  }
+
+  final String value;
+
+  @override
+  String toString() {
+    return 'AttachmentLink{'
+        'value: $value, '
+        '}';
+  }
+
+  Map<String, dynamic> toJson() {
+    return {
+      'value': value,
+    };
+  }
+}
