@@ -2,12 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 
 class InfFormLabel extends StatelessWidget {
-  final String data;
+  const InfFormLabel(this.data, {this.style});
 
-  InfFormLabel(this.data);
+  final String data;
+  final TextStyle style;
 
   @override
   Widget build(BuildContext context) {
-    return Text(data.toUpperCase(), style: AppTheme.formFieldLabelStyle);
+    return Text(
+      data.toUpperCase(),
+      style: AppTheme.formFieldLabelStyle.merge(style),
+    );
   }
 }
