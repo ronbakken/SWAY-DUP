@@ -62,7 +62,8 @@ namespace API.Services.List.ItemBatchProviders
             usersFilter.NorthWest = itemFilter.UserFilter.NorthWest.ToUsersGeoPoint();
             usersFilter.SouthEast = itemFilter.UserFilter.SouthEast.ToUsersGeoPoint();
             usersFilter.Phrase = itemFilter.UserFilter.Phrase;
-            //usersFilter.MinimumValue = itemFilter.UserFilter.MinimumValue;
+            usersFilter.MinimumValue = itemFilter.UserFilter.MinimumValue.ToMoney();
+            usersFilter.MaximumValue = itemFilter.UserFilter.MaximumValue.ToMoney();
             usersFilter.SocialMediaNetworkIds.AddRange(itemFilter.UserFilter.SocialMediaNetworkIds);
             usersFilter.UserTypes.AddRange(itemFilter.UserFilter.UserTypes.Select(x => x.ToUserType()));
 

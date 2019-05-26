@@ -8,11 +8,11 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'offer.pb.dart' as $11;
+import 'offer.pb.dart' as $10;
 
 class UpdateOfferRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UpdateOfferRequest', package: const $pb.PackageName('api'))
-    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
+    ..a<$10.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $10.OfferDto.getDefault, $10.OfferDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -28,15 +28,15 @@ class UpdateOfferRequest extends $pb.GeneratedMessage {
   static UpdateOfferRequest getDefault() => _defaultInstance ??= create()..freeze();
   static UpdateOfferRequest _defaultInstance;
 
-  $11.OfferDto get offer => $_getN(0);
-  set offer($11.OfferDto v) { setField(1, v); }
+  $10.OfferDto get offer => $_getN(0);
+  set offer($10.OfferDto v) { setField(1, v); }
   $core.bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }
 
 class UpdateOfferResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('UpdateOfferResponse', package: const $pb.PackageName('api'))
-    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
+    ..a<$10.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $10.OfferDto.getDefault, $10.OfferDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -52,8 +52,8 @@ class UpdateOfferResponse extends $pb.GeneratedMessage {
   static UpdateOfferResponse getDefault() => _defaultInstance ??= create()..freeze();
   static UpdateOfferResponse _defaultInstance;
 
-  $11.OfferDto get offer => $_getN(0);
-  set offer($11.OfferDto v) { setField(1, v); }
+  $10.OfferDto get offer => $_getN(0);
+  set offer($10.OfferDto v) { setField(1, v); }
   $core.bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }
@@ -84,7 +84,7 @@ class GetOfferRequest extends $pb.GeneratedMessage {
 
 class GetOfferResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('GetOfferResponse', package: const $pb.PackageName('api'))
-    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
+    ..a<$10.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $10.OfferDto.getDefault, $10.OfferDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -100,8 +100,8 @@ class GetOfferResponse extends $pb.GeneratedMessage {
   static GetOfferResponse getDefault() => _defaultInstance ??= create()..freeze();
   static GetOfferResponse _defaultInstance;
 
-  $11.OfferDto get offer => $_getN(0);
-  set offer($11.OfferDto v) { setField(1, v); }
+  $10.OfferDto get offer => $_getN(0);
+  set offer($10.OfferDto v) { setField(1, v); }
   $core.bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 }

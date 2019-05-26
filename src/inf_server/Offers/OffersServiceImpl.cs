@@ -206,22 +206,25 @@ namespace Offers
                                 "status",
                                 filter.OfferStatuses,
                                 value => value.ToEntity().ToString().ToCamelCase())
-                            .AppendScalarFieldOneOfClause(
-                                "terms.reward.type",
-                                filter.RewardTypes,
-                                value => value.ToEntity().ToString().ToCamelCase())
                             .AppendArrayFieldClause(
                                 "terms.deliverable.deliverableTypes",
                                 filter.DeliverableTypes,
                                 value => value.ToEntity().ToString().ToCamelCase())
+                            .AppendArrayFieldClause(
+                                "terms.deliverable.socialNetworkProviderIds",
+                                filter.DeliverableSocialMediaNetworkIds,
+                                value => value)
                             .AppendArrayFieldClause(
                                 "categoryIds",
                                 filter.CategoryIds,
                                 value => value,
                                 LogicalOperator.Or)
                             .AppendMoneyAtLeastClause(
-                                "terms.reward.cashValue",
-                                new Utility.Money(filter.MinimumReward?.CurrencyCode, filter.MinimumReward?.Units ?? 0, filter.MinimumReward?.Nanos ?? 0))
+                                "terms.cashValue",
+                                new Utility.Money(filter.MinimumRewardCash?.CurrencyCode, filter.MinimumRewardCash?.Units ?? 0, filter.MinimumRewardCash?.Nanos ?? 0))
+                            .AppendMoneyAtLeastClause(
+                                "terms.serviceValue",
+                                new Utility.Money(filter.MinimumRewardService?.CurrencyCode, filter.MinimumRewardService?.Units ?? 0, filter.MinimumRewardService?.Nanos ?? 0))
                             .AppendBoundingBoxClause(
                                 "location.geoPoint.longitude",
                                 "location.geoPoint.latitude",

@@ -37,12 +37,4 @@
         <EmbeddedResource Include="*.crt" />
     </ItemGroup>
 
-    <ItemGroup>
-      <None Remove="server.crt.ignore" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <EmbeddedResource Include="server.crt.ignore" />
-    </ItemGroup>
-
 </Project>

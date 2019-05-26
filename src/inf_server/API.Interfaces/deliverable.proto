@@ -11,14 +11,12 @@ enum DeliverableType {
 }
 
 message DeliverableIconDto {
-    int32 id = 1;
     DeliverableType deliverableType = 2;
     bytes iconData = 3;
     string name = 4;
 }
 
 message DeliverableDto {
-    int32 id = 1;
     repeated DeliverableType deliverableTypes = 2;
     repeated string socialNetworkProviderIds = 3;
     string description = 4;

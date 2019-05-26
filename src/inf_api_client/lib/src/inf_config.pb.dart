@@ -8,8 +8,8 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'category.pb.dart' as $14;
-import 'social_network_provider.pb.dart' as $15;
+import 'category.pb.dart' as $13;
+import 'social_network_provider.pb.dart' as $14;
 import 'deliverable.pb.dart' as $8;
 
 class GetVersionsResponse extends $pb.GeneratedMessage {
@@ -94,8 +94,8 @@ class AppConfigDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('AppConfigDto', package: const $pb.PackageName('api'))
     ..a<$core.int>(1, 'configVersion', $pb.PbFieldType.O3)
     ..a<ServiceConfigDto>(5, 'serviceConfig', $pb.PbFieldType.OM, ServiceConfigDto.getDefault, ServiceConfigDto.create)
-    ..pc<$14.CategoryDto>(6, 'categories', $pb.PbFieldType.PM,$14.CategoryDto.create)
-    ..pc<$15.SocialNetworkProviderDto>(7, 'socialNetworkProviders', $pb.PbFieldType.PM,$15.SocialNetworkProviderDto.create)
+    ..pc<$13.CategoryDto>(6, 'categories', $pb.PbFieldType.PM,$13.CategoryDto.create)
+    ..pc<$14.SocialNetworkProviderDto>(7, 'socialNetworkProviders', $pb.PbFieldType.PM,$14.SocialNetworkProviderDto.create)
     ..pc<$8.DeliverableIconDto>(8, 'deliverableIcons', $pb.PbFieldType.PM,$8.DeliverableIconDto.create)
     ..aOS(10, 'termsOfServiceUrl')
     ..aOS(11, 'privacyPolicyUrl')
@@ -125,9 +125,9 @@ class AppConfigDto extends $pb.GeneratedMessage {
   $core.bool hasServiceConfig() => $_has(1);
   void clearServiceConfig() => clearField(5);
 
-  $core.List<$14.CategoryDto> get categories => $_getList(2);
+  $core.List<$13.CategoryDto> get categories => $_getList(2);
 
-  $core.List<$15.SocialNetworkProviderDto> get socialNetworkProviders => $_getList(3);
+  $core.List<$14.SocialNetworkProviderDto> get socialNetworkProviders => $_getList(3);
 
   $core.List<$8.DeliverableIconDto> get deliverableIcons => $_getList(4);
 

@@ -150,7 +150,9 @@ namespace API.ObjectMapping
             var result = new DealTermsDto
             {
                 Deliverable = @this.Deliverable.ToDeliverableDto(),
-                Reward = @this.Reward.ToRewardDto(),
+                CashValue = @this.CashValue.ToMoneyDto(),
+                ServiceValue = @this.ServiceValue.ToMoneyDto(),
+                ServiceDescription = @this.ServiceDescription,
             };
 
             return result;
@@ -166,7 +168,9 @@ namespace API.ObjectMapping
             var result = new offers.DealTerms
             {
                 Deliverable = @this.Deliverable.ToDeliverable(),
-                Reward = @this.Reward.ToReward(),
+                CashValue = @this.CashValue.ToOffersMoney(),
+                ServiceValue = @this.ServiceValue.ToOffersMoney(),
+                ServiceDescription = @this.ServiceDescription,
             };
 
             return result;
@@ -182,7 +186,6 @@ namespace API.ObjectMapping
             var result = new DeliverableDto
             {
                 Description = @this.Description,
-                Id = @this.Id,
             };
 
             result.DeliverableTypes.AddRange(@this.DeliverableTypes.Select(x => x.ToDeliverableType()));
@@ -201,47 +204,10 @@ namespace API.ObjectMapping
             var result = new offers.Deliverable
             {
                 Description = @this.Description,
-                Id = @this.Id,
             };
 
             result.DeliverableTypes.AddRange(@this.DeliverableTypes.Select(x => x.ToDeliverableType()));
             result.SocialNetworkProviderIds.AddRange(@this.SocialNetworkProviderIds);
-
-            return result;
-        }
-
-        public static RewardDto ToRewardDto(this offers.Reward @this)
-        {
-            if (@this == null)
-            {
-                return null;
-            }
-
-            var result = new RewardDto
-            {
-                BarterValue = @this.BarterValue.ToMoneyDto(),
-                CashValue = @this.CashValue.ToMoneyDto(),
-                Description = @this.Description,
-                Type = @this.Type.ToType(),
-            };
-
-            return result;
-        }
-
-        public static offers.Reward ToReward(this RewardDto @this)
-        {
-            if (@this == null)
-            {
-                return null;
-            }
-
-            var result = new offers.Reward
-            {
-                BarterValue = @this.BarterValue.ToOffersMoney(),
-                CashValue = @this.CashValue.ToOffersMoney(),
-                Description = @this.Description,
-                Type = @this.Type.ToRewardType(),
-            };
 
             return result;
         }
@@ -382,11 +348,5 @@ namespace API.ObjectMapping
 
         public static offers.DeliverableType ToDeliverableType(this DeliverableType @this) =>
             (offers.DeliverableType)(int)@this;
-
-        public static RewardDto.Types.Type ToType(this offers.RewardType @this) =>
-            (RewardDto.Types.Type)(int)@this;
-
-        public static offers.RewardType ToRewardType(this RewardDto.Types.Type @this) =>
-            (offers.RewardType)(int)@this;
     }
 }

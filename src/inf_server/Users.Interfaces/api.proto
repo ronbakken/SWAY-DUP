@@ -161,6 +161,7 @@ message ListUsersRequest {
         GeoPoint northWest = 4;
         GeoPoint southEast = 5;
         Money minimumValue = 6;
+        Money maximumValue = 8;
         string phrase = 7;
     }
 

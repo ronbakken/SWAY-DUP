@@ -85,9 +85,6 @@ export 'package:inf_api_client/src/money.pbenum.dart';
 export 'package:inf_api_client/src/offer.pb.dart';
 export 'package:inf_api_client/src/offer.pbenum.dart';
 
-export 'package:inf_api_client/src/reward.pb.dart';
-export 'package:inf_api_client/src/reward.pbenum.dart';
-
 export 'package:inf_api_client/src/social_media_account.pb.dart';
 export 'package:inf_api_client/src/social_media_account.pbenum.dart';
 

@@ -96,13 +96,17 @@ namespace Mapping.ObjectMapping
             {
                 AcceptancePolicy = @this.AcceptancePolicy.ToAcceptancePolicy(),
                 BusinessAccountId = @this.BusinessAccountId,
-                Reward = @this.Terms?.Reward?.CashValue?.ToMoneyEntity(),
-                RewardType = @this.Terms?.Reward?.Type.ToRewardType() ?? throw new NotSupportedException(),
+                CashReward = @this.Terms?.CashValue?.ToMoneyEntity(),
+                ServiceReward = @this.Terms?.ServiceValue?.ToMoneyEntity(),
                 Status = @this.Status.ToEntityStatus(),
             };
 
+            result.DeliverableTypes.AddRange(@this.Terms.Deliverable.DeliverableTypes.Select(x => x.ToDeliverableType()));
+            result.DeliverableSocialNetworkProviderIds.AddRange(@this.Terms.Deliverable.SocialNetworkProviderIds);
+
             return result;
         }
+
 
         public static MapItemEntity.Types.UserEntity ToUserEntity(this User @this)
         {
@@ -114,6 +118,7 @@ namespace Mapping.ObjectMapping
             var result = new MapItemEntity.Types.UserEntity
             {
                 Type = @this.Type.ToUserType(),
+                MinimalFee = @this.MinimalFee.ToMoneyEntity(),
             };
 
             result.SocialMediaNetworkIds.AddRange(@this.SocialMediaAccounts.Select(x => x.SocialNetworkProviderId));
@@ -122,6 +127,23 @@ namespace Mapping.ObjectMapping
         }
 
         public static MoneyEntity ToMoneyEntity(this offers.Money @this)
+        {
+            if (@this == null)
+            {
+                return null;
+            }
+
+            var result = new MoneyEntity
+            {
+                CurrencyCode = @this.CurrencyCode,
+                Nanos = @this.Nanos,
+                Units = @this.Units,
+            };
+
+            return result;
+        }
+
+        public static MoneyEntity ToMoneyEntity(this users.Money @this)
         {
             if (@this == null)
             {
@@ -252,12 +274,6 @@ namespace Mapping.ObjectMapping
         public static OfferAcceptancePolicy ToAcceptancePolicy(this MapItemEntity.Types.OfferEntity.Types.AcceptancePolicy @this) =>
             (OfferAcceptancePolicy)(int)@this;
 
-        public static MapItemEntity.Types.OfferEntity.Types.RewardType ToRewardType(this RewardType @this) =>
-            (MapItemEntity.Types.OfferEntity.Types.RewardType)(int)@this;
-
-        public static RewardType ToRewardType(this MapItemEntity.Types.OfferEntity.Types.RewardType @this) =>
-            (RewardType)(int)@this;
-
         public static MapItemEntity.Types.OfferEntity.Types.Status ToEntityStatus(this OfferStatus @this) =>
             (MapItemEntity.Types.OfferEntity.Types.Status)(int)@this;
 
@@ -276,10 +292,13 @@ namespace Mapping.ObjectMapping
         public static MapItemEntity.Types.OfferEntity.Types.Status ToStatus(this ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.Status @this) =>
             (MapItemEntity.Types.OfferEntity.Types.Status)(int)@this;
 
-        public static MapItemEntity.Types.OfferEntity.Types.RewardType ToRewardType(this ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.RewardType @this) =>
-            (MapItemEntity.Types.OfferEntity.Types.RewardType)(int)@this;
-
         public static MapItemEntity.Types.UserEntity.Types.UserType ToUserType(this ListMapItemsRequest.Types.Filter.Types.UserFilterDto.Types.Type @this) =>
             (MapItemEntity.Types.UserEntity.Types.UserType)(int)@this;
+
+        public static MapItemEntity.Types.OfferEntity.Types.DeliverableType ToDeliverableType(this DeliverableType @this) =>
+            (MapItemEntity.Types.OfferEntity.Types.DeliverableType)(int)@this;
+
+        public static DeliverableType ToDeliverableType(this MapItemEntity.Types.OfferEntity.Types.DeliverableType @this) =>
+            (DeliverableType)(int)@this;
     }
 }

@@ -8,8 +8,8 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'item_filter.pb.dart' as $16;
-import 'item.pb.dart' as $17;
+import 'item_filter.pb.dart' as $15;
+import 'item.pb.dart' as $16;
 
 import 'inf_list.pbenum.dart';
 
@@ -17,7 +17,7 @@ export 'inf_list.pbenum.dart';
 
 class ListRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListRequest', package: const $pb.PackageName('api'))
-    ..a<$16.ItemFilterDto>(1, 'filter', $pb.PbFieldType.OM, $16.ItemFilterDto.getDefault, $16.ItemFilterDto.create)
+    ..a<$15.ItemFilterDto>(1, 'filter', $pb.PbFieldType.OM, $15.ItemFilterDto.getDefault, $15.ItemFilterDto.create)
     ..e<ListRequest_State>(2, 'state', $pb.PbFieldType.OE, ListRequest_State.paused, ListRequest_State.valueOf, ListRequest_State.values)
     ..hasRequiredFields = false
   ;
@@ -34,8 +34,8 @@ class ListRequest extends $pb.GeneratedMessage {
   static ListRequest getDefault() => _defaultInstance ??= create()..freeze();
   static ListRequest _defaultInstance;
 
-  $16.ItemFilterDto get filter => $_getN(0);
-  set filter($16.ItemFilterDto v) { setField(1, v); }
+  $15.ItemFilterDto get filter => $_getN(0);
+  set filter($15.ItemFilterDto v) { setField(1, v); }
   $core.bool hasFilter() => $_has(0);
   void clearFilter() => clearField(1);
 
@@ -47,7 +47,7 @@ class ListRequest extends $pb.GeneratedMessage {
 
 class ListResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListResponse', package: const $pb.PackageName('api'))
-    ..pc<$17.ItemDto>(1, 'items', $pb.PbFieldType.PM,$17.ItemDto.create)
+    ..pc<$16.ItemDto>(1, 'items', $pb.PbFieldType.PM,$16.ItemDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -63,6 +63,6 @@ class ListResponse extends $pb.GeneratedMessage {
   static ListResponse getDefault() => _defaultInstance ??= create()..freeze();
   static ListResponse _defaultInstance;
 
-  $core.List<$17.ItemDto> get items => $_getList(0);
+  $core.List<$16.ItemDto> get items => $_getList(0);
 }
 

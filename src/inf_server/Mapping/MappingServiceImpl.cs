@@ -188,14 +188,20 @@ namespace Mapping
                         "offer.deliverableTypes",
                         filter.OfferFilter.DeliverableTypes,
                         value => value.ToDeliverableType().ToString().ToCamelCase())
+                    .AppendArrayFieldClause(
+                        "offer.deliverableSocialMediaNetworkIds",
+                        filter.OfferFilter.DeliverableSocialNetworkProviderIds,
+                        value => value)
                     .AppendScalarFieldOneOfClause(
                         "offer.status",
                         filter.OfferFilter.OfferStatuses,
                         value => value.ToStatus().ToString().ToCamelCase())
-                    .AppendScalarFieldOneOfClause(
-                        "offer.terms.reward.type",
-                        filter.OfferFilter.RewardTypes,
-                        value => value.ToRewardType().ToString().ToCamelCase())
+                    .AppendMoneyAtLeastClause(
+                        "offer.cashReward",
+                        new Utility.Money(filter.OfferFilter.MinimumRewardCash?.CurrencyCode, filter.OfferFilter.MinimumRewardCash?.Units ?? 0, filter.OfferFilter.MinimumRewardCash?.Nanos ?? 0))
+                    .AppendMoneyAtLeastClause(
+                        "offer.serviceReward",
+                        new Utility.Money(filter.OfferFilter.MinimumRewardService?.CurrencyCode, filter.OfferFilter.MinimumRewardService?.Units ?? 0, filter.OfferFilter.MinimumRewardService?.Nanos ?? 0))
                     .AppendCloseParenthesis();
             }
 
@@ -207,6 +213,12 @@ namespace Mapping
                     .Append("is_defined(")
                     .AppendFieldName("user")
                     .Append(")")
+                    .AppendMoneyAtLeastClause(
+                        "user.minimalFee",
+                        new Utility.Money(filter.UserFilter?.MinimumValue?.CurrencyCode, filter.UserFilter?.MinimumValue?.Units ?? 0, filter.UserFilter?.MinimumValue?.Nanos ?? 0))
+                    .AppendMoneyAtMostClause(
+                        "user.minimalFee",
+                        new Utility.Money(filter.UserFilter?.MaximumValue?.CurrencyCode, filter.UserFilter?.MaximumValue?.Units ?? 0, filter.UserFilter?.MaximumValue?.Nanos ?? 0))
                     .AppendScalarFieldOneOfClause(
                         "user.type",
                         filter.UserFilter.UserTypes,

@@ -5,7 +5,6 @@ option csharp_namespace = "API.Interfaces";
 
 message CategoryDto {
     string id = 1;
-	// for top level categories this is set to -1
     string parentId = 2;
     string name = 3;
     string description = 4;

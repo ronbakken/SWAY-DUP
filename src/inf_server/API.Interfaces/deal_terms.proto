@@ -4,9 +4,11 @@ package api;
 option csharp_namespace = "API.Interfaces";
 
 import "deliverable.proto";
-import "reward.proto";
+import "money.proto";
 
 message DealTermsDto {
   DeliverableDto deliverable = 1;
-  RewardDto reward = 2;
+  MoneyDto cashValue = 2;
+  MoneyDto serviceValue = 3;
+  string serviceDescription = 4;
 }

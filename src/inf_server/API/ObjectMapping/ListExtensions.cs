@@ -220,9 +220,6 @@ namespace API.ObjectMapping
         public static mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.Status ToStatus(this OfferDto.Types.Status @this) =>
             (mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.Status)(int)@this;
 
-        public static mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.RewardType ToListFilterRewardType(this RewardDto.Types.Type @this) =>
-            (mapping.ListMapItemsRequest.Types.Filter.Types.OfferFilterDto.Types.RewardType)(int)@this;
-
         public static mapping.ListMapItemsRequest.Types.Filter.Types.UserFilterDto.Types.Type ToType(this UserType @this) =>
             (mapping.ListMapItemsRequest.Types.Filter.Types.UserFilterDto.Types.Type)(int)@this;
     }

@@ -47,7 +47,6 @@ namespace API.Services.List
 
                     var subscription = activeClient
                         .GetItemBatches()
-                        .Where(itemBatch => itemBatch.Count > 0)
                         .Select(
                             itemBatch =>
                             {

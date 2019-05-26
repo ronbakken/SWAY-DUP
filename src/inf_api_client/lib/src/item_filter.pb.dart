@@ -11,25 +11,25 @@ import 'package:protobuf/protobuf.dart' as $pb;
 import 'money.pb.dart' as $3;
 import 'location.pb.dart' as $2;
 
-import 'offer.pbenum.dart' as $11;
+import 'offer.pbenum.dart' as $10;
 import 'deliverable.pbenum.dart' as $8;
-import 'reward.pbenum.dart' as $9;
 import 'user.pbenum.dart' as $5;
-import 'conversation.pbenum.dart' as $13;
+import 'conversation.pbenum.dart' as $12;
 
 class ItemFilterDto_OfferFilterDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ItemFilterDto.OfferFilterDto', package: const $pb.PackageName('api'))
     ..aOS(1, 'businessAccountId')
-    ..pc<$11.OfferDto_Status>(2, 'offerStatuses', $pb.PbFieldType.PE, null, $11.OfferDto_Status.valueOf, $11.OfferDto_Status.values)
+    ..pc<$10.OfferDto_Status>(2, 'offerStatuses', $pb.PbFieldType.PE, null, $10.OfferDto_Status.valueOf, $10.OfferDto_Status.values)
     ..pc<$8.DeliverableType>(3, 'deliverableTypes', $pb.PbFieldType.PE, null, $8.DeliverableType.valueOf, $8.DeliverableType.values)
-    ..pc<$11.OfferDto_AcceptancePolicy>(4, 'acceptancePolicies', $pb.PbFieldType.PE, null, $11.OfferDto_AcceptancePolicy.valueOf, $11.OfferDto_AcceptancePolicy.values)
-    ..pc<$9.RewardDto_Type>(5, 'rewardTypes', $pb.PbFieldType.PE, null, $9.RewardDto_Type.valueOf, $9.RewardDto_Type.values)
-    ..a<$3.MoneyDto>(6, 'minimumReward', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..pc<$10.OfferDto_AcceptancePolicy>(4, 'acceptancePolicies', $pb.PbFieldType.PE, null, $10.OfferDto_AcceptancePolicy.valueOf, $10.OfferDto_AcceptancePolicy.values)
+    ..a<$3.MoneyDto>(6, 'minimumRewardCash', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
     ..a<$core.int>(7, 'mapLevel', $pb.PbFieldType.O3)
     ..a<$2.GeoPointDto>(8, 'northWest', $pb.PbFieldType.OM, $2.GeoPointDto.getDefault, $2.GeoPointDto.create)
     ..a<$2.GeoPointDto>(9, 'southEast', $pb.PbFieldType.OM, $2.GeoPointDto.getDefault, $2.GeoPointDto.create)
     ..pPS(10, 'categoryIds')
     ..aOS(11, 'phrase')
+    ..a<$3.MoneyDto>(12, 'minimumRewardService', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..pPS(13, 'deliverableSocialMediaNetworkIds')
     ..hasRequiredFields = false
   ;
 
@@ -50,40 +50,45 @@ class ItemFilterDto_OfferFilterDto extends $pb.GeneratedMessage {
   $core.bool hasBusinessAccountId() => $_has(0);
   void clearBusinessAccountId() => clearField(1);
 
-  $core.List<$11.OfferDto_Status> get offerStatuses => $_getList(1);
+  $core.List<$10.OfferDto_Status> get offerStatuses => $_getList(1);
 
   $core.List<$8.DeliverableType> get deliverableTypes => $_getList(2);
 
-  $core.List<$11.OfferDto_AcceptancePolicy> get acceptancePolicies => $_getList(3);
+  $core.List<$10.OfferDto_AcceptancePolicy> get acceptancePolicies => $_getList(3);
 
-  $core.List<$9.RewardDto_Type> get rewardTypes => $_getList(4);
+  $3.MoneyDto get minimumRewardCash => $_getN(4);
+  set minimumRewardCash($3.MoneyDto v) { setField(6, v); }
+  $core.bool hasMinimumRewardCash() => $_has(4);
+  void clearMinimumRewardCash() => clearField(6);
 
-  $3.MoneyDto get minimumReward => $_getN(5);
-  set minimumReward($3.MoneyDto v) { setField(6, v); }
-  $core.bool hasMinimumReward() => $_has(5);
-  void clearMinimumReward() => clearField(6);
-
-  $core.int get mapLevel => $_get(6, 0);
-  set mapLevel($core.int v) { $_setSignedInt32(6, v); }
-  $core.bool hasMapLevel() => $_has(6);
+  $core.int get mapLevel => $_get(5, 0);
+  set mapLevel($core.int v) { $_setSignedInt32(5, v); }
+  $core.bool hasMapLevel() => $_has(5);
   void clearMapLevel() => clearField(7);
 
-  $2.GeoPointDto get northWest => $_getN(7);
+  $2.GeoPointDto get northWest => $_getN(6);
   set northWest($2.GeoPointDto v) { setField(8, v); }
-  $core.bool hasNorthWest() => $_has(7);
+  $core.bool hasNorthWest() => $_has(6);
   void clearNorthWest() => clearField(8);
 
-  $2.GeoPointDto get southEast => $_getN(8);
+  $2.GeoPointDto get southEast => $_getN(7);
   set southEast($2.GeoPointDto v) { setField(9, v); }
-  $core.bool hasSouthEast() => $_has(8);
+  $core.bool hasSouthEast() => $_has(7);
   void clearSouthEast() => clearField(9);
 
-  $core.List<$core.String> get categoryIds => $_getList(9);
+  $core.List<$core.String> get categoryIds => $_getList(8);
 
-  $core.String get phrase => $_getS(10, '');
-  set phrase($core.String v) { $_setString(10, v); }
-  $core.bool hasPhrase() => $_has(10);
+  $core.String get phrase => $_getS(9, '');
+  set phrase($core.String v) { $_setString(9, v); }
+  $core.bool hasPhrase() => $_has(9);
   void clearPhrase() => clearField(11);
+
+  $3.MoneyDto get minimumRewardService => $_getN(10);
+  set minimumRewardService($3.MoneyDto v) { setField(12, v); }
+  $core.bool hasMinimumRewardService() => $_has(10);
+  void clearMinimumRewardService() => clearField(12);
+
+  $core.List<$core.String> get deliverableSocialMediaNetworkIds => $_getList(11);
 }
 
 class ItemFilterDto_UserFilterDto extends $pb.GeneratedMessage {
@@ -95,6 +100,8 @@ class ItemFilterDto_UserFilterDto extends $pb.GeneratedMessage {
     ..a<$2.GeoPointDto>(9, 'southEast', $pb.PbFieldType.OM, $2.GeoPointDto.getDefault, $2.GeoPointDto.create)
     ..pPS(10, 'categoryIds')
     ..aOS(11, 'phrase')
+    ..a<$3.MoneyDto>(12, 'minimumValue', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
+    ..a<$3.MoneyDto>(13, 'maximumValue', $pb.PbFieldType.OM, $3.MoneyDto.getDefault, $3.MoneyDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -135,13 +142,23 @@ class ItemFilterDto_UserFilterDto extends $pb.GeneratedMessage {
   set phrase($core.String v) { $_setString(6, v); }
   $core.bool hasPhrase() => $_has(6);
   void clearPhrase() => clearField(11);
+
+  $3.MoneyDto get minimumValue => $_getN(7);
+  set minimumValue($3.MoneyDto v) { setField(12, v); }
+  $core.bool hasMinimumValue() => $_has(7);
+  void clearMinimumValue() => clearField(12);
+
+  $3.MoneyDto get maximumValue => $_getN(8);
+  set maximumValue($3.MoneyDto v) { setField(13, v); }
+  $core.bool hasMaximumValue() => $_has(8);
+  void clearMaximumValue() => clearField(13);
 }
 
 class ItemFilterDto_ConversationFilterDto extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ItemFilterDto.ConversationFilterDto', package: const $pb.PackageName('api'))
     ..aOS(1, 'participatingUserId')
     ..aOS(2, 'topicId')
-    ..pc<$13.ConversationDto_Status>(3, 'conversationStatuses', $pb.PbFieldType.PE, null, $13.ConversationDto_Status.valueOf, $13.ConversationDto_Status.values)
+    ..pc<$12.ConversationDto_Status>(3, 'conversationStatuses', $pb.PbFieldType.PE, null, $12.ConversationDto_Status.valueOf, $12.ConversationDto_Status.values)
     ..hasRequiredFields = false
   ;
 
@@ -167,7 +184,7 @@ class ItemFilterDto_ConversationFilterDto extends $pb.GeneratedMessage {
   $core.bool hasTopicId() => $_has(1);
   void clearTopicId() => clearField(2);
 
-  $core.List<$13.ConversationDto_Status> get conversationStatuses => $_getList(2);
+  $core.List<$12.ConversationDto_Status> get conversationStatuses => $_getList(2);
 }
 
 class ItemFilterDto_MessageFilterDto extends $pb.GeneratedMessage {

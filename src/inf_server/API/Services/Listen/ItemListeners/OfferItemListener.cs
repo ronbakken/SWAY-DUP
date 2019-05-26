@@ -44,28 +44,54 @@ namespace API.Services.Listen.ItemListeners
                 return false;
             }
 
-            if (offerFilter.MinimumReward != null)
+            if (offerFilter.MinimumRewardCash != null)
             {
-                var cashValue = offer.Terms?.Reward?.CashValue;
+                var cashValue = offer.Terms?.CashValue;
 
                 if (cashValue == null)
                 {
-                    this.Logger.Debug("Filter has minimum reward {@MinimumReward} but offer has no cash value, so it does not satisfy filter", offerFilter.MinimumReward);
+                    this.Logger.Debug("Filter has minimum reward cash {@MinimumRewardCash} but offer has no cash value, so it does not satisfy filter", offerFilter.MinimumRewardCash);
                     return false;
                 }
 
-                if (!string.Equals(offerFilter.MinimumReward.CurrencyCode, cashValue.CurrencyCode, StringComparison.Ordinal))
+                if (!string.Equals(offerFilter.MinimumRewardCash.CurrencyCode, cashValue.CurrencyCode, StringComparison.Ordinal))
                 {
-                    this.Logger.Debug("Filter has minimum reward {@MinimumReward} but offer's cash value has differing currency code {CurrencyCode}, so it does not satisfy filter", offerFilter.MinimumReward, cashValue.CurrencyCode);
+                    this.Logger.Debug("Filter has minimum reward cash {@MinimumRewardCash} but offer's cash value has differing currency code {CurrencyCode}, so it does not satisfy filter", offerFilter.MinimumRewardCash, cashValue.CurrencyCode);
                     return false;
                 }
 
                 var cashValueMoney = new Money(cashValue.CurrencyCode, cashValue.Units, cashValue.Nanos);
-                var minimumRewardMoney = new Money(offerFilter.MinimumReward.CurrencyCode, offerFilter.MinimumReward.Units, offerFilter.MinimumReward.Nanos);
+                var minimumRewardMoney = new Money(offerFilter.MinimumRewardCash.CurrencyCode, offerFilter.MinimumRewardCash.Units, offerFilter.MinimumRewardCash.Nanos);
 
                 if (cashValueMoney < minimumRewardMoney)
                 {
-                    this.Logger.Debug("Filter has minimum reward {@MinimumReward} but offer's cash value is {CashValue}, so it does not satisfy filter", offerFilter.MinimumReward, cashValue);
+                    this.Logger.Debug("Filter has minimum reward cash {@MinimumRewardCash} but offer's cash value is {CashValue}, so it does not satisfy filter", offerFilter.MinimumRewardCash, cashValue);
+                    return false;
+                }
+            }
+
+            if (offerFilter.MinimumRewardService != null)
+            {
+                var serviceValue = offer.Terms?.ServiceValue;
+
+                if (serviceValue == null)
+                {
+                    this.Logger.Debug("Filter has minimum reward service {@MinimumRewardService} but offer has no service value, so it does not satisfy filter", offerFilter.MinimumRewardService);
+                    return false;
+                }
+
+                if (!string.Equals(offerFilter.MinimumRewardService.CurrencyCode, serviceValue.CurrencyCode, StringComparison.Ordinal))
+                {
+                    this.Logger.Debug("Filter has minimum reward service {@MinimumRewardService} but offer's service value has differing currency code {CurrencyCode}, so it does not satisfy filter", offerFilter.MinimumRewardService, serviceValue.CurrencyCode);
+                    return false;
+                }
+
+                var serviceValueMoney = new Money(serviceValue.CurrencyCode, serviceValue.Units, serviceValue.Nanos);
+                var minimumRewardMoney = new Money(offerFilter.MinimumRewardService.CurrencyCode, offerFilter.MinimumRewardService.Units, offerFilter.MinimumRewardService.Nanos);
+
+                if (serviceValueMoney < minimumRewardMoney)
+                {
+                    this.Logger.Debug("Filter has minimum reward service {@MinimumRewardService} but offer's service value is {ServiceValue}, so it does not satisfy filter", offerFilter.MinimumRewardService, serviceValue);
                     return false;
                 }
             }
@@ -123,19 +149,23 @@ namespace API.Services.Listen.ItemListeners
                 }
             }
 
-            if (offerFilter.RewardTypes.Count > 0)
+            if (offerFilter.DeliverableSocialMediaNetworkIds.Count > 0)
             {
-                var rewardType = offer.Terms?.Reward?.Type.ToType();
+                var socialNetworkProviderIds = offer
+                    .Terms
+                    ?.Deliverable
+                    ?.SocialNetworkProviderIds
+                    ?.ToList();
 
-                if (rewardType == null)
+                if (socialNetworkProviderIds == null)
                 {
-                    this.Logger.Debug("Filter has reward types {RewardTypes} but offer has no reward type, so it does not satisfy filter", offerFilter.RewardTypes);
+                    this.Logger.Debug("Filter has deliverable social media network IDs {DeliverableSocialMediaNetworkIds} but offer has no deliverable social media network IDs, so it does not satisfy filter", offerFilter.DeliverableSocialMediaNetworkIds);
                     return false;
                 }
 
-                if (!offerFilter.RewardTypes.Contains(rewardType.Value))
+                if (!socialNetworkProviderIds.Intersect(offerFilter.DeliverableSocialMediaNetworkIds).Any())
                 {
-                    this.Logger.Debug("Filter has reward types {RewardTypes} but offer has reward type {OfferRewardType}, so it does not satisfy filter", offerFilter.RewardTypes, rewardType.Value);
+                    this.Logger.Debug("Filter has deliverable social media network IDs {DeliverableSocialMediaNetworkIds} but offer has deliverable social media network IDs {OfferDeliverableSocialMediaNetworkIds}, so it does not satisfy filter", offerFilter.DeliverableSocialMediaNetworkIds, socialNetworkProviderIds);
                     return false;
                 }
             }

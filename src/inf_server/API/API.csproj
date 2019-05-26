@@ -9,7 +9,7 @@
 
     <ItemGroup>
         <None Remove="Services\deliverable.proto" />
-        <None Remove="Services\Mocks\icons\business_profile_lowres.png" />
+        <None Remove="Services\Mocks\categories.json" />
         <None Remove="Services\proto\invitation_code_service.proto" />
         <None Remove="Services\social_media_account.proto" />
         <None Remove="Services\user.proto" />
@@ -22,6 +22,7 @@
         <PackageReference Include="Grpc" />
         <PackageReference Include="Grpc.Core.Testing" />
         <PackageReference Include="Microsoft.Azure.ServiceBus" />
+        <PackageReference Include="Newtonsoft.Json" />
         <PackageReference Include="Sendgrid" />
         <PackageReference Include="SerilogAnalyzer" />
         <PackageReference Include="System.Reactive" />
@@ -48,6 +49,10 @@
 
     <ItemGroup>
       <EmbeddedResource Include="Services\Mocks\icons\*.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="Services\Mocks\categories.json" />
     </ItemGroup>
 
 </Project>

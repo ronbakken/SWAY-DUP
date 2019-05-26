@@ -8,8 +8,8 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'item_filter.pb.dart' as $16;
-import 'item.pb.dart' as $17;
+import 'item_filter.pb.dart' as $15;
+import 'item.pb.dart' as $16;
 
 import 'inf_listen.pbenum.dart';
 
@@ -60,7 +60,7 @@ class ListenRequest extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListenRequest', package: const $pb.PackageName('api'))
     ..e<ListenRequest_Action>(1, 'action', $pb.PbFieldType.OE, ListenRequest_Action.register, ListenRequest_Action.valueOf, ListenRequest_Action.values)
     ..a<SingleItemFilterDto>(2, 'singleItemFilter', $pb.PbFieldType.OM, SingleItemFilterDto.getDefault, SingleItemFilterDto.create)
-    ..a<$16.ItemFilterDto>(3, 'filter', $pb.PbFieldType.OM, $16.ItemFilterDto.getDefault, $16.ItemFilterDto.create)
+    ..a<$15.ItemFilterDto>(3, 'filter', $pb.PbFieldType.OM, $15.ItemFilterDto.getDefault, $15.ItemFilterDto.create)
     ..oo(0, [2, 3])
     ..hasRequiredFields = false
   ;
@@ -90,15 +90,15 @@ class ListenRequest extends $pb.GeneratedMessage {
   $core.bool hasSingleItemFilter() => $_has(1);
   void clearSingleItemFilter() => clearField(2);
 
-  $16.ItemFilterDto get filter => $_getN(2);
-  set filter($16.ItemFilterDto v) { setField(3, v); }
+  $15.ItemFilterDto get filter => $_getN(2);
+  set filter($15.ItemFilterDto v) { setField(3, v); }
   $core.bool hasFilter() => $_has(2);
   void clearFilter() => clearField(3);
 }
 
 class ListenResponse extends $pb.GeneratedMessage {
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ListenResponse', package: const $pb.PackageName('api'))
-    ..pc<$17.ItemDto>(1, 'items', $pb.PbFieldType.PM,$17.ItemDto.create)
+    ..pc<$16.ItemDto>(1, 'items', $pb.PbFieldType.PM,$16.ItemDto.create)
     ..hasRequiredFields = false
   ;
 
@@ -114,6 +114,6 @@ class ListenResponse extends $pb.GeneratedMessage {
   static ListenResponse getDefault() => _defaultInstance ??= create()..freeze();
   static ListenResponse _defaultInstance;
 
-  $core.List<$17.ItemDto> get items => $_getList(0);
+  $core.List<$16.ItemDto> get items => $_getList(0);
 }
 

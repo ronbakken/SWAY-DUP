@@ -34,7 +34,6 @@ message DeliverableEntity {
         custom = 3;
     }
 
-    int32 id = 1;
     repeated Type deliverableTypes = 2;
     repeated string socialNetworkProviderIds = 3;
     string description = 4;
@@ -42,20 +41,9 @@ message DeliverableEntity {
 
 message DealTermsEntity {
     DeliverableEntity deliverable = 1;
-    RewardEntity reward = 2;
-}
-
-message RewardEntity {
-    enum Type {
-        barter = 0;
-        cash = 1;
-        barterAndCash =2;
-    }
-
-    Type type = 1;
-    MoneyEntity barterValue = 2;
     MoneyEntity cashValue = 3;
-    string description = 4;
+    MoneyEntity serviceValue = 2;
+    string serviceDescription = 4;
 }
 
 message OfferEntity {

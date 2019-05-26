@@ -8,10 +8,10 @@ import 'dart:core' as $core show bool, Deprecated, double, int, List, Map, overr
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'offer.pb.dart' as $11;
+import 'offer.pb.dart' as $10;
 import 'user.pb.dart' as $5;
-import 'map_item.pb.dart' as $12;
-import 'conversation.pb.dart' as $13;
+import 'map_item.pb.dart' as $11;
+import 'conversation.pb.dart' as $12;
 import 'message.pb.dart' as $7;
 
 enum ItemDto_Data {
@@ -33,10 +33,10 @@ class ItemDto extends $pb.GeneratedMessage {
     0 : ItemDto_Data.notSet
   };
   static final $pb.BuilderInfo _i = $pb.BuilderInfo('ItemDto', package: const $pb.PackageName('api'))
-    ..a<$11.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $11.OfferDto.getDefault, $11.OfferDto.create)
+    ..a<$10.OfferDto>(1, 'offer', $pb.PbFieldType.OM, $10.OfferDto.getDefault, $10.OfferDto.create)
     ..a<$5.UserDto>(2, 'user', $pb.PbFieldType.OM, $5.UserDto.getDefault, $5.UserDto.create)
-    ..a<$12.MapItemDto>(3, 'mapItem', $pb.PbFieldType.OM, $12.MapItemDto.getDefault, $12.MapItemDto.create)
-    ..a<$13.ConversationDto>(4, 'conversation', $pb.PbFieldType.OM, $13.ConversationDto.getDefault, $13.ConversationDto.create)
+    ..a<$11.MapItemDto>(3, 'mapItem', $pb.PbFieldType.OM, $11.MapItemDto.getDefault, $11.MapItemDto.create)
+    ..a<$12.ConversationDto>(4, 'conversation', $pb.PbFieldType.OM, $12.ConversationDto.getDefault, $12.ConversationDto.create)
     ..a<$7.MessageDto>(5, 'message', $pb.PbFieldType.OM, $7.MessageDto.getDefault, $7.MessageDto.create)
     ..oo(0, [1, 2, 3, 4, 5])
     ..hasRequiredFields = false
@@ -57,8 +57,8 @@ class ItemDto extends $pb.GeneratedMessage {
   ItemDto_Data whichData() => _ItemDto_DataByTag[$_whichOneof(0)];
   void clearData() => clearField($_whichOneof(0));
 
-  $11.OfferDto get offer => $_getN(0);
-  set offer($11.OfferDto v) { setField(1, v); }
+  $10.OfferDto get offer => $_getN(0);
+  set offer($10.OfferDto v) { setField(1, v); }
   $core.bool hasOffer() => $_has(0);
   void clearOffer() => clearField(1);
 
@@ -67,13 +67,13 @@ class ItemDto extends $pb.GeneratedMessage {
   $core.bool hasUser() => $_has(1);
   void clearUser() => clearField(2);
 
-  $12.MapItemDto get mapItem => $_getN(2);
-  set mapItem($12.MapItemDto v) { setField(3, v); }
+  $11.MapItemDto get mapItem => $_getN(2);
+  set mapItem($11.MapItemDto v) { setField(3, v); }
   $core.bool hasMapItem() => $_has(2);
   void clearMapItem() => clearField(3);
 
-  $13.ConversationDto get conversation => $_getN(3);
-  set conversation($13.ConversationDto v) { setField(4, v); }
+  $12.ConversationDto get conversation => $_getN(3);
+  set conversation($12.ConversationDto v) { setField(4, v); }
   $core.bool hasConversation() => $_has(3);
   void clearConversation() => clearField(4);
 
