@@ -2,18 +2,13 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/bottom_sheets/job_completed_sheet.dart';
 import 'package:inf/ui/messaging/job_completed_header.dart';
 import 'package:inf/ui/messaging/message_tile.dart';
 import 'package:inf/ui/messaging/offer_profile_header.dart';
-import 'package:inf/ui/offer_views/offer_details_page.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
-import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
