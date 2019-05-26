@@ -7,6 +7,7 @@ class InfStadiumButton extends StatelessWidget {
     this.textSpan,
     this.icon,
     this.color,
+    this.textColor,
     this.onPressed,
     this.height = 44.0,
   })  : assert(text != null || textSpan != null, 'text or textSpan required.'),
@@ -16,6 +17,7 @@ class InfStadiumButton extends StatelessWidget {
   final TextSpan textSpan;
   final Widget icon;
   final Color color;
+  final Color textColor;
   final VoidCallback onPressed;
   final double height;
 
@@ -40,7 +42,7 @@ class InfStadiumButton extends StatelessWidget {
               ),
             Expanded(
               child: Text.rich(
-                textSpan ?? TextSpan(text: text),
+                textSpan ?? TextSpan(text: text, style: TextStyle(color: textColor)),
                 style: const TextStyle(
                   fontWeight: FontWeight.normal,
                 ),
