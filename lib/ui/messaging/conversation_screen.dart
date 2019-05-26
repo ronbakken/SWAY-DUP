@@ -8,6 +8,7 @@ import 'package:inf/ui/messaging/auto_scroller.dart';
 import 'package:inf/ui/messaging/bottom_sheets/job_completed_sheet.dart';
 import 'package:inf/ui/messaging/job_completed_header.dart';
 import 'package:inf/ui/messaging/message_tile.dart';
+import 'package:inf/ui/messaging/negotiation_action_buttons.dart';
 import 'package:inf/ui/messaging/offer_profile_header.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
@@ -95,9 +96,26 @@ class _ConversationScreenState extends State<ConversationScreen> {
                               sliver: SliverList(
                                 delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
                                   final message = messages[index];
-                                  return MessageTile(
-                                    key: Key(message.id),
-                                    message: message,
+                                  final isLastMessage = index == messages.length - 1;
+                                  final shouldDisplayActionButtons =
+                                      isLastMessage && false; // TODO: Define condition to check if offer has been made.
+
+                                  return Column(
+                                    children: <Widget>[
+                                      MessageTile(
+                                        key: Key(message.id),
+                                        message: message,
+                                      ),
+                                      if (shouldDisplayActionButtons)
+                                        Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 20),
+                                          child: NegotiationActionButtons(
+                                            onAccept: onOfferAccept,
+                                            onCounter: onOfferCounter,
+                                            onReject: onOfferReject,
+                                          ),
+                                        ),
+                                    ],
                                   );
                                 }, childCount: messages.length),
                               ),
@@ -137,6 +155,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
     // TODO: Implement callback.
   }
+
+  void onOfferAccept() {}
+  void onOfferCounter() {}
+  void onOfferReject() {}
 }
 
 class _ScrimCollapsingHeader extends SliverPersistentHeaderDelegate {

@@ -7,6 +7,7 @@ class InfBottomButton extends StatelessWidget implements PreferredSizeWidget {
   InfBottomButton({
     Key key,
     this.color = Colors.white,
+    this.borderColor,
     this.text,
     this.onPressed,
     this.panelColor,
@@ -15,6 +16,7 @@ class InfBottomButton extends StatelessWidget implements PreferredSizeWidget {
   }) : super(key: key);
 
   final Color color;
+  final Color borderColor;
   final String text;
   final VoidCallback onPressed;
   final Color panelColor;
@@ -33,6 +35,7 @@ class InfBottomButton extends StatelessWidget implements PreferredSizeWidget {
       child: InfStadiumButton(
         height: 48.0,
         color: color,
+        borderColor: borderColor,
         text: text,
         onPressed: onPressed,
         icon: icon,

@@ -7,6 +7,7 @@ class InfStadiumButton extends StatelessWidget {
     this.textSpan,
     this.icon,
     this.color,
+    this.borderColor,
     this.textColor,
     this.onPressed,
     this.height = 44.0,
@@ -17,6 +18,7 @@ class InfStadiumButton extends StatelessWidget {
   final TextSpan textSpan;
   final Widget icon;
   final Color color;
+  final Color borderColor; // TODO: How to implement?
   final Color textColor;
   final VoidCallback onPressed;
   final double height;
