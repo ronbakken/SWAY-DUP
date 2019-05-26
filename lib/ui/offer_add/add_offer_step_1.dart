@@ -88,14 +88,16 @@ class _AddOfferStep1State extends MultiPageWizardPageState<AddOfferStep1> {
   }
 
   @override
-  void nextPage() async {
+  void nextPage() {
     if (_form.currentState.validate()) {
       _form.currentState.save();
       super.nextPage();
-    }
-    else
-    {
-       await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+    } else {
+      showMessageDialog(
+        context,
+        'We need a bit more...',
+        'Please fill out all fields',
+      );
     }
   }
 }

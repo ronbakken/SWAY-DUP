@@ -93,19 +93,26 @@ class _AddOfferStep2State extends MultiPageWizardPageState<AddOfferStep2> {
   }
 
   @override
-  void nextPage() async {
+  void nextPage() {
     if (_form.currentState.validate()) {
       if (widget.offerBuilder.categories.isEmpty ||
           widget.offerBuilder.channels.isEmpty ||
           widget.offerBuilder.deliverableTypes.isEmpty) {
-        await showMessageDialog(context, 'We need a bit more...',
-            'Please select at least one of categories, social platforms and content types.');
+        showMessageDialog(
+          context,
+          'We need a bit more...',
+          'Please select at least one of categories, social platforms and content types.',
+        );
         return;
       }
       _form.currentState.save();
       super.nextPage();
     } else {
-      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+      showMessageDialog(
+        context,
+        'We need a bit more...',
+        'Please fill out all fields',
+      );
     }
   }
 }

@@ -5,9 +5,7 @@ import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/filter/bottom_nav.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/offer_views/offer_short_summary_tile.dart';
-import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:pedantic/pedantic.dart';
 
 class OfferSummaryListView extends StatefulWidget {
   const OfferSummaryListView({
@@ -61,19 +59,12 @@ class _OfferSummaryListViewState extends State<OfferSummaryListView> {
   }
 
   void _onShowDetails(BusinessOffer partialOffer, String tag) {
-    try {
-      unawaited(
-        Navigator.of(context).push(
-          OfferDetailsPage.route(
-            Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
-            initialOffer: partialOffer,
-            tag: tag,
-          ),
-        ),
-      );
-    } catch (ex) {
-      // TODO should this be done centralized?
-      showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
-    }
+    Navigator.of(context).push(
+      OfferDetailsPage.route(
+        Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+        initialOffer: partialOffer,
+        tag: tag,
+      ),
+    );
   }
 }

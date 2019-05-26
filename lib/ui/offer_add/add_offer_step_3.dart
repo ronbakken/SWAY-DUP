@@ -152,26 +152,42 @@ class _AddOfferStep3State extends MultiPageWizardPageState<AddOfferStep3> {
       }
 
       if (widget.offerBuilder.rewardType == null) {
-        if (!await showQueryDialog(context, 'No reward?',
-            'Are you sure that you don\'t want to set a reward?\n Even if you provide a reward item or service you have to enter a value for it.')) {
+        final response = await showQueryDialog(
+          context,
+          'No reward?',
+          'Are you sure that you don\'t want to set a reward?\n'
+              'Even if you provide a reward item or service you have to enter a value for it.',
+        );
+        if (response == false) {
           return;
         }
       }
 
       if (widget.offerBuilder.rewardType == RewardDto_Type.barter && widget.offerBuilder.rewardDescription.isEmpty) {
-        await showMessageDialog(
-            context, 'We need a bit more...', 'Please provide a description of your reward item or service');
+        showMessageDialog(
+          context,
+          'We need a bit more...',
+          'Please provide a description of your reward item or service',
+        );
         return;
       }
 
       if (widget.offerBuilder.location == null) {
-        await showMessageDialog(context, 'We need a bit more...', 'Please provide a location for the offer');
+        showMessageDialog(
+          context,
+          'We need a bit more...',
+          'Please provide a location for the offer',
+        );
         return;
       }
 
       super.nextPage();
     } else {
-      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+      showMessageDialog(
+        context,
+        'We need a bit more...',
+        'Please fill out all fields',
+      );
     }
   }
 }

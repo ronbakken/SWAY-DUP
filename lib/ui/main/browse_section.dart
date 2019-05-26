@@ -12,12 +12,10 @@ import 'package:inf/ui/offer_views/browse_carousel_item.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/offer_views/offer_post_tile.dart';
 import 'package:inf/ui/user_profile/view_profile_page.dart';
-import 'package:inf/ui/widgets/dialogs.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_toggle.dart';
 import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:pedantic/pedantic.dart';
 
 enum BrowseMode { map, list }
 
@@ -321,19 +319,12 @@ class _BrowseListView extends StatelessWidget {
   }
 }
 
-void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag) async {
-  try {
-    unawaited(
-      Navigator.of(context).push(
-        OfferDetailsPage.route(
-          Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
-          initialOffer: partialOffer,
-          tag: tag,
-        ),
-      ),
-    );
-  } catch (ex) {
-    // TODO should this be done centralized?
-    await showMessageDialog(context, 'Connection Problem', 'Sorry we cannot retrievd the Offer you want to view');
-  }
+void _onShowDetails(BuildContext context, BusinessOffer partialOffer, String tag) {
+  Navigator.of(context).push(
+    OfferDetailsPage.route(
+      Stream.fromFuture(backend.get<OfferManager>().getFullOffer(partialOffer.id)),
+      initialOffer: partialOffer,
+      tag: tag,
+    ),
+  );
 }

@@ -243,22 +243,33 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
     _form.currentState.save();
   }
 
-  void onSave() async {
+  void onSave() {
     if (!_form.currentState.validate()) {
-      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+      showMessageDialog(
+        context,
+        'We need a bit more...',
+        'Please fill out all fields',
+      );
       return;
     }
 
     if (widget.offerBuilder.acceptancePolicy == null) {
-      await showMessageDialog(context, 'We need a bit more...', 'Please tell us how you want to deal with proposals');
+      showMessageDialog(
+        context,
+        'We need a bit more...',
+        'Please tell us how you want to deal with proposals',
+      );
       return;
     }
 
     _form.currentState.save();
     // FIXME make sure end date and times cannot be before startdate
     if (widget.offerBuilder.endDate.compareTo(widget.offerBuilder.startDate) < 0) {
-      await showMessageDialog(
-          context, 'End date cannot be before start date', 'Please select an end date that is after the start date.');
+      showMessageDialog(
+        context,
+        'End date cannot be before start date',
+        'Please select an end date that is after the start date.',
+      );
       return;
     }
     backend<OfferManager>().updateOfferCommand(widget.offerBuilder);

@@ -54,7 +54,7 @@ class _LocationSelectorPageState extends State<LocationSelectorPage> with Single
   void initState() {
     _controller = TabController(length: 3, vsync: this);
 
-    _controller.addListener(() => FocusScope.of(context).requestFocus(new FocusNode()));
+    _controller.addListener(() => FocusScope.of(context).requestFocus(FocusNode()));
 
     searchLocation.value = widget.location ?? backend<LocationService>().lastLocation;
 
@@ -293,7 +293,7 @@ class __MapViewState extends State<_MapView> {
 
     positionChangedCommand.debounceTime(const Duration(milliseconds: 1000)).listen(searchPlaceCommand);
 
-    mapController = new MapController();
+    mapController = MapController();
   }
 
   void onMapPositionChanged(MapPosition position, bool hasGesture, bool isUserGesture) {
@@ -402,7 +402,7 @@ class _LocationList extends StatefulWidget {
 
   @override
   _LocationListState createState() {
-    return new _LocationListState();
+    return _LocationListState();
   }
 }
 

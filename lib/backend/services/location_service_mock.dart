@@ -12,7 +12,7 @@ class LocationServiceMock implements LocationService {
   Stream<Coordinate> get onLocationChanged => _onLocationChangedSubject;
 
   final BehaviorSubject<Coordinate> _onLocationChangedSubject =
-      new BehaviorSubject<Coordinate>();
+      BehaviorSubject<Coordinate>();
 
   LocationServiceMock() {
     _onLocationChangedSubject.add(_lastLocation);
@@ -111,7 +111,7 @@ class MapboxResponse {
     if (json['features'] != null) {
       features = <Features>[];
       json['features'].forEach((v) {
-        features.add(new Features.fromJson(v));
+        features.add(Features.fromJson(v));
       });
     }
   }

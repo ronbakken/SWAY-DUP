@@ -42,17 +42,20 @@ class _EditProfilePageState extends State<EditProfilePage> {
 
   @override
   void initState() {
+    super.initState();
     userUpdateListener = RxCommandListener(
       backend<UserManager>().updateUserCommand,
       onIsBusy: () => InfLoader.show(context),
       onNotBusy: () => InfLoader.hide(),
-      onError: (error) async {
-        print(error);
-        await showMessageDialog(
-            context, 'Update Problem', 'Sorry we had a problem update your user. Please try again later');
+      onError: (error) {
+        backend<ErrorReporter>().logException(error);
+        showMessageDialog(
+          context,
+          'Update Problem',
+          'Sorry we had a problem update your user. Please try again later',
+        );
       },
     );
-    super.initState();
   }
 
   @override
@@ -307,19 +310,30 @@ class _UserDataViewState extends State<UserDataView> {
         assert(socialAccounts != null);
 
         if (socialAccounts.isEmpty) {
-          await showMessageDialog(
-              context, 'We need a bit more...', 'You need minimal one connected social media account');
+          showMessageDialog(
+            context,
+            'We need a bit more...',
+            'You need minimal one connected social media account',
+          );
           return;
         }
       }
 
       if (newUser && selectedImageFile == null) {
-        await showMessageDialog(context, 'We need a bit more...', 'You have to select a profile picture so sign-up');
+        showMessageDialog(
+          context,
+          'We need a bit more...',
+          'You have to select a profile picture so sign-up',
+        );
         return;
       }
 
       if (newUser && location == null) {
-        await showMessageDialog(context, 'We need a bit more...', 'You have to select a location to sign-up');
+        showMessageDialog(
+          context,
+          'We need a bit more...',
+          'You have to select a location to sign-up',
+        );
         return;
       }
 
@@ -336,7 +350,11 @@ class _UserDataViewState extends State<UserDataView> {
       );
       backend<UserManager>().updateUserCommand(userData);
     } else {
-      await showMessageDialog(context, 'We need a bit more...', 'Please fill out all fields');
+      showMessageDialog(
+        context,
+        'We need a bit more...',
+        'Please fill out all fields',
+      );
     }
   }
 }

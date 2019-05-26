@@ -115,7 +115,7 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken, AssetLoader as
       registerImplementations(testRefreshToken);
       break;
     default:
-      throw new Exception('Unknown backend selected.');
+      throw UnimplementedError('Unknown backend selected.');
   }
 }
 

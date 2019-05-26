@@ -36,10 +36,13 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
       },
       onIsBusy: () => InfLoader.show(context),
       onNotBusy: () => InfLoader.hide(),
-      onError: (error) async {
-        print(error);
-        await showMessageDialog(
-            context, 'Setup Problem', 'Sorry we had a problem creating your user. Please try again later');
+      onError: (error) {
+        backend<ErrorReporter>().logException(error);
+        showMessageDialog(
+          context,
+          'Setup Problem',
+          'Sorry we had a problem creating your user. Please try again later',
+        );
       },
     );
     super.initState();
@@ -62,9 +65,7 @@ class _NewUserProfilePageState extends State<NewUserProfilePage> {
         backgroundColor: AppTheme.blackTwo,
       ),
       backgroundColor: AppTheme.listViewAndMenuBackground,
-      body: UserDataView(
-        user: backend<UserManager>().currentUser
-      ),
+      body: UserDataView(user: backend<UserManager>().currentUser),
     );
   }
 }

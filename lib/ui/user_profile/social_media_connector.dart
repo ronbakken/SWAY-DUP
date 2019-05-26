@@ -117,12 +117,12 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
     } else if (provider.type == SocialNetworkProviderType.TWITTER) {
       _whitelistHosts.add('https://twitter.com/account/begin_password_reset');
 
-      platform = new oauth1.Platform(
+      platform = oauth1.Platform(
         'https://api.twitter.com/oauth/request_token', // temporary credentials request
         'https://api.twitter.com/oauth/authorize', // resource owner authorization
         'https://api.twitter.com/oauth/access_token', // token credentials request
         oauth1.SignatureMethod("HMAC-SHA1", (key, text) {
-          Hmac hmac = new Hmac(sha1, key.codeUnits);
+          Hmac hmac = Hmac(sha1, key.codeUnits);
           List<int> bytes = hmac.convert(text.codeUnits).bytes;
           // The output of the HMAC signing function is a binary
           // string. This needs to be base64 encoded to produce
@@ -137,7 +137,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
       clientCredentials = oauth1.ClientCredentials(apiKey, apiSecret);
 
       // create Authorization object with client credentials and platform definition
-      twitterAuth = new oauth1.Authorization(clientCredentials, platform);
+      twitterAuth = oauth1.Authorization(clientCredentials, platform);
       // request temporary credentials (request tokens)
 
       twitterAuth.requestTemporaryCredentials(_callbackUrl).then((authResponse) {
@@ -269,7 +269,11 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
           if (pagesMap != null) {
             // if no pages are connected to this account you cannot link it to our App
             if (pagesMap.isEmpty) {
-              await showMessageDialog(context, 'Connection problem', 'You need a facebook page to connect to facebook');
+              showMessageDialog(
+                context,
+                'Connection problem',
+                'You need a facebook page to connect to facebook',
+              );
               return null;
             }
 
@@ -280,10 +284,11 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
             }
 
             var selectedPage = await showDialog<FaceBookPageInfo>(
-                context: context,
-                builder: (context) => _FacebookPageSelectorDialog(
-                      pages: pages,
-                    ));
+              context: context,
+              builder: (context) => _FacebookPageSelectorDialog(
+                    pages: pages,
+                  ),
+            );
 
             /// Get pages details
             url = 'https://graph.facebook.com/v3.1/${selectedPage.id}?fields=link,fan_count&access_token=$accessToken';
@@ -297,14 +302,15 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
 
                 if (fanCount != null && link != null) {
                   var account = SocialMediaAccount(
-                      accessToken: accessToken,
-                      audienceSize: fanCount,
-                      displayName: selectedPage.name,
-                      userId: userId,
-                      pageId: selectedPage.id,
-                      postCount: -1,
-                      profileUrl: link,
-                      socialNetWorkProvider: provider);
+                    accessToken: accessToken,
+                    audienceSize: fanCount,
+                    displayName: selectedPage.name,
+                    userId: userId,
+                    pageId: selectedPage.id,
+                    postCount: -1,
+                    profileUrl: link,
+                    socialNetWorkProvider: provider,
+                  );
                   return account;
                 }
               }
@@ -354,7 +360,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
     print(result.credentials.token);
     print(result.credentials.tokenSecret);
 
-    var client = new oauth1.Client(platform.signatureMethod, clientCredentials, result.credentials);
+    var client = oauth1.Client(platform.signatureMethod, clientCredentials, result.credentials);
 
     var response = await client.get('https://api.twitter.com/1.1/account/verify_credentials.json');
     if (response.statusCode == 200) {

@@ -91,7 +91,7 @@ class InfApiClientsServiceImplementation implements InfApiClientsService {
       channelCredentials = const ChannelCredentials.insecure();
     }
 
-    channel = new ClientChannel(
+    channel = ClientChannel(
       host,
       port: port,
       options: ChannelOptions(

@@ -13,19 +13,22 @@ class InfLoader extends StatefulWidget {
     if (currentLoader != null) {
       return;
     }
-    currentLoader = new OverlayEntry(
-        builder: (context) => Stack(
-              children: <Widget>[
-                Container(
-                  color: Colors.transparent,
+    currentLoader = OverlayEntry(
+      builder: (context) {
+        return Stack(
+            children: <Widget>[
+              Container(
+                color: Colors.transparent,
+              ),
+              Center(
+                child: InfLoader(
+                  percentageCompletion: completionPercent,
                 ),
-                Center(
-                  child: InfLoader(
-                    percentageCompletion: completionPercent,
-                  ),
-                ),
-              ],
-            ));
+              ),
+            ],
+          );
+      },
+    );
     Overlay.of(context).insert(currentLoader);
   }
 

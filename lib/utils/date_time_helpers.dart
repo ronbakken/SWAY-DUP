@@ -4,7 +4,7 @@ import 'package:intl/intl.dart';
 DateTime updateTimeOfDay(DateTime currentDate, TimeOfDay time) {
   assert(currentDate != null);
   assert(time != null);
-  return new DateTime(
+  return DateTime(
     currentDate.year,
     currentDate.month,
     currentDate.day,

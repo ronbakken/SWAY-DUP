@@ -22,7 +22,6 @@ import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:intl/intl.dart';
-import 'package:pedantic/pedantic.dart';
 
 class OfferDetailsPage extends PageWidget {
   static Route<dynamic> route(
@@ -358,8 +357,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
     );
   }
 
-  void onEdit() async {
-    unawaited(Navigator.of(context).push(OfferEditPage.route(offer)));
+  void onEdit() {
+    Navigator.of(context).push(OfferEditPage.route(offer));
   }
 }
 
@@ -439,7 +438,7 @@ class _DetailsBottomButton extends StatefulWidget implements PreferredSizeWidget
   final BusinessOffer offer;
 
   @override
-  Size get preferredSize => Size(double.infinity, 48.0 + 12.0);
+  Size get preferredSize => const Size(double.infinity, 48.0 + 12.0);
 
   @override
   _DetailsBottomButtonState createState() => _DetailsBottomButtonState();
@@ -591,7 +590,7 @@ class _ApplyBottomSheetState extends State<_ApplyBottomSheet> {
           if (mounted) {
             final nav = Navigator.of(context);
             nav.pop();
-            unawaited(nav.push(ConversationScreen.route(conversationHolder)));
+            nav.push(ConversationScreen.route(conversationHolder));
           }
         });
       });

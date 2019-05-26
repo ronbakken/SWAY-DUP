@@ -43,7 +43,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         },
         onIsBusy: () => InfLoader.show(context),
         onNotBusy: () => InfLoader.hide(),
-        onError: (error) async {
+        onError: (error) {
           print(error);
           String message;
           String title = 'Sending problem';
@@ -64,7 +64,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
             message = 'Sorry we encountered a problem while sending you email. Please try again later';
           }
 
-          await showMessageDialog(context, title, message);
+          showMessageDialog(context, title, message);
         });
     super.initState();
   }

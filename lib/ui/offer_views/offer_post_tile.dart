@@ -53,7 +53,7 @@ class OfferPostTile extends StatelessWidget {
               color: AppTheme.white30,
               height: 1.5,
             ),
-            new _OfferDetailsRow(offer: offer),
+            _OfferDetailsRow(offer: offer),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: Text(

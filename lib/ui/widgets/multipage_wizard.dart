@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
-import 'package:pedantic/pedantic.dart';
 
 /// Returned widget's must use the given key
 typedef MultiPageWizardBuilder = Widget Function(BuildContext context, Key key, int index);
@@ -89,7 +88,7 @@ class MultiPageWizardState extends State<MultiPageWizard> {
     // to the previous tab
     if (_controller.page > 0) {
       _currentPage?.onPrevPage();
-      unawaited(_controller.previousPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn));
+      _controller.previousPage(duration: kThemeAnimationDuration, curve: Curves.fastOutSlowIn);
       return false;
     }
     return true;

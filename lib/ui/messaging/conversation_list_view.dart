@@ -6,7 +6,6 @@ import 'package:inf/ui/filter/bottom_nav.dart';
 import 'package:inf/ui/messaging/conversation_list_tile.dart';
 import 'package:inf/ui/messaging/conversation_screen.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:pedantic/pedantic.dart';
 
 class ConversationListView extends StatefulWidget {
   const ConversationListView({
@@ -67,8 +66,6 @@ class _ConversationListViewState extends State<ConversationListView> with Automa
   }
 
   void _onShowDetails(ConversationHolder conversationHolder) {
-    unawaited(
-      Navigator.of(context).push(ConversationScreen.route(conversationHolder)),
-    );
+    Navigator.of(context).push(ConversationScreen.route(conversationHolder));
   }
 }

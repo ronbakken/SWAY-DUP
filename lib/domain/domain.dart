@@ -14,4 +14,5 @@ export 'package:inf/domain/reward.dart';
 export 'package:inf/domain/social_network_provider.dart';
 export 'package:inf/domain/socialmedia_account.dart';
 export 'package:inf/domain/user.dart';
+export 'package:pedantic/pedantic.dart';
 export 'package:quiver/core.dart' show Optional;

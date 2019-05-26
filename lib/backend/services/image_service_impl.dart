@@ -120,6 +120,6 @@ class ImageServiceImplementation implements ImageService {
   @override
   Future<void> deleteImage(String url) async {
     // TODO
-    throw new Exception("Not Implemented yet");
+    throw UnimplementedError("Not Implemented yet");
   }
 }

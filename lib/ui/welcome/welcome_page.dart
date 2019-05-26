@@ -62,27 +62,33 @@ class _WelcomePageState extends PageState<WelcomePage> {
       loginCommandListener?.dispose();
       loginCommandListener = RxCommandListener(
         backend<UserManager>().logInUserCommand,
-        onValue: (success) async {
+        onValue: (success) {
           if (success) {
             loginCommandListener?.dispose();
-            await deepLinkSubscription?.cancel();
+            deepLinkSubscription?.cancel();
 
             // did we get a link from a new user subscription?
             if (loginToken.accountState == UserDto_Status.waitingForActivation) {
               Navigator.of(context).popUntil((route) => route is WelcomeRoute);
-              unawaited(Navigator.of(context).push(ActivationSuccessPage.route(loginToken.userType)));
+              Navigator.of(context).push(ActivationSuccessPage.route(loginToken.userType));
             } else {
-              unawaited(Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false));
+              Navigator.of(context).pushAndRemoveUntil(MainPage.route(), (route) => false);
             }
           } else {
-            await showMessageDialog(context, 'Login problem',
-                'Sorry the link you used seems not to be valid. Please use the latest link you got or please signup again');
+            showMessageDialog(
+              context,
+              'Login problem',
+              'Sorry the link you used seems not to be valid. Please use the latest link you got or please signup again',
+            );
           }
         },
-        onError: (error) async {
-          await showMessageDialog(context, 'Login problem',
-              'Sorry the link you used seems not to be valid. Please signup again ${error.toString()}');
-          await backend<ErrorReporter>().logException(error);
+        onError: (error) {
+          backend<ErrorReporter>().logException(error);
+          showMessageDialog(
+            context,
+            'Login problem',
+            'Sorry the link you used seems not to be valid. Please signup again ${error.toString()}',
+          );
         },
       );
       print(uri.queryParameters['token']);
@@ -91,9 +97,13 @@ class _WelcomePageState extends PageState<WelcomePage> {
         loginToken = LoginToken.fromJwt(uri.queryParameters['token']);
 
         backend<UserManager>().logInUserCommand(loginToken);
-      } catch (ex) {
-        await showMessageDialog(
-            context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+      } catch (error) {
+        unawaited(backend<ErrorReporter>().logException(error));
+        showMessageDialog(
+          context,
+          'Login problem',
+          'Sorry the link you used seems not to be valid. Please signup again',
+        );
       }
     }
   }

@@ -14,7 +14,6 @@ import 'package:inf/ui/widgets/page_widget.dart';
 import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
-import 'package:pedantic/pedantic.dart';
 import 'package:rx_command/rx_command.dart';
 import 'package:uni_links/uni_links.dart';
 
@@ -69,28 +68,31 @@ class _StartupPageState extends PageState<StartupPage> {
         });
         Navigator.of(context).pushReplacement(nextPage);
       },
-      onError: (error) async {
+      onError: (error) {
         if (error is SocketException) {
           // Wait till we have a connection again
-          await Navigator.of(context).push(NoConnectionPage.route());
+          Navigator.of(context).push(NoConnectionPage.route());
           loginCommand.execute(_loginToken);
         } else if (error is GrpcError) {
           if (_loginToken != null) {
-            await showMessageDialog(context, 'Login problem',
-                'Sorry the link you used seems not to be valid. Please use the latest link you got or signup again');
+            showMessageDialog(
+              context,
+              'Login problem',
+              'Sorry the link you used seems not to be valid. Please use the latest link you got or signup again',
+            );
           }
-          unawaited(Navigator.of(context).pushReplacement(WelcomeRoute()));
+          Navigator.of(context).pushReplacement(WelcomeRoute());
         } else {
           print('Login Exception: $error');
-          await backend<ErrorReporter>().logException(error);
+          backend<ErrorReporter>().logException(error);
         }
       },
     );
 
-    initBackend().catchError((e, st) async {
+    initBackend().catchError((e, st) {
       print('$e\n$st');
-      await Navigator.of(context).push(NoConnectionPage.route());
-      await initBackend();
+      Navigator.of(context).push(NoConnectionPage.route());
+      initBackend();
     }).then((_) async {
       Uri initialUri = await getInitialUri();
       //   await showMessageDialog(
@@ -99,9 +101,13 @@ class _StartupPageState extends PageState<StartupPage> {
         {
           try {
             _loginToken = LoginToken.fromJwt(initialUri.queryParameters['token']);
-          } catch (ex) {
-            await showMessageDialog(
-                context, 'Login problem', 'Sorry the link you used seems not to be valid. Please signup again');
+          } catch (error) {
+            unawaited(backend<ErrorReporter>().logException(error));
+            showMessageDialog(
+              context,
+              'Login problem',
+              'Sorry the link you used seems not to be valid. Please signup again',
+            );
           }
         }
       }

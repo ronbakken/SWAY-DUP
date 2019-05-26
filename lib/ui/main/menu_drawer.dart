@@ -18,7 +18,7 @@ import 'package:rx_command/rx_command.dart';
 class MainNavigationDrawer extends StatefulWidget {
   @override
   MainNavigationDrawerState createState() {
-    return new MainNavigationDrawerState();
+    return MainNavigationDrawerState();
   }
 }
 
@@ -32,18 +32,24 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
     updateUserListener = RxCommandListener(backend<UserManager>().updateUserCommand,
         onIsBusy: () => InfLoader.show(context),
         onNotBusy: () => InfLoader.hide(),
-        onError: (error) async {
-          print(error);
-          await showMessageDialog(
-              context, 'Update Problem', 'Sorry we had a problem update your user\'s settings. Please try again later');
+        onError: (error) {
+          backend<ErrorReporter>().logException(error);
+          showMessageDialog(
+            context,
+            'Update Problem',
+            'Sorry we had a problem update your user\'s settings. Please try again later',
+          );
         });
 
     logOutUserListener = RxCommandListener(backend<UserManager>().logOutUserCommand, onValue: (_) {
       return Navigator.of(context).pushAndRemoveUntil(WelcomePage.route(), (_) => false);
-    }, onError: (error) async {
-      print(error);
-      await showMessageDialog(
-          context, 'Logout Problem', 'Sorry we had a problem logging you out. Please try again later');
+    }, onError: (error) {
+      backend<ErrorReporter>().logException(error);
+      showMessageDialog(
+        context,
+        'Logout Problem',
+        'Sorry we had a problem logging you out. Please try again later',
+      );
     });
   }
 
@@ -257,8 +263,7 @@ class _MainNavigationItem extends StatelessWidget {
                 style: const TextStyle(fontSize: 18.0),
               ),
               const Spacer(),
-              if(trailing != null)
-                trailing,
+              if (trailing != null) trailing,
             ],
           ),
         ),
