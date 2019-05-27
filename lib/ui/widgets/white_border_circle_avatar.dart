@@ -5,11 +5,13 @@ class WhiteBorderCircle extends StatelessWidget {
   const WhiteBorderCircle({
     Key key,
     @required this.child,
+    this.backgroundColor,
     this.radius = 24.0,
     this.whiteThickness = 0.7,
   }) : super(key: key);
 
   final Widget child;
+  final Color backgroundColor;
   final double radius;
   final double whiteThickness;
 
@@ -30,11 +32,20 @@ class WhiteBorderCircle extends StatelessWidget {
             border: Border.all(color: Colors.white, width: whiteThickness),
             shape: BoxShape.circle,
           ),
-          child: ClipOval(
-            child: AspectRatio(
-              aspectRatio: 1.0,
-              child: child,
-            ),
+          child: Stack(
+            children: <Widget>[
+              ClipOval(
+                child: Container(
+                  color: backgroundColor,
+                ),
+              ),
+              ClipOval(
+                child: AspectRatio(
+                  aspectRatio: 1.0,
+                  child: child,
+                ),
+              ),
+            ],
           ),
         ),
       ),

@@ -6,6 +6,7 @@ class InfBusinessRow extends StatelessWidget {
   const InfBusinessRow({
     Key key,
     this.leading,
+    this.leadingBackgroundColor,
     this.title,
     this.subtitle,
     this.trailing,
@@ -13,6 +14,7 @@ class InfBusinessRow extends StatelessWidget {
   }) : super(key: key);
 
   final Widget leading;
+  final Color leadingBackgroundColor;
   final String title;
   final String subtitle;
   final Widget trailing;
@@ -31,6 +33,7 @@ class InfBusinessRow extends StatelessWidget {
               if (leading != null) ...[
                 WhiteBorderCircle(
                   child: leading,
+                  backgroundColor: leadingBackgroundColor,
                 ),
                 horizontalMargin12,
               ],
