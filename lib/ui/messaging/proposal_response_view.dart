@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/event_view.dart';
-import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
 class ProposalResponseView extends StatelessWidget {
