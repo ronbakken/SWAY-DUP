@@ -12,8 +12,8 @@ import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
-import 'package:inf/ui/widgets/inf_icon_button.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
+import 'package:inf/ui/widgets/inf_icon_button.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/inf_page_indicator.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
@@ -60,9 +60,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
 
   BusinessOffer offer;
 
-  bool _canBeEdited(BusinessOffer offer) {
-    return offer.businessAccountId == backend<UserManager>().currentUser.id;
-  }
+  bool _canBeEdited(BusinessOffer offer) => offer.businessAccountId == backend<UserManager>().currentUser.id;
 
   @override
   Widget build(BuildContext context) {
@@ -73,6 +71,7 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             offer = snapshot.data;
+            print('Showing Offer Details: ${offer.id}');
             return Scaffold(
               resizeToAvoidBottomPadding: false,
               appBar: AppBar(
@@ -190,21 +189,17 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
                   }).toList(),
                   text: offer.terms.deliverable.description,
                 ),
-                Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const InfDivider(),
-                    buildRewardsRow(),
-                    const InfDivider(),
-                    _DetailEntry(
-                      icon: const InfAssetImage(AppIcons.location),
-                      title: 'LOCATION',
-                      text: offer.location.name ?? '',
-                    ),
-                    const InfDivider(),
-                    buildCategories(),
-                  ],
+                const InfDivider(),
+                buildRewardsRow(),
+                const InfDivider(),
+                _DetailEntry(
+                  icon: const InfAssetImage(AppIcons.location),
+                  title: 'LOCATION',
+                  text: offer.location.name ?? '',
                 ),
+                const InfDivider(),
+                buildCategories(),
+                verticalMargin24,
               ],
             ),
           ),
@@ -275,8 +270,8 @@ class OfferDetailsPageState extends PageState<OfferDetailsPage> {
       title: 'CATEGORIES',
       content: offer.categories != null
           ? Wrap(
-              spacing: 10.0,
-              runSpacing: 10.0,
+              spacing: 12.0,
+              runSpacing: 12.0,
               alignment: WrapAlignment.start,
               children: <Widget>[
                 for (final category in offer.categories)

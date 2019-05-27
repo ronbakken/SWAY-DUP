@@ -36,7 +36,7 @@ class InfImage extends StatefulWidget {
     double imageUrlScale = 1.0,
     Duration duration = const Duration(milliseconds: 450),
     String semanticLabel,
-    bool excludeFromSemantics,
+    bool excludeFromSemantics = false,
     double width,
     double height,
     Color color,

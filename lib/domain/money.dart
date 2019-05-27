@@ -13,7 +13,10 @@ class Money {
     final units = Decimal.fromInt(dto.units);
     final nanos = Decimal.fromInt(dto.nanos);
     final value = units + nanos / Decimal.fromInt(10000000);
-    return Money(value, currencyCode: dto.currencyCode);
+    return Money(
+      value,
+      currencyCode: dto.currencyCode.isNotEmpty ? dto.currencyCode : 'USD',
+    );
   }
 
   static Money tryParse(String value, [String currencyCode = 'USD']) {
