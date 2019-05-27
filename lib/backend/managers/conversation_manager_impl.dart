@@ -28,12 +28,9 @@ class ConversationManagerImplementation extends ConversationManager {
 
   @override
   Stream<List<ConversationHolder>> listenForMyConversations() {
-    final conversationFilter = ItemFilterDto_ConversationFilterDto()
-      ..participatingUserId = backend<UserManager>().currentUser.id;
-    final itemFilter = ItemFilterDto()..conversationFilter = conversationFilter;
     final offerManager = backend<OfferManager>();
     final listService = backend<InfListService>();
-    return listService.listenForItems(itemFilter).map((items) {
+    return listService.listenForItems(ConversationFilter(participant: backend<UserManager>().currentUser)).map((items) {
       return items
           .where((item) => item.type == InfItemType.conversation)
           .map((item) => item.conversation)
@@ -79,11 +76,17 @@ class ConversationManagerImplementation extends ConversationManager {
   }
 
   @override
+  Stream<Conversation> listenToConversation(String conversationId) {
+    return backend<InfListService>()
+        .listenForChanges(SingleItemFilter(conversationId, SingleItemType.conversation))
+        .where((item) => item.type == InfItemType.conversation)
+        .map((item) => item.conversation);
+  }
+
+  @override
   Stream<List<Message>> listenForMessages(String conversationId) {
-    final messageFilter = ItemFilterDto_MessageFilterDto()..conversationId = conversationId;
-    final itemFilter = ItemFilterDto()..messageFilter = messageFilter;
     final listService = backend<InfListService>();
-    return listService.listenForItems(itemFilter).map((items) {
+    return listService.listenForItems(MessageFilter(conversationId: conversationId)).map((items) {
       return items
           .where((item) => item.type == InfItemType.message)
           .map((item) => item.message)

@@ -82,42 +82,14 @@ class ProposalBuilder {
   }
 }
 
-enum ProposalResponseType { accept, counter, reject }
+class ProposalState {
+  static final applied = ProposalState._('APPLIED');
+  static final negotiation = ProposalState._('NEGOTIATION');
+  static final disputed = ProposalState._('DISPUTED');
+  static final deal = ProposalState._('DEAL');
+  static final done = ProposalState._('DONE');
 
-class ProposalResponse {
-  const ProposalResponse._({@required this.type, this.message});
+  ProposalState._(this.label);
 
-  const ProposalResponse.accept({this.message}) : this.type = ProposalResponseType.accept;
-  const ProposalResponse.counter({this.message}) : this.type = ProposalResponseType.counter;
-  const ProposalResponse.reject({this.message}) : this.type = ProposalResponseType.reject;
-
-  final ProposalResponseType type;
-  final String message;
-
-  bool get isAccepted => type == ProposalResponseType.accept;
-  bool get isCountered => type == ProposalResponseType.counter;
-  bool get isRejected => type == ProposalResponseType.reject;
-  bool get hasMessage => message != null && message.isNotEmpty;
-
-  factory ProposalResponse.fromJson(Map<String, dynamic> data) {
-    return ProposalResponse._(
-      type: ProposalResponseType.values.firstWhere((val) => val.toString() == data["type"]),
-      message: data["message"],
-    );
-  }
-
-  @override
-  String toString() {
-    return 'ProposalResponse{'
-        'type: $type, '
-        'message: $message, '
-        '}';
-  }
-
-  Map<String, dynamic> toJson() {
-    return {
-      'type': type.toString(),
-      'message': message,
-    };
-  }
+  final String label;
 }

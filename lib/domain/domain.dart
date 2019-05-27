@@ -15,3 +15,5 @@ export 'package:inf/domain/socialmedia_account.dart';
 export 'package:inf/domain/user.dart';
 export 'package:pedantic/pedantic.dart';
 export 'package:quiver/core.dart' show Optional;
+
+String stringType<T>() => T.toString();

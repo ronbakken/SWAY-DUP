@@ -5,14 +5,14 @@ import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_form_label.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
-class NegotiatingProposalAttachmentView extends StatelessWidget {
+class ProposalAttachment extends StatelessWidget {
+  const ProposalAttachment({
+    this.previousProposal,
+    this.newProposal,
+  });
+
   final Proposal previousProposal;
   final Proposal newProposal;
-
-  const NegotiatingProposalAttachmentView({
-    @required this.previousProposal,
-    @required this.newProposal,
-  });
 
   @override
   Widget build(BuildContext context) {
@@ -22,26 +22,26 @@ class NegotiatingProposalAttachmentView extends StatelessWidget {
       children: <Widget>[
         _Comparison(
           title: 'DELIVERABLE DESCRIPTION',
-          previousValue: previousProposal.deliverableDescription,
-          newValue: newProposal.deliverableDescription,
+          previousValue: previousProposal?.deliverableDescription,
+          newValue: newProposal?.deliverableDescription,
         ),
         const InfDivider(verticalPadding: 9),
         _Comparison(
           title: 'CASH REWARD VALUE',
-          previousValue: previousProposal.cashValue?.toStringWithCurrencySymbol(0),
-          newValue: newProposal.cashValue?.toStringWithCurrencySymbol(0),
+          previousValue: previousProposal?.cashValue?.toStringWithSymbol(0),
+          newValue: newProposal?.cashValue?.toStringWithSymbol(0),
         ),
         const InfDivider(verticalPadding: 9),
         _Comparison(
           title: 'ITEMS OR SERVICE DESCRIPTION',
-          previousValue: previousProposal.serviceDescription,
-          newValue: newProposal.serviceDescription,
+          previousValue: previousProposal?.serviceDescription,
+          newValue: newProposal?.serviceDescription,
         ),
         const InfDivider(verticalPadding: 9),
         _Comparison(
           title: 'ITEMS OR SERVICE VALUE',
-          previousValue: previousProposal.serviceValue?.toStringWithCurrencySymbol(0),
-          newValue: newProposal.serviceValue?.toStringWithCurrencySymbol(0),
+          previousValue: previousProposal?.serviceValue?.toStringWithSymbol(0),
+          newValue: newProposal?.serviceValue?.toStringWithSymbol(0),
         ),
       ],
     );
@@ -51,8 +51,8 @@ class NegotiatingProposalAttachmentView extends StatelessWidget {
 class _Comparison extends StatelessWidget {
   _Comparison({
     @required this.title,
-    @required this.previousValue,
-    @required this.newValue,
+    this.previousValue,
+    this.newValue,
   });
 
   final String title;

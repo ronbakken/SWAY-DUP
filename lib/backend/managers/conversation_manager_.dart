@@ -15,6 +15,8 @@ abstract class ConversationManager {
 
   Future<Message> sendMessage(String conversationId, Message message);
 
+  Stream<Conversation> listenToConversation(String conversationId);
+
   Stream<List<Message>> listenForMessages(String conversationId);
 
   Optional<ConversationHolder> getConversationHolderFromCache(String topicId);

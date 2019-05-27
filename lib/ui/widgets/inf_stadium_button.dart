@@ -18,7 +18,7 @@ class InfStadiumButton extends StatelessWidget {
   final TextSpan textSpan;
   final Widget icon;
   final Color color;
-  final Color borderColor; // TODO: How to implement?
+  final Color borderColor;
   final Color textColor;
   final VoidCallback onPressed;
   final double height;
@@ -29,7 +29,9 @@ class InfStadiumButton extends StatelessWidget {
       color: this.color,
       elevation: this.color != Colors.transparent ? 2.0 : 0.0,
       highlightElevation: this.color != Colors.transparent ? 8.0 : 0.0,
-      shape: const StadiumBorder(),
+      shape: StadiumBorder(
+        side: borderColor != null ? BorderSide(color: borderColor, width: 2.0) : BorderSide.none,
+      ),
       onPressed: this.onPressed,
       child: Container(
         alignment: Alignment.center,

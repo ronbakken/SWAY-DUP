@@ -510,11 +510,11 @@ class ConversationFilter extends Filter {
 
 @immutable
 class MessageFilter extends Filter {
-  final String conversationId;
-
   const MessageFilter({
     this.conversationId,
   });
+
+  final String conversationId;
 
   @override
   Filter clone() => copyWith();
@@ -543,5 +543,41 @@ class MessageFilter extends Filter {
   @override
   String toString() {
     return 'MessageFilter{conversationId: $conversationId}';
+  }
+}
+
+enum SingleItemType {
+  offer,
+  user,
+  conversation,
+  message,
+}
+
+@immutable
+class SingleItemFilter {
+  const SingleItemFilter(this.id, this.type) : assert(id != null && type != null);
+
+  final String id;
+  final SingleItemType type;
+
+  SingleItemFilterDto toDto() {
+    SingleItemFilterDto_Type dtoType;
+    switch (type) {
+      case SingleItemType.offer:
+        dtoType = SingleItemFilterDto_Type.offer;
+        break;
+      case SingleItemType.user:
+        dtoType = SingleItemFilterDto_Type.user;
+        break;
+      case SingleItemType.conversation:
+        dtoType = SingleItemFilterDto_Type.conversation;
+        break;
+      case SingleItemType.message:
+        dtoType = SingleItemFilterDto_Type.message;
+        break;
+    }
+    return SingleItemFilterDto()
+      ..id = id
+      ..type = dtoType;
   }
 }

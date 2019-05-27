@@ -2,53 +2,57 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
-import 'package:inf/domain/proposal.dart';
 import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_bottom_sheet.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
-class RejectOfferSheet extends StatelessWidget {
-  static Route<ProposalResponse> route({
-    String otherParty,
-  }) {
-    return InfBottomSheet.route<ProposalResponse>(
+class RejectOfferSheet extends StatefulWidget {
+  static Route<String> route({User user}) {
+    return InfBottomSheet.route<String>(
       title: 'Negotiate',
       child: RejectOfferSheet(
-        otherParty: otherParty,
+        user: user,
       ),
     );
   }
 
   RejectOfferSheet({
     Key key,
-    this.otherParty,
+    this.user,
   }) : super(key: key);
 
-  final String otherParty;
+  final User user;
 
+  @override
+  _RejectOfferSheetState createState() => _RejectOfferSheetState();
+}
+
+class _RejectOfferSheetState extends State<RejectOfferSheet> {
   final _form = GlobalKey<FormState>();
+
+  String _reason;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+      padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 16.0),
       child: Form(
         key: _form,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text("Let ${otherParty ?? "them"} know the reason for the rejection."),
+            Text('Let ${widget.user} know the reason for the rejection.'),
             verticalMargin16,
             InfTextFormField(
-              onSaved: (s) => Navigator.of(context).pop<ProposalResponse>(ProposalResponse.reject(message: s)),
+              onSaved: (value) => _reason = value,
               maxLines: null,
               keyboardType: TextInputType.multiline,
             ),
             InfBottomButton(
               color: AppTheme.red,
-              text: "REJECT",
-              onPressed: onConfirm,
+              text: 'REJECT',
+              onPressed: _onConfirm,
             ),
           ],
         ),
@@ -56,9 +60,10 @@ class RejectOfferSheet extends StatelessWidget {
     );
   }
 
-  void onConfirm() async {
-    if (!_form.currentState.validate()) return;
-
-    _form.currentState.save();
+  void _onConfirm() {
+    if (_form.currentState.validate()) {
+      _form.currentState.save();
+      Navigator.of(context).pop<String>(_reason);
+    }
   }
 }

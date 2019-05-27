@@ -1,16 +1,21 @@
 import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/auto_scroller.dart';
 import 'package:inf/ui/messaging/bottom_sheets/job_completed_sheet.dart';
-import 'package:inf/ui/messaging/job_completed_header.dart';
+import 'package:inf/ui/messaging/bottom_sheets/negotiation_sheet.dart';
+import 'package:inf/ui/messaging/conversation_negotiation_buttons.dart';
 import 'package:inf/ui/messaging/message_tile.dart';
-import 'package:inf/ui/messaging/negotiation_action_buttons.dart';
-import 'package:inf/ui/messaging/offer_profile_header.dart';
+import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:inf/ui/widgets/inf_business_row.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
+import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
@@ -38,12 +43,28 @@ class ConversationScreen extends StatefulWidget {
 
 class _ConversationScreenState extends State<ConversationScreen> {
   final _scrollController = ScrollController();
+  Message _latestMessageWithAction;
   Stream<List<Message>> _messageStream;
+  StreamSubscription<Conversation> _conversationStream;
+  Proposal _proposal;
 
   @override
   void initState() {
     super.initState();
+    _latestMessageWithAction = widget.conversationHolder.latestMessageWithAction;
     _messageStream = widget.conversationHolder.messages;
+    _conversationStream = widget.conversationHolder.stream.listen((conversation) {
+      setState(() {
+        _latestMessageWithAction = conversation.latestMessageWithAction;
+        _proposal = Message.findProposalAttachment(_latestMessageWithAction.attachments);
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _conversationStream?.cancel();
+    super.dispose();
   }
 
   @override
@@ -80,58 +101,17 @@ class _ConversationScreenState extends State<ConversationScreen> {
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
-                            OfferProfileHeader(offer: offer),
+                            _OfferProfileHeader(offer: offer),
                             const InfDivider(),
-                            JobCompletedHeader(onTap: onTapJobCompleted)
+                            _JobCompletedHeader(
+                              onTap: _onTapJobCompleted,
+                            )
                           ],
                         ),
                       ),
                       StreamBuilder<List<Message>>(
                         stream: _messageStream,
-                        builder: (BuildContext context, AsyncSnapshot<List<Message>> snapshot) {
-                          if (snapshot.hasData) {
-                            final messages = MessageGroup.collapseMessages(snapshot.data);
-                            return AutoScroller<MessageTextProvider>(
-                              data: snapshot.data,
-                              sliver: SliverList(
-                                delegate: SliverChildBuilderDelegate((BuildContext context, int index) {
-                                  final message = messages[index];
-                                  final isLastMessage = index == messages.length - 1;
-                                  final shouldDisplayActionButtons =
-                                      isLastMessage && false; // TODO: Define condition to check if offer has been made.
-
-                                  return Column(
-                                    children: <Widget>[
-                                      MessageTile(
-                                        key: Key(message.id),
-                                        message: message,
-                                      ),
-                                      if (shouldDisplayActionButtons)
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 20),
-                                          child: NegotiationActionButtons(
-                                            onAccept: onOfferAccept,
-                                            onCounter: onOfferCounter,
-                                            onReject: onOfferReject,
-                                          ),
-                                        ),
-                                    ],
-                                  );
-                                }, childCount: messages.length),
-                              ),
-                            );
-                          } else if (snapshot.hasError != null) {
-                            return SliverFillRemaining(
-                              child: Center(
-                                child: Text(snapshot.error.toString()),
-                              ),
-                            );
-                          } else {
-                            return const SliverFillRemaining(
-                              child: loadingWidget,
-                            );
-                          }
-                        },
+                        builder: _buildMessageList,
                       ),
                     ],
                   ),
@@ -150,15 +130,88 @@ class _ConversationScreenState extends State<ConversationScreen> {
     );
   }
 
-  void onTapJobCompleted() async {
-    final completionConfirmed = await Navigator.of(context).push<bool>(JobCompletedSheet.route()) ?? false;
-
-    // TODO: Implement callback.
+  Widget _buildMessageList(BuildContext context, AsyncSnapshot<List<Message>> snapshot) {
+    if (snapshot.hasData) {
+      final messages = MessageGroup.collapseMessages(snapshot.data);
+      return AutoScroller<MessageTextProvider>(
+        data: snapshot.data,
+        sliver: SliverList(
+          delegate: SliverChildBuilderDelegate(
+            (BuildContext context, int index) {
+              return _buildMessageListItem(messages[index], index == messages.length - 1);
+            },
+            childCount: messages.length,
+          ),
+        ),
+      );
+    } else if (snapshot.hasError) {
+      return SliverFillRemaining(
+        child: Center(
+          child: Text(snapshot.error.toString()),
+        ),
+      );
+    } else {
+      return const SliverFillRemaining(
+        child: loadingWidget,
+      );
+    }
   }
 
-  void onOfferAccept() {}
-  void onOfferCounter() {}
-  void onOfferReject() {}
+  Widget _buildMessageListItem(final MessageTextProvider message, final bool isLastMessage) {
+    final currentUser = backend<UserManager>().currentUser;
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: <Widget>[
+        MessageTile(
+          key: Key(message.id),
+          message: message,
+          isLastMessage: isLastMessage,
+        ),
+        if (message.id == (_latestMessageWithAction?.id ?? '_NONE_') && message.user.id != currentUser.id)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: ConversationNegotiationButtons(
+              onAccept: _onOfferAccept,
+              onCounter: _onOfferCounter,
+              onReject: _onOfferReject,
+            ),
+          ),
+      ],
+    );
+  }
+
+  void _onTapJobCompleted() async {
+    final success = await Navigator.of(context).push<bool>(JobCompletedSheet.route()) ?? false;
+    if (success) {
+      _sendProposalAction(MessageAction.completed, _proposal);
+    }
+  }
+
+  void _onOfferAccept() {
+    _sendProposalAction(MessageAction.accept, _proposal);
+  }
+
+  void _onOfferCounter() async {
+    final newProposal = await Navigator.of(context).push<Proposal>(NegotiationSheet.route(
+      existingProposal: _proposal,
+      confirmButtonTitle: 'COUNTER',
+    ));
+    _sendProposalAction(MessageAction.accept, newProposal);
+  }
+
+  void _onOfferReject() {
+    _sendProposalAction(MessageAction.reject, _proposal);
+  }
+
+  void _sendProposalAction(MessageAction action, Proposal proposal) {
+    final currentUser = backend<UserManager>().currentUser;
+    backend<ConversationManager>().sendMessage(
+      widget.conversationHolder.conversation.id,
+      Message(currentUser, action: action, attachments: [
+        MessageAttachment.forObject(proposal),
+      ]),
+    );
+  }
 }
 
 class _ScrimCollapsingHeader extends SliverPersistentHeaderDelegate {
@@ -307,5 +360,116 @@ class _MessageEntryPanelState extends State<_MessageEntryPanel> {
         Message(currentUser, text: text),
       );
     }
+  }
+}
+
+class _JobCompletedHeader extends StatelessWidget {
+  const _JobCompletedHeader({
+    @required this.onTap,
+  });
+
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 16.0),
+      color: AppTheme.blackTwo,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
+          const Text('Deal Completed?'),
+          Text.rich(
+            TextSpan(
+              text: 'MARK AS COMPLETE',
+              style: const TextStyle(
+                decoration: TextDecoration.underline,
+                color: AppTheme.white50,
+              ),
+              recognizer: TapGestureRecognizer()..onTap = onTap,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _OfferProfileHeader extends StatelessWidget {
+  const _OfferProfileHeader({
+    Key key,
+    @required this.offer,
+  }) : super(key: key);
+
+  final BusinessOffer offer;
+
+  @override
+  Widget build(BuildContext context) {
+    return InfBusinessRow(
+      onPressed: () {
+        return Navigator.of(context).push(
+          OfferDetailsPage.route(
+            Stream.fromFuture(backend.get<OfferManager>().getFullOffer(offer.id)),
+            initialOffer: offer,
+          ),
+        );
+      },
+      leading: Image.network(
+        offer.businessAvatarThumbnailUrl,
+        fit: BoxFit.cover,
+      ),
+      title: offer.businessName,
+      subtitle: offer.businessDescription,
+      trailing: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: <Widget>[
+          Container(
+            decoration: const ShapeDecoration(
+              color: AppTheme.darkGrey,
+              shape: StadiumBorder(),
+            ),
+            padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                const InfIcon(AppIcons.value, size: 16.0),
+                horizontalMargin8,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 1.0),
+                  child: Text(
+                    offer.terms.getTotalValueAsString(),
+                    style: const TextStyle(
+                      fontSize: 16.0,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 2.0),
+          for (final channel in offer.terms.deliverable.channels)
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 4.0),
+              alignment: Alignment.center,
+              decoration: const ShapeDecoration(
+                color: AppTheme.darkGrey,
+                shape: CircleBorder(),
+              ),
+              width: 28.0,
+              height: 28.0,
+              child: SizedBox(
+                width: 16.0,
+                height: 16.0,
+                child: InfAssetImage(
+                  channel.logoRawAsset,
+                  width: 16.0,
+                  height: 16.0,
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 }

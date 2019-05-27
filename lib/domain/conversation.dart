@@ -3,16 +3,20 @@ import 'dart:convert' show json, utf8;
 import 'dart:io';
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/domain/business_offer.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 import 'package:meta/meta.dart';
 import 'package:mime/mime.dart' as mime;
 
-class ConversationHolder {
-  ConversationHolder(this.conversation, this.offer);
+class ConversationHolder extends ChangeNotifier {
+  ConversationHolder(this._conversation, this.offer);
 
-  final Conversation conversation;
+  Conversation _conversation;
+
+  Conversation get conversation => _conversation;
+
   final BusinessOffer offer;
 
   Stream<List<Message>> get messages {
@@ -21,7 +25,28 @@ class ConversationHolder {
 
   Message get latestMessage => conversation.latestMessage;
 
-  MessageAction get latestAction => MessageAction.accept;
+  Message get latestMessageWithAction => conversation.latestMessageWithAction;
+
+  Proposal get proposal => Message.findProposalAttachment(conversation.latestMessageWithAction?.attachments);
+
+  Stream<Conversation> get stream {
+    StreamSubscription<Conversation> sub;
+    StreamController<Conversation> latest;
+    latest = StreamController.broadcast(
+      onListen: () {
+        latest.add(_conversation);
+        sub = backend<ConversationManager>().listenToConversation(_conversation.id).listen((conversation) {
+          _conversation = conversation;
+          latest.add(conversation);
+          notifyListeners();
+        });
+      },
+      onCancel: () {
+        sub?.cancel();
+      },
+    );
+    return latest.stream;
+  }
 }
 
 @immutable
@@ -89,11 +114,15 @@ abstract class MessageTextProvider {
 
   User get user;
 
+  MessageAction get action;
+
   DateTime get timestamp;
 
   String get text;
 
   List<MessageAttachment> get attachments;
+
+  bool get hasProposal;
 }
 
 class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvider> {
@@ -111,6 +140,10 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
   @override
   User get user => _messages[0].user;
 
+  /// MessageGroup's can only be made from text items, so no-action.
+  @override
+  MessageAction get action => null;
+
   @override
   DateTime get timestamp => _messages.reduce((el1, el2) => el1.compareTo(el2) > 0 ? el1 : el2).timestamp;
 
@@ -125,19 +158,19 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
     Message lastMessage;
     for (int i = 0; i < messages.length; i++) {
       final message = messages[i];
-      if (lastMessage != null) {
-        if (message.user == lastMessage.user) {
-          // collapse
-          MessageTextProvider group = providers.last;
-          if (group is MessageGroup) {
-            group.append(message);
-          } else {
-            providers.removeLast();
-            providers.add(MessageGroup([lastMessage, message]));
-          }
-          lastMessage = message;
-          continue;
+      if (lastMessage != null &&
+          message.user == lastMessage.user &&
+          // ignore: deprecated_member_use_from_same_package
+          (message.action == null || message.action == MessageAction.text)) {
+        MessageTextProvider group = providers.last;
+        if (group is MessageGroup) {
+          group.append(message);
+        } else {
+          providers.removeLast();
+          providers.add(MessageGroup([lastMessage, message]));
         }
+        lastMessage = message;
+        continue;
       }
       providers.add(message);
       lastMessage = message;
@@ -146,14 +179,20 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
   }
 
   @override
-  List<MessageAttachment> get attachments =>
-      List.unmodifiable(_messages.map((m) => m.attachments).fold<List<MessageAttachment>>(
+  List<MessageAttachment> get attachments {
+    return List.unmodifiable(
+      _messages.map((m) => m.attachments).fold<List<MessageAttachment>>(
         [],
         (prev, el) {
           prev.addAll(el);
           return prev;
         },
-      ));
+      ),
+    );
+  }
+
+  @override
+  bool get hasProposal => false;
 }
 
 @immutable
@@ -200,6 +239,7 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
   @override
   final User user;
 
+  @override
   final MessageAction action;
 
   @override
@@ -210,6 +250,29 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
 
   @override
   final List<MessageAttachment> attachments;
+
+  @override
+  bool get hasProposal {
+    if (attachments != null) {
+      for (final attachment in attachments) {
+        if (attachment.isProposal) {
+          return true;
+        }
+      }
+    }
+    return false;
+  }
+
+  static Proposal findProposalAttachment(List<MessageAttachment> attachments) {
+    if (attachments != null) {
+      for (final attachment in attachments) {
+        if (attachment.isProposal) {
+          return Proposal.fromJson(attachment.object);
+        }
+      }
+    }
+    return null;
+  }
 
   @override
   int compareTo(MessageTextProvider other) => timestamp.compareTo(other.timestamp);
@@ -240,6 +303,9 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
 
 @immutable
 class MessageAction {
+  @deprecated
+  static const text = MessageAction._('text');
+
   static const offer = MessageAction._('offer');
   static const accept = MessageAction._('accept');
   static const counter = MessageAction._('counter');
@@ -309,6 +375,10 @@ class MessageAttachment {
   final Map<String, String> metadata;
 
   String get type => metadata['type'];
+
+  bool get isProposal => type == stringType<Proposal>();
+
+  Map<String, dynamic> get object => json.decode(utf8.decode((data)));
 
   MessageAttachmentDto toDto() {
     return MessageAttachmentDto()

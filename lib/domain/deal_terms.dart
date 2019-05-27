@@ -1,26 +1,28 @@
+import 'package:flutter/material.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
+@immutable
 class DealTerms {
-  final Deliverable deliverable;
-  final Money cashValue;
-  final Money serviceValue;
-  final String serviceDescription;
-
-  DealTerms({
+  const DealTerms({
     this.deliverable,
     this.cashValue,
     this.serviceValue,
     this.serviceDescription,
   });
 
+  final Deliverable deliverable;
+  final Money cashValue;
+  final Money serviceValue;
+  final String serviceDescription;
+
   String getTotalValueAsString([int digits = 2]) {
-    return ((serviceValue ?? Money.zero) + (cashValue ?? Money.zero)).toStringWithCurrencySymbol();
+    return ((serviceValue ?? Money.zero) + (cashValue ?? Money.zero)).toStringWithSymbol();
   }
 
-  String get cashValueAsString => cashValue?.toStringWithCurrencySymbol() ?? '';
+  String get cashValueAsString => cashValue?.toStringWithSymbol() ?? '';
 
-  String get serviceValueAsString => serviceValue?.toStringWithCurrencySymbol() ?? '';
+  String get serviceValueAsString => serviceValue?.toStringWithSymbol() ?? '';
 
   DealTerms copyWith({
     Deliverable deliverable,

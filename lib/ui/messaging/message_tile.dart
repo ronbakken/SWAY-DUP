@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
-import 'package:inf/ui/messaging/attachment_view/attachment_view.dart';
+import 'package:inf/ui/messaging/attachments/attachment_widget.dart';
 import 'package:inf/ui/messaging/chat_avatar.dart';
 import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_form_label.dart';
@@ -9,19 +9,23 @@ import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
 class MessageTile extends StatelessWidget {
-  final MessageTextProvider message;
-
-  static const boxCornerRadii = const Radius.circular(12.0);
-
   const MessageTile({
     Key key,
     @required this.message,
+    this.isLastMessage,
   }) : super(key: key);
+
+  final MessageTextProvider message;
+
+  final bool isLastMessage;
+
+  static const boxCornerRadii = const Radius.circular(12.0);
 
   @override
   Widget build(BuildContext context) {
     final currentUser = backend<UserManager>().currentUser;
     final isCurrentUser = (currentUser.id == message.user.id);
+    final dimMessage = !isLastMessage && message.hasProposal;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: Column(
@@ -35,7 +39,9 @@ class MessageTile extends StatelessWidget {
               Expanded(
                 child: Align(
                   alignment: isCurrentUser ? Alignment.topRight : Alignment.topLeft,
-                  child: Container(
+                  child: Opacity(
+                    opacity: dimMessage ? 0.25 : 1.0,
+                    child: Container(
                       margin: EdgeInsets.only(
                         left: isCurrentUser ? 0.0 : 12.0,
                         right: isCurrentUser ? 12.0 : 0.0,
@@ -51,7 +57,9 @@ class MessageTile extends StatelessWidget {
                         color: AppTheme.charcoalGrey,
                       ),
                       padding: const EdgeInsets.symmetric(vertical: 12.0, horizontal: 24.0),
-                      child: buildMessageContent(message)),
+                      child: _buildMessageContent(context, message),
+                    ),
+                  ),
                 ),
               ),
               if (isCurrentUser) ChatAvatar(user: message.user),
@@ -77,19 +85,27 @@ class MessageTile extends StatelessWidget {
     );
   }
 
-  Widget buildMessageContent(MessageTextProvider message) {
-    if (message.attachments.isEmpty) return Text(message.text);
-
+  Widget _buildMessageContent(BuildContext context, MessageTextProvider message) {
+    if (message.attachments.isEmpty) {
+      return Text(message.text);
+    }
+    print('Showing message: ${message.id}');
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
       children: <Widget>[
-        const InfFormLabel("Message"),
-        verticalMargin8,
-        Text(message.text),
-        verticalMargin8,
-        for (final attachment in message.attachments) AttachmentView(attachment),
-        const InfDivider(verticalPadding: 9),
+        if (message.text.isNotEmpty)
+          Column(
+            mainAxisSize: MainAxisSize.min,
+            children: <Widget>[
+              const InfFormLabel('Message'),
+              verticalMargin8,
+              Text(message.text),
+              verticalMargin8,
+            ],
+          ),
+        for (final attachment in message.attachments) AttachmentWidget(attachment),
+        const InfDivider(verticalPadding: 8.0),
       ],
     );
   }

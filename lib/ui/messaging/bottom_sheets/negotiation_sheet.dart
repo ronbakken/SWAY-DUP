@@ -9,29 +9,26 @@ import 'package:inf/ui/widgets/widget_utils.dart';
 
 class NegotiationSheet extends StatefulWidget {
   static Route<Proposal> route({
-    Proposal existingProposal,
     @required String confirmButtonTitle,
+    Proposal existingProposal,
   }) {
     return InfBottomSheet.route<Proposal>(
       title: 'Negotiate',
       child: NegotiationSheet(
-        existingProposal: existingProposal,
         confirmButtonTitle: confirmButtonTitle,
+        existingProposal: existingProposal,
       ),
     );
   }
 
   NegotiationSheet({
     Key key,
-    Proposal existingProposal,
     @required this.confirmButtonTitle,
-  })  : _proposalBuilder =
-            existingProposal != null ? ProposalBuilder.fromProposal(existingProposal) : ProposalBuilder(),
-        super(key: key);
+    this.existingProposal,
+  }) : super(key: key);
 
   final String confirmButtonTitle;
-
-  final ProposalBuilder _proposalBuilder;
+  final Proposal existingProposal;
 
   @override
   _NegotiationSheetState createState() => _NegotiationSheetState();
@@ -40,10 +37,22 @@ class NegotiationSheet extends StatefulWidget {
 class _NegotiationSheetState extends State<NegotiationSheet> {
   final _form = GlobalKey<FormState>();
 
+  ProposalBuilder _proposalBuilder;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.existingProposal != null) {
+      _proposalBuilder = ProposalBuilder.fromProposal(widget.existingProposal);
+    } else {
+      _proposalBuilder = ProposalBuilder();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 24, left: 24, right: 24),
+      padding: const EdgeInsets.fromLTRB(24.0, 32.0, 24.0, 16.0),
       child: Form(
         key: _form,
         child: Column(
@@ -51,36 +60,36 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
             verticalMargin16,
             InfTextFormField(
               decoration: const InputDecoration(labelText: 'DELIVERABLE DESCRIPTION'),
-              initialValue: widget._proposalBuilder.deliverableDescription,
-              onSaved: (s) => widget._proposalBuilder.deliverableDescription = s,
+              initialValue: _proposalBuilder.deliverableDescription,
+              onSaved: (s) => _proposalBuilder.deliverableDescription = s,
               maxLines: null,
-              validator: validateDeliverableDescription,
+              validator: _validateDeliverableDescription,
               keyboardType: TextInputType.multiline,
             ),
             verticalMargin16,
             InfTextFormField.money(
               labelText: 'CASH REWARD VALUE',
-              initialValue: widget._proposalBuilder.cashValue,
-              onSaved: (m) => widget._proposalBuilder.cashValue = m,
+              initialValue: _proposalBuilder.cashValue,
+              onSaved: (m) => _proposalBuilder.cashValue = m,
             ),
             verticalMargin16,
             InfTextFormField(
               decoration: const InputDecoration(labelText: 'ITEMS OR SERVICE DESCRIPTION'),
-              initialValue: widget._proposalBuilder.serviceDescription,
-              onSaved: (s) => widget._proposalBuilder.serviceDescription = s,
-              validator: validateServiceDescription,
+              initialValue: _proposalBuilder.serviceDescription,
+              onSaved: (s) => _proposalBuilder.serviceDescription = s,
+              validator: _validateServiceDescription,
               keyboardType: TextInputType.text,
             ),
             verticalMargin16,
             InfTextFormField.money(
               labelText: 'ITEMS OR SERVICE VALUE',
-              initialValue: widget._proposalBuilder.serviceValue,
-              onSaved: (m) => widget._proposalBuilder.serviceValue = m,
+              initialValue: _proposalBuilder.serviceValue,
+              onSaved: (m) => _proposalBuilder.serviceValue = m,
             ),
             InfBottomButton(
               color: Colors.white,
               text: widget.confirmButtonTitle,
-              onPressed: onSave,
+              onPressed: _onSave,
             ),
           ],
         ),
@@ -88,7 +97,23 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
     );
   }
 
-  String requireIfValueIsNotEmpty(
+  String _validateDeliverableDescription(String currentValue) {
+    return _requireIfValueIsNotEmpty(
+      currentValue,
+      bindingValue: _proposalBuilder.cashValue,
+      errorMessage: "Please provide a deliverable description.",
+    );
+  }
+
+  String _validateServiceDescription(String currentValue) {
+    return _requireIfValueIsNotEmpty(
+      currentValue,
+      bindingValue: _proposalBuilder.serviceValue,
+      errorMessage: "Please provide an items or service description.",
+    );
+  }
+
+  String _requireIfValueIsNotEmpty(
     String currentValue, {
     @required Money bindingValue,
     String errorMessage,
@@ -100,29 +125,10 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
     return null;
   }
 
-  String validateDeliverableDescription(String currentValue) {
-    return requireIfValueIsNotEmpty(
-      currentValue,
-      bindingValue: widget._proposalBuilder.cashValue,
-      errorMessage: "Please provide a deliverable description.",
-    );
-  }
-
-  String validateServiceDescription(String currentValue) {
-    return requireIfValueIsNotEmpty(
-      currentValue,
-      bindingValue: widget._proposalBuilder.serviceValue,
-      errorMessage: "Please provide an items or service description.",
-    );
-  }
-
-  void onSave() async {
+  void _onSave() {
     _form.currentState.save();
-
-    if (!_form.currentState.validate()) {
-      return;
+    if (_form.currentState.validate()) {
+      Navigator.of(context).pop<Proposal>(_proposalBuilder.build());
     }
-
-    Navigator.of(context).pop<Proposal>(widget._proposalBuilder.build());
   }
 }
