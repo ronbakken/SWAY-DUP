@@ -43,7 +43,11 @@ class InfRadioButton<T> extends StatelessWidget {
                 ),
                 child: value == groupValue ? const InfIcon(AppIcons.check, size: 16) : emptyWidget,
               ),
-              Text(label),
+              Expanded(
+                  child: Text(
+                label,
+                textAlign: TextAlign.center,
+              )),
               if (onHelpButtonTapped != null)
                 HelpButton(
                   onTap: onHelpButtonTapped,

@@ -9,12 +9,10 @@ import 'package:inf/ui/widgets/inf_bottom_button.dart';
 import 'package:inf/ui/widgets/inf_date_picker.dart';
 import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_page_scroll_view.dart';
-import 'package:inf/ui/widgets/inf_radio_button.dart';
 import 'package:inf/ui/widgets/inf_text_form_field.dart';
 import 'package:inf/ui/widgets/inf_time_picker.dart';
 import 'package:inf/ui/widgets/multipage_wizard.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
-import 'package:inf_api_client/inf_api_client.dart';
 import 'package:rx_command/rx_command.dart';
 
 class AddOfferStep4 extends MultiPageWizardPageWidget {
@@ -39,6 +37,8 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
   @override
   void initState() {
     super.initState();
+
+    widget.offerBuilder.acceptancePolicy = OfferDto_AcceptancePolicy.allowNegotiation;
 
     amountController = TextEditingController(
         text: widget.offerBuilder.unlimitedAvailable
@@ -202,6 +202,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                     'How do you like to deal with proposals?',
                     style: TextStyle(fontSize: 18.0, color: Colors.white),
                   ),
+                  /*
                   verticalMargin16,
                   InfRadioButton<OfferDto_AcceptancePolicy>(
                     value: OfferDto_AcceptancePolicy.manualReview,
@@ -223,6 +224,7 @@ class _AddOfferStep4State extends MultiPageWizardPageState<AddOfferStep4> {
                     label: 'ALLOW NEGOTIATION',
                     onChanged: (val) => setState(() => widget.offerBuilder.acceptancePolicy = val),
                   ),
+                   */
                 ],
               ),
             ),
