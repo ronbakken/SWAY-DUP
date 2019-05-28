@@ -160,7 +160,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d8e550ab7686dc157d739911df3f3dcfee0ff51c
+      resolved-ref: d7cbc818630093817c0810629e1740cdbb8b3995
       url: "https://github.com/slightfoot/flutter_map.git"
     source: git
     version: "0.6.0"
@@ -260,7 +260,7 @@ packages:
     description:
       path: "src/inf_api_client"
       ref: dev
-      resolved-ref: "07b8c60d73c35c36003410e43b3c73826fab2c52"
+      resolved-ref: "28aa74adf216ef9d8a47a190fd13cb374c809a13"
       url: "https://github.com/infmarketplace/inf_server.git"
     source: git
     version: "0.0.0"

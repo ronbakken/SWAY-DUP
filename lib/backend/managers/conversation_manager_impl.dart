@@ -83,11 +83,20 @@ class ConversationManagerImplementation extends ConversationManager {
   }
 
   @override
-  Stream<Conversation> listenToConversation(String conversationId) {
+  Stream<Conversation> listenToConversation(BusinessOffer offer, String conversationId) {
     return backend<InfListService>()
         .listenForChanges(SingleItemFilter(conversationId, SingleItemType.conversation))
         .where((item) => item.type == InfItemType.conversation)
-        .map((item) => item.conversation);
+        .map((item) {
+      final conversation = item.conversation;
+      final cached = _conversationHolderCache[conversation.topicId];
+      if (cached != null && cached.isPresent) {
+        cached.value.conversation = conversation;
+      } else {
+        _conversationHolderCache[conversation.topicId] = Optional.of(ConversationHolder(conversation, offer));
+      }
+      return conversation;
+    });
   }
 
   @override

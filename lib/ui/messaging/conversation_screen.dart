@@ -51,6 +51,13 @@ class _ConversationScreenState extends State<ConversationScreen> {
   StreamSubscription<Conversation> _conversationStream;
   Proposal _proposal;
 
+  BusinessOffer get offer => widget.conversationHolder.offer;
+
+  bool get showJobComplete {
+    final currentUser = backend<UserManager>().currentUser;
+    return (_latestMessageWithAction?.action != MessageAction.completed && currentUser.id == offer.businessAccountId);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -59,7 +66,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
     _conversationStream = widget.conversationHolder.stream.listen((conversation) {
       setState(() {
         _latestMessageWithAction = conversation.latestMessageWithAction;
-        _proposal = Message.findProposalAttachment(_latestMessageWithAction.attachments);
+        _proposal = Message.findProposalAttachment(_latestMessageWithAction?.attachments);
       });
     });
   }
@@ -73,7 +80,6 @@ class _ConversationScreenState extends State<ConversationScreen> {
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
-    final offer = widget.conversationHolder.offer;
     return Material(
       color: AppTheme.listViewAndMenuBackground,
       child: Padding(
@@ -98,6 +104,14 @@ class _ConversationScreenState extends State<ConversationScreen> {
                             offer.images[0],
                             fit: BoxFit.cover,
                           ),
+                          actions: <Widget>[
+                            if(showJobComplete)
+                              IconButton(
+                                onPressed: _onTapJobCompleted,
+                                icon: InfIcon(AppIcons.tick),
+                                tooltip: 'MARK AS COMPLETE',
+                              ),
+                          ],
                         ),
                       ),
                       SliverToBoxAdapter(
@@ -105,7 +119,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             _OfferProfileHeader(offer: offer),
-                            if (_latestMessageWithAction.action != MessageAction.completed)
+                            if (showJobComplete)
                               _JobCompletedHeader(
                                 onTap: _onTapJobCompleted,
                               )
@@ -248,12 +262,14 @@ class _ScrimCollapsingHeader extends SliverPersistentHeaderDelegate {
     @required this.topPadding,
     @required this.expandedHeight,
     @required this.background,
+    this.actions,
   });
 
   final Widget title;
   final double topPadding;
   final double expandedHeight;
   final Widget background;
+  final List<Widget> actions;
 
   @override
   double get minExtent => kToolbarHeight + topPadding;
@@ -315,6 +331,7 @@ class _ScrimCollapsingHeader extends SliverPersistentHeaderDelegate {
                     ),
                     backgroundColor: Colors.transparent,
                     elevation: 0.0,
+                    actions: actions,
                   ),
                 ),
               ],

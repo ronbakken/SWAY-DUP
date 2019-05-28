@@ -17,6 +17,11 @@ class ConversationHolder extends ChangeNotifier {
 
   Conversation get conversation => _conversation;
 
+  set conversation(Conversation value) {
+    _conversation = conversation;
+    notifyListeners();
+  }
+
   final BusinessOffer offer;
 
   Stream<List<Message>> get messages {
@@ -35,10 +40,9 @@ class ConversationHolder extends ChangeNotifier {
     latest = StreamController.broadcast(
       onListen: () {
         latest.add(_conversation);
-        sub = backend<ConversationManager>().listenToConversation(_conversation.id).listen((conversation) {
-          _conversation = conversation;
-          latest.add(conversation);
-          notifyListeners();
+        sub = backend<ConversationManager>().listenToConversation(offer, _conversation.id).listen((data) {
+          latest.add(data);
+          conversation = data;
         });
       },
       onCancel: () {

@@ -85,9 +85,9 @@ class ProposalBuilder {
 class ProposalState {
   static final applied = ProposalState._('APPLIED');
   static final negotiation = ProposalState._('NEGOTIATION');
-  static final disputed = ProposalState._('DISPUTED');
+  static final declined = ProposalState._('DECLINED');
   static final deal = ProposalState._('DEAL');
-  static final done = ProposalState._('DONE');
+  static final completed = ProposalState._('COMPLETED');
 
   ProposalState._(this.label);
 
