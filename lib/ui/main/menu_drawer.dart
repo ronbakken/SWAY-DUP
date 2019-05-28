@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
@@ -14,6 +15,7 @@ import 'package:inf/ui/widgets/inf_loader.dart';
 import 'package:inf/ui/widgets/inf_switch.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:rx_command/rx_command.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class MainNavigationDrawer extends StatefulWidget {
   @override
@@ -66,73 +68,92 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
     final userManager = backend<UserManager>();
 
     List<Widget> buildColumnEntries(User currentUser) {
-      List<Widget> entries = <Widget>[]..addAll([
-          const Text(
-            'VISIBILITY',
-            textAlign: TextAlign.left,
-            style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+      return <Widget>[
+        const Text(
+          'VISIBILITY',
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+        verticalMargin8,
+        _MainNavigationItem(
+          icon: const InfAssetImage(AppIcons.directOffers, color: Colors.white),
+          text: 'Allow direct offers',
+          trailing: InfSwitch(
+            value: currentUser.acceptsDirectOffers,
+            onChanged: (val) {
+              userManager.updateUserCommand(
+                UserUpdateData(user: currentUser.copyWith(acceptsDirectOffers: val)),
+              );
+            },
+            activeColor: AppTheme.blue,
           ),
-          verticalMargin8,
-          _MainNavigationItem(
-            icon: const InfAssetImage(AppIcons.directOffers, color: Colors.white),
-            text: 'Allow direct offers',
-            trailing: InfSwitch(
-              value: currentUser.acceptsDirectOffers,
-              onChanged: (val) {
-                userManager.updateUserCommand(
-                  UserUpdateData(user: currentUser.copyWith(acceptsDirectOffers: val)),
-                );
-              },
-              activeColor: AppTheme.blue,
-            ),
+        ),
+        _MainNavigationItem(
+          icon: const InfAssetImage(AppIcons.location, color: Colors.white),
+          text: 'Show my location',
+          trailing: InfSwitch(
+            value: currentUser.showLocation,
+            onChanged: (val) {
+              userManager.updateUserCommand(
+                UserUpdateData(user: currentUser.copyWith(showLocation: val)),
+              );
+            },
+            activeColor: AppTheme.blue,
           ),
-          _MainNavigationItem(
-            icon: const InfAssetImage(AppIcons.location, color: Colors.white),
-            text: 'Show my location',
-            trailing: InfSwitch(
-              value: currentUser.showLocation,
-              onChanged: (val) {
-                userManager.updateUserCommand(
-                  UserUpdateData(user: currentUser.copyWith(showLocation: val)),
-                );
-              },
-              activeColor: AppTheme.blue,
-            ),
+        ),
+        verticalMargin16,
+        const Text(
+          'PAYMENT',
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+        verticalMargin8,
+        _MainNavigationItem(
+          icon: const InfAssetImage(AppIcons.value, color: Colors.white),
+          text: 'Payment settings',
+          onTap: () {},
+        ),
+        _MainNavigationItem(
+          icon: const InfAssetImage(AppIcons.earnings, color: Colors.white),
+          text: 'Earnings',
+          onTap: () {},
+        ),
+        verticalMargin16,
+        const Text(
+          'SETTINGS',
+          textAlign: TextAlign.left,
+          style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+        ),
+        verticalMargin8,
+        _MainNavigationItem(
+          icon: const InfAssetImage(
+            AppIcons.switchUser,
+            color: Colors.white,
           ),
-          verticalMargin16,
-          const Text(
-            'PAYMENT',
-            textAlign: TextAlign.left,
-            style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
+          text: 'Profiles',
+          onTap: _switchProfile,
+        ),
+        verticalMargin12,
+        Text.rich(
+          TextSpan(
+            children: <TextSpan>[
+              TextSpan(
+                text: 'Terms of Service',
+                recognizer: TapGestureRecognizer()..onTap = _onTapTerms,
+                style: const TextStyle(decoration: TextDecoration.underline),
+              ),
+              const TextSpan(text: ' | '),
+              TextSpan(
+                text: 'Privacy Policy',
+                recognizer: TapGestureRecognizer()..onTap = _onTapPrivacy,
+                style: const TextStyle(decoration: TextDecoration.underline),
+              ),
+            ],
           ),
-          verticalMargin8,
-          _MainNavigationItem(
-            icon: const InfAssetImage(AppIcons.value, color: Colors.white),
-            text: 'Payment settings',
-            onTap: () {},
-          ),
-          _MainNavigationItem(
-            icon: const InfAssetImage(AppIcons.earnings, color: Colors.white),
-            text: 'Earnings',
-            onTap: () {},
-          ),
-          verticalMargin16,
-          const Text(
-            'SETTINGS',
-            textAlign: TextAlign.left,
-            style: const TextStyle(color: AppTheme.white30, fontSize: 20.0),
-          ),
-          verticalMargin8,
-          _MainNavigationItem(
-            icon: const InfAssetImage(
-              AppIcons.switchUser,
-              color: Colors.white,
-            ),
-            text: 'Profiles',
-            onTap: switchProfile,
-          ),
-        ]);
-      return entries;
+          textAlign: TextAlign.center,
+        ),
+        verticalMargin24,
+      ];
     }
 
     return Material(
@@ -207,13 +228,23 @@ class MainNavigationDrawerState extends State<MainNavigationDrawer> {
     );
   }
 
-  void switchProfile() async {
+  void _onTapTerms() {
+    url_launcher.launch(backend<ConfigService>().termsUrl);
+  }
+
+  void _onTapPrivacy() {
+    url_launcher.launch(backend<ConfigService>().privacyUrl);
+  }
+
+  void _switchProfile() async {
     var profiles = backend<UserManager>().getLoginProfiles();
     var selectedProfile = await showDialog<LoginProfile>(
         context: context,
-        builder: (context) => SwitchUserDialog(
-              profiles: profiles,
-            ));
+        builder: (context) {
+          return SwitchUserDialog(
+            profiles: profiles,
+          );
+        });
     if (selectedProfile == null) {
       return;
     }

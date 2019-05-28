@@ -42,6 +42,12 @@ class ConfigServiceImplementation implements ConfigService {
   }
 
   @override
+  String get termsUrl => configData.termsOfServiceUrl;
+
+  @override
+  String get privacyUrl => configData.privacyPolicyUrl;
+
+  @override
   Future init() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 

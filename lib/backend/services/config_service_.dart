@@ -20,6 +20,9 @@ abstract class ConfigService {
 
   String get mapUrlTemplate;
 
+  String get termsUrl;
+
+  String get privacyUrl;
 
   List<Category> get topLevelCategories;
 
