@@ -121,7 +121,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
         'https://api.twitter.com/oauth/request_token', // temporary credentials request
         'https://api.twitter.com/oauth/authorize', // resource owner authorization
         'https://api.twitter.com/oauth/access_token', // token credentials request
-        oauth1.SignatureMethod("HMAC-SHA1", (key, text) {
+        oauth1.SignatureMethod('HMAC-SHA1', (key, text) {
           Hmac hmac = Hmac(sha1, key.codeUnits);
           List<int> bytes = hmac.convert(text.codeUnits).bytes;
           // The output of the HMAC signing function is a binary
@@ -233,7 +233,7 @@ class _SocialMediaConnectorPageState extends State<SocialMediaConnectorPage> {
           print(host);
           // Only allow API url.
           // Also allow T&C and Privacy Policy urls.
-          print("Url not allowed: " + url);
+          print('Url not allowed: ' + url);
           //   setState(() {
           //     _authUrl = null;
           //   });

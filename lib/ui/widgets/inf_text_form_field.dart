@@ -139,11 +139,11 @@ class InfTextFormField extends FormField<String> {
     return InfTextFormField(
       decoration: InputDecoration(
         labelText: labelText,
-        hintText: "https://..."
+        hintText: 'https://...'
       ),
       initialValue: initialValue,
       onSaved: onSaved,
-      validator: (s) => Uri.tryParse(s) != null ? null : "Please enter a valid URL.",
+      validator: (s) => Uri.tryParse(s) != null ? null : 'Please enter a valid URL.',
       keyboardType: TextInputType.url,
     );
   }

@@ -25,7 +25,7 @@ class ValueFilterPanel extends StatefulWidget {
 class _ValueFilterPanelState extends State<ValueFilterPanel> {
   static const double _defaultValue = 0;
   final _values = <double>[0, 10, 100, 500, 1000, 5000, 10000];
-  final _currencyFormatter = NumberFormat.currency(locale: "en_US", symbol: '\$', decimalDigits: 0);
+  final _currencyFormatter = NumberFormat.currency(locale: 'en_US', symbol: '\$', decimalDigits: 0);
 
   // For filtering offers
   final _cashValue = ValueNotifier<double>(_defaultValue);
@@ -139,10 +139,10 @@ class _ValueFilterPanelState extends State<ValueFilterPanel> {
     final value = _getValueForIndex(index);
 
     if (value == 0) {
-      return "Any $name";
+      return 'Any $name';
     }
 
-    return "${_currencyFormatter.format(value)} $name";
+    return '${_currencyFormatter.format(value)} $name';
   }
 
   @override
@@ -153,7 +153,7 @@ class _ValueFilterPanelState extends State<ValueFilterPanel> {
             Text(
               _getFormattedValueForIndex(
                 _getIndexForValue(_cashValue.value),
-                name: "cash",
+                name: 'cash',
               ),
               style: const TextStyle(
                 fontSize: 24.0,
@@ -169,7 +169,7 @@ class _ValueFilterPanelState extends State<ValueFilterPanel> {
             Text(
               _getFormattedValueForIndex(
                 _getIndexForValue(_serviceValue.value),
-                name: "products",
+                name: 'products',
               ),
               style: const TextStyle(
                 fontSize: 24.0,
@@ -187,7 +187,7 @@ class _ValueFilterPanelState extends State<ValueFilterPanel> {
             Text(
               _getFormattedValueForIndex(
                 _getIndexForValue(_maximumFee.value),
-                name: "fee",
+                name: 'fee',
               ),
               style: const TextStyle(
                 fontSize: 24.0,

@@ -85,7 +85,7 @@ class Money {
 
   String toStringWithSymbol([int digits = 2]) {
     // TODO: Decide currency symbol based on currency used.
-    return "\$ ${this.toString(digits)}";
+    return '\$ ${this.toString(digits)}';
   }
 
   double toDouble() => value.toDouble();

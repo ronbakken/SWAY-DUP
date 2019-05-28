@@ -80,7 +80,7 @@ class InfAssetImage extends StatelessWidget {
           );
         }
     }
-    throw StateError("Invalid AppAssetType ${asset.type}");
+    throw StateError('Invalid AppAssetType ${asset.type}');
   }
 
   static bool isSvgData(Uint8List data) {

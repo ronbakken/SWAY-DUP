@@ -42,7 +42,7 @@ class ImageServiceImplementation implements ImageService {
     }
 
     if (cloudUrls == null) {
-      throw ImageUploadException("No Url from server");
+      throw ImageUploadException('No Url from server');
     }
 
     Map<String, String> headers = <String, String>{};
@@ -120,6 +120,6 @@ class ImageServiceImplementation implements ImageService {
   @override
   Future<void> deleteImage(String url) async {
     // TODO
-    throw UnimplementedError("Not Implemented yet");
+    throw UnimplementedError('Not Implemented yet');
   }
 }

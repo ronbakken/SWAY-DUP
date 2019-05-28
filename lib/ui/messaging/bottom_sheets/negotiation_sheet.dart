@@ -101,7 +101,7 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
     return _requireIfValueIsNotEmpty(
       currentValue,
       bindingValue: _proposalBuilder.cashValue,
-      errorMessage: "Please provide a deliverable description.",
+      errorMessage: 'Please provide a deliverable description.',
     );
   }
 
@@ -109,7 +109,7 @@ class _NegotiationSheetState extends State<NegotiationSheet> {
     return _requireIfValueIsNotEmpty(
       currentValue,
       bindingValue: _proposalBuilder.serviceValue,
-      errorMessage: "Please provide an items or service description.",
+      errorMessage: 'Please provide an items or service description.',
     );
   }
 

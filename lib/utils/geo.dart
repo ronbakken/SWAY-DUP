@@ -11,7 +11,7 @@ class GeoPoint {
   final double longitude;
 
   @override
-  String toString() => "($latitude, $longitude)";
+  String toString() => '($latitude, $longitude)';
 }
 
 class GeoBoundingBox {
@@ -82,7 +82,7 @@ class GeoBoundingBox {
   }
 
   @override
-  String toString() => isEmpty ? "(empty)" : "$northWest - $southEast";
+  String toString() => isEmpty ? '(empty)' : '$northWest - $southEast';
 }
 
 class GeoArea {
@@ -99,7 +99,7 @@ class GeoArea {
   double distanceToCenter(GeoPoint point) => distanceInKilometers(center, point);
 
   @override
-  String toString() => "$center ($radiusInKilometers km)";
+  String toString() => '$center ($radiusInKilometers km)';
 }
 
 GeoBoundingBox getBoundingBoxFromArea(GeoArea area) {

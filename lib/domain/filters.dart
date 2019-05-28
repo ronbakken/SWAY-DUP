@@ -245,7 +245,7 @@ class OfferFilter extends MapViewportFilter {
       }
     }
 
-    debugPrint("Filter DTO: $dto");
+    debugPrint('Filter DTO: $dto');
 
     return dto;
   }
@@ -440,7 +440,7 @@ class UserFilter extends MapViewportFilter {
       }
     }
 
-    debugPrint("Filter DTO: $dto");
+    debugPrint('Filter DTO: $dto');
 
     return dto;
   }

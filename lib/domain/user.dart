@@ -171,7 +171,7 @@ class User {
 
   UserDto toDto() {
     final dto = UserDto()
-      ..id = id ?? ""
+      ..id = id ?? ''
       ..status = accountState
       ..revision = revision;
     switch (dataType) {

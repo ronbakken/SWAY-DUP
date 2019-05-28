@@ -137,7 +137,7 @@ class OfferShortSummaryTile extends StatelessWidget {
                     ),
                     verticalMargin4,
                     Text(
-                      offer.description ?? "",
+                      offer.description ?? '',
                       style: const TextStyle(color: AppTheme.white30),
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,

@@ -92,7 +92,7 @@ class _Comparison extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               const Text(
-                "Original",
+                'Original',
                 style: TextStyle(color: AppTheme.white30),
               ),
               verticalMargin8,

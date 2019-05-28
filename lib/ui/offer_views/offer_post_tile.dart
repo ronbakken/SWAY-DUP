@@ -57,7 +57,7 @@ class OfferPostTile extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
               child: Text(
-                offer.description ?? "",
+                offer.description ?? '',
                 style: const TextStyle(color: Colors.white, fontSize: 14.5, height: 1.25),
               ),
             ),
