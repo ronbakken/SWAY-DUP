@@ -3,7 +3,6 @@ import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/attachments/attachment_widget.dart';
 import 'package:inf/ui/messaging/chat_avatar.dart';
-import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_form_label.dart';
 import 'package:inf/ui/widgets/inf_since_when.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';

@@ -166,6 +166,7 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
           message.user == lastMessage.user &&
           // ignore: deprecated_member_use_from_same_package
           (message.action == null || message.action == MessageAction.text) &&
+          // ignore: deprecated_member_use_from_same_package
           (lastMessage.action == null || lastMessage.action == MessageAction.text)) {
         MessageTextProvider group = providers.last;
         if (group is MessageGroup) {

@@ -30,11 +30,11 @@ class ConversationListTile extends StatelessWidget {
         final messageWithAction = conversationHolder.latestMessageWithAction;
         final currentUser = backend<UserManager>().currentUser;
 
-        ImageReference avatar;
-        TextSpan fromTo;
-        if(messageWithAction != null){
-          if(messageWithAction.user.id == currentUser.id){
-            avatar = message.user.avatarThumbnail;
+        //ImageReference avatar;
+        //TextSpan fromTo;
+        if (messageWithAction != null) {
+          if (messageWithAction.user.id == currentUser.id) {
+            // avatar = message.user.avatarThumbnail;
           }
           // FIXME: avatar, and proposal state
         }

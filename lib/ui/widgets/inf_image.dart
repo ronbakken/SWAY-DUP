@@ -126,14 +126,6 @@ class _InfImageState extends State<InfImage> {
     _updateSourceStream(newStream);
   }
 
-  void _handleImageChanged(ImageInfo imageInfo, bool synchronousCall) {
-    if (mounted) {
-      setState(() {
-        _loaded = (imageInfo != null);
-      });
-    }
-  }
-
   // Update _imageStream to newStream, and moves the stream listener
   // registration from the old stream to the new stream (if a listener was
   // registered).
@@ -156,6 +148,14 @@ class _InfImageState extends State<InfImage> {
     if (!_isListeningToStream) return;
     _imageStream.removeListener(_handleImageChanged);
     _isListeningToStream = false;
+  }
+
+  void _handleImageChanged(ImageInfo imageInfo, bool synchronousCall) {
+    if (mounted) {
+      setState(() {
+        _loaded = (imageInfo != null);
+      });
+    }
   }
 
   @override
