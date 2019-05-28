@@ -105,24 +105,28 @@ namespace Messaging
                         throw new ArgumentException("At least one participant ID must be specified.");
                     }
 
-                    var id = Guid.NewGuid().ToString();
+                    var conversationId = Guid.NewGuid().ToString();
+                    var messageId = Guid.NewGuid().ToString();
                     var topicId = request.TopicId;
                     var participantIds = request.ParticipantIds.ToArray();
                     var firstMessage = request.FirstMessage;
-                    logger.Debug("Saving conversation with ID {ConversationId}, topic ID {TopicId}, participant IDs {ParticipantIds}, first message {@FirstMessage}, metadata {Metadata}", id, topicId, participantIds, firstMessage, request.Metadata);
+                    firstMessage.ConversationId = conversationId;
+                    firstMessage.Id = messageId;
+                    logger.Debug("Saving conversation with ID {ConversationId}, topic ID {TopicId}, participant IDs {ParticipantIds}, first message {@FirstMessage}, metadata {Metadata}", conversationId, topicId, participantIds, firstMessage, request.Metadata);
 
                     // Create the initial message record
                     var createMessageArgs = new CreateMessageArgs
                     {
-                        ConversationId = id,
-                        Message = request.FirstMessage.ToEntity(),
+                        ConversationId = conversationId,
+                        Message = firstMessage.ToEntity(),
                     };
 
                     var createMessageResult = await this
                         .createMessageSproc
-                        .ExecuteWithLoggingAsync<CreateMessageArgs, MessageEntity>(id, createMessageArgs);
+                        .ExecuteWithLoggingAsync<CreateMessageArgs, MessageEntity>(conversationId, createMessageArgs);
                     var messageEntity = createMessageResult.Resource;
                     logger.Debug("Created initial message {@InitialMessage}", messageEntity);
+                    firstMessage = messageEntity.ToServiceObject();
 
                     // Create all conversation records, so we can quickly enumerate the conversations that a user is participating in
                     var createConversationTasks = participantIds
@@ -132,9 +136,9 @@ namespace Messaging
                                 var createConversationArgs = new CreateConversationArgs
                                 {
                                     UserId = participantId,
-                                    Id = id,
+                                    Id = conversationId,
                                     TopicId = topicId,
-                                    FirstMessage = request.FirstMessage.ToEntity(),
+                                    FirstMessage = messageEntity,
                                 };
                                 createConversationArgs.Metadata.Add(request.Metadata);
 
@@ -160,7 +164,7 @@ namespace Messaging
                                 {
                                     SchemaType = conversationParticipantSchemaType,
                                     SchemaVersion = 1,
-                                    PartitionKey = id,
+                                    PartitionKey = conversationId,
                                     Id = participantId,
                                 };
 
@@ -169,7 +173,7 @@ namespace Messaging
                                 await this
                                     .defaultContainer
                                     .Items
-                                    .UpsertItemAsync(id, conversationParticipant)
+                                    .UpsertItemAsync(conversationId, conversationParticipant)
                                     .ContinueOnAnyContext();
                             })
                         .ToList();
@@ -180,12 +184,12 @@ namespace Messaging
 
                     var conversation = new Conversation
                     {
-                        Id = id,
+                        Id = conversationId,
                         UserId = request.ParticipantIds[0],
                         TopicId = topicId,
                         Status = Conversation.Types.Status.Open,
-                        LatestMessage = request.FirstMessage,
-                        LatestMessageWithAction = string.IsNullOrEmpty(request.FirstMessage.Action) ? null : request.FirstMessage,
+                        LatestMessage = firstMessage,
+                        LatestMessageWithAction = string.IsNullOrEmpty(firstMessage.Action) ? null : firstMessage,
                     };
                     conversation.Metadata.Add(request.Metadata);
                     var result = new CreateConversationResponse
@@ -197,8 +201,8 @@ namespace Messaging
                     NotifyRecipients(
                             logger,
                             firebaseToken,
-                            request.ParticipantIds.Except(new[] { request.FirstMessage.User.Id }),
-                            request.FirstMessage)
+                            request.ParticipantIds.Except(new[] { firstMessage.User.Id }),
+                            firstMessage)
                         .Ignore();
 
                     if (this.conversationUpdatedTopicClient != null)

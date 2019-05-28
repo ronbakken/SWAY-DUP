@@ -40,6 +40,7 @@ namespace Messaging.ObjectMapping
                 Action = @this.Action,
                 Text = @this.Text,
                 User = @this.User.ToEntity(),
+                Created = @this.Timestamp,
             };
 
             result.Attachments.AddRange(@this.Attachments.Select(x => x.ToEntity()));
