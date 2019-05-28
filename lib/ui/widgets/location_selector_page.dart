@@ -282,8 +282,8 @@ class __MapViewState extends State<_MapView> {
   void initState() {
     super.initState();
 
-    urlTemplate = backend<ConfigService>().getMapUrlTemplate();
-    mapApiKey = backend<ConfigService>().getMapApiKey();
+    urlTemplate = backend<ConfigService>().mapUrlTemplate;
+    mapApiKey = backend<ConfigService>().mapApiKey;
 
     positionChangedCommand = RxCommand.createSync((pos) => Coordinate(pos.center.latitude, pos.center.longitude));
 

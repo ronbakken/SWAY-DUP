@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 
+// FIXME: This is a bad UX.. probably should be removed.
 class InfLoader extends StatefulWidget {
   static OverlayEntry currentLoader;
 
@@ -16,17 +17,17 @@ class InfLoader extends StatefulWidget {
     currentLoader = OverlayEntry(
       builder: (context) {
         return Stack(
-            children: <Widget>[
-              Container(
-                color: Colors.transparent,
+          children: <Widget>[
+            Container(
+              color: Colors.transparent,
+            ),
+            Center(
+              child: InfLoader(
+                percentageCompletion: completionPercent,
               ),
-              Center(
-                child: InfLoader(
-                  percentageCompletion: completionPercent,
-                ),
-              ),
-            ],
-          );
+            ),
+          ],
+        );
       },
     );
     Overlay.of(context).insert(currentLoader);

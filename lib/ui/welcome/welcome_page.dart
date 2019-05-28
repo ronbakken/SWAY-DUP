@@ -48,7 +48,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
   @override
   void initState() {
     super.initState();
-    imageUrlStream = backend<ConfigService>().getWelcomePageProfileImages();
+    imageUrlStream = backend<ConfigService>().welcomePageProfileImages;
 
     // Listen for deep link calls with a login-token
     deepLinkSubscription = getUriLinksStream().listen(onDeepLinkCall);

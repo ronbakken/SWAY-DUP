@@ -58,9 +58,9 @@ class _MainMapViewState extends State<MainMapView> {
           ),
           layers: [
             TileLayerOptions(
-              urlTemplate: backend<ConfigService>().getMapUrlTemplate(),
+              urlTemplate: backend<ConfigService>().mapUrlTemplate,
               additionalOptions: {
-                'accessToken': backend<ConfigService>().getMapApiKey(),
+                'accessToken': backend<ConfigService>().mapApiKey,
               },
               backgroundColor: AppTheme.grey,
               placeholderImage: AssetImage(AppImages.mapPlaceHolder.path),

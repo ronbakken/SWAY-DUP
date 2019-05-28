@@ -23,7 +23,7 @@ class ConfigServiceImplementation implements ConfigService {
   AppConfigDto configData;
 
   @override
-  Stream<List<String>> getWelcomePageProfileImages() {
+  Stream<List<String>> get welcomePageProfileImages {
     return backend
         .get<InfApiClientsService>()
         .configClient
@@ -32,12 +32,12 @@ class ConfigServiceImplementation implements ConfigService {
   }
 
   @override
-  String getMapApiKey() {
+  String get mapApiKey {
     return configData.serviceConfig.mapboxToken;
   }
 
   @override
-  String getMapUrlTemplate() {
+  String get mapUrlTemplate {
     return configData.serviceConfig.mapboxUrlTemplateDark;
   }
 
