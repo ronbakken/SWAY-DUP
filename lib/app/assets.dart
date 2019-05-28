@@ -70,7 +70,7 @@ class AppImages {
   static const onBoarding2 = AppAsset.bitmap('assets/images/img_onboarding2.jpg');
   static const onBoarding3 = AppAsset.bitmap('assets/images/img_onboarding3.jpg');
 
-  static const mockCurves = AppAsset.bitmap('assets/images/img_curves.png');
+  static const handshake = AppAsset.bitmap('assets/images/img_handshake.png');
 }
 
 class AppAsset {
