@@ -14,7 +14,7 @@ dependencies:
   decimal: 0.3.3
   firebase_messaging: 5.0.1+1
   flutter_map:
-    git: https://github.com/infmarketplace/flutter_map.git
+    git: https://github.com/slightfoot/flutter_map.git
   flutter_page_indicator: 0.0.3
   flutter_svg: 0.13.0+1
   flutter_webview_plugin: 0.3.5
