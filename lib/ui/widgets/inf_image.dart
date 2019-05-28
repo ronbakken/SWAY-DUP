@@ -91,6 +91,13 @@ class _InfImageState extends State<InfImage> {
   ImageStream _imageStream;
   bool _isListeningToStream = false;
   bool _loaded = false;
+  ImageStreamListener _listener;
+
+  @override
+  void initState() {
+    super.initState();
+    _listener = ImageStreamListener(_handleImageChanged);
+  }
 
   @override
   void didChangeDependencies() {
@@ -132,21 +139,21 @@ class _InfImageState extends State<InfImage> {
   void _updateSourceStream(ImageStream newStream) {
     if (_imageStream?.key == newStream?.key) return;
 
-    if (_isListeningToStream) _imageStream.removeListener(_handleImageChanged);
+    if (_isListeningToStream) _imageStream.removeListener(_listener);
 
     _imageStream = newStream;
-    if (_isListeningToStream) _imageStream.addListener(_handleImageChanged);
+    if (_isListeningToStream) _imageStream.addListener(_listener);
   }
 
   void _listenToStream() {
     if (_isListeningToStream) return;
-    _imageStream.addListener(_handleImageChanged);
+    _imageStream.addListener(_listener);
     _isListeningToStream = true;
   }
 
   void _stopListeningToStream() {
     if (!_isListeningToStream) return;
-    _imageStream.removeListener(_handleImageChanged);
+    _imageStream.removeListener(_listener);
     _isListeningToStream = false;
   }
 

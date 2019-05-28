@@ -160,7 +160,7 @@ packages:
     description:
       path: "."
       ref: HEAD
-      resolved-ref: d7cbc818630093817c0810629e1740cdbb8b3995
+      resolved-ref: f25ea8938f3a016f9cbbc295446ad3e4af3a0e15
       url: "https://github.com/slightfoot/flutter_map.git"
     source: git
     version: "0.6.0"
