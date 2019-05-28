@@ -80,8 +80,8 @@ class _AddMediaSheetState extends State<AddMediaSheet> {
       final uploadedImage = await backend<ImageService>().uploadImageReference(
         fileNameTrunc: 'message_attachment_media',
         imageReference: ImageReference(imageFile: selectedImageFile),
-        imageWidth: 500,
-        lowResWidth: 100,
+        imageWidth: 2048,
+        lowResWidth: 640,
       );
 
       Navigator.of(context).pop<MessageAttachment>(MessageAttachment.forObject(uploadedImage));

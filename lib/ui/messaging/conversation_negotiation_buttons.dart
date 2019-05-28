@@ -39,7 +39,7 @@ class ConversationNegotiationButtons extends StatelessWidget {
             text: 'REJECT PROPOSAL',
             color: AppTheme.black12,
             borderColor: AppTheme.red,
-            onPressed: onCounter,
+            onPressed: onReject,
           ),
         ],
       ),

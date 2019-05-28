@@ -17,7 +17,7 @@ class RejectOfferSheet extends StatefulWidget {
     );
   }
 
-  RejectOfferSheet({
+  const RejectOfferSheet({
     Key key,
     this.user,
   }) : super(key: key);
@@ -42,7 +42,7 @@ class _RejectOfferSheetState extends State<RejectOfferSheet> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Let ${widget.user} know the reason for the rejection.'),
+            Text('Let ${widget.user ?? 'them'} know the reason for the rejection.'),
             verticalMargin16,
             InfTextFormField(
               onSaved: (value) => _reason = value,

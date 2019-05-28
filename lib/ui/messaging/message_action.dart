@@ -3,6 +3,7 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/domain/domain.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
+import 'package:inf/ui/widgets/widget_utils.dart';
 
 class MessageActionWidget extends StatelessWidget {
   const MessageActionWidget({
@@ -19,39 +20,31 @@ class MessageActionWidget extends StatelessWidget {
     switch (action) {
       case MessageAction.accept:
         return _MessageActionContent(
-          color: AppTheme.blue,
-          text: 'Congratulations - ${user.name} have agreed to your offer.',
-          icon: const Icon(
-            Icons.thumb_up,
-            color: Colors.white,
-          ),
-        );
-      case MessageAction.counter:
-        return _MessageActionContent(
-          color: AppTheme.charcoalGrey,
-          text: '${user.name} have countered your offer.',
-          icon: const Icon(
-            Icons.subdirectory_arrow_left,
-            color: Colors.white,
-          ),
+          color: AppTheme.lightBlue,
+          text: TextSpan(children: <TextSpan>[
+            const TextSpan(text: 'Congratulations - '),
+            TextSpan(text: user.name, style: TextStyle(fontWeight: FontWeight.w500)),
+            const TextSpan(text: ' have agreed to your offer.'),
+          ]),
+          iconAsset: AppIcons.thumbUp,
         );
       case MessageAction.reject:
         return _MessageActionContent(
           color: AppTheme.red,
-          text: '${user.name} have declined your offer.',
-          icon: const Icon(
-            Icons.clear,
-            color: Colors.white,
-          ),
+          text: TextSpan(children: <TextSpan>[
+            TextSpan(text: user.name, style: TextStyle(fontWeight: FontWeight.w500)),
+            const TextSpan(text: ' has declined your offer.'),
+          ]),
+          iconAsset: AppIcons.close,
         );
       case MessageAction.completed:
         return _MessageActionContent(
-          color: AppTheme.blue,
-          text: '${user.name} has marked the deal as COMPLETE.',
-          icon: const InfIcon(
-            AppIcons.tick,
-            color: Colors.white,
-          ),
+          color: AppTheme.lightBlue,
+          text: TextSpan(children: <TextSpan>[
+            TextSpan(text: user.name, style: TextStyle(fontWeight: FontWeight.w500)),
+            const TextSpan(text: ' has marked the deal as COMPLETE.'),
+          ]),
+          iconAsset: AppIcons.tick,
         );
       default:
         throw ArgumentError.value(action, 'action', 'MessageActionWidget: Action invalid.');
@@ -62,31 +55,40 @@ class MessageActionWidget extends StatelessWidget {
 class _MessageActionContent extends StatelessWidget {
   const _MessageActionContent({
     Key key,
-    this.text,
-    this.textSpan,
-    this.icon,
     this.color,
+    this.text,
+    this.iconAsset,
   }) : super(key: key);
 
-  final String text;
-  final TextSpan textSpan;
-  final Widget icon;
   final Color color;
+  final TextSpan text;
+  final AppAsset iconAsset;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(24.0),
+    return Container(
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: const EdgeInsets.symmetric(vertical: 32.0, horizontal: 24.0),
+      color: AppTheme.charcoalGrey,
       child: Row(
         children: <Widget>[
-          Material(
-            type: MaterialType.circle,
-            elevation: 2.0,
-            color: color,
-            child: icon,
+          Container(
+            padding: const EdgeInsets.all(12.0),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              border: Border.all(color: AppTheme.buttonHalo, width: 3.0),
+              color: color,
+            ),
+            alignment: Alignment.center,
+            child: InfIcon(
+              iconAsset,
+              color: Colors.white,
+              size: 18.0,
+            ),
           ),
+          horizontalMargin16,
           Expanded(
-            child: text != null ? Text(text) : Text.rich(textSpan),
+            child: Text.rich(text),
           ),
         ],
       ),

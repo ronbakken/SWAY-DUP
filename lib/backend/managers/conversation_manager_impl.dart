@@ -68,6 +68,13 @@ class ConversationManagerImplementation extends ConversationManager {
   }
 
   @override
+  Future<Conversation> closeConversation(Conversation conversation) async {
+    final result = await backend<InfMessagingService>().closeConversation(conversation);
+    _conversationHolderCache.invalid(result.topicId);
+    return result;
+  }
+
+  @override
   Future<Message> sendMessage(String conversationId, Message message) async {
     final messagingService = backend<InfMessagingService>();
     final sentMessage = await messagingService.sendMessage(conversationId, message);

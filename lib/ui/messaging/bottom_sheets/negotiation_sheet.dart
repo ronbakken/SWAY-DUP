@@ -21,7 +21,7 @@ class NegotiationSheet extends StatefulWidget {
     );
   }
 
-  NegotiationSheet({
+  const NegotiationSheet({
     Key key,
     @required this.confirmButtonTitle,
     this.existingProposal,

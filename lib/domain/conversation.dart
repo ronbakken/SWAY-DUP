@@ -161,7 +161,8 @@ class MessageGroup implements MessageTextProvider, Comparable<MessageTextProvide
       if (lastMessage != null &&
           message.user == lastMessage.user &&
           // ignore: deprecated_member_use_from_same_package
-          (message.action == null || message.action == MessageAction.text)) {
+          (message.action == null || message.action == MessageAction.text) &&
+          (lastMessage.action == null || lastMessage.action == MessageAction.text)) {
         MessageTextProvider group = providers.last;
         if (group is MessageGroup) {
           group.append(message);
@@ -228,6 +229,7 @@ class Message implements MessageTextProvider, Comparable<MessageTextProvider> {
       action: action,
       text: text,
       attachments: List.unmodifiable(attachments ?? []),
+      timestamp: DateTime.now().toUtc(),
     );
   }
 
@@ -311,7 +313,9 @@ class MessageAction {
   static const counter = MessageAction._('counter');
   static const reject = MessageAction._('reject');
   static const completed = MessageAction._('completed');
-  static const values = [accept, counter, reject, completed];
+
+  // ignore: deprecated_member_use_from_same_package
+  static const values = [text, offer, accept, counter, reject, completed];
 
   factory MessageAction.fromString(String value) {
     return values.firstWhere((action) => action.value == value, orElse: () => null);

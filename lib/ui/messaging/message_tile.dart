@@ -25,7 +25,7 @@ class MessageTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentUser = backend<UserManager>().currentUser;
     final isCurrentUser = (currentUser.id == message.user.id);
-    final dimMessage = !isLastMessage && message.hasProposal;
+    final dimMessage = false; //!isLastMessage && message.hasProposal; // FIXME: dimming old negotiations
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
       child: Column(
@@ -91,21 +91,21 @@ class MessageTile extends StatelessWidget {
     }
     print('Showing message: ${message.id}');
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
       mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: <Widget>[
         if (message.text.isNotEmpty)
           Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
-              const InfFormLabel('Message'),
+              if (message.hasProposal) const InfFormLabel('Message'),
               verticalMargin8,
               Text(message.text),
               verticalMargin8,
             ],
           ),
-        for (final attachment in message.attachments) AttachmentWidget(attachment),
-        const InfDivider(verticalPadding: 8.0),
+        for (final attachment in message.attachments) AttachmentWidget(attachment: attachment),
       ],
     );
   }

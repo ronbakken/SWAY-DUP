@@ -16,7 +16,7 @@ class LruCache<T> {
   Optional<T> operator [](String key) {
     final item = _cacheMap[key];
     if (item?.expired ?? false) {
-      _cacheMap.remove(key);
+      invalid(key);
       return null;
     }
     return item?.value;
@@ -24,6 +24,10 @@ class LruCache<T> {
 
   void operator []=(String key, Optional<T> value) {
     _cacheMap[key] = Expirable.fromNow(ttl, value);
+  }
+
+  bool invalid(String key) {
+    return _cacheMap.remove(key) != null;
   }
 
   void clear() {

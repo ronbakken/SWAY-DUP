@@ -13,6 +13,8 @@ abstract class ConversationManager {
 
   Future<ConversationHolder> createConversationForOffer(BusinessOffer offer, Message firstMessage);
 
+  Future<Conversation> closeConversation(Conversation conversation);
+
   Future<Message> sendMessage(String conversationId, Message message);
 
   Stream<Conversation> listenToConversation(String conversationId);

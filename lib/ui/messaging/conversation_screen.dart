@@ -7,17 +7,20 @@ import 'package:inf/app/assets.dart';
 import 'package:inf/app/theme.dart';
 import 'package:inf/backend/backend.dart';
 import 'package:inf/ui/messaging/auto_scroller.dart';
+import 'package:inf/ui/messaging/bottom_sheets/add_media_sheet.dart';
 import 'package:inf/ui/messaging/bottom_sheets/job_completed_sheet.dart';
 import 'package:inf/ui/messaging/bottom_sheets/negotiation_sheet.dart';
+import 'package:inf/ui/messaging/bottom_sheets/reject_offer_sheet.dart';
 import 'package:inf/ui/messaging/conversation_negotiation_buttons.dart';
+import 'package:inf/ui/messaging/message_action.dart';
 import 'package:inf/ui/messaging/message_tile.dart';
 import 'package:inf/ui/offer_views/offer_details_page.dart';
 import 'package:inf/ui/widgets/inf_asset_image.dart';
 import 'package:inf/ui/widgets/inf_business_row.dart';
-import 'package:inf/ui/widgets/inf_divider.dart';
 import 'package:inf/ui/widgets/inf_icon.dart';
 import 'package:inf/ui/widgets/inf_image.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
+import 'package:vector_math/vector_math_64.dart' show radians;
 
 class ConversationScreen extends StatefulWidget {
   static Route<dynamic> route(ConversationHolder conversationHolder) {
@@ -102,10 +105,10 @@ class _ConversationScreenState extends State<ConversationScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             _OfferProfileHeader(offer: offer),
-                            const InfDivider(),
-                            _JobCompletedHeader(
-                              onTap: _onTapJobCompleted,
-                            )
+                            if (_latestMessageWithAction.action != MessageAction.completed)
+                              _JobCompletedHeader(
+                                onTap: _onTapJobCompleted,
+                              )
                           ],
                         ),
                       ),
@@ -120,6 +123,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
                   alignment: Alignment.bottomLeft,
                   child: _MessageEntryPanel(
                     conversationId: widget.conversationHolder.conversation.id,
+                    enabled: widget.conversationHolder.conversation.status == ConversationDto_Status.open,
                   ),
                 ),
               ],
@@ -159,36 +163,55 @@ class _ConversationScreenState extends State<ConversationScreen> {
 
   Widget _buildMessageListItem(final MessageTextProvider message, final bool isLastMessage) {
     final currentUser = backend<UserManager>().currentUser;
-    return Column(
-      mainAxisSize: MainAxisSize.min,
-      children: <Widget>[
-        MessageTile(
-          key: Key(message.id),
-          message: message,
-          isLastMessage: isLastMessage,
-        ),
-        if (message.id == (_latestMessageWithAction?.id ?? '_NONE_') && message.user.id != currentUser.id)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: ConversationNegotiationButtons(
-              onAccept: _onOfferAccept,
-              onCounter: _onOfferCounter,
-              onReject: _onOfferReject,
+    switch (message.action) {
+      case MessageAction.accept:
+      case MessageAction.reject:
+      case MessageAction.completed:
+        return MessageActionWidget(
+          action: message.action,
+          user: message.user,
+        );
+      default:
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: <Widget>[
+            MessageTile(
+              key: Key(message.id),
+              message: message,
+              isLastMessage: isLastMessage,
             ),
-          ),
-      ],
-    );
+            if (message.id == (_latestMessageWithAction?.id ?? '_NONE_') &&
+                message.user.id != currentUser.id &&
+                (message.action == MessageAction.offer || message.action == MessageAction.counter))
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: ConversationNegotiationButtons(
+                  onAccept: _onOfferAccept,
+                  onCounter: _onOfferCounter,
+                  onReject: _onOfferReject,
+                ),
+              ),
+          ],
+        );
+    }
   }
 
   void _onTapJobCompleted() async {
     final success = await Navigator.of(context).push<bool>(JobCompletedSheet.route()) ?? false;
     if (success) {
-      _sendProposalAction(MessageAction.completed, _proposal);
+      _sendActionMessage(action: MessageAction.completed, attachments: [
+        MessageAttachment.forObject(_proposal),
+      ]);
+      unawaited(backend<ConversationManager>().closeConversation(
+        widget.conversationHolder.conversation,
+      ));
     }
   }
 
   void _onOfferAccept() {
-    _sendProposalAction(MessageAction.accept, _proposal);
+    _sendActionMessage(action: MessageAction.accept, attachments: [
+      MessageAttachment.forObject(_proposal),
+    ]);
   }
 
   void _onOfferCounter() async {
@@ -196,20 +219,25 @@ class _ConversationScreenState extends State<ConversationScreen> {
       existingProposal: _proposal,
       confirmButtonTitle: 'COUNTER',
     ));
-    _sendProposalAction(MessageAction.accept, newProposal);
+    if (newProposal != null) {
+      _sendActionMessage(action: MessageAction.counter, attachments: [
+        MessageAttachment.forObject(newProposal),
+      ]);
+    }
   }
 
-  void _onOfferReject() {
-    _sendProposalAction(MessageAction.reject, _proposal);
+  void _onOfferReject() async {
+    final rejectionReason = await Navigator.of(context).push<String>(RejectOfferSheet.route());
+    if (rejectionReason != null) {
+      _sendActionMessage(action: MessageAction.reject, text: rejectionReason);
+    }
   }
 
-  void _sendProposalAction(MessageAction action, Proposal proposal) {
+  void _sendActionMessage({MessageAction action, String text, List<MessageAttachment> attachments}) {
     final currentUser = backend<UserManager>().currentUser;
     backend<ConversationManager>().sendMessage(
       widget.conversationHolder.conversation.id,
-      Message(currentUser, action: action, attachments: [
-        MessageAttachment.forObject(proposal),
-      ]),
+      Message(currentUser, text: text, action: action, attachments: [...?attachments]),
     );
   }
 }
@@ -310,15 +338,18 @@ class _MessageEntryPanel extends StatefulWidget {
   const _MessageEntryPanel({
     Key key,
     @required this.conversationId,
+    this.enabled = true,
   }) : super(key: key);
 
   final String conversationId;
+  final bool enabled;
 
   @override
   _MessageEntryPanelState createState() => _MessageEntryPanelState();
 }
 
 class _MessageEntryPanelState extends State<_MessageEntryPanel> {
+  final _attachments = <MessageAttachment>[];
   final _messageController = TextEditingController();
 
   @override
@@ -326,39 +357,99 @@ class _MessageEntryPanelState extends State<_MessageEntryPanel> {
     final mediaQuery = MediaQuery.of(context);
     return Material(
       color: AppTheme.blackTwo,
-      child: Container(
-        padding: EdgeInsets.fromLTRB(16.0, 4.0, 16.0, mediaQuery.padding.bottom + 4.0),
-        child: Row(
-          children: <Widget>[
-            Expanded(
-              child: TextField(
-                controller: _messageController,
-                decoration: const InputDecoration(
-                  hintText: 'Send a message…',
+      child: IgnorePointer(
+        ignoring: !widget.enabled,
+        child: Opacity(
+          opacity: widget.enabled ? 1.0 : 0.5,
+          child: Padding(
+            padding: EdgeInsets.fromLTRB(16.0, 12.0, 16.0, mediaQuery.padding.bottom + 12.0),
+            child: Row(
+              children: <Widget>[
+                Expanded(
+                  child: Material(
+                    shape: const StadiumBorder(),
+                    color: AppTheme.white20,
+                    child: Row(
+                      children: <Widget>[
+                        horizontalMargin4,
+                        RawMaterialButton(
+                          onPressed: _onAttachment,
+                          shape: const CircleBorder(),
+                          fillColor: Colors.white,
+                          highlightColor: AppTheme.black50,
+                          padding: EdgeInsets.zero,
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
+                          child: Transform.rotate(
+                            angle: radians(-45.0),
+                            child: const Icon(
+                              Icons.attachment,
+                              color: AppTheme.toggleBackground,
+                            ),
+                          ),
+                        ),
+                        horizontalMargin16,
+                        Expanded(
+                          child: TextField(
+                            controller: _messageController,
+                            decoration: const InputDecoration(
+                              border: InputBorder.none,
+                              hintText: 'Send a message…',
+                              hintStyle: const TextStyle(color: AppTheme.white50),
+                            ),
+                            textInputAction: TextInputAction.send,
+                            onSubmitted: (_) => _onSendMessage(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                textInputAction: TextInputAction.send,
-                onSubmitted: (_) => _sendMessage(),
-              ),
+                horizontalMargin8,
+                RawMaterialButton(
+                  onPressed: _onSendMessage,
+                  shape: const CircleBorder(),
+                  fillColor: AppTheme.white20,
+                  highlightColor: AppTheme.white50,
+                  padding: const EdgeInsets.all(8.0),
+                  materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                  constraints: const BoxConstraints(minWidth: 32.0, minHeight: 32.0),
+                  child: Padding(
+                    padding: const EdgeInsets.only(bottom: 4.0),
+                    child: Transform.rotate(
+                      angle: radians(-30.0),
+                      child: const Icon(
+                        Icons.send,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            IconButton(
-              onPressed: _sendMessage,
-              icon: const Icon(Icons.send),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 
-  void _sendMessage() {
+  void _onAttachment() async {
+    final attachment = await Navigator.of(context).push(AddMediaSheet.route());
+    if (attachment != null) {
+      _attachments.add(attachment);
+    }
+  }
+
+  void _onSendMessage() {
     final text = _messageController.text.trim();
     _messageController.clear();
     if (text.isNotEmpty) {
       final currentUser = backend<UserManager>().currentUser;
       backend<ConversationManager>().sendMessage(
         widget.conversationId,
-        Message(currentUser, text: text),
+        Message(currentUser, text: text, attachments: _attachments),
       );
+      _attachments.clear();
     }
   }
 }

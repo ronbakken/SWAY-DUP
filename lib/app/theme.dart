@@ -12,10 +12,12 @@ class AppTheme {
   static const blue = const Color(0xFF073764);
   static const lightBlue = const Color(0xFF0070c0);
   static const red = const Color(0xFFDC7274);
+  static const white20 = const Color(0x33FFFFFF);
   static const white30 = const Color(0x66FFFFFF);
   static const white50 = const Color(0x80FFFFFF);
   static const blackTwo = const Color(0xFF181616);
   static const black12 = const Color(0x1F000000);
+  static const black50 = const Color(0x80000000);
   static const white12 = const Color(0x1FFFFFFF);
   static const charcoalGrey = const Color(0xFF3D3D41);
   static const toggleBackground = const Color(0xFF474749);
