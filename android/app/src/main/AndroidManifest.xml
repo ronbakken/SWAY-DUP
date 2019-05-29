@@ -4,8 +4,8 @@
 	>
 
 	<uses-permission android:name="android.permission.INTERNET"/>
-	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 
 	<application
 		android:name=".SwayApp"
@@ -30,29 +30,37 @@
 			</intent-filter>
 
 			<!-- Filter used for deep-linking -->
-			<intent-filter android:label="@string/deep_link_description" android:autoVerify="true">
+			<intent-filter
+				android:autoVerify="true"
+				android:label="@string/deep_link_description"
+				>
 				<action android:name="android.intent.action.VIEW"/>
+
 				<category android:name="android.intent.category.DEFAULT"/>
 				<category android:name="android.intent.category.BROWSABLE"/>
-				<data android:scheme="https"
+
+				<data
 					android:host="www.swaymarketplace.com"
 					android:pathPrefix="/app"
+					android:scheme="https"
 					/>
-				<data android:scheme="http" />
+				<data android:scheme="http"/>
 			</intent-filter>
 
 			<!-- Filter used for deep-linking for Facebook -->
 			<intent-filter android:label="@string/deep_link_description">
-				<action android:name="android.intent.action.VIEW" />
-				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="android.intent.action.VIEW"/>
+
+				<category android:name="android.intent.category.DEFAULT"/>
 				<category android:name="android.intent.category.BROWSABLE"/>
-				<data android:scheme="swaymarketplace" />
+
+				<data android:scheme="swaymarketplace"/>
 			</intent-filter>
 
 			<!-- Used to allow notifications to clicks to be picked up by Flutter  -->
 			<intent-filter>
-				<action android:name="FLUTTER_NOTIFICATION_CLICK" />
-				<category android:name="android.intent.category.DEFAULT" />
+				<action android:name="FLUTTER_NOTIFICATION_CLICK"/>
+				<category android:name="android.intent.category.DEFAULT"/>
 			</intent-filter>
 
 			<meta-data
