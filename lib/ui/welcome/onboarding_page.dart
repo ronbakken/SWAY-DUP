@@ -13,22 +13,19 @@ import 'package:inf/ui/widgets/routes.dart';
 import 'package:inf/ui/widgets/widget_utils.dart';
 import 'package:inf_api_client/inf_api_client.dart';
 
-const _kOnBoardingAssets = const <AppAsset>[
-  AppImages.onBoarding1,
-  AppImages.onBoarding2,
-  AppImages.onBoarding3,
-];
-
 class OnBoardingPage extends StatefulWidget {
-  final UserType userType;
-
   static Route<dynamic> route({UserType userType}) {
     return FadePageRoute(
       builder: (context) => OnBoardingPage(userType: userType),
     );
   }
 
-  const OnBoardingPage({Key key, this.userType}) : super(key: key);
+  const OnBoardingPage({
+    Key key,
+    @required this.userType,
+  }) : super(key: key);
+
+  final UserType userType;
 
   @override
   _OnBoardingPageState createState() => _OnBoardingPageState();
@@ -41,27 +38,78 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
   @override
   void initState() {
     super.initState();
-    pages = <Widget>[
+    if (widget.userType == UserType.influencer) {
+      pages = <Widget>[
+        OnBoardingCard(
+          index: 0,
+          image: AppImages.onBoarding1,
+          title: 'WHAT WE DO',
+          content: 'Sway offers a simpler way for the most sought-after influencers and '
+              'businesses to connect, market, and monetize.',
+          onPositivePressed: () => _onNextPressed(0),
+        ),
+        OnBoardingCard(
+          index: 1,
+          image: AppImages.onBoarding2,
+          title: 'THE INFLUENCERS MARKETPLACE',
+          content: 'We have created a new way for businesses and content creators to '
+              'interact and do business.',
+          onPositivePressed: () => _onNextPressed(1),
+        ),
+        OnBoardingCard(
+          index: 2,
+          image: AppImages.onBoarding3,
+          title: 'WHAT YOU GET',
+          content: 'Free exchanges, paid offers, and access to exclusive events that you\'ll '
+              'WANT to show your followers. Simply pull up our interactive map each day '
+              'to see all the new offers available to you.',
+          onPositivePressed: () => _onNextPressed(2),
+        ),
+      ];
+    } else {
+      pages = <Widget>[
+        OnBoardingCard(
+          index: 0,
+          image: AppImages.onBoarding1,
+          title: 'WHAT WE DO',
+          content: 'Sway offers a simpler way for the most sought-after content creators and '
+              'businesses to connect, market and monetize.',
+          onPositivePressed: () => _onNextPressed(0),
+        ),
+        OnBoardingCard(
+          index: 1,
+          image: AppImages.onBoarding2,
+          title: 'HOW WE DO IT',
+          content: 'Using your customized preferences and branding criteria as a guide, '
+              'we match you with the best influencers.',
+          onPositivePressed: () => _onNextPressed(1),
+        ),
+        OnBoardingCard(
+          index: 2,
+          image: AppImages.onBoarding3,
+          title: 'WHAT YOU GET',
+          content: 'Sway gets you access to the leading influencers in your industry who have '
+              'a loyal following of your target market.',
+          onPositivePressed: () => _onNextPressed(2),
+        ),
+      ];
+    }
+    pages.add(
       OnBoardingCard(
-        index: 0,
-        title: 'THE INFLUENCERS MARKETPLACE',
-        content: 'We have created a new way for businesses and content creators to interact and do business.',
-        onNextPressed: () => _onNextPressed(0),
+        index: 3,
+        image: AppImages.over18Warning,
+        title: 'Are you 18 or older?',
+        content: 'You must be 18 or older to complete transactions on Sway.\n\n'
+            'If an influencer or business representative is under the age of 18, an accompanying '
+            'adult must be present to approve the transaction.',
+        positiveText: 'I AM 18+',
+        positiveColor: AppTheme.blue,
+        onPositivePressed: () => _onNextPressed(3),
+        negativeText: 'I AM UNDER 18',
+        negativeColor: AppTheme.toggleBackground,
+        onNegativePressed: () => Navigator.of(context).pop(),
       ),
-      OnBoardingCard(
-        index: 1,
-        title: 'THE INFLUENCERS MARKETPLACE',
-        content: 'We have created a new way for businesses and content creators to interact and do business.',
-        onNextPressed: () => _onNextPressed(1),
-      ),
-      OnBoardingCard(
-        index: 2,
-        title: 'YOU ARE ALL SET!',
-        content:
-            'You can now create an account with INF to get started straighta way, or if you fancy taking a look around, you can jump straight in.',
-        onNextPressed: () => _onNextPressed(2),
-      ),
-    ];
+    );
   }
 
   @override
@@ -126,16 +174,30 @@ class _OnBoardingPageState extends State<OnBoardingPage> {
 class OnBoardingCard extends StatelessWidget {
   const OnBoardingCard({
     Key key,
-    this.index,
-    this.title,
-    this.content,
-    this.onNextPressed,
+    @required this.index,
+    @required this.image,
+    @required this.title,
+    @required this.content,
+    this.positiveText = 'NEXT',
+    this.positiveColor = Colors.white,
+    this.onPositivePressed,
+    this.negativeText,
+    this.negativeColor = Colors.white,
+    this.onNegativePressed,
   }) : super(key: key);
 
   final int index;
+  final AppAsset image;
   final String title;
   final String content;
-  final VoidCallback onNextPressed;
+
+  final String positiveText;
+  final Color positiveColor;
+  final VoidCallback onPositivePressed;
+
+  final String negativeText;
+  final Color negativeColor;
+  final VoidCallback onNegativePressed;
 
   @override
   Widget build(BuildContext context) {
@@ -149,7 +211,7 @@ class OnBoardingCard extends StatelessWidget {
             flex: 1,
             child: CurvedBoxClip(
               bottom: true,
-              child: InfAssetImage(_kOnBoardingAssets[index], fit: BoxFit.cover),
+              child: InfAssetImage(image, fit: BoxFit.cover),
             ),
           ),
           Expanded(
@@ -163,7 +225,7 @@ class OnBoardingCard extends StatelessWidget {
                   child: CustomAnimatedCurves(),
                 ),
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                  padding: const EdgeInsets.symmetric(horizontal: 28.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -186,11 +248,20 @@ class OnBoardingCard extends StatelessWidget {
                         ),
                       ),
                       const Spacer(flex: 2),
-                      InfStadiumButton(
-                        color: Colors.white,
-                        text: 'NEXT',
-                        onPressed: onNextPressed,
-                      ),
+                      if (positiveText != null)
+                        InfStadiumButton(
+                          color: positiveColor,
+                          text: positiveText,
+                          onPressed: onPositivePressed,
+                        ),
+                      if (negativeText != null) ...[
+                        verticalMargin8,
+                        InfStadiumButton(
+                          color: negativeColor,
+                          text: negativeText,
+                          onPressed: onNegativePressed,
+                        ),
+                      ],
                       verticalMargin24,
                     ],
                   ),

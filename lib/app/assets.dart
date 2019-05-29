@@ -69,6 +69,7 @@ class AppImages {
   static const onBoarding1 = AppAsset.bitmap('assets/images/img_onboarding1.jpg');
   static const onBoarding2 = AppAsset.bitmap('assets/images/img_onboarding2.jpg');
   static const onBoarding3 = AppAsset.bitmap('assets/images/img_onboarding3.jpg');
+  static const over18Warning = AppAsset.bitmap('assets/images/img_over18warning.png');
 
   static const handshake = AppAsset.bitmap('assets/images/img_handshake.png');
 }
