@@ -9,15 +9,8 @@ class AppFonts {
 class AppLogo {
   const AppLogo();
 
-  static const infSplash = AppAsset.bitmap('assets/images/splash_logo.png');
-  static const infLogo = AppAsset.vector('assets/images/logo_inf.svg');
-  static const infLogoWithShadow = AppAsset.vector('assets/images/logo_inf_shadow.svg');
-  static const swayLogo = AppAsset.vector('assets/images/logo_sway.svg');
-  static const instagram = AppAsset.bitmap('assets/images/logo_instagram.png');
-  static const facebook = AppAsset.vector('assets/images/logo_facebook.svg');
-  static const google = AppAsset.vector('assets/images/logo_google.svg');
-  static const twitter = AppAsset.vector('assets/images/logo_twitter.svg');
-  static const email = AppAsset.vector('assets/images/logo_email.svg');
+  static const swayLogoText = AppAsset.vector('assets/images/logo_sway_text.svg');
+  static const swayLogoIcon = AppAsset.vector('assets/images/logo_sway_icon.svg');
 }
 
 class AppIcons {

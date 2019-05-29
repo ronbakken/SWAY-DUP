@@ -614,7 +614,13 @@ class _SocialNetWorkConnectionStatusViewState extends State<_SocialNetWorkConnec
           ),
           height: 48,
           width: 48,
-          child: const Center(child: const InfAssetImage(AppLogo.infLogo, height: 24, width: 24)),
+          child: const Center(
+            child: const InfAssetImage(
+              AppLogo.swayLogoIcon,
+              height: 24,
+              width: 24,
+            ),
+          ),
         ),
         horizontalMargin8,
         connectionStateIcon,

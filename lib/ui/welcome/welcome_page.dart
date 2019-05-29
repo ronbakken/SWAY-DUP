@@ -153,7 +153,7 @@ class _WelcomePageState extends PageState<WelcomePage> {
                       children: <Widget>[
                         const Expanded(
                           child: Center(
-                            child: InfAssetImage(AppLogo.swayLogo),
+                            child: InfAssetImage(AppLogo.swayLogoText),
                           ),
                         ),
                         verticalMargin12,
