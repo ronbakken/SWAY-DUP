@@ -176,10 +176,11 @@ class _WelcomePageState extends PageState<WelcomePage> {
                             children: <TextSpan>[
                               TextSpan(text: 'Already got an account? '),
                               TextSpan(
-                                  text: 'Login',
-                                  style: TextStyle(
-                                    decoration: TextDecoration.underline,
-                                  )),
+                                text: 'Login',
+                                style: TextStyle(
+                                  decoration: TextDecoration.underline,
+                                ),
+                              ),
                             ],
                           ),
                           onPressed: () => Navigator.of(context).push(
@@ -315,7 +316,7 @@ class _WelcomeWallState extends State<_WelcomeWall> {
       Iterable<Future> loadingImages = widget.data.map<Future>((url) => precacheImage(NetworkImage(url), context));
       Future.wait(loadingImages).then((_) {
         if (mounted) {
-          setState(() => _opacity = 0.5);
+          setState(() => _opacity = 0.25);
         }
       });
       _first = false;
@@ -325,15 +326,14 @@ class _WelcomeWallState extends State<_WelcomeWall> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size * 1.25; // zoom level
-    return AnimatedOpacity(
-      opacity: _opacity,
-      duration: const Duration(seconds: 3),
-      curve: Curves.decelerate,
-      child: Stack(
-        fit: StackFit.expand,
-        children: <Widget>[
-          Opacity(
-            opacity: 0.5,
+    return Stack(
+      fit: StackFit.expand,
+      children: <Widget>[
+        RepaintBoundary(
+          child: AnimatedOpacity(
+            opacity: _opacity,
+            duration: const Duration(seconds: 3),
+            curve: Curves.decelerate,
             child: OverflowBox(
               minWidth: size.width,
               maxWidth: size.width,
@@ -347,30 +347,35 @@ class _WelcomeWallState extends State<_WelcomeWall> {
               ),
             ),
           ),
-          const FractionallySizedBox(
+        ),
+        const RepaintBoundary(
+          child: FractionallySizedBox(
             alignment: Alignment.bottomCenter,
             heightFactor: 0.5,
-            child: DecoratedBox(
-              decoration: const BoxDecoration(
-                gradient: const LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: <Color>[
-                    const Color(0x00000000),
-                    const Color(0xCC000000),
-                    const Color(0xFF000000),
-                  ],
-                  stops: <double>[
-                    0.5,
-                    0.70,
-                    0.85,
-                  ],
+            child: Opacity(
+              opacity: 0.5,
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  gradient: const LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: <Color>[
+                      const Color(0x00000000),
+                      const Color(0xCC000000),
+                      const Color(0xFF000000),
+                    ],
+                    stops: <double>[
+                      0.5,
+                      0.70,
+                      0.85,
+                    ],
+                  ),
                 ),
               ),
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
