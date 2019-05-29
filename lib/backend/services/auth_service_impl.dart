@@ -281,7 +281,7 @@ class AuthenticationServiceImplementation implements AuthenticationService {
 
   @override
   Future<void> updateLoginProfile(User user) async {
-    if (loginProfiles.profiles.containsKey(user.email)) {
+    if (loginProfiles?.profiles?.containsKey(user.email) ?? false) {
       // Update stored user data
       loginProfiles.profiles[user.email].userName = user.name;
       loginProfiles.profiles[user.email].avatarUrl = user.avatarThumbnail.imageUrl;
