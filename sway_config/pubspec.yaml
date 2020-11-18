@@ -1,0 +1,20 @@
+name: inf_config
+description: INF Configuration. Well known configuration data that's bundled with the APK that can be updated by the server.
+version: 1.1.15
+homepage: https://www.infmarketplace.com
+author: Jan Boon <kaetemi@no-break.space>
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  ini: ^2.0.1
+  fixnum: ^0.10.9
+  dospace: ^0.12.12
+  inf_common:
+    git: 
+      url: git@github.com:infmarketplace/inf_common.git
+      ref: 85e7fa2c563428517f0f981ec18fd4114268dac7
+
+dev_dependencies:
+  test: ^1.0.0
