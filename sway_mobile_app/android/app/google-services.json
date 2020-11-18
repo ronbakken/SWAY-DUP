@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "903533145353",
+    "firebase_url": "https://inf-sand.firebaseio.com",
+    "project_id": "inf-sand",
+    "storage_bucket": "inf-sand.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:903533145353:android:01af393d6b656396",
+        "android_client_info": {
+          "package_name": "app.infsandbox"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "903533145353-s0if1tcssmg82uispc1v714utq1lrtag.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAW7rNRAbIJd-DYdTkGn7os3CRltCBPFxQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
