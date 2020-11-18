@@ -1,0 +1,351 @@
+
+
+DataOffer
+
+{
+    _id
+    _source {
+        long sender_account_id
+        byte sender_account_type
+        long sender_session_id
+        long location_id
+        
+        boolean direct
+        boolean accept_matching_proposals
+        boolean allow_negotiating_proposals
+        
+        date created
+        array date modified
+        
+        text title
+        keyword thumbnail_key
+        binary thumbnail_blurred
+        
+        array short deliverable_social_platforms
+        (denormalized) array keyword deliverable_social_platform_keywords 
+        array short deliverable_content_formats
+        (denormalized) array keyword deliverable_content_format_keywords
+        text deliverables_description
+        
+        integer reward_cash_value
+        integer reward_item_or_service_value
+        (denormalized) integer reward_total_value
+        text reward_item_or_service_description
+        
+        text sender_name
+        keyword sender_avatar_url
+        binary sender_avatar_blurred
+        text location_address
+        geo_point location
+        
+        text description
+        array string cover_keys
+        array binary covers_blurred
+        
+        date scheduled_open
+        date scheduled_close
+        
+        array short categories
+        (denormalized) array keyword category_keywords (deepest categories only)
+        (denormalized) array short primary_categories (root categories only)
+        (denormalized) array keyword primary_category_keywords
+        (denormalized) array short expanded_categories
+        (denormalized) array keyword expanded_category_keywords (including parent categories)
+        
+        short state
+        short state_reason
+        boolean archived
+        (denormalized) boolean published (!direct && !archived && state == open)
+        
+        (denormalized) integer proposals_proposing
+        (denormalized) integer proposals_negotiating
+        (denormalized) integer proposals_deal
+        (denormalized) integer proposals_rejected
+        (denormalized) integer proposals_dispute
+        (denormalized) integer proposals_resolved
+        (denormalized) integer proposals_complete
+        
+        (denormalized) array long s2cell_ids
+        (denormalized) array long geohash_ints
+        (denormalized) array string geohashes
+        
+        (denormalized) array short s2cell_id_shards
+        (denormalized) array short geohash_int_shards
+        (denormalized) array short geohash_shards
+        
+        (denormalized) map long proposal_sender_account_ids ---------------- TODO --------------------
+        
+        (ai) array keyword image_keywords (keywords pulled from images)
+        
+    }
+}
+
+PUT offers
+{
+  "settings": {
+    "index": {
+      "number_of_shards": 17
+    }
+  },
+  "mappings": {
+    "_doc": {
+      "properties": {
+        "sender_account_id": {
+          "type":  "long"
+        },
+        "sender_account_type": {
+          "type":  "byte"
+        },
+        "sender_session_id": {
+          "type":  "long"
+        },
+        "location_id": {
+          "type":  "long"
+        },
+        
+        "direct": {
+          "type":  "boolean"
+        },
+        "accept_matching_proposals": {
+          "type":  "boolean"
+        },
+        "allow_negotiating_proposals": {
+          "type":  "boolean"
+        },
+        
+        "created": {
+          "type":   "date",
+          "format": "epoch_millis"
+        },
+        "modified": {
+          "type":   "date",
+          "format": "epoch_millis"
+        },
+        
+        "title": {
+          "type":  "text"
+        },
+        "thumbnail_key": {
+          "type":  "keyword"
+        },
+        "thumbnail_blurred": {
+          "type":  "binary"
+        },
+        
+        "deliverable_social_platforms": {
+          "type":  "short"
+        },
+        "deliverable_social_platform_keywords": {
+          "type":  "keyword"
+        },
+        "deliverable_content_formats": {
+          "type":  "short"
+        },
+        "deliverable_content_format_keywords": {
+          "type":  "keyword"
+        },
+        "deliverables_description": {
+          "type":  "text"
+        },
+        
+        "reward_cash_value": {
+          "type":  "integer"
+        },
+        "reward_item_or_service_value": {
+          "type":  "integer"
+        },
+        "reward_total_value": {
+          "type":  "integer"
+        },
+        "reward_item_or_service_description": {
+          "type":  "text"
+        },
+        
+        "sender_name": {
+          "type":  "text"
+        },
+        "sender_avatar_url": {
+          "type":  "keyword"
+        },
+        "sender_avatar_blurred": {
+          "type":  "binary"
+        },
+        "location_address": {
+          "type":  "text"
+        },
+        "location": {
+          "type":  "geo_point"
+        },
+        
+        "description": {
+          "type":  "text"
+        },
+        "cover_keys": {
+          "type":  "keyword"
+        },
+        "covers_blurred": {
+          "type":  "binary"
+        },
+        
+        "scheduled_open": {
+          "type":   "date",
+          "format": "epoch_millis"
+        },
+        "scheduled_close": {
+          "type":   "date",
+          "format": "epoch_millis"
+        },
+        
+        "categories": {
+          "type":  "short"
+        },
+        "category_keywords": {
+          "type":  "keyword"
+        },
+        "primary_categories": {
+          "type":  "short"
+        },
+        "primary_category_keywords": {
+          "type":  "keyword"
+        },
+        "expanded_categories": {
+          "type":  "short"
+        },
+        "expanded_category_keywords": {
+          "type":  "keyword"
+        },
+        
+        "state": {
+          "type":  "short"
+        },
+        "state_reason": {
+          "type":  "short"
+        },
+        "archived": {
+          "type":  "boolean"
+        },
+        "published": {
+          "type":  "boolean"
+        },
+        
+        "proposals_proposing": {
+          "type":  "integer"
+        },
+        "proposals_negotiating": {
+          "type":  "integer"
+        },
+        "proposals_deal": {
+          "type":  "integer"
+        },
+        "proposals_rejected": {
+          "type":  "integer"
+        },
+        "proposals_dispute": {
+          "type":  "integer"
+        },
+        "proposals_resolved": {
+          "type":  "integer"
+        },
+        "proposals_complete": {
+          "type":  "integer"
+        },
+        
+        "s2cell_ids": {
+          "type":  "long"
+        },
+        "geohash_ints": {
+          "type":  "long"
+        },
+        "geohashes": {
+          "type":  "keyword"
+        },
+        
+        "s2cell_id_shards": {
+          "type":  "short"
+        },
+        "geohash_int_shards": {
+          "type":  "short"
+        },
+        "geohash_shards": {
+          "type":  "short"
+        },
+        
+        "proposal_sender_account_ids": {
+          "type":  "long"
+        },
+        
+        "image_keywords": {
+          "type":  "keyword"
+        }
+      }
+    }
+  }
+}
+
+PUT offers/_mapping/_doc
+{
+  "properties": {
+    "proposal_sender_account_ids": {
+      "type":  "long"
+    }
+  }
+}
+
+PUT offers/_doc/0
+{
+  "title": "Hello world",
+  "description": "This is an offer!"
+}
+
+Text search query
+^boosts
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/keyword.html
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-multi-match-query.html
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-bool-query.html
+see https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html
+GET /offers/_search
+{
+  "query": {
+    "multi_match" : {
+      "query": "Will Smith",
+      "type": "most_fields",
+      "fields": [
+        "title^4",
+        "location_name^4",
+        "location_text^2",
+        "description^3",
+        "*_description^2",
+        "*_keywords"
+      ] 
+    }
+  }
+}
+
+With added filter to only show published objects
+GET /offers/_search
+{
+  "query": {
+    "bool": {
+      "filter": {
+        "term": {
+          "published": true
+        }
+      },
+      "must": {
+        "multi_match" : { // provide separate multi_match blocks with their own ranking for different types mixed
+          "query": "Will Smith",
+          "type": "most_fields",
+          "fields": [
+            "title^4",
+            "location_name^4",
+            "location_text^2",
+            "description^3",
+            "*_description^3",
+            "*_keywords",
+          ]
+        }
+      }
+    }
+  }
+}
+

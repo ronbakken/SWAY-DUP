@@ -1,0 +1,50 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+/*
+
+Backend service dedicated to sign JWT claims.
+
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+message ReqSign {
+  /// Claim in JSON format
+  string claim = 1;
+
+}
+
+message ResSign {
+  /// Signed token in encoded JWT format
+  string token = 1;
+
+}
+
+message ReqGetKeyStore {
+  // empty
+
+}
+
+message ResGetKeyStore {
+  /// JSON Web KeyStore in JSON format
+  string jwks = 1;
+
+}
+
+service BackendJwt {
+  /// Create a signed JWT token with the given claims
+  rpc Sign(ReqSign) returns (ResSign) {}
+
+  /// Get the public keystore
+  rpc GetKeyStore(ReqGetKeyStore) returns (ResGetKeyStore) {}
+
+}
+
+/* end of file */

@@ -1,0 +1,23 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_push_protobuf.proto";
+
+service ApiPush {
+  /// Opens the server stream
+  rpc Listen(NetListen) returns (stream NetPush) {}
+
+  /// Keep alive message
+  rpc KeepAlive(NetKeepAlive) returns (NetKeepAlive) {}
+
+}
+
+/* end of file */

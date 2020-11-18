@@ -1,0 +1,41 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_ident_protobuf.proto";
+import "net_account_protobuf.proto";
+
+service ApiAccount {
+  /// Sets the account type of the current session, if no account has been created yet
+  rpc SetType(NetSetAccountType) returns (NetAccount) {}
+
+  /// Posts the result of the OAuth flow to process the connection. For OAuth2 this essentially pushes the magic token.
+  rpc ConnectProvider(NetOAuthConnect) returns (NetOAuthConnection) {}
+
+  /// Creates account. Fetches social media information. Sets up initial account data. Downloads initial avatar
+  rpc Create(NetAccountCreate) returns (NetSession) {}
+
+  /// TODO
+  // rpc DisconnectProvider
+
+  /// Sets the firebase token of the current account. Also replaces the same previous firebase token that is specified on other accounts, if specified
+  rpc SetFirebaseToken(NetSetFirebaseToken) returns (NetAccount) {}
+
+  /// We should migrate to OneSignal, to have closer integration with iOS & to be safer, since Firebase Messaging does not have an SLA at all (& spies on users)
+  // rpc SetOneSignalId
+
+  /// TBD. Applies a promo code
+  // rpc ApplyPromo(NetAccountApplyPromo) returns (NetAccountPromo) {}
+
+}
+
+// This class is named ApiAccount and not ApiAccounts, since it only deals with a single account from API point of view.
+
+/* end of file */

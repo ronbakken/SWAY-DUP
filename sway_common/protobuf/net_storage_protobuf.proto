@@ -1,0 +1,45 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+// import "enum_protobuf.proto";
+// import "data_protobuf.proto";
+
+// Client requests the server permission to upload an image
+// The server may delete the image later if it is never used
+// Response: NetUploadSigned
+message NetUploadImage {
+  // File information
+  string fileName = 1;
+  
+  int32 contentLength = 2;
+  string contentType = 4;
+  
+  // Hashed file contents
+  bytes contentSha256 = 3;
+  
+}
+
+// Request parameters to be used by the client verbatim for uploading
+message NetUploadSigned {
+  // Request options
+  string requestMethod = 1;
+  string requestUrl = 2;
+  
+  // Result options
+  bool fileExists = 9; // If true, no need to upload
+  string uploadKey = 10;
+  string coverUrl = 11;
+  string thumbnailUrl = 12;
+  // string mediumUrl = 13; // TODO
+  
+}
+
+/* end of file */

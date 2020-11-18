@@ -1,0 +1,73 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+/*
+
+Backend service dedicated to handling message streams and notifications.
+
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_push_protobuf.proto";
+import "net_account_protobuf.proto";
+
+message ReqPush {
+    NetPush message = 1;
+
+    int64 receiver_account_id = 2;
+    int64 sender_session_id = 3;
+
+    /// Don't push to the sender session id
+    bool skip_sender_session = 4;
+
+    /// Send push platform notification (One of FireBase, APN, or OneSignal depending on session support)
+    bool send_notifications = 5;
+
+    /// Don't send push platform notifications for online sessions (app handles pushed messages directly)
+    bool skip_notifications_when_online = 6;
+
+}
+
+message ResPush {
+    /// Number of online sessions for the target account which received the notification
+    int32 online_sessions = 1;
+
+    /// Number of push platform targets received the notifications
+    int32 platform_notifications_attempted = 2;
+    int32 platform_notifications_succeeded = 3;
+
+}
+
+message ReqSetFirebaseToken {
+    NetSetFirebaseToken token = 1;
+    int64 session_id = 2;
+    int64 account_id = 3;
+
+}
+
+message ResSetFirebaseToken {
+    // ...
+
+}
+
+service BackendPush {
+  /// Push a message to a user by account.
+  rpc Push(ReqPush) returns (ResPush) {}
+
+  /// Sets the firebase token of the specified session.
+  /// Replaces tokens matching the session's previous firebase token as well if it matches the passed previous token.
+  rpc SetFirebaseToken(ReqSetFirebaseToken) returns (ResSetFirebaseToken) {}
+
+  /// We should migrate to OneSignal, to have closer integration with iOS & to be safer, since Firebase Messaging does not have an SLA at all (& spies on users)
+  // rpc SetOneSignalId
+
+}
+
+/* end of file */

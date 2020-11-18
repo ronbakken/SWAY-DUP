@@ -1,0 +1,58 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "enum_protobuf.proto";
+import "data_protobuf.proto";
+
+/// Session open options
+/// Request must be authorized with a refresh token
+/// Response: NetSession
+message NetSessionOpen {
+  /// Information on the currently loaded config
+  string domain = 7; // If mismatch, cannot serve this session at all
+  int32 client_version = 8; // If mismatch, cannot serve this session at all
+
+}
+
+/// Create a session with the current payload cookie
+/// Response: NetSession
+message NetSessionCreate {
+  /// Token for tracking which device, for statistics purposes only, not secure.
+  /// Used to track multiple sessions accross a device (administration tools).
+  bytes device_token = 1;
+  
+  /// More device information for developers
+  string device_name = 2;
+  string device_info = 3;
+
+  /// Information on the currently loaded config
+  string domain = 7; // If mismatch, cannot serve this session at all
+  int32 client_version = 8; // If mismatch, cannot serve this session at all
+  
+}
+
+/// Session created successfully,
+message NetSession {
+  /// Embedded account info, reduces delay.
+  DataAccount account = 2;
+
+  /// Refresh token when creating a session, used for opening subsequent sessions.
+  /// Not set when opening an existing session, normally, unless the refresh token needs to be replaced.
+  string refresh_token = 3;
+
+  /// Access token for when a session is opened.
+  /// If not set, the refresh token used to open te session is invalid, 
+  /// and the session must be removed from the client.
+  string access_token = 4;
+  
+}
+
+/* end of file */

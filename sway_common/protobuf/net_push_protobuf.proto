@@ -1,0 +1,67 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "enum_protobuf.proto";
+import "data_protobuf.proto";
+import "net_account_protobuf.proto";
+import "net_offer_protobuf.proto";
+import "net_proposal_protobuf.proto";
+
+/// Request for push stream
+message NetListen {
+    // empty
+}
+
+// Server notifies client of new DataProposal (An influencer has applied for your offer!)
+// NOTE: This is accompanied by a chat marker DataProposalChat, the chat marker provides notification
+// Data: NetProposal
+
+// Server notifies client of new DataProposalChat (should also have firebase variants)
+// Data: NetProposalChat
+
+// Server updates existing DataProposal
+// Data: NetProposal
+
+// Server updates existing DataProposalChat
+// Data: NetProposalChat
+
+/// Request the user to download an updated configuration file.
+message NetConfigDownload {
+    string config_url = 1;
+}
+
+message NetKeepAlive {
+    // empty
+
+}
+
+message NetPushing {
+    // empty
+}
+
+/// Push stream entry
+message NetPush {
+    oneof push {
+        NetPushing pushing = 8; // First message is sent with this set to notify that the push stream is running
+        NetKeepAlive keep_alive = 9; // Blank message to keep the connection alive
+
+        NetAccount update_account = 1;
+        NetOffer update_offer = 2;
+        NetProposal new_proposal = 3; // Notifies new proposal by other user
+        NetProposal update_proposal = 4;
+        NetProposalChat new_proposal_chat = 5; // Notifies new chat by other user
+        NetProposalChat update_proposal_chat = 6;
+        NetConfigDownload config_download = 7; // User should download an updated config file
+
+    }
+}
+
+/* end of file */

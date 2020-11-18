@@ -1,0 +1,30 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_offer_protobuf.proto";
+import "net_demo_protobuf.proto";
+
+service ApiExplore {
+  /// Demo function that returns all latest offers
+  rpc DemoAll(NetDemoAllOffers) returns (stream NetOffer) {}
+
+  /// TODO
+  // SearchMap
+
+  /// TODO
+  // SearchList
+
+  /// TODO
+  // SearchFeatured
+
+}
+
+/* end of file */

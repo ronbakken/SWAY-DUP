@@ -1,0 +1,31 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+// import "enum_protobuf.proto";
+import "data_protobuf.proto";
+
+// Get Profile
+// Id: GETPROFL
+// Res: NetProfile (Id: R_PROFIL)
+message NetGetProfile {
+  int64 accountId = 1;
+    
+}
+
+message NetProfile {
+  DataAccount account = 1;
+  
+  bool summary = 3;
+  bool detail = 4;
+  
+}
+
+/* end of file */

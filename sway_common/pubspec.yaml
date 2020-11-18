@@ -1,0 +1,16 @@
+name: inf_common
+description: INF Common Protocol files. Shared data structures and enumerations. 
+version: 3.0.32
+homepage: https://www.infmarketplace.com
+author: Jan Boon <jan.boon@kaetemi.be>
+publish_to: none
+
+environment:
+  sdk: '>=2.0.0 <3.0.0'
+
+dependencies:
+  protobuf: "0.11.0"
+  grpc: ^1.0.0
+
+#dev_dependencies:
+#  test: ^1.0.0

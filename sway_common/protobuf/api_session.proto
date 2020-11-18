@@ -1,0 +1,43 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_ident_protobuf.proto";
+import "net_account_protobuf.proto";
+
+service ApiSession {
+  /// Create a new session. Does not require any authorization.
+  /// Returns a new refresh token.
+  /// Includes blank account state with session id set.
+  /// Includes a new access token.
+  rpc Create(NetSessionCreate) returns (NetSession) {}
+
+  /// Open an existing session.
+  /// Returns a new access token and the account state 
+  /// with session id and optionally the account id set.
+  /// Must be called with a refresh authorization token.
+  /// If the refresh token is invalid, this returns with a blank access token.
+  /// The returned access token is used for accessing the rest of the API.
+  rpc Open(NetSessionOpen) returns (NetSession) {}
+
+  /// TODO
+  // Remove
+
+  /// A refresh token includes just a signed session id and cookie, and does not expire.
+  /// A hashed version of the cookie is stored server-side for validation, in the event the private key is compromised.
+  /// An access token includes the signed account id and access level, and expires after an hour.
+
+  /// Currently the cookie is always checked, since we have not optimized yet.
+
+  /// Currently both tokens are signed by the same key. This should be changed.
+
+}
+
+/* end of file */

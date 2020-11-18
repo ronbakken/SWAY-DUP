@@ -1,0 +1,57 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "enum_protobuf.proto";
+import "data_protobuf.proto";
+
+// Generic response to offer request
+// Procedure Id: R_CREOFR, R_LSTOFR, R_EDTOFR, R_GETOFR, OFFERUPD
+message NetOffer {
+  DataOffer offer = 1;
+  
+  bool state = 2; // State is only used in batch offer listing and live updates, cannot be explicitly requested
+  bool summary = 3;
+  bool detail = 4;
+  
+}
+
+// Message to create offer
+// Procedure Id: CREOFFER
+// Response: NetOffer
+message NetCreateOffer {
+  DataOffer offer = 1;
+  
+}
+
+// Message to load or refresh offer list (the list of the sender's own offers)
+// Id: LISTOFRS
+// Response: NetOffer stream
+message NetListOffers {
+  // Offers with id lower than this (older offers) (ignore if 0)
+  // int32 before = 1;
+  
+  // Offers with id higher than this (newer offers) (ignore if 0)
+  // int32 after = 2;
+  
+  // Limit (ignore if 0)
+  // limit = 3;
+  
+}
+
+// Get Offer
+// Id: GETOFFER
+// Res: NetOffer
+message NetGetOffer {
+  int64 offerId = 1;
+  
+}
+
+/* end of file */

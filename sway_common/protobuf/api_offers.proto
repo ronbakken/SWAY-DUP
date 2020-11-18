@@ -1,0 +1,39 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_offer_protobuf.proto";
+import "net_report_protobuf.proto";
+
+service ApiOffers {
+  /// Creates a new offer
+  rpc Create(NetCreateOffer) returns (NetOffer) {}
+
+  /// List my offers
+  rpc List(NetListOffers) returns (stream NetOffer) {}
+
+  /// Get a public offer (detail)
+  rpc Get(NetGetOffer) returns (NetOffer) {}
+
+  /// Reports an offer to customer support
+  rpc Report(NetReportOffer) returns (NetReport) {}
+
+  /// TODO
+  // Edit
+
+  /// TODO: Close an offer from further applicants
+  // Close
+
+  /// TODO: Flag a closed offer as archived
+  // Archive
+
+}
+
+/* end of file */

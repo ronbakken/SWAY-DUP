@@ -1,0 +1,30 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "enum_protobuf.proto";
+import "data_protobuf.proto";
+
+// Report an offer to customer support
+// Procedure Id: REPOFFR
+// Response: NetReport R_REPOFR
+message NetReportOffer {
+  int64 offer_id = 1;
+  string text = 2; // Sent to support. Sent by mail
+  
+}
+
+// Procedure Id: R_REPOFR
+message NetReport {
+  string support_ticket = 1;
+  
+}
+
+/* end of file */

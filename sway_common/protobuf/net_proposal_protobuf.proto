@@ -1,0 +1,184 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+// import "enum_protobuf.proto";
+import "data_protobuf.proto";
+
+// Generic response for proposal actions.
+// Always returns the updated proposal info,
+// and optionally new chats generated from the action (ghost-less),
+// or latest chat and latest term chat.
+// In case of an Exception, the client should mark the current proposal
+// and chat data as dirty, and reload it's state
+message NetProposal {
+  DataProposal proposal = 1;
+  repeated DataProposalChat chats = 2;
+  
+}
+
+// Proposal chat message
+message NetProposalChat {
+  DataProposalChat chat = 1;
+  
+}
+
+/// Send a proposal by applying for an offer
+message NetApplyProposal {
+  int64 offer_id = 1;
+  int32 session_ghost_id = 8;
+  
+  /// Required. Proposal remarks.
+  string remarks = 2;
+  
+  /// Optional. Proposal terms. Offer terms are copied on values not set.
+  DataTerms terms = 3;
+  
+}
+
+/// Send a direct proposal
+message NetDirectProposal {
+  int32 session_ghost_id = 8;
+  
+  /// Required. Proposal remarks.
+  string remarks = 2;
+  
+  DataOffer offer = 4;
+  
+}
+
+/// Message to list the proposals the user has sent or received
+/// Limited to 255
+message NetListProposals {
+  // Offer for which to send proposals (ignored when requested by influencer)
+  int64 offer_id = 4;
+  
+  /*
+  // Proposals with id lower than this (older proposals) (ignore if 0)
+  int64 before = 1;
+  
+  // Proposals with id higher than this (newer proposals) (ignore if 0)
+  int64 after = 2;
+  
+  // Limit (ignore if 0)
+  int64 limit = 3;
+  */
+  
+}
+
+/// Message to get a specific proposal
+message NetGetProposal {
+  int64 proposal_id = 1;
+  
+  /*
+  bool include_offer = 2;
+  bool include_profile = 3;
+  */
+  
+}
+
+// Want deal. Only successful if the haggleChatId is current
+// Response: NetProposal, proposal update + marker
+message NetProposalWantDeal {
+  int64 proposal_id = 1;
+  int64 terms_chat_id = 2;
+  
+}
+
+message NetProposalNegotiate {
+  int64 proposal_id = 1;
+  
+}
+
+// Reject an application (closes the chat too)
+// Response: NetProposal, proposal update + marker
+message NetProposalReject {
+  int64 proposal_id = 1;
+  string reason = 2; // Reason part of marker but not shown right now
+  
+}
+
+// Report an application
+// Response: NetProposal, null, null
+message NetProposalReport {
+  int64 proposal_id = 1;
+  string text = 2; // Sent to support. Sent by mail (sql transaction... :))
+  
+}
+
+// Dispute a problem
+// Response: NetProposal, proposal update + marker
+message NetProposalDispute {
+  int64 proposal_id = 1;
+  
+  bool delivered = 2;  // Markings can only be changed under DEAL and DISPUTE stage, ignored otherwise
+  bool rewarded = 3;
+  
+  string dispute_description = 6; // Problem description for support. Sent by mail (sql transaction... :))
+  
+}
+
+// Mark as completed
+// Response: NetProposal, proposal update + marker
+message NetProposalCompletion {
+  int64 proposal_id = 1;
+  
+  /// If both users rate, then offer moves to COMPLETE, even if in DISPUTE
+  int32 rating = 4;
+  
+}
+
+// Message to load or refresh proposal chat list
+// Server will send a stream of DataProposalChat messages
+// Response: NetProposalChat
+message NetListChats {
+  // Proposal for which to send chats
+  int64 proposal_id = 5;
+  
+  // Proposal chats with id lower than this (older proposal chats) (ignore if 0)
+  // int64 before = 1;
+  
+  // Proposal chats with id higher than this (newer proposal chats) (ignore if 0)
+  // int64 after = 2;
+  
+  // Limit (ignore if 0)
+  // int64 limit = 3;
+  
+}
+
+// Send chat plain
+// Id: CH_PLAIN
+message NetChatPlain {
+  int64 proposal_id = 1;
+  int32 session_ghost_id = 8;
+  string text = 6;
+  
+}
+
+// Send chat haggle (refuse if already accepted by both)
+// Id: CH_HAGGL
+message NetChatNegotiate {
+  int64 proposal_id = 1;
+  int32 session_ghost_id = 8;
+  string remarks = 2;
+  DataTerms terms = 5;
+  
+}
+
+// Send chat image key
+// Id: CH_IMAGE
+message NetChatImageKey {
+  int64 proposal_id = 1;
+  int32 session_ghost_id = 8;
+  string image_key = 5;
+  
+}
+
+/* end of file */

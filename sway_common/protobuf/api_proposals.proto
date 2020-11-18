@@ -1,0 +1,32 @@
+/*
+INF Marketplace
+Copyright (C) 2019  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "net_proposal_protobuf.proto";
+
+service ApiProposals {
+  /// Send proposal to apply for an offer. Leave terms empty to apply without negotiation
+  rpc Apply(NetApplyProposal) returns (NetProposal) {}
+
+  /// Send direct offer proposal
+  rpc Direct(NetDirectProposal) returns (NetProposal) {}
+
+  /// List all proposals sent to me or by me
+  rpc List(NetListProposals) returns (stream NetProposal) {}
+
+  /// Get a specific proposal. Includes the last chat message and last terms chat
+  rpc Get(NetGetProposal) returns (NetProposal) {}
+
+  /// List all chat messages for a specific proposal
+  rpc ListChats(NetListChats) returns (stream NetProposalChat) {}
+
+}
+
+/* end of file */

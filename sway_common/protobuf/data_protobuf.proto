@@ -1,0 +1,390 @@
+/*
+INF Marketplace
+Copyright (C) 2018  INF Marketplace LLC
+Author: Jan Boon <jan.boon@kaetemi.be>
+*/
+
+/*
+
+Planned changes:
+- Support both geohash and s2 in location info for evaluation
+- Aggregate image urls into a generic structure (blurred data or url and full image url)
+- Specialized fields for non-text chat messages (storing protobuf blob in database)
+- Separate offer terms into 'terms' structure for re use in proposal transactions
+- Brand accounts can be created as shared accounts without authentication mechanism (cf Facebook Pages, YouTube Channels, etc)
+
+*/
+
+syntax = "proto3";
+
+package inf;
+option csharp_namespace = "Inf";
+
+import "enum_protobuf.proto";
+
+// This message MUST NOT contain 'repeated' due to usage of 'mergeFromMessage'
+message DataSocialMedia {
+  int32 provider_id = 21;
+  
+  /// Social media is connected to the account
+  bool connected = 1;
+  /// Token for connection is expired, data outdated and user must re-connect 
+  /// by OAuth (happens if the user revokes the token from the social provider)
+  bool expired = 15;
+  
+  /// TODO: Information from this social media connection may be published to other users (user setting)
+  bool published = 17;
+  /// TODO: Allow logging in with this account (user setting)
+  bool allow_log_in = 18;
+  /// TODO: Possible to log in or sign up with the connected account (user setting)
+  bool can_authenticate = 19;
+  
+  /// This connection can be used to sign up (the account is not signed up yet)
+  bool can_sign_up = 20;
+  
+  /* Names. Use whichever one is not empty. Prefer displayName. */
+  /// Screen name, eg. Twitter account name
+  string screen_name = 4;
+  /// Display name, eg. Facebook full name
+  string display_name = 5;
+  
+  /* Further info. May have null values. Most data isn't always shared. */
+  /// Url to the actual social media profile
+  string avatar_url = 14;
+  string blurredAvatar_url = 16;
+  string profile_url = 13;
+  string description = 6;
+  string location = 7;
+  string url = 8;
+  string email = 12;
+  
+  /* Use the largest of either friendsCount or followersCount for boasting. */
+  int32 friends_count = 9;
+  int32 followers_count = 2;
+  int32 following_count = 3;
+  
+  int32 posts_count = 10;
+  
+  bool verified = 11;
+  
+}
+
+message DataOAuthCredentials {
+  /* Server info, never shared with client */
+  /// User id
+  string user_id = 4;
+  /// Token for OAuth1 and OAuth2
+  string token = 1;
+  /// Secret token for OAuth1. May be empty string for OAuth2
+  string token_secret = 2;
+  /// Expiration timestamp in seconds. No expiration if 0
+  int32 token_expires = 3;
+  
+}
+
+message DataAuth {
+  // Access subset of DataAccount
+  int64 session_id = 4;
+  int64 account_id = 5;
+  AccountType account_type = 6;
+  GlobalAccountState global_account_state = 7; // Banned, readWrite (active), manager, etc
+  AccountLevel account_level = 9; // Subscription (free, premium, pro, etc)
+
+  /// Set for the refresh token for additional security.
+  /// The server cannot generate new refresh tokens for an existing session due to this, by design.
+  /// If doing so, it requires invalidating the previous refresh token, adjusting it in the database.
+  bytes cookie = 1;
+
+}
+
+message DataTerms {
+  // Deliverables
+  repeated int32 deliverable_social_platforms = 1; // Identifier from oauth providers
+  repeated int32 deliverable_content_formats = 2; // Identifier from content formats config
+  string deliverables_description = 3; // (Detail)
+  
+  // Reward
+  int32 reward_cash_value = 4;
+  int32 reward_item_or_service_value = 5;
+  string reward_item_or_service_description = 6; // (Detail)
+  
+}
+
+message DataOffer { // 51
+  int64 offer_id = 1; // (State) (Summary) (Detail)
+  int64 sender_account_id = 2; // (State) (Summary) (Detail) Account id of the sender who published this offer
+  AccountType sender_account_type = 45; // (State) (Summary) (Detail)
+  int64 location_id = 3; // (State) (Summary) (Detail) (Private)
+  bool direct = 32; // (State) (Detail) Direct offer, not returned in search results
+  bool accept_matching_proposals = 46; // (State) (Detail)
+  bool allow_negotiating_proposals = 47; // (State) (Detail)
+  
+  // Summary
+  string title = 4; // (Summary) (Detail)
+  string thumbnail_key = 37; // (Post)
+  string thumbnail_url = 6; // (Summary) (Detail)
+  bytes thumbnail_blurred = 28; // (Summary) (Detail)
+  
+  // Terms
+  DataTerms terms = 27; // (Summary) (Detail)
+  repeated int32 primary_categories = 33; // (Denormalized) (Summary) (Detail)
+  
+  // Embedded sender and location info
+  // string location_name = 21; // (Denormalized) (Summary) (Detail) Location nickname or business name
+  string sender_name = 21; // (Denormalized) (Summary) (Detail) Sender name
+  string sender_avatar_url = 35; // (Denormalized) (Summary) (Detail) Sender avatar
+  bytes sender_avatar_blurred = 36; // (Denormalized) (Summary) (Detail) Sender avatar
+  string location_address = 9; // (Denormalized) (Summary) (Detail)
+  double latitude = 18; // (Denormalized) (Summary) (Detail)
+  double longitude = 19; // (Denormalized) (Summary) (Detail)
+  // int32 locationOfferCount = 20; // Number of offers at the same location
+  // Embedded in Elasticsearch structure as well,
+  // only updated for open/draft offers that are not archived
+  
+  // Detail info
+  string description = 5; // (Detail)
+  repeated string cover_keys = 34; // (Post)
+  repeated string cover_urls = 10; // (Detail)
+  repeated bytes covers_blurred = 29; // (Detail)
+  repeated int32 categories = 23; // (Detail)
+  int32 amount_offered = 48; // (Detail) // TODO(kaetemi): api, Elasticsearch, SQL
+  int32 amount_remaining = 49; // (Detail) (State) // TODO(kaetemi): api, Elasticsearch, SQL
+  int64 scheduled_open = 50; // (Detail) // TODO(kaetemi): api
+  int64 scheduled_close = 51; // (Detail) // TODO(kaetemi): api
+  
+  // State for sender
+  OfferState state = 12; // (Private)
+  OfferStateReason state_reason = 13; // (Private)
+  bool archived = 26; // (Private)
+  
+  // Embedded info for sender
+  int32 proposals_proposing = 38; // (Private)
+  int32 proposals_negotiating = 39; // (Private)
+  int32 proposals_deal = 40; // (Private)
+  int32 proposals_rejected = 41; // (Private)
+  int32 proposals_dispute = 42; // (Private)
+  int32 proposals_resolved = 43; // (Private)
+  int32 proposals_complete = 44; // (Private)
+  
+  // Embedded info for receiver
+  /// Identifier of proposal that the public receiver sent already,
+  /// allowing the user interface to link immediately to the proposal.
+  int64 proposal_id = 22; // (Denormalized) (Receiver)
+  // Elasticsearch structure has forward list of proposal ids embedded (map of userid -> proposalid)
+  // bool unseen_proposal = 31;
+  
+}
+
+message DataLocation {
+  int64 location_id = 1;
+  
+  // User-provided nickname of the location (eg. "Waterproof Vests LA") (optional)
+  string name = 2;
+  
+  // Location details. Influencer displays `approximate`, business `detail`
+  string approximate = 7;
+  string detail = 8;
+  string postcode = 9;
+  string region_code = 10;
+  string country_code = 11;
+  
+  // Actual location
+  double latitude = 4;
+  double longitude = 5;
+  
+  // Location in indexed formats
+  int64 s2cell_id = 12;
+  int64 geohash_int = 14;
+  string geohash = 15;
+  
+}
+
+message DataAccount { // 34
+  // State
+  /// Session ID. If 0, authentication failed, and the client must create a new session
+  int64 session_id = 4; // (Private)
+  
+  /// Account ID. If 0, proceed with account creation
+  int64 account_id = 5;
+  
+  /// Account type. If not AT_UNKNOWN, account signing may bypass type selection
+  AccountType account_type = 6;
+  
+  GlobalAccountState global_account_state = 7; // (Private)
+  GlobalAccountStateReason global_account_state_reason = 8; // (Private)
+  
+  AccountLevel account_level = 9; // (Private)
+  // NotificationFlags notification_flags = 10; // (Private) // TBD
+
+  int32 version = 34; // (Private)
+  
+  string firebase_token = 11; // (Private)
+  
+  // Summary
+  string name = 12; // (Summary, Detail)
+  string description = 13; // (Summary, Detail)
+  string location = 14; // (Summary, Detail)
+  string avatar_url = 15; // (Summary, Detail)
+  string blurred_avatar_url = 16; // (Summary, Detail)
+  // bytes blurred_avatar = 17; // (Summary, Detail)
+  
+  repeated int32 categories = 18; // (Detail)
+  // repeated DataSocialMedia social_media = 19; // (Detail)
+  map<int32, DataSocialMedia> social_media = 20; // (Detail)
+  
+  repeated string cover_urls = 21; // (Detail)
+  repeated string blurred_cover_urls = 22; // (Detail)
+  // repeated bytes blurred_covers = 23; // (Detail)
+  
+  string website = 24; // (Detail)
+  string email = 25; // (Detail, Private)
+  // bool emailVerified = 26; // (Detail, Private)
+  
+  // Preferences
+  bool accept_direct_proposals = 32; // (Detail) // TODO(kaetemi): server
+  bool publish_gps_location = 33; // (Detail) // TODO(kaetemi): server
+  
+  // Embedded primary location info, if applicable
+  string location_name = 27; // (Detail)
+  string location_address = 28; // (Detail)
+  double latitude = 29; // (Detail)
+  double longitude = 30; // (Detail)
+  int64 location_id = 31; // (Detail, Private) // Primary location id
+  
+}
+
+/// Filter used for map and list exploration
+message DataExploreFilter {
+  /// Full text keyword search
+  string keywords = 1;
+
+  /// Results must include any of these social platforms (a OR b OR ...)
+  repeated int32 socialPlatforms = 2;
+
+  /// Results must include any of these content formats as deliverables (a OR b OR ...)
+  repeated int32 contentFormats = 3;
+
+  /// Results must have at least this total value
+  int32 minimumTotalValue = 4;
+
+  /// Results must have a cash reward
+  int32 cashValueRequired = 5;
+
+  /// Specify location for search (affects list ONLY)
+  /// Current GPS location, user specified, etc.
+  double latitude = 6;
+  double longitude = 7;
+
+}
+
+message DataExploreEntry {
+  /// Contains an offer summary if set
+  DataOffer offer = 3;
+
+  /// Contains an account summary if set
+  DataAccount account = 4;
+
+}
+
+/// Markers for exploring on the map
+/// Location are embedded inside of DataOffer and DataAccount
+message DataExploreMarker {
+  /// Contains an offer summary ONLY (plus latitude and longitude) if set
+  DataOffer offer = 3;
+
+  /// Contains an account summary ONLY (plus latitude and longitude) if set
+  DataAccount account = 4;
+
+  /// Contains a location if set
+  /// Normally location data is embedded within DataOffer and DataAccount
+  /// This is for generic markers or future usage
+  DataLocation location = 5;
+
+  // Cluster information
+  /// Identification of this cluster
+  int64 clusterId = 8;
+  int64 parentClusterIds = 9;
+
+  /// Amount of hidden markers
+  /// If the value is 0, this is not a cluster
+  /// If the value is above 0, the value is accurate
+  /// If the value is negative, it means there are an undisclosed number of hidden markers
+  int32 hiddenMarkers = 10;
+
+}
+
+message DataProposal { // 30
+  /// Unique identifier of the proposal
+  int64 proposal_id = 1;
+  /// Unique identifier of the offer that this proposal concerns
+  int64 offer_id = 2;
+  
+  /// Account id of the sender of the proposal. Either the influencer or business.
+  int64 sender_account_id = 20;
+  /// (Denormalized) Account id of the sender of the offer (not of the proposal.)
+  /// Either the influencer or business.
+  /// If the makerId and the senderId are equal, this is a direct offer.
+  int64 offer_account_id = 27;
+  
+  /// Account id of the influencer
+  int64 influencer_account_id = 3;
+  /// Account id of the business
+  int64 business_account_id = 16;
+  
+  /// (Denormalized) Embedded data. Not necessarily up to date.
+  string influencer_name = 17;
+  string business_name = 18;
+  string offer_title = 19;
+  
+  /// Last chat
+  int64 last_chat_id = 22;
+  
+  /// Last seen
+  int64 influencer_seen_chat_id = 23;
+  int64 influencer_seen_time = 24;
+  int64 business_seen_chat_id = 25;
+  int64 business_seen_time = 26;
+  
+  /// Current chat ID with haggle buttons (deliverables / reward / remarks)
+  int64 terms_chat_id = 4;
+  bool influencer_wants_deal = 6;
+  bool business_wants_deal = 5;
+  int64 rejecting_account_id = 30;
+  
+  /// For support
+  bool influencer_marked_delivered = 7;
+  bool influencer_marked_rewarded = 8;
+  bool business_marked_delivered = 9;
+  bool business_marked_rewarded = 10;
+  int32 influencer_gave_rating = 12;
+  int32 business_gave_rating = 11; // 1 to 5, 0 is no rating given (rating given implies complete)
+  bool influencer_disputed = 15;
+  bool business_disputed = 14;
+  
+  /// State
+  ProposalState state = 13;
+  bool influencer_archived = 28;
+  bool business_archived = 29;
+  
+}
+
+message DataProposalChat {
+  int64 chat_id = 7; // Sequential identifier in the chat stream
+  int64 sent = 10; // Sent timestamp
+  int64 sender_account_id = 2; // Account which sent
+  int64 proposal_id = 1; // One chat per proposal
+  
+  int64 sender_session_id = 11; // Cleared upon forwarding
+  int32 sender_session_ghost_id = 6; // Deduplication client-side (ghost entry)
+  
+  ProposalChatType type = 8;
+  string plain_text = 5; // The written text
+  DataTerms terms = 12;
+  string image_key = 13;
+  string image_url = 14;
+  bytes image_blurred = 15;
+  ProposalChatMarker marker = 16;
+  
+}
+
+/* end of file */

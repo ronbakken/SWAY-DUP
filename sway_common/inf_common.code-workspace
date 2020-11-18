@@ -1,0 +1,14 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"protoc":{
+			"options": [
+				"--proto_path=protobuf"
+			]
+		}
+	}
+}
