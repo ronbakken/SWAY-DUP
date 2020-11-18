@@ -1,0 +1,36 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "location.proto";
+
+message MapItemDto {
+    enum MapItemStatus {
+        inactive = 0;
+        active = 1;
+    }
+
+    GeoPointDto geoPoint = 1;
+    MapItemStatus status = 2;
+    //string parentClusterId = 3;
+
+    oneof payload {
+        OfferMapItemDto offer = 4;
+        UserMapItemDto user = 5;
+        //ClusterMapItemDto cluster = 6;
+    }
+}
+
+message OfferMapItemDto {
+    string offerId = 1;
+}
+
+message UserMapItemDto {
+    string userId = 1;
+}
+
+//message ClusterMapItemDto {
+//    string clusterId = 1;
+//    int32 itemCount = 2;
+//}

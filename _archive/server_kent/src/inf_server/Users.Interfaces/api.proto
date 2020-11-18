@@ -1,0 +1,176 @@
+﻿syntax = "proto3";
+
+package offers;
+option csharp_namespace = "Users.Interfaces";
+
+import "google/protobuf/timestamp.proto";
+
+service UsersService {
+    rpc GetUser (GetUserRequest) returns (GetUserResponse) {}
+
+    rpc GetUserByEmail (GetUserByEmailRequest) returns (GetUserByEmailResponse) {}
+
+    rpc SaveUser (SaveUserRequest) returns (SaveUserResponse) {}
+
+    rpc GetUserSession (GetUserSessionRequest) returns (GetUserSessionResponse) {}
+
+    rpc SaveUserSession (SaveUserSessionRequest) returns (SaveUserSessionResponse) {}
+
+    rpc InvalidateUserSession (InvalidateUserSessionRequest) returns (InvalidateUserSessionResponse) {}
+
+    rpc ListUsers (ListUsersRequest) returns (ListUsersResponse) {}
+}
+
+message Money {
+  string currency_code = 1;
+  int32 units = 2;
+  int32 nanos = 3;
+}
+
+message Image {
+    string url = 1;
+    string lowResUrl = 2;
+}
+
+message GeoPoint {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message Location {
+    string name = 1;
+    GeoPoint geoPoint = 2;
+}
+
+message SocialMediaAccount {
+    string socialNetworkProviderId = 1;
+    string displayName = 2;
+    string profileUrl = 3;
+    string description = 4;
+    string email = 5;
+    string userId = 6;
+    string pageId = 7;
+    int32 audienceSize = 8;
+    int32 postCount = 9;
+    bool isVerified = 10;
+    string accessToken = 11;
+    string accessTokenSecret = 12;
+    string refreshToken = 13;
+}
+
+enum UserType {
+    unknown = 0;
+    influencer = 1;
+    business = 2;
+    support = 3;
+    admin = 4;
+}
+
+enum UserStatus {
+    unknownStatus = 0;
+    waitingForActivation = 1;
+    waitingForApproval = 2;
+    disabled = 3;
+    active = 4;
+}
+
+message User {
+    string id = 1;
+    uint32 revision = 2;
+    google.protobuf.Timestamp created = 4;
+    string email = 5;
+    UserType type = 6;
+    UserStatus status = 7;
+    google.protobuf.Timestamp statusTimestamp = 8;
+    string name = 9;
+    string description = 10;
+    Image avatar = 11;
+    Image avatarThumbnail = 12;
+    Location location = 13;
+    repeated Location locationsOfInfluence = 26;
+    bool showLocation = 14;
+    bool isVerified = 15;
+    string websiteUrl = 16;
+    bool acceptsDirectOffers = 17;
+    int32 accountCompletionInPercent = 18;
+    Money minimalFee = 19;
+    repeated string categoryIds = 20;
+    repeated SocialMediaAccount socialMediaAccounts = 21;
+    string loginToken = 22;
+    repeated string registrationTokens = 24;
+
+    repeated string keywords = 25;
+}
+
+message UserSession {
+    string refreshToken = 1;
+}
+
+message GetUserRequest {
+    string id = 1;
+}
+
+message GetUserResponse {
+    User user = 1;
+}
+
+message GetUserByEmailRequest {
+    string email = 1;
+}
+
+message GetUserByEmailResponse {
+    User user = 1;
+}
+
+message SaveUserRequest {
+    User user = 1;
+}
+
+message SaveUserResponse {
+    User user = 1;
+}
+
+message GetUserSessionRequest {
+    string refreshToken = 1;
+}
+
+message GetUserSessionResponse {
+    UserSession userSession = 1;
+}
+
+message SaveUserSessionRequest {
+    UserSession userSession = 1;
+}
+
+message SaveUserSessionResponse {
+    UserSession userSession = 1;
+}
+
+message InvalidateUserSessionRequest {
+    string refreshToken = 1;
+}
+
+message InvalidateUserSessionResponse {
+}
+
+message ListUsersRequest {
+    message Filter {
+        repeated UserType userTypes = 1;
+        repeated string categoryIds = 2;
+        repeated string socialMediaNetworkIds = 3;
+        GeoPoint northWest = 4;
+        GeoPoint southEast = 5;
+        Money minimumValue = 6;
+        Money maximumValue = 8;
+        string phrase = 7;
+    }
+
+    int32 pageSize = 1;
+    string continuationToken = 2;
+    Filter filter = 3;
+}
+
+message ListUsersResponse {
+    repeated User users = 1;
+    string continuationToken = 2;
+}

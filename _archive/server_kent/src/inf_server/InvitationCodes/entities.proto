@@ -1,0 +1,17 @@
+﻿syntax = "proto3";
+
+package invitation_codes;
+option csharp_namespace = "InvitationCodes";
+
+import "google/protobuf/timestamp.proto";
+
+message InvitationCodeEntity {
+    // "invitationCode"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // same as schemaType (single partition)
+    string partitionKey = 3;
+    string id = 4;
+    google.protobuf.Timestamp expiryTimestamp = 5;
+    bool isHonored = 6;
+}

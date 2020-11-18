@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "IntegrationTests": {
+      "commandName": "Project",
+      "commandLineArgs": "api.dev.swaymarketplace.com:9026 AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
+    }
+  }
+}

@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "offer.proto";
+
+service InfOffers {
+  rpc GetOffer (GetOfferRequest) returns (GetOfferResponse) {}
+
+  rpc UpdateOffer (UpdateOfferRequest) returns (UpdateOfferResponse) {}
+}
+
+message UpdateOfferRequest {
+    OfferDto offer = 1;
+}
+
+message UpdateOfferResponse {
+    OfferDto offer = 1;
+}
+
+message GetOfferRequest {
+    string id = 1;
+}
+
+message GetOfferResponse {
+    OfferDto offer = 1;
+}

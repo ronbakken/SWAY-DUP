@@ -1,0 +1,22 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFrameworks>netstandard2.0;netcoreapp2.1</TargetFrameworks>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
+        <PackageReference Include="NodaTime" />
+        <PackageReference Include="Optional" />
+        <PackageReference Include="System.Collections.Immutable" />
+
+        <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="*.proto" />
+    </ItemGroup>
+
+</Project>

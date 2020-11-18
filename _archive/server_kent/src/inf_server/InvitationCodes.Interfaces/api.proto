@@ -1,0 +1,49 @@
+﻿syntax = "proto3";
+
+package invitation_codes;
+option csharp_namespace = "InvitationCodes.Interfaces";
+
+service InvitationCodeService {
+    rpc Generate (GenerateRequest) returns (GenerateResponse) {}
+
+    rpc GetStatus (GetStatusRequest) returns (GetStatusResponse) {}
+
+    rpc Honor (HonorRequest) returns (HonorResponse) {}
+}
+
+message GenerateRequest {
+}
+
+message GenerateResponse {
+    string code = 1;
+}
+
+message GetStatusRequest {
+    string code = 1;
+}
+
+message GetStatusResponse {
+    enum Status {
+        nonExistant = 0;
+        pending = 1;
+        honored = 2;
+        expired = 3;
+    }
+
+    Status status = 1;
+}
+
+message HonorRequest {
+    string code = 1;
+}
+
+message HonorResponse {
+    enum HonorResult {
+        doesNotExist = 0;
+        expired = 1;
+        alreadyHonored = 2;
+        success = 3;
+    }
+
+    HonorResult result = 1;
+}

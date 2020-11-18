@@ -1,0 +1,102 @@
+﻿syntax = "proto3";
+
+package users;
+option csharp_namespace = "Users";
+
+import "google/protobuf/timestamp.proto";
+
+message MoneyEntity {
+  string currency_code = 1;
+  int32 units = 2;
+  int32 nanos = 3;
+}
+
+message GeoPointEntity {
+    double latitude = 1;
+    double longitude = 2;
+}
+
+message LocationEntity {
+    string name = 1;
+    GeoPointEntity geoPoint = 2;
+}
+
+message ImageEntity {
+    string url = 1;
+    string lowResUrl = 2;
+}
+
+message SocialMediaAccountEntity {
+    string socialNetworkProviderId = 1;
+    string displayName = 2;
+    string profileUrl = 3;
+    string description = 4;
+    string email = 5;
+    string userId = 6;
+    string pageId = 7;
+    int32 audienceSize = 8;
+    int32 postCount = 9;
+    bool isVerified = 10;
+    string accessToken = 11;
+    string accessTokenSecret = 12;
+    string refreshToken = 13;
+}
+
+message UserEntity {
+    enum Type {
+        unknown = 0;
+        influencer = 1;
+        business = 2;
+        support = 3;
+        admin = 4;
+    }
+
+    enum Status {
+        unknownStatus = 0;
+        waitingForActivation = 1;
+        waitingForApproval = 2;
+        disabled = 3;
+        active = 4;
+    }
+
+    // "user"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+    // same as ID
+    string partitionKey = 3;
+    string id = 4;
+    uint32 revision = 5;
+    google.protobuf.Timestamp created = 6;
+    string email = 7;
+    Type type = 8;
+    Status status = 9;
+    google.protobuf.Timestamp statusTimestamp = 10;
+    string name = 11;
+    string description = 12;
+    ImageEntity avatar = 13;
+    ImageEntity avatarThumbnail = 14;
+    LocationEntity location = 15;
+    repeated LocationEntity locationsOfInfluence = 16;
+    bool showLocation = 17;
+    bool isVerified = 18;
+    string websiteUrl = 19;
+    bool acceptsDirectOffers = 20;
+    int32 accountCompletionInPercent = 21;
+    MoneyEntity minimalFee = 22;
+    repeated string categoryIds = 23;
+    repeated SocialMediaAccountEntity socialMediaAccounts = 24;
+    repeated string keywords = 25;
+    repeated string registrationTokens = 26;
+
+    string loginToken = 27;
+}
+
+message UserSessionEntity {
+    // "userSession"
+    string schemaType = 1;
+    uint32 schemaVersion = 2;
+     // user ID
+    string partitionKey = 3;
+    string id = 4;
+    string refreshToken = 5;
+}

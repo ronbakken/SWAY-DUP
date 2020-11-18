@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "empty.proto";
+
+service InfSystem {
+  rpc PingServer (Empty) returns (AliveMessage) {}
+}
+
+message AliveMessage {
+}

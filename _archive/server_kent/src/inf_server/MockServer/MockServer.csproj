@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Remove="cert\*.crt" />
+        <None Remove="cert\*.key" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="cert\*.crt" />
+        <EmbeddedResource Include="cert\*.key" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="icons\*.*" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\API.Interfaces\API.Interfaces.csproj" />
+    </ItemGroup>
+
+</Project>

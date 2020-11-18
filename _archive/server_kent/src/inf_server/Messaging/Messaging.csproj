@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>netcoreapp2.1</TargetFramework>
+        <TargetLatestRuntimePatch>False</TargetLatestRuntimePatch>
+        <LangVersion>latest</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="FirebaseAdmin" />
+        <PackageReference Include="Google.Protobuf" />
+        <PackageReference Include="Grpc" />
+        <PackageReference Include="Microsoft.Azure.Cosmos" />
+        <PackageReference Include="Microsoft.Azure.ServiceBus" />
+        <PackageReference Include="morelinq" />
+        <PackageReference Include="Newtonsoft.Json" />
+        <PackageReference Include="Polly" />
+        <PackageReference Include="SerilogAnalyzer" />
+
+        <PackageReference Include="Grpc.Tools" PrivateAssets="true" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\Messaging.Interfaces\Messaging.Interfaces.csproj" />
+        <ProjectReference Include="..\Users.Interfaces\Users.Interfaces.csproj" />
+        <ProjectReference Include="..\Utility\Utility.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProtoBuf Include="*.proto" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Remove="CosmosServerSideCode\*.js" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <EmbeddedResource Include="CosmosServerSideCode\*.js" />
+    </ItemGroup>
+
+</Project>

@@ -1,0 +1,44 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "conversation.proto";
+import "message.proto";
+
+service InfMessaging {
+    rpc CreateConversation (CreateConversationRequest) returns (CreateConversationResponse) {}
+
+    rpc CloseConversation (CloseConversationRequest) returns (CloseConversationResponse) {}
+
+    rpc CreateMessage (CreateMessageRequest) returns (CreateMessageResponse) {}
+}
+
+message CreateConversationRequest {
+    repeated string participantIds = 1;
+    // What the conversation is about. For example, an offer ID.
+    string topicId = 2;
+    MessageDto firstMessage = 3;
+    map<string, string> metadata = 4;
+}
+
+message CreateConversationResponse {
+    ConversationDto conversation = 1;
+}
+
+message CloseConversationRequest {
+    string conversationId = 1;
+}
+
+message CloseConversationResponse {
+    ConversationDto conversation = 1;
+}
+
+message CreateMessageRequest {
+    string conversationId = 1;
+    MessageDto message = 2;
+}
+
+message CreateMessageResponse {
+    MessageDto message = 1;
+}

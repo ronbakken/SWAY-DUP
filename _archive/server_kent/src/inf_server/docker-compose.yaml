@@ -1,0 +1,87 @@
+version: '3.7'
+services:
+  api:
+    build:
+      context: "."
+      dockerfile: "./API/Dockerfile"
+    image: "api"
+    container_name: "api"
+    ports:
+        - "9026:9026"
+    environment:
+      ENVIRONMENT: "local"
+      RESOURCE_GROUP: "N/A"
+      GRPC_PORT: "9026"
+      SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+      SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+      STORAGE_CONNECTION_STRING: "DefaultEndpointsProtocol=https;AccountName=kenttest;AccountKey=pLFR1D+rA0awobEIQv7Bw2rnu32PctmHwehF47rPsB41utyns0M241zKxcnpRofE7kxaFU13owWrwua6Hz+wqQ==;EndpointSuffix=core.windows.net"
+      SERVICE_BUS_CONNECTION_STRING: "Endpoint=sb://kentservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=G9SSZ/osORD6FoMKQddSjpXubA1WU6tZt+TmkQEUfrk="
+  invitation_codes:
+    build:
+      context: "."
+      dockerfile: "./InvitationCodes/Dockerfile"
+    image: "invitation_codes"
+    container_name: "invitation_codes"
+    environment:
+      ENVIRONMENT: "local"
+      RESOURCE_GROUP: "N/A"
+      GRPC_PORT: "9027"
+      SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+      SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+      COSMOS_CONNECTION_STRING: "AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
+  mapping:
+    build:
+      context: "."
+      dockerfile: "./Mapping/Dockerfile"
+    image: "mapping"
+    container_name: "mapping"
+    environment:
+      ENVIRONMENT: "local"
+      RESOURCE_GROUP: "N/A"
+      GRPC_PORT: "9028"
+      SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+      SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+      COSMOS_CONNECTION_STRING: "AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
+      SERVICE_BUS_CONNECTION_STRING: "Endpoint=sb://kentservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=G9SSZ/osORD6FoMKQddSjpXubA1WU6tZt+TmkQEUfrk="
+  messaging:
+    build:
+      context: "."
+      dockerfile: "./Messaging/Dockerfile"
+    image: "messaging"
+    container_name: "messaging"
+    environment:
+      ENVIRONMENT: "local"
+      RESOURCE_GROUP: "N/A"
+      GRPC_PORT: "9029"
+      SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+      SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+      COSMOS_CONNECTION_STRING: "AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
+      SERVICE_BUS_CONNECTION_STRING: "Endpoint=sb://kentservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=G9SSZ/osORD6FoMKQddSjpXubA1WU6tZt+TmkQEUfrk="
+  offers:
+    build:
+      context: "."
+      dockerfile: "./Offers/Dockerfile"
+    image: "offers"
+    container_name: "offers"
+    environment:
+      ENVIRONMENT: "local"
+      RESOURCE_GROUP: "N/A"
+      GRPC_PORT: "9030"
+      SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+      SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+      COSMOS_CONNECTION_STRING: "AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
+      SERVICE_BUS_CONNECTION_STRING: "Endpoint=sb://kentservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=G9SSZ/osORD6FoMKQddSjpXubA1WU6tZt+TmkQEUfrk="
+  users:
+    build:
+      context: "."
+      dockerfile: "./Users/Dockerfile"
+    image: "users"
+    container_name: "users"
+    environment:
+      ENVIRONMENT: "local"
+      RESOURCE_GROUP: "N/A"
+      GRPC_PORT: "9031"
+      SEQ_SERVER_URL: "https://seq.swaymarketplace.com/"
+      SEQ_API_KEY: "Wx2CMQngnMA4UcDovrK1"
+      COSMOS_CONNECTION_STRING: "AccountEndpoint=https://inf-dev.documents.azure.com:443/;AccountKey=3IxXE6uhAyhCnDciVLC5DU17gWSRZJBQhAkXz4K8p6Wqo43azz0l22aaAdFPxhLKxssMuDyVrIZXe3N09lHAIw==;"
+      SERVICE_BUS_CONNECTION_STRING: "Endpoint=sb://kentservicebus.servicebus.windows.net/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=G9SSZ/osORD6FoMKQddSjpXubA1WU6tZt+TmkQEUfrk="

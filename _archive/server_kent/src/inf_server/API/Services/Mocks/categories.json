@@ -1,0 +1,338 @@
+[
+    {
+        "id": "0",
+        "name": "Cars"
+    },
+    {
+        "id": "15",
+        "name": "Car Accessories",
+        "parentId": "0"
+    },
+    {
+        "id": "16",
+        "name": "Car Services",
+        "parentId": "0"
+    },
+    {
+        "id": "17",
+        "name": "Car Wash",
+        "parentId": "0"
+    },
+    {
+        "id": "18",
+        "name": "Luxury Cars",
+        "parentId": "0"
+    },
+    {
+        "id": "1",
+        "name": "Drinks"
+    },
+    {
+        "id": "19",
+        "name": "Alcoholic",
+        "parentId": "1"
+    },
+    {
+        "id": "20",
+        "name": "Non-Alcoholic",
+        "parentId": "1"
+    },
+    {
+        "id": "21",
+        "name": "Caffeinated",
+        "parentId": "1"
+    },
+    {
+        "id": "37",
+        "name": "Healthy",
+        "parentId": "1"
+    },
+    {
+        "id": "2",
+        "name": "Fashion"
+    },
+    {
+        "id": "22",
+        "name": "Luxury Fashion",
+        "parentId": "2"
+    },
+    {
+        "id": "23",
+        "name": "Bargain Fashion",
+        "parentId": "2"
+    },
+    {
+        "id": "24",
+        "name": "Activewear",
+        "parentId": "2"
+    },
+    {
+        "id": "38",
+        "name": "Shoes",
+        "parentId": "2"
+    },
+    {
+        "id": "39",
+        "name": "Lingerie",
+        "parentId": "2"
+    },
+    {
+        "id": "40",
+        "name": "Accessories",
+        "parentId": "2"
+    },
+    {
+        "id": "41",
+        "name": "Swimwear",
+        "parentId": "2"
+    },
+    {
+        "id": "42",
+        "name": "Jewelry",
+        "parentId": "2"
+    },
+    {
+        "id": "8",
+        "name": "Beauty"
+    },
+    {
+        "id": "43",
+        "name": "Makeup",
+        "parentId": "8"
+    },
+    {
+        "id": "44",
+        "name": "Skin Care",
+        "parentId": "8"
+    },
+    {
+        "id": "45",
+        "name": "Hair Care",
+        "parentId": "8"
+    },
+    {
+        "id": "46",
+        "name": "Nail Care",
+        "parentId": "8"
+    },
+    {
+        "id": "47",
+        "name": "Dental Care",
+        "parentId": "8"
+    },
+    {
+        "id": "3",
+        "name": "Food"
+    },
+    {
+        "id": "8",
+        "name": "Restaurant",
+        "parentId": "3"
+    },
+    {
+        "id": "9",
+        "name": "Breakfast",
+        "parentId": "3"
+    },
+    {
+        "id": "10",
+        "name": "Brunch",
+        "parentId": "3"
+    },
+    {
+        "id": "11",
+        "name": "Lunch",
+        "parentId": "3"
+    },
+    {
+        "id": "12",
+        "name": "Dinner",
+        "parentId": "3"
+    },
+    {
+        "id": "13",
+        "name": "Health Food",
+        "parentId": "3"
+    },
+    {
+        "id": "14",
+        "name": "Organic",
+        "parentId": "3"
+    },
+    {
+        "id": "48",
+        "name": "Dairy Free",
+        "parentId": "3"
+    },
+    {
+        "id": "49",
+        "name": "Gluten Free",
+        "parentId": "3"
+    },
+    {
+        "id": "50",
+        "name": "Vegan",
+        "parentId": "3"
+    },
+    {
+        "id": "51",
+        "name": "Vegetarian",
+        "parentId": "3"
+    },
+    {
+        "id": "4",
+        "name": "Fun"
+    },
+    {
+        "id": "25",
+        "name": "Bars",
+        "parentId": "4"
+    },
+    {
+        "id": "26",
+        "name": "Spas",
+        "parentId": "4"
+    },
+    {
+        "id": "27",
+        "name": "Art",
+        "parentId": "4"
+    },
+    {
+        "id": "52",
+        "name": "Music",
+        "parentId": "4"
+    },
+    {
+        "id": "53",
+        "name": "Sightseeing",
+        "parentId": "4"
+    },
+    {
+        "id": "54",
+        "name": "Activities",
+        "parentId": "4"
+    },
+    {
+        "id": "55",
+        "name": "Tours",
+        "parentId": "4"
+    },
+    {
+        "id": "56",
+        "name": "Classes",
+        "parentId": "4"
+    },
+    {
+        "id": "5",
+        "name": "Health"
+    },
+    {
+        "id": "28",
+        "name": "Fitness classes",
+        "parentId": "5"
+    },
+    {
+        "id": "29",
+        "name": "Spa Treatments",
+        "parentId": "5"
+    },
+    {
+        "id": "30",
+        "name": "Supplements",
+        "parentId": "5"
+    },
+    {
+        "id": "57",
+        "name": "Nutrition",
+        "parentId": "5"
+    },
+    {
+        "id": "58",
+        "name": "Cleanses",
+        "parentId": "5"
+    },
+    {
+        "id": "59",
+        "name": "Mental Health",
+        "parentId": "5"
+    },
+    {
+        "id": "6",
+        "name": "Services"
+    },
+    {
+        "id": "31",
+        "name": "Task Completion",
+        "parentId": "6"
+    },
+    {
+        "id": "32",
+        "name": "Photography",
+        "parentId": "6"
+    },
+    {
+        "id": "36",
+        "name": "Web Design",
+        "parentId": "6"
+    },
+    {
+        "id": "60",
+        "name": "Cleaning",
+        "parentId": "6"
+    },
+    {
+        "id": "61",
+        "name": "Moving services",
+        "parentId": "6"
+    },
+    {
+        "id": "62",
+        "name": "Repairs",
+        "parentId": "6"
+    },
+    {
+        "id": "63",
+        "name": "Security",
+        "parentId": "6"
+    },
+    {
+        "id": "64",
+        "name": "Home Improvement",
+        "parentId": "6"
+    },
+    {
+        "id": "7",
+        "name": "Travel"
+    },
+    {
+        "id": "33",
+        "name": "Beach Trip",
+        "parentId": "7"
+    },
+    {
+        "id": "34",
+        "name": "City Trip",
+        "parentId": "7"
+    },
+    {
+        "id": "35",
+        "name": "Active Trip",
+        "parentId": "7"
+    },
+    {
+        "id": "65",
+        "name": "Resort Trip",
+        "parentId": "7"
+    },
+    {
+        "id": "66",
+        "name": "Nature Trip",
+        "parentId": "7"
+    },
+    {
+        "id": "67",
+        "name": "Service Trip",
+        "parentId": "7"
+    }
+]

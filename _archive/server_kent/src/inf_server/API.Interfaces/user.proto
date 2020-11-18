@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "image.proto";
+import "location.proto";
+import "money.proto";
+import "social_media_account.proto";
+
+enum UserType {
+    unknownType = 0;
+    influencer = 1;
+    business = 2;
+    support = 3;
+    admin = 4;
+}
+
+message UserDto {
+    enum Status {
+        unknown = 0;
+        disabled = 1;
+        active = 2;
+        // User has signed up but not clicked on their signup link
+        waitingForActivation = 3;
+        // User did not fullfill all requirements for direct signup waiting for manual approval
+        waitingForApproval = 4;
+        rejected = 5;
+    }
+
+    // Data that is always sent for a user.
+    string id = 1;
+    uint32 revision = 2;
+    Status status = 3;
+
+    // Data sent only for user "handles".
+    message HandleDataDto {
+        string name = 1;
+        ImageDto avatarThumbnail = 2;
+    }
+
+    // Data sent only for users being used in a list context.
+    message ListDataDto {
+        string name = 1;
+        UserType type = 2;
+        string description = 4;
+        bool showLocation = 8;
+        LocationDto location = 10;
+        ImageDto avatar = 11;
+        ImageDto avatarThumbnail = 12;
+        repeated string categoryIds = 13;
+        // The provider ids of their socialMediaAccounts
+        repeated string socialMediaProviderIds = 14;
+
+        // I am certain we'll need more here, but I don't want to guess what.
+    }
+
+    // Data sent when full user information is required.
+    message FullDataDto {
+        string name = 1;
+        UserType type = 2;
+        bool isVerified = 3;
+        string description = 4;
+        string email = 5;
+        string websiteUrl = 6;
+        bool acceptsDirectOffers = 7;
+        bool showLocation = 8;
+        int32 accountCompletionInPercent = 9;
+        LocationDto location = 10;
+        repeated LocationDto locationsOfInfluence = 17;
+        ImageDto avatar = 11;
+        ImageDto avatarThumbnail = 12;
+        repeated string categoryIds = 13;
+        MoneyDto minimalFee = 14;
+
+        repeated SocialMediaAccountDto socialMediaAccounts = 15;
+
+        // For push notifications
+        repeated string registrationTokens = 16;
+    }
+
+    oneof data {
+        HandleDataDto handle = 4;
+        ListDataDto list = 5;
+        FullDataDto full = 6;
+    }
+}

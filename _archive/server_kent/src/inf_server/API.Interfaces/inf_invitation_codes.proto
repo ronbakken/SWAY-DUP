@@ -1,0 +1,30 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "empty.proto";
+
+service InfInvitationCodes {
+    rpc GenerateInvitationCode (Empty) returns (GenerateInvitationCodeResponse) {}
+    rpc GetInvitationCodeStatus (GetInvitationCodeStatusRequest) returns (GetInvitationCodeStatusResponse) {}
+}
+
+message GenerateInvitationCodeResponse {
+    string invitationCode = 1;
+}
+
+message GetInvitationCodeStatusRequest {
+    string invitationCode = 1;
+}
+
+message GetInvitationCodeStatusResponse {
+    enum InvitationCodeStatus {
+        DOES_NOT_EXIST = 0;
+        PENDING_USE = 1;
+        USED = 2;
+        EXPIRED = 3;
+    }
+
+    InvitationCodeStatus status = 1;
+}

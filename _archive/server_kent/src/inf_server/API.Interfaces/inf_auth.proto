@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "empty.proto";
+import "user.proto";
+
+service InfAuth {
+    // Send out a login email with a link including a login-token
+    rpc SendLoginEmail(SendLoginEmailRequest) returns (Empty) {}
+
+    // Activates a user based on the login-token that the app received through a deep link
+    rpc ActivateUser(ActivateUserRequest) returns (ActivateUserResponse) {}
+
+    // Requests a long living refresh token based on a one time login-token the app
+    // has reveived over a deep login link
+    rpc LoginWithLoginToken(LoginWithLoginTokenRequest) returns (LoginWithLoginTokenResponse) {}
+
+    // Requests an access-token at startup based on a stored refresh-token
+    // not sure if we need this as we also have GetAccessToken
+    rpc LoginWithRefreshToken(LoginWithRefreshTokenRequest) returns (LoginWithRefreshTokenResponse) {}
+
+    // Retrieves an access-token based on the stored long living refresh token
+    // This is used for refreshing an expiring access-token
+    rpc GetAccessToken(GetAccessTokenRequest) returns (GetAccessTokenResponse) {}
+
+    // Permanently invalidates the given refresh token.
+    rpc Logout(LogoutRequest) returns (Empty) {}
+}
+
+message SendLoginEmailRequest {
+    string email = 1;
+    // If the user already has an account, set this to unknownType.
+    UserType userType = 2;
+    // If the user does not already have an account, this must be set to the invitation code to be used.
+    string invitationCode = 3;
+}
+
+message ActivateUserRequest {
+    // Token that is passed to the app with the login / sign-up link from the email.
+    string loginToken = 1;
+    UserDto user = 2;
+}
+
+message ActivateUserResponse {
+    UserDto user = 2;
+}
+
+message LoginWithLoginTokenRequest {
+    string loginToken = 1;
+}
+
+message LoginWithLoginTokenResponse {
+    string refreshToken = 1;
+    UserDto user = 2;
+}
+
+message GetAccessTokenRequest {
+    string refreshToken = 1;
+}
+
+message GetAccessTokenResponse {
+    string accessToken = 1;
+}
+
+message LoginWithRefreshTokenRequest {
+    string refreshToken = 1;
+}
+
+message LoginWithRefreshTokenResponse {
+    string accessToken = 1;
+    UserDto user = 2;
+}
+
+message LogoutRequest {
+    string refreshToken = 1;
+}

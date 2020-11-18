@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "empty.proto";
+import "category.proto";
+import "deliverable.proto";
+import "social_network_provider.proto";
+
+service InfConfig {
+    // Requests client and config Version
+    rpc GetVersions (Empty) returns (GetVersionsResponse) {}
+
+    // Requests a new AppConfig
+    rpc GetAppConfig (Empty) returns (GetAppConfigResponse) {}
+
+    // Streams image sets for display on the welcome page
+    rpc GetWelcomeImages (Empty) returns (stream GetWelcomeImagesResponse) {}
+}
+
+message GetVersionsResponse {
+    InfVersionInfoDto versionInfo = 1;
+}
+
+message GetAppConfigResponse {
+    AppConfigDto appConfigData = 1;
+}
+
+
+
+message InfVersionInfoDto {
+    // If this is higher than the version of the client, the client must be updated
+    int32 apiVersion = 1;
+    int32 configVersion = 2;
+}
+
+message AppConfigDto {
+    int32 config_version = 1;
+
+    string termsOfServiceUrl = 10;
+    string privacyPolicyUrl = 11;
+
+    bool userNeedInvitationToSignUp = 12;
+
+    ServiceConfigDto serviceConfig = 5;
+    repeated CategoryDto categories = 6;
+    repeated SocialNetworkProviderDto socialNetworkProviders = 7;
+    repeated DeliverableIconDto deliverableIcons = 8;
+}
+
+message ServiceConfigDto {
+    // MapBox
+    string mapboxUrlTemplateDark = 1;
+    string mapboxUrlTemplateLight = 2;
+    string mapboxToken = 3;
+}
+
+message GetWelcomeImagesResponse {
+    repeated string imageUrls = 1;
+}

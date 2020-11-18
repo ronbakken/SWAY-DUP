@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+message SocialMediaAccountDto {
+    string displayName = 4 ;
+    string socialNetworkProviderId = 5;
+
+    /* Further info. May have null values. Most data isn't always shared. */
+    /// Url to the actual social media profile
+    string profileUrl = 6;
+    string description = 7;
+    string email = 8;
+    string userId = 9;
+    // for facebook we need to access the page of the user
+    string pageId = 10;
+
+    // The I think we should go away from showing follower counts to a sort of rating
+    int32 audienceSize = 11;
+    int32 postCount = 12;
+    bool isVerified = 13;
+
+    // Not all of them will be set
+    // meaning depends on the type of Social Network Provider
+    string accessToken = 14;
+    string accessTokenSecret = 15;
+    string refreshToken = 16;
+}

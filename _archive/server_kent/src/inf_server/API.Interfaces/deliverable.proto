@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+enum DeliverableType {
+    post = 0;
+    mention = 1;
+    video = 2;
+    custom = 3;
+}
+
+message DeliverableIconDto {
+    DeliverableType deliverableType = 2;
+    bytes iconData = 3;
+    string name = 4;
+}
+
+message DeliverableDto {
+    repeated DeliverableType deliverableTypes = 2;
+    repeated string socialNetworkProviderIds = 3;
+    string description = 4;
+}

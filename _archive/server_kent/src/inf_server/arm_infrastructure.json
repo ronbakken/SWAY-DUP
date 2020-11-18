@@ -1,0 +1,362 @@
+{
+   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+   "contentVersion": "1.0.0.0",
+   "parameters": {
+      "resourcePrefix": {
+         "type": "string",
+         "metadata": {
+            "description": "Prefix for all resource names (except where prohibited by Azure's naming requirements)."
+         }
+      },
+      "acrServicePrincipalId": {
+         "type": "string",
+         "metadata": {
+            "description": "The ID (a.k.a. app ID) for the service principal that has access to the Azure Container Registry through which images will be resolved for the Kubernetes cluster."
+         },
+         "defaultValue": "c7d62539-8150-4e8d-b48a-e0bb2ca8b3c9"
+      },
+      "acrServicePrincipalObjectId": {
+         "type": "string",
+         "metadata": {
+            "description": "The corresponding object ID for the service principal whose ID is given by the acrServicePrincipalId parameter. This can be obtained by executing `az ad sp show --id $PRINCIPAL_ID` and looking for `objectId` in the output."
+         },
+         "defaultValue": "c7d62539-8150-4e8d-b48a-e0bb2ca8b3c9"
+      },
+      "acrServicePrincipalSecret": {
+         "type": "string",
+         "metadata": {
+            "description": "The secret (a.k.a. password) for the service principal that has access to the Azure Container Registry through which images will be resolved for the Kubernetes cluster."
+         },
+         "defaultValue": "2d675983-eb18-4131-9a80-d98a391e0fc4"
+      },
+      "kubernetesVersion": {
+         "type": "string",
+         "metadata": {
+            "description": "The version of Kubernetes to use."
+         },
+         "defaultValue": "1.12.6"
+      },
+      "clusterDnsPrefix": {
+         "type": "string",
+         "metadata": {
+            "description": "The DNS prefix for the Kubernetes cluster."
+         }
+      },
+      "clusterNodeVMSize": {
+         "type": "string",
+         "metadata": {
+            "description": "The size of the VMs to use for nodes in the Kubernetes cluster."
+         },
+         "defaultValue": "Standard_D2_v2"
+      },
+      "clusterNodeOSDiskSizeGB": {
+         "type": "int",
+         "metadata": {
+            "description": "The disk size (in GB) to provision for each node in the Kubernetes cluster. This value ranges from 0 to 1023. Specifying 0 will apply the default disk size for the node's VM size (see clusterNodeVMSize)."
+         },
+         "defaultValue": 0,
+         "minValue": 0,
+         "maxValue": 1023
+      },
+      "clusterNodeCount": {
+         "type": "int",
+         "metadata": {
+            "description": "The number of nodes to include in the Kubernetes cluster."
+         },
+         "defaultValue": 1,
+         "minValue": 1,
+         "maxValue": 10
+      },
+      "clusterNodeMaxPods": {
+         "type": "int",
+         "metadata": {
+            "description": "The maximum number of pods that can run on a cluster node."
+         },
+         "defaultValue": 100
+      }
+   },
+   "variables": {
+      "sanitizedResourcePrefix": "[toLower(replace(parameters('resourcePrefix'), '-', ''))]",
+      "clusterName": "[concat(parameters('resourcePrefix'), '-cluster')]",
+      "clusterServiceCidr": "10.1.0.0/16",
+      "clusterDnsServiceIP": "10.1.0.10",
+      "virtualNetworkName": "[concat(parameters('resourcePrefix'), '-vnet')]",
+      "virtualNetworkAddressPrefix": "10.0.0.0/16",
+      "virtualNetworkSubnet1Name": "[concat(parameters('resourcePrefix'), '-subnet1')]",
+      "virtualNetworkSubnet1Prefix": "10.0.0.0/21",
+      "networkContributorRoleId": "4d97b98b-1d4f-4787-a291-c67834d212e7",
+      "userStorageAccountName": "[concat(variables('sanitizedResourcePrefix'), 'usa')]",
+      "defaultSASKeyName": "RootManageSharedAccessKey",
+      "authRuleResourceId": "[resourceId('Microsoft.ServiceBus/namespaces/authorizationRules', parameters('resourcePrefix'), variables('defaultSASKeyName'))]"
+   },
+   "resources": [
+      {
+         "type": "Microsoft.Network/virtualNetworks",
+         "apiVersion": "2016-03-30",
+         "name": "[variables('virtualNetworkName')]",
+         "comments": "The virtual network that will host the infrastructure.",
+         "location": "[resourceGroup().location]",
+         "tags": {
+            "clusterName": "[variables('clusterName')]"
+         },
+         "properties": {
+            "addressSpace": {
+               "addressPrefixes": [
+                  "[variables('virtualNetworkAddressPrefix')]"
+               ]
+            },
+            "subnets": [
+               {
+                  "name": "[variables('virtualNetworkSubnet1Name')]",
+                  "properties": {
+                     "addressPrefix": "[variables('virtualNetworkSubnet1Prefix')]"
+                  }
+               }
+            ]
+         }
+      },
+      {
+         "type": "Microsoft.ContainerService/managedClusters",
+         "apiVersion": "2019-02-01",
+         "name": "[variables('clusterName')]",
+         "comments": "The Kubernetes cluster in which the server will run.",
+         "location": "[resourceGroup().location]",
+         "tags": {
+            "clusterName": "[variables('clusterName')]"
+         },
+         "dependsOn": [
+            "[concat('Microsoft.Resources/deployments/', 'ClusterSubnetRoleAssignmentDeployment')]"
+         ],
+         "properties": {
+            "kubernetesVersion": "[parameters('kubernetesVersion')]",
+            "enableRBAC": true,
+            "dnsPrefix": "[parameters('clusterDnsPrefix')]",
+            "addonProfiles": {
+               "httpApplicationRouting": {
+                  "enabled": true
+               }
+            },
+            "agentPoolProfiles": [
+               {
+                  "name": "agentpool",
+                  "osDiskSizeGB": "[parameters('clusterNodeOSDiskSizeGB')]",
+                  "count": "[parameters('clusterNodeCount')]",
+                  "vmSize": "[parameters('clusterNodeVMSize')]",
+                  "osType": "Linux",
+                  "storageProfile": "ManagedDisks",
+                  "vnetSubnetID": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName')), '/subnets/', variables('virtualNetworkSubnet1Name'))]",
+                  "maxPods": "[parameters('clusterNodeMaxPods')]"
+               }
+            ],
+            "servicePrincipalProfile": {
+               "clientId": "[parameters('acrServicePrincipalId')]",
+               "secret": "[parameters('acrServicePrincipalSecret')]"
+            },
+            "networkProfile": {
+               "networkPlugin": "azure",
+               "serviceCidr": "[variables('clusterServiceCidr')]",
+               "dnsServiceIP": "[variables('clusterDnsServiceIP')]"
+            }
+         }
+      },
+      {
+         "type": "Microsoft.Resources/deployments",
+         "apiVersion": "2017-05-10",
+         "name": "ClusterSubnetRoleAssignmentDeployment",
+         "comments": "TODO: CAN I HOIST THE CHILD RESOURCE TO THIS LEVEL?",
+         "dependsOn": [
+            "[variables('virtualNetworkName')]"
+         ],
+         "properties": {
+            "mode": "Incremental",
+            "template": {
+               "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+               "contentVersion": "1.0.0.0",
+               "parameters": {},
+               "variables": {},
+               "resources": [
+                  {
+                     "type": "Microsoft.Network/virtualNetworks/subnets/providers/roleAssignments",
+                     "apiVersion": "2017-05-01",
+                     "name": "[concat(variables('virtualNetworkName'), '/', variables('virtualNetworkSubnet1Name'), '/Microsoft.Authorization/', guid(resourceGroup().id, deployment().name))]",
+                     "comments": "Assigns the network contributor role - scoped to our subnet - to the service principal being used for interaction with the Kubernetes cluster.",
+                     "properties": {
+                        "roleDefinitionId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/', variables('networkContributorRoleId'))]",
+                        "principalId": "[parameters('acrServicePrincipalObjectId')]",
+                        "scope": "[concat(resourceId('Microsoft.Network/virtualNetworks', variables('virtualNetworkName')), '/subnets/', variables('virtualNetworkSubnet1Name'))]"
+                     }
+                  }
+               ]
+            }
+         }
+      },
+      {
+         "apiVersion": "2018-07-01",
+         "type": "Microsoft.Storage/storageAccounts",
+         "name": "[variables('userStorageAccountName')]",
+         "comments": "A blob storage account for user data, such as profile images.",
+         "location": "[resourceGroup().location]",
+         "kind": "Storage",
+         "sku": {
+            "name": "Standard_LRS"
+         },
+         "tags": {
+            "displayName": "UserStorageAccount"
+         }
+      },
+      {
+         "apiVersion": "2015-04-08",
+         "kind": "GlobalDocumentDB",
+         "type": "Microsoft.DocumentDB/databaseAccounts",
+         "name": "[parameters('resourcePrefix')]",
+         "comments": "A Cosmos DB instance for the server.",
+         "location": "[resourceGroup().location]",
+         "properties": {
+            "databaseAccountOfferType": "Standard",
+            "locations": [
+               {
+                  "id": "[concat(parameters('resourcePrefix'), '-', resourceGroup().location)]",
+                  "failoverPriority": 0,
+                  "locationName": "[resourceGroup().location]"
+               }
+            ]
+         },
+         "tags": {
+            "displayName": "DatabaseAccount"
+         }
+      },
+      {
+         "apiVersion": "2017-04-01",
+         "name": "[parameters('resourcePrefix')]",
+         "type": "Microsoft.ServiceBus/namespaces",
+         "comments": "A Service Bus instance for the server.",
+         "location": "[resourceGroup().location]",
+         "sku": {
+            "name": "Standard"
+         },
+         "properties": {},
+         "resources": [
+            {
+               "apiVersion": "2017-04-01",
+               "name": "OfferUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "mapping_service",
+                     "dependsOn": [
+                        "OfferUpdated"
+                     ],
+                     "properties": {}
+                  },
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "OfferUpdated"
+                     ],
+                     "properties": {}
+                  }
+               ]
+            },
+            {
+               "apiVersion": "2017-04-01",
+               "name": "UserUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "mapping_service",
+                     "dependsOn": [
+                        "UserUpdated"
+                     ],
+                     "properties": {}
+                  },
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "UserUpdated"
+                     ],
+                     "properties": {}
+                  }
+               ]
+            },
+            {
+               "apiVersion": "2017-04-01",
+               "name": "ConversationUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "ConversationUpdated"
+                     ],
+                     "properties": {}
+                  }
+               ]
+            },
+            {
+               "apiVersion": "2017-04-01",
+               "name": "MessageUpdated",
+               "type": "topics",
+               "dependsOn": [
+                  "[concat('Microsoft.ServiceBus/namespaces/', parameters('resourcePrefix'))]"
+               ],
+               "properties": {},
+               "resources": [
+                  {
+                     "apiVersion": "2017-04-01",
+                     "type": "subscriptions",
+                     "name": "listen_api",
+                     "dependsOn": [
+                        "MessageUpdated"
+                     ],
+                     "properties": {}
+                  }
+               ]
+            }
+         ]
+      }
+   ],
+   "outputs": {
+      "clusterFQDN": {
+         "type": "string",
+         "value": "[reference(concat('Microsoft.ContainerService/managedClusters/', variables('clusterName'))).fqdn]"
+      },
+      "userStorageAccountConnectionString": {
+         "type": "string",
+         "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('userStorageAccountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('userStorageAccountName')), providers('Microsoft.Storage', 'storageAccounts').apiVersions[0]).keys[0].value, ';EndpointSuffix=core.windows.net')]"
+      },
+      "databaseAccountConnectionString": {
+         "type": "string",
+         "value": "[concat('AccountEndpoint=https://', parameters('resourcePrefix'), '.documents.azure.com:443/;AccountKey=', listKeys(resourceId('Microsoft.DocumentDb/databaseAccounts', parameters('resourcePrefix')), providers('Microsoft.DocumentDB', 'databaseAccounts').apiVersions[0]).primaryMasterKey, ';')]"
+      },
+      "serviceBusConnectionString": {
+         "type": "string",
+         "value": "[listkeys(variables('authRuleResourceId'), '2017-04-01').primaryConnectionString]"
+      },
+      "serviceBusSharedAccessPolicyPrimaryKey": {
+         "type": "string",
+         "value": "[listkeys(variables('authRuleResourceId'), '2017-04-01').primaryKey]"
+      }
+   }
+}

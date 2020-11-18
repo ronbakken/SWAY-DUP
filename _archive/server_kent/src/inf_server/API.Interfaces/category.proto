@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+message CategoryDto {
+    string id = 1;
+    string parentId = 2;
+    string name = 3;
+    string description = 4;
+    bytes iconData = 5;
+}

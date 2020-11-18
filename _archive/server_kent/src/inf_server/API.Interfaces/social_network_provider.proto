@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+enum SocialNetworkProviderType {
+    INSTAGRAM = 0;
+    FACEBOOK = 1;
+    TWITTER = 2;
+    YOU_TUBE = 3;
+    SNAPCHAT = 4;
+    CUSTOM_SOCIALNET_WORK_PROVIDER = 5;
+}
+
+message SocialNetworkProviderDto {
+    string id  = 1;
+    SocialNetworkProviderType type = 2;
+    string name = 3;
+    // one of the following must be set
+    bytes logoColoredData = 4;
+    bytes logoMonochromeData = 5;
+
+    // one of the following must be set
+    uint32 logoBackGroundColor = 6;
+    bytes logoBackgroundData = 7;
+    string apiKey = 8;
+    string apiKeySecret = 9;
+}

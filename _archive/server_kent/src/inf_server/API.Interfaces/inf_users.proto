@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "user.proto";
+
+service InfUsers {
+    rpc GetUser(GetUserRequest) returns (GetUserResponse);
+
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse);
+}
+
+message GetUserRequest {
+    string userId = 1;
+}
+
+message GetUserResponse {
+    UserDto user = 1;
+}
+
+message UpdateUserRequest {
+    UserDto user = 1;
+}
+
+message UpdateUserResponse {
+    UserDto user = 1;
+}

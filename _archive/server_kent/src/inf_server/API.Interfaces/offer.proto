@@ -1,0 +1,114 @@
+﻿syntax = "proto3";
+
+package api;
+option csharp_namespace = "API.Interfaces";
+
+import "google/protobuf/timestamp.proto";
+import "deal_terms.proto";
+import "image.proto";
+import "location.proto";
+
+message OfferDto {
+    enum Status {
+        unknown = 0;
+        active = 1;
+        inactive = 2;
+        // Offer is still active but does not accept new proposals.
+        closed = 3;
+        // Not sure if this makes sense or if we just mark an offer as closed.
+        archived = 4;
+    }
+
+    enum StatusReason {
+        open = 0;
+        // Business has closed this offer.
+        userClosed = 1;
+        // Maximum number of applicants reached.
+        maximumReached = 2;
+        // This offer violates the Terms of Service.
+        tosViolation = 3;
+        // This offer has been completed by all applicants.
+        completed  = 4;
+        expired = 5;
+    }
+
+    enum AcceptancePolicy {
+        manualReview = 0;
+        automaticAcceptMatching = 1;
+        allowNegotiation = 2;
+    }
+
+    // Data that is always sent for an offer.
+    string id = 1;
+    uint32 revision = 2;
+    Status status = 4;
+    StatusReason statusReason = 5;
+    LocationDto location = 6;
+
+    // Data sent only for offers being used in a list context.
+    message ListDataDto {
+        string businessAccountId = 1;
+        string businessName = 2;
+        string businessDescription = 3;
+        string businessAvatarThumbnailUrl = 4;
+
+        string title = 5;
+        string description = 6;
+        google.protobuf.Timestamp created = 7;
+        google.protobuf.Timestamp start = 8;
+        google.protobuf.Timestamp end = 9;
+
+        // If zero, an unlimited number are available.
+        int32 numberOffered = 10;
+        int32 numberRemaining = 11;
+
+        ImageDto thumbnail = 12;
+
+        ImageDto featuredImage = 13;
+        string featuredCategoryId = 15;
+
+        DealTermsDto terms = 14;
+
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+// QUESTIONS/DISCUSSION
+//
+// This will answer the question: "is the calling user discussing this offer?" but won't answer the question "is any other user discussing this offer?"
+//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+//        string conversationId = 16;
+    }
+
+    // Data sent when full offer information is required.
+    message FullDataDto {
+        string businessAccountId = 1;
+        string businessName = 2;
+        string businessDescription = 3;
+        string businessAvatarThumbnailUrl = 4;
+
+        string title = 5;
+        string description = 6;
+        google.protobuf.Timestamp created = 7;
+        google.protobuf.Timestamp start = 8;
+        google.protobuf.Timestamp end = 9;
+        int32 minFollowers = 10;
+
+        // If zero, an unlimited number are available.
+        int32 numberOffered = 11;
+        int32 numberRemaining = 12;
+
+        ImageDto thumbnail = 13;
+
+        DealTermsDto terms = 14;
+
+        AcceptancePolicy acceptancePolicy = 15;
+
+//        string conversationId = 19;
+
+        repeated ImageDto images = 17;
+        repeated string categoryIds = 18;
+    }
+
+    oneof data {
+        ListDataDto list = 7;
+        FullDataDto full = 8;
+    }
+}
