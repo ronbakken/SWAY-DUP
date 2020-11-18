@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "378397197711",
+    "firebase_url": "https://inf-prod-release.firebaseio.com",
+    "project_id": "inf-prod-release",
+    "storage_bucket": "inf-prod-release.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:378397197711:android:206bcd622a89f5d6",
+        "android_client_info": {
+          "package_name": "com.swaymarketplace.app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "378397197711-mgorggstmsevkhd9bmtee2vpkrasac1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.swaymarketplace.app",
+            "certificate_hash": "9fcd3df07bd4beba4f4a94fb0252c61312492f51"
+          }
+        },
+        {
+          "client_id": "378397197711-pbtua097slsdik53elt0a2bdeba3sba0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAwQChhMii5iigTp3BJk6ckkT6Os68IYQ4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "378397197711-pbtua097slsdik53elt0a2bdeba3sba0.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "378397197711-lbfi9tfnlogv8eacqnk06p7262si89h8.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.swaymarketplace.app"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

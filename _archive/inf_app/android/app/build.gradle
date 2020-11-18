@@ -1,0 +1,127 @@
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+	localPropertiesFile.withReader('UTF-8') { reader ->
+		localProperties.load((Reader) reader)
+	}
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+	throw GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def gitVersionName() {
+	return "git -C ${rootDir} describe --tags --long --dirty".execute().text.trim()
+}
+
+def gitVersionCode() {
+	return "git -C ${rootDir} rev-list --count HEAD".execute().text.trim().toInteger()
+}
+
+apply plugin: 'com.android.application'
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+
+android {
+	compileSdkVersion 28
+
+	lintOptions {
+		disable 'InvalidPackage'
+	}
+
+	defaultConfig {
+		applicationId "com.swaymarketplace.app"
+		minSdkVersion 18
+		targetSdkVersion 28
+
+		def apiHost = InetAddress.getLocalHost().getHostAddress()
+		buildConfigField 'String', 'API_HOST', '"' + apiHost + '"'
+
+		def (gitTag, gitCommits, gitSha1) = gitVersionName().tokenize('-')
+		buildConfigField "String", "GIT_TAG", "\"${gitTag}\""
+		buildConfigField "String", "GIT_COMMITS", "\"${gitCommits}\""
+		buildConfigField "String", "GIT_SHA1", "\"${gitSha1}\""
+
+		versionName "$gitTag-$gitCommits"
+
+		if (System.getenv()['CI']) {
+			versionCode System.getenv()['BUILD_NUMBER'].toInteger()
+		} else {
+			versionCode gitVersionCode()
+		}
+
+		testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+		multiDexEnabled true
+		multiDexKeepFile file('multidex-flutter.txt')
+
+		if (System.getenv()['CI']) {
+			buildConfigField "String", "FCI_PROJECT_ID", "\"${System.getenv()['FCI_PROJECT_ID']}\""
+			buildConfigField "String", "FCI_BUILD_ID", "\"${System.getenv()['FCI_BUILD_ID']}\""
+			buildConfigField "String", "BUILD_NUMBER", "\"${System.getenv()['BUILD_NUMBER']}\""
+		}
+	}
+
+	signingConfigs {
+		release {
+			if (System.getenv()['CI']) {
+				storeFile file(System.getenv()['FCI_KEYSTORE_PATH'])
+				storePassword System.getenv()['FCI_KEYSTORE_PASSWORD']
+				keyAlias System.getenv()['FCI_KEY_ALIAS']
+				keyPassword System.getenv()['FCI_KEY_PASSWORD']
+			} else {
+				// TODO: Add your own signing config for the release build.
+				// Signing with the debug keys for now, so `flutter run --release` works.
+				// signingConfig signingConfigs.debug
+			}
+		}
+	}
+
+	buildTypes {
+		release {
+			signingConfig signingConfigs.release
+		}
+	}
+
+	flavorDimensions "env"
+
+	productFlavors {
+		dev {
+			dimension "env"
+			applicationIdSuffix ".dev"
+			versionNameSuffix "-dev"
+			project.flutter.target = "lib/main_dev.dart"
+		}
+		alpha {
+			dimension "env"
+			applicationIdSuffix ".dev"
+			project.flutter.target = "lib/main_alpha.dart"
+		}
+		prod {
+			dimension "env"
+			project.flutter.target = "lib/main_prod.dart"
+		}
+	}
+
+	compileOptions {
+		sourceCompatibility 1.8
+		targetCompatibility 1.8
+	}
+}
+
+flutter {
+	source '../..'
+}
+
+dependencies {
+	implementation 'com.google.firebase:firebase-core:16.0.7'
+
+	testImplementation 'junit:junit:4.12'
+	androidTestImplementation 'com.android.support.test:runner:1.0.2'
+	androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+
+	compileOnly files("$flutterRoot/bin/cache/artifacts/engine/android-x86/flutter.jar")
+}
+
+apply plugin: 'com.google.gms.google-services'

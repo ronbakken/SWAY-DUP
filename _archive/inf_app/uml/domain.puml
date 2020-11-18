@@ -1,0 +1,281 @@
+@startuml
+
+class MapMarker {
+  final int id;
+  final MapMarkerType type;
+
+  // this will not be set for clusters
+  final Uint8List iconData;
+  final bool isVectorIcon;
+
+  final double latitude;
+  final double longitude;
+
+  // only valid for type cluster
+  final int clusterCount;
+  final double clusterBounderyNorthWestLatitude;
+  final double clusterBounderyNorthWestlongitude;
+  final double clusterBounderySouthEasrLatitude;
+  final double clusterBounderySouthEasrlongitude;
+
+  // In case of clustering we need the ids of the clustered markers so that we can animate
+  // From the clusterMarker to the individual markers
+  final List<int> clusteredMapMarkerIds;
+
+  // only valid for type offer
+  final int offerId;
+  final bool isDirectOffer;
+
+  // only valid for type user
+  final int userId;
+  final UserType userType;
+}
+
+
+
+BusinessOffer --> "1" Proposal : influencerProposalId
+BusinessOffer *--> "many" Deliverable : deliverables
+BusinessOffer --> "*" SocialNetworkProvider : channels
+BusinessOffer *--> "*" Category : categories
+BusinessOffer *--> "1" Reward : reward
+BusinessOffer *--> "1" Location : location
+
+
+class BusinessOffer {
+    int id
+    int businessAccountId
+    String businessName
+    String businessDescription
+    String businessAvatarThumbnailUrl
+    bool isDirectOffer
+    String title
+    String description
+    DateTime created
+    DateTime startDate
+    DateTime endDate
+    int numberOffered
+    int numberRemaining
+    String thumbnailUrl
+    Uint8List thumbnailLowRes
+    List<Deliverable> deliverables
+    List<SocialNetworkProvider> channels
+    Location location
+    String[] coverUrls
+    Uint8List[] coverLowRes
+    List<Category> categories
+    BusinessOfferState state
+    BusinessOfferStateReason stateReason
+    Reward reward
+
+    // ???
+    // proposal
+    // number of new messages in the chat since
+    // the last time the chat was marked as read.
+    int newChatMessages
+
+    // ???
+    // only returned when an influencer queries this offer
+    // So the Offer View knows this offer has already been applied to
+    int influencerProposalId
+}
+
+class Deliverable
+{
+    int id
+    DeliverableType type
+    String description
+}
+
+
+class Category {
+    int id
+    int parentId
+    String name
+    String description
+    Uint8List iconData
+}
+
+class SocialNetworkProvider {
+  int id
+  bool canAuthorizeUser
+  bool canBeUsedAsFilter
+  String name
+  Uint8List logoColoredData
+  Uint8List logoMonochromeData
+  int logoBackGroundColor
+  Uint8List logoBackgroundData
+}
+
+OfferFilter --> "*" SocialNetworkProvider : channels
+
+class OfferFilter {
+  // Defines which fields  of the filter should be applied/cleared
+  OfferFilter[] aspects
+  int userApplyingId
+  int offeringBusinessId
+  BusinessOfferState state
+  String freeText
+  List<SocialNetworkProvider> channels
+  DeliverableType[] deliverableType
+
+  // if aspect 'reward' is included the next three can ne set
+  RewardType[] rewardType
+  Decimal rewardValueLowerLimit
+  Decimal rewardValueUpperLimit
+
+  // if aspect 'location' is included the next three will be set
+  double latitude
+  double longitude
+  double radiusInMeters
+
+  DateTime created
+}
+
+Proposal --> BusinessOffer : offerId
+Proposal --> SocialNetworkProvider : channels
+Proposal --> User : influencerId, businessId
+
+class Proposal {
+  int id;
+  int offerId;
+  int influencerId; // Account which applied
+  int businessId;
+  UserType sentFrom; // Either influencer or business sent this
+
+  String influencerName;
+  String businessName;
+  String offerText;
+  List<SocialNetworkProvider> channels;
+  DeliverableType deliverableType;
+
+  /// Current chat ID with haggle buttons (deliverables / reward / remarks)
+  int chatId;
+  bool influencerWantsDeal;
+  bool businessWantsDeal;
+  bool influencerMarkedDelivered;
+  bool influencerMarkedRewarded;
+  bool businessMarkedDelivered;
+  bool businessMarkedRewarded;
+
+  int influencerGaveRating;
+  int businessGaveRating; // 1 to 5, 0 is no rating given (rating given implies complete)
+
+  bool influencerDisputed;
+  bool businessDisputed;
+  ProposalState state;
+}
+
+
+class Location {
+  int id;
+  String name;
+  String description;
+  double latitude;
+  double longitude;
+  int activeOfferCount;
+}
+
+class Reward {
+  final String description;
+  final Decimal barterValue;
+  final Decimal cashValue;
+  final RewardType type;
+
+  final String imageUrl;
+  final Uint8List imageLowRes;
+}
+
+SocialMediaAccount --> SocialNetworkProvider
+
+class SocialMediaAccount {
+  final int id;
+  final bool isActive;
+  final String displayName;
+  final SocialNetworkProvider socialNetWorkProvider;
+
+  /* Further info. May have null values. Most data isn't always shared. */
+  /// Url to the actual social media profile
+  final String avatarUrl;
+  final Uint8List avatarLowRes;
+  final String profileUrl;
+  final String description;
+  final String location;
+  final String url;
+  final String email;
+
+  /* Use the largest of either friendsCount or followersCount for boasting. */
+  final int friendsCount;
+  final int followersCount;
+  final int followingCount;
+
+  final int postsCount;
+
+  final bool verified;
+}
+
+User --> "*" Category  : categories
+User *--> Location : location
+User *--> "*" SocialMediaAccount : socialMediaAccouns
+
+class User {
+  final Int64 id;
+  final bool verified;
+  final GlobalAccountState accountState;
+  final GlobalAccountStateReason accountStateReason;
+  final UserType userType;
+  final String name;
+  final String description;
+  final String email;
+  final String websiteUrl;
+  final bool acceptsDirectOffers;
+  final bool showLocation;
+  final int accountCompletionInPercent;
+
+  final String locationAsString;
+  final Location location;
+  final String avatarThumbnailUrl;
+  final Uint8List avatarThumbnailLowRes;
+  final String avatarUrl;
+  final Uint8List avatarLowRes;
+
+  final List<Category> categories;
+
+  final List<SocialMediaAccount> socialMediaAccounts;
+
+  bool get profileIsComplete => accountCompletionInPercent == 100;
+}
+
+ChatEntry --> User : senderId, applicantId
+
+class ChatEntry {
+  int id; // Sequential identifier in the chat stream
+  DateTime sent; // Sent timestamp
+  int senderId; // Account which sent
+  int applicantId; // One chat per applicant
+
+  // Question: Should we add avatarUrls here?
+
+  ChatEntryType type;
+  String text; // The written text
+  String attachmentUrl;
+
+  DateTime seen; // null if not seen
+}
+
+SystemConfig *-->"*" Category
+SystemConfig *-->"*" SocialNetworkProvider
+SystemConfig *-->"*" DeliverableIcon
+
+class SystemConfig
+{
+    Int64   timestamp;
+}
+
+class DeliverableIcon
+{
+   final DeliverableType deliverableType;
+   final Uint8List iconData;
+   final String name;
+}
+
+@enduml

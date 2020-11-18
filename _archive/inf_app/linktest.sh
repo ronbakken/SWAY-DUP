@@ -1,0 +1,2 @@
+#!/bin/sh
+adb shell 'am start -W -a android.intent.action.VIEW -c android.intent.category.BROWSABLE -d "https://www.swaymarketplace.com/app/verify?token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJsb2dpbiIsImVtYWlsIjoiYnVya2hhcnRzZW5naW5lZXJpbmdAZ21haWwuY29tIiwidXNlclN0YXR1cyI6IkFjdGl2ZSIsImludml0YXRpb25Db2RlIjoiIiwibmJmIjoxNTQ4OTQ4NTA3LCJleHAiOjE1NDg5OTE3MDcsImlhdCI6MTU0ODk0ODUwNywiaXNzIjoiaHR0cHM6Ly9hcGkuaW5mLW1hcmtldHBsYWNlLmNvbSIsImF1ZCI6IkluZmx1ZW5jZXIifQ._-yBvnMmlbXTuwrSZRUKYZR81sVXWY4NHVEqSieA0AQ"'
