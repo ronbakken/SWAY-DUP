@@ -1,28 +1,24 @@
 FROM google/dart
 
-RUN mkdir ~/.ssh
-ADD ssh/. /root/.ssh
-RUN chmod 600 ~/.ssh/*_deploy
-
 WORKDIR /app
 
+RUN mkdir /sway_common
 ADD scripts_linux/dart/pubspec.yaml /app/pubspec.yaml
+ADD sway_common/pubspec.yaml /sway_common/pubspec.yaml
 RUN pub get
 RUN rm /app/pubspec.yaml
 RUN rm /app/pubspec.lock
 
-ADD inf_server_explore/pubspec.* /app/
+ADD sway_common/. /sway_common
+ADD sway_server_api/pubspec.* /app/
 RUN pub get
-ADD inf_server_explore/. /app
+ADD sway_server_api/. /app
 RUN pub get --offline
 
 RUN mkdir assets
-ADD assets/. /app/assets
+ADD sway_config/blob/. /app/assets
 
-RUN rm -rf ~/.ssh
-RUN rm -rf /app/ssh
-
-EXPOSE 8930
-EXPOSE 8939
+EXPOSE 8900
+EXPOSE 8901
 CMD []
 ENTRYPOINT ["/usr/bin/dart", "bin/main.dart"]

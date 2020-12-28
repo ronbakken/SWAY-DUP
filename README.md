@@ -52,6 +52,12 @@ Run `pub get && pub run test` under `sample_jwt`.
 
 Run `docker-compose down` in `sample_jwt/docker_sample_jwt` to clean up.
 
+### Try Docker build
+
+From the root folder, `docker build -f sway_server_api/Dockerfile .`.
+
+Or from the app folder, `docker build -f Dockerfile ..`.
+
 ## Service Descriptions
 
 | Directory | Name | Language | Database | Description | Notes on scaling |

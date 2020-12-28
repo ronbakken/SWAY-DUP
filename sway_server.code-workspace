@@ -1,52 +1,60 @@
 {
 	"folders": [
 		{
-			"path": "assets"
-		},
-		{
-			"path": "docker_inf_ats3"
-		},
-		{
-			"path": "docker_inf_db"
-		},
-		{
-			"path": "docker_inf_local"
-		},
-		{
-			"path": "images"
-		},
-		{
-			"path": "inf_server_api"
-		},
-		{
-			"path": "inf_server_explore"
-		},
-		{
-			"path": "inf_server_jwt"
-		},
-		{
-			"path": "inf_server_push"
-		},
-		{
-			"path": "sample_api_direct"
-		},
-		{
-			"path": "sample_jwt"
-		},
-		{
-			"path": "scripts_linux"
-		},
-		{
-			"path": "ssh"
-		},
-		{
+			"name": "sway_common",
 			"path": "sway_common"
 		},
 		{
+			"name": "sway_config",
 			"path": "sway_config"
 		},
 		{
+			"name": "sway_mobile_app",
 			"path": "sway_mobile_app"
+		},
+		{
+			"name": "images",
+			"path": "images"
+		},
+		{
+			"name": "scripts_linux",
+			"path": "scripts_linux"
+		},
+		{
+			"name": "docker_alpha",
+			"path": "docker_alpha"
+		},
+		{
+			"name": "docker_db",
+			"path": "docker_db"
+		},
+		{
+			"name": "docker_local",
+			"path": "docker_local"
+		},
+		{
+			"name": "sway_server_api",
+			"path": "sway_server_api"
+		},
+		{
+			"name": "sway_server_explore",
+			"path": "sway_server_explore"
+		},
+		{
+			"name": "sway_server_jwt",
+			"path": "sway_server_jwt"
+		},
+		{
+			"name": "sway_server_push",
+			"path": "sway_server_push"
+		},
+		{
+			"name": "sample_api_direct",
+			"path": "sample_api_direct"
+		},
+		{
+			"name": "sample_jwt",
+			"path": "sample_jwt"
 		}
 	],
 	"settings": {

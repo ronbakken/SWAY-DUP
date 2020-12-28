@@ -6,14 +6,14 @@ WORKDIR /usr/src/app
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 # where available (npm@5+)
-COPY inf_server_jwt/package*.json ./
+COPY sway_server_jwt/package*.json ./
 
 RUN npm install
 # If you are building your code for production
 # RUN npm install --only=production
 
 # Bundle app source
-COPY inf_server_jwt/. .
+COPY sway_server_jwt/. .
 
 EXPOSE 8928
 EXPOSE 8929

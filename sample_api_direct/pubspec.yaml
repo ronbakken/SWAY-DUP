@@ -9,10 +9,8 @@ environment:
   sdk: '>=2.0.0-dev.58.0 <3.0.0'
 
 dependencies:
-  inf_common:
-    git: 
-      url: git@github.com:infmarketplace/inf_common.git
-      ref: 5abde64190082e75a20b3eca4ab38af4700328f3
+  sway_common:
+    path: ../sway_common/
   logging: ^0.11.3+2
 
 dev_dependencies:
