@@ -13,13 +13,11 @@ dependencies:
   pedantic: ^1.4.0
   
   inf_common:
-    git: 
-      url: git@github.com:infmarketplace/inf_common.git
-      ref: d6a8077c1f543c6b8feecaf821b60fd938531b51
+    path: ../sway_common/
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.0
+  cupertino_icons: ^1.0.0
   font_awesome_flutter: ^8.0.0
   smooth_star_rating: ^1.0.1
 
@@ -35,15 +33,15 @@ dependencies:
     git: https://github.com/nbspou/circle_indicator.git
 
   flutter_webview_plugin: ^0.3.0
-  cached_network_image: ^0.4.2
-  flutter_svg: ^0.10.0
+  cached_network_image: ^2.0.0
+  flutter_svg: ^0.18.0
 
   # Device info, used during device registration
   device_info: ^0.3.0
   shared_preferences: ^0.4.2
   # pointycastle: ^1.0.0-rc4
   synchronized: ^1.5.1
-  path_provider: ^0.4.1
+  path_provider: ^1.4.0
   logging: ^0.11.3+2
 
   flutter_map: ^0.1.4

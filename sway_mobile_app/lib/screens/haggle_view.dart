@@ -273,7 +273,7 @@ class _HaggleViewState extends State<HaggleView> {
                       color: Theme.of(context).textTheme.button.color,
                       borderColor: Theme.of(context).textTheme.caption.color,
                       allowHalfRating: false,
-                      onRatingChanged: (double rating) {
+                      onRated: (double rating) {
                         setState(() {
                           _reviewRating = rating;
                         });

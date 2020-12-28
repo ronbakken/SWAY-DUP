@@ -41,6 +41,12 @@ class InfImage extends StatefulWidget {
 class _InfImageState extends State<InfImage> {
   ImageStream _imageStream;
   bool _loaded = false;
+  ImageStreamListener _imageStreamListener;
+
+  _InfImageState() {
+    _imageStreamListener =
+        ImageStreamListener(_handleImageChanged); // TODO: Handle error
+  }
 
   @override
   void didChangeDependencies() {
@@ -70,8 +76,8 @@ class _InfImageState extends State<InfImage> {
     final ImageStream oldImageStream = _imageStream;
     _imageStream = widget.image.resolve(config);
     if (_imageStream.key != oldImageStream?.key) {
-      oldImageStream?.removeListener(_handleImageChanged);
-      _imageStream.addListener(_handleImageChanged);
+      oldImageStream?.removeListener(_imageStreamListener);
+      _imageStream.addListener(_imageStreamListener);
     }
   }
 
@@ -83,7 +89,7 @@ class _InfImageState extends State<InfImage> {
 
   @override
   void dispose() {
-    _imageStream?.removeListener(_handleImageChanged);
+    _imageStream?.removeListener(_imageStreamListener);
     super.dispose();
   }
 

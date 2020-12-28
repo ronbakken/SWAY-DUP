@@ -46,10 +46,14 @@ class _ImageProviderResolver {
   _ImageProviderResolver({
     @required this.state,
     @required this.listener,
-  });
+  }) {
+    _imageStreamListener =
+        ImageStreamListener(_handleImageChanged); // TODO: Handle error
+  }
 
   final _BlurredNetworkImageState state;
   final Function() listener;
+  ImageStreamListener _imageStreamListener;
 
   ImageStream _imageStream;
   ImageInfo _imageInfo;
@@ -62,8 +66,8 @@ class _ImageProviderResolver {
     assert(_imageStream != null);
 
     if (_imageStream.key != oldImageStream?.key) {
-      oldImageStream?.removeListener(_handleImageChanged);
-      _imageStream.addListener(_handleImageChanged);
+      oldImageStream?.removeListener(_imageStreamListener);
+      _imageStream.addListener(_imageStreamListener);
     }
   }
 
@@ -73,7 +77,7 @@ class _ImageProviderResolver {
   }
 
   void stopListening() {
-    _imageStream?.removeListener(_handleImageChanged);
+    _imageStream?.removeListener(_imageStreamListener);
   }
 }
 
