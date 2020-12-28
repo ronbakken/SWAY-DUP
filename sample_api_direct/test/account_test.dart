@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:grpc/grpc.dart' as grpc;
@@ -304,7 +304,8 @@ Future<void> main() async {
     connectRequest.oauthProvider = OAuthProviderIds.facebook.value;
     connectRequest.callbackQuery =
         'access_token=${Uri.encodeQueryComponent(businessFacebook['access_token'])}';
-    expect(accountClient.connectProvider(connectRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    expect(accountClient.connectProvider(connectRequest),
+        throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   test('Can log into the business account from a new session', () async {
@@ -340,10 +341,21 @@ Future<void> main() async {
     expect(connection.account.accountId, isNot(equals(Int64.ZERO)));
     expect(session.account.sessionId, equals(connection.account.sessionId));
     expect(connection.account.email, equals(businessFacebook['email']));
-    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].connected, isTrue);
-    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].email, equals(businessFacebook['email']));
-    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].displayName, equals(connection.account.name));
-    expect(connection.account.socialMedia[OAuthProviderIds.facebook.value].canSignUp, isFalse);
+    expect(
+        connection
+            .account.socialMedia[OAuthProviderIds.facebook.value].connected,
+        isTrue);
+    expect(
+        connection.account.socialMedia[OAuthProviderIds.facebook.value].email,
+        equals(businessFacebook['email']));
+    expect(
+        connection
+            .account.socialMedia[OAuthProviderIds.facebook.value].displayName,
+        equals(connection.account.name));
+    expect(
+        connection
+            .account.socialMedia[OAuthProviderIds.facebook.value].canSignUp,
+        isFalse);
   });
 
   // TODO: Test whether the existing session for the business account is still valid and can be re-opened

@@ -26,7 +26,7 @@ import 'package:sway_mobile_app/network_inheritable/cross_account_navigation.dar
 import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
 import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 import 'package:sway_mobile_app/network_generic/api.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:pedantic/pedantic.dart';
 
 export 'package:sway_mobile_app/network_generic/api.dart';

@@ -8,7 +8,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:grpc/grpc.dart' as grpc;
@@ -129,12 +129,15 @@ Future<void> main() async {
     final ApiAccountClient client = ApiAccountClient(
       channel,
       options: grpc.CallOptions(
-        metadata: <String, String>{'authorization': 'Bearer $sessionOneRefresh'},
+        metadata: <String, String>{
+          'authorization': 'Bearer $sessionOneRefresh'
+        },
       ),
     );
     final NetSetAccountType request = NetSetAccountType();
     request.accountType = AccountType.business;
-    expect(client.setType(request), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    expect(
+        client.setType(request), throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   test('Cannot use application token to set accountless type', () async {
@@ -146,7 +149,8 @@ Future<void> main() async {
     );
     final NetSetAccountType request = NetSetAccountType();
     request.accountType = AccountType.business;
-    expect(client.setType(request), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    expect(
+        client.setType(request), throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   final NetSessionOpen openRequest = NetSessionOpen();
@@ -161,7 +165,8 @@ Future<void> main() async {
         metadata: <String, String>{'authorization': 'Bearer $sessionOneAccess'},
       ),
     );
-    expect(client.open(openRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    expect(
+        client.open(openRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   test('Cannot open a session with an application token', () async {
@@ -171,7 +176,8 @@ Future<void> main() async {
         metadata: <String, String>{'authorization': 'Bearer $applicationToken'},
       ),
     );
-    expect(client.open(openRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    expect(
+        client.open(openRequest), throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   String sessionOneAccessSecond;
@@ -180,7 +186,9 @@ Future<void> main() async {
     final ApiSessionClient client = ApiSessionClient(
       channel,
       options: grpc.CallOptions(
-        metadata: <String, String>{'authorization': 'Bearer $sessionOneRefresh'},
+        metadata: <String, String>{
+          'authorization': 'Bearer $sessionOneRefresh'
+        },
       ),
     );
     final NetSession session = await client.open(openRequest);

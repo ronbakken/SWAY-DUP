@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:dospace/dospace.dart' as dospace;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class ApiChannelHaggleActions {
   //////////////////////////////////////////////////////////////////////////////

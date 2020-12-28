@@ -1,53 +1,56 @@
 ///
 //  Generated code. Do not modify.
 //  source: api_storage.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'dart:core' as $core;
 
+import 'package:grpc/service_api.dart' as $grpc;
 import 'net_storage_protobuf.pb.dart' as $8;
 export 'api_storage.pb.dart';
 
-class ApiStorageClient extends Client {
+class ApiStorageClient extends $grpc.Client {
   static final _$signImageUpload =
-      new ClientMethod<$8.NetUploadImage, $8.NetUploadSigned>(
+      $grpc.ClientMethod<$8.NetUploadImage, $8.NetUploadSigned>(
           '/inf.ApiStorage/SignImageUpload',
           ($8.NetUploadImage value) => value.writeToBuffer(),
-          (List<int> value) => new $8.NetUploadSigned.fromBuffer(value));
+          ($core.List<$core.int> value) =>
+              $8.NetUploadSigned.fromBuffer(value));
 
-  ApiStorageClient(ClientChannel channel, {CallOptions options})
-      : super(channel, options: options);
+  ApiStorageClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
-  ResponseFuture<$8.NetUploadSigned> signImageUpload($8.NetUploadImage request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$signImageUpload, new $async.Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
+  $grpc.ResponseFuture<$8.NetUploadSigned> signImageUpload(
+      $8.NetUploadImage request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$signImageUpload, request, options: options);
   }
 }
 
-abstract class ApiStorageServiceBase extends Service {
-  String get $name => 'inf.ApiStorage';
+abstract class ApiStorageServiceBase extends $grpc.Service {
+  $core.String get $name => 'inf.ApiStorage';
 
   ApiStorageServiceBase() {
-    $addMethod(new ServiceMethod<$8.NetUploadImage, $8.NetUploadSigned>(
+    $addMethod($grpc.ServiceMethod<$8.NetUploadImage, $8.NetUploadSigned>(
         'SignImageUpload',
         signImageUpload_Pre,
         false,
         false,
-        (List<int> value) => new $8.NetUploadImage.fromBuffer(value),
+        ($core.List<$core.int> value) => $8.NetUploadImage.fromBuffer(value),
         ($8.NetUploadSigned value) => value.writeToBuffer()));
   }
 
   $async.Future<$8.NetUploadSigned> signImageUpload_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future<$8.NetUploadImage> request) async {
     return signImageUpload(call, await request);
   }
 
   $async.Future<$8.NetUploadSigned> signImageUpload(
-      ServiceCall call, $8.NetUploadImage request);
+      $grpc.ServiceCall call, $8.NetUploadImage request);
 }

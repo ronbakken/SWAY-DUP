@@ -11,7 +11,7 @@ import "package:ini/ini.dart" as ini;
 import 'package:fixnum/fixnum.dart';
 import 'package:dospace/dospace.dart' as dospace;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 ////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////////////////////////////////////////////
@@ -585,25 +585,26 @@ Future<void> generateConfig(Int64 timestamp, bool server) async {
       .addAll(await generateConfigContentFormats(assets, server));
   // print(config.content);
   Uint8List configBuffer = config.writeToBuffer();
-  new File(server ? "build/config_server.bin" : "build/config.bin")
+  new File(server ? "blob/config_server.bin" : "blob/config.bin")
       .writeAsBytes(configBuffer, flush: true);
 }
 
 Future<void> adjustConfig(String suffix, bool server) async {
-  ConfigData config = ConfigData()
-    ..mergeFromBuffer(
-        await new File(server ? "build/config_server.bin" : "build/config.bin")
-            .readAsBytes());
+  ConfigData config = (ConfigData()
+        ..mergeFromBuffer(await new File(
+                server ? "blob/config_server.bin" : "blob/config.bin")
+            .readAsBytes()))
+      .toBuilder();
   ConfigServices services = await generateConfigServices(
       "config_" + suffix + "/services.ini", server);
-  if (services.endPoints.isNotEmpty)
-    config.services.endPoints.clear();
+  config.services = config.services.toBuilder();
+  if (services.endPoints.isNotEmpty) config.services.endPoints.clear();
   if (services.elasticsearchApi.isNotEmpty)
     config.services.clearElasticsearchBasicAuth();
   config.services.mergeFromMessage(services);
   new File(server
-          ? "build/config_" + suffix + "_server.bin"
-          : "build/config_" + suffix + ".bin")
+          ? "blob/config_" + suffix + "_server.bin"
+          : "blob/config_" + suffix + ".bin")
       .writeAsBytes(config.writeToBuffer(), flush: true);
 }
 

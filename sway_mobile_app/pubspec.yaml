@@ -28,7 +28,7 @@ dependencies:
   decimal: ^0.3.2
   pedantic: ^1.4.0
   
-  inf_common:
+  sway_common:
     path: ../sway_common/
 
   # The following adds the Cupertino Icons font to your application.

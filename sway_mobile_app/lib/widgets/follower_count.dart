@@ -6,7 +6,7 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 
 import 'package:flutter/material.dart';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 /// This widget will take in a specific authenticated Social Media
 /// Account and display the social media's Brand Icon along with

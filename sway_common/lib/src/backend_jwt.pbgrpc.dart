@@ -1,75 +1,78 @@
 ///
 //  Generated code. Do not modify.
 //  source: backend_jwt.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'dart:core' as $core;
 
-import 'backend_jwt.pb.dart';
+import 'package:grpc/service_api.dart' as $grpc;
+import 'backend_jwt.pb.dart' as $10;
 export 'backend_jwt.pb.dart';
 
-class BackendJwtClient extends Client {
-  static final _$sign = new ClientMethod<ReqSign, ResSign>(
+class BackendJwtClient extends $grpc.Client {
+  static final _$sign = $grpc.ClientMethod<$10.ReqSign, $10.ResSign>(
       '/inf.BackendJwt/Sign',
-      (ReqSign value) => value.writeToBuffer(),
-      (List<int> value) => new ResSign.fromBuffer(value));
-  static final _$getKeyStore = new ClientMethod<ReqGetKeyStore, ResGetKeyStore>(
-      '/inf.BackendJwt/GetKeyStore',
-      (ReqGetKeyStore value) => value.writeToBuffer(),
-      (List<int> value) => new ResGetKeyStore.fromBuffer(value));
+      ($10.ReqSign value) => value.writeToBuffer(),
+      ($core.List<$core.int> value) => $10.ResSign.fromBuffer(value));
+  static final _$getKeyStore =
+      $grpc.ClientMethod<$10.ReqGetKeyStore, $10.ResGetKeyStore>(
+          '/inf.BackendJwt/GetKeyStore',
+          ($10.ReqGetKeyStore value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) =>
+              $10.ResGetKeyStore.fromBuffer(value));
 
-  BackendJwtClient(ClientChannel channel, {CallOptions options})
-      : super(channel, options: options);
+  BackendJwtClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
-  ResponseFuture<ResSign> sign(ReqSign request, {CallOptions options}) {
-    final call = $createCall(_$sign, new $async.Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
+  $grpc.ResponseFuture<$10.ResSign> sign($10.ReqSign request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$sign, request, options: options);
   }
 
-  ResponseFuture<ResGetKeyStore> getKeyStore(ReqGetKeyStore request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$getKeyStore, new $async.Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
+  $grpc.ResponseFuture<$10.ResGetKeyStore> getKeyStore(
+      $10.ReqGetKeyStore request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$getKeyStore, request, options: options);
   }
 }
 
-abstract class BackendJwtServiceBase extends Service {
-  String get $name => 'inf.BackendJwt';
+abstract class BackendJwtServiceBase extends $grpc.Service {
+  $core.String get $name => 'inf.BackendJwt';
 
   BackendJwtServiceBase() {
-    $addMethod(new ServiceMethod<ReqSign, ResSign>(
+    $addMethod($grpc.ServiceMethod<$10.ReqSign, $10.ResSign>(
         'Sign',
         sign_Pre,
         false,
         false,
-        (List<int> value) => new ReqSign.fromBuffer(value),
-        (ResSign value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<ReqGetKeyStore, ResGetKeyStore>(
+        ($core.List<$core.int> value) => $10.ReqSign.fromBuffer(value),
+        ($10.ResSign value) => value.writeToBuffer()));
+    $addMethod($grpc.ServiceMethod<$10.ReqGetKeyStore, $10.ResGetKeyStore>(
         'GetKeyStore',
         getKeyStore_Pre,
         false,
         false,
-        (List<int> value) => new ReqGetKeyStore.fromBuffer(value),
-        (ResGetKeyStore value) => value.writeToBuffer()));
+        ($core.List<$core.int> value) => $10.ReqGetKeyStore.fromBuffer(value),
+        ($10.ResGetKeyStore value) => value.writeToBuffer()));
   }
 
-  $async.Future<ResSign> sign_Pre(
-      ServiceCall call, $async.Future request) async {
+  $async.Future<$10.ResSign> sign_Pre(
+      $grpc.ServiceCall call, $async.Future<$10.ReqSign> request) async {
     return sign(call, await request);
   }
 
-  $async.Future<ResGetKeyStore> getKeyStore_Pre(
-      ServiceCall call, $async.Future request) async {
+  $async.Future<$10.ResGetKeyStore> getKeyStore_Pre(
+      $grpc.ServiceCall call, $async.Future<$10.ReqGetKeyStore> request) async {
     return getKeyStore(call, await request);
   }
 
-  $async.Future<ResSign> sign(ServiceCall call, ReqSign request);
-  $async.Future<ResGetKeyStore> getKeyStore(
-      ServiceCall call, ReqGetKeyStore request);
+  $async.Future<$10.ResSign> sign($grpc.ServiceCall call, $10.ReqSign request);
+  $async.Future<$10.ResGetKeyStore> getKeyStore(
+      $grpc.ServiceCall call, $10.ReqGetKeyStore request);
 }

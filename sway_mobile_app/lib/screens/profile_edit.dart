@@ -9,7 +9,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/widgets/image_uploader.dart';
 
 import 'package:sway_mobile_app/widgets/network_status.dart';

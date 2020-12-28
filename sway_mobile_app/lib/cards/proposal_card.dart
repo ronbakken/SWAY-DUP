@@ -8,7 +8,7 @@ import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:sway_mobile_app/widgets/profile_avatar.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/styling_constants.dart';
 import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 

@@ -15,7 +15,7 @@ import 'package:sample_jwt/src/protos/sample_jwt.pbgrpc.dart';
 export 'package:sample_jwt/src/protos/sample_jwt.pb.dart';
 export 'package:sample_jwt/src/protos/sample_jwt.pbgrpc.dart';
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class SampleJwtService extends SampleJwtServiceBase {
   static final Logger log = Logger('SampleJwtService');

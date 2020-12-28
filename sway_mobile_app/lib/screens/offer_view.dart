@@ -11,7 +11,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:sway_mobile_app/widgets/profile_avatar.dart';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/widgets/carousel_app_bar.dart';
 import 'package:sway_mobile_app/widgets/dark_container.dart';
 

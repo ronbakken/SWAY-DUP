@@ -11,7 +11,7 @@ import 'package:sway_mobile_app/ui/widgets/inf_page_indicator.dart';
 import 'package:sway_mobile_app/ui/widgets/bottom_sheet.dart'
     as inf_bottom_sheet;
 import 'package:sway_mobile_app/ui/widgets/white_border_circle_avatar.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:intl/intl.dart';
 
 class OfferDetailsPage extends StatefulWidget {

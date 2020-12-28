@@ -8,7 +8,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:inf_server_push/db_upgrade_push.dart';
 
 import 'package:logging/logging.dart';

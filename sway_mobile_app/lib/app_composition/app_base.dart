@@ -15,7 +15,7 @@ import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:sway_mobile_app/widgets/oauth_scaffold.dart';
 import 'package:sway_mobile_app/widgets/progress_dialog.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/screens/account_switch.dart';
 import 'package:sway_mobile_app/screens/debug_account.dart';
 import 'package:sway_mobile_app/screens/haggle_view.dart';

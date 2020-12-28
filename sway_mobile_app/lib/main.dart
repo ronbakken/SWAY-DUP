@@ -12,7 +12,7 @@ import 'package:sway_mobile_app/network_mobile/config_downloader.dart';
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
 import 'package:sway_mobile_app/prototype.dart' show Prototype;
 import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
 Future<ConfigData> loadConfig() async {

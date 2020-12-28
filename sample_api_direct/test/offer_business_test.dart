@@ -11,7 +11,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:grpc/grpc.dart' as grpc;

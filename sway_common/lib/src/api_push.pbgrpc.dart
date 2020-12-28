@@ -1,77 +1,78 @@
 ///
 //  Generated code. Do not modify.
 //  source: api_push.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
 import 'dart:async' as $async;
 
-import 'package:grpc/grpc.dart';
+import 'dart:core' as $core;
 
+import 'package:grpc/service_api.dart' as $grpc;
 import 'net_push_protobuf.pb.dart' as $7;
 export 'api_push.pb.dart';
 
-class ApiPushClient extends Client {
-  static final _$listen = new ClientMethod<$7.NetListen, $7.NetPush>(
+class ApiPushClient extends $grpc.Client {
+  static final _$listen = $grpc.ClientMethod<$7.NetListen, $7.NetPush>(
       '/inf.ApiPush/Listen',
       ($7.NetListen value) => value.writeToBuffer(),
-      (List<int> value) => new $7.NetPush.fromBuffer(value));
-  static final _$keepAlive = new ClientMethod<$7.NetKeepAlive, $7.NetKeepAlive>(
-      '/inf.ApiPush/KeepAlive',
-      ($7.NetKeepAlive value) => value.writeToBuffer(),
-      (List<int> value) => new $7.NetKeepAlive.fromBuffer(value));
+      ($core.List<$core.int> value) => $7.NetPush.fromBuffer(value));
+  static final _$keepAlive =
+      $grpc.ClientMethod<$7.NetKeepAlive, $7.NetKeepAlive>(
+          '/inf.ApiPush/KeepAlive',
+          ($7.NetKeepAlive value) => value.writeToBuffer(),
+          ($core.List<$core.int> value) => $7.NetKeepAlive.fromBuffer(value));
 
-  ApiPushClient(ClientChannel channel, {CallOptions options})
-      : super(channel, options: options);
+  ApiPushClient($grpc.ClientChannel channel,
+      {$grpc.CallOptions options,
+      $core.Iterable<$grpc.ClientInterceptor> interceptors})
+      : super(channel, options: options, interceptors: interceptors);
 
-  ResponseStream<$7.NetPush> listen($7.NetListen request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$listen, new $async.Stream.fromIterable([request]),
+  $grpc.ResponseStream<$7.NetPush> listen($7.NetListen request,
+      {$grpc.CallOptions options}) {
+    return $createStreamingCall(_$listen, $async.Stream.fromIterable([request]),
         options: options);
-    return new ResponseStream(call);
   }
 
-  ResponseFuture<$7.NetKeepAlive> keepAlive($7.NetKeepAlive request,
-      {CallOptions options}) {
-    final call = $createCall(
-        _$keepAlive, new $async.Stream.fromIterable([request]),
-        options: options);
-    return new ResponseFuture(call);
+  $grpc.ResponseFuture<$7.NetKeepAlive> keepAlive($7.NetKeepAlive request,
+      {$grpc.CallOptions options}) {
+    return $createUnaryCall(_$keepAlive, request, options: options);
   }
 }
 
-abstract class ApiPushServiceBase extends Service {
-  String get $name => 'inf.ApiPush';
+abstract class ApiPushServiceBase extends $grpc.Service {
+  $core.String get $name => 'inf.ApiPush';
 
   ApiPushServiceBase() {
-    $addMethod(new ServiceMethod<$7.NetListen, $7.NetPush>(
+    $addMethod($grpc.ServiceMethod<$7.NetListen, $7.NetPush>(
         'Listen',
         listen_Pre,
         false,
         true,
-        (List<int> value) => new $7.NetListen.fromBuffer(value),
+        ($core.List<$core.int> value) => $7.NetListen.fromBuffer(value),
         ($7.NetPush value) => value.writeToBuffer()));
-    $addMethod(new ServiceMethod<$7.NetKeepAlive, $7.NetKeepAlive>(
+    $addMethod($grpc.ServiceMethod<$7.NetKeepAlive, $7.NetKeepAlive>(
         'KeepAlive',
         keepAlive_Pre,
         false,
         false,
-        (List<int> value) => new $7.NetKeepAlive.fromBuffer(value),
+        ($core.List<$core.int> value) => $7.NetKeepAlive.fromBuffer(value),
         ($7.NetKeepAlive value) => value.writeToBuffer()));
   }
 
   $async.Stream<$7.NetPush> listen_Pre(
-      ServiceCall call, $async.Future request) async* {
-    yield* listen(call, (await request) as $7.NetListen);
+      $grpc.ServiceCall call, $async.Future<$7.NetListen> request) async* {
+    yield* listen(call, await request);
   }
 
   $async.Future<$7.NetKeepAlive> keepAlive_Pre(
-      ServiceCall call, $async.Future request) async {
+      $grpc.ServiceCall call, $async.Future<$7.NetKeepAlive> request) async {
     return keepAlive(call, await request);
   }
 
-  $async.Stream<$7.NetPush> listen(ServiceCall call, $7.NetListen request);
+  $async.Stream<$7.NetPush> listen(
+      $grpc.ServiceCall call, $7.NetListen request);
   $async.Future<$7.NetKeepAlive> keepAlive(
-      ServiceCall call, $7.NetKeepAlive request);
+      $grpc.ServiceCall call, $7.NetKeepAlive request);
 }

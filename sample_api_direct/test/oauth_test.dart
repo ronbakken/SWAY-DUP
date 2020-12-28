@@ -9,7 +9,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:grpc/grpc.dart' as grpc;
@@ -82,8 +82,7 @@ Future<void> main() async {
         options: grpc.CallOptions(metadata: <String, String>{
           'authorization': 'Bearer ${config.services.applicationToken}'
         }));
-    final NetSession session =
-        await sessionClient.create(sessionCreateRequest);
+    final NetSession session = await sessionClient.create(sessionCreateRequest);
     refreshToken = session.refreshToken;
     accessToken = session.accessToken;
     accountClient = ApiAccountClient(channel,
@@ -110,7 +109,7 @@ Future<void> main() async {
     expect(accountless.account.accountId, equals(Int64.ZERO));
     expect(accountless.account.accountType, equals(AccountType.influencer));
   });
-  
+
   test('Twitter OAuth url', () async {
     final NetOAuthGetUrl request = NetOAuthGetUrl();
     request.oauthProvider = OAuthProviderIds.twitter.value;
@@ -146,22 +145,26 @@ Future<void> main() async {
   test('Twitter connect with outdated token should fail', () async {
     final NetOAuthConnect request = NetOAuthConnect();
     request.oauthProvider = OAuthProviderIds.twitter.value;
-    request.callbackQuery = 'oauth_token=Yiyo5AAAAAAA5_oKAAABaFbpZSE&oauth_verifier=5oiE03PWyDg5CKRWP8urgpvQB5CeVepe';
-    expect(accountClient.connectProvider(request), throwsA(const TypeMatcher<grpc.GrpcError>()));
+    request.callbackQuery =
+        'oauth_token=Yiyo5AAAAAAA5_oKAAABaFbpZSE&oauth_verifier=5oiE03PWyDg5CKRWP8urgpvQB5CeVepe';
+    expect(accountClient.connectProvider(request),
+        throwsA(const TypeMatcher<grpc.GrpcError>()));
   });
 
   test('Twitter connect with token and secret instead of verifier', () async {
     // This is used by test users and by the twitter kit plugin
     final NetOAuthConnect request = NetOAuthConnect();
     request.oauthProvider = OAuthProviderIds.twitter.value;
-    request.callbackQuery = 'oauth_token=1085053886933565440-t6ce1nK4D7yjxtjciRXEBQjjJb6Cue&oauth_token_secret=zQgdWQ40LB6sVsj76Q7LiV20lOTaAlpYHJ2Vt8KCKQgNF';
-    final NetOAuthConnection response = await accountClient.connectProvider(request);
+    request.callbackQuery =
+        'oauth_token=1085053886933565440-t6ce1nK4D7yjxtjciRXEBQjjJb6Cue&oauth_token_secret=zQgdWQ40LB6sVsj76Q7LiV20lOTaAlpYHJ2Vt8KCKQgNF';
+    final NetOAuthConnection response =
+        await accountClient.connectProvider(request);
     log.fine(response.socialMedia);
     expect(response.hasSocialMedia(), isTrue);
     expect(response.socialMedia.connected, isTrue);
     expect(response.socialMedia.screenName, equals('infsandbox'));
   });
-  
+
   test('Facebook OAuth url', () async {
     final NetOAuthGetUrl request = NetOAuthGetUrl();
     request.oauthProvider = OAuthProviderIds.facebook.value;

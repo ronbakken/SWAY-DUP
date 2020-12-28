@@ -8,7 +8,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:inf_server_api/api_account_service.dart';
 
 import 'package:inf_server_api/api_oauth_service.dart';

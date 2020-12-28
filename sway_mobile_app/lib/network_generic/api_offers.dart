@@ -9,7 +9,7 @@ import 'dart:async';
 import 'package:fixnum/fixnum.dart';
 import 'package:sway_mobile_app/network_generic/api.dart';
 import 'package:sway_mobile_app/network_generic/api_internals.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:synchronized/synchronized.dart';
 import 'package:grpc/grpc.dart' as grpc;

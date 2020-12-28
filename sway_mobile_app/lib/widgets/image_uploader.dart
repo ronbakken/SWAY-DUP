@@ -14,7 +14,7 @@ import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/widgets/progress_dialog.dart';
 import 'package:logging/logging.dart';
 

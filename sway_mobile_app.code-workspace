@@ -1,0 +1,23 @@
+{
+	"folders": [
+		{
+			"path": "sway_common"
+		},
+		{
+			"path": "sway_config"
+		},
+		{
+			"path": "sway_mobile_app"
+		}
+	],
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/build": true,
+		}
+	}
+}

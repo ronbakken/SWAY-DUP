@@ -19,7 +19,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class ApiProposalsService extends ApiProposalsServiceBase {
   final ConfigData config;
@@ -315,7 +315,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
               ? ' WHERE `proposal_id` = ?'
                   ' AND `${accountType == AccountType.business ? 'business_account_id' : 'influencer_account_id'}` = ?'
               : ' WHERE `offer_id` = ?'
-              ' AND `sender_account_id` = ?');
+                  ' AND `sender_account_id` = ?');
       await for (sqljocky.Row row in await connection.prepareExecute(
         query,
         <dynamic>[(proposalId != null ? proposalId : offerId), accountId],
@@ -330,9 +330,9 @@ class ApiProposalsService extends ApiProposalsServiceBase {
         const String chatQuery = 'SELECT ' +
             _selectChatQuery +
             'FROM `proposal_chats` '
-            'WHERE `proposal_id` = ? '
-            'ORDER BY `chat_id` DESC '
-            'LIMIT 1';
+                'WHERE `proposal_id` = ? '
+                'ORDER BY `chat_id` DESC '
+                'LIMIT 1';
         await for (sqljocky.Row row
             in await connection.prepareExecute(chatQuery, <dynamic>[
           response.proposal.proposalId,
@@ -352,7 +352,7 @@ class ApiProposalsService extends ApiProposalsServiceBase {
           const String chatQuery = 'SELECT ' +
               _selectChatQuery +
               'FROM `proposal_chats` '
-              'WHERE `chat_id` = ?';
+                  'WHERE `chat_id` = ?';
           await for (sqljocky.Row row
               in await connection.prepareExecute(chatQuery, <dynamic>[
             response.proposal.termsChatId,
@@ -447,8 +447,8 @@ class ApiProposalsService extends ApiProposalsServiceBase {
       const String chatQuery = 'SELECT ' +
           _selectChatQuery +
           'FROM `proposal_chats` '
-          'WHERE `proposal_id` = ? '
-          'ORDER BY `chat_id` DESC';
+              'WHERE `proposal_id` = ? '
+              'ORDER BY `chat_id` DESC';
       await for (sqljocky.Row row
           in await connection.prepareExecute(chatQuery, <dynamic>[
         request.proposalId,

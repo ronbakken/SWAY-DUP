@@ -13,7 +13,7 @@ import 'package:logging/logging.dart';
 import 'package:dospace/dospace.dart' as dospace;
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class ApiStorageService extends ApiStorageServiceBase {
   final ConfigData config;

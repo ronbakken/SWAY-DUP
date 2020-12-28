@@ -1,101 +1,158 @@
 ///
 //  Generated code. Do not modify.
 //  source: enum_protobuf.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-// ignore_for_file: UNDEFINED_SHOWN_NAME,UNUSED_SHOWN_NAME
-import 'dart:core' show int, dynamic, String, List, Map;
+// ignore_for_file: UNDEFINED_SHOWN_NAME
+import 'dart:core' as $core;
 import 'package:protobuf/protobuf.dart' as $pb;
 
 class OAuthMechanism extends $pb.ProtobufEnum {
-  static const OAuthMechanism none = const OAuthMechanism._(0, 'OAM_NONE');
-  static const OAuthMechanism oauth1 = const OAuthMechanism._(1, 'OAM_OAUTH1');
-  static const OAuthMechanism oauth2 = const OAuthMechanism._(2, 'OAM_OAUTH2');
+  static const OAuthMechanism none = OAuthMechanism._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OAM_NONE');
+  static const OAuthMechanism oauth1 = OAuthMechanism._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OAM_OAUTH1');
+  static const OAuthMechanism oauth2 = OAuthMechanism._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OAM_OAUTH2');
 
-  static const List<OAuthMechanism> values = const <OAuthMechanism>[
+  static const $core.List<OAuthMechanism> values = <OAuthMechanism>[
     none,
     oauth1,
     oauth2,
   ];
 
-  static final Map<int, OAuthMechanism> _byValue =
+  static final $core.Map<$core.int, OAuthMechanism> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static OAuthMechanism valueOf(int value) => _byValue[value];
-  static void $checkItem(OAuthMechanism v) {
-    if (v is! OAuthMechanism) $pb.checkItemFailed(v, 'OAuthMechanism');
-  }
+  static OAuthMechanism valueOf($core.int value) => _byValue[value];
 
-  const OAuthMechanism._(int v, String n) : super(v, n);
+  const OAuthMechanism._($core.int v, $core.String n) : super(v, n);
 }
 
 class OAuthProviderIds extends $pb.ProtobufEnum {
-  static const OAuthProviderIds none = const OAuthProviderIds._(0, 'OAP_NONE');
-  static const OAuthProviderIds twitter =
-      const OAuthProviderIds._(1, 'OAP_TWITTER');
-  static const OAuthProviderIds facebook =
-      const OAuthProviderIds._(2, 'OAP_FACEBOOK');
+  static const OAuthProviderIds none = OAuthProviderIds._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OAP_NONE');
+  static const OAuthProviderIds twitter = OAuthProviderIds._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OAP_TWITTER');
+  static const OAuthProviderIds facebook = OAuthProviderIds._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OAP_FACEBOOK');
 
-  static const List<OAuthProviderIds> values = const <OAuthProviderIds>[
+  static const $core.List<OAuthProviderIds> values = <OAuthProviderIds>[
     none,
     twitter,
     facebook,
   ];
 
-  static final Map<int, OAuthProviderIds> _byValue =
+  static final $core.Map<$core.int, OAuthProviderIds> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static OAuthProviderIds valueOf(int value) => _byValue[value];
-  static void $checkItem(OAuthProviderIds v) {
-    if (v is! OAuthProviderIds) $pb.checkItemFailed(v, 'OAuthProviderIds');
-  }
+  static OAuthProviderIds valueOf($core.int value) => _byValue[value];
 
-  const OAuthProviderIds._(int v, String n) : super(v, n);
+  const OAuthProviderIds._($core.int v, $core.String n) : super(v, n);
 }
 
 class AccountType extends $pb.ProtobufEnum {
-  static const AccountType unknown = const AccountType._(0, 'AT_UNKNOWN');
-  static const AccountType influencer = const AccountType._(1, 'AT_INFLUENCER');
-  static const AccountType business = const AccountType._(2, 'AT_BUSINESS');
-  static const AccountType support = const AccountType._(3, 'AT_SUPPORT');
+  static const AccountType unknown = AccountType._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AT_UNKNOWN');
+  static const AccountType influencer = AccountType._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AT_INFLUENCER');
+  static const AccountType business = AccountType._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AT_BUSINESS');
+  static const AccountType support = AccountType._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AT_SUPPORT');
 
-  static const List<AccountType> values = const <AccountType>[
+  static const $core.List<AccountType> values = <AccountType>[
     unknown,
     influencer,
     business,
     support,
   ];
 
-  static final Map<int, AccountType> _byValue =
+  static final $core.Map<$core.int, AccountType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static AccountType valueOf(int value) => _byValue[value];
-  static void $checkItem(AccountType v) {
-    if (v is! AccountType) $pb.checkItemFailed(v, 'AccountType');
-  }
+  static AccountType valueOf($core.int value) => _byValue[value];
 
-  const AccountType._(int v, String n) : super(v, n);
+  const AccountType._($core.int v, $core.String n) : super(v, n);
 }
 
 class GlobalAccountState extends $pb.ProtobufEnum {
-  static const GlobalAccountState initialize =
-      const GlobalAccountState._(0, 'GAS_INITIALIZE');
-  static const GlobalAccountState blocked =
-      const GlobalAccountState._(1, 'GAS_BLOCKED');
-  static const GlobalAccountState pending =
-      const GlobalAccountState._(2, 'GAS_PENDING');
-  static const GlobalAccountState readOnly =
-      const GlobalAccountState._(3, 'GAS_READ_ONLY');
-  static const GlobalAccountState readWrite =
-      const GlobalAccountState._(4, 'GAS_READ_WRITE');
-  static const GlobalAccountState debug =
-      const GlobalAccountState._(5, 'GAS_DEBUG');
-  static const GlobalAccountState support =
-      const GlobalAccountState._(6, 'GAS_SUPPORT');
-  static const GlobalAccountState manager =
-      const GlobalAccountState._(7, 'GAS_MANAGER');
-  static const GlobalAccountState god =
-      const GlobalAccountState._(8, 'GAS_GOD');
+  static const GlobalAccountState initialize = GlobalAccountState._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_INITIALIZE');
+  static const GlobalAccountState blocked = GlobalAccountState._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_BLOCKED');
+  static const GlobalAccountState pending = GlobalAccountState._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_PENDING');
+  static const GlobalAccountState readOnly = GlobalAccountState._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_READ_ONLY');
+  static const GlobalAccountState readWrite = GlobalAccountState._(
+      4,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_READ_WRITE');
+  static const GlobalAccountState debug = GlobalAccountState._(
+      5,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_DEBUG');
+  static const GlobalAccountState support = GlobalAccountState._(
+      6,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_SUPPORT');
+  static const GlobalAccountState manager = GlobalAccountState._(
+      7,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_MANAGER');
+  static const GlobalAccountState god = GlobalAccountState._(
+      8,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GAS_GOD');
 
-  static const List<GlobalAccountState> values = const <GlobalAccountState>[
+  static const $core.List<GlobalAccountState> values = <GlobalAccountState>[
     initialize,
     blocked,
     pending,
@@ -107,34 +164,56 @@ class GlobalAccountState extends $pb.ProtobufEnum {
     god,
   ];
 
-  static final Map<int, GlobalAccountState> _byValue =
+  static final $core.Map<$core.int, GlobalAccountState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static GlobalAccountState valueOf(int value) => _byValue[value];
-  static void $checkItem(GlobalAccountState v) {
-    if (v is! GlobalAccountState) $pb.checkItemFailed(v, 'GlobalAccountState');
-  }
+  static GlobalAccountState valueOf($core.int value) => _byValue[value];
 
-  const GlobalAccountState._(int v, String n) : super(v, n);
+  const GlobalAccountState._($core.int v, $core.String n) : super(v, n);
 }
 
 class GlobalAccountStateReason extends $pb.ProtobufEnum {
-  static const GlobalAccountStateReason newAccount =
-      const GlobalAccountStateReason._(0, 'GASR_NEW_ACCOUNT');
+  static const GlobalAccountStateReason newAccount = GlobalAccountStateReason._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GASR_NEW_ACCOUNT');
   static const GlobalAccountStateReason accountBanned =
-      const GlobalAccountStateReason._(1, 'GASR_ACCOUNT_BANNED');
+      GlobalAccountStateReason._(
+          1,
+          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+              ? ''
+              : 'GASR_ACCOUNT_BANNED');
   static const GlobalAccountStateReason createDenied =
-      const GlobalAccountStateReason._(2, 'GASR_CREATE_DENIED');
-  static const GlobalAccountStateReason approved =
-      const GlobalAccountStateReason._(3, 'GASR_APPROVED');
+      GlobalAccountStateReason._(
+          2,
+          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+              ? ''
+              : 'GASR_CREATE_DENIED');
+  static const GlobalAccountStateReason approved = GlobalAccountStateReason._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GASR_APPROVED');
   static const GlobalAccountStateReason demoApproved =
-      const GlobalAccountStateReason._(4, 'GASR_DEMO_APPROVED');
-  static const GlobalAccountStateReason pending =
-      const GlobalAccountStateReason._(5, 'GASR_PENDING');
+      GlobalAccountStateReason._(
+          4,
+          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+              ? ''
+              : 'GASR_DEMO_APPROVED');
+  static const GlobalAccountStateReason pending = GlobalAccountStateReason._(
+      5,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'GASR_PENDING');
   static const GlobalAccountStateReason requireInfo =
-      const GlobalAccountStateReason._(6, 'GASR_REQUIRE_INFO');
+      GlobalAccountStateReason._(
+          6,
+          const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+              ? ''
+              : 'GASR_REQUIRE_INFO');
 
-  static const List<GlobalAccountStateReason> values =
-      const <GlobalAccountStateReason>[
+  static const $core.List<GlobalAccountStateReason> values =
+      <GlobalAccountStateReason>[
     newAccount,
     accountBanned,
     createDenied,
@@ -144,51 +223,71 @@ class GlobalAccountStateReason extends $pb.ProtobufEnum {
     requireInfo,
   ];
 
-  static final Map<int, GlobalAccountStateReason> _byValue =
+  static final $core.Map<$core.int, GlobalAccountStateReason> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static GlobalAccountStateReason valueOf(int value) => _byValue[value];
-  static void $checkItem(GlobalAccountStateReason v) {
-    if (v is! GlobalAccountStateReason)
-      $pb.checkItemFailed(v, 'GlobalAccountStateReason');
-  }
+  static GlobalAccountStateReason valueOf($core.int value) => _byValue[value];
 
-  const GlobalAccountStateReason._(int v, String n) : super(v, n);
+  const GlobalAccountStateReason._($core.int v, $core.String n) : super(v, n);
 }
 
 class AccountLevel extends $pb.ProtobufEnum {
-  static const AccountLevel free = const AccountLevel._(0, 'AL_FREE');
-  static const AccountLevel premium = const AccountLevel._(1, 'AL_PREMIUM');
-  static const AccountLevel pro = const AccountLevel._(2, 'AL_PRO');
+  static const AccountLevel free = AccountLevel._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AL_FREE');
+  static const AccountLevel premium = AccountLevel._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AL_PREMIUM');
+  static const AccountLevel pro = AccountLevel._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'AL_PRO');
 
-  static const List<AccountLevel> values = const <AccountLevel>[
+  static const $core.List<AccountLevel> values = <AccountLevel>[
     free,
     premium,
     pro,
   ];
 
-  static final Map<int, AccountLevel> _byValue =
+  static final $core.Map<$core.int, AccountLevel> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static AccountLevel valueOf(int value) => _byValue[value];
-  static void $checkItem(AccountLevel v) {
-    if (v is! AccountLevel) $pb.checkItemFailed(v, 'AccountLevel');
-  }
+  static AccountLevel valueOf($core.int value) => _byValue[value];
 
-  const AccountLevel._(int v, String n) : super(v, n);
+  const AccountLevel._($core.int v, $core.String n) : super(v, n);
 }
 
 class NotificationFlags extends $pb.ProtobufEnum {
-  static const NotificationFlags accountState =
-      const NotificationFlags._(0, 'NF_ACCOUNT_STATE');
-  static const NotificationFlags makeAnOfferHint =
-      const NotificationFlags._(1, 'NF_MAKE_AN_OFFER_HINT');
-  static const NotificationFlags unreadMessages =
-      const NotificationFlags._(2, 'NF_UNREAD_MESSAGES');
-  static const NotificationFlags supportRequest =
-      const NotificationFlags._(3, 'NF_SUPPORT_REQUEST');
-  static const NotificationFlags onboarding =
-      const NotificationFlags._(4, 'NF_ONBOARDING');
+  static const NotificationFlags accountState = NotificationFlags._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'NF_ACCOUNT_STATE');
+  static const NotificationFlags makeAnOfferHint = NotificationFlags._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'NF_MAKE_AN_OFFER_HINT');
+  static const NotificationFlags unreadMessages = NotificationFlags._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'NF_UNREAD_MESSAGES');
+  static const NotificationFlags supportRequest = NotificationFlags._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'NF_SUPPORT_REQUEST');
+  static const NotificationFlags onboarding = NotificationFlags._(
+      4,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'NF_ONBOARDING');
 
-  static const List<NotificationFlags> values = const <NotificationFlags>[
+  static const $core.List<NotificationFlags> values = <NotificationFlags>[
     accountState,
     makeAnOfferHint,
     unreadMessages,
@@ -196,105 +295,159 @@ class NotificationFlags extends $pb.ProtobufEnum {
     onboarding,
   ];
 
-  static final Map<int, NotificationFlags> _byValue =
+  static final $core.Map<$core.int, NotificationFlags> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static NotificationFlags valueOf(int value) => _byValue[value];
-  static void $checkItem(NotificationFlags v) {
-    if (v is! NotificationFlags) $pb.checkItemFailed(v, 'NotificationFlags');
-  }
+  static NotificationFlags valueOf($core.int value) => _byValue[value];
 
-  const NotificationFlags._(int v, String n) : super(v, n);
+  const NotificationFlags._($core.int v, $core.String n) : super(v, n);
 }
 
 class OfferState extends $pb.ProtobufEnum {
-  static const OfferState draft = const OfferState._(0, 'OS_DRAFT');
-  static const OfferState scheduled = const OfferState._(1, 'OS_SCHEDULED');
-  static const OfferState open = const OfferState._(2, 'OS_OPEN');
-  static const OfferState closed = const OfferState._(3, 'OS_CLOSED');
+  static const OfferState draft = OfferState._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OS_DRAFT');
+  static const OfferState scheduled = OfferState._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OS_SCHEDULED');
+  static const OfferState open = OfferState._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OS_OPEN');
+  static const OfferState closed = OfferState._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OS_CLOSED');
 
-  static const List<OfferState> values = const <OfferState>[
+  static const $core.List<OfferState> values = <OfferState>[
     draft,
     scheduled,
     open,
     closed,
   ];
 
-  static final Map<int, OfferState> _byValue =
+  static final $core.Map<$core.int, OfferState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static OfferState valueOf(int value) => _byValue[value];
-  static void $checkItem(OfferState v) {
-    if (v is! OfferState) $pb.checkItemFailed(v, 'OfferState');
-  }
+  static OfferState valueOf($core.int value) => _byValue[value];
 
-  const OfferState._(int v, String n) : super(v, n);
+  const OfferState._($core.int v, $core.String n) : super(v, n);
 }
 
 class OfferStateReason extends $pb.ProtobufEnum {
-  static const OfferStateReason newOffer =
-      const OfferStateReason._(0, 'OSR_NEW_OFFER');
-  static const OfferStateReason userClosed =
-      const OfferStateReason._(1, 'OSR_USER_CLOSED');
-  static const OfferStateReason tosViolation =
-      const OfferStateReason._(2, 'OSR_TOS_VIOLATION');
-  static const OfferStateReason completed =
-      const OfferStateReason._(3, 'OSR_COMPLETED');
+  static const OfferStateReason newOffer = OfferStateReason._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OSR_NEW_OFFER');
+  static const OfferStateReason userClosed = OfferStateReason._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OSR_USER_CLOSED');
+  static const OfferStateReason tosViolation = OfferStateReason._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OSR_TOS_VIOLATION');
+  static const OfferStateReason completed = OfferStateReason._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'OSR_COMPLETED');
 
-  static const List<OfferStateReason> values = const <OfferStateReason>[
+  static const $core.List<OfferStateReason> values = <OfferStateReason>[
     newOffer,
     userClosed,
     tosViolation,
     completed,
   ];
 
-  static final Map<int, OfferStateReason> _byValue =
+  static final $core.Map<$core.int, OfferStateReason> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static OfferStateReason valueOf(int value) => _byValue[value];
-  static void $checkItem(OfferStateReason v) {
-    if (v is! OfferStateReason) $pb.checkItemFailed(v, 'OfferStateReason');
-  }
+  static OfferStateReason valueOf($core.int value) => _byValue[value];
 
-  const OfferStateReason._(int v, String n) : super(v, n);
+  const OfferStateReason._($core.int v, $core.String n) : super(v, n);
 }
 
 class ProposalChatType extends $pb.ProtobufEnum {
-  static const ProposalChatType plain =
-      const ProposalChatType._(0, 'PCT_PLAIN');
-  static const ProposalChatType negotiate =
-      const ProposalChatType._(1, 'PCT_NEGOTIATE');
-  static const ProposalChatType imageKey =
-      const ProposalChatType._(2, 'PCT_IMAGE_KEY');
-  static const ProposalChatType marker =
-      const ProposalChatType._(3, 'PCT_MARKER');
+  static const ProposalChatType plain = ProposalChatType._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCT_PLAIN');
+  static const ProposalChatType negotiate = ProposalChatType._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCT_NEGOTIATE');
+  static const ProposalChatType imageKey = ProposalChatType._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCT_IMAGE_KEY');
+  static const ProposalChatType marker = ProposalChatType._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCT_MARKER');
 
-  static const List<ProposalChatType> values = const <ProposalChatType>[
+  static const $core.List<ProposalChatType> values = <ProposalChatType>[
     plain,
     negotiate,
     imageKey,
     marker,
   ];
 
-  static final Map<int, ProposalChatType> _byValue =
+  static final $core.Map<$core.int, ProposalChatType> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ProposalChatType valueOf(int value) => _byValue[value];
-  static void $checkItem(ProposalChatType v) {
-    if (v is! ProposalChatType) $pb.checkItemFailed(v, 'ProposalChatType');
-  }
+  static ProposalChatType valueOf($core.int value) => _byValue[value];
 
-  const ProposalChatType._(int v, String n) : super(v, n);
+  const ProposalChatType._($core.int v, $core.String n) : super(v, n);
 }
 
 class ProposalState extends $pb.ProtobufEnum {
-  static const ProposalState proposing =
-      const ProposalState._(0, 'PS_PROPOSING');
-  static const ProposalState negotiating =
-      const ProposalState._(1, 'PS_NEGOTIATING');
-  static const ProposalState deal = const ProposalState._(2, 'PS_DEAL');
-  static const ProposalState rejected = const ProposalState._(3, 'PS_REJECTED');
-  static const ProposalState dispute = const ProposalState._(4, 'PS_DISPUTE');
-  static const ProposalState resolved = const ProposalState._(5, 'PS_RESOLVED');
-  static const ProposalState complete = const ProposalState._(6, 'PS_COMPLETE');
+  static const ProposalState proposing = ProposalState._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_PROPOSING');
+  static const ProposalState negotiating = ProposalState._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_NEGOTIATING');
+  static const ProposalState deal = ProposalState._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_DEAL');
+  static const ProposalState rejected = ProposalState._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_REJECTED');
+  static const ProposalState dispute = ProposalState._(
+      4,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_DISPUTE');
+  static const ProposalState resolved = ProposalState._(
+      5,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_RESOLVED');
+  static const ProposalState complete = ProposalState._(
+      6,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PS_COMPLETE');
 
-  static const List<ProposalState> values = const <ProposalState>[
+  static const $core.List<ProposalState> values = <ProposalState>[
     proposing,
     negotiating,
     deal,
@@ -304,41 +457,71 @@ class ProposalState extends $pb.ProtobufEnum {
     complete,
   ];
 
-  static final Map<int, ProposalState> _byValue =
+  static final $core.Map<$core.int, ProposalState> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ProposalState valueOf(int value) => _byValue[value];
-  static void $checkItem(ProposalState v) {
-    if (v is! ProposalState) $pb.checkItemFailed(v, 'ProposalState');
-  }
+  static ProposalState valueOf($core.int value) => _byValue[value];
 
-  const ProposalState._(int v, String n) : super(v, n);
+  const ProposalState._($core.int v, $core.String n) : super(v, n);
 }
 
 class ProposalChatMarker extends $pb.ProtobufEnum {
-  static const ProposalChatMarker applied =
-      const ProposalChatMarker._(0, 'PCM_APPLIED');
-  static const ProposalChatMarker wantDeal =
-      const ProposalChatMarker._(1, 'PCM_WANT_DEAL');
-  static const ProposalChatMarker dealMade =
-      const ProposalChatMarker._(2, 'PCM_DEAL_MADE');
-  static const ProposalChatMarker rejected =
-      const ProposalChatMarker._(3, 'PCM_REJECTED');
-  static const ProposalChatMarker markedComplete =
-      const ProposalChatMarker._(4, 'PCM_MARKED_COMPLETE');
-  static const ProposalChatMarker complete =
-      const ProposalChatMarker._(5, 'PCM_COMPLETE');
-  static const ProposalChatMarker markedDispute =
-      const ProposalChatMarker._(6, 'PCM_MARKED_DISPUTE');
-  static const ProposalChatMarker resolved =
-      const ProposalChatMarker._(7, 'PCM_RESOLVED');
-  static const ProposalChatMarker messageDropped =
-      const ProposalChatMarker._(8, 'PCM_MESSAGE_DROPPED');
-  static const ProposalChatMarker direct =
-      const ProposalChatMarker._(9, 'PCM_DIRECT');
-  static const ProposalChatMarker wantNegotiate =
-      const ProposalChatMarker._(10, 'PCM_WANT_NEGOTIATE');
+  static const ProposalChatMarker applied = ProposalChatMarker._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_APPLIED');
+  static const ProposalChatMarker wantDeal = ProposalChatMarker._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_WANT_DEAL');
+  static const ProposalChatMarker dealMade = ProposalChatMarker._(
+      2,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_DEAL_MADE');
+  static const ProposalChatMarker rejected = ProposalChatMarker._(
+      3,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_REJECTED');
+  static const ProposalChatMarker markedComplete = ProposalChatMarker._(
+      4,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_MARKED_COMPLETE');
+  static const ProposalChatMarker complete = ProposalChatMarker._(
+      5,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_COMPLETE');
+  static const ProposalChatMarker markedDispute = ProposalChatMarker._(
+      6,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_MARKED_DISPUTE');
+  static const ProposalChatMarker resolved = ProposalChatMarker._(
+      7,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_RESOLVED');
+  static const ProposalChatMarker messageDropped = ProposalChatMarker._(
+      8,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_MESSAGE_DROPPED');
+  static const ProposalChatMarker direct = ProposalChatMarker._(
+      9,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_DIRECT');
+  static const ProposalChatMarker wantNegotiate = ProposalChatMarker._(
+      10,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PCM_WANT_NEGOTIATE');
 
-  static const List<ProposalChatMarker> values = const <ProposalChatMarker>[
+  static const $core.List<ProposalChatMarker> values = <ProposalChatMarker>[
     applied,
     wantDeal,
     dealMade,
@@ -352,32 +535,33 @@ class ProposalChatMarker extends $pb.ProtobufEnum {
     wantNegotiate,
   ];
 
-  static final Map<int, ProposalChatMarker> _byValue =
+  static final $core.Map<$core.int, ProposalChatMarker> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static ProposalChatMarker valueOf(int value) => _byValue[value];
-  static void $checkItem(ProposalChatMarker v) {
-    if (v is! ProposalChatMarker) $pb.checkItemFailed(v, 'ProposalChatMarker');
-  }
+  static ProposalChatMarker valueOf($core.int value) => _byValue[value];
 
-  const ProposalChatMarker._(int v, String n) : super(v, n);
+  const ProposalChatMarker._($core.int v, $core.String n) : super(v, n);
 }
 
 class PromoCode extends $pb.ProtobufEnum {
-  static const PromoCode unknown = const PromoCode._(0, 'PC_UNKNOWN');
-  static const PromoCode activateAccount =
-      const PromoCode._(1, 'PC_ACTIVATE_ACCOUNT');
+  static const PromoCode unknown = PromoCode._(
+      0,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PC_UNKNOWN');
+  static const PromoCode activateAccount = PromoCode._(
+      1,
+      const $core.bool.fromEnvironment('protobuf.omit_enum_names')
+          ? ''
+          : 'PC_ACTIVATE_ACCOUNT');
 
-  static const List<PromoCode> values = const <PromoCode>[
+  static const $core.List<PromoCode> values = <PromoCode>[
     unknown,
     activateAccount,
   ];
 
-  static final Map<int, PromoCode> _byValue =
+  static final $core.Map<$core.int, PromoCode> _byValue =
       $pb.ProtobufEnum.initByValue(values);
-  static PromoCode valueOf(int value) => _byValue[value];
-  static void $checkItem(PromoCode v) {
-    if (v is! PromoCode) $pb.checkItemFailed(v, 'PromoCode');
-  }
+  static PromoCode valueOf($core.int value) => _byValue[value];
 
-  const PromoCode._(int v, String n) : super(v, n);
+  const PromoCode._($core.int v, $core.String n) : super(v, n);
 }

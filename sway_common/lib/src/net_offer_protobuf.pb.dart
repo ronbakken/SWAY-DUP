@@ -1,176 +1,277 @@
 ///
 //  Generated code. Do not modify.
 //  source: net_offer_protobuf.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core;
 
-import 'package:fixnum/fixnum.dart';
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $10;
+import 'data_protobuf.pb.dart' as $13;
 
 class NetOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetOffer', package: const $pb.PackageName('inf'))
-        ..a<$10.DataOffer>(1, 'offer', $pb.PbFieldType.OM,
-            $10.DataOffer.getDefault, $10.DataOffer.create)
-        ..aOB(2, 'state')
-        ..aOB(3, 'summary')
-        ..aOB(4, 'detail')
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOffer',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataOffer>(1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'offer',
+        subBuilder: $13.DataOffer.create)
+    ..aOB(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'state')
+    ..aOB(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'summary')
+    ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'detail')
+    ..hasRequiredFields = false;
 
-  NetOffer() : super();
-  NetOffer.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOffer.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOffer clone() => new NetOffer()..mergeFromMessage(this);
+  NetOffer._() : super();
+  factory NetOffer() => create();
+  factory NetOffer.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOffer.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOffer clone() => NetOffer()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOffer copyWith(void Function(NetOffer) updates) =>
-      super.copyWith((message) => updates(message as NetOffer));
+      super.copyWith((message) =>
+          updates(message as NetOffer)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOffer create() => new NetOffer();
+  @$core.pragma('dart2js:noInline')
+  static NetOffer create() => NetOffer._();
   NetOffer createEmptyInstance() => create();
-  static $pb.PbList<NetOffer> createRepeated() => new $pb.PbList<NetOffer>();
-  static NetOffer getDefault() => _defaultInstance ??= create()..freeze();
+  static $pb.PbList<NetOffer> createRepeated() => $pb.PbList<NetOffer>();
+  @$core.pragma('dart2js:noInline')
+  static NetOffer getDefault() =>
+      _defaultInstance ??= $pb.GeneratedMessage.$_defaultFor<NetOffer>(create);
   static NetOffer _defaultInstance;
-  static void $checkItem(NetOffer v) {
-    if (v is! NetOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataOffer get offer => $_getN(0);
-  set offer($10.DataOffer v) {
+  @$pb.TagNumber(1)
+  $13.DataOffer get offer => $_getN(0);
+  @$pb.TagNumber(1)
+  set offer($13.DataOffer v) {
     setField(1, v);
   }
 
-  bool hasOffer() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOffer() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOffer() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataOffer ensureOffer() => $_ensure(0);
 
-  bool get state => $_get(1, false);
-  set state(bool v) {
+  @$pb.TagNumber(2)
+  $core.bool get state => $_getBF(1);
+  @$pb.TagNumber(2)
+  set state($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasState() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasState() => $_has(1);
+  @$pb.TagNumber(2)
   void clearState() => clearField(2);
 
-  bool get summary => $_get(2, false);
-  set summary(bool v) {
+  @$pb.TagNumber(3)
+  $core.bool get summary => $_getBF(2);
+  @$pb.TagNumber(3)
+  set summary($core.bool v) {
     $_setBool(2, v);
   }
 
-  bool hasSummary() => $_has(2);
+  @$pb.TagNumber(3)
+  $core.bool hasSummary() => $_has(2);
+  @$pb.TagNumber(3)
   void clearSummary() => clearField(3);
 
-  bool get detail => $_get(3, false);
-  set detail(bool v) {
+  @$pb.TagNumber(4)
+  $core.bool get detail => $_getBF(3);
+  @$pb.TagNumber(4)
+  set detail($core.bool v) {
     $_setBool(3, v);
   }
 
-  bool hasDetail() => $_has(3);
+  @$pb.TagNumber(4)
+  $core.bool hasDetail() => $_has(3);
+  @$pb.TagNumber(4)
   void clearDetail() => clearField(4);
 }
 
 class NetCreateOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetCreateOffer',
-      package: const $pb.PackageName('inf'))
-    ..a<$10.DataOffer>(1, 'offer', $pb.PbFieldType.OM, $10.DataOffer.getDefault,
-        $10.DataOffer.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetCreateOffer',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataOffer>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'offer',
+        subBuilder: $13.DataOffer.create)
     ..hasRequiredFields = false;
 
-  NetCreateOffer() : super();
-  NetCreateOffer.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetCreateOffer.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetCreateOffer clone() => new NetCreateOffer()..mergeFromMessage(this);
+  NetCreateOffer._() : super();
+  factory NetCreateOffer() => create();
+  factory NetCreateOffer.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetCreateOffer.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetCreateOffer clone() => NetCreateOffer()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetCreateOffer copyWith(void Function(NetCreateOffer) updates) =>
-      super.copyWith((message) => updates(message as NetCreateOffer));
+      super.copyWith((message) =>
+          updates(message as NetCreateOffer)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetCreateOffer create() => new NetCreateOffer();
+  @$core.pragma('dart2js:noInline')
+  static NetCreateOffer create() => NetCreateOffer._();
   NetCreateOffer createEmptyInstance() => create();
   static $pb.PbList<NetCreateOffer> createRepeated() =>
-      new $pb.PbList<NetCreateOffer>();
-  static NetCreateOffer getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetCreateOffer>();
+  @$core.pragma('dart2js:noInline')
+  static NetCreateOffer getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetCreateOffer>(create);
   static NetCreateOffer _defaultInstance;
-  static void $checkItem(NetCreateOffer v) {
-    if (v is! NetCreateOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataOffer get offer => $_getN(0);
-  set offer($10.DataOffer v) {
+  @$pb.TagNumber(1)
+  $13.DataOffer get offer => $_getN(0);
+  @$pb.TagNumber(1)
+  set offer($13.DataOffer v) {
     setField(1, v);
   }
 
-  bool hasOffer() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOffer() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOffer() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataOffer ensureOffer() => $_ensure(0);
 }
 
 class NetListOffers extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListOffers',
-      package: const $pb.PackageName('inf'))
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetListOffers',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
     ..hasRequiredFields = false;
 
-  NetListOffers() : super();
-  NetListOffers.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetListOffers.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetListOffers clone() => new NetListOffers()..mergeFromMessage(this);
+  NetListOffers._() : super();
+  factory NetListOffers() => create();
+  factory NetListOffers.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetListOffers.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetListOffers clone() => NetListOffers()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetListOffers copyWith(void Function(NetListOffers) updates) =>
-      super.copyWith((message) => updates(message as NetListOffers));
+      super.copyWith((message) =>
+          updates(message as NetListOffers)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetListOffers create() => new NetListOffers();
+  @$core.pragma('dart2js:noInline')
+  static NetListOffers create() => NetListOffers._();
   NetListOffers createEmptyInstance() => create();
   static $pb.PbList<NetListOffers> createRepeated() =>
-      new $pb.PbList<NetListOffers>();
-  static NetListOffers getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetListOffers>();
+  @$core.pragma('dart2js:noInline')
+  static NetListOffers getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetListOffers>(create);
   static NetListOffers _defaultInstance;
-  static void $checkItem(NetListOffers v) {
-    if (v is! NetListOffers) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 }
 
 class NetGetOffer extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetGetOffer', package: const $pb.PackageName('inf'))
-        ..aInt64(1, 'offerId')
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetGetOffer',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'offerId',
+        protoName: 'offerId')
+    ..hasRequiredFields = false;
 
-  NetGetOffer() : super();
-  NetGetOffer.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetGetOffer.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetGetOffer clone() => new NetGetOffer()..mergeFromMessage(this);
+  NetGetOffer._() : super();
+  factory NetGetOffer() => create();
+  factory NetGetOffer.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetGetOffer.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetGetOffer clone() => NetGetOffer()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetGetOffer copyWith(void Function(NetGetOffer) updates) =>
-      super.copyWith((message) => updates(message as NetGetOffer));
+      super.copyWith((message) =>
+          updates(message as NetGetOffer)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetGetOffer create() => new NetGetOffer();
+  @$core.pragma('dart2js:noInline')
+  static NetGetOffer create() => NetGetOffer._();
   NetGetOffer createEmptyInstance() => create();
-  static $pb.PbList<NetGetOffer> createRepeated() =>
-      new $pb.PbList<NetGetOffer>();
-  static NetGetOffer getDefault() => _defaultInstance ??= create()..freeze();
+  static $pb.PbList<NetGetOffer> createRepeated() => $pb.PbList<NetGetOffer>();
+  @$core.pragma('dart2js:noInline')
+  static NetGetOffer getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetGetOffer>(create);
   static NetGetOffer _defaultInstance;
-  static void $checkItem(NetGetOffer v) {
-    if (v is! NetGetOffer) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get offerId => $_getI64(0);
-  set offerId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get offerId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set offerId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasOfferId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOfferId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOfferId() => clearField(1);
 }

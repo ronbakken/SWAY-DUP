@@ -11,7 +11,7 @@ import 'package:logging/logging.dart';
 
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class ApiPushService extends ApiPushServiceBase {
   static final Logger opsLog = Logger('InfOps.ApiPushService');
@@ -26,10 +26,10 @@ class ApiPushService extends ApiPushServiceBase {
   }
 
   @override
-  Future<NetKeepAlive> keepAlive(grpc.ServiceCall call, NetKeepAlive request) async {
+  Future<NetKeepAlive> keepAlive(
+      grpc.ServiceCall call, NetKeepAlive request) async {
     return NetKeepAlive();
   }
-
 }
 
 /* end of file */

@@ -8,7 +8,7 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:inf_server_explore/elasticsearch.dart';
 
 import 'package:logging/logging.dart';
@@ -47,7 +47,8 @@ Future<void> main(List<String> arguments) async {
   // Elasticsearch
   final Elasticsearch elasticsearch = Elasticsearch(config);
 
-  final BackendExploreService backend = BackendExploreService(config, elasticsearch);
+  final BackendExploreService backend =
+      BackendExploreService(config, elasticsearch);
   final ApiExploreService api = ApiExploreService(config, elasticsearch);
 
   // Push API gRPC
@@ -70,8 +71,8 @@ Future<void> main(List<String> arguments) async {
 
   // Wait for listening
   await Future.wait(<Future<void>>[grpcApiServing, grpcBackendServing]);
-  Logger('InfOps').info(
-      'Listening: api: ${grpcApi.port}, backend: ${grpcBackend.port}');
+  Logger('InfOps')
+      .info('Listening: api: ${grpcApi.port}, backend: ${grpcBackend.port}');
 
   // TODO: Exit if any of the listeners exits... No mechanism to wait for gRPC exit right now...
   // await ...;

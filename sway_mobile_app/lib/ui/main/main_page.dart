@@ -12,7 +12,7 @@ import 'package:sway_mobile_app/ui/main/page_mode.dart';
 // import 'package:sway_mobile_app/ui/widgets/auth_state_listener_mixin.dart';
 // import 'package:sway_mobile_app/ui/widgets/page_widget.dart';
 import 'package:sway_mobile_app/ui/widgets/routes.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 const kBottomNavHeight = 72.0;
 const kMenuIconSize = 48.0;

@@ -12,7 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class ApiOAuthService extends ApiOAuthServiceBase {
   final ConfigData config;

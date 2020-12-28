@@ -3,7 +3,7 @@ import 'package:sway_mobile_app/app/theme.dart';
 import 'package:sway_mobile_app/ui/main/page_mode.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_asset_image.dart';
 import 'package:sway_mobile_app/ui/widgets/notification_marker.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class MainBottomNav extends StatefulWidget {
   const MainBottomNav({

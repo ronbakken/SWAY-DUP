@@ -7,7 +7,7 @@ import 'package:sway_mobile_app/ui/offer_views/browse_carousel_item.dart';
 import 'package:sway_mobile_app/ui/offer_views/offer_post_tile.dart';
 import 'package:sway_mobile_app/ui/offer_views/offer_details_page.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_toggle.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class BrowseCarouselView extends StatefulWidget {
   const BrowseCarouselView({

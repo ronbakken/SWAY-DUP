@@ -9,7 +9,7 @@ import 'dart:typed_data';
 
 import 'package:crypto/crypto.dart';
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:mime/mime.dart';
 import 'package:http_client/console.dart' as http_client;
 import 'package:dospace/dospace.dart' as dospace;

@@ -5,7 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 enum NavigationTarget {
   Profile,

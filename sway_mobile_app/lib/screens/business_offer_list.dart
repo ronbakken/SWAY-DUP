@@ -10,7 +10,7 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:sway_mobile_app/styling_constants.dart';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class OfferList extends StatelessWidget {
   final List<Int64> offers;

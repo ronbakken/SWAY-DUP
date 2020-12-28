@@ -5,7 +5,7 @@ import 'package:sway_mobile_app/ui/main/offer_list_tile.dart';
 import 'package:sway_mobile_app/ui/main/main_page.dart';
 import 'package:sway_mobile_app/ui/offer_views/offer_details_page.dart';
 import 'package:sway_mobile_app/ui/widgets/notification_marker.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class ActivitiesOffers extends StatefulWidget {
   final String name;

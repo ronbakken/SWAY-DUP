@@ -4,7 +4,7 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class Categories {
   static List<int> getLeafCategories(ConfigData config, List<int> categories) {

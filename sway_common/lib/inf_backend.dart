@@ -4,23 +4,23 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
-library inf_common;
+library sway_common;
 
-export 'package:inf_common/inf_common.dart';
+export 'package:sway_common/inf_common.dart';
 
-export 'package:inf_common/src/backend_explore.pb.dart';
-export 'package:inf_common/src/backend_explore.pbgrpc.dart';
+export 'package:sway_common/src/backend_explore.pb.dart';
+export 'package:sway_common/src/backend_explore.pbgrpc.dart';
 
-export 'package:inf_common/src/backend_push.pb.dart';
-export 'package:inf_common/src/backend_push.pbgrpc.dart';
+export 'package:sway_common/src/backend_push.pb.dart';
+export 'package:sway_common/src/backend_push.pbgrpc.dart';
 
-export 'package:inf_common/src/backend_jwt.pb.dart';
-export 'package:inf_common/src/backend_jwt.pbgrpc.dart';
+export 'package:sway_common/src/backend_jwt.pb.dart';
+export 'package:sway_common/src/backend_jwt.pbgrpc.dart';
 
 import 'dart:convert';
 
 import 'package:grpc/grpc.dart' as grpc;
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 DataAuth authFromJwtPayload(
   grpc.ServiceCall call, {

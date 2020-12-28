@@ -1,587 +1,934 @@
 ///
 //  Generated code. Do not modify.
 //  source: net_account_protobuf.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $10;
+import 'data_protobuf.pb.dart' as $13;
 
-import 'enum_protobuf.pbenum.dart' as $9;
+import 'enum_protobuf.pbenum.dart' as $12;
 
 class NetAccount extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetAccount', package: const $pb.PackageName('inf'))
-        ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
-            $10.DataAccount.getDefault, $10.DataAccount.create)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetAccount',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataAccount>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'account',
+        subBuilder: $13.DataAccount.create)
+    ..hasRequiredFields = false;
 
-  NetAccount() : super();
-  NetAccount.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetAccount.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetAccount clone() => new NetAccount()..mergeFromMessage(this);
+  NetAccount._() : super();
+  factory NetAccount() => create();
+  factory NetAccount.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetAccount.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetAccount clone() => NetAccount()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetAccount copyWith(void Function(NetAccount) updates) =>
-      super.copyWith((message) => updates(message as NetAccount));
+      super.copyWith((message) =>
+          updates(message as NetAccount)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetAccount create() => new NetAccount();
+  @$core.pragma('dart2js:noInline')
+  static NetAccount create() => NetAccount._();
   NetAccount createEmptyInstance() => create();
-  static $pb.PbList<NetAccount> createRepeated() =>
-      new $pb.PbList<NetAccount>();
-  static NetAccount getDefault() => _defaultInstance ??= create()..freeze();
+  static $pb.PbList<NetAccount> createRepeated() => $pb.PbList<NetAccount>();
+  @$core.pragma('dart2js:noInline')
+  static NetAccount getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetAccount>(create);
   static NetAccount _defaultInstance;
-  static void $checkItem(NetAccount v) {
-    if (v is! NetAccount) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataAccount get account => $_getN(0);
-  set account($10.DataAccount v) {
+  @$pb.TagNumber(1)
+  $13.DataAccount get account => $_getN(0);
+  @$pb.TagNumber(1)
+  set account($13.DataAccount v) {
     setField(1, v);
   }
 
-  bool hasAccount() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasAccount() => $_has(0);
+  @$pb.TagNumber(1)
   void clearAccount() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataAccount ensureAccount() => $_ensure(0);
 }
 
 class NetSetAccountType extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetAccountType',
-      package: const $pb.PackageName('inf'))
-    ..e<$9.AccountType>(1, 'accountType', $pb.PbFieldType.OE,
-        $9.AccountType.unknown, $9.AccountType.valueOf, $9.AccountType.values)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetSetAccountType',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..e<$12.AccountType>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'accountType',
+        $pb.PbFieldType.OE,
+        defaultOrMaker: $12.AccountType.unknown,
+        valueOf: $12.AccountType.valueOf,
+        enumValues: $12.AccountType.values)
     ..hasRequiredFields = false;
 
-  NetSetAccountType() : super();
-  NetSetAccountType.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetSetAccountType.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetSetAccountType clone() => new NetSetAccountType()..mergeFromMessage(this);
+  NetSetAccountType._() : super();
+  factory NetSetAccountType() => create();
+  factory NetSetAccountType.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetSetAccountType.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetSetAccountType clone() => NetSetAccountType()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetSetAccountType copyWith(void Function(NetSetAccountType) updates) =>
-      super.copyWith((message) => updates(message as NetSetAccountType));
+      super.copyWith((message) => updates(
+          message as NetSetAccountType)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetSetAccountType create() => new NetSetAccountType();
+  @$core.pragma('dart2js:noInline')
+  static NetSetAccountType create() => NetSetAccountType._();
   NetSetAccountType createEmptyInstance() => create();
   static $pb.PbList<NetSetAccountType> createRepeated() =>
-      new $pb.PbList<NetSetAccountType>();
-  static NetSetAccountType getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetSetAccountType>();
+  @$core.pragma('dart2js:noInline')
+  static NetSetAccountType getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetSetAccountType>(create);
   static NetSetAccountType _defaultInstance;
-  static void $checkItem(NetSetAccountType v) {
-    if (v is! NetSetAccountType)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $9.AccountType get accountType => $_getN(0);
-  set accountType($9.AccountType v) {
+  @$pb.TagNumber(1)
+  $12.AccountType get accountType => $_getN(0);
+  @$pb.TagNumber(1)
+  set accountType($12.AccountType v) {
     setField(1, v);
   }
 
-  bool hasAccountType() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasAccountType() => $_has(0);
+  @$pb.TagNumber(1)
   void clearAccountType() => clearField(1);
 }
 
 class NetSetFirebaseToken extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSetFirebaseToken',
-      package: const $pb.PackageName('inf'))
-    ..aOS(1, 'firebaseToken')
-    ..aOS(2, 'oldFirebaseToken')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetSetFirebaseToken',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'firebaseToken')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'oldFirebaseToken')
     ..hasRequiredFields = false;
 
-  NetSetFirebaseToken() : super();
-  NetSetFirebaseToken.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetSetFirebaseToken.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetSetFirebaseToken clone() =>
-      new NetSetFirebaseToken()..mergeFromMessage(this);
+  NetSetFirebaseToken._() : super();
+  factory NetSetFirebaseToken() => create();
+  factory NetSetFirebaseToken.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetSetFirebaseToken.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetSetFirebaseToken clone() => NetSetFirebaseToken()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetSetFirebaseToken copyWith(void Function(NetSetFirebaseToken) updates) =>
-      super.copyWith((message) => updates(message as NetSetFirebaseToken));
+      super.copyWith((message) => updates(
+          message as NetSetFirebaseToken)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetSetFirebaseToken create() => new NetSetFirebaseToken();
+  @$core.pragma('dart2js:noInline')
+  static NetSetFirebaseToken create() => NetSetFirebaseToken._();
   NetSetFirebaseToken createEmptyInstance() => create();
   static $pb.PbList<NetSetFirebaseToken> createRepeated() =>
-      new $pb.PbList<NetSetFirebaseToken>();
-  static NetSetFirebaseToken getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetSetFirebaseToken>();
+  @$core.pragma('dart2js:noInline')
+  static NetSetFirebaseToken getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetSetFirebaseToken>(create);
   static NetSetFirebaseToken _defaultInstance;
-  static void $checkItem(NetSetFirebaseToken v) {
-    if (v is! NetSetFirebaseToken)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get firebaseToken => $_getS(0, '');
-  set firebaseToken(String v) {
+  @$pb.TagNumber(1)
+  $core.String get firebaseToken => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set firebaseToken($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasFirebaseToken() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasFirebaseToken() => $_has(0);
+  @$pb.TagNumber(1)
   void clearFirebaseToken() => clearField(1);
 
-  String get oldFirebaseToken => $_getS(1, '');
-  set oldFirebaseToken(String v) {
+  @$pb.TagNumber(2)
+  $core.String get oldFirebaseToken => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set oldFirebaseToken($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasOldFirebaseToken() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasOldFirebaseToken() => $_has(1);
+  @$pb.TagNumber(2)
   void clearOldFirebaseToken() => clearField(2);
 }
 
 class NetOAuthGetUrl extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthGetUrl',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOAuthGetUrl',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'oauthProvider',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetOAuthGetUrl() : super();
-  NetOAuthGetUrl.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOAuthGetUrl.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOAuthGetUrl clone() => new NetOAuthGetUrl()..mergeFromMessage(this);
+  NetOAuthGetUrl._() : super();
+  factory NetOAuthGetUrl() => create();
+  factory NetOAuthGetUrl.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOAuthGetUrl.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOAuthGetUrl clone() => NetOAuthGetUrl()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOAuthGetUrl copyWith(void Function(NetOAuthGetUrl) updates) =>
-      super.copyWith((message) => updates(message as NetOAuthGetUrl));
+      super.copyWith((message) =>
+          updates(message as NetOAuthGetUrl)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOAuthGetUrl create() => new NetOAuthGetUrl();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthGetUrl create() => NetOAuthGetUrl._();
   NetOAuthGetUrl createEmptyInstance() => create();
   static $pb.PbList<NetOAuthGetUrl> createRepeated() =>
-      new $pb.PbList<NetOAuthGetUrl>();
-  static NetOAuthGetUrl getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetOAuthGetUrl>();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthGetUrl getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetOAuthGetUrl>(create);
   static NetOAuthGetUrl _defaultInstance;
-  static void $checkItem(NetOAuthGetUrl v) {
-    if (v is! NetOAuthGetUrl) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  int get oauthProvider => $_get(0, 0);
-  set oauthProvider(int v) {
+  @$pb.TagNumber(1)
+  $core.int get oauthProvider => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set oauthProvider($core.int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasOauthProvider() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOauthProvider() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOauthProvider() => clearField(1);
 }
 
 class NetOAuthUrl extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetOAuthUrl', package: const $pb.PackageName('inf'))
-        ..aOS(1, 'authUrl')
-        ..aOS(2, 'callbackUrl')
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOAuthUrl',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'authUrl')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'callbackUrl')
+    ..hasRequiredFields = false;
 
-  NetOAuthUrl() : super();
-  NetOAuthUrl.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOAuthUrl.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOAuthUrl clone() => new NetOAuthUrl()..mergeFromMessage(this);
+  NetOAuthUrl._() : super();
+  factory NetOAuthUrl() => create();
+  factory NetOAuthUrl.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOAuthUrl.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOAuthUrl clone() => NetOAuthUrl()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOAuthUrl copyWith(void Function(NetOAuthUrl) updates) =>
-      super.copyWith((message) => updates(message as NetOAuthUrl));
+      super.copyWith((message) =>
+          updates(message as NetOAuthUrl)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOAuthUrl create() => new NetOAuthUrl();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthUrl create() => NetOAuthUrl._();
   NetOAuthUrl createEmptyInstance() => create();
-  static $pb.PbList<NetOAuthUrl> createRepeated() =>
-      new $pb.PbList<NetOAuthUrl>();
-  static NetOAuthUrl getDefault() => _defaultInstance ??= create()..freeze();
+  static $pb.PbList<NetOAuthUrl> createRepeated() => $pb.PbList<NetOAuthUrl>();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthUrl getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetOAuthUrl>(create);
   static NetOAuthUrl _defaultInstance;
-  static void $checkItem(NetOAuthUrl v) {
-    if (v is! NetOAuthUrl) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get authUrl => $_getS(0, '');
-  set authUrl(String v) {
+  @$pb.TagNumber(1)
+  $core.String get authUrl => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set authUrl($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasAuthUrl() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasAuthUrl() => $_has(0);
+  @$pb.TagNumber(1)
   void clearAuthUrl() => clearField(1);
 
-  String get callbackUrl => $_getS(1, '');
-  set callbackUrl(String v) {
+  @$pb.TagNumber(2)
+  $core.String get callbackUrl => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set callbackUrl($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasCallbackUrl() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasCallbackUrl() => $_has(1);
+  @$pb.TagNumber(2)
   void clearCallbackUrl() => clearField(2);
 }
 
 class NetOAuthGetSecrets extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthGetSecrets',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOAuthGetSecrets',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'oauthProvider',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetOAuthGetSecrets() : super();
-  NetOAuthGetSecrets.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOAuthGetSecrets.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOAuthGetSecrets clone() =>
-      new NetOAuthGetSecrets()..mergeFromMessage(this);
+  NetOAuthGetSecrets._() : super();
+  factory NetOAuthGetSecrets() => create();
+  factory NetOAuthGetSecrets.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOAuthGetSecrets.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOAuthGetSecrets clone() => NetOAuthGetSecrets()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOAuthGetSecrets copyWith(void Function(NetOAuthGetSecrets) updates) =>
-      super.copyWith((message) => updates(message as NetOAuthGetSecrets));
+      super.copyWith((message) => updates(
+          message as NetOAuthGetSecrets)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOAuthGetSecrets create() => new NetOAuthGetSecrets();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthGetSecrets create() => NetOAuthGetSecrets._();
   NetOAuthGetSecrets createEmptyInstance() => create();
   static $pb.PbList<NetOAuthGetSecrets> createRepeated() =>
-      new $pb.PbList<NetOAuthGetSecrets>();
-  static NetOAuthGetSecrets getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetOAuthGetSecrets>();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthGetSecrets getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetOAuthGetSecrets>(create);
   static NetOAuthGetSecrets _defaultInstance;
-  static void $checkItem(NetOAuthGetSecrets v) {
-    if (v is! NetOAuthGetSecrets)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  int get oauthProvider => $_get(0, 0);
-  set oauthProvider(int v) {
+  @$pb.TagNumber(1)
+  $core.int get oauthProvider => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set oauthProvider($core.int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasOauthProvider() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOauthProvider() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOauthProvider() => clearField(1);
 }
 
 class NetOAuthSecrets extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthSecrets',
-      package: const $pb.PackageName('inf'))
-    ..aOS(10, 'consumerKey')
-    ..aOS(11, 'consumerSecret')
-    ..aOS(12, 'clientId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOAuthSecrets',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOS(
+        10,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'consumerKey')
+    ..aOS(
+        11,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'consumerSecret')
+    ..aOS(
+        12,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'clientId')
     ..hasRequiredFields = false;
 
-  NetOAuthSecrets() : super();
-  NetOAuthSecrets.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOAuthSecrets.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOAuthSecrets clone() => new NetOAuthSecrets()..mergeFromMessage(this);
+  NetOAuthSecrets._() : super();
+  factory NetOAuthSecrets() => create();
+  factory NetOAuthSecrets.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOAuthSecrets.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOAuthSecrets clone() => NetOAuthSecrets()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOAuthSecrets copyWith(void Function(NetOAuthSecrets) updates) =>
-      super.copyWith((message) => updates(message as NetOAuthSecrets));
+      super.copyWith((message) =>
+          updates(message as NetOAuthSecrets)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOAuthSecrets create() => new NetOAuthSecrets();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthSecrets create() => NetOAuthSecrets._();
   NetOAuthSecrets createEmptyInstance() => create();
   static $pb.PbList<NetOAuthSecrets> createRepeated() =>
-      new $pb.PbList<NetOAuthSecrets>();
-  static NetOAuthSecrets getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetOAuthSecrets>();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthSecrets getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetOAuthSecrets>(create);
   static NetOAuthSecrets _defaultInstance;
-  static void $checkItem(NetOAuthSecrets v) {
-    if (v is! NetOAuthSecrets) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get consumerKey => $_getS(0, '');
-  set consumerKey(String v) {
+  @$pb.TagNumber(10)
+  $core.String get consumerKey => $_getSZ(0);
+  @$pb.TagNumber(10)
+  set consumerKey($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasConsumerKey() => $_has(0);
+  @$pb.TagNumber(10)
+  $core.bool hasConsumerKey() => $_has(0);
+  @$pb.TagNumber(10)
   void clearConsumerKey() => clearField(10);
 
-  String get consumerSecret => $_getS(1, '');
-  set consumerSecret(String v) {
+  @$pb.TagNumber(11)
+  $core.String get consumerSecret => $_getSZ(1);
+  @$pb.TagNumber(11)
+  set consumerSecret($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasConsumerSecret() => $_has(1);
+  @$pb.TagNumber(11)
+  $core.bool hasConsumerSecret() => $_has(1);
+  @$pb.TagNumber(11)
   void clearConsumerSecret() => clearField(11);
 
-  String get clientId => $_getS(2, '');
-  set clientId(String v) {
+  @$pb.TagNumber(12)
+  $core.String get clientId => $_getSZ(2);
+  @$pb.TagNumber(12)
+  set clientId($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasClientId() => $_has(2);
+  @$pb.TagNumber(12)
+  $core.bool hasClientId() => $_has(2);
+  @$pb.TagNumber(12)
   void clearClientId() => clearField(12);
 }
 
 class NetOAuthConnect extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnect',
-      package: const $pb.PackageName('inf'))
-    ..a<int>(1, 'oauthProvider', $pb.PbFieldType.O3)
-    ..aOS(2, 'callbackQuery')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOAuthConnect',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..a<$core.int>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'oauthProvider',
+        $pb.PbFieldType.O3)
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'callbackQuery')
     ..hasRequiredFields = false;
 
-  NetOAuthConnect() : super();
-  NetOAuthConnect.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOAuthConnect.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOAuthConnect clone() => new NetOAuthConnect()..mergeFromMessage(this);
+  NetOAuthConnect._() : super();
+  factory NetOAuthConnect() => create();
+  factory NetOAuthConnect.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOAuthConnect.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOAuthConnect clone() => NetOAuthConnect()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOAuthConnect copyWith(void Function(NetOAuthConnect) updates) =>
-      super.copyWith((message) => updates(message as NetOAuthConnect));
+      super.copyWith((message) =>
+          updates(message as NetOAuthConnect)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOAuthConnect create() => new NetOAuthConnect();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthConnect create() => NetOAuthConnect._();
   NetOAuthConnect createEmptyInstance() => create();
   static $pb.PbList<NetOAuthConnect> createRepeated() =>
-      new $pb.PbList<NetOAuthConnect>();
-  static NetOAuthConnect getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetOAuthConnect>();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthConnect getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetOAuthConnect>(create);
   static NetOAuthConnect _defaultInstance;
-  static void $checkItem(NetOAuthConnect v) {
-    if (v is! NetOAuthConnect) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  int get oauthProvider => $_get(0, 0);
-  set oauthProvider(int v) {
+  @$pb.TagNumber(1)
+  $core.int get oauthProvider => $_getIZ(0);
+  @$pb.TagNumber(1)
+  set oauthProvider($core.int v) {
     $_setSignedInt32(0, v);
   }
 
-  bool hasOauthProvider() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOauthProvider() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOauthProvider() => clearField(1);
 
-  String get callbackQuery => $_getS(1, '');
-  set callbackQuery(String v) {
+  @$pb.TagNumber(2)
+  $core.String get callbackQuery => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set callbackQuery($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasCallbackQuery() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasCallbackQuery() => $_has(1);
+  @$pb.TagNumber(2)
   void clearCallbackQuery() => clearField(2);
 }
 
 class NetOAuthConnection extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetOAuthConnection',
-      package: const $pb.PackageName('inf'))
-    ..a<$10.DataSocialMedia>(1, 'socialMedia', $pb.PbFieldType.OM,
-        $10.DataSocialMedia.getDefault, $10.DataSocialMedia.create)
-    ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
-        $10.DataAccount.getDefault, $10.DataAccount.create)
-    ..aOS(4, 'accessToken')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetOAuthConnection',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataSocialMedia>(
+        1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'socialMedia',
+        subBuilder: $13.DataSocialMedia.create)
+    ..aOM<$13.DataAccount>(2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'account',
+        subBuilder: $13.DataAccount.create)
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accessToken')
     ..hasRequiredFields = false;
 
-  NetOAuthConnection() : super();
-  NetOAuthConnection.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetOAuthConnection.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetOAuthConnection clone() =>
-      new NetOAuthConnection()..mergeFromMessage(this);
+  NetOAuthConnection._() : super();
+  factory NetOAuthConnection() => create();
+  factory NetOAuthConnection.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetOAuthConnection.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetOAuthConnection clone() => NetOAuthConnection()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetOAuthConnection copyWith(void Function(NetOAuthConnection) updates) =>
-      super.copyWith((message) => updates(message as NetOAuthConnection));
+      super.copyWith((message) => updates(
+          message as NetOAuthConnection)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetOAuthConnection create() => new NetOAuthConnection();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthConnection create() => NetOAuthConnection._();
   NetOAuthConnection createEmptyInstance() => create();
   static $pb.PbList<NetOAuthConnection> createRepeated() =>
-      new $pb.PbList<NetOAuthConnection>();
-  static NetOAuthConnection getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetOAuthConnection>();
+  @$core.pragma('dart2js:noInline')
+  static NetOAuthConnection getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetOAuthConnection>(create);
   static NetOAuthConnection _defaultInstance;
-  static void $checkItem(NetOAuthConnection v) {
-    if (v is! NetOAuthConnection)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataSocialMedia get socialMedia => $_getN(0);
-  set socialMedia($10.DataSocialMedia v) {
+  @$pb.TagNumber(1)
+  $13.DataSocialMedia get socialMedia => $_getN(0);
+  @$pb.TagNumber(1)
+  set socialMedia($13.DataSocialMedia v) {
     setField(1, v);
   }
 
-  bool hasSocialMedia() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasSocialMedia() => $_has(0);
+  @$pb.TagNumber(1)
   void clearSocialMedia() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataSocialMedia ensureSocialMedia() => $_ensure(0);
 
-  $10.DataAccount get account => $_getN(1);
-  set account($10.DataAccount v) {
+  @$pb.TagNumber(2)
+  $13.DataAccount get account => $_getN(1);
+  @$pb.TagNumber(2)
+  set account($13.DataAccount v) {
     setField(2, v);
   }
 
-  bool hasAccount() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasAccount() => $_has(1);
+  @$pb.TagNumber(2)
   void clearAccount() => clearField(2);
+  @$pb.TagNumber(2)
+  $13.DataAccount ensureAccount() => $_ensure(1);
 
-  String get accessToken => $_getS(2, '');
-  set accessToken(String v) {
+  @$pb.TagNumber(4)
+  $core.String get accessToken => $_getSZ(2);
+  @$pb.TagNumber(4)
+  set accessToken($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasAccessToken() => $_has(2);
+  @$pb.TagNumber(4)
+  $core.bool hasAccessToken() => $_has(2);
+  @$pb.TagNumber(4)
   void clearAccessToken() => clearField(4);
 }
 
 class NetAccountCreate extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountCreate',
-      package: const $pb.PackageName('inf'))
-    ..a<double>(2, 'latitude', $pb.PbFieldType.OD)
-    ..a<double>(3, 'longitude', $pb.PbFieldType.OD)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetAccountCreate',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..a<$core.double>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'latitude',
+        $pb.PbFieldType.OD)
+    ..a<$core.double>(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'longitude',
+        $pb.PbFieldType.OD)
     ..hasRequiredFields = false;
 
-  NetAccountCreate() : super();
-  NetAccountCreate.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetAccountCreate.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetAccountCreate clone() => new NetAccountCreate()..mergeFromMessage(this);
+  NetAccountCreate._() : super();
+  factory NetAccountCreate() => create();
+  factory NetAccountCreate.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetAccountCreate.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetAccountCreate clone() => NetAccountCreate()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetAccountCreate copyWith(void Function(NetAccountCreate) updates) =>
-      super.copyWith((message) => updates(message as NetAccountCreate));
+      super.copyWith((message) => updates(
+          message as NetAccountCreate)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetAccountCreate create() => new NetAccountCreate();
+  @$core.pragma('dart2js:noInline')
+  static NetAccountCreate create() => NetAccountCreate._();
   NetAccountCreate createEmptyInstance() => create();
   static $pb.PbList<NetAccountCreate> createRepeated() =>
-      new $pb.PbList<NetAccountCreate>();
-  static NetAccountCreate getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetAccountCreate>();
+  @$core.pragma('dart2js:noInline')
+  static NetAccountCreate getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetAccountCreate>(create);
   static NetAccountCreate _defaultInstance;
-  static void $checkItem(NetAccountCreate v) {
-    if (v is! NetAccountCreate) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  double get latitude => $_getN(0);
-  set latitude(double v) {
+  @$pb.TagNumber(2)
+  $core.double get latitude => $_getN(0);
+  @$pb.TagNumber(2)
+  set latitude($core.double v) {
     $_setDouble(0, v);
   }
 
-  bool hasLatitude() => $_has(0);
+  @$pb.TagNumber(2)
+  $core.bool hasLatitude() => $_has(0);
+  @$pb.TagNumber(2)
   void clearLatitude() => clearField(2);
 
-  double get longitude => $_getN(1);
-  set longitude(double v) {
+  @$pb.TagNumber(3)
+  $core.double get longitude => $_getN(1);
+  @$pb.TagNumber(3)
+  set longitude($core.double v) {
     $_setDouble(1, v);
   }
 
-  bool hasLongitude() => $_has(1);
+  @$pb.TagNumber(3)
+  $core.bool hasLongitude() => $_has(1);
+  @$pb.TagNumber(3)
   void clearLongitude() => clearField(3);
 }
 
 class NetAccountApplyPromo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountApplyPromo',
-      package: const $pb.PackageName('inf'))
-    ..aOS(1, 'code')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetAccountApplyPromo',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOS(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'code')
     ..hasRequiredFields = false;
 
-  NetAccountApplyPromo() : super();
-  NetAccountApplyPromo.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetAccountApplyPromo.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
+  NetAccountApplyPromo._() : super();
+  factory NetAccountApplyPromo() => create();
+  factory NetAccountApplyPromo.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetAccountApplyPromo.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   NetAccountApplyPromo clone() =>
-      new NetAccountApplyPromo()..mergeFromMessage(this);
+      NetAccountApplyPromo()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetAccountApplyPromo copyWith(void Function(NetAccountApplyPromo) updates) =>
-      super.copyWith((message) => updates(message as NetAccountApplyPromo));
+      super.copyWith((message) => updates(
+          message as NetAccountApplyPromo)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetAccountApplyPromo create() => new NetAccountApplyPromo();
+  @$core.pragma('dart2js:noInline')
+  static NetAccountApplyPromo create() => NetAccountApplyPromo._();
   NetAccountApplyPromo createEmptyInstance() => create();
   static $pb.PbList<NetAccountApplyPromo> createRepeated() =>
-      new $pb.PbList<NetAccountApplyPromo>();
-  static NetAccountApplyPromo getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetAccountApplyPromo>();
+  @$core.pragma('dart2js:noInline')
+  static NetAccountApplyPromo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetAccountApplyPromo>(create);
   static NetAccountApplyPromo _defaultInstance;
-  static void $checkItem(NetAccountApplyPromo v) {
-    if (v is! NetAccountApplyPromo)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get code => $_getS(0, '');
-  set code(String v) {
+  @$pb.TagNumber(1)
+  $core.String get code => $_getSZ(0);
+  @$pb.TagNumber(1)
+  set code($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasCode() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasCode() => $_has(0);
+  @$pb.TagNumber(1)
   void clearCode() => clearField(1);
 }
 
 class NetAccountPromo extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetAccountPromo',
-      package: const $pb.PackageName('inf'))
-    ..a<$10.DataAccount>(1, 'account', $pb.PbFieldType.OM,
-        $10.DataAccount.getDefault, $10.DataAccount.create)
-    ..aOB(2, 'expired')
-    ..aOB(3, 'used')
-    ..aOB(4, 'applied')
-    ..a<int>(5, 'quantity', $pb.PbFieldType.O3)
-    ..e<$9.PromoCode>(6, 'type', $pb.PbFieldType.OE, $9.PromoCode.unknown,
-        $9.PromoCode.valueOf, $9.PromoCode.values)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetAccountPromo',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataAccount>(1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'account',
+        subBuilder: $13.DataAccount.create)
+    ..aOB(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'expired')
+    ..aOB(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'used')
+    ..aOB(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'applied')
+    ..a<$core.int>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'quantity', $pb.PbFieldType.O3)
+    ..e<$12.PromoCode>(6, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'type', $pb.PbFieldType.OE, defaultOrMaker: $12.PromoCode.unknown, valueOf: $12.PromoCode.valueOf, enumValues: $12.PromoCode.values)
     ..hasRequiredFields = false;
 
-  NetAccountPromo() : super();
-  NetAccountPromo.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetAccountPromo.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetAccountPromo clone() => new NetAccountPromo()..mergeFromMessage(this);
+  NetAccountPromo._() : super();
+  factory NetAccountPromo() => create();
+  factory NetAccountPromo.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetAccountPromo.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetAccountPromo clone() => NetAccountPromo()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetAccountPromo copyWith(void Function(NetAccountPromo) updates) =>
-      super.copyWith((message) => updates(message as NetAccountPromo));
+      super.copyWith((message) =>
+          updates(message as NetAccountPromo)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetAccountPromo create() => new NetAccountPromo();
+  @$core.pragma('dart2js:noInline')
+  static NetAccountPromo create() => NetAccountPromo._();
   NetAccountPromo createEmptyInstance() => create();
   static $pb.PbList<NetAccountPromo> createRepeated() =>
-      new $pb.PbList<NetAccountPromo>();
-  static NetAccountPromo getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetAccountPromo>();
+  @$core.pragma('dart2js:noInline')
+  static NetAccountPromo getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetAccountPromo>(create);
   static NetAccountPromo _defaultInstance;
-  static void $checkItem(NetAccountPromo v) {
-    if (v is! NetAccountPromo) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataAccount get account => $_getN(0);
-  set account($10.DataAccount v) {
+  @$pb.TagNumber(1)
+  $13.DataAccount get account => $_getN(0);
+  @$pb.TagNumber(1)
+  set account($13.DataAccount v) {
     setField(1, v);
   }
 
-  bool hasAccount() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasAccount() => $_has(0);
+  @$pb.TagNumber(1)
   void clearAccount() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataAccount ensureAccount() => $_ensure(0);
 
-  bool get expired => $_get(1, false);
-  set expired(bool v) {
+  @$pb.TagNumber(2)
+  $core.bool get expired => $_getBF(1);
+  @$pb.TagNumber(2)
+  set expired($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasExpired() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasExpired() => $_has(1);
+  @$pb.TagNumber(2)
   void clearExpired() => clearField(2);
 
-  bool get used => $_get(2, false);
-  set used(bool v) {
+  @$pb.TagNumber(3)
+  $core.bool get used => $_getBF(2);
+  @$pb.TagNumber(3)
+  set used($core.bool v) {
     $_setBool(2, v);
   }
 
-  bool hasUsed() => $_has(2);
+  @$pb.TagNumber(3)
+  $core.bool hasUsed() => $_has(2);
+  @$pb.TagNumber(3)
   void clearUsed() => clearField(3);
 
-  bool get applied => $_get(3, false);
-  set applied(bool v) {
+  @$pb.TagNumber(4)
+  $core.bool get applied => $_getBF(3);
+  @$pb.TagNumber(4)
+  set applied($core.bool v) {
     $_setBool(3, v);
   }
 
-  bool hasApplied() => $_has(3);
+  @$pb.TagNumber(4)
+  $core.bool hasApplied() => $_has(3);
+  @$pb.TagNumber(4)
   void clearApplied() => clearField(4);
 
-  int get quantity => $_get(4, 0);
-  set quantity(int v) {
+  @$pb.TagNumber(5)
+  $core.int get quantity => $_getIZ(4);
+  @$pb.TagNumber(5)
+  set quantity($core.int v) {
     $_setSignedInt32(4, v);
   }
 
-  bool hasQuantity() => $_has(4);
+  @$pb.TagNumber(5)
+  $core.bool hasQuantity() => $_has(4);
+  @$pb.TagNumber(5)
   void clearQuantity() => clearField(5);
 
-  $9.PromoCode get type => $_getN(5);
-  set type($9.PromoCode v) {
+  @$pb.TagNumber(6)
+  $12.PromoCode get type => $_getN(5);
+  @$pb.TagNumber(6)
+  set type($12.PromoCode v) {
     setField(6, v);
   }
 
-  bool hasType() => $_has(5);
+  @$pb.TagNumber(6)
+  $core.bool hasType() => $_has(5);
+  @$pb.TagNumber(6)
   void clearType() => clearField(6);
 }

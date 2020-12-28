@@ -1,793 +1,1292 @@
 ///
 //  Generated code. Do not modify.
 //  source: net_proposal_protobuf.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core;
 
-import 'package:fixnum/fixnum.dart';
+import 'package:fixnum/fixnum.dart' as $fixnum;
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $10;
+import 'data_protobuf.pb.dart' as $13;
 
 class NetProposal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetProposal', package: const $pb.PackageName('inf'))
-        ..a<$10.DataProposal>(1, 'proposal', $pb.PbFieldType.OM,
-            $10.DataProposal.getDefault, $10.DataProposal.create)
-        ..pp<$10.DataProposalChat>(2, 'chats', $pb.PbFieldType.PM,
-            $10.DataProposalChat.$checkItem, $10.DataProposalChat.create)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposal',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataProposal>(
+        1, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'proposal',
+        subBuilder: $13.DataProposal.create)
+    ..pc<$13.DataProposalChat>(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'chats',
+        $pb.PbFieldType.PM,
+        subBuilder: $13.DataProposalChat.create)
+    ..hasRequiredFields = false;
 
-  NetProposal() : super();
-  NetProposal.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposal.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetProposal clone() => new NetProposal()..mergeFromMessage(this);
+  NetProposal._() : super();
+  factory NetProposal() => create();
+  factory NetProposal.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposal.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetProposal clone() => NetProposal()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposal copyWith(void Function(NetProposal) updates) =>
-      super.copyWith((message) => updates(message as NetProposal));
+      super.copyWith((message) =>
+          updates(message as NetProposal)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposal create() => new NetProposal();
+  @$core.pragma('dart2js:noInline')
+  static NetProposal create() => NetProposal._();
   NetProposal createEmptyInstance() => create();
-  static $pb.PbList<NetProposal> createRepeated() =>
-      new $pb.PbList<NetProposal>();
-  static NetProposal getDefault() => _defaultInstance ??= create()..freeze();
+  static $pb.PbList<NetProposal> createRepeated() => $pb.PbList<NetProposal>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposal getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposal>(create);
   static NetProposal _defaultInstance;
-  static void $checkItem(NetProposal v) {
-    if (v is! NetProposal) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataProposal get proposal => $_getN(0);
-  set proposal($10.DataProposal v) {
+  @$pb.TagNumber(1)
+  $13.DataProposal get proposal => $_getN(0);
+  @$pb.TagNumber(1)
+  set proposal($13.DataProposal v) {
     setField(1, v);
   }
 
-  bool hasProposal() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposal() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposal() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataProposal ensureProposal() => $_ensure(0);
 
-  List<$10.DataProposalChat> get chats => $_getList(1);
+  @$pb.TagNumber(2)
+  $core.List<$13.DataProposalChat> get chats => $_getList(1);
 }
 
 class NetProposalChat extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalChat',
-      package: const $pb.PackageName('inf'))
-    ..a<$10.DataProposalChat>(1, 'chat', $pb.PbFieldType.OM,
-        $10.DataProposalChat.getDefault, $10.DataProposalChat.create)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalChat',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataProposalChat>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'chat',
+        subBuilder: $13.DataProposalChat.create)
     ..hasRequiredFields = false;
 
-  NetProposalChat() : super();
-  NetProposalChat.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalChat.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetProposalChat clone() => new NetProposalChat()..mergeFromMessage(this);
+  NetProposalChat._() : super();
+  factory NetProposalChat() => create();
+  factory NetProposalChat.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalChat.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetProposalChat clone() => NetProposalChat()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalChat copyWith(void Function(NetProposalChat) updates) =>
-      super.copyWith((message) => updates(message as NetProposalChat));
+      super.copyWith((message) =>
+          updates(message as NetProposalChat)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalChat create() => new NetProposalChat();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalChat create() => NetProposalChat._();
   NetProposalChat createEmptyInstance() => create();
   static $pb.PbList<NetProposalChat> createRepeated() =>
-      new $pb.PbList<NetProposalChat>();
-  static NetProposalChat getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalChat>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalChat getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalChat>(create);
   static NetProposalChat _defaultInstance;
-  static void $checkItem(NetProposalChat v) {
-    if (v is! NetProposalChat) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataProposalChat get chat => $_getN(0);
-  set chat($10.DataProposalChat v) {
+  @$pb.TagNumber(1)
+  $13.DataProposalChat get chat => $_getN(0);
+  @$pb.TagNumber(1)
+  set chat($13.DataProposalChat v) {
     setField(1, v);
   }
 
-  bool hasChat() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasChat() => $_has(0);
+  @$pb.TagNumber(1)
   void clearChat() => clearField(1);
+  @$pb.TagNumber(1)
+  $13.DataProposalChat ensureChat() => $_ensure(0);
 }
 
 class NetApplyProposal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetApplyProposal',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'offerId')
-    ..aOS(2, 'remarks')
-    ..a<$10.DataTerms>(3, 'terms', $pb.PbFieldType.OM, $10.DataTerms.getDefault,
-        $10.DataTerms.create)
-    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetApplyProposal',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'offerId')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'remarks')
+    ..aOM<$13.DataTerms>(3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'terms',
+        subBuilder: $13.DataTerms.create)
+    ..a<$core.int>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'sessionGhostId',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetApplyProposal() : super();
-  NetApplyProposal.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetApplyProposal.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetApplyProposal clone() => new NetApplyProposal()..mergeFromMessage(this);
+  NetApplyProposal._() : super();
+  factory NetApplyProposal() => create();
+  factory NetApplyProposal.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetApplyProposal.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetApplyProposal clone() => NetApplyProposal()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetApplyProposal copyWith(void Function(NetApplyProposal) updates) =>
-      super.copyWith((message) => updates(message as NetApplyProposal));
+      super.copyWith((message) => updates(
+          message as NetApplyProposal)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetApplyProposal create() => new NetApplyProposal();
+  @$core.pragma('dart2js:noInline')
+  static NetApplyProposal create() => NetApplyProposal._();
   NetApplyProposal createEmptyInstance() => create();
   static $pb.PbList<NetApplyProposal> createRepeated() =>
-      new $pb.PbList<NetApplyProposal>();
-  static NetApplyProposal getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetApplyProposal>();
+  @$core.pragma('dart2js:noInline')
+  static NetApplyProposal getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetApplyProposal>(create);
   static NetApplyProposal _defaultInstance;
-  static void $checkItem(NetApplyProposal v) {
-    if (v is! NetApplyProposal) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get offerId => $_getI64(0);
-  set offerId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get offerId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set offerId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasOfferId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasOfferId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearOfferId() => clearField(1);
 
-  String get remarks => $_getS(1, '');
-  set remarks(String v) {
+  @$pb.TagNumber(2)
+  $core.String get remarks => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set remarks($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasRemarks() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasRemarks() => $_has(1);
+  @$pb.TagNumber(2)
   void clearRemarks() => clearField(2);
 
-  $10.DataTerms get terms => $_getN(2);
-  set terms($10.DataTerms v) {
+  @$pb.TagNumber(3)
+  $13.DataTerms get terms => $_getN(2);
+  @$pb.TagNumber(3)
+  set terms($13.DataTerms v) {
     setField(3, v);
   }
 
-  bool hasTerms() => $_has(2);
+  @$pb.TagNumber(3)
+  $core.bool hasTerms() => $_has(2);
+  @$pb.TagNumber(3)
   void clearTerms() => clearField(3);
+  @$pb.TagNumber(3)
+  $13.DataTerms ensureTerms() => $_ensure(2);
 
-  int get sessionGhostId => $_get(3, 0);
-  set sessionGhostId(int v) {
+  @$pb.TagNumber(8)
+  $core.int get sessionGhostId => $_getIZ(3);
+  @$pb.TagNumber(8)
+  set sessionGhostId($core.int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasSessionGhostId() => $_has(3);
+  @$pb.TagNumber(8)
+  $core.bool hasSessionGhostId() => $_has(3);
+  @$pb.TagNumber(8)
   void clearSessionGhostId() => clearField(8);
 }
 
 class NetDirectProposal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetDirectProposal',
-      package: const $pb.PackageName('inf'))
-    ..aOS(2, 'remarks')
-    ..a<$10.DataOffer>(4, 'offer', $pb.PbFieldType.OM, $10.DataOffer.getDefault,
-        $10.DataOffer.create)
-    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetDirectProposal',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'remarks')
+    ..aOM<$13.DataOffer>(
+        4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'offer',
+        subBuilder: $13.DataOffer.create)
+    ..a<$core.int>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'sessionGhostId',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetDirectProposal() : super();
-  NetDirectProposal.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetDirectProposal.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetDirectProposal clone() => new NetDirectProposal()..mergeFromMessage(this);
+  NetDirectProposal._() : super();
+  factory NetDirectProposal() => create();
+  factory NetDirectProposal.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetDirectProposal.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetDirectProposal clone() => NetDirectProposal()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetDirectProposal copyWith(void Function(NetDirectProposal) updates) =>
-      super.copyWith((message) => updates(message as NetDirectProposal));
+      super.copyWith((message) => updates(
+          message as NetDirectProposal)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetDirectProposal create() => new NetDirectProposal();
+  @$core.pragma('dart2js:noInline')
+  static NetDirectProposal create() => NetDirectProposal._();
   NetDirectProposal createEmptyInstance() => create();
   static $pb.PbList<NetDirectProposal> createRepeated() =>
-      new $pb.PbList<NetDirectProposal>();
-  static NetDirectProposal getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetDirectProposal>();
+  @$core.pragma('dart2js:noInline')
+  static NetDirectProposal getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetDirectProposal>(create);
   static NetDirectProposal _defaultInstance;
-  static void $checkItem(NetDirectProposal v) {
-    if (v is! NetDirectProposal)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get remarks => $_getS(0, '');
-  set remarks(String v) {
+  @$pb.TagNumber(2)
+  $core.String get remarks => $_getSZ(0);
+  @$pb.TagNumber(2)
+  set remarks($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasRemarks() => $_has(0);
+  @$pb.TagNumber(2)
+  $core.bool hasRemarks() => $_has(0);
+  @$pb.TagNumber(2)
   void clearRemarks() => clearField(2);
 
-  $10.DataOffer get offer => $_getN(1);
-  set offer($10.DataOffer v) {
+  @$pb.TagNumber(4)
+  $13.DataOffer get offer => $_getN(1);
+  @$pb.TagNumber(4)
+  set offer($13.DataOffer v) {
     setField(4, v);
   }
 
-  bool hasOffer() => $_has(1);
+  @$pb.TagNumber(4)
+  $core.bool hasOffer() => $_has(1);
+  @$pb.TagNumber(4)
   void clearOffer() => clearField(4);
+  @$pb.TagNumber(4)
+  $13.DataOffer ensureOffer() => $_ensure(1);
 
-  int get sessionGhostId => $_get(2, 0);
-  set sessionGhostId(int v) {
+  @$pb.TagNumber(8)
+  $core.int get sessionGhostId => $_getIZ(2);
+  @$pb.TagNumber(8)
+  set sessionGhostId($core.int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasSessionGhostId() => $_has(2);
+  @$pb.TagNumber(8)
+  $core.bool hasSessionGhostId() => $_has(2);
+  @$pb.TagNumber(8)
   void clearSessionGhostId() => clearField(8);
 }
 
 class NetListProposals extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetListProposals',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(4, 'offerId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetListProposals',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        4,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'offerId')
     ..hasRequiredFields = false;
 
-  NetListProposals() : super();
-  NetListProposals.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetListProposals.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetListProposals clone() => new NetListProposals()..mergeFromMessage(this);
+  NetListProposals._() : super();
+  factory NetListProposals() => create();
+  factory NetListProposals.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetListProposals.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetListProposals clone() => NetListProposals()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetListProposals copyWith(void Function(NetListProposals) updates) =>
-      super.copyWith((message) => updates(message as NetListProposals));
+      super.copyWith((message) => updates(
+          message as NetListProposals)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetListProposals create() => new NetListProposals();
+  @$core.pragma('dart2js:noInline')
+  static NetListProposals create() => NetListProposals._();
   NetListProposals createEmptyInstance() => create();
   static $pb.PbList<NetListProposals> createRepeated() =>
-      new $pb.PbList<NetListProposals>();
-  static NetListProposals getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetListProposals>();
+  @$core.pragma('dart2js:noInline')
+  static NetListProposals getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetListProposals>(create);
   static NetListProposals _defaultInstance;
-  static void $checkItem(NetListProposals v) {
-    if (v is! NetListProposals) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get offerId => $_getI64(0);
-  set offerId(Int64 v) {
+  @$pb.TagNumber(4)
+  $fixnum.Int64 get offerId => $_getI64(0);
+  @$pb.TagNumber(4)
+  set offerId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasOfferId() => $_has(0);
+  @$pb.TagNumber(4)
+  $core.bool hasOfferId() => $_has(0);
+  @$pb.TagNumber(4)
   void clearOfferId() => clearField(4);
 }
 
 class NetGetProposal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetGetProposal',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetGetProposal',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
     ..hasRequiredFields = false;
 
-  NetGetProposal() : super();
-  NetGetProposal.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetGetProposal.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetGetProposal clone() => new NetGetProposal()..mergeFromMessage(this);
+  NetGetProposal._() : super();
+  factory NetGetProposal() => create();
+  factory NetGetProposal.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetGetProposal.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetGetProposal clone() => NetGetProposal()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetGetProposal copyWith(void Function(NetGetProposal) updates) =>
-      super.copyWith((message) => updates(message as NetGetProposal));
+      super.copyWith((message) =>
+          updates(message as NetGetProposal)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetGetProposal create() => new NetGetProposal();
+  @$core.pragma('dart2js:noInline')
+  static NetGetProposal create() => NetGetProposal._();
   NetGetProposal createEmptyInstance() => create();
   static $pb.PbList<NetGetProposal> createRepeated() =>
-      new $pb.PbList<NetGetProposal>();
-  static NetGetProposal getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetGetProposal>();
+  @$core.pragma('dart2js:noInline')
+  static NetGetProposal getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetGetProposal>(create);
   static NetGetProposal _defaultInstance;
-  static void $checkItem(NetGetProposal v) {
-    if (v is! NetGetProposal) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 }
 
 class NetProposalWantDeal extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalWantDeal',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..aInt64(2, 'termsChatId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalWantDeal',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aInt64(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'termsChatId')
     ..hasRequiredFields = false;
 
-  NetProposalWantDeal() : super();
-  NetProposalWantDeal.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalWantDeal.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetProposalWantDeal clone() =>
-      new NetProposalWantDeal()..mergeFromMessage(this);
+  NetProposalWantDeal._() : super();
+  factory NetProposalWantDeal() => create();
+  factory NetProposalWantDeal.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalWantDeal.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetProposalWantDeal clone() => NetProposalWantDeal()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalWantDeal copyWith(void Function(NetProposalWantDeal) updates) =>
-      super.copyWith((message) => updates(message as NetProposalWantDeal));
+      super.copyWith((message) => updates(
+          message as NetProposalWantDeal)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalWantDeal create() => new NetProposalWantDeal();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalWantDeal create() => NetProposalWantDeal._();
   NetProposalWantDeal createEmptyInstance() => create();
   static $pb.PbList<NetProposalWantDeal> createRepeated() =>
-      new $pb.PbList<NetProposalWantDeal>();
-  static NetProposalWantDeal getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalWantDeal>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalWantDeal getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalWantDeal>(create);
   static NetProposalWantDeal _defaultInstance;
-  static void $checkItem(NetProposalWantDeal v) {
-    if (v is! NetProposalWantDeal)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  Int64 get termsChatId => $_getI64(1);
-  set termsChatId(Int64 v) {
+  @$pb.TagNumber(2)
+  $fixnum.Int64 get termsChatId => $_getI64(1);
+  @$pb.TagNumber(2)
+  set termsChatId($fixnum.Int64 v) {
     $_setInt64(1, v);
   }
 
-  bool hasTermsChatId() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasTermsChatId() => $_has(1);
+  @$pb.TagNumber(2)
   void clearTermsChatId() => clearField(2);
 }
 
 class NetProposalNegotiate extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalNegotiate',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalNegotiate',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
     ..hasRequiredFields = false;
 
-  NetProposalNegotiate() : super();
-  NetProposalNegotiate.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalNegotiate.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
+  NetProposalNegotiate._() : super();
+  factory NetProposalNegotiate() => create();
+  factory NetProposalNegotiate.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalNegotiate.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   NetProposalNegotiate clone() =>
-      new NetProposalNegotiate()..mergeFromMessage(this);
+      NetProposalNegotiate()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalNegotiate copyWith(void Function(NetProposalNegotiate) updates) =>
-      super.copyWith((message) => updates(message as NetProposalNegotiate));
+      super.copyWith((message) => updates(
+          message as NetProposalNegotiate)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalNegotiate create() => new NetProposalNegotiate();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalNegotiate create() => NetProposalNegotiate._();
   NetProposalNegotiate createEmptyInstance() => create();
   static $pb.PbList<NetProposalNegotiate> createRepeated() =>
-      new $pb.PbList<NetProposalNegotiate>();
-  static NetProposalNegotiate getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalNegotiate>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalNegotiate getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalNegotiate>(create);
   static NetProposalNegotiate _defaultInstance;
-  static void $checkItem(NetProposalNegotiate v) {
-    if (v is! NetProposalNegotiate)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 }
 
 class NetProposalReject extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReject',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..aOS(2, 'reason')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalReject',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'reason')
     ..hasRequiredFields = false;
 
-  NetProposalReject() : super();
-  NetProposalReject.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalReject.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetProposalReject clone() => new NetProposalReject()..mergeFromMessage(this);
+  NetProposalReject._() : super();
+  factory NetProposalReject() => create();
+  factory NetProposalReject.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalReject.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetProposalReject clone() => NetProposalReject()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalReject copyWith(void Function(NetProposalReject) updates) =>
-      super.copyWith((message) => updates(message as NetProposalReject));
+      super.copyWith((message) => updates(
+          message as NetProposalReject)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalReject create() => new NetProposalReject();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalReject create() => NetProposalReject._();
   NetProposalReject createEmptyInstance() => create();
   static $pb.PbList<NetProposalReject> createRepeated() =>
-      new $pb.PbList<NetProposalReject>();
-  static NetProposalReject getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalReject>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalReject getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalReject>(create);
   static NetProposalReject _defaultInstance;
-  static void $checkItem(NetProposalReject v) {
-    if (v is! NetProposalReject)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  String get reason => $_getS(1, '');
-  set reason(String v) {
+  @$pb.TagNumber(2)
+  $core.String get reason => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set reason($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasReason() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasReason() => $_has(1);
+  @$pb.TagNumber(2)
   void clearReason() => clearField(2);
 }
 
 class NetProposalReport extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalReport',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..aOS(2, 'text')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalReport',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'text')
     ..hasRequiredFields = false;
 
-  NetProposalReport() : super();
-  NetProposalReport.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalReport.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetProposalReport clone() => new NetProposalReport()..mergeFromMessage(this);
+  NetProposalReport._() : super();
+  factory NetProposalReport() => create();
+  factory NetProposalReport.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalReport.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetProposalReport clone() => NetProposalReport()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalReport copyWith(void Function(NetProposalReport) updates) =>
-      super.copyWith((message) => updates(message as NetProposalReport));
+      super.copyWith((message) => updates(
+          message as NetProposalReport)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalReport create() => new NetProposalReport();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalReport create() => NetProposalReport._();
   NetProposalReport createEmptyInstance() => create();
   static $pb.PbList<NetProposalReport> createRepeated() =>
-      new $pb.PbList<NetProposalReport>();
-  static NetProposalReport getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalReport>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalReport getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalReport>(create);
   static NetProposalReport _defaultInstance;
-  static void $checkItem(NetProposalReport v) {
-    if (v is! NetProposalReport)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  String get text => $_getS(1, '');
-  set text(String v) {
+  @$pb.TagNumber(2)
+  $core.String get text => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set text($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasText() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasText() => $_has(1);
+  @$pb.TagNumber(2)
   void clearText() => clearField(2);
 }
 
 class NetProposalDispute extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalDispute',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..aOB(2, 'delivered')
-    ..aOB(3, 'rewarded')
-    ..aOS(6, 'disputeDescription')
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalDispute',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aOB(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'delivered')
+    ..aOB(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'rewarded')
+    ..aOS(6,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'disputeDescription')
     ..hasRequiredFields = false;
 
-  NetProposalDispute() : super();
-  NetProposalDispute.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalDispute.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetProposalDispute clone() =>
-      new NetProposalDispute()..mergeFromMessage(this);
+  NetProposalDispute._() : super();
+  factory NetProposalDispute() => create();
+  factory NetProposalDispute.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalDispute.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetProposalDispute clone() => NetProposalDispute()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalDispute copyWith(void Function(NetProposalDispute) updates) =>
-      super.copyWith((message) => updates(message as NetProposalDispute));
+      super.copyWith((message) => updates(
+          message as NetProposalDispute)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalDispute create() => new NetProposalDispute();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalDispute create() => NetProposalDispute._();
   NetProposalDispute createEmptyInstance() => create();
   static $pb.PbList<NetProposalDispute> createRepeated() =>
-      new $pb.PbList<NetProposalDispute>();
-  static NetProposalDispute getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalDispute>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalDispute getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalDispute>(create);
   static NetProposalDispute _defaultInstance;
-  static void $checkItem(NetProposalDispute v) {
-    if (v is! NetProposalDispute)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  bool get delivered => $_get(1, false);
-  set delivered(bool v) {
+  @$pb.TagNumber(2)
+  $core.bool get delivered => $_getBF(1);
+  @$pb.TagNumber(2)
+  set delivered($core.bool v) {
     $_setBool(1, v);
   }
 
-  bool hasDelivered() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasDelivered() => $_has(1);
+  @$pb.TagNumber(2)
   void clearDelivered() => clearField(2);
 
-  bool get rewarded => $_get(2, false);
-  set rewarded(bool v) {
+  @$pb.TagNumber(3)
+  $core.bool get rewarded => $_getBF(2);
+  @$pb.TagNumber(3)
+  set rewarded($core.bool v) {
     $_setBool(2, v);
   }
 
-  bool hasRewarded() => $_has(2);
+  @$pb.TagNumber(3)
+  $core.bool hasRewarded() => $_has(2);
+  @$pb.TagNumber(3)
   void clearRewarded() => clearField(3);
 
-  String get disputeDescription => $_getS(3, '');
-  set disputeDescription(String v) {
+  @$pb.TagNumber(6)
+  $core.String get disputeDescription => $_getSZ(3);
+  @$pb.TagNumber(6)
+  set disputeDescription($core.String v) {
     $_setString(3, v);
   }
 
-  bool hasDisputeDescription() => $_has(3);
+  @$pb.TagNumber(6)
+  $core.bool hasDisputeDescription() => $_has(3);
+  @$pb.TagNumber(6)
   void clearDisputeDescription() => clearField(6);
 }
 
 class NetProposalCompletion extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetProposalCompletion',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..a<int>(4, 'rating', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetProposalCompletion',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..a<$core.int>(
+        4,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'rating',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetProposalCompletion() : super();
-  NetProposalCompletion.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetProposalCompletion.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
+  NetProposalCompletion._() : super();
+  factory NetProposalCompletion() => create();
+  factory NetProposalCompletion.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetProposalCompletion.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
   NetProposalCompletion clone() =>
-      new NetProposalCompletion()..mergeFromMessage(this);
+      NetProposalCompletion()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetProposalCompletion copyWith(
           void Function(NetProposalCompletion) updates) =>
-      super.copyWith((message) => updates(message as NetProposalCompletion));
+      super.copyWith((message) => updates(
+          message as NetProposalCompletion)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetProposalCompletion create() => new NetProposalCompletion();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalCompletion create() => NetProposalCompletion._();
   NetProposalCompletion createEmptyInstance() => create();
   static $pb.PbList<NetProposalCompletion> createRepeated() =>
-      new $pb.PbList<NetProposalCompletion>();
-  static NetProposalCompletion getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetProposalCompletion>();
+  @$core.pragma('dart2js:noInline')
+  static NetProposalCompletion getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetProposalCompletion>(create);
   static NetProposalCompletion _defaultInstance;
-  static void $checkItem(NetProposalCompletion v) {
-    if (v is! NetProposalCompletion)
-      $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  int get rating => $_get(1, 0);
-  set rating(int v) {
+  @$pb.TagNumber(4)
+  $core.int get rating => $_getIZ(1);
+  @$pb.TagNumber(4)
+  set rating($core.int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasRating() => $_has(1);
+  @$pb.TagNumber(4)
+  $core.bool hasRating() => $_has(1);
+  @$pb.TagNumber(4)
   void clearRating() => clearField(4);
 }
 
 class NetListChats extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetListChats', package: const $pb.PackageName('inf'))
-        ..aInt64(5, 'proposalId')
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetListChats',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        5,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..hasRequiredFields = false;
 
-  NetListChats() : super();
-  NetListChats.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetListChats.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetListChats clone() => new NetListChats()..mergeFromMessage(this);
+  NetListChats._() : super();
+  factory NetListChats() => create();
+  factory NetListChats.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetListChats.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetListChats clone() => NetListChats()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetListChats copyWith(void Function(NetListChats) updates) =>
-      super.copyWith((message) => updates(message as NetListChats));
+      super.copyWith((message) =>
+          updates(message as NetListChats)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetListChats create() => new NetListChats();
+  @$core.pragma('dart2js:noInline')
+  static NetListChats create() => NetListChats._();
   NetListChats createEmptyInstance() => create();
   static $pb.PbList<NetListChats> createRepeated() =>
-      new $pb.PbList<NetListChats>();
-  static NetListChats getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetListChats>();
+  @$core.pragma('dart2js:noInline')
+  static NetListChats getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetListChats>(create);
   static NetListChats _defaultInstance;
-  static void $checkItem(NetListChats v) {
-    if (v is! NetListChats) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(5)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(5)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(5)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(5)
   void clearProposalId() => clearField(5);
 }
 
 class NetChatPlain extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetChatPlain', package: const $pb.PackageName('inf'))
-        ..aInt64(1, 'proposalId')
-        ..aOS(6, 'text')
-        ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetChatPlain',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aOS(
+        6,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'text')
+    ..a<$core.int>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'sessionGhostId',
+        $pb.PbFieldType.O3)
+    ..hasRequiredFields = false;
 
-  NetChatPlain() : super();
-  NetChatPlain.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetChatPlain.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetChatPlain clone() => new NetChatPlain()..mergeFromMessage(this);
+  NetChatPlain._() : super();
+  factory NetChatPlain() => create();
+  factory NetChatPlain.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetChatPlain.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetChatPlain clone() => NetChatPlain()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetChatPlain copyWith(void Function(NetChatPlain) updates) =>
-      super.copyWith((message) => updates(message as NetChatPlain));
+      super.copyWith((message) =>
+          updates(message as NetChatPlain)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetChatPlain create() => new NetChatPlain();
+  @$core.pragma('dart2js:noInline')
+  static NetChatPlain create() => NetChatPlain._();
   NetChatPlain createEmptyInstance() => create();
   static $pb.PbList<NetChatPlain> createRepeated() =>
-      new $pb.PbList<NetChatPlain>();
-  static NetChatPlain getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetChatPlain>();
+  @$core.pragma('dart2js:noInline')
+  static NetChatPlain getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetChatPlain>(create);
   static NetChatPlain _defaultInstance;
-  static void $checkItem(NetChatPlain v) {
-    if (v is! NetChatPlain) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  String get text => $_getS(1, '');
-  set text(String v) {
+  @$pb.TagNumber(6)
+  $core.String get text => $_getSZ(1);
+  @$pb.TagNumber(6)
+  set text($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasText() => $_has(1);
+  @$pb.TagNumber(6)
+  $core.bool hasText() => $_has(1);
+  @$pb.TagNumber(6)
   void clearText() => clearField(6);
 
-  int get sessionGhostId => $_get(2, 0);
-  set sessionGhostId(int v) {
+  @$pb.TagNumber(8)
+  $core.int get sessionGhostId => $_getIZ(2);
+  @$pb.TagNumber(8)
+  set sessionGhostId($core.int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasSessionGhostId() => $_has(2);
+  @$pb.TagNumber(8)
+  $core.bool hasSessionGhostId() => $_has(2);
+  @$pb.TagNumber(8)
   void clearSessionGhostId() => clearField(8);
 }
 
 class NetChatNegotiate extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatNegotiate',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..aOS(2, 'remarks')
-    ..a<$10.DataTerms>(5, 'terms', $pb.PbFieldType.OM, $10.DataTerms.getDefault,
-        $10.DataTerms.create)
-    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetChatNegotiate',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'remarks')
+    ..aOM<$13.DataTerms>(5, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'terms',
+        subBuilder: $13.DataTerms.create)
+    ..a<$core.int>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'sessionGhostId',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetChatNegotiate() : super();
-  NetChatNegotiate.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetChatNegotiate.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetChatNegotiate clone() => new NetChatNegotiate()..mergeFromMessage(this);
+  NetChatNegotiate._() : super();
+  factory NetChatNegotiate() => create();
+  factory NetChatNegotiate.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetChatNegotiate.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetChatNegotiate clone() => NetChatNegotiate()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetChatNegotiate copyWith(void Function(NetChatNegotiate) updates) =>
-      super.copyWith((message) => updates(message as NetChatNegotiate));
+      super.copyWith((message) => updates(
+          message as NetChatNegotiate)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetChatNegotiate create() => new NetChatNegotiate();
+  @$core.pragma('dart2js:noInline')
+  static NetChatNegotiate create() => NetChatNegotiate._();
   NetChatNegotiate createEmptyInstance() => create();
   static $pb.PbList<NetChatNegotiate> createRepeated() =>
-      new $pb.PbList<NetChatNegotiate>();
-  static NetChatNegotiate getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetChatNegotiate>();
+  @$core.pragma('dart2js:noInline')
+  static NetChatNegotiate getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetChatNegotiate>(create);
   static NetChatNegotiate _defaultInstance;
-  static void $checkItem(NetChatNegotiate v) {
-    if (v is! NetChatNegotiate) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  String get remarks => $_getS(1, '');
-  set remarks(String v) {
+  @$pb.TagNumber(2)
+  $core.String get remarks => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set remarks($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasRemarks() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasRemarks() => $_has(1);
+  @$pb.TagNumber(2)
   void clearRemarks() => clearField(2);
 
-  $10.DataTerms get terms => $_getN(2);
-  set terms($10.DataTerms v) {
+  @$pb.TagNumber(5)
+  $13.DataTerms get terms => $_getN(2);
+  @$pb.TagNumber(5)
+  set terms($13.DataTerms v) {
     setField(5, v);
   }
 
-  bool hasTerms() => $_has(2);
+  @$pb.TagNumber(5)
+  $core.bool hasTerms() => $_has(2);
+  @$pb.TagNumber(5)
   void clearTerms() => clearField(5);
+  @$pb.TagNumber(5)
+  $13.DataTerms ensureTerms() => $_ensure(2);
 
-  int get sessionGhostId => $_get(3, 0);
-  set sessionGhostId(int v) {
+  @$pb.TagNumber(8)
+  $core.int get sessionGhostId => $_getIZ(3);
+  @$pb.TagNumber(8)
+  set sessionGhostId($core.int v) {
     $_setSignedInt32(3, v);
   }
 
-  bool hasSessionGhostId() => $_has(3);
+  @$pb.TagNumber(8)
+  $core.bool hasSessionGhostId() => $_has(3);
+  @$pb.TagNumber(8)
   void clearSessionGhostId() => clearField(8);
 }
 
 class NetChatImageKey extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetChatImageKey',
-      package: const $pb.PackageName('inf'))
-    ..aInt64(1, 'proposalId')
-    ..aOS(5, 'imageKey')
-    ..a<int>(8, 'sessionGhostId', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetChatImageKey',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aInt64(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'proposalId')
+    ..aOS(
+        5,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'imageKey')
+    ..a<$core.int>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'sessionGhostId',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetChatImageKey() : super();
-  NetChatImageKey.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetChatImageKey.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetChatImageKey clone() => new NetChatImageKey()..mergeFromMessage(this);
+  NetChatImageKey._() : super();
+  factory NetChatImageKey() => create();
+  factory NetChatImageKey.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetChatImageKey.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetChatImageKey clone() => NetChatImageKey()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetChatImageKey copyWith(void Function(NetChatImageKey) updates) =>
-      super.copyWith((message) => updates(message as NetChatImageKey));
+      super.copyWith((message) =>
+          updates(message as NetChatImageKey)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetChatImageKey create() => new NetChatImageKey();
+  @$core.pragma('dart2js:noInline')
+  static NetChatImageKey create() => NetChatImageKey._();
   NetChatImageKey createEmptyInstance() => create();
   static $pb.PbList<NetChatImageKey> createRepeated() =>
-      new $pb.PbList<NetChatImageKey>();
-  static NetChatImageKey getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetChatImageKey>();
+  @$core.pragma('dart2js:noInline')
+  static NetChatImageKey getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetChatImageKey>(create);
   static NetChatImageKey _defaultInstance;
-  static void $checkItem(NetChatImageKey v) {
-    if (v is! NetChatImageKey) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  Int64 get proposalId => $_getI64(0);
-  set proposalId(Int64 v) {
+  @$pb.TagNumber(1)
+  $fixnum.Int64 get proposalId => $_getI64(0);
+  @$pb.TagNumber(1)
+  set proposalId($fixnum.Int64 v) {
     $_setInt64(0, v);
   }
 
-  bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasProposalId() => $_has(0);
+  @$pb.TagNumber(1)
   void clearProposalId() => clearField(1);
 
-  String get imageKey => $_getS(1, '');
-  set imageKey(String v) {
+  @$pb.TagNumber(5)
+  $core.String get imageKey => $_getSZ(1);
+  @$pb.TagNumber(5)
+  set imageKey($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasImageKey() => $_has(1);
+  @$pb.TagNumber(5)
+  $core.bool hasImageKey() => $_has(1);
+  @$pb.TagNumber(5)
   void clearImageKey() => clearField(5);
 
-  int get sessionGhostId => $_get(2, 0);
-  set sessionGhostId(int v) {
+  @$pb.TagNumber(8)
+  $core.int get sessionGhostId => $_getIZ(2);
+  @$pb.TagNumber(8)
+  set sessionGhostId($core.int v) {
     $_setSignedInt32(2, v);
   }
 
-  bool hasSessionGhostId() => $_has(2);
+  @$pb.TagNumber(8)
+  $core.bool hasSessionGhostId() => $_has(2);
+  @$pb.TagNumber(8)
   void clearSessionGhostId() => clearField(8);
 }

@@ -12,7 +12,7 @@ import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:geohash/geohash.dart';
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 import 'package:inf_server_api/broadcast_center.dart';
 import 'package:inf_server_api/common_account.dart';
 import 'package:inf_server_api/common_location.dart';

@@ -5,7 +5,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:inf_server_explore/elasticsearch.dart';
 import 'package:inf_server_explore/elasticsearch_offer.dart';
 /*

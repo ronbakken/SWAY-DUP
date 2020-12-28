@@ -11,7 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import 'package:sway_mobile_app/widgets/follower_tray.dart';
 import 'package:sway_mobile_app/widgets/edit_button.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 // TODO: Change to a stateful Widget and Cleanup
 class ProfileView extends StatelessWidget {

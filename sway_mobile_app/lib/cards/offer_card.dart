@@ -5,7 +5,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class OfferCard extends StatelessWidget {
   final DataOffer businessOffer;

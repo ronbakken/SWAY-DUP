@@ -1,185 +1,294 @@
 ///
 //  Generated code. Do not modify.
 //  source: net_ident_protobuf.proto
-///
-// ignore_for_file: non_constant_identifier_names,library_prefixes,unused_import
+//
+// @dart = 2.3
+// ignore_for_file: annotate_overrides,camel_case_types,unnecessary_const,non_constant_identifier_names,library_prefixes,unused_import,unused_shown_name,return_of_invalid_type,unnecessary_this,prefer_final_fields
 
-// ignore: UNUSED_SHOWN_NAME
-import 'dart:core' show int, bool, double, String, List, Map, override;
+import 'dart:core' as $core;
 
 import 'package:protobuf/protobuf.dart' as $pb;
 
-import 'data_protobuf.pb.dart' as $10;
+import 'data_protobuf.pb.dart' as $13;
 
 class NetSessionOpen extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionOpen',
-      package: const $pb.PackageName('inf'))
-    ..aOS(7, 'domain')
-    ..a<int>(8, 'clientVersion', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetSessionOpen',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOS(
+        7,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'domain')
+    ..a<$core.int>(
+        8,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'clientVersion',
+        $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetSessionOpen() : super();
-  NetSessionOpen.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetSessionOpen.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetSessionOpen clone() => new NetSessionOpen()..mergeFromMessage(this);
+  NetSessionOpen._() : super();
+  factory NetSessionOpen() => create();
+  factory NetSessionOpen.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetSessionOpen.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetSessionOpen clone() => NetSessionOpen()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetSessionOpen copyWith(void Function(NetSessionOpen) updates) =>
-      super.copyWith((message) => updates(message as NetSessionOpen));
+      super.copyWith((message) =>
+          updates(message as NetSessionOpen)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetSessionOpen create() => new NetSessionOpen();
+  @$core.pragma('dart2js:noInline')
+  static NetSessionOpen create() => NetSessionOpen._();
   NetSessionOpen createEmptyInstance() => create();
   static $pb.PbList<NetSessionOpen> createRepeated() =>
-      new $pb.PbList<NetSessionOpen>();
-  static NetSessionOpen getDefault() => _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetSessionOpen>();
+  @$core.pragma('dart2js:noInline')
+  static NetSessionOpen getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetSessionOpen>(create);
   static NetSessionOpen _defaultInstance;
-  static void $checkItem(NetSessionOpen v) {
-    if (v is! NetSessionOpen) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  String get domain => $_getS(0, '');
-  set domain(String v) {
+  @$pb.TagNumber(7)
+  $core.String get domain => $_getSZ(0);
+  @$pb.TagNumber(7)
+  set domain($core.String v) {
     $_setString(0, v);
   }
 
-  bool hasDomain() => $_has(0);
+  @$pb.TagNumber(7)
+  $core.bool hasDomain() => $_has(0);
+  @$pb.TagNumber(7)
   void clearDomain() => clearField(7);
 
-  int get clientVersion => $_get(1, 0);
-  set clientVersion(int v) {
+  @$pb.TagNumber(8)
+  $core.int get clientVersion => $_getIZ(1);
+  @$pb.TagNumber(8)
+  set clientVersion($core.int v) {
     $_setSignedInt32(1, v);
   }
 
-  bool hasClientVersion() => $_has(1);
+  @$pb.TagNumber(8)
+  $core.bool hasClientVersion() => $_has(1);
+  @$pb.TagNumber(8)
   void clearClientVersion() => clearField(8);
 }
 
 class NetSessionCreate extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i = new $pb.BuilderInfo('NetSessionCreate',
-      package: const $pb.PackageName('inf'))
-    ..a<List<int>>(1, 'deviceToken', $pb.PbFieldType.OY)
-    ..aOS(2, 'deviceName')
-    ..aOS(3, 'deviceInfo')
-    ..aOS(7, 'domain')
-    ..a<int>(8, 'clientVersion', $pb.PbFieldType.O3)
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetSessionCreate',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..a<$core.List<$core.int>>(
+        1,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'deviceToken',
+        $pb.PbFieldType.OY)
+    ..aOS(
+        2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'deviceName')
+    ..aOS(
+        3, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'deviceInfo')
+    ..aOS(7, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'domain')
+    ..a<$core.int>(8, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'clientVersion', $pb.PbFieldType.O3)
     ..hasRequiredFields = false;
 
-  NetSessionCreate() : super();
-  NetSessionCreate.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetSessionCreate.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetSessionCreate clone() => new NetSessionCreate()..mergeFromMessage(this);
+  NetSessionCreate._() : super();
+  factory NetSessionCreate() => create();
+  factory NetSessionCreate.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetSessionCreate.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetSessionCreate clone() => NetSessionCreate()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetSessionCreate copyWith(void Function(NetSessionCreate) updates) =>
-      super.copyWith((message) => updates(message as NetSessionCreate));
+      super.copyWith((message) => updates(
+          message as NetSessionCreate)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetSessionCreate create() => new NetSessionCreate();
+  @$core.pragma('dart2js:noInline')
+  static NetSessionCreate create() => NetSessionCreate._();
   NetSessionCreate createEmptyInstance() => create();
   static $pb.PbList<NetSessionCreate> createRepeated() =>
-      new $pb.PbList<NetSessionCreate>();
-  static NetSessionCreate getDefault() =>
-      _defaultInstance ??= create()..freeze();
+      $pb.PbList<NetSessionCreate>();
+  @$core.pragma('dart2js:noInline')
+  static NetSessionCreate getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetSessionCreate>(create);
   static NetSessionCreate _defaultInstance;
-  static void $checkItem(NetSessionCreate v) {
-    if (v is! NetSessionCreate) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  List<int> get deviceToken => $_getN(0);
-  set deviceToken(List<int> v) {
+  @$pb.TagNumber(1)
+  $core.List<$core.int> get deviceToken => $_getN(0);
+  @$pb.TagNumber(1)
+  set deviceToken($core.List<$core.int> v) {
     $_setBytes(0, v);
   }
 
-  bool hasDeviceToken() => $_has(0);
+  @$pb.TagNumber(1)
+  $core.bool hasDeviceToken() => $_has(0);
+  @$pb.TagNumber(1)
   void clearDeviceToken() => clearField(1);
 
-  String get deviceName => $_getS(1, '');
-  set deviceName(String v) {
+  @$pb.TagNumber(2)
+  $core.String get deviceName => $_getSZ(1);
+  @$pb.TagNumber(2)
+  set deviceName($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasDeviceName() => $_has(1);
+  @$pb.TagNumber(2)
+  $core.bool hasDeviceName() => $_has(1);
+  @$pb.TagNumber(2)
   void clearDeviceName() => clearField(2);
 
-  String get deviceInfo => $_getS(2, '');
-  set deviceInfo(String v) {
+  @$pb.TagNumber(3)
+  $core.String get deviceInfo => $_getSZ(2);
+  @$pb.TagNumber(3)
+  set deviceInfo($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasDeviceInfo() => $_has(2);
+  @$pb.TagNumber(3)
+  $core.bool hasDeviceInfo() => $_has(2);
+  @$pb.TagNumber(3)
   void clearDeviceInfo() => clearField(3);
 
-  String get domain => $_getS(3, '');
-  set domain(String v) {
+  @$pb.TagNumber(7)
+  $core.String get domain => $_getSZ(3);
+  @$pb.TagNumber(7)
+  set domain($core.String v) {
     $_setString(3, v);
   }
 
-  bool hasDomain() => $_has(3);
+  @$pb.TagNumber(7)
+  $core.bool hasDomain() => $_has(3);
+  @$pb.TagNumber(7)
   void clearDomain() => clearField(7);
 
-  int get clientVersion => $_get(4, 0);
-  set clientVersion(int v) {
+  @$pb.TagNumber(8)
+  $core.int get clientVersion => $_getIZ(4);
+  @$pb.TagNumber(8)
+  set clientVersion($core.int v) {
     $_setSignedInt32(4, v);
   }
 
-  bool hasClientVersion() => $_has(4);
+  @$pb.TagNumber(8)
+  $core.bool hasClientVersion() => $_has(4);
+  @$pb.TagNumber(8)
   void clearClientVersion() => clearField(8);
 }
 
 class NetSession extends $pb.GeneratedMessage {
-  static final $pb.BuilderInfo _i =
-      new $pb.BuilderInfo('NetSession', package: const $pb.PackageName('inf'))
-        ..a<$10.DataAccount>(2, 'account', $pb.PbFieldType.OM,
-            $10.DataAccount.getDefault, $10.DataAccount.create)
-        ..aOS(3, 'refreshToken')
-        ..aOS(4, 'accessToken')
-        ..hasRequiredFields = false;
+  static final $pb.BuilderInfo _i = $pb.BuilderInfo(
+      const $core.bool.fromEnvironment('protobuf.omit_message_names')
+          ? ''
+          : 'NetSession',
+      package: const $pb.PackageName(
+          const $core.bool.fromEnvironment('protobuf.omit_message_names')
+              ? ''
+              : 'inf'),
+      createEmptyInstance: create)
+    ..aOM<$13.DataAccount>(2,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'account',
+        subBuilder: $13.DataAccount.create)
+    ..aOS(
+        3,
+        const $core.bool.fromEnvironment('protobuf.omit_field_names')
+            ? ''
+            : 'refreshToken')
+    ..aOS(4, const $core.bool.fromEnvironment('protobuf.omit_field_names') ? '' : 'accessToken')
+    ..hasRequiredFields = false;
 
-  NetSession() : super();
-  NetSession.fromBuffer(List<int> i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromBuffer(i, r);
-  NetSession.fromJson(String i,
-      [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY])
-      : super.fromJson(i, r);
-  NetSession clone() => new NetSession()..mergeFromMessage(this);
+  NetSession._() : super();
+  factory NetSession() => create();
+  factory NetSession.fromBuffer($core.List<$core.int> i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromBuffer(i, r);
+  factory NetSession.fromJson($core.String i,
+          [$pb.ExtensionRegistry r = $pb.ExtensionRegistry.EMPTY]) =>
+      create()..mergeFromJson(i, r);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.deepCopy] instead. '
+      'Will be removed in next major version')
+  NetSession clone() => NetSession()..mergeFromMessage(this);
+  @$core.Deprecated('Using this can add significant overhead to your binary. '
+      'Use [GeneratedMessageGenericExtensions.rebuild] instead. '
+      'Will be removed in next major version')
   NetSession copyWith(void Function(NetSession) updates) =>
-      super.copyWith((message) => updates(message as NetSession));
+      super.copyWith((message) =>
+          updates(message as NetSession)); // ignore: deprecated_member_use
   $pb.BuilderInfo get info_ => _i;
-  static NetSession create() => new NetSession();
+  @$core.pragma('dart2js:noInline')
+  static NetSession create() => NetSession._();
   NetSession createEmptyInstance() => create();
-  static $pb.PbList<NetSession> createRepeated() =>
-      new $pb.PbList<NetSession>();
-  static NetSession getDefault() => _defaultInstance ??= create()..freeze();
+  static $pb.PbList<NetSession> createRepeated() => $pb.PbList<NetSession>();
+  @$core.pragma('dart2js:noInline')
+  static NetSession getDefault() => _defaultInstance ??=
+      $pb.GeneratedMessage.$_defaultFor<NetSession>(create);
   static NetSession _defaultInstance;
-  static void $checkItem(NetSession v) {
-    if (v is! NetSession) $pb.checkItemFailed(v, _i.qualifiedMessageName);
-  }
 
-  $10.DataAccount get account => $_getN(0);
-  set account($10.DataAccount v) {
+  @$pb.TagNumber(2)
+  $13.DataAccount get account => $_getN(0);
+  @$pb.TagNumber(2)
+  set account($13.DataAccount v) {
     setField(2, v);
   }
 
-  bool hasAccount() => $_has(0);
+  @$pb.TagNumber(2)
+  $core.bool hasAccount() => $_has(0);
+  @$pb.TagNumber(2)
   void clearAccount() => clearField(2);
+  @$pb.TagNumber(2)
+  $13.DataAccount ensureAccount() => $_ensure(0);
 
-  String get refreshToken => $_getS(1, '');
-  set refreshToken(String v) {
+  @$pb.TagNumber(3)
+  $core.String get refreshToken => $_getSZ(1);
+  @$pb.TagNumber(3)
+  set refreshToken($core.String v) {
     $_setString(1, v);
   }
 
-  bool hasRefreshToken() => $_has(1);
+  @$pb.TagNumber(3)
+  $core.bool hasRefreshToken() => $_has(1);
+  @$pb.TagNumber(3)
   void clearRefreshToken() => clearField(3);
 
-  String get accessToken => $_getS(2, '');
-  set accessToken(String v) {
+  @$pb.TagNumber(4)
+  $core.String get accessToken => $_getSZ(2);
+  @$pb.TagNumber(4)
+  set accessToken($core.String v) {
     $_setString(2, v);
   }
 
-  bool hasAccessToken() => $_has(2);
+  @$pb.TagNumber(4)
+  $core.bool hasAccessToken() => $_has(2);
+  @$pb.TagNumber(4)
   void clearAccessToken() => clearField(4);
 }

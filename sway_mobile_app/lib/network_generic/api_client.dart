@@ -17,7 +17,7 @@ import 'package:sway_mobile_app/network_generic/api_explore.dart';
 import 'package:sway_mobile_app/network_generic/api_push.dart';
 import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
 import 'package:sway_mobile_app/network_mobile/mobile_notifications.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 export 'package:sway_mobile_app/network_generic/api.dart';
 

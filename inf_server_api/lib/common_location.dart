@@ -9,7 +9,7 @@ import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:geohash/geohash.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:s2geometry/s2geometry.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:http_client/console.dart' as http_client;

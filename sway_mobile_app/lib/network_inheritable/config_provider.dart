@@ -8,7 +8,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sway_mobile_app/network_mobile/config_downloader.dart';
 
-import 'package:inf_common/inf_common.dart' show ConfigData;
+import 'package:sway_common/inf_common.dart' show ConfigData;
 
 class ConfigProvider extends StatefulWidget {
   const ConfigProvider({

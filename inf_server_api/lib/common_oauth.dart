@@ -6,7 +6,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 
 import 'dart:convert';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:oauth1/oauth1.dart' as oauth1;
 import 'package:http/http.dart' as http;

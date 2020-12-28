@@ -16,7 +16,7 @@ import 'package:logging/logging.dart';
 
 import 'package:grpc/grpc.dart' as grpc;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class BackendExploreService extends BackendExploreServiceBase {
   final ConfigData config;
@@ -60,7 +60,8 @@ class BackendExploreService extends BackendExploreServiceBase {
       sessionId: request.senderAccount.sessionId,
     );
     devLog.finest(doc);
-    await elasticsearch.putDocument('offers', request.offer.offerId.toString(), doc);
+    await elasticsearch.putDocument(
+        'offers', request.offer.offerId.toString(), doc);
     final InsertOfferResponse response = InsertOfferResponse();
     return response;
   }
@@ -134,7 +135,8 @@ class BackendExploreService extends BackendExploreServiceBase {
         devLog.severe('Error parsing offer', error, stackTrace);
       }
       if (result != null) {
-        final ListOffersFromSenderResponse response = ListOffersFromSenderResponse();
+        final ListOffersFromSenderResponse response =
+            ListOffersFromSenderResponse();
         response.offer = result;
         yield response;
       }

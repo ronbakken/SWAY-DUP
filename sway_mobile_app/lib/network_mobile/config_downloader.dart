@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/services.dart' show ByteData, rootBundle;
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:pedantic/pedantic.dart';

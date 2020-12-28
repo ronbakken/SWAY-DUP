@@ -16,7 +16,7 @@ import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 const int kTokenUnknown = 0;
 const int kTokenFirebase = 1;
@@ -89,8 +89,8 @@ class BackendPushService extends BackendPushServiceBase {
       cached = _CachedAccount();
       final sqljocky.Results selectResults = await sql.prepareExecute(
         'SELECT `session_id`, `token_type`, `token`'
-            '  FROM `push_tokens`'
-            '  WHERE `account_id` = ?',
+        '  FROM `push_tokens`'
+        '  WHERE `account_id` = ?',
         <dynamic>[
           accountId,
         ],
@@ -112,7 +112,8 @@ class BackendPushService extends BackendPushServiceBase {
       for (Int64 sessionId in cached.sessionIds) {
         racingCached.sessionIds.add(sessionId);
       }
-      for (MapEntry<Int64, String> firebaseToken in cached.firebaseTokens.entries) {
+      for (MapEntry<Int64, String> firebaseToken
+          in cached.firebaseTokens.entries) {
         racingCached.firebaseTokens[firebaseToken.key] = firebaseToken.value;
       }
       return racingCached;
@@ -247,8 +248,8 @@ class BackendPushService extends BackendPushServiceBase {
     // Find if there's a previously set token
     final sqljocky.Results selectResults = await sql.prepareExecute(
       'SELECT `token_type`, `token`'
-          '  FROM `push_tokens`'
-          '  WHERE `session_id` = ?',
+      '  FROM `push_tokens`'
+      '  WHERE `session_id` = ?',
       <dynamic>[
         request.sessionId,
       ],
@@ -263,9 +264,9 @@ class BackendPushService extends BackendPushServiceBase {
     // Upsert the new token
     await sql.prepareExecute(
       'INSERT INTO `push_tokens`(`session_id`, `account_id`, `token_type`, `token`)'
-          '  VALUES (?, ?, ?, ?)'
-          '  ON DUPLICATE KEY'
-          '    UPDATE `account_id` = ?, `token_type` = ?, `token` = ?',
+      '  VALUES (?, ?, ?, ?)'
+      '  ON DUPLICATE KEY'
+      '    UPDATE `account_id` = ?, `token_type` = ?, `token` = ?',
       <dynamic>[
         request.sessionId,
         request.accountId,
@@ -284,8 +285,8 @@ class BackendPushService extends BackendPushServiceBase {
         oldToken == request.token.oldFirebaseToken) {
       await sql.prepareExecute(
         'UPDATE `push_tokens`'
-            '  SET `token_type` = ?, `token` = ?'
-            '  WHERE `token_type` = ? AND `token` = ?',
+        '  SET `token_type` = ?, `token` = ?'
+        '  WHERE `token_type` = ? AND `token` = ?',
         <dynamic>[
           kTokenFirebase,
           request.token,
@@ -373,9 +374,9 @@ class BackendPushService extends BackendPushServiceBase {
     if (!cached.sessionIds.contains(auth.sessionId)) {
       await sql.prepareExecute(
         'INSERT INTO `push_tokens`(`session_id`, `account_id`)'
-            '  VALUES (?, ?)'
-            '  ON DUPLICATE KEY'
-            '    UPDATE `account_id` = ?',
+        '  VALUES (?, ?)'
+        '  ON DUPLICATE KEY'
+        '    UPDATE `account_id` = ?',
         <dynamic>[
           auth.sessionId,
           auth.accountId,

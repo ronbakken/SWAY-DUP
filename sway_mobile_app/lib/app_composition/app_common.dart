@@ -31,7 +31,7 @@ import 'package:sway_mobile_app/widgets/network_status.dart';
 import 'package:sway_mobile_app/widgets/offers_showcase.dart';
 import 'package:sway_mobile_app/widgets/progress_dialog.dart';
 import 'package:sway_mobile_app/ui/main/offer_list_tile.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/screens/debug_account.dart';
 import 'package:sway_mobile_app/screens/haggle_view.dart';
 import 'package:sway_mobile_app/screens/profile_view.dart';

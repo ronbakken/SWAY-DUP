@@ -15,7 +15,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 class OffersMap extends StatefulWidget {
   const OffersMap({

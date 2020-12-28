@@ -16,7 +16,7 @@ import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 import 'package:smooth_star_rating/smooth_star_rating.dart';
 
 import 'package:sway_mobile_app/widgets/progress_dialog.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/widgets/image_uploader.dart';
 import 'package:sway_mobile_app/widgets/network_status.dart';
 import 'package:logging/logging.dart';

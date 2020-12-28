@@ -18,7 +18,7 @@ import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class ApiSessionService extends ApiSessionServiceBase {
   final ConfigData config;

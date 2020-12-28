@@ -1,6 +1,7 @@
 #!/bin/sh
 set -x
 cd "$DIR"
+exit # disabled
 git pull
 
 # pub global activate protoc_plugin

@@ -15,7 +15,7 @@ import 'package:flutter/material.dart';
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import 'package:sway_mobile_app/utility/ensure_visible_when_focused.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 
 import 'package:sway_mobile_app/widgets/image_uploader.dart';
 

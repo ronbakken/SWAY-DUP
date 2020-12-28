@@ -18,7 +18,7 @@ import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 import 'package:http/http.dart' as http;
 import 'package:http_client/console.dart' as http_client;
 
-import 'package:inf_common/inf_backend.dart';
+import 'package:sway_common/inf_backend.dart';
 
 class ApiProposalService extends ApiProposalServiceBase {
   final ConfigData config;

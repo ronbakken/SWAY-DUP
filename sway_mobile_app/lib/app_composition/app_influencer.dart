@@ -10,7 +10,7 @@ import 'package:flutter/widgets.dart';
 import 'package:sway_mobile_app/app_composition/app_common.dart';
 import 'package:sway_mobile_app/ui/offer_views/offer_details_page.dart';
 
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 

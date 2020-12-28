@@ -5,7 +5,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 */
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
 // TODO: This should all just come from a single call to Elasticsearch perhaps
@@ -101,9 +101,9 @@ Future<DataLocation> fetchLocationSummaryFromSql(
       'SELECT ' +
           (detail ? '`detail`' : '`approximate`') +
           ', ' // 0 1
-          '`latitude`, `longitude` ' // 2 3
-          'FROM `locations` '
-          'WHERE `location_id` = ? AND `account_id` = ?',
+              '`latitude`, `longitude` ' // 2 3
+              'FROM `locations` '
+              'WHERE `location_id` = ? AND `account_id` = ?',
       <dynamic>[locationId, accountId]);
   DataLocation location;
   await for (sqljocky.Row row in selectResults) {

@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 import 'package:grpc/grpc.dart' as grpc;
 

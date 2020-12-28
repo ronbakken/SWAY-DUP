@@ -15,7 +15,7 @@ import 'package:sway_mobile_app/app_composition/app_switch.dart';
 import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/network_stack.dart';
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 // import 'package:sway_mobile_app/utility/rebuild_tracker.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 

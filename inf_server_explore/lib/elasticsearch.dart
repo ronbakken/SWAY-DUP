@@ -9,7 +9,7 @@ import 'dart:core';
 import 'dart:io';
 
 import 'package:http/http.dart' as http;
-import 'package:inf_common/inf_common.dart';
+import 'package:sway_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
 class Elasticsearch {
