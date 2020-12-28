@@ -21,8 +21,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:path_provider/path_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-export 'package:inf/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+export 'package:sway_mobile_app/network_generic/multi_account_store.dart';
 
 class _LocalAccountDataImpl implements LocalAccountData {
   @override

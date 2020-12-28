@@ -7,10 +7,10 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
-import 'package:inf/widgets/profile_avatar.dart';
+import 'package:sway_mobile_app/widgets/profile_avatar.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/styling_constants.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:sway_mobile_app/styling_constants.dart';
+import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 
 class ProposalCard extends StatelessWidget {
   final DataAccount account;

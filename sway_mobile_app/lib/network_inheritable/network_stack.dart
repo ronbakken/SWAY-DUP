@@ -24,11 +24,11 @@ Generic:
 */
 
 import 'package:flutter/widgets.dart';
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/cross_account_navigation.dart';
+import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:inf_common/inf_common.dart';
 
 class NetworkStack extends StatelessWidget {

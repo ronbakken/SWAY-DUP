@@ -6,15 +6,15 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
-import 'package:inf/screens_loading/loading_network.dart';
-import 'package:inf/app_composition/app_onboarding.dart';
-import 'package:inf/app_composition/app_business.dart';
-import 'package:inf/app_composition/app_influencer.dart';
-import 'package:inf/screens/debug_account.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/screens_loading/loading_network.dart';
+import 'package:sway_mobile_app/app_composition/app_onboarding.dart';
+import 'package:sway_mobile_app/app_composition/app_business.dart';
+import 'package:sway_mobile_app/app_composition/app_influencer.dart';
+import 'package:sway_mobile_app/screens/debug_account.dart';
 
 // Switches between app home depending on the network state
 class AppSwitch extends StatefulWidget {

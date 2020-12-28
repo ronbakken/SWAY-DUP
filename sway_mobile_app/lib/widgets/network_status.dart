@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 
-import 'package:inf/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:logging/logging.dart';
 
 class NetworkStatus extends StatelessWidget {

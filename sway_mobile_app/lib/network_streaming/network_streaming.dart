@@ -8,10 +8,10 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/network_generic/cross_account_navigator.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_mobile/config_downloader.dart';
+import 'package:sway_mobile_app/network_generic/cross_account_navigator.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_generic/api_client.dart';
+import 'package:sway_mobile_app/network_mobile/config_downloader.dart';
 import 'package:inf_common/inf_common.dart';
 
 class NetworkStreaming {

@@ -1,15 +1,16 @@
 import 'package:decimal/decimal.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
-import 'package:inf/app/theme.dart';
-import 'package:inf/ui/widgets/curved_box.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/inf_memory_image.dart';
-import 'package:inf/ui/widgets/inf_page_indicator.dart';
-import 'package:inf/ui/widgets/bottom_sheet.dart' as inf_bottom_sheet;
-import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:sway_mobile_app/app/assets.dart';
+import 'package:sway_mobile_app/app/theme.dart';
+import 'package:sway_mobile_app/ui/widgets/curved_box.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_asset_image.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_image.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_memory_image.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_page_indicator.dart';
+import 'package:sway_mobile_app/ui/widgets/bottom_sheet.dart'
+    as inf_bottom_sheet;
+import 'package:sway_mobile_app/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:intl/intl.dart';
 

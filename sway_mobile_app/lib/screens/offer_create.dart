@@ -14,12 +14,12 @@ import 'package:flutter/material.dart';
 
 // import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-import 'package:inf/utility/ensure_visible_when_focused.dart';
+import 'package:sway_mobile_app/utility/ensure_visible_when_focused.dart';
 import 'package:inf_common/inf_common.dart';
 
-import 'package:inf/widgets/image_uploader.dart';
+import 'package:sway_mobile_app/widgets/image_uploader.dart';
 
-import 'package:inf/widgets/network_status.dart';
+import 'package:sway_mobile_app/widgets/network_status.dart';
 
 // https://leonid.shevtsov.me/post/demystifying-s3-browser-upload/
 // https://github.com/gjersvik/awsdart // Prepare a signature on the server
@@ -162,8 +162,8 @@ class _OfferCreateState extends State<OfferCreate> {
                     validator: (val) =>
                         val.trim().isEmpty ? 'Missing title' : null,
                     onSaved: (val) => setState(() {
-                          _title = val;
-                        }),
+                      _title = val;
+                    }),
                   ),
                 ),
                 EnsureVisibleWhenFocused(
@@ -177,8 +177,8 @@ class _OfferCreateState extends State<OfferCreate> {
                         ? 'Description must be longer'
                         : null,
                     onSaved: (val) => setState(() {
-                          _description = val;
-                        }),
+                      _description = val;
+                    }),
                   ),
                 ),
                 EnsureVisibleWhenFocused(
@@ -192,8 +192,8 @@ class _OfferCreateState extends State<OfferCreate> {
                         ? 'Deliverables must be filled in'
                         : null,
                     onSaved: (val) => setState(() {
-                          _deliverables = val;
-                        }),
+                      _deliverables = val;
+                    }),
                   ),
                 ),
                 EnsureVisibleWhenFocused(
@@ -207,8 +207,8 @@ class _OfferCreateState extends State<OfferCreate> {
                         ? 'Reward must be filled in'
                         : null,
                     onSaved: (val) => setState(() {
-                          _reward = val;
-                        }),
+                      _reward = val;
+                    }),
                   ),
                 ),
               ]),

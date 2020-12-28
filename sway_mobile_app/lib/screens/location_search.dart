@@ -5,7 +5,7 @@ Author: Kenneth Amiel Santos <kennethamiel.santos@gmail.com>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/screens/experiment_files/forward_geocoding.dart';
+import 'package:sway_mobile_app/screens/experiment_files/forward_geocoding.dart';
 
 class LocationSearch extends SearchDelegate<String> {
   List<String> placeNameList = List<String>();
@@ -86,12 +86,12 @@ class LocationSearch extends SearchDelegate<String> {
     // Return a list of items
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
-            onTap: () {
-              close(context, searchList[index]);
-            },
-            leading: leading,
-            title: Text(searchList[index]),
-          ),
+        onTap: () {
+          close(context, searchList[index]);
+        },
+        leading: leading,
+        title: Text(searchList[index]),
+      ),
       itemCount: searchList.length,
     );
   }

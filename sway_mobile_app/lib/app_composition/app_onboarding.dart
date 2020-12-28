@@ -8,18 +8,18 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:inf/app_composition/app_base.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/screens/account_switch.dart';
-import 'package:inf/ui/welcome/welcome_page.dart';
+import 'package:sway_mobile_app/app_composition/app_base.dart';
+import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
+import 'package:sway_mobile_app/screens/account_switch.dart';
+import 'package:sway_mobile_app/ui/welcome/welcome_page.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 
-import 'package:inf/widgets/oauth_scaffold.dart';
-import 'package:inf/screens_onboarding/onboarding_selection.dart';
-import 'package:inf/screens_onboarding/onboarding_social.dart';
+import 'package:sway_mobile_app/widgets/oauth_scaffold.dart';
+import 'package:sway_mobile_app/screens_onboarding/onboarding_selection.dart';
+import 'package:sway_mobile_app/screens_onboarding/onboarding_social.dart';
 
 // Onboarding sequence
 class AppOnboarding extends StatefulWidget {

@@ -15,10 +15,10 @@ import 'dart:typed_data';
 import 'package:fixnum/fixnum.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_mobile/multi_account_store_impl.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:sway_mobile_app/network_mobile/multi_account_store_impl.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_client.dart';
 
-export 'package:inf/network_generic/multi_account_client.dart';
+export 'package:sway_mobile_app/network_generic/multi_account_client.dart';
 
 abstract class MultiAccountStore implements MultiAccountClient {
   factory MultiAccountStore(String startupDomain) {

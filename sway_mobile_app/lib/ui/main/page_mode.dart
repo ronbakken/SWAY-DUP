@@ -1,4 +1,4 @@
-import 'package:inf/app/assets.dart';
+import 'package:sway_mobile_app/app/assets.dart';
 
 class MainPageMode {
   static const browse = const MainPageMode._(AppIcons.browse, 'EXPLORE');

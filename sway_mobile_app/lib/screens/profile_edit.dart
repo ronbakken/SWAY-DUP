@@ -10,9 +10,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/widgets/image_uploader.dart';
+import 'package:sway_mobile_app/widgets/image_uploader.dart';
 
-import 'package:inf/widgets/network_status.dart';
+import 'package:sway_mobile_app/widgets/network_status.dart';
 
 // TODO: Warn when unsaved changes
 

@@ -14,7 +14,7 @@ import 'package:latlong/latlong.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 import 'package:inf_common/inf_common.dart';
 
 class OffersMapOnly extends StatefulWidget {

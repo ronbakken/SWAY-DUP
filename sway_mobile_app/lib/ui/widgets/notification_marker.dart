@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/theme.dart';
+import 'package:sway_mobile_app/app/theme.dart';
 
 class NotificationMarker extends StatelessWidget {
   const NotificationMarker({

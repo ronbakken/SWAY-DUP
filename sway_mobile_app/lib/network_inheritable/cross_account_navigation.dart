@@ -5,10 +5,10 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_generic/cross_account_navigator.dart';
+import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
+import 'package:sway_mobile_app/network_generic/cross_account_navigator.dart';
 
-export 'package:inf/network_generic/cross_account_navigator.dart';
+export 'package:sway_mobile_app/network_generic/cross_account_navigator.dart';
 
 class CrossAccountNavigation extends StatefulWidget {
   final Widget child;

@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_mobile/config_downloader.dart';
+import 'package:sway_mobile_app/network_mobile/config_downloader.dart';
 
 import 'package:inf_common/inf_common.dart' show ConfigData;
 

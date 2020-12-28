@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/theme.dart';
-import 'package:inf/ui/widgets/inf_image.dart';
-import 'package:inf/ui/widgets/white_border_circle_avatar.dart';
+import 'package:sway_mobile_app/app/theme.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_image.dart';
+import 'package:sway_mobile_app/ui/widgets/white_border_circle_avatar.dart';
 import 'package:inf_common/inf_common.dart';
 
 class BrowseCarouselItem extends StatelessWidget {

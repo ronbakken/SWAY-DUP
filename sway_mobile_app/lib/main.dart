@@ -7,11 +7,11 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show ByteData, rootBundle;
-import 'package:inf/network_mobile/config_downloader.dart';
+import 'package:sway_mobile_app/network_mobile/config_downloader.dart';
 
 // WORKAROUND: https://github.com/dart-lang/sdk/issues/33076
-import 'package:inf/prototype.dart' show Prototype;
-import 'package:inf/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/prototype.dart' show Prototype;
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 

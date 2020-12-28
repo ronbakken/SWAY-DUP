@@ -1,6 +1,6 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/ui/offer_views/offer_post_tile.dart';
+import 'package:sway_mobile_app/ui/offer_views/offer_post_tile.dart';
 import 'package:inf_common/inf_common.dart';
 
 class BrowseListView extends StatelessWidget {

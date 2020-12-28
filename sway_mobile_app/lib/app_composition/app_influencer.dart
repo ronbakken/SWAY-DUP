@@ -7,17 +7,17 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:inf/app_composition/app_common.dart';
-import 'package:inf/ui/offer_views/offer_details_page.dart';
+import 'package:sway_mobile_app/app_composition/app_common.dart';
+import 'package:sway_mobile_app/ui/offer_views/offer_details_page.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 
-import 'package:inf/utility/page_transition.dart';
-import 'package:inf/widgets/progress_dialog.dart';
+import 'package:sway_mobile_app/utility/page_transition.dart';
+import 'package:sway_mobile_app/widgets/progress_dialog.dart';
 
-import 'package:inf/screens/search_page_common.dart';
+import 'package:sway_mobile_app/screens/search_page_common.dart';
 import 'package:logging/logging.dart';
 
 // Influencer user

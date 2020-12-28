@@ -1,17 +1,17 @@
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:inf/app/theme.dart';
-// import 'package:inf/domain/domain.dart';
-// import 'package:inf/ui/add_offer/add_business_offer_page.dart';
-// import 'package:inf/ui/main/activities_section.dart';
-import 'package:inf/ui/main/bottom_nav.dart';
-// import 'package:inf/ui/main/browse_section.dart';
-// import 'package:inf/ui/main/menu_drawer.dart';
-import 'package:inf/ui/main/page_mode.dart';
-// import 'package:inf/ui/widgets/auth_state_listener_mixin.dart';
-// import 'package:inf/ui/widgets/page_widget.dart';
-import 'package:inf/ui/widgets/routes.dart';
+import 'package:sway_mobile_app/app/theme.dart';
+// import 'package:sway_mobile_app/domain/domain.dart';
+// import 'package:sway_mobile_app/ui/add_offer/add_business_offer_page.dart';
+// import 'package:sway_mobile_app/ui/main/activities_section.dart';
+import 'package:sway_mobile_app/ui/main/bottom_nav.dart';
+// import 'package:sway_mobile_app/ui/main/browse_section.dart';
+// import 'package:sway_mobile_app/ui/main/menu_drawer.dart';
+import 'package:sway_mobile_app/ui/main/page_mode.dart';
+// import 'package:sway_mobile_app/ui/widgets/auth_state_listener_mixin.dart';
+// import 'package:sway_mobile_app/ui/widgets/page_widget.dart';
+import 'package:sway_mobile_app/ui/widgets/routes.dart';
 import 'package:inf_common/inf_common.dart';
 
 const kBottomNavHeight = 72.0;

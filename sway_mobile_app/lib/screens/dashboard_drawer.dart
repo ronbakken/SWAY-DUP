@@ -7,7 +7,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 
 import 'package:inf_common/inf_common.dart';
 

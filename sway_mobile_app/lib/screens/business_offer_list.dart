@@ -8,7 +8,7 @@ import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/styling_constants.dart';
+import 'package:sway_mobile_app/styling_constants.dart';
 
 import 'package:inf_common/inf_common.dart';
 

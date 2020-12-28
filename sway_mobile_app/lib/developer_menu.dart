@@ -10,26 +10,26 @@ import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/multi_account_selection.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/screens/business_offer_list.dart';
-import 'package:inf/screens/dashboard_common.dart';
-import 'package:inf/screens/debug_account.dart';
-import 'package:inf/screens/experiment_files/geocoding_test.dart';
-import 'package:inf/screens/location_search.dart';
-import 'package:inf/screens/location_selection.dart';
-import 'package:inf/screens/offer_create.dart';
-import 'package:inf/screens/offer_view.dart';
-import 'package:inf/screens/profile_edit.dart';
-import 'package:inf/screens/profile_view.dart';
-import 'package:inf/screens/search_button.dart';
-import 'package:inf/screens/search_page.dart';
-import 'package:inf/screens_onboarding/onboarding_selection.dart';
-import 'package:inf/screens_onboarding/onboarding_social.dart';
-import 'package:inf/utility/page_transition.dart';
+import 'package:sway_mobile_app/screens/business_offer_list.dart';
+import 'package:sway_mobile_app/screens/dashboard_common.dart';
+import 'package:sway_mobile_app/screens/debug_account.dart';
+import 'package:sway_mobile_app/screens/experiment_files/geocoding_test.dart';
+import 'package:sway_mobile_app/screens/location_search.dart';
+import 'package:sway_mobile_app/screens/location_selection.dart';
+import 'package:sway_mobile_app/screens/offer_create.dart';
+import 'package:sway_mobile_app/screens/offer_view.dart';
+import 'package:sway_mobile_app/screens/profile_edit.dart';
+import 'package:sway_mobile_app/screens/profile_view.dart';
+import 'package:sway_mobile_app/screens/search_button.dart';
+import 'package:sway_mobile_app/screens/search_page.dart';
+import 'package:sway_mobile_app/screens_onboarding/onboarding_selection.dart';
+import 'package:sway_mobile_app/screens_onboarding/onboarding_social.dart';
+import 'package:sway_mobile_app/utility/page_transition.dart';
 
 class DeveloperMenu extends StatefulWidget {
   final Function() onExitDevelopmentMode;
@@ -491,7 +491,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                     onMakeAnOffer: () {},
                     onNavigateProfile: () {},
                     map: const Text(
-                            '/* Map */') /*NearbyCommon(
+                        '/* Map */') /*NearbyCommon(
                       searchHint: "Find nearby influencers...",
                       searchTooltip: "Search for nearby influencers",
                       onSearchPressed: (TextEditingController searchQuery) {
@@ -528,7 +528,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             ));
                       },
                     )*/
-                        ,
+                    ,
                     offersCurrent: OfferList(
                       offers: [
                         Int64(1),

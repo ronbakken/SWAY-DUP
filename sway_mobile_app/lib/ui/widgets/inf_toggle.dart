@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
-import 'package:inf/app/theme.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
+import 'package:sway_mobile_app/app/assets.dart';
+import 'package:sway_mobile_app/app/theme.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_asset_image.dart';
 
 // Is sued in BrowseMode to switch between map/ ListView
 

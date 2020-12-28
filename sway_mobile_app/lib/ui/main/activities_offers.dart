@@ -1,10 +1,10 @@
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/app/theme.dart';
-import 'package:inf/ui/main/offer_list_tile.dart';
-import 'package:inf/ui/main/main_page.dart';
-import 'package:inf/ui/offer_views/offer_details_page.dart';
-import 'package:inf/ui/widgets/notification_marker.dart';
+import 'package:sway_mobile_app/app/theme.dart';
+import 'package:sway_mobile_app/ui/main/offer_list_tile.dart';
+import 'package:sway_mobile_app/ui/main/main_page.dart';
+import 'package:sway_mobile_app/ui/offer_views/offer_details_page.dart';
+import 'package:sway_mobile_app/ui/widgets/notification_marker.dart';
 import 'package:inf_common/inf_common.dart';
 
 class ActivitiesOffers extends StatefulWidget {

@@ -19,17 +19,17 @@ import 'dart:async';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:inf/network_generic/api_account.dart';
-import 'package:inf/network_generic/api_client.dart';
+import 'package:sway_mobile_app/network_generic/api_account.dart';
+import 'package:sway_mobile_app/network_generic/api_client.dart';
 
-import 'package:inf/network_inheritable/cross_account_navigation.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_generic/api.dart';
+import 'package:sway_mobile_app/network_inheritable/cross_account_navigation.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_generic/api.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:pedantic/pedantic.dart';
 
-export 'package:inf/network_generic/api.dart';
+export 'package:sway_mobile_app/network_generic/api.dart';
 
 class ApiProvider extends StatelessWidget {
   const ApiProvider({

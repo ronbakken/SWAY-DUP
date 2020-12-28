@@ -9,10 +9,10 @@ import 'dart:math';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/widgets/network_status.dart';
+import 'package:sway_mobile_app/widgets/network_status.dart';
 
 // TODO: Animate transitions between the three windows
 

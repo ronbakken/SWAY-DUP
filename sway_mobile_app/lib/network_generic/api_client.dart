@@ -7,19 +7,19 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/api.dart';
-import 'package:inf/network_generic/api_internals.dart';
-import 'package:inf/network_generic/api_account.dart';
-import 'package:inf/network_generic/api_profiles.dart';
-import 'package:inf/network_generic/api_offers.dart';
-import 'package:inf/network_generic/api_proposals.dart';
-import 'package:inf/network_generic/api_explore.dart';
-import 'package:inf/network_generic/api_push.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_mobile/mobile_notifications.dart';
+import 'package:sway_mobile_app/network_generic/api.dart';
+import 'package:sway_mobile_app/network_generic/api_internals.dart';
+import 'package:sway_mobile_app/network_generic/api_account.dart';
+import 'package:sway_mobile_app/network_generic/api_profiles.dart';
+import 'package:sway_mobile_app/network_generic/api_offers.dart';
+import 'package:sway_mobile_app/network_generic/api_proposals.dart';
+import 'package:sway_mobile_app/network_generic/api_explore.dart';
+import 'package:sway_mobile_app/network_generic/api_push.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_mobile/mobile_notifications.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/api.dart';
+export 'package:sway_mobile_app/network_generic/api.dart';
 
 // TODO: Reassemble should re-merge all protobuf, in case protobuf schema changed
 

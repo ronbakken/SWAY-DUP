@@ -10,7 +10,7 @@ import 'dart:math';
 import 'dart:typed_data';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/api_account.dart';
+import 'package:sway_mobile_app/network_generic/api_account.dart';
 import 'package:logging/logging.dart';
 import 'package:mime/mime.dart';
 import 'package:isolate/isolate.dart';
@@ -22,14 +22,14 @@ import 'package:grpc/grpc.dart' as grpc;
 import 'package:pedantic/pedantic.dart';
 import 'package:synchronized/synchronized.dart';
 
-import 'package:inf/network_generic/api_client.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_generic/api.dart';
-import 'package:inf/network_generic/api_internals.dart';
+import 'package:sway_mobile_app/network_generic/api_client.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_generic/api.dart';
+import 'package:sway_mobile_app/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
 
-export 'package:inf/network_generic/multi_account_client.dart';
-export 'package:inf/network_generic/api.dart';
+export 'package:sway_mobile_app/network_generic/multi_account_client.dart';
+export 'package:sway_mobile_app/network_generic/api.dart';
 
 abstract class ApiAccount implements Api, ApiInternals {
   final Lock _lock = Lock();

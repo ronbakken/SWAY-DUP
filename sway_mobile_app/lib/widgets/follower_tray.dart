@@ -8,7 +8,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-import 'package:inf/widgets/follower_count.dart';
+import 'package:sway_mobile_app/widgets/follower_count.dart';
 import 'package:inf_common/inf_common.dart';
 
 class FollowerTray extends StatelessWidget {

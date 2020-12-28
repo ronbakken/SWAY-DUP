@@ -8,8 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
 
-import 'package:inf/network_inheritable/config_provider.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:inf_common/inf_common.dart';
 
 // Fullscreen widget while the network is still loading. Shows a swirly progress thingy, and a sad face if the network is offline

@@ -3,11 +3,11 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:inf/app/assets.dart';
-import 'package:inf/app/theme.dart';
-// import 'package:inf/ui/welcome/onboarding_page.dart';
-import 'package:inf/ui/widgets/inf_asset_image.dart';
-import 'package:inf/ui/widgets/inf_stadium_button.dart';
+import 'package:sway_mobile_app/app/assets.dart';
+import 'package:sway_mobile_app/app/theme.dart';
+// import 'package:sway_mobile_app/ui/welcome/onboarding_page.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_asset_image.dart';
+import 'package:sway_mobile_app/ui/widgets/inf_stadium_button.dart';
 
 // Prototype: onboarding_selection.dart
 

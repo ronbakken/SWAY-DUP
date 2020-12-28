@@ -5,9 +5,9 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'package:flutter/material.dart';
-import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_client.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/widgets/blurred_network_image.dart';
+import 'package:sway_mobile_app/widgets/blurred_network_image.dart';
 
 class ProfileAvatar extends StatelessWidget {
   ProfileAvatar({

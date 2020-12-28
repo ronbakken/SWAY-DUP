@@ -7,16 +7,16 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
-import 'package:inf/app/assets.dart';
-import 'package:inf/app/theme.dart';
+import 'package:sway_mobile_app/app/assets.dart';
+import 'package:sway_mobile_app/app/theme.dart';
 
-import 'package:inf/developer_menu.dart';
-import 'package:inf/app_composition/app_switch.dart';
-import 'package:inf/network_generic/multi_account_store.dart';
-import 'package:inf/network_inheritable/api_provider.dart';
-import 'package:inf/network_inheritable/network_stack.dart';
+import 'package:sway_mobile_app/developer_menu.dart';
+import 'package:sway_mobile_app/app_composition/app_switch.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
+import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
+import 'package:sway_mobile_app/network_inheritable/network_stack.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:inf/utility/rebuild_tracker.dart';
+import 'package:sway_mobile_app/utility/rebuild_tracker.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 
 class Prototype extends StatefulWidget {

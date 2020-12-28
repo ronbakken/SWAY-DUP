@@ -21,10 +21,10 @@ Rationale for requiring cross domain support is handling incoming notifications 
 
 import 'dart:async';
 
-import 'package:inf/network_generic/multi_account_client.dart';
+import 'package:sway_mobile_app/network_generic/multi_account_client.dart';
 import 'package:flutter/widgets.dart';
 
-export 'package:inf/network_generic/multi_account_client.dart';
+export 'package:sway_mobile_app/network_generic/multi_account_client.dart';
 
 class MultiAccountSelection extends StatefulWidget {
   final MultiAccountClient client;

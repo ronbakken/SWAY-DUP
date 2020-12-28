@@ -7,8 +7,8 @@ Author: Jan Boon <kaetemi@no-break.space>
 import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
-import 'package:inf/network_generic/api.dart';
-import 'package:inf/network_generic/api_internals.dart';
+import 'package:sway_mobile_app/network_generic/api.dart';
+import 'package:sway_mobile_app/network_generic/api_internals.dart';
 import 'package:inf_common/inf_common.dart';
 import 'package:pedantic/pedantic.dart';
 import 'package:synchronized/synchronized.dart';
