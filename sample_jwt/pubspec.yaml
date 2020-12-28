@@ -11,8 +11,9 @@ environment:
 dependencies:
   sway_common:
     path: ../sway_common/
-  grpc: ^1.0.0
-  protobuf: "0.11.0" # Must rebuild protos if mismatching with inf_common
+  grpc: ^2.0.0
+  # Must rebuild protos if mismatching with sway_common
+  protobuf: "1.1.0"
   logging: ^0.11.3+2
 
 dev_dependencies:

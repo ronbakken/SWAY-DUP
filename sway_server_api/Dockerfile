@@ -3,7 +3,7 @@ FROM google/dart
 WORKDIR /app
 
 RUN mkdir /sway_common
-ADD scripts_linux/dart/pubspec.yaml /app/pubspec.yaml
+ADD sway_server_dart/pubspec.yaml /app/pubspec.yaml
 ADD sway_common/pubspec.yaml /sway_common/pubspec.yaml
 RUN pub get
 RUN rm /app/pubspec.yaml

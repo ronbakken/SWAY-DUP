@@ -1,7 +1,7 @@
 version: '3.3'
 services:
   sample_jwt_envoy:
-    image: envoyproxy/envoy:latest
+    image: envoyproxy/envoy:v1.12-latest
     network_mode: host
     # ports:
     # - "127.0.0.1:7901:7901"
@@ -9,9 +9,9 @@ services:
     restart: always
     volumes:
     - ./envoy.yaml:/etc/envoy/envoy.yaml
-  inf_server_jwt:
+  sway_server_jwt:
     build:
       context: ../..
-      dockerfile: inf_server_jwt/Dockerfile
+      dockerfile: sway_server_jwt/Dockerfile
     network_mode: host
     restart: always

@@ -7,6 +7,7 @@ services:
       - inf_server_push
       - inf_server_explore
       - inf_server_api
+    # v1.12-latest
     image: envoyproxy/envoy:13f2665ed0bdd2901eb071e2ff38b53fa5c0bbea
     network_mode: host
     restart: always

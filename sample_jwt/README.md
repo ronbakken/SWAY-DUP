@@ -17,7 +17,7 @@ pub run test
 
 ## Generating keys
 
-From the `inf_server_jwt` directory.
+From the `sway_server_jwt` directory.
 
 ```
 openssl genrsa -out private.pem 2048

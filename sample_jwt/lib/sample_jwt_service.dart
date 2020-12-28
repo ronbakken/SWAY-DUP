@@ -80,8 +80,8 @@ class SampleJwtService extends SampleJwtServiceBase {
     if (!call.clientMetadata.containsKey('x-jwt-payload')) {
       throw grpc.GrpcError.unauthenticated('Payload not decoded by proxy.');
     }
-    final dynamic payload = json.decode(
-        utf8.decode(base64.decode(call.clientMetadata['x-jwt-payload'])));
+    final dynamic payload = json.decode(utf8.decode(
+        base64.decode(base64.normalize(call.clientMetadata['x-jwt-payload']))));
     if (payload['ps'] == null) {
       throw grpc.GrpcError.permissionDenied('Payload string missing.');
     }

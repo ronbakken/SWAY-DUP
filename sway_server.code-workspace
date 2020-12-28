@@ -33,6 +33,10 @@
 			"path": "docker_local"
 		},
 		{
+			"name": "sway_server_dart",
+			"path": "sway_server_dart"
+		},
+		{
 			"name": "sway_server_api",
 			"path": "sway_server_api"
 		},
