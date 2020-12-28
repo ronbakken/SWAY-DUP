@@ -20,7 +20,7 @@ class RebuildTracker extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("[RebuildTracker] $message");
+    print('[RebuildTracker] $message');
     return child;
   }
 }

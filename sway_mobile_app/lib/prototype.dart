@@ -16,7 +16,7 @@ import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/network_stack.dart';
 import 'package:inf_common/inf_common.dart';
-import 'package:sway_mobile_app/utility/rebuild_tracker.dart';
+// import 'package:sway_mobile_app/utility/rebuild_tracker.dart';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 
 class Prototype extends StatefulWidget {
@@ -57,7 +57,7 @@ class _PrototypeState extends State<Prototype> {
     bool dark = network.account.accountType == AccountType.business ||
         network.account.accountId == 0;
     */
-    bool dark = true;
+    const bool dark = true;
     // Custom slate green theme
     // Set base colors
     ThemeData theme = dark
@@ -78,22 +78,24 @@ class _PrototypeState extends State<Prototype> {
       // Adjust colors
       theme = theme.copyWith(
         // Generate these values on https://material.io/color/!
-        primaryColor: Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-        primaryColorLight: Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: Color.lerp(Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
-            Color.fromARGB(0xff, 0x80, 0x94, 0x86), 0.125),
-        buttonColor: Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColor: const Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: const Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: Color.lerp(
+            const Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+            const Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+            0.125),
+        buttonColor: const Color.fromARGB(0xff, 0x53, 0x66, 0x59),
         // Double the value of primaryColor // Generate A200 on http://mcg.mbitson.com/!
-        accentColor: Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
+        accentColor: const Color.fromARGB(0xff, 0xa8, 0xcd, 0xb3), // 52FF88,
         // Grayscale of primaryColor
-        unselectedWidgetColor: Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
+        unselectedWidgetColor: const Color.fromARGB(0xff, 0x5D, 0x5D, 0x5D),
       );
     } else {
       theme = theme.copyWith(
         // Generate these values on https://material.io/color/!
-        primaryColor: Color.fromARGB(0xff, 0x53, 0x66, 0x59),
-        primaryColorLight: Color.fromARGB(0xff, 0x80, 0x94, 0x86),
-        primaryColorDark: Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
+        primaryColor: const Color.fromARGB(0xff, 0x53, 0x66, 0x59),
+        primaryColorLight: const Color.fromARGB(0xff, 0x80, 0x94, 0x86),
+        primaryColorDark: const Color.fromARGB(0xff, 0x2a, 0x3c, 0x30),
       );
     }
     /*
@@ -170,7 +172,7 @@ class _PrototypeState extends State<Prototype> {
       accentColorBrightness: Brightness.dark,
       fontFamily: AppFonts.mavenPro,
     );
-    Api network = ApiProvider.of(context);
+    final Api network = ApiProvider.of(context);
     theme = theme.copyWith(
       primaryColor: AppTheme.blue, // AppTheme.blackTwo,
       backgroundColor: AppTheme.darkGrey,
@@ -209,17 +211,17 @@ class _PrototypeState extends State<Prototype> {
 
   Widget _supportTransparentNavOnAndroid(BuildContext context, Widget child) {
     if (defaultTargetPlatform == TargetPlatform.android) {
-      final mediaQuery = MediaQueryData.fromWindow(ui.window);
-      final bottomInset = mediaQuery.viewInsets.bottom;
+      final MediaQueryData mediaQuery = MediaQueryData.fromWindow(ui.window);
+      final double bottomInset = mediaQuery.viewInsets.bottom;
       // Nexus 5X = 2.625  text = 1.0
       // iPhone XR = 2.0 text = 1.0
       return MediaQuery(
         data: mediaQuery.copyWith(
           padding: mediaQuery.padding.copyWith(
-            bottom: (bottomInset < 64.0 ? bottomInset : 0.0),
+            bottom: bottomInset < 64.0 ? bottomInset : 0.0,
           ),
           viewInsets: mediaQuery.viewInsets.copyWith(
-            bottom: (bottomInset < 64.0 ? 0.0 : bottomInset),
+            bottom: bottomInset < 64.0 ? 0.0 : bottomInset,
           ),
           //textScaleFactor: mediaQuery.devicePixelRatio
           //devicePixelRatio: 2.0,
