@@ -19,7 +19,7 @@ main() async {
       dospace.Permissions.public);
   print(etag);
   String etagLocal = await bucket.uploadFile(
-      'config/config.bin',
+      'config/config_local.bin',
       new File('blob/config_local.bin'),
       'application/octet-stream',
       dospace.Permissions.public);

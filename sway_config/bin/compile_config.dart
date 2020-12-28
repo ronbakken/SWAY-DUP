@@ -270,7 +270,7 @@ Future<ConfigContent> generateConfigContent(bool server) async {
   if (!server) {
     await for (dospace.BucketContent content
         in bucket.listContents(prefix: welcomeSpacesPrefix)) {
-      // print(content.key);
+      print(content.key);
       res.welcomeImageUrls
           .add(welcomeCloudinaryUrl.replaceAll('{key}', content.key));
     }
