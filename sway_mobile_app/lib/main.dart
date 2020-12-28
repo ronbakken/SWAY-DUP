@@ -16,6 +16,7 @@ import 'package:inf_common/inf_common.dart';
 import 'package:logging/logging.dart';
 
 Future<ConfigData> loadConfig() async {
+  WidgetsFlutterBinding.ensureInitialized();
   final ByteData configData = await rootBundle.load('assets/config.bin');
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configData.buffer.asUint8List());
