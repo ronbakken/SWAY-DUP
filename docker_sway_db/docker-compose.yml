@@ -28,7 +28,7 @@ services:
     environment:
       - cluster.name=sway-dev
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
     ulimits:
       memlock:
         soft: -1
@@ -46,7 +46,7 @@ services:
     environment:
       - cluster.name=sway-dev
       - bootstrap.memory_lock=true
-      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "ES_JAVA_OPTS=-Xms256m -Xmx256m"
       - "discovery.zen.ping.unicast.hosts=elasticsearch"
     ulimits:
       memlock:
