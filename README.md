@@ -24,6 +24,8 @@ The Elasticsearch container requires the following host option.
 sudo sysctl -w vm.max_map_count=262144
 ```
 
+Elasticsearch needs to be initialized manually through Kibana (under Dev Tools > Console) after launch. Automatic setup is not yet implemented. The database structures are under `sway_common/protobuf/data_elasticsearch_*.txt`.
+
 ### Docker Toolbox for Windows
 
 Service ports can be exposed locally for running test suites manually.

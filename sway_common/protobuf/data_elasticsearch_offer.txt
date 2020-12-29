@@ -80,6 +80,12 @@ DataOffer
     }
 }
 
+--- !!!
+#! Deprecation: [types removal] The parameter include_type_name should be explicitly 
+specified in create index requests to prepare for 7.0. In 7.0 include_type_name will 
+default to 'false', and requests are expected to omit the type name in mapping definitions.
+--- !!!
+
 PUT offers
 {
   "settings": {

@@ -39,7 +39,7 @@ Future<void> main(List<String> arguments) async {
   Logger('InfOps').info('Sway Explore Service');
   final String configFile = arguments.isNotEmpty
       ? arguments[0] // TODO: Env var
-      : '../../sway_config/blob/config_server.bin';
+      : '../../sway_config/blob/config_local_server.bin';
   Logger('InfOps').info("Config file: '$configFile'");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
