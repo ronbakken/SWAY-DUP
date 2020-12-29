@@ -7,8 +7,8 @@ services:
       - sway_server_push
       - sway_server_explore
       - sway_server_api
-    # v1.12-latest
-    image: envoyproxy/envoy:13f2665ed0bdd2901eb071e2ff38b53fa5c0bbea
+    # 13f2665ed0bdd2901eb071e2ff38b53fa5c0bbea
+    image: envoyproxy/envoy:v1.12-latest
     network_mode: host
     restart: always
     volumes:
@@ -29,7 +29,8 @@ services:
       dockerfile: sway_server_push/Dockerfile
     network_mode: host
     restart: always
-    command: assets/config_ats3_server.bin
+    environment:
+      SWAY_CONFIG: ../../sway_config/blob/config_alpha_server.bin
   sway_server_explore:
     container_name: sway_server_explore
     build:
@@ -37,7 +38,8 @@ services:
       dockerfile: sway_server_explore/Dockerfile
     network_mode: host
     restart: always
-    command: assets/config_ats3_server.bin
+    environment:
+      SWAY_CONFIG: ../../sway_config/blob/config_alpha_server.bin
   sway_server_api:
     container_name: sway_server_api
     depends_on:
@@ -49,4 +51,5 @@ services:
       dockerfile: sway_server_api/Dockerfile
     network_mode: host
     restart: always
-    command: assets/config_ats3_server.bin
+    environment:
+      SWAY_CONFIG: ../../sway_config/blob/config_alpha_server.bin
