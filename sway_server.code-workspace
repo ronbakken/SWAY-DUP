@@ -17,24 +17,20 @@
 			"path": "images"
 		},
 		{
-			"name": "scripts_linux",
-			"path": "scripts_linux"
+			"name": "docker_sway_alpha",
+			"path": "docker_sway_alpha"
 		},
 		{
-			"name": "docker_alpha",
-			"path": "docker_alpha"
+			"name": "docker_sway_db",
+			"path": "docker_sway_db"
 		},
 		{
-			"name": "docker_db",
-			"path": "docker_db"
+			"name": "docker_sway_local",
+			"path": "docker_sway_local"
 		},
 		{
-			"name": "docker_local",
-			"path": "docker_local"
-		},
-		{
-			"name": "sway_server_dart",
-			"path": "sway_server_dart"
+			"name": "sway_server",
+			"path": "sway_server"
 		},
 		{
 			"name": "sway_server_api",

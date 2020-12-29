@@ -7,9 +7,9 @@
 # docker network prune -f
 # docker volume rm $(docker volume ls --filter dangling=true -q)
 # Kibana: http://localhost:5601
-# phpMySQL: http://localhost:8096 inf veJxEkenwr7mmC2o
-# phpMySQL Accounts: http://localhost:8097 inf veJxEkenwr7mmC2o
-# phpMySQL Proposals: http://localhost:8098 inf veJxEkenwr7mmC2o
+# phpMySQL: http://localhost:8096 sway veJxEkenwr7mmC2o
+# phpMySQL Accounts: http://localhost:8097 sway veJxEkenwr7mmC2o
+# phpMySQL Proposals: http://localhost:8098 sway veJxEkenwr7mmC2o
 # https://stackoverflow.com/questions/22944631/how-to-get-the-ip-address-of-the-docker-host-from-inside-a-docker-container
 # docker run -i -t alpine /bin/bash
 # host.docker.internal on OSX or 172.17.0.1 on Linux
@@ -18,10 +18,10 @@ version: '3.3'
 services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
-    container_name: inf_elasticsearch
+    container_name: sway_elasticsearch
     restart: always
     environment:
-      - cluster.name=infsandbox
+      - cluster.name=sway-dev
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
@@ -29,17 +29,17 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data_es1:/usr/share/elasticsearch/data
+      - data_elasticsearch1:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
   elasticsearch2:
     image: docker.elastic.co/elasticsearch/elasticsearch:6.5.4
-    container_name: inf_elasticsearch2
+    container_name: sway_elasticsearch2
     depends_on:
       - elasticsearch
     restart: always
     environment:
-      - cluster.name=infsandbox
+      - cluster.name=sway-dev
       - bootstrap.memory_lock=true
       - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
       - "discovery.zen.ping.unicast.hosts=elasticsearch"
@@ -48,45 +48,45 @@ services:
         soft: -1
         hard: -1
     volumes:
-      - data_es2:/usr/share/elasticsearch/data
+      - data_elasticsearch2:/usr/share/elasticsearch/data
   mariadb_general:
-    image: mariadb/server:10.3
-    container_name: inf_mariadb_general
+    image: mariadb:10.5
+    container_name: sway_mariadb_general
     volumes:
-      - data_sql_gen:/var/lib/mysql
+      - data_sql_general:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
-      MYSQL_DATABASE: inf
-      MYSQL_USER: inf
+      MYSQL_DATABASE: sway
+      MYSQL_USER: sway
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3306:3306
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   mariadb_accounts:
-    image: mariadb/server:10.3
-    container_name: inf_mariadb_accounts
+    image: mariadb:10.5
+    container_name: sway_mariadb_accounts
     volumes:
-      - data_sql_acc:/var/lib/mysql
+      - data_sql_accounts:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
-      MYSQL_DATABASE: inf
-      MYSQL_USER: inf
+      MYSQL_DATABASE: sway
+      MYSQL_USER: sway
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3307:3306
     command: "--character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci"
   mariadb_proposals:
-    image: mariadb/server:10.3
-    container_name: inf_mariadb_proposals
+    image: mariadb:10.5
+    container_name: sway_mariadb_proposals
     volumes:
-      - data_sql_prs:/var/lib/mysql
+      - data_sql_proposals:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: 04KWKM2u6bXUj9N9
-      MYSQL_DATABASE: inf
-      MYSQL_USER: inf
+      MYSQL_DATABASE: sway
+      MYSQL_USER: sway
       MYSQL_PASSWORD: veJxEkenwr7mmC2o
     ports:
       - 3308:3306
@@ -138,13 +138,13 @@ services:
     ports:
       - 8098:80
 volumes:
-  data_es1:
+  data_elasticsearch1:
     driver: local
-  data_es2:
+  data_elasticsearch2:
     driver: local
-  data_sql_gen:
+  data_sql_general:
     driver: local
-  data_sql_acc:
+  data_sql_accounts:
     driver: local
-  data_sql_prs:
+  data_sql_proposals:
     driver: local

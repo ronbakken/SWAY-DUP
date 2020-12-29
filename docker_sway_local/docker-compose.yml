@@ -1,52 +1,52 @@
 version: '3.3'
 services:
   envoy_edge_proxy:
-    container_name: inf_envoy_edge_proxy
+    container_name: sway_envoy_edge_proxy
     depends_on:
-      - inf_server_jwt
-      - inf_server_push
-      - inf_server_explore
-      - inf_server_api
+      - sway_server_jwt
+      - sway_server_push
+      - sway_server_explore
+      - sway_server_api
     # v1.12-latest
     image: envoyproxy/envoy:13f2665ed0bdd2901eb071e2ff38b53fa5c0bbea
     network_mode: host
     restart: always
     volumes:
     - ./envoy.yaml:/etc/envoy/envoy.yaml
-  inf_server_jwt:
-    container_name: inf_server_jwt
+  sway_server_jwt:
+    container_name: sway_server_jwt
     build:
       context: ..
-      dockerfile: inf_server_jwt/Dockerfile
+      dockerfile: sway_server_jwt/Dockerfile
     network_mode: host
     restart: always
-  inf_server_push:
-    container_name: inf_server_push
+  sway_server_push:
+    container_name: sway_server_push
     depends_on:
-      - inf_server_explore
+      - sway_server_explore
     build:
       context: ..
-      dockerfile: inf_server_push/Dockerfile
+      dockerfile: sway_server_push/Dockerfile
     network_mode: host
     restart: always
     command: assets/config_local_server.bin
-  inf_server_explore:
-    container_name: inf_server_explore
+  sway_server_explore:
+    container_name: sway_server_explore
     build:
       context: ..
-      dockerfile: inf_server_explore/Dockerfile
+      dockerfile: sway_server_explore/Dockerfile
     network_mode: host
     restart: always
     command: assets/config_local_server.bin
-  inf_server_api:
-    container_name: inf_server_api
+  sway_server_api:
+    container_name: sway_server_api
     depends_on:
-      - inf_server_jwt
-      - inf_server_push
-      - inf_server_explore
+      - sway_server_jwt
+      - sway_server_push
+      - sway_server_explore
     build:
       context: ..
-      dockerfile: inf_server_api/Dockerfile
+      dockerfile: sway_server_api/Dockerfile
     network_mode: host
     restart: always
     command: assets/config_local_server.bin
