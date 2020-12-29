@@ -10,6 +10,7 @@ import 'package:sway_mobile_app/ui/widgets/inf_image.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_memory_image.dart';
 import 'package:sway_mobile_app/ui/widgets/white_border_circle_avatar.dart';
 import 'package:sway_common/inf_common.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class OfferPostTile extends StatelessWidget {
   const OfferPostTile({
