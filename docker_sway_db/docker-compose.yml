@@ -14,6 +14,11 @@
 # docker run -i -t alpine /bin/bash
 # host.docker.internal on OSX or 172.17.0.1 on Linux
 # 127.0.0.1 for direct from host
+# Troubleshooting:
+# sway_elasticsearch2     | [1]: max virtual memory areas vm.max_map_count [65530] is too low, increase to at least [262144]
+# sudo sysctl -w vm.max_map_count=262144
+# sudo nano /etc/sysctl.conf
+# vm.max_map_count=262144
 version: '3.3'
 services:
   elasticsearch:
