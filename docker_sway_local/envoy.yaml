@@ -60,8 +60,8 @@ static_resources:
           - name: envoy.filters.http.jwt_authn
             config:
               providers:
-                infsandbox_provider:
-                  issuer: https://infsandbox.app
+                sway_dev_provider:
+                  issuer: https://app.sway-dev.net
                   #local_jwks:
                   #  filename: /etc/envoy/jwks/jwks_public.json
                   remote_jwks:
@@ -77,7 +77,7 @@ static_resources:
                   prefix: /
                 requires:
                   provider_and_audiences:
-                    provider_name: infsandbox_provider
+                    provider_name: sway_dev_provider
                     audiences:
                       infsandbox
           - name: envoy.router
