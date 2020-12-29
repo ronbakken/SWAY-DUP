@@ -1,6 +1,7 @@
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class InfImage extends StatefulWidget {
   InfImage({
@@ -18,7 +19,8 @@ class InfImage extends StatefulWidget {
     this.alignment = Alignment.center,
     this.repeat = ImageRepeat.noRepeat,
     this.matchTextDirection = false,
-  })  : placeholder = MemoryImage(lowRes, scale: lowResScale),
+  })  : placeholder =
+            MemoryImage(lowRes ?? kTransparentImage, scale: lowResScale),
         image = NetworkImage(imageUrl, scale: imageUrlScale),
         super(key: key);
 

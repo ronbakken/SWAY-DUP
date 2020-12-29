@@ -5,6 +5,7 @@ import 'package:sway_mobile_app/app/theme.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_image.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_memory_image.dart';
 import 'package:sway_common/inf_common.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 /// Shows the profile picture with a black gradient and optional user data and
 /// connected social media accounts
@@ -45,7 +46,9 @@ class ProfileSummary extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: InfMemoryImage(
-              config.oauthProviders[media.providerId].monochromeForegroundImage,
+              config.oauthProviders[media.providerId]
+                      .monochromeForegroundImage ??
+                  kTransparentImage,
               height: 20.0,
             ),
           ),

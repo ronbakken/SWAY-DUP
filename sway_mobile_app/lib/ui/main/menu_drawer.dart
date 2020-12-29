@@ -96,7 +96,7 @@ class MainNavigationDrawer extends StatelessWidget {
           if (oauthProvider?.visible == true) {
             entries.add(_MainNavigationItem(
               icon: InfMemoryImage(
-                oauthProvider.monochromeForegroundImage,
+                oauthProvider.monochromeForegroundImage ?? kTransparentImage,
                 height: 20,
               ),
               text: oauthProvider.label,

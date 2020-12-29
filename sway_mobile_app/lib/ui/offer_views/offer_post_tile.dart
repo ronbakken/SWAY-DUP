@@ -178,7 +178,8 @@ class _OfferDetailsRow extends StatelessWidget {
           radius: 18,
           backgroundColor: Colors.black,
           child: InfMemoryImage(
-            config.oauthProviders[providerId].foregroundImage,
+            config.oauthProviders[providerId].foregroundImage ??
+                kTransparentImage,
             width: 16.0,
           ),
         ),

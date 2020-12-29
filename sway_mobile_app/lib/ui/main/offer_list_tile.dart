@@ -3,6 +3,7 @@ import 'package:sway_mobile_app/app/theme.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_image.dart';
 import 'package:sway_mobile_app/ui/widgets/inf_memory_image.dart';
 import 'package:sway_common/inf_common.dart';
+import 'package:transparent_image/transparent_image.dart';
 
 class OfferListTile extends StatelessWidget {
   const OfferListTile({
@@ -79,9 +80,10 @@ class OfferListTile extends StatelessWidget {
                         offer.terms.deliverableSocialPlatforms.isNotEmpty
                             ? InfMemoryImage(
                                 config
-                                    .oauthProviders[offer
-                                        .terms.deliverableSocialPlatforms[0]]
-                                    .foregroundImage,
+                                        .oauthProviders[offer.terms
+                                            .deliverableSocialPlatforms[0]]
+                                        .foregroundImage ??
+                                    kTransparentImage,
                                 width: 20.0,
                               )
                             : const SizedBox(width: 20.0),
