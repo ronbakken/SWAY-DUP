@@ -1,0 +1,29 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "prepare_local",
+      "command": "scripts/prepare_local.sh",
+      "windows": {
+        "command": ".\\scripts\\prepare_local.bat"
+      },
+      "args": [],
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    },
+    {
+      "label": "prepare_alpha",
+      "command": "scripts/prepare_alpha.sh",
+      "windows": {
+        "command": ".\\scripts\\prepare_alpha.bat"
+      },
+      "args": [],
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}"
+      }
+    }
+  ]
+}

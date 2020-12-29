@@ -13,13 +13,13 @@ main() async {
   );
   var bucket = spaces.bucket(serverConfig.services.spacesBucket);
   String etag = await bucket.uploadFile(
-      'config/config.bin',
-      new File('blob/config.bin'),
+      'config/config_alpha1.bin',
+      new File('blob/config_alpha.bin'),
       'application/octet-stream',
       dospace.Permissions.public);
   print(etag);
   String etagLocal = await bucket.uploadFile(
-      'config/config_local.bin',
+      'config/config_local1.bin',
       new File('blob/config_local.bin'),
       'application/octet-stream',
       dospace.Permissions.public);

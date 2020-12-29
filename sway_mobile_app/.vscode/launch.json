@@ -5,7 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Flutter",
+            "name": "Sway Mobile App (Local)",
+            "preLaunchTask": "prepare_local",
+            "request": "launch",
+            "type": "dart"
+        },
+        {
+            "name": "Sway Mobile App (Alpha)",
+            "preLaunchTask": "prepare_alpha",
             "request": "launch",
             "type": "dart"
         }

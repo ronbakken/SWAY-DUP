@@ -1,9 +1,4 @@
 {
     "version": "2.0.0",
-    "tasks": [{
-        "label": "copy_config_local",
-        "command": "scripts/copy_config_local.sh",
-        "args": [],
-        "type": "shell"
-    }]
+    "tasks": []
 }

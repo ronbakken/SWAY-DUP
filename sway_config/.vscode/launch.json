@@ -15,13 +15,6 @@
       "program": "bin/upload_config.dart",
       "request": "launch",
       "type": "dart"
-    },
-    {
-      "name": "Copy Config (Local)",
-      "preLaunchTask": "copy_config_local",
-      "program": "bin/blank.dart",
-      "request": "launch",
-      "type": "dart"
     }
   ]
 }

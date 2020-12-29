@@ -585,24 +585,22 @@ Future<void> generateConfig(Int64 timestamp, bool server) async {
       .addAll(await generateConfigContentFormats(assets, server));
   // print(config.content);
   Uint8List configBuffer = config.writeToBuffer();
-  new File(server ? "blob/config_server.bin" : "blob/config.bin")
+  await new File(server ? "blob/config_server.bin" : "blob/config.bin")
       .writeAsBytes(configBuffer, flush: true);
 }
 
 Future<void> adjustConfig(String suffix, bool server) async {
-  ConfigData config = (ConfigData()
-        ..mergeFromBuffer(await new File(
-                server ? "blob/config_server.bin" : "blob/config.bin")
-            .readAsBytes()))
-      .toBuilder();
+  ConfigData config = ConfigData()
+    ..mergeFromBuffer(
+        await new File(server ? "blob/config_server.bin" : "blob/config.bin")
+            .readAsBytes());
   ConfigServices services = await generateConfigServices(
       "config_" + suffix + "/services.ini", server);
-  config.services = config.services.toBuilder();
   if (services.endPoints.isNotEmpty) config.services.endPoints.clear();
   if (services.elasticsearchApi.isNotEmpty)
     config.services.clearElasticsearchBasicAuth();
   config.services.mergeFromMessage(services);
-  new File(server
+  await new File(server
           ? "blob/config_" + suffix + "_server.bin"
           : "blob/config_" + suffix + ".bin")
       .writeAsBytes(config.writeToBuffer(), flush: true);
@@ -617,8 +615,8 @@ main(List<String> arguments) async {
   await f2;
   await adjustConfig("local", false);
   await adjustConfig("local", true);
-  await adjustConfig("ats3", false);
-  await adjustConfig("ats3", true);
+  await adjustConfig("alpha", false);
+  await adjustConfig("alpha", true);
 }
 
 ////////////////////////////////////////////////////////////////////////////////
