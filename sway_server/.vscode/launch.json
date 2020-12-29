@@ -1,0 +1,29 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Docker Launch Database",
+      "preLaunchTask": "docker_up_db",
+      "program": "bin/blank.dart",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "Docker Stop All",
+      "preLaunchTask": "down_all",
+      "program": "bin/blank.dart",
+      "request": "launch",
+      "type": "dart"
+    },
+    {
+      "name": "Docker Erase Database",
+      "preLaunchTask": "docker_wipe",
+      "program": "bin/blank.dart",
+      "request": "launch",
+      "type": "dart"
+    }
+  ]
+}

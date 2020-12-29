@@ -1,11 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 set -x
-cd "$DIR"
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd ..
 
-cd ../docker_inf_db
+cd ../docker_sway_local
 docker-compose down
 
-cd ../docker_inf_local
+cd ../docker_sway_db
 docker-compose down
 
-cd ../scripts_linux
+cd ../sway_server/scripts

@@ -1,6 +1,12 @@
-#!/bin/sh
+#!/bin/bash
 set -x
-cd "$DIR"
+cd "$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
+cd ..
 
-./98_docker_clean.sh
-docker volume rm $(docker volume ls --filter dangling=true -q)
+cd ../docker_sway_local
+docker-compose down -v
+
+cd ../docker_sway_db
+docker-compose down -v
+
+cd ../sway_server/scripts

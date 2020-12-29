@@ -1,0 +1,32 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "docker_up_db",
+      "command": "./10_up_db.sh",
+      "args": [],
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      }
+    },
+    {
+      "label": "down_all",
+      "command": "./80_down_all.sh",
+      "args": [],
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      }
+    },
+    {
+      "label": "docker_wipe",
+      "command": "./99_docker_wipe.sh",
+      "args": [],
+      "type": "shell",
+      "options": {
+        "cwd": "${workspaceFolder}/scripts"
+      }
+    }
+  ]
+}
