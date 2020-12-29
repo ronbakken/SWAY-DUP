@@ -11,7 +11,7 @@ ls -al ~/.ssh/
 # Use sandbox configuration
 rm ../../assets/config.bin
 cp ../../assets/config_ats3.bin ../../assets/config.bin
-cp ../../android/key.properties.infsandbox ../../android/key.properties
+cp ../../android/key.properties.sway-dev ../../android/key.properties
 
 cd ../..
 git clone -b stable https://github.com/flutter/flutter.git

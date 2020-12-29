@@ -30,14 +30,15 @@ Future<void> main() async {
   });
 
   // Config
-  const String configFile = '../assets/config_local.bin';
+  const String configFile = '../../sway_config/blob/config_local.bin';
   Logger('Test').info("Config file: '$configFile'");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
 
   // Server Config
-  const String serverConfigFile = '../assets/config_local_server.bin';
+  const String serverConfigFile =
+      '../../sway_config/blob/config_local_server.bin';
   Logger('Test').info("Server Config file: '$serverConfigFile'");
   final Uint8List serverConfigBytes =
       await File(serverConfigFile).readAsBytes();

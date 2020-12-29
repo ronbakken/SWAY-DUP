@@ -28,7 +28,7 @@ Future<void> main() async {
   });
 
   // Config
-  const String configFile = '../assets/config_local.bin';
+  const String configFile = '../../sway_config/blob/config_local.bin';
   Logger('Test').info("Config file: '$configFile'");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();

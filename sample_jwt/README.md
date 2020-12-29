@@ -7,9 +7,8 @@ See https://jwt.io/ for more information on JSON Web Tokens
 From the `sample_jwt` directory, open two command windows.
 
 ```
-cd docker
-docker-compose build
-docker-compose up
+cd docker_sample_jwt
+docker-compose down -v && docker-compose build && docker-compose up
 ```
 ```
 pub run test

@@ -97,8 +97,8 @@ class ApiSessionService extends ApiSessionServiceBase {
 
     final ReqSign refreshSignRequest = ReqSign();
     refreshSignRequest.claim = json.encode(<String, dynamic>{
-      'iss': 'https://infsandbox.app',
-      'aud': 'infsandbox',
+      'iss': 'https://sway-dev.net',
+      'aud': 'sway-dev',
       'pb': base64.encode(refreshPayload.writeToBuffer())
     });
     refreshSignRequest.freeze();
@@ -115,8 +115,8 @@ class ApiSessionService extends ApiSessionServiceBase {
 
     final ReqSign accessSignRequest = ReqSign();
     accessSignRequest.claim = json.encode(<String, dynamic>{
-      'iss': 'https://infsandbox.app',
-      'aud': 'infsandbox',
+      'iss': 'https://sway-dev.net',
+      'aud': 'sway-dev',
       'pb': base64.encode(accessPayload.writeToBuffer())
       // TODO: Expire
     });
@@ -179,8 +179,8 @@ class ApiSessionService extends ApiSessionServiceBase {
 
     final ReqSign accessSignRequest = ReqSign();
     accessSignRequest.claim = json.encode(<String, dynamic>{
-      'iss': 'https://infsandbox.app',
-      'aud': 'infsandbox',
+      'iss': 'https://sway-dev.net',
+      'aud': 'sway-dev',
       'pb': base64.encode(accessPayload.writeToBuffer())
       // TODO: Expire
     });

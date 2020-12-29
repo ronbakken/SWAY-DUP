@@ -5,11 +5,10 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Sway Server API",
-            "program": "bin/main.dart",
+            "name": "Test Sample JWT",
+            "program": "test/jwt_test.dart",
             "request": "launch",
-            "type": "dart",
-            "args": []
+            "type": "dart"
         }
     ]
 }

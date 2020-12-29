@@ -31,14 +31,15 @@ Future<void> main() async {
   final Logger log = Logger('OAuthTest');
 
   // Config
-  const String configFile = '../assets/config_local.bin';
+  const String configFile = '../../sway_config/blob/config_local.bin';
   log.info("Config file: '$configFile'");
   final Uint8List configBytes = await File(configFile).readAsBytes();
   final ConfigData config = ConfigData();
   config.mergeFromBuffer(configBytes);
 
   // Server Config
-  const String serverConfigFile = '../assets/config_local_server.bin';
+  const String serverConfigFile =
+      '../../sway_config/blob/config_local_server.bin';
   log.info("Server Config file: '$serverConfigFile'");
   final Uint8List serverConfigBytes =
       await File(serverConfigFile).readAsBytes();

@@ -61,7 +61,7 @@ static_resources:
             config:
               providers:
                 sway_dev_provider:
-                  issuer: https://app.sway-dev.net
+                  issuer: https://sway-dev.net
                   #local_jwks:
                   #  filename: /etc/envoy/jwks/jwks_public.json
                   remote_jwks:
@@ -79,7 +79,7 @@ static_resources:
                   provider_and_audiences:
                     provider_name: sway_dev_provider
                     audiences:
-                      infsandbox
+                      sway-dev
           - name: envoy.router
   clusters:
   # /inf.ApiSession

@@ -50,8 +50,8 @@ class SampleJwtService extends SampleJwtServiceBase {
     }
     final ReqSign signRequest = ReqSign();
     signRequest.claim = json.encode(<String, dynamic>{
-      'iss': 'https://infsandbox.app',
-      'aud': 'infsandbox',
+      'iss': 'https://sway-dev.net',
+      'aud': 'sway-dev',
       'ps': request.payload
     });
     signRequest.freeze();

@@ -334,8 +334,8 @@ class ApiAccountService extends ApiAccountServiceBase {
 
       final ReqSign accessSignRequest = ReqSign();
       accessSignRequest.claim = json.encode(<String, dynamic>{
-        'iss': 'https://infsandbox.app',
-        'aud': 'infsandbox',
+        'iss': 'https://sway-dev.net',
+        'aud': 'sway-dev',
         'pb': base64.encode(accessPayload.writeToBuffer())
         // TODO: Expire
       });
@@ -782,8 +782,8 @@ class ApiAccountService extends ApiAccountServiceBase {
 
     final ReqSign accessSignRequest = ReqSign();
     accessSignRequest.claim = json.encode(<String, dynamic>{
-      'iss': 'https://infsandbox.app',
-      'aud': 'infsandbox',
+      'iss': 'https://sway-dev.net',
+      'aud': 'sway-dev',
       'pb': base64.encode(accessPayload.writeToBuffer())
       // TODO: Expire
     });
