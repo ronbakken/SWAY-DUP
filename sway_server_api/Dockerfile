@@ -3,6 +3,8 @@ FROM google/dart
 WORKDIR /app
 
 RUN mkdir /sway_common
+RUN mkdir /sway_config
+RUN mkdir /sway_config/blob
 ADD sway_server/pubspec.yaml /app/pubspec.yaml
 ADD sway_common/pubspec.yaml /sway_common/pubspec.yaml
 RUN pub get
@@ -15,8 +17,7 @@ RUN pub get
 ADD sway_server_api/. /app
 RUN pub get --offline
 
-RUN mkdir assets
-ADD sway_config/blob/. /app/assets
+ADD sway_config/blob/. /sway_config/blob
 
 EXPOSE 8900
 EXPOSE 8901
