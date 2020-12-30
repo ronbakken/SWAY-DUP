@@ -296,7 +296,7 @@ class __MapViewState extends State<_MapView> {
     mapController = MapController();
   }
 
-  void onMapPositionChanged(MapPosition position, bool hasGesture, bool isUserGesture) {
+  void onMapPositionChanged(MapPosition position) {
     mapPosition = position;
     positionChangedCommand(position);
   }

@@ -18,7 +18,7 @@ class LocationServiceImplementation implements LocationService {
 
   LocationServiceImplementation() {
     _locationData = StreamController<Coordinate>.broadcast(onListen: () {
-      _locationSub = _plugin.onLocationChanged.listen(_onLocationChanged);
+      // FIXME: _locationSub = _plugin.onLocationChanged.listen(_onLocationChanged);
     }, onCancel: () {
       _locationSub.cancel();
     });

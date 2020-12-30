@@ -5,9 +5,10 @@ environment:
 
 dependencies:
   async: any
-  grpc:
-    git:
-      url: https://github.com/slightfoot/grpc-dart.git
+  grpc: ^1.0.0
+  #grpc:
+  #  git:
+  #    url: https://github.com/slightfoot/grpc-dart.git
   protobuf: 0.13.9
 
 dev_dependencies:

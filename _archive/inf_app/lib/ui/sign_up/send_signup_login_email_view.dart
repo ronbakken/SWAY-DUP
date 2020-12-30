@@ -215,7 +215,7 @@ class _SendSignupLoginEmailViewState extends State<SendSignupLoginEmailView> {
         );
         break;
       case _steps.emailSent:
-        EmailLauncher().openEmailApplication();
+        // FIXME: EmailLauncher().openEmailApplication();
         break;
     }
   }

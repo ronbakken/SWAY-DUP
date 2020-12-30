@@ -75,8 +75,7 @@ class ErrorReporter {
 
   ErrorReporter(this.dsn);
 
-  Future<void> logEvent(
-      String message, SeverityLevel severity, Map<String, dynamic> data) async {
+  Future<void> logEvent(String message, SeverityLevel severity, Map<String, dynamic> data) async {
     final Event event = Event(
       loggerName: '',
       message: message,
@@ -94,19 +93,16 @@ class ErrorReporter {
         print('Failed to report to Sentry.io: ${response.error}');
       }
     } catch (e, stackTrace) {
-      print(
-          'Exception whilst reporting to Sentry.io\n' + stackTrace.toString());
+      print('Exception whilst reporting to Sentry.io\n' + stackTrace.toString());
     }
   }
 
-  Future<void> logInfo(String message, [Map<String, dynamic> data]) =>
-      logEvent(message, SeverityLevel.info, data);
+  Future<void> logInfo(String message, [Map<String, dynamic> data]) => logEvent(message, SeverityLevel.info, data);
 
   Future<void> logWarning(String message, [Map<String, dynamic> data]) =>
       logEvent(message, SeverityLevel.warning, data);
 
-  Future<void> logException(Object error,
-      {String message, StackTrace stackTrace}) async {
+  Future<void> logException(Object error, {String message, StackTrace stackTrace}) async {
     print('Caught error: $error\n$stackTrace');
 
     if (_isInDebugMode) {
@@ -121,38 +117,34 @@ class ErrorReporter {
 
     Map<String, dynamic> extra = <String, dynamic>{};
     if (defaultTargetPlatform == TargetPlatform.android) {
-      extra['device_info'] =
-          await DeviceInfoPlugin.channel.invokeMethod('getAndroidDeviceInfo');
+      //extra['device_info'] =
+      //    await DeviceInfoPlugin.channel.invokeMethod('getAndroidDeviceInfo');
     } else if (defaultTargetPlatform == TargetPlatform.iOS) {
-      extra['device_info'] =
-          await DeviceInfoPlugin.channel.invokeMethod('getIosDeviceInfo');
+      //extra['device_info'] =
+      //    await DeviceInfoPlugin.channel.invokeMethod('getIosDeviceInfo');
     }
+    // FIXME
+    extra['device_info'] = '';
 
     String mode = _isInDebugMode ? 'checked' : 'release';
 
     Map<String, String> tags = {};
     tags['message'] = message;
-    tags['platform'] =
-        defaultTargetPlatform.toString().substring('TargetPlatform.'.length);
+    tags['platform'] = defaultTargetPlatform.toString().substring('TargetPlatform.'.length);
     tags['package_name'] = info.packageName;
     tags['build_number'] = info.buildNumber;
     tags['version'] = info.version;
     tags['mode'] = mode;
     tags['locale'] = ui.window.locale.toString();
 
-    ConnectivityResult connectivity =
-        await (Connectivity().checkConnectivity());
-    tags['connectivity'] =
-        connectivity.toString().substring('ConnectivityResult.'.length);
+    ConnectivityResult connectivity = await (Connectivity().checkConnectivity());
+    tags['connectivity'] = connectivity.toString().substring('ConnectivityResult.'.length);
 
     Map<String, dynamic> uiValues = <String, dynamic>{};
     uiValues['locale'] = ui.window.locale.toString();
     uiValues['pixel_ratio'] = ui.window.devicePixelRatio;
     uiValues['default_route'] = ui.window.defaultRouteName;
-    uiValues['physical_size'] = [
-      ui.window.physicalSize.width,
-      ui.window.physicalSize.height
-    ];
+    uiValues['physical_size'] = [ui.window.physicalSize.width, ui.window.physicalSize.height];
     uiValues['text_scale_factor'] = ui.window.textScaleFactor;
     uiValues['view_insets'] = [
       ui.window.viewInsets.left,
@@ -205,8 +197,7 @@ class ErrorReporter {
         print('Failed to report to Sentry.io: ${response.error}');
       }
     } catch (e, stackTrace) {
-      print(
-          'Exception whilst reporting to Sentry.io\n' + stackTrace.toString());
+      print('Exception whilst reporting to Sentry.io\n' + stackTrace.toString());
     }
   }
 }

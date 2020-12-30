@@ -157,18 +157,17 @@ class _InfRoundSliderThumbShape extends SliderComponentShape {
   Size getPreferredSize(bool isEnabled, bool isDiscrete) => Size.fromRadius(radius);
 
   @override
-  void paint(
-    PaintingContext context,
-    Offset center, {
-    Animation<double> activationAnimation,
-    Animation<double> enableAnimation,
-    bool isDiscrete,
-    TextPainter labelPainter,
-    RenderBox parentBox,
-    SliderThemeData sliderTheme,
-    TextDirection textDirection,
-    double value,
-  }) {
+  void paint(PaintingContext context, Offset center,
+      {Animation<double> activationAnimation,
+      Animation<double> enableAnimation,
+      bool isDiscrete,
+      TextPainter labelPainter,
+      RenderBox parentBox,
+      Size sizeWithOverflow,
+      SliderThemeData sliderTheme,
+      TextDirection textDirection,
+      double textScaleFactor,
+      double value}) {
     Paint paint = Paint()
       ..style = PaintingStyle.fill
       ..color = sliderTheme.thumbColor;

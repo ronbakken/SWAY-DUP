@@ -59,6 +59,12 @@
 		{
 			"name": "sample_jwt",
 			"path": "sample_jwt"
+		},
+		{
+			"path": "_archive/inf_app"
+		},
+		{
+			"path": "_archive/server_kent/src/inf_api_client"
 		}
 	],
 	"settings": {
