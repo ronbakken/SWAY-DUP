@@ -12,6 +12,7 @@ RUN rm /app/pubspec.yaml
 RUN rm /app/pubspec.lock
 
 ADD sway_common/. /sway_common
+ADD sway_dart_sql/. /sway_dart_sql
 ADD sway_server_push/pubspec.* /app/
 RUN pub get
 ADD sway_server_push/. /app

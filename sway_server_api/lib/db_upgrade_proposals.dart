@@ -8,7 +8,7 @@ import 'dart:async';
 import 'dart:core';
 import 'dart:math';
 
-import 'package:inf_server_api/db_upgrader.dart';
+import 'package:sway_dart_sql/db_upgrader.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
 Future<void> dbUpgradeProposals(sqljocky.ConnectionPool sql) async {

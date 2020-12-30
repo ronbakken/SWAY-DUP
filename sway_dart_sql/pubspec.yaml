@@ -1,4 +1,4 @@
-name: sway_server
+name: sway_dart_sql
 description: Base pubspec for accelerating Docker image build. Do not modify this.
 version: 0.1.0
 homepage: https://www.infmarketplace.com
@@ -6,18 +6,9 @@ author: Jan Boon <jan.boon@kaetemi.be>
 publish_to: none
 
 environment:
-  sdk: '>=2.0.0-dev.58.0 <3.0.0'
+  sdk: '>=2.0.0 <3.0.0'
 
 dependencies:
-  sway_common:
-    path: ../sway_common/
-  logging: ^0.11.3+2
-  pedantic: ^1.4.0
-  http_client: ^0.5.0
-  http: ^0.12.0+1
-  synchronized: ^1.5.1
-  mime: ^0.9.6+2
-  quiver: ^2.0.0+1
   sqljocky5: # ^1.0.0
     git:
       url: https://github.com/nbspou/sqljocky5.git
@@ -26,9 +17,6 @@ dependencies:
     git:
       url: https://github.com/nbspou/dart-oauth1.git
       ref: 8e0a1ac7054e3c03a3d10f14721265dd51b88362
-  dospace: ^0.11.0 # Don't use ^0.12 yet, fails some tests
-  s2geometry: ^0.1.1
-  geohash: ^0.2.1
 
 dev_dependencies:
   test: ^1.0.0

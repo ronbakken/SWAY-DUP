@@ -49,6 +49,10 @@
 			"path": "sway_server_push"
 		},
 		{
+			"name": "sway_dart_sql",
+			"path": "sway_dart_sql"
+		},
+		{
 			"name": "sample_api_direct",
 			"path": "sample_api_direct"
 		},

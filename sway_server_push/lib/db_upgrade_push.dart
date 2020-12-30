@@ -7,7 +7,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 import 'dart:async';
 import 'dart:core';
 
-import 'package:inf_server_push/db_upgrader.dart';
+import 'package:sway_dart_sql/db_upgrader.dart';
 import 'package:sqljocky5/sqljocky.dart' as sqljocky;
 
 Future<void> dbUpgradePush(sqljocky.ConnectionPool sql) async {

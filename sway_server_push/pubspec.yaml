@@ -11,6 +11,8 @@ environment:
 dependencies:
   sway_common:
     path: ../sway_common/
+  sway_dart_sql:
+    path: ../sway_dart_sql/
   logging: ^0.11.3+2
   pedantic: ^1.4.0
   http_client: ^0.5.0
@@ -18,10 +20,6 @@ dependencies:
   synchronized: ^1.5.1
   mime: ^0.9.6+2
   quiver: ^2.0.0+1
-  sqljocky5: # ^1.0.0
-    git:
-      url: https://github.com/nbspou/sqljocky5.git
-      ref: 1feb53e331bf6405fcd8b40362922096f950dad7
   oauth1:
     git:
       url: https://github.com/nbspou/dart-oauth1.git
