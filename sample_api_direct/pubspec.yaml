@@ -6,7 +6,7 @@ author: Jan Boon <jan.boon@kaetemi.be>
 publish_to: none
 
 environment:
-  sdk: '>=2.0.0-dev.58.0 <3.0.0'
+  sdk: '>=2.10.0 <3.0.0'
 
 dependencies:
   sway_common:

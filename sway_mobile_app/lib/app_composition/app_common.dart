@@ -378,6 +378,7 @@ abstract class AppCommonState<T extends StatefulWidget>
           );
           Navigator.of(this.context).pop();
           navigateToOffer(offer.offerId);
+          return offer;
         },
       );
     }));
@@ -467,14 +468,14 @@ abstract class AppCommonState<T extends StatefulWidget>
   }
 
   Widget _exploreBuilderV4(BuildContext context) {
-    final bool enoughSpaceForBottom =
-        MediaQuery.of(context).size.height > 480.0;
     final Api network = ApiProvider.of(context);
     final ConfigData config = ConfigProvider.of(context);
+    /*final bool enoughSpaceForBottom =
+        MediaQuery.of(context).size.height > 480.0;
     final List<Int64> showcaseOfferIds = enoughSpaceForBottom
         ? network.demoAllOffers
         : <Int64>[]; // TODO(kaetemi): Explore
-    /*final Widget showcase = showcaseOfferIds.isNotEmpty
+    final Widget showcase = showcaseOfferIds.isNotEmpty
         ? OffersShowcase(
             getOffer: _getOfferSummary,
             offerIds: showcaseOfferIds,
@@ -565,7 +566,7 @@ abstract class AppCommonState<T extends StatefulWidget>
               'Nothing here',
               style: Theme.of(context)
                   .textTheme
-                  .body1
+                  .bodyText2
                   .copyWith(fontStyle: FontStyle.italic),
             ),
           ),

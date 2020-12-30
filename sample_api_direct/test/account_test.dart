@@ -7,6 +7,7 @@ Author: Jan Boon <jan.boon@kaetemi.be>
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+import 'dart:async';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:sway_common/inf_common.dart';

@@ -4,32 +4,32 @@ Copyright (C) 2018  INF Marketplace LLC
 Author: Jan Boon <kaetemi@no-break.space>
 */
 
-import 'dart:io';
+// import 'dart:io';
 
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:sway_mobile_app/app_composition/app_common.dart';
-import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
+// import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
 import 'package:sway_mobile_app/ui/offer_views/offer_details_page.dart';
 
 import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
-import 'package:sway_mobile_app/screens/account_switch.dart';
-import 'package:sway_mobile_app/widgets/network_status.dart';
+// import 'package:sway_mobile_app/screens/account_switch.dart';
+// import 'package:sway_mobile_app/widgets/network_status.dart';
 
-import 'package:sway_mobile_app/widgets/progress_dialog.dart';
+// import 'package:sway_mobile_app/widgets/progress_dialog.dart';
 
-import 'package:sway_mobile_app/screens/profile_view.dart';
-import 'package:sway_mobile_app/screens/profile_edit.dart';
-import 'package:sway_mobile_app/screens/dashboard_simplified.dart';
-import 'package:sway_mobile_app/screens/offer_create.dart';
-import 'package:sway_mobile_app/screens/offer_view.dart';
-import 'package:sway_mobile_app/screens/business_offer_list.dart';
-import 'package:sway_mobile_app/screens/debug_account.dart';
-import 'package:file/file.dart' as file;
-import 'package:file/local.dart' as file;
+// import 'package:sway_mobile_app/screens/profile_view.dart';
+// import 'package:sway_mobile_app/screens/profile_edit.dart';
+// import 'package:sway_mobile_app/screens/dashboard_simplified.dart';
+// import 'package:sway_mobile_app/screens/offer_create.dart';
+// import 'package:sway_mobile_app/screens/offer_view.dart';
+// import 'package:sway_mobile_app/screens/business_offer_list.dart';
+// import 'package:sway_mobile_app/screens/debug_account.dart';
+// import 'package:file/file.dart' as file;
+// import 'package:file/local.dart' as file;
 
 // Business user
 class AppBusiness extends StatefulWidget {
@@ -59,10 +59,11 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
 
   int offerViewCount = 0;
   Int64 offerViewOpen;
+  @override
   void navigateToOffer(Int64 offerId) {
     final Api network = ApiProvider.of(context);
     if (offerViewOpen != null) {
-      print("[INF] Pop previous offer route");
+      print('[INF] Pop previous offer route');
       Navigator.popUntil(context, (Route<dynamic> route) {
         return route.settings.name != null &&
             route.settings.name
@@ -75,7 +76,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       Navigator.pop(context);
     }
     network.getOffer(offerId); // Background refresh
-    int count = ++offerViewCount;
+    final int count = ++offerViewCount;
     offerViewOpen = offerId;
     Navigator.push<void>(
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
@@ -83,7 +84,7 @@ class _AppBusinessState extends AppCommonState<AppBusiness> {
       MaterialPageRoute<void>(
         settings: RouteSettings(name: '/offer/' + offerId.toString()),
         builder: (BuildContext context) {
-          ConfigData config = ConfigProvider.of(context);
+          final ConfigData config = ConfigProvider.of(context);
           final Api network = ApiProvider.of(context);
           // NavigatorState navigator = Navigator.of(context);
           final DataOffer businessOffer = network.tryGetOffer(offerId);

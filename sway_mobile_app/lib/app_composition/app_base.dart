@@ -5,11 +5,11 @@ Author: Jan Boon <kaetemi@no-break.space>
 */
 
 import 'dart:async';
-import 'dart:io';
+// import 'dart:io';
 
-import 'package:fixnum/fixnum.dart';
+// import 'package:fixnum/fixnum.dart';
 import 'package:flutter/material.dart';
-import 'package:sway_mobile_app/network_inheritable/cross_account_navigation.dart';
+// import 'package:sway_mobile_app/network_inheritable/cross_account_navigation.dart';
 import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
 import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
@@ -17,12 +17,12 @@ import 'package:sway_mobile_app/widgets/oauth_scaffold.dart';
 import 'package:sway_mobile_app/widgets/progress_dialog.dart';
 import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/screens/account_switch.dart';
-import 'package:sway_mobile_app/screens/debug_account.dart';
-import 'package:sway_mobile_app/screens/haggle_view.dart';
-import 'package:sway_mobile_app/screens/profile_view.dart';
-import 'package:sway_mobile_app/screens/proposal_list.dart';
-import 'package:file/file.dart' as file;
-import 'package:file/local.dart' as file;
+// import 'package:sway_mobile_app/screens/debug_account.dart';
+// import 'package:sway_mobile_app/screens/haggle_view.dart';
+// import 'package:sway_mobile_app/screens/profile_view.dart';
+// import 'package:sway_mobile_app/screens/proposal_list.dart';
+// import 'package:file/file.dart' as file;
+// import 'package:file/local.dart' as file;
 import 'package:flutter_facebook_login/flutter_facebook_login.dart';
 import 'package:flutter_twitter_login/flutter_twitter_login.dart';
 import 'package:logging/logging.dart';
@@ -31,10 +31,10 @@ abstract class AppBaseState<T extends StatefulWidget> extends State<T> {
   void navigateToSwitchAccount() {
     Navigator.push<void>(context, MaterialPageRoute<void>(builder: (context) {
       // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
-      ConfigData config = ConfigProvider.of(context);
+      final ConfigData config = ConfigProvider.of(context);
       // ApiClient network = NetworkProvider.of(context);
       // NavigatorState navigator = Navigator.of(context);
-      MultiAccountClient selection = MultiAccountSelection.of(context);
+      final MultiAccountClient selection = MultiAccountSelection.of(context);
       return AccountSwitch(
         domain: config.services.domain,
         accounts: selection.accounts,

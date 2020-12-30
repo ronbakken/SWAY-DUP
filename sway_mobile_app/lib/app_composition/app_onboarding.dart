@@ -10,15 +10,15 @@ import 'package:flutter/widgets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:sway_mobile_app/app_composition/app_base.dart';
 import 'package:sway_mobile_app/network_inheritable/multi_account_selection.dart';
-import 'package:sway_mobile_app/screens/account_switch.dart';
+// import 'package:sway_mobile_app/screens/account_switch.dart';
 import 'package:sway_mobile_app/ui/welcome/welcome_page.dart';
 
 import 'package:sway_common/inf_common.dart';
 import 'package:sway_mobile_app/network_inheritable/config_provider.dart';
 import 'package:sway_mobile_app/network_inheritable/api_provider.dart';
 
-import 'package:sway_mobile_app/widgets/oauth_scaffold.dart';
-import 'package:sway_mobile_app/screens_onboarding/onboarding_selection.dart';
+// import 'package:sway_mobile_app/widgets/oauth_scaffold.dart';
+// import 'package:sway_mobile_app/screens_onboarding/onboarding_selection.dart';
 import 'package:sway_mobile_app/screens_onboarding/onboarding_social.dart';
 
 // Onboarding sequence
@@ -77,7 +77,7 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
         // Important: Cannot depend on context outside Navigator.push and cannot use variables from container widget!
         context, MaterialPageRoute<void>(
       builder: (context) {
-        ConfigData config = ConfigProvider.of(context);
+        final ConfigData config = ConfigProvider.of(context);
         final Api network = ApiProvider.of(context);
         // NavigatorState navigator = Navigator.of(context);
         /*if (network.account.accountId != 0) {
@@ -91,7 +91,7 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
         /*bool canSignUp = (network.account.accountId == 0) &&
             network.account.socialMedia.values
                 .any((DataSocialMedia data) => data.canSignUp);*/ // TODO: Fix serverside
-        bool canSignUp = (network.account.accountId == 0) &&
+        final bool canSignUp = (network.account.accountId == 0) &&
             network.account.socialMedia.values
                 .any((DataSocialMedia data) => data.connected);
         assert(config != null);
@@ -139,12 +139,12 @@ class _AppOnboardingState extends AppBaseState<AppOnboarding> {
                           context: this.context,
                           builder: (BuildContext context) {
                             return AlertDialog(
-                              title: Text('Sign Up Failed'),
+                              title: const Text('Sign Up Failed'),
                               content: SingleChildScrollView(
                                 child: ListBody(
                                   children: <Widget>[
-                                    Text('An error has occured.'),
-                                    Text('Please try again later.'),
+                                    const Text('An error has occured.'),
+                                    const Text('Please try again later.'),
                                   ],
                                 ),
                               ),

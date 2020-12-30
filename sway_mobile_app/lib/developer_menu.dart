@@ -228,7 +228,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                   initialSearchQuery: 'Test initial query',
                   onSearchRequest: (String searchQuery) async {
                     // This is just a dummy search that doesn't do anything but return a shuffled list of accounts and add a dummy account
-                    await Future<void>.delayed(Duration(seconds: 2));
+                    await Future<void>.delayed(const Duration(seconds: 2));
                     final DataAccount data = DataAccount();
                     data.accountId = Int64(random.nextInt(500) + 10);
                     data.accountType = AccountType.business;
@@ -256,7 +256,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           const Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Text('Demo', style: Theme.of(context).textTheme.subhead),
+            Text('Demo', style: Theme.of(context).textTheme.subtitle1),
           ]),
           /*
           FlatButton(
@@ -345,7 +345,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           const Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Text('Onboarding UI', style: Theme.of(context).textTheme.subhead),
+            Text('Onboarding UI', style: Theme.of(context).textTheme.subtitle1),
           ]),
           FlatButton(
             child: Row(children: const <Widget>[Text('Onboarding Selection')]),
@@ -428,7 +428,8 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
                             print(ex); // Or fail to give permissions
                             // PlatformException(PERMISSION_DENIED, Access to location data denied, null)
                           }
-                          await Future<void>.delayed(Duration(seconds: 1));
+                          await Future<void>.delayed(
+                              const Duration(seconds: 1));
                           print('ok');
                           // () async { await null; Navigator.pop(context); }(); // Trickery to execute after this function
                         },
@@ -476,7 +477,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           const Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-            Text('Business UI', style: Theme.of(context).textTheme.subhead),
+            Text('Business UI', style: Theme.of(context).textTheme.subtitle1),
           ]),
           FlatButton(
             child: Row(children: const <Widget>[Text('Business Dashboard')]),
@@ -657,7 +658,7 @@ class _DeveloperMenuState extends State<DeveloperMenu> {
           ///
           const Divider(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: <Widget>[
-            Text('Influencer UI', style: Theme.of(context).textTheme.subhead),
+            Text('Influencer UI', style: Theme.of(context).textTheme.subtitle1),
           ]),
           FlatButton(
             child: Row(children: const <Widget>[Text('Influencer Dashboard')]),

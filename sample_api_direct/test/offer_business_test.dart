@@ -24,7 +24,7 @@ Test suite for offers posted by a business.
 */
 
 List<int> getLeafCategories(ConfigData config, List<int> categories) {
-  final Set<int> res = Set<int>();
+  final Set<int> res = <int>{};
   res.addAll(categories);
   for (int category in categories) {
     int parent = config.categories[category].parentId;
