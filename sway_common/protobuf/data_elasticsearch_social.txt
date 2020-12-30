@@ -1,4 +1,4 @@
-PUT social_account_facebook
+PUT social_account_facebook?include_type_name=true
 {
   "settings": {
     "index": {
@@ -7,7 +7,7 @@ PUT social_account_facebook
   }
 }
 
-PUT social_account_twitter
+PUT social_account_twitter?include_type_name=true
 {
   "settings": {
     "index": {
@@ -16,7 +16,7 @@ PUT social_account_twitter
   }
 }
 
-PUT social_account_google
+PUT social_account_google?include_type_name=true
 {
   "settings": {
     "index": {
@@ -25,7 +25,7 @@ PUT social_account_google
   }
 }
 
-PUT social_account_instagram
+PUT social_account_instagram?include_type_name=true
 {
   "settings": {
     "index": {

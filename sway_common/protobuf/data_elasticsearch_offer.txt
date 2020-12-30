@@ -86,7 +86,7 @@ specified in create index requests to prepare for 7.0. In 7.0 include_type_name 
 default to 'false', and requests are expected to omit the type name in mapping definitions.
 --- !!!
 
-PUT offers
+PUT offers?include_type_name=true
 {
   "settings": {
     "index": {
@@ -288,7 +288,7 @@ PUT offers
   }
 }
 
-PUT offers/_mapping/_doc
+PUT offers/_mapping/_doc?include_type_name=true
 {
   "properties": {
     "proposal_sender_account_ids": {
