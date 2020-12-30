@@ -107,7 +107,7 @@ Future<void> setupBackend({AppMode mode, String testRefreshToken, AssetLoader as
     case AppMode.mock:
       _appEnvironment = AppEnvironment(
         mode: AppMode.mock,
-        host: await BuildConfig['API_HOST'],
+        host: await BuildConfig['API_HOST'] ?? 'localhost',
         port: 8080,
         certificateAuthority: 'localhost',
       );
@@ -170,6 +170,7 @@ void registerImplementations([String testRefreshToken]) {
   backend.registerLazySingleton<ImageService>(() => ImageServiceImplementation());
   backend.registerLazySingleton<InfMessagingService>(() => InfMessagingServiceImplementation());
   backend.registerLazySingleton<AuthenticationService>(
+
       /// By passing a userTestToken the server returns one of two test users
       /// when 'loginWithToken' is called so that we can test without the need for a real user token
       /// token: 'INF' and influencer

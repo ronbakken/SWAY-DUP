@@ -48,6 +48,7 @@ bool get _isInDebugMode {
 PackageInfo info;
 
 void runCapturedApp(Widget app, ErrorReporter reporter) async {
+  WidgetsFlutterBinding.ensureInitialized();
   info = await PackageInfo.fromPlatform();
 
   FlutterError.onError = (FlutterErrorDetails details) {
