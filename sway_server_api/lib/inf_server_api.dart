@@ -104,7 +104,7 @@ Future<void> run(List<String> arguments) async {
 
   // Run Account DB SQL client
   final sqljocky.ConnectionPool accountDb = sqljocky.ConnectionPool(
-      host: Platform.environment['INF_ACCOUNT_DB_HOST'] ??
+      host: Platform.environment['SWAY_ACCOUNT_DB_HOST'] ??
           config.services.accountDbHost,
       port: config.services.accountDbPort,
       user: config.services.accountDbUser,
@@ -116,7 +116,7 @@ Future<void> run(List<String> arguments) async {
 
   // Run Proposal DB SQL client
   final sqljocky.ConnectionPool proposalDb = sqljocky.ConnectionPool(
-      host: Platform.environment['INF_PROPOSAL_DB_HOST'] ??
+      host: Platform.environment['SWAY_PROPOSAL_DB_HOST'] ??
           config.services.proposalDbHost,
       port: config.services.proposalDbPort,
       user: config.services.proposalDbUser,

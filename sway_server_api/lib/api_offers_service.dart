@@ -34,7 +34,7 @@ class ApiOffersService extends ApiOffersServiceBase {
 
   ApiOffersService(this.config, this.accountDb, this.proposalDb) {
     final Uri backendExploreUri = Uri.parse(
-        Platform.environment['INF_BACKEND_EXPLORE'] ??
+        Platform.environment['SWAY_BACKEND_EXPLORE'] ??
             config.services.backendExplore);
     backendExploreChannel = grpc.ClientChannel(
       backendExploreUri.host,

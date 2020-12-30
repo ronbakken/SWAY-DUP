@@ -23,10 +23,10 @@ class Elasticsearch {
 
   static Map<String, String> _buildHeaders(ConfigData config) {
     final String platformElasticsearch =
-        Platform.environment['INF_ELASTICSEARCH'];
+        Platform.environment['SWAY_ELASTICSEARCH'];
     if (platformElasticsearch != null) {
       final String platformBasicAuth =
-          Platform.environment['INF_ELASTICSEARCH_BASIC_AUTH'];
+          Platform.environment['SWAY_ELASTICSEARCH_BASIC_AUTH'];
       return platformBasicAuth != null
           ? <String, String>{
               'Authorization':
@@ -47,7 +47,7 @@ class Elasticsearch {
   }
 
   static String _getEndPoint(ConfigData config) {
-    return Platform.environment['INF_ELASTICSEARCH'] ??
+    return Platform.environment['SWAY_ELASTICSEARCH'] ??
         config.services.elasticsearchApi;
   }
 

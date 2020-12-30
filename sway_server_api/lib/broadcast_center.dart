@@ -47,7 +47,7 @@ class BroadcastCenter {
 
   BroadcastCenter(this.config, this.accountDb, this.proposalDb, this.bucket) {
     final Uri backendPushUri = Uri.parse(
-        Platform.environment['INF_BACKEND_PUSH'] ??
+        Platform.environment['SWAY_BACKEND_PUSH'] ??
             config.services.backendPush);
     backendPushChannel = grpc.ClientChannel(
       backendPushUri.host,
