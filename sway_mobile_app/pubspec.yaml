@@ -39,7 +39,7 @@ dependencies:
 
   # firebase_messaging: ^7.0.0
   flutter_local_notifications: ^1.0.0
-  flutter_facebook_login: ^1.2.0
+  flutter_facebook_login: ^2.0.0
   flutter_twitter_login: ^1.0.0
 
   permission_handler: ^5.0.0
