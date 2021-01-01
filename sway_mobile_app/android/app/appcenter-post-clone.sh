@@ -5,7 +5,7 @@ set -x
 echo `pwd`
 
 # Use sandbox configuration
-cp ../../../blob/config_alpha.bin ../../assets/config.bin
+cp ../../../sway_config/blob/config_alpha.bin ../../assets/config.bin
 cp ../../android/key.properties.sway-dev ../../android/key.properties
 
 cd ../..
