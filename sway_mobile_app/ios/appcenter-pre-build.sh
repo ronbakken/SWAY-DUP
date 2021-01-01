@@ -11,4 +11,4 @@ flutter packages get
 cat pubspec.lock
 
 pod repo update
-flutter build ios --release --no-codesign --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID
+flutter build ios --release --no-codesign --no-tree-shake-icons --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID
