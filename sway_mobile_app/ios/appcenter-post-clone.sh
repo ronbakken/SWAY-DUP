@@ -5,8 +5,8 @@ set -x
 echo `pwd`
 
 # Use sandbox configuration
-cp ../../sway_config/blob/config_alpha.bin ../../assets/config.bin
-# cp ../android/key.properties.sway-dev ../../android/key.properties
+cp ../../sway_config/blob/config_alpha.bin ../assets/config.bin
+# cp ../android/key.properties.sway-dev ../android/key.properties
 
 cd ..
 git clone -b stable https://github.com/flutter/flutter.git
