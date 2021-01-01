@@ -134,7 +134,7 @@ abstract class AppBaseState<T extends StatefulWidget> extends State<T> {
             case TwitterLoginStatus.error:
               Logger('Inf.AppBase')
                   .info('Twitter Error: ${result.errorMessage}');
-              return true; // TODO: This returns error instead of cancelledByUser...
+              return false; // TODO: This returns error instead of cancelledByUser... TODO: CHECK errorMessage!!
             case TwitterLoginStatus.loggedIn:
               // Logger('Inf.AppBase').info('Facebook Token: ${result.accessToken.token}');
               await api.connectOAuth(
