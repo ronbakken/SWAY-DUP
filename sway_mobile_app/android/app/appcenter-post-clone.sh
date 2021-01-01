@@ -3,14 +3,9 @@ set -e
 set -x
 
 echo `pwd`
-mkdir ~/.ssh
-cp ../../ssh/* ~/.ssh/
-chmod 600 ~/.ssh/*
-ls -al ~/.ssh/
 
 # Use sandbox configuration
-rm ../../assets/config.bin
-cp ../../assets/config_ats3.bin ../../assets/config.bin
+cp ../../../blob/config_alpha.bin ../../assets/config.bin
 cp ../../android/key.properties.sway-dev ../../android/key.properties
 
 cd ../..
