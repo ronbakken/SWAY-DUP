@@ -76,7 +76,7 @@ flutter {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     
-    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation platform('com.google.firebase:firebase-bom:26.2.0')
     implementation 'com.google.code.gson:gson:2.8.5'
 
     // https://appcenter.ms/orgs/sway-dev/apps/INF-Sandbox-Android
