@@ -19,11 +19,13 @@ cat pubspec.lock
 #   - file:///Users/runner/work/1/s/sway_mobile_app/lib/screens_onboarding/onboarding_social.dart:60:16
 #   - file:///Users/runner/work/1/s/sway_mobile_app/lib/widgets/follower_count.dart:33:16
 
-flutter build apk --release --no-tree-shake-icons --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID \
-    || sed -i '' 's/5\.6\../5\.6\.4/' $HOME/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties \
-    && flutter build apk --release --no-tree-shake-icons --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID
+# flutter build apk --release --no-tree-shake-icons --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID \
+#     || sed -i '' 's/5\.6\../5\.6\.4/' $HOME/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties \
+#     && flutter build apk --release --no-tree-shake-icons --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID
 
-cat $HOME/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties
+# cat $HOME/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties
+
+flutter build apk --release --no-tree-shake-icons --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID
 
 # You are building a fat APK that includes binaries for android-arm, android-arm64, android-x64.
 # If you are deploying the app to the Play Store, it's recommended to use app bundles or split the APK to reduce the APK size.
