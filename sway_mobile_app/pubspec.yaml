@@ -42,7 +42,7 @@ dependencies:
   flutter_facebook_login: ^2.0.0
   flutter_twitter_login:
     git: 
-      url: https://github.com/diegoveloper/flutter_twitter_login
+      url: https://github.com/ton-katsu/flutter_twitter_login
 
   permission_handler: ^5.0.0
 
@@ -55,7 +55,7 @@ dependencies:
 
   # Device info, used during device registration
   device_info: ^1.0.0
-  shared_preferences: ^0.4.2
+  shared_preferences: ^0.5.0
   # pointycastle: ^1.0.0-rc4
   synchronized: ^1.5.1
   path_provider: ^1.4.0
@@ -64,9 +64,12 @@ dependencies:
   flutter_map: ^0.1.4
 
   geolocator: ^5.0.0
-  url_launcher: ^4.0.1
+  url_launcher: ^5.0.0
   
+  # https://github.com/flutter/flutter/issues/52714
+  # flutter_plugin_android_lifecycle: 1.0.3
   image_picker: ^0.6.0
+
   mime: ^0.9.6+2
   
   crypto: ^2.0.6
