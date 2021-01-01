@@ -6,7 +6,7 @@ Author: Jan Boon <kaetemi@no-break.space>
 
 import 'dart:async';
 
-import 'package:firebase_messaging/firebase_messaging.dart';
+// import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:fixnum/fixnum.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:sway_mobile_app/network_generic/multi_account_store.dart';
@@ -16,7 +16,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 abstract class MobileNotifications implements Api, ApiInternals {
   bool _firebaseSetup = false;
-  final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
+  // final FirebaseMessaging _firebaseMessaging = FirebaseMessaging();
   FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
   NotificationDetails platformChannelSpecifics;
 
@@ -58,6 +58,7 @@ abstract class MobileNotifications implements Api, ApiInternals {
 
   @override
   Future<void> refreshFirebaseNotifications() async {
+    /*
     if (!_firebaseSetup) {
       // Set up Firebase
       _firebaseSetup = true;
@@ -76,6 +77,7 @@ abstract class MobileNotifications implements Api, ApiInternals {
       }
     }
     await _firebaseOnToken(await _firebaseMessaging.getToken());
+    */
   }
 
   Future<void> _firebaseOnToken(String token) async {
