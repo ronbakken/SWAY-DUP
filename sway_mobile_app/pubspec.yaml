@@ -42,7 +42,7 @@ dependencies:
   flutter_facebook_login: ^2.0.0
   flutter_twitter_login:
     git: 
-      url: https://github.com/Kiruel/flutter_twitter_login
+      url: https://github.com/diegoveloper/flutter_twitter_login
 
   permission_handler: ^5.0.0
 
