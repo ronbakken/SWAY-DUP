@@ -79,7 +79,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:16.0.1'
     implementation 'com.google.code.gson:gson:2.8.5'
 
-    def appCenterSdkVersion = '1.11.2'
+    // https://appcenter.ms/orgs/sway-dev/apps/INF-Sandbox-Android
+    def appCenterSdkVersion = '4.0.0'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
 }
