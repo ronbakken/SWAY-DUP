@@ -14,8 +14,8 @@ cat pubspec.lock
 # If using the gradle wrapper, try editing the distributionUrl in 
 # /Users/runner/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties 
 # to gradle-5.6.4-all.zip
-echo $HOME
-sed -i '' 's/5\.6\.4/5\.6\.2/' $HOME/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties
+# echo $HOME
+# sed -i '' 's/5\.6\.4/5\.6\.2/' $HOME/.pub-cache/hosted/pub.dartlang.org/device_info-1.0.0/android/gradle/wrapper/gradle-wrapper.properties
 
 flutter build apk --release --build-name=1.0.$APPCENTER_BUILD_ID --build-number=$APPCENTER_BUILD_ID
 
